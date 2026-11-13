@@ -1,941 +1,493 @@
-import type {
-    PromotionExclusivityPatch,
-    Promotion,
-    PromotionApplicationMethod,
-    PromotionCode,
-    PromotionCodesSummary,
-    PromotionCombinesWith,
-    PromotionExclusivity
-} from './types-48.js';
-import type { ResponseMeta } from './types-51.js';
-import type { MoneyValue, MoneyValueInput } from './types-37.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-36.js';
-import type { PartnerWebhookEnvelope } from './types-42.js';
+import type { MoneyValue, MoneyValueInput, ModifierSet } from './types-38.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { ResponseMeta } from './types-54.js';
 import type { InputValue } from '../runtime.js';
-import type { CreatePromotionRequestInput } from './types-11.js';
-import type { CategoriesDeleteParams } from './types-4.js';
-import type { DisputesAcceptParams } from './types-22.js';
-import type { UpdatePromotionRequestInput } from './types-64.js';
-import type { CheckoutCustomTextConfig, CheckoutPaymentConfig } from './types-5.js';
-import type { Image } from './types-27.js';
-import type { LegalSettings } from './types-34.js';
+import type { PlatformFee } from './types-48.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-52.js';
+import type { CreatePriceListRequestInput, CreatePriceListPricesRequestInput } from './types-11.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from './types-67.js';
 import type {
-    PaymentLinkCustomField,
-    PaymentLinkEventConfig,
-    PaymentLinkLineItem,
-    PaymentLinkSubscriptionPreview,
-    PaymentLinkAvailableVariant,
-    PaymentLinkProductOption
-} from './types-44.js';
-import type { ThemeConfig, TextModifierConfigRequest } from './types-62.js';
-import type { CheckoutTheme } from './types-6.js';
-import type { SelectedProductOption } from './types-56.js';
-import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-53.js';
-import type { GetReturnPolicyResponse } from './types-25.js';
-import type { InventoryProvenanceRequest } from './types-28.js';
+    ReturnProcessDecision,
+    ReturnProcessDispositionRequest,
+    ReturnProcessInspectionRequest,
+    ReturnProcessResolutionRequest,
+    ReturnProcessDecisionInput,
+    ReturnProcessDispositionRequestInput,
+    ReturnProcessInspectionRequestInput,
+    ReturnProcessResolutionRequestInput,
+    ReturnProcessReceiptRequest,
+    ReturnProcessReceiptRequestInput,
+    ReturnProcessResult
+} from './types-56.js';
+import type { CategoryReference } from './types-5.js';
+import type { ImageAttachment } from './types-27.js';
+import type { ProductVariant, ProductVariantMatch } from './types-50.js';
 /**
- * Send only fields to change. Omitted fields keep their stored values. Send priority 0 to reset
- * it. An empty object is invalid. minProperties: 1.
+ * A payout from your partner app's platform fee balance to your merchant balance. Owned by the
+ * merchant that owns the partner app.
  */
-export type PromotionExclusivityPatchInput = PromotionExclusivityPatch;
-/** Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. */
-export type PromotionExclusivityRequest = {
+export type PlatformFeePayout = {
     /**
-     * Exact, case-sensitive group name, 1 to 100 characters after trimming. minLength: 1.
-     * maxLength: 100.
-     */
-    "group": string;
-    /**
-     * Higher priority wins. Equal priorities favor the larger standalone discount, then the
-     * earlier created_at, then the lower promotion_id. Format: int32. Default: 0.
-     */
-    "priority"?: number;
-};
-/** Only one promotion in an exclusivity group continues. See Promotion for the evaluation order. */
-export type PromotionExclusivityRequestInput = PromotionExclusivityRequest;
-/** A page of `Promotion` objects. */
-export type PromotionListResponse = {
-    /**
-     * Promotions returned in the requested sort order. [] (Value): {@link Promotion}. Promotion
-     * evaluation order: manual discounts stay, do not count toward the cap, and are ignored by
-     * combines_with. Frozen subscription-term promotions are admitted first and are exempt from
-     * exclusivity, combines_with, and the cap. Candidates include codes being applied, existing
-     * promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its
-     * highest-priority member, then the larger standalone discount, earlier created_at, and lower
-     * promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and
-     * lower promotion_id; each is admitted unless max_promotions_per_order is reached or both
-     * promotions do not allow each other's discount class. Admitted promotions price line item
-     * first, then order, then service charge. A zero-value promotion is dropped and selection runs
-     * again.
-     */
-    "data": Array<Promotion>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The `percent_off` variant of `PromotionApplicationMethod`. */
-export type PromotionPercentOffMethod = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules"?: PromotionRuleGroup;
-    /**
-     * Maximum number of matched units that receive the discount. Only valid when type is
-     * percent_off, and requires allocation each. Sending it with amount_off or buy_x_get_y returns
-     * `400 INVALID_REQUEST` naming this field. Whole-number quantity; fractional quantities are
-     * not supported. Flint discounts the first matched units in line-item order (the order items
-     * were added), not the cheapest. Format: int32. minimum: 1.
-     */
-    "max_discounted_quantity"?: number;
-    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
-    "percent_off": number;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Selects the percent_off discount effect and its allowed fields. Value enum: "percent_off".
-     */
-    "type": "percent_off" | (string & {});
-};
-/** The `percent_off` variant of `PromotionApplicationMethodInput`. */
-export type PromotionPercentOffMethodRequest = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across" | (string & {});
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax" | (string & {});
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules"?: PromotionRuleGroupRequest;
-    /**
-     * Maximum number of matched units that receive the discount. Only valid when type is
-     * percent_off, and requires allocation each. Sending it with amount_off or buy_x_get_y returns
-     * `400 INVALID_REQUEST` naming this field. Whole-number quantity; fractional quantities are
-     * not supported. Flint discounts the first matched units in line-item order (the order items
-     * were added), not the cheapest. Format: int32. minimum: 1.
-     */
-    "max_discounted_quantity"?: number;
-    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
-    "percent_off": number;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrence;
-    /**
-     * Selects the percent_off discount effect and its allowed fields. Value enum: "percent_off".
-     */
-    "type": "percent_off" | (string & {});
-};
-/** The `percent_off` variant of `PromotionApplicationMethodInput`. */
-export type PromotionPercentOffMethodRequestInput = {
-    /**
-     * How the effect is applied across the matched items or charges. each applies the effect to
-     * every matched item independently: a fixed amount_off is charged per item (10 USD off 3 items
-     * discounts 30 USD, each capped at the item price), and a percent_off is taken from each item.
-     * across applies the effect once to the matched set as a whole: a fixed amount_off is the
-     * whole amount one time (10 USD off the group total, not prorated per item), and a percent_off
-     * is taken from the combined subtotal. For percent_off the two produce the same total and
-     * differ only in how the discount is attributed to individual line items; for amount_off they
-     * differ by the number of matched items, so set it deliberately. Defaults to each for
-     * line_item and service_charge promotions and across for order promotions.
-     * max_discounted_quantity requires each. Value enum: "each", "across".
-     */
-    "allocation"?: "each" | "across";
-    /**
-     * What a merchandise discount is calculated from. Omitted means `subtotal_pre_tax`. Not used
-     * by service_charge promotions; sending it there returns `400 INVALID_REQUEST`. Value enum:
-     * "subtotal_pre_tax", "subtotal_post_tax".
-     */
-    "calculation_basis"?: "subtotal_pre_tax" | "subtotal_post_tax";
-    /**
-     * Which line items receive the discount. Required for service_charge promotions, and for
-     * line_item promotions whose eligibility_rules include any non-line-item condition (for
-     * example order.subtotal or a customer condition). It is optional only when eligibility_rules
-     * consist entirely of line_item.* conditions (plus matched_items.subtotal), in which case the
-     * matched items are used as the target. Omitting it otherwise returns `400 INVALID_REQUEST`
-     * with `param` naming this field. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "discounted_item_rules"?: PromotionRuleGroupRequestInput;
-    /**
-     * Maximum number of matched units that receive the discount. Only valid when type is
-     * percent_off, and requires allocation each. Sending it with amount_off or buy_x_get_y returns
-     * `400 INVALID_REQUEST` naming this field. Whole-number quantity; fractional quantities are
-     * not supported. Flint discounts the first matched units in line-item order (the order items
-     * were added), not the cheapest. Format: int32. minimum: 1.
-     */
-    "max_discounted_quantity"?: number;
-    /** Percentage to discount, from 1 to 100. minimum: 1. maximum: 100. multipleOf: 0.0001. */
-    "percent_off": number;
-    /**
-     * Optional recurrence for subscription payments: once applies to the first charged payment,
-     * repeating applies for period_count charged payments, and forever applies to every payment.
-     * One-time orders apply the promotion once. How often a promotion's discount repeats on a
-     * subscription: once, for a number of charged payments, or forever.
-     */
-    "recurrence"?: PromotionRecurrenceRequestInput;
-    /**
-     * Selects the percent_off discount effect and its allowed fields. Value enum: "percent_off".
-     */
-    "type": "percent_off";
-};
-/**
- * How often a promotion's discount repeats on a subscription: once, for a number of charged
- * payments, or forever.
- */
-export type PromotionRecurrence = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once",
-     * "repeating", "forever".
-     */
-    "type": "once" | "repeating" | "forever" | (string & {});
-})
-    & ((Exclude<PromotionRecurrenceOnce & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceRepeating & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceForever & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `forever` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceForever = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "forever".
-     */
-    "type": "forever" | (string & {});
-})
-    & (({
-    /** Apply the promotion to every charged subscription payment. Value enum: "forever". */
-    "type": unknown;
-}));
-/** The `forever` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceForeverRequestInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "forever".
-     */
-    "type": "forever";
-})
-    & (({
-    /** Apply the promotion to every charged subscription payment. Value enum: "forever". */
-    "type": ("forever") & ("forever");
-})
-    & ({
-    "period_count"?: never;
-}));
-/** The `once` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceOnce = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once".
-     */
-    "type": "once" | (string & {});
-})
-    & (({
-    /** Apply the promotion to the first charged subscription payment. Value enum: "once". */
-    "type": unknown;
-}));
-/** The `once` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceOnceRequestInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once".
-     */
-    "type": "once";
-})
-    & (({
-    /** Apply the promotion to the first charged subscription payment. Value enum: "once". */
-    "type": ("once") & ("once");
-})
-    & ({
-    "period_count"?: never;
-}));
-/** The `repeating` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceRepeating = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "repeating".
-     */
-    "type": "repeating" | (string & {});
-})
-    & ({
-    /**
-     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
-     */
-    "type": unknown;
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-});
-/** The `repeating` variant of `PromotionRecurrence`. */
-export type PromotionRecurrenceRepeatingRequestInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum:
-     * "repeating".
-     */
-    "type": "repeating";
-})
-    & ({
-    /**
-     * Apply the promotion to period_count charged subscription payments. Value enum: "repeating".
-     */
-    "type": ("repeating") & ("repeating");
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count": number;
-});
-/**
- * How often a promotion's discount repeats on a subscription: once, for a number of charged
- * payments, or forever.
- */
-export type PromotionRecurrenceRequestInput = ({
-    /**
-     * Number of charged payments for repeating recurrence. Omit for once and forever. minimum: 1.
-     */
-    "period_count"?: number;
-    /**
-     * Use once for the first charged payment, repeating for a fixed number of charged payments, or
-     * forever for every payment. period_count is required only for repeating. Value enum: "once",
-     * "repeating", "forever".
-     */
-    "type": "once" | "repeating" | "forever";
-})
-    & ((Exclude<PromotionRecurrenceOnceRequestInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceRepeatingRequestInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRecurrenceForeverRequestInput & object, readonly unknown[]>));
-/** The `Promotion code` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionCode = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code": string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string;
-});
-/** The `Promotion code` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionCodeInput = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code": string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string;
-})
-    & (({
-    "promotion_id"?: never;
-}));
-/** The `Promotion ID` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionID = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id": string;
-});
-/** The `Promotion ID` variant of `PromotionRefInput`. */
-export type PromotionRefInputPromotionIDInput = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id": string;
-})
-    & (({
-    "promotion_code"?: never;
-}));
-/** Identifies the promotion to apply, by promotion code or by promotion ID. */
-export type PromotionRefRequest = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string;
-})
-    & ((Exclude<PromotionRefInputPromotionID & object, readonly unknown[]>)
-    | (Exclude<PromotionRefInputPromotionCode & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** Identifies the promotion to apply, by promotion code or by promotion ID. */
-export type PromotionRefRequestInput = ({
-    /** Human-entered promotion code to apply. minLength: 1. */
-    "promotion_code"?: string;
-    /**
-     * Promotion to apply by ID, including a code-gated promotion applied without a code. Counts
-     * only toward the promotion's `max_uses`. Checkout credentials must use `promotion_code`.
-     * minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string;
-})
-    & ((Exclude<PromotionRefInputPromotionIDInput & object, readonly unknown[]>)
-    | (Exclude<PromotionRefInputPromotionCodeInput & object, readonly unknown[]>));
-/** A response containing `Promotion` data. */
-export type PromotionResponse = {
-    /**
-     * The requested promotion. Promotion evaluation order: manual discounts stay, do not count
-     * toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are
-     * admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates
-     * include codes being applied, existing promotion discounts, and qualifying automatic
-     * promotions. Each exclusivity group keeps its highest-priority member, then the larger
-     * standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank
-     * by standalone discount, then earlier created_at and lower promotion_id; each is admitted
-     * unless max_promotions_per_order is reached or both promotions do not allow each other's
-     * discount class. Admitted promotions price line item first, then order, then service charge.
-     * A zero-value promotion is dropped and selection runs again.
-     */
-    "data": Promotion;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * One condition in a promotion rule group, which tests an attribute with an operator and values.
- */
-export type PromotionRule = {
-    /**
-     * Field the rule tests. The attribute fixes the value type and the operators that are legal
-     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
-     * only, and so on. The full attribute/type/operator matrix is machine-readable in
-     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
-     * metadata and accepts the string operators. A disallowed operator returns `400
-     * INVALID_REQUEST` naming the operator, and the message lists the operators the attribute
-     * allows. customer.paid_order_count counts the customer's other orders in the same merchant
-     * and environment, with live and test mode counted separately, that have at least one
-     * successfully settled payment above zero, including partial payments, or are completed
-     * zero-total orders, including orders completed with a 100% promotion or gift card. Later
-     * refunds and disputes do not remove an order. The current order, failed, canceled, or expired
-     * attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked
-     * through link_guest_purchases count; unlinked guest orders are never matched by email. The
-     * order's customer takes precedence over a checkout session's merchant-named or email-verified
-     * customer; typed email alone does not identify a customer. Without an identified customer the
-     * promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for
-     * a first-order guarantee across concurrent checkouts.
-     */
-    "attribute": string;
-    /**
-     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
-     * must match its key. * (Value): {@link MoneyValue}. Monetary amount represented as integer
+     * The amount transferred to your merchant balance. Monetary amount represented as integer
      * minor units plus an ISO 4217 currency code.
      */
-    "currency_options"?: Record<string, MoneyValue>;
+    "amount_money": MoneyValue;
     /**
-     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
-     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
+     * The credit on your merchant ledger. Present once Flint observes it; linking it sends no
+     * payout event and doesn't advance version. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      */
-    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined" | (string & {});
+    "balance_transaction_id"?: string;
+    /** When Flint prepared the payout. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
     /**
-     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
-     * whether the attribute is present. [] (Value): {@link PromotionRuleValue}. Rule comparison
-     * value. Use a primitive string, number, boolean, or a money object.
+     * Why the payout failed. Present only when status is failed. Can gain values; treat unknown
+     * values as payout_failed. Value enum: "merchant_cannot_receive", "payout_failed".
      */
-    "values"?: Array<PromotionRuleValue>;
+    "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+    /**
+     * The partner app whose fee balance funded the payout. Example:
+     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id": string;
+    /**
+     * Unique identifier for the platform fee payout. Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
+     */
+    "platform_fee_payout_id": string;
+    /**
+     * Where the payout stands. succeeded and failed are final. Value enum: "pending", "succeeded",
+     * "failed".
+     */
+    "status": "pending" | "succeeded" | "failed" | (string & {});
+    /**
+     * When the transfer succeeded. Present only when status is succeeded. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "succeeded_at"?: string;
+    /**
+     * When the payout's owned state last changed. Retry bookkeeping and observing the credit don't
+     * change it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
 };
-/**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
- */
-export type PromotionRuleGroup = (({
-    /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link PromotionRule}
-     * or {@link PromotionRuleGroup}. [].oneOf[1] (Value): {@link PromotionRule}. One condition in
-     * a promotion rule group, which tests an attribute with an operator and values. [].oneOf[2]
-     * (Value): {@link PromotionRuleGroup}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "all": Array<((PromotionRule) | (PromotionRuleGroup) | (unknown))>;
-})
-    | ({
-    /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRule} or {@link PromotionRuleGroup}. [].oneOf[1] (Value): {@link PromotionRule}.
-     * One condition in a promotion rule group, which tests an attribute with an operator and
-     * values. [].oneOf[2] (Value): {@link PromotionRuleGroup}. A rule group is an object with
-     * exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-     * groups, and a rules key are invalid. Omit the field for no rules, or send null where the
-     * field is clearable. Responses list rules before nested groups. Under any, a nested group
-     * containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups.
-     */
-    "any": Array<((PromotionRule) | (PromotionRuleGroup) | (unknown))>;
-})
-    | (Record<string, unknown>));
-/**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
- */
-export type PromotionRuleGroupRequest = (({
-    /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link PromotionRule}
-     * or {@link PromotionRuleGroupRequest}. [].oneOf[1] (Value): {@link PromotionRule}. One
-     * condition you set in a promotion rule group, which tests an attribute with an operator and
-     * values. [].oneOf[2] (Value): {@link PromotionRuleGroupRequest}. A rule group is an object
-     * with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays,
-     * empty groups, and a rules key are invalid. Omit the field for no rules, or send null where
-     * the field is clearable. Responses list rules before nested groups. Under any, a nested group
-     * containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups.
-     */
-    "all": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
-})
-    | ({
-    /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRule} or {@link PromotionRuleGroupRequest}. [].oneOf[1] (Value): {@link
-     * PromotionRule}. One condition you set in a promotion rule group, which tests an attribute
-     * with an operator and values. [].oneOf[2] (Value): {@link PromotionRuleGroupRequest}. A rule
-     * group is an object with exactly one nonempty all (AND) or any (OR) array of rules or nested
-     * groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or
-     * send null where the field is clearable. Responses list rules before nested groups. Under
-     * any, a nested group containing only one rule reads back as that rule. Under all, nested
-     * groups keep their boundaries to preserve matched_items.subtotal scope. These deterministic
-     * normalizations stabilize after one round trip. matched_items.subtotal sums the line items
-     * matched by the line_item.* rules in the same all group, including its nested groups.
-     */
-    "any": Array<((PromotionRule) | (PromotionRuleGroupRequest) | (unknown))>;
-})
-    | (Record<string, unknown>));
-/**
- * A rule group is an object with exactly one nonempty all (AND) or any (OR) array of rules or
- * nested groups. Arrays, empty groups, and a rules key are invalid. Omit the field for no rules,
- * or send null where the field is clearable. Responses list rules before nested groups. Under any,
- * a nested group containing only one rule reads back as that rule. Under all, nested groups keep
- * their boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
- * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
- * line_item.* rules in the same all group, including its nested groups.
- */
-export type PromotionRuleGroupRequestInput = (({
-    /**
-     * Rules and nested groups that must all match. minItems: 1. [] (Value): {@link
-     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
-     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
-     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
-     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "all": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
-})
-    | ({
-    /**
-     * Rules and nested groups of which at least one must match. minItems: 1. [] (Value): {@link
-     * PromotionRuleRequestInput} or {@link PromotionRuleGroupRequestInput}. [].oneOf[1] (Value):
-     * {@link PromotionRuleRequestInput}. One condition you set in a promotion rule group, which
-     * tests an attribute with an operator and values. [].oneOf[2] (Value): {@link
-     * PromotionRuleGroupRequestInput}. A rule group is an object with exactly one nonempty all
-     * (AND) or any (OR) array of rules or nested groups. Arrays, empty groups, and a rules key are
-     * invalid. Omit the field for no rules, or send null where the field is clearable. Responses
-     * list rules before nested groups. Under any, a nested group containing only one rule reads
-     * back as that rule. Under all, nested groups keep their boundaries to preserve
-     * matched_items.subtotal scope. These deterministic normalizations stabilize after one round
-     * trip. matched_items.subtotal sums the line items matched by the line_item.* rules in the
-     * same all group, including its nested groups.
-     */
-    "any": Array<((PromotionRuleRequestInput) | (PromotionRuleGroupRequestInput))>;
-}));
-/**
- * One condition you set in a promotion rule group, which tests an attribute with an operator and
- * values.
- */
-export type PromotionRuleRequestInput = {
-    /**
-     * Field the rule tests. The attribute fixes the value type and the operators that are legal
-     * for it: money attributes accept comparison operators but not eq or in, booleans accept eq
-     * only, and so on. The full attribute/type/operator matrix is machine-readable in
-     * x-flint-rule-attributes on this schema. metadata.<key> reads a string from the customer's
-     * metadata and accepts the string operators. A disallowed operator returns `400
-     * INVALID_REQUEST` naming the operator, and the message lists the operators the attribute
-     * allows. customer.paid_order_count counts the customer's other orders in the same merchant
-     * and environment, with live and test mode counted separately, that have at least one
-     * successfully settled payment above zero, including partial payments, or are completed
-     * zero-total orders, including orders completed with a 100% promotion or gift card. Later
-     * refunds and disputes do not remove an order. The current order, failed, canceled, or expired
-     * attempts, unpaid drafts, and unpaid open invoices do not count. Guest purchases linked
-     * through link_guest_purchases count; unlinked guest orders are never matched by email. The
-     * order's customer takes precedence over a checkout session's merchant-named or email-verified
-     * customer; typed email alone does not identify a customer. Without an identified customer the
-     * promotion is declined with customer_required. Combine eq 0 with max_uses_per_customer: 1 for
-     * a first-order guarantee across concurrent checkouts. minLength: 1.
-     */
-    "attribute": string;
-    /**
-     * Alternative thresholds for money-valued rules, keyed by currency code. Each Money currency
-     * must match its key. * (Value): {@link MoneyValueInput}. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "currency_options"?: Record<string, MoneyValueInput>;
-    /**
-     * Comparison to apply to the attribute. The attribute determines which operators are allowed.
-     * Value enum: "eq", "ne", "gt", "gte", "lt", "lte", "in", "contains", "is_defined".
-     */
-    "operator": "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "in" | "contains" | "is_defined";
-    /**
-     * Comparison values with the type required by the attribute. Omit for is_defined, which tests
-     * whether the attribute is present. [] (Value): {@link PromotionRuleValueRequestInput}. Rule
-     * comparison value. Use a primitive string, number, boolean, or a money object.
-     */
-    "values"?: Array<PromotionRuleValueRequestInput>;
-};
-/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
-export type PromotionRuleValue = ((string) | (number) | (boolean) | (MoneyValue) | (unknown));
-/** Rule comparison value. Use a primitive string, number, boolean, or a money object. */
-export type PromotionRuleValueRequestInput = ((string) | (number) | (boolean) | (MoneyValueInput));
-/**
- * When a promotion is active, with a start time, an end time, and the time zone it was entered in.
- */
-export type PromotionSchedule = {
-    /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omitted when it has no end time. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "ends_at"?: string;
-    /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has
-     * no start time. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "starts_at"?: string;
-    /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. minLength: 1.
-     * maxLength: 255.
-     */
-    "timezone"?: string;
-};
-/**
- * Send only fields to change. Omitted fields keep their stored values. null clears nullable
- * subfields. An empty object is invalid. minProperties: 1.
- */
-export type PromotionSchedulePatch = {
-    /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omission keeps the stored value; null clears it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "ends_at"?: string | null;
-    /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omission keeps the
-     * stored value; null clears it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "starts_at"?: string | null;
-    /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. Send null to clear
-     * it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
-};
-/**
- * Send only fields to change. Omitted fields keep their stored values. null clears nullable
- * subfields. An empty object is invalid. minProperties: 1.
- */
-export type PromotionSchedulePatchInput = {
-    /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omission keeps the stored value; null clears it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "ends_at"?: string | globalThis.Date | null;
-    /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omission keeps the
-     * stored value; null clears it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "starts_at"?: string | globalThis.Date | null;
-    /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. Send null to clear
-     * it. minLength: 1. maxLength: 255.
-     */
-    "timezone"?: string | null;
-};
-/**
- * When a promotion is active, with a start time, an end time, and the time zone it was entered in.
- */
-export type PromotionScheduleRequestInput = {
-    /**
-     * Time after which the promotion can no longer apply, as an absolute RFC3339 timestamp.
-     * Omitted when it has no end time. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "ends_at"?: string | globalThis.Date;
-    /**
-     * Earliest time the promotion can apply, as an absolute RFC3339 timestamp. Omitted when it has
-     * no start time. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "starts_at"?: string | globalThis.Date;
-    /**
-     * IANA zone the schedule was entered in, used for display. starts_at and ends_at are absolute
-     * timestamps, so this does not change when the promotion starts or ends. minLength: 1.
-     * maxLength: 255.
-     */
-    "timezone"?: string;
-};
-/**
- * Merchant promotion settings: whether automatic promotions and codes are enabled, and how many
- * promotions can apply to one order.
- */
-export type PromotionSettings = {
-    /**
-     * Whether automatic promotions apply to this merchant's orders, checkout sessions and payment
-     * links. Omitted means true. Explicit false stops them everywhere, and a checkout session or
-     * payment link can't turn them back on.
-     */
-    "automatic_enabled"?: boolean;
-    /**
-     * Merchant promotion code redemption policy. Explicit false rejects promotion-code application
-     * even when a checkout or payment link asks to show code entry.
-     */
-    "codes_enabled"?: boolean;
-    /**
-     * Maximum promotion discounts on an order, from 1 to 10, default 2. Manual discounts do not
-     * count. See Promotion for the evaluation order. Format: int32. minimum: 1. maximum: 10.
-     * Default: 2.
-     */
-    "max_promotions_per_order"?: number;
-};
-/**
- * Merchant promotion settings: whether automatic promotions and codes are enabled, and how many
- * promotions can apply to one order.
- */
-export type PromotionSettingsRequestInput = PromotionSettings;
-export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type PlatformFeePayoutCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
-            "application_method": PromotionApplicationMethod;
-            "available": boolean;
-            "codes"?: Array<PromotionCode>;
-            "codes_summary"?: PromotionCodesSummary;
-            "combines_with": PromotionCombinesWith;
-            "created_at"?: string;
-            "description"?: string;
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            "display_name": string;
-            "eligibility_rules"?: PromotionRuleGroup;
-            "exclusivity"?: PromotionExclusivity;
-            "external_reference_id"?: string;
-            "max_uses"?: number;
-            "max_uses_per_customer": number | null;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "promotion_id": string;
-            "redemption_type": "automatic" | "code" | (string & {});
-            "schedule"?: PromotionSchedule;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            "updated_at"?: string;
-            "uses_count": number;
+            "amount_money": MoneyValue;
+            "balance_transaction_id"?: string;
+            "created_at": string;
+            "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+            "partner_app_id": string;
+            "platform_fee_payout_id": string;
+            "status": "pending" | "succeeded" | "failed" | (string & {});
+            "succeeded_at"?: string;
+            "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Promotion>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee_payout.created";
+})
+    & {
+    "event_type": "platform_fee_payout.created";
+});
+export type PlatformFeePayoutFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "balance_transaction_id"?: string;
+            "created_at": string;
+            "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+            "partner_app_id": string;
+            "platform_fee_payout_id": string;
+            "status": "pending" | "succeeded" | "failed" | (string & {});
+            "succeeded_at"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PlatformFeePayout>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee_payout.failed";
+})
+    & {
+    "event_type": "platform_fee_payout.failed";
+});
+/** A page of `PlatformFeePayout` objects. */
+export type PlatformFeePayoutListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PlatformFeePayout}. A payout from your partner app's platform fee balance to your merchant
+     * balance. Owned by the merchant that owns the partner app.
+     */
+    "data": Array<PlatformFeePayout>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `PlatformFeePayout` data. */
+export type PlatformFeePayoutResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A payout from your
+     * partner app's platform fee balance to your merchant balance. Owned by the merchant that owns
+     * the partner app.
+     */
+    "data": PlatformFeePayout;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PlatformFeePayoutSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "balance_transaction_id"?: string;
+            "created_at": string;
+            "failure_reason"?: "merchant_cannot_receive" | "payout_failed" | (string & {});
+            "partner_app_id": string;
+            "platform_fee_payout_id": string;
+            "status": "pending" | "succeeded" | "failed" | (string & {});
+            "succeeded_at"?: string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PlatformFeePayout>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee_payout.succeeded";
+})
+    & {
+    "event_type": "platform_fee_payout.succeeded";
+});
+export type PlatformFeePayoutsGetParams = {};
+export type PlatformFeePayoutsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the partner app. minLength: 1. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Statuses to include. Omit it to list every status. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "pending", "succeeded", "failed". Value enum:
+     * "pending", "succeeded", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "pending", "succeeded", "failed". anyOf[1][] (Value): string. Value enum: "pending",
+     * "succeeded", "failed". anyOf[2] (Value): string. Value enum: "pending", "succeeded",
+     * "failed".
+     */
+    "status"?: InputValue<("pending" | "succeeded" | "failed") | readonly ("pending" | "succeeded" | "failed")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+};
+/**
+ * A platform fee the partner app charges on the payment, beside Flint's fees. The installed
+ * merchant pays it, and Flint takes no share of it.
+ */
+export type PlatformFeeRequest = {
+    /**
+     * The fee in minor units, in the payment's currency. A fixed amount: compute any percentage
+     * yourself. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+};
+/**
+ * A platform fee the partner app charges on the payment, beside Flint's fees. The installed
+ * merchant pays it, and Flint takes no share of it.
+ */
+export type PlatformFeeRequestInput = {
+    /**
+     * The fee in minor units, in the payment's currency. A fixed amount: compute any percentage
+     * yourself. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+};
+/** A response containing `PlatformFee` data. */
+export type PlatformFeeResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A platform fee your
+     * partner app charged, or asked to charge, on a payment it created for an installed merchant.
+     * Owned by the merchant that owns the partner app.
+     */
+    "data": PlatformFee;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PlatformFeeSucceededEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "canceled_reason"?: "payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {});
+            "checkout_session_id"?: string;
+            "collected_at"?: string;
+            "created_at": string;
+            "merchant_id": string;
+            "partner_app_id": string;
+            "partner_app_install_id": string;
+            "payment_intent_id": string;
+            "platform_fee_id": string;
+            "refunded_money": MoneyValue;
+            "requested_amount_money": MoneyValue;
+            "reserve_available_at"?: string;
+            "reserve_hold_money"?: MoneyValue;
+            "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PlatformFee>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee.succeeded";
+})
+    & {
+    "event_type": "platform_fee.succeeded";
+});
+export type PlatformFeeUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "canceled_reason"?: "payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {});
+            "checkout_session_id"?: string;
+            "collected_at"?: string;
+            "created_at": string;
+            "merchant_id": string;
+            "partner_app_id": string;
+            "partner_app_install_id": string;
+            "payment_intent_id": string;
+            "platform_fee_id": string;
+            "refunded_money": MoneyValue;
+            "requested_amount_money": MoneyValue;
+            "reserve_available_at"?: string;
+            "reserve_hold_money"?: MoneyValue;
+            "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PlatformFee>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee.updated";
+})
+    & {
+    "event_type": "platform_fee.updated";
+});
+export type PlatformFeesGetParams = {};
+export type PlatformFeesListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the partner app. minLength: 1. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Exact match on the install whose token created the payment. minLength: 1. pattern:
+     * ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id"?: InputValue<string>;
+    /**
+     * Exact match on the installed merchant charged the fee. minLength: 1. pattern:
+     * ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id"?: InputValue<string>;
+    /**
+     * Exact match on the payment the fee rides on. minLength: 1. pattern:
+     * ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: InputValue<string>;
+    /**
+     * Statuses to include. Omit it to list every status. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "pending", "succeeded", "canceled". Value enum:
+     * "pending", "succeeded", "canceled". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "pending", "succeeded", "canceled". anyOf[1][] (Value): string. Value enum: "pending",
+     * "succeeded", "canceled". anyOf[2] (Value): string. Value enum: "pending", "succeeded",
+     * "canceled".
+     */
+    "status"?: InputValue<("pending" | "succeeded" | "canceled") | readonly ("pending" | "succeeded" | "canceled")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+};
+/** A merchant-only set of variant prices for individual customers or customer segments. */
+export type PriceList = {
+    /**
+     * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not been
+     * archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "archived_at": string | null;
+    /**
+     * When this price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /**
+     * Immutable currency of every price in this list. Currently USD. Uses ISO 4217 currency codes.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. [] (Value): string.
+     */
+    "customer_segments": Array<string>;
+    /**
+     * Caller-owned identifier for this resource in an external system. `null` when unset.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id": string | null;
+    /**
+     * Identifier of the merchant that owns this price list. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id": string;
+    /**
+     * Caller-owned metadata stored on this price list. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /** Name used to identify this price list. */
+    "name": string;
+    /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+    "price_count": number;
+    /**
+     * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     */
+    "price_list_id": string;
+    /**
+     * Availability or retirement state. Derived as archived when archived_at is set; otherwise
+     * active or inactive. Value enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /**
+     * Aggregate version, increased once for a request that changes the list or its prices. No-op
+     * writes preserve it. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+export type PriceListArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PriceList>;
     };
     "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "promotion.updated";
+    "event_type"?: "price_list.archived";
 }))
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
         "object": {
-            "application_method": PromotionApplicationMethod;
-            "available": boolean;
-            "codes"?: Array<PromotionCode>;
-            "codes_summary"?: PromotionCodesSummary;
-            "combines_with": PromotionCombinesWith;
-            "created_at"?: string;
-            "description"?: string;
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            "display_name": string;
-            "eligibility_rules"?: PromotionRuleGroup;
-            "exclusivity"?: PromotionExclusivity;
-            "external_reference_id"?: string;
-            "max_uses"?: number;
-            "max_uses_per_customer": number | null;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
             "name": string;
-            "promotion_id": string;
-            "redemption_type": "automatic" | "code" | (string & {});
-            "schedule"?: PromotionSchedule;
+            "price_count": number;
+            "price_list_id": string;
             "status": "active" | "inactive" | "archived" | (string & {});
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            "updated_at"?: string;
-            "uses_count": number;
+            "updated_at": string;
             "version": number;
         };
-        "previous_attributes"?: Partial<Promotion>;
+        "previous_attributes"?: Partial<PriceList>;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "promotion.updated";
+    "event_type"?: "price_list.archived";
     "source"?: ({
         "environment_grant_id": string;
         "merchant_id": string;
@@ -945,297 +497,139 @@ export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
     });
 })))
     & {
-    "event_type": "promotion.updated";
+    "event_type": "price_list.archived";
 });
 /**
- * The `promotion.updated` webhook payload for the `installed_merchants` event source. Fields
+ * The `price_list.archived` webhook payload for the `installed_merchants` event source. Fields
  * shared by partner webhook payloads.
  */
-export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+export type PriceListArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `codes`. object.application_method (Required): {@link PromotionApplicationMethod}.
-     * Discount effect and how it applies to eligible items or charges. A flat application method
-     * whose type selects its effect fields. object.available (Required): boolean. Whether the
-     * promotion can apply right now: it is active, inside its schedule, under its max_uses, and,
-     * when code-gated, has at least one redeemable code. object.codes (Optional): Array of {@link
-     * PromotionCode}. The codes this request created, in request order. Present only on the `POST
-     * /v1/promotions` response, where it is `[]` for a promotion created without codes. Read codes
-     * later with `GET /v1/promotion-codes?promotion_id=`. object.codes[] (Value): {@link
-     * PromotionCode}. A code a buyer enters to claim a promotion. object.codes_summary (Optional):
-     * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only on
-     * code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-     * including how many are redeemable now and the newest redeemable code. object.combines_with
-     * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this promotion
-     * may share an order with. Both promotions must allow each other's class. Manual discounts are
-     * ignored. See Promotion for the evaluation order. Which kinds of discounts a promotion can
-     * combine with: line item, order, and service charge discounts. object.created_at (Optional):
-     * string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.description (Optional): string. Optional description of the
-     * promotion for your own records. object.discount_class (Required): string. Whether the
-     * promotion discounts the order, individual line items, or service charges. Value enum:
-     * "order", "line_item", "service_charge". object.display_name (Required): string. Buyer-facing
-     * promotion name shown in checkout and order discount surfaces. object.eligibility_rules
-     * (Optional): {@link PromotionRuleGroup}. Conditions an order must satisfy for the promotion
-     * to apply. Omitted when the promotion has no eligibility conditions. A rule group is an
-     * object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups.
-     * Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null
-     * where the field is clearable. Responses list rules before nested groups. Under any, a nested
-     * group containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups. object.exclusivity
-     * (Optional): {@link PromotionExclusivity}. Optional group and priority used to choose one
-     * promotion from competing promotions in the same group. See Promotion for the evaluation
-     * order. Only one promotion in an exclusivity group continues. See Promotion for the
-     * evaluation order. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.max_uses (Optional): integer. Maximum number of redemptions across all codes and
-     * automatic applications. Omitted when there is no redemption limit. Format: int64.
-     * object.max_uses_per_customer (Required): integer or null. Maximum reserved and redeemed uses
-     * per identified customer across every code and automatic or ID-based application. Checked
-     * atomically when payment starts. Failed, canceled, or expired attempts release their
-     * reservation; refunds do not restore uses. Counts only within the same merchant and
-     * environment; live and test mode are separate. Without an identified customer, returns 409
-     * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit.
-     * Format: int64. minimum: 1. object.merchant_id (Optional): string. Identifier of the merchant
-     * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata
-     * (Optional): {@link MetadataMap}. Key-value data you attach to the promotion. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.name (Required): string. Internal
-     * promotion name for dashboards, searching, and reporting. object.promotion_id (Required):
-     * string. Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * object.redemption_type (Required): string. Whether the promotion applies automatically when
-     * its rules match or requires a promotion code. Value enum: "automatic", "code".
-     * object.schedule (Optional): {@link PromotionSchedule}. Optional start and end times that
-     * limit when the promotion can apply. When a promotion is active, with a start time, an end
-     * time, and the time zone it was entered in. object.status (Required): string. Lifecycle
-     * status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can
-     * still be unavailable: read available. Value enum: "active", "inactive", "archived".
-     * object.unavailable_reason (Optional): string. Why available is false. Present only when
-     * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-     * "exhausted", "no_active_codes". object.updated_at (Optional): string. When the promotion was
-     * last updated, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.uses_count (Required): integer. Number of times the promotion has been redeemed.
-     * Format: int64. object.version (Required): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
      */
     "data"?: {
         /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
-         * application_method (Required): {@link PromotionApplicationMethod}. Discount effect and
-         * how it applies to eligible items or charges. A flat application method whose type
-         * selects its effect fields. available (Required): boolean. Whether the promotion can
-         * apply right now: it is active, inside its schedule, under its max_uses, and, when
-         * code-gated, has at least one redeemable code. codes (Optional): Array of {@link
-         * PromotionCode}. The codes this request created, in request order. Present only on the
-         * `POST /v1/promotions` response, where it is `[]` for a promotion created without codes.
-         * Read codes later with `GET /v1/promotion-codes?promotion_id=`. codes[] (Value): {@link
-         * PromotionCode}. A code a buyer enters to claim a promotion. codes_summary (Optional):
-         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
-         * on code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-         * including how many are redeemable now and the newest redeemable code. combines_with
-         * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this
-         * promotion may share an order with. Both promotions must allow each other's class. Manual
-         * discounts are ignored. See Promotion for the evaluation order. Which kinds of discounts
-         * a promotion can combine with: line item, order, and service charge discounts. created_at
-         * (Optional): string. When the promotion was created, as an RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". description (Optional): string. Optional
-         * description of the promotion for your own records. discount_class (Required): string.
-         * Whether the promotion discounts the order, individual line items, or service charges.
-         * Value enum: "order", "line_item", "service_charge". display_name (Required): string.
-         * Buyer-facing promotion name shown in checkout and order discount surfaces.
-         * eligibility_rules (Optional): {@link PromotionRuleGroup}. Conditions an order must
-         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
-         * conditions. A rule group is an object with exactly one nonempty all (AND) or any (OR)
-         * array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit
-         * the field for no rules, or send null where the field is clearable. Responses list rules
-         * before nested groups. Under any, a nested group containing only one rule reads back as
-         * that rule. Under all, nested groups keep their boundaries to preserve
-         * matched_items.subtotal scope. These deterministic normalizations stabilize after one
-         * round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-         * in the same all group, including its nested groups. exclusivity (Optional): {@link
-         * PromotionExclusivity}. Optional group and priority used to choose one promotion from
-         * competing promotions in the same group. See Promotion for the evaluation order. Only one
-         * promotion in an exclusivity group continues. See Promotion for the evaluation order.
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_uses (Optional):
-         * integer. Maximum number of redemptions across all codes and automatic applications.
-         * Omitted when there is no redemption limit. Format: int64. max_uses_per_customer
-         * (Required): integer or null. Maximum reserved and redeemed uses per identified customer
-         * across every code and automatic or ID-based application. Checked atomically when payment
-         * starts. Failed, canceled, or expired attempts release their reservation; refunds do not
-         * restore uses. Counts only within the same merchant and environment; live and test mode
-         * are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-         * customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1.
-         * merchant_id (Optional): string. Identifier of the merchant that owns the promotion.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}.
-         * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Internal promotion name for
-         * dashboards, searching, and reporting. promotion_id (Required): string. Unique identifier
-         * for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". redemption_type
-         * (Required): string. Whether the promotion applies automatically when its rules match or
-         * requires a promotion code. Value enum: "automatic", "code". schedule (Optional): {@link
-         * PromotionSchedule}. Optional start and end times that limit when the promotion can
-         * apply. When a promotion is active, with a start time, an end time, and the time zone it
-         * was entered in. status (Required): string. Lifecycle status. Set active or inactive with
-         * PATCH; DELETE sets archived. An active promotion can still be unavailable: read
-         * available. Value enum: "active", "inactive", "archived". unavailable_reason (Optional):
-         * string. Why available is false. Present only when available is false. Value enum:
-         * "inactive", "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * updated_at (Optional): string. When the promotion was last updated, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". uses_count (Required):
-         * integer. Number of times the promotion has been redeemed. Format: int64. version
-         * (Required): integer. Persisted owned-state version. Clock-based availability and
-         * expanded resources do not advance this counter. Format: uint64. minimum: 1.
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
          */
         "object": {
             /**
-             * Discount effect and how it applies to eligible items or charges. A flat application
-             * method whose type selects its effect fields.
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
-            "application_method": PromotionApplicationMethod;
+            "archived_at": string | null;
             /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code.
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
              */
-            "available": boolean;
+            "created_at": string;
             /**
-             * The codes this request created, in request order. Present only on the `POST
-             * /v1/promotions` response, where it is `[]` for a promotion created without codes.
-             * Read codes later with `GET /v1/promotion-codes?promotion_id=`. [] (Value): {@link
-             * PromotionCode}. A code a buyer enters to claim a promotion.
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
              */
-            "codes"?: Array<PromotionCode>;
+            "currency": string;
             /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. A count of a promotion's codes, including how many are
-             * redeemable now and the newest redeemable code.
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
              */
-            "codes_summary"?: PromotionCodesSummary;
+            "customer_segments": Array<string>;
             /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. Which kinds of discounts a promotion can combine
-             * with: line item, order, and service charge discounts.
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
              */
-            "combines_with": PromotionCombinesWith;
+            "external_reference_id": string | null;
             /**
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /** Optional description of the promotion for your own records. */
-            "description"?: string;
-            /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge".
-             */
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            /** Buyer-facing promotion name shown in checkout and order discount surfaces. */
-            "display_name": string;
-            /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. A rule group is an object with exactly one
-             * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-             * groups, and a rules key are invalid. Omit the field for no rules, or send null where
-             * the field is clearable. Responses list rules before nested groups. Under any, a
-             * nested group containing only one rule reads back as that rule. Under all, nested
-             * groups keep their boundaries to preserve matched_items.subtotal scope. These
-             * deterministic normalizations stabilize after one round trip. matched_items.subtotal
-             * sums the line items matched by the line_item.* rules in the same all group,
-             * including its nested groups.
-             */
-            "eligibility_rules"?: PromotionRuleGroup;
-            /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. Only one promotion in an
-             * exclusivity group continues. See Promotion for the evaluation order.
-             */
-            "exclusivity"?: PromotionExclusivity;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. Format: int64.
-             */
-            "max_uses"?: number;
-            /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. Format: int64. minimum:
-             * 1.
-             */
-            "max_uses_per_customer": number | null;
-            /**
-             * Identifier of the merchant that owns the promotion. Example:
+             * Identifier of the merchant that owns this price list. Example:
              * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
              */
-            "merchant_id"?: string;
+            "merchant_id": string;
             /**
-             * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
              */
-            "metadata"?: MetadataMap;
-            /** Internal promotion name for dashboards, searching, and reporting. */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
             "name": string;
-            /** Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-            "promotion_id": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
             /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code".
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
              */
-            "redemption_type": "automatic" | "code" | (string & {});
+            "price_list_id": string;
             /**
-             * Optional start and end times that limit when the promotion can apply. When a
-             * promotion is active, with a start time, an end time, and the time zone it was
-             * entered in.
-             */
-            "schedule"?: PromotionSchedule;
-            /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived".
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
              */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes".
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
              */
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
+            "updated_at": string;
             /**
-             * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of times the promotion has been redeemed. Format: int64. */
-            "uses_count": number;
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. Format: uint64. minimum: 1.
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
              */
             "version": number;
         };
@@ -1245,12 +639,12 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Promotion>;
+        "previous_attributes"?: Partial<PriceList>;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "promotion.updated". */
-    "event_type"?: "promotion.updated";
+    /** Value enum: "price_list.archived". */
+    "event_type"?: "price_list.archived";
     /**
      *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
      * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
@@ -1287,294 +681,136 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
     });
 });
 /**
- * The `promotion.updated` webhook payload for the `merchant` event source. Fields shared by
+ * The `price_list.archived` webhook payload for the `merchant` event source. Fields shared by
  * merchant webhook payloads.
  */
-export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+export type PriceListArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `codes`. object.application_method (Required): {@link PromotionApplicationMethod}.
-     * Discount effect and how it applies to eligible items or charges. A flat application method
-     * whose type selects its effect fields. object.available (Required): boolean. Whether the
-     * promotion can apply right now: it is active, inside its schedule, under its max_uses, and,
-     * when code-gated, has at least one redeemable code. object.codes (Optional): Array of {@link
-     * PromotionCode}. The codes this request created, in request order. Present only on the `POST
-     * /v1/promotions` response, where it is `[]` for a promotion created without codes. Read codes
-     * later with `GET /v1/promotion-codes?promotion_id=`. object.codes[] (Value): {@link
-     * PromotionCode}. A code a buyer enters to claim a promotion. object.codes_summary (Optional):
-     * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only on
-     * code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-     * including how many are redeemable now and the newest redeemable code. object.combines_with
-     * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this promotion
-     * may share an order with. Both promotions must allow each other's class. Manual discounts are
-     * ignored. See Promotion for the evaluation order. Which kinds of discounts a promotion can
-     * combine with: line item, order, and service charge discounts. object.created_at (Optional):
-     * string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.description (Optional): string. Optional description of the
-     * promotion for your own records. object.discount_class (Required): string. Whether the
-     * promotion discounts the order, individual line items, or service charges. Value enum:
-     * "order", "line_item", "service_charge". object.display_name (Required): string. Buyer-facing
-     * promotion name shown in checkout and order discount surfaces. object.eligibility_rules
-     * (Optional): {@link PromotionRuleGroup}. Conditions an order must satisfy for the promotion
-     * to apply. Omitted when the promotion has no eligibility conditions. A rule group is an
-     * object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups.
-     * Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null
-     * where the field is clearable. Responses list rules before nested groups. Under any, a nested
-     * group containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups. object.exclusivity
-     * (Optional): {@link PromotionExclusivity}. Optional group and priority used to choose one
-     * promotion from competing promotions in the same group. See Promotion for the evaluation
-     * order. Only one promotion in an exclusivity group continues. See Promotion for the
-     * evaluation order. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.max_uses (Optional): integer. Maximum number of redemptions across all codes and
-     * automatic applications. Omitted when there is no redemption limit. Format: int64.
-     * object.max_uses_per_customer (Required): integer or null. Maximum reserved and redeemed uses
-     * per identified customer across every code and automatic or ID-based application. Checked
-     * atomically when payment starts. Failed, canceled, or expired attempts release their
-     * reservation; refunds do not restore uses. Counts only within the same merchant and
-     * environment; live and test mode are separate. Without an identified customer, returns 409
-     * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit.
-     * Format: int64. minimum: 1. object.merchant_id (Optional): string. Identifier of the merchant
-     * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata
-     * (Optional): {@link MetadataMap}. Key-value data you attach to the promotion. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.name (Required): string. Internal
-     * promotion name for dashboards, searching, and reporting. object.promotion_id (Required):
-     * string. Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * object.redemption_type (Required): string. Whether the promotion applies automatically when
-     * its rules match or requires a promotion code. Value enum: "automatic", "code".
-     * object.schedule (Optional): {@link PromotionSchedule}. Optional start and end times that
-     * limit when the promotion can apply. When a promotion is active, with a start time, an end
-     * time, and the time zone it was entered in. object.status (Required): string. Lifecycle
-     * status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can
-     * still be unavailable: read available. Value enum: "active", "inactive", "archived".
-     * object.unavailable_reason (Optional): string. Why available is false. Present only when
-     * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-     * "exhausted", "no_active_codes". object.updated_at (Optional): string. When the promotion was
-     * last updated, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.uses_count (Required): integer. Number of times the promotion has been redeemed.
-     * Format: int64. object.version (Required): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
      */
     "data"?: {
         /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
-         * application_method (Required): {@link PromotionApplicationMethod}. Discount effect and
-         * how it applies to eligible items or charges. A flat application method whose type
-         * selects its effect fields. available (Required): boolean. Whether the promotion can
-         * apply right now: it is active, inside its schedule, under its max_uses, and, when
-         * code-gated, has at least one redeemable code. codes (Optional): Array of {@link
-         * PromotionCode}. The codes this request created, in request order. Present only on the
-         * `POST /v1/promotions` response, where it is `[]` for a promotion created without codes.
-         * Read codes later with `GET /v1/promotion-codes?promotion_id=`. codes[] (Value): {@link
-         * PromotionCode}. A code a buyer enters to claim a promotion. codes_summary (Optional):
-         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
-         * on code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-         * including how many are redeemable now and the newest redeemable code. combines_with
-         * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this
-         * promotion may share an order with. Both promotions must allow each other's class. Manual
-         * discounts are ignored. See Promotion for the evaluation order. Which kinds of discounts
-         * a promotion can combine with: line item, order, and service charge discounts. created_at
-         * (Optional): string. When the promotion was created, as an RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". description (Optional): string. Optional
-         * description of the promotion for your own records. discount_class (Required): string.
-         * Whether the promotion discounts the order, individual line items, or service charges.
-         * Value enum: "order", "line_item", "service_charge". display_name (Required): string.
-         * Buyer-facing promotion name shown in checkout and order discount surfaces.
-         * eligibility_rules (Optional): {@link PromotionRuleGroup}. Conditions an order must
-         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
-         * conditions. A rule group is an object with exactly one nonempty all (AND) or any (OR)
-         * array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit
-         * the field for no rules, or send null where the field is clearable. Responses list rules
-         * before nested groups. Under any, a nested group containing only one rule reads back as
-         * that rule. Under all, nested groups keep their boundaries to preserve
-         * matched_items.subtotal scope. These deterministic normalizations stabilize after one
-         * round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-         * in the same all group, including its nested groups. exclusivity (Optional): {@link
-         * PromotionExclusivity}. Optional group and priority used to choose one promotion from
-         * competing promotions in the same group. See Promotion for the evaluation order. Only one
-         * promotion in an exclusivity group continues. See Promotion for the evaluation order.
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_uses (Optional):
-         * integer. Maximum number of redemptions across all codes and automatic applications.
-         * Omitted when there is no redemption limit. Format: int64. max_uses_per_customer
-         * (Required): integer or null. Maximum reserved and redeemed uses per identified customer
-         * across every code and automatic or ID-based application. Checked atomically when payment
-         * starts. Failed, canceled, or expired attempts release their reservation; refunds do not
-         * restore uses. Counts only within the same merchant and environment; live and test mode
-         * are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-         * customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1.
-         * merchant_id (Optional): string. Identifier of the merchant that owns the promotion.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}.
-         * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Internal promotion name for
-         * dashboards, searching, and reporting. promotion_id (Required): string. Unique identifier
-         * for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". redemption_type
-         * (Required): string. Whether the promotion applies automatically when its rules match or
-         * requires a promotion code. Value enum: "automatic", "code". schedule (Optional): {@link
-         * PromotionSchedule}. Optional start and end times that limit when the promotion can
-         * apply. When a promotion is active, with a start time, an end time, and the time zone it
-         * was entered in. status (Required): string. Lifecycle status. Set active or inactive with
-         * PATCH; DELETE sets archived. An active promotion can still be unavailable: read
-         * available. Value enum: "active", "inactive", "archived". unavailable_reason (Optional):
-         * string. Why available is false. Present only when available is false. Value enum:
-         * "inactive", "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * updated_at (Optional): string. When the promotion was last updated, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". uses_count (Required):
-         * integer. Number of times the promotion has been redeemed. Format: int64. version
-         * (Required): integer. Persisted owned-state version. Clock-based availability and
-         * expanded resources do not advance this counter. Format: uint64. minimum: 1.
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
          */
         "object": {
             /**
-             * Discount effect and how it applies to eligible items or charges. A flat application
-             * method whose type selects its effect fields.
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
              */
-            "application_method": PromotionApplicationMethod;
+            "archived_at": string | null;
             /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code.
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
              */
-            "available": boolean;
+            "created_at": string;
             /**
-             * The codes this request created, in request order. Present only on the `POST
-             * /v1/promotions` response, where it is `[]` for a promotion created without codes.
-             * Read codes later with `GET /v1/promotion-codes?promotion_id=`. [] (Value): {@link
-             * PromotionCode}. A code a buyer enters to claim a promotion.
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
              */
-            "codes"?: Array<PromotionCode>;
+            "currency": string;
             /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. A count of a promotion's codes, including how many are
-             * redeemable now and the newest redeemable code.
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
              */
-            "codes_summary"?: PromotionCodesSummary;
+            "customer_segments": Array<string>;
             /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. Which kinds of discounts a promotion can combine
-             * with: line item, order, and service charge discounts.
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
              */
-            "combines_with": PromotionCombinesWith;
+            "external_reference_id": string | null;
             /**
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /** Optional description of the promotion for your own records. */
-            "description"?: string;
-            /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge".
-             */
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            /** Buyer-facing promotion name shown in checkout and order discount surfaces. */
-            "display_name": string;
-            /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. A rule group is an object with exactly one
-             * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-             * groups, and a rules key are invalid. Omit the field for no rules, or send null where
-             * the field is clearable. Responses list rules before nested groups. Under any, a
-             * nested group containing only one rule reads back as that rule. Under all, nested
-             * groups keep their boundaries to preserve matched_items.subtotal scope. These
-             * deterministic normalizations stabilize after one round trip. matched_items.subtotal
-             * sums the line items matched by the line_item.* rules in the same all group,
-             * including its nested groups.
-             */
-            "eligibility_rules"?: PromotionRuleGroup;
-            /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. Only one promotion in an
-             * exclusivity group continues. See Promotion for the evaluation order.
-             */
-            "exclusivity"?: PromotionExclusivity;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. Format: int64.
-             */
-            "max_uses"?: number;
-            /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. Format: int64. minimum:
-             * 1.
-             */
-            "max_uses_per_customer": number | null;
-            /**
-             * Identifier of the merchant that owns the promotion. Example:
+             * Identifier of the merchant that owns this price list. Example:
              * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
              */
-            "merchant_id"?: string;
+            "merchant_id": string;
             /**
-             * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
              */
-            "metadata"?: MetadataMap;
-            /** Internal promotion name for dashboards, searching, and reporting. */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
             "name": string;
-            /** Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-            "promotion_id": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
             /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code".
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
              */
-            "redemption_type": "automatic" | "code" | (string & {});
+            "price_list_id": string;
             /**
-             * Optional start and end times that limit when the promotion can apply. When a
-             * promotion is active, with a start time, an end time, and the time zone it was
-             * entered in.
-             */
-            "schedule"?: PromotionSchedule;
-            /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived".
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
              */
             "status": "active" | "inactive" | "archived" | (string & {});
             /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes".
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
              */
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
+            "updated_at": string;
             /**
-             * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of times the promotion has been redeemed. Format: int64. */
-            "uses_count": number;
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. Format: uint64. minimum: 1.
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
              */
             "version": number;
         };
@@ -1584,14 +820,945 @@ export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & o
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Promotion>;
+        "previous_attributes"?: Partial<PriceList>;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
-    /** Value enum: "promotion.updated". */
-    "event_type"?: "promotion.updated";
+    /** Value enum: "price_list.archived". */
+    "event_type"?: "price_list.archived";
 });
-export type PromotionsCreateParams = (InputValue<CreatePromotionRequestInput>)
+export type PriceListCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "price_list.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "price_list.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "price_list.created";
+});
+/**
+ * The `price_list.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PriceListCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "price_list.created". */
+    "event_type"?: "price_list.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `price_list.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PriceListCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "price_list.created". */
+    "event_type"?: "price_list.created";
+});
+/** A page of `PriceList` objects. */
+export type PriceListListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PriceList}. A merchant-only set of variant prices for individual customers or customer
+     * segments.
+     */
+    "data": Array<PriceList>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** One variant's base net unit price and quantity schedule within a price list. */
+export type PriceListPrice = {
+    /**
+     * When this price was added, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /**
+     * Identifier of the price list that owns this price. Example:
+     * "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+     */
+    "price_list_id": string;
+    /**
+     * Stable identifier of this price within its list. pattern: ^prlp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prlp_01KEZF7C007DQ721A29CDR73DN".
+     */
+    "price_list_price_id": string;
+    /**
+     * Identifier of the product that owns this variant. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id": string;
+    /**
+     * Up to 10 quantity breaks, ordered by increasing minimum_quantity and strictly decreasing
+     * unit price. [] means the base price applies at every quantity. maxItems: 10. [] (Value):
+     * {@link QuantityPriceBreak}. A net unit price that applies when one catalog line reaches
+     * minimum_quantity.
+     */
+    "quantity_price_breaks": Array<QuantityPriceBreak>;
+    /**
+     * Positive base net unit price in the price list's currency, in the currency's smallest unit.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * When this price last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /**
+     * Identifier of the priced product variant. Bundles and gift cards are not supported. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+    /**
+     * Version of this variant price and its quantity schedule. No-op writes preserve it. Format:
+     * uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** Outcome for one requested variant price. */
+export type PriceListPriceAddition = {
+    /**
+     * Whether the price was created, returned unchanged, or updated. Value enum: "created",
+     * "existing", "updated".
+     */
+    "outcome": "created" | "existing" | "updated" | (string & {});
+    /**
+     * Price stored for this variant after the request. One variant's base net unit price and
+     * quantity schedule within a price list.
+     */
+    "price_list_price": PriceListPrice;
+};
+/** A page of `PriceListPrice` objects. */
+export type PriceListPriceListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PriceListPrice}. One variant's base net unit price and quantity schedule within a price
+     * list.
+     */
+    "data": Array<PriceListPrice>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A variant price to add to a price list. */
+export type PriceListPriceRequest = {
+    /**
+     * Complete quantity schedule, up to 10 breaks. Omit or send [] for no quantity breaks. Each
+     * price must be lower than the preceding one. maxItems: 10. [] (Value): {@link
+     * QuantityPriceBreak}. A net unit price that applies when one catalog line reaches
+     * minimum_quantity.
+     */
+    "quantity_price_breaks"?: Array<QuantityPriceBreak>;
+    /**
+     * Positive base net unit price, in the price list's currency. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * Product variant to price. Bundles and gift cards are refused. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+};
+/** A variant price to add to a price list. */
+export type PriceListPriceRequestInput = {
+    /**
+     * Complete quantity schedule, up to 10 breaks. Omit or send [] for no quantity breaks. Each
+     * price must be lower than the preceding one. maxItems: 10. [] (Value): {@link
+     * QuantityPriceBreakRequestInput}. A net unit price that applies when one catalog line reaches
+     * minimum_quantity.
+     */
+    "quantity_price_breaks"?: Array<QuantityPriceBreakRequestInput>;
+    /**
+     * Positive base net unit price, in the price list's currency. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+    /**
+     * Product variant to price. Bundles and gift cards are refused. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+};
+/** A response containing `PriceListPrice` data. */
+export type PriceListPriceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. One variant's base net
+     * unit price and quantity schedule within a price list.
+     */
+    "data": PriceListPrice;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `PriceList` data. */
+export type PriceListResourceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant-only set of
+     * variant prices for individual customers or customer segments.
+     */
+    "data": PriceList;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PriceListUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PriceList>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "price_list.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "archived_at": string | null;
+            "created_at": string;
+            "currency": string;
+            "customer_segments": Array<string>;
+            "external_reference_id": string | null;
+            "merchant_id": string;
+            "metadata": MetadataMap;
+            "name": string;
+            "price_count": number;
+            "price_list_id": string;
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PriceList>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "price_list.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "price_list.updated";
+});
+/**
+ * The `price_list.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PriceListUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PriceList>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "price_list.updated". */
+    "event_type"?: "price_list.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `price_list.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PriceListUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.archived_at (Required): string or null. When this price list was
+     * soft-deleted, as an RFC3339 timestamp. Null when it has not been archived. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required): string. When this
+     * price list was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.currency (Required): string. Immutable currency of every
+     * price in this list. Currently USD. Uses ISO 4217 currency codes. minLength: 3. maxLength: 3.
+     * pattern: ^[A-Z]{3}$. Example: "USD". object.customer_segments (Required): Array of string.
+     * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+     * maxItems: 20. uniqueItems: true. object.customer_segments[] (Value): string.
+     * object.external_reference_id (Required): string or null. Caller-owned identifier for this
+     * resource in an external system. `null` when unset. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842". object.merchant_id (Required): string. Identifier of the merchant that
+     * owns this price list. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Required):
+     * {@link MetadataMap}. Caller-owned metadata stored on this price list. Caller-owned key-value
+     * data stored on a resource. Keys starting with flint_ are reserved for Flint and are not
+     * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+     * before those limits may not satisfy them. object.name (Required): string. Name used to
+     * identify this price list. object.price_count (Required): integer. Number of variant prices
+     * in the list. Format: int64. minimum: 0. maximum: 10000. object.price_list_id (Required):
+     * string. Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q". object.status (Required): string. Availability or
+     * retirement state. Derived as archived when archived_at is set; otherwise active or inactive.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Required): string. When
+     * this price list or its prices last changed, as an RFC3339 timestamp. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Aggregate version,
+     * increased once for a request that changes the list or its prices. No-op writes preserve it.
+     * Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * archived_at (Required): string or null. When this price list was soft-deleted, as an
+         * RFC3339 timestamp. Null when it has not been archived. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When this price list was created,
+         * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". currency
+         * (Required): string. Immutable currency of every price in this list. Currently USD. Uses
+         * ISO 4217 currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
+         * "USD". customer_segments (Required): Array of string. Customer.segment labels assigned
+         * to this list. Empty when no segments are assigned. maxItems: 20. uniqueItems: true.
+         * customer_segments[] (Value): string. external_reference_id (Required): string or null.
+         * Caller-owned identifier for this resource in an external system. `null` when unset.
+         * minLength: 1. maxLength: 255. Example: "warehouse-1842". merchant_id (Required): string.
+         * Identifier of the merchant that owns this price list. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Required): {@link MetadataMap}. Caller-owned
+         * metadata stored on this price list. Caller-owned key-value data stored on a resource.
+         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. name (Required): string. Name used to identify this price list.
+         * price_count (Required): integer. Number of variant prices in the list. Format: int64.
+         * minimum: 0. maximum: 10000. price_list_id (Required): string. Stable identifier of this
+         * price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+         * "prl_01KEZF7C00EH39P59GN3XMGS2Q". status (Required): string. Availability or retirement
+         * state. Derived as archived when archived_at is set; otherwise active or inactive. Value
+         * enum: "active", "inactive", "archived". updated_at (Required): string. When this price
+         * list or its prices last changed, as an RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Aggregate version, increased once
+         * for a request that changes the list or its prices. No-op writes preserve it. Format:
+         * uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * When this price list was soft-deleted, as an RFC3339 timestamp. Null when it has not
+             * been archived. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "archived_at": string | null;
+            /**
+             * When this price list was created, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Immutable currency of every price in this list. Currently USD. Uses ISO 4217
+             * currency codes. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+             */
+            "currency": string;
+            /**
+             * Customer.segment labels assigned to this list. Empty when no segments are assigned.
+             * maxItems: 20. uniqueItems: true. [] (Value): string.
+             */
+            "customer_segments": Array<string>;
+            /**
+             * Caller-owned identifier for this resource in an external system. `null` when unset.
+             * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+             */
+            "external_reference_id": string | null;
+            /**
+             * Identifier of the merchant that owns this price list. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Caller-owned metadata stored on this price list. Caller-owned key-value data stored
+             * on a resource. Keys starting with flint_ are reserved for Flint and are not
+             * returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
+             * written before those limits may not satisfy them.
+             */
+            "metadata": MetadataMap;
+            /** Name used to identify this price list. */
+            "name": string;
+            /** Number of variant prices in the list. Format: int64. minimum: 0. maximum: 10000. */
+            "price_count": number;
+            /**
+             * Stable identifier of this price list. pattern: ^prl_[0-9A-HJKMNP-TV-Z]{26}$.
+             * Example: "prl_01KEZF7C00EH39P59GN3XMGS2Q".
+             */
+            "price_list_id": string;
+            /**
+             * Availability or retirement state. Derived as archived when archived_at is set;
+             * otherwise active or inactive. Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this price list or its prices last changed, as an RFC3339 timestamp. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Aggregate version, increased once for a request that changes the list or its prices.
+             * No-op writes preserve it. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PriceList>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "price_list.updated". */
+    "event_type"?: "price_list.updated";
+});
+export type PriceListsCreateParams = (InputValue<CreatePriceListRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -1612,9 +1779,53 @@ export type PromotionsCreateParams = (InputValue<CreatePromotionRequestInput>)
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type PromotionsDeleteParams = CategoriesDeleteParams;
-export type PromotionsGetParams = DisputesAcceptParams;
-export type PromotionsListParams = {
+export type PriceListsCreatePricesParams = (InputValue<CreatePriceListPricesRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsDeleteParams = {
+    /** Version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991. */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsDeletePriceParams = PriceListsDeleteParams;
+export type PriceListsGetParams = DisputesAcceptParams;
+export type PriceListsGetPriceParams = DisputesAcceptParams;
+export type PriceListsListParams = {
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -1637,90 +1848,24 @@ export type PromotionsListParams = {
      * "active", "inactive", "archived".
      */
     "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    /** Exact match on a Customer.segment label assigned to this price list. */
+    "customer_segment"?: InputValue<string>;
     /**
-     * Filter by whether a promotion can apply now or why it cannot. available matches available:
-     * true; every other value matches unavailable_reason. This filter is ANDed with status.
-     * Archived promotions still require status=archived. Values are trimmed and deduplicated in
-     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
-     * separate filters are ANDed. [] enum: "available", "inactive", "archived", "not_yet_started",
-     * "expired", "exhausted", "no_active_codes". Value enum: "available", "inactive", "archived",
-     * "not_yet_started", "expired", "exhausted", "no_active_codes". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "available", "inactive", "archived", "not_yet_started",
-     * "expired", "exhausted", "no_active_codes". anyOf[1][] (Value): string. Value enum:
-     * "available", "inactive", "archived", "not_yet_started", "expired", "exhausted",
-     * "no_active_codes". anyOf[2] (Value): string. Value enum: "available", "inactive",
-     * "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-     */
-    "availability"?: InputValue<("available"
-        | "inactive"
-        | "archived"
-        | "not_yet_started"
-        | "expired"
-        | "exhausted"
-        | "no_active_codes")
-        | readonly ("available"
-        | "inactive"
-        | "archived"
-        | "not_yet_started"
-        | "expired"
-        | "exhausted"
-        | "no_active_codes")[]>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Exact match on the caller-owned external reference ID. minLength: 1. maxLength: 255.
      * Example: "warehouse-1842".
      */
     "external_reference_id"?: InputValue<string>;
     /**
-     * Search across promotion ID, external reference ID, name, display name, description, and
-     * promotion codes. Text fields match any part of the value, and %, _ and \ are ordinary
-     * characters, not wildcards. IDs match from the start and need the type prefix, such as
-     * promo_01.
+     * Search across price list ID, name, and external reference ID. Text fields match any part of
+     * the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start
+     * and need the type prefix, such as prl_01.
      */
     "query"?: InputValue<string>;
     /**
-     * Filter to promotions with an explicit product target rule. Universal promotions are not
-     * included by catalog target filters. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     * Field to sort by. Defaults to created_at; ties are broken by price_list_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "name".
      */
-    "product_id"?: InputValue<string>;
-    /**
-     * Filter to promotions with an explicit variant target rule. Universal promotions are not
-     * included by catalog target filters. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: InputValue<string>;
-    /**
-     * Filter to promotions with an explicit bundle target rule. Universal promotions are not
-     * included by catalog target filters. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
-     */
-    "bundle_id"?: InputValue<string>;
-    /**
-     * Filter to promotions with an explicit category target rule. Universal promotions are not
-     * included by catalog target filters. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handle"?: InputValue<string>;
-    /**
-     * Filter by promotion redemption type. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "automatic", "code". Value enum: "automatic", "code". anyOf[1]
-     * (Value): Array of string. minItems: 1. [] enum: "automatic", "code". anyOf[1][] (Value):
-     * string. Value enum: "automatic", "code". anyOf[2] (Value): string. Value enum: "automatic",
-     * "code".
-     */
-    "redemption_type"?: InputValue<("automatic" | "code") | readonly ("automatic" | "code")[]>;
-    /**
-     * Filter by promotion discount class. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "order", "line_item", "service_charge". Value enum: "order",
-     * "line_item", "service_charge". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "order", "line_item", "service_charge". anyOf[1][] (Value): string. Value enum: "order",
-     * "line_item", "service_charge". anyOf[2] (Value): string. Value enum: "order", "line_item",
-     * "service_charge".
-     */
-    "discount_class"?: InputValue<("order" | "line_item" | "service_charge") | readonly ("order" | "line_item" | "service_charge")[]>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by promotion_id. Default:
-     * "created_at". Value enum: "name", "created_at", "updated_at".
-     */
-    "sort_by"?: InputValue<"name" | "created_at" | "updated_at">;
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "name">;
     /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
     "sort_direction"?: InputValue<"asc" | "desc">;
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
@@ -1750,7 +1895,64 @@ export type PromotionsListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type PromotionsUpdateParams = (InputValue<UpdatePromotionRequestInput>)
+export type PriceListsListPricesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the priced variant ID. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: InputValue<string>;
+    /**
+     * Exact match on the product owning the priced variant. pattern:
+     * ^prod_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by price_list_price_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PriceListsUpdateParams = (InputValue<UpdatePriceListRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -1771,129 +1973,245 @@ export type PromotionsUpdateParams = (InputValue<UpdatePromotionRequestInput>)
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** A temporary link for downloading a generated report. */
-export type PublicDownload = {
+export type PriceListsUpdatePriceParams = (InputValue<UpdatePriceListPriceRequestInput>)
+    & {
     /**
-     * When the download stops working: 24 hours after the report succeeded. The report keeps
-     * status succeeded and this download object afterward; create a new report to get the file
-     * again. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "expires_at": string;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Identifier of this download, the last segment of url. pattern: ^rdl_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "rdl_01KEZF7C003GGGDW1N5QT46JDZ".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "report_download_id": string;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * Flint API URL for the file, not the file itself. Call it with the same API key; Flint
-     * answers 307 with a redirect to a private file URL that works for a few minutes. Request url
-     * again each time you need the file.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "url": string;
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
 /**
- * The buyer-facing view of a payment link, with its line items, custom fields, legal and payment
- * settings, and status.
+ * The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and
+ * total.
  */
-export type PublicPaymentLink = {
-    /** Number of paid checkout sessions started from this link. Format: int32. */
-    "completed_count": number;
+export type PricingAmounts = {
     /**
-     * Questions buyers answer before paying. Answers are recorded on the order and checkout
-     * session in `custom_field_answers`. [] (Value): {@link PaymentLinkCustomField}. A custom
-     * field on a payment link that collects an answer from the buyer.
-     */
-    "custom_fields"?: Array<PaymentLinkCustomField>;
-    /**
-     * Custom text for checkouts started from this link. Custom text shown in checkout: an order
-     * summary message and a shipping address label.
-     */
-    "custom_text"?: CheckoutCustomTextConfig;
-    /** Text about what the link sells, returned to buyers when they open it. */
-    "description"?: string;
-    /**
-     * Largest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * Tax added on top of prices, included in total_money. Monetary amount represented as integer
      * minor units plus an ISO 4217 currency code.
      */
-    "donation_max_amount_money"?: MoneyValue;
+    "additive_tax_money": MoneyValue;
     /**
-     * Smallest amount a buyer can give on a donation link. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
+     * Total of the order's service charges after service-charge discounts. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "donation_min_amount_money"?: MoneyValue;
+    "charge_money": MoneyValue;
     /**
-     * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * Total of order and line-item discounts. Service-charge discounts, such as free shipping, are
+     * not included; they reduce charge_money. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
      */
-    "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+    "discount_money": MoneyValue;
     /**
-     * Event details for an `event` link: when and where it takes place and how many tickets it
-     * sells. Event settings on an event payment link, such as its date, venue, ticket limit, and
-     * ticket emails.
+     * Tax already included in subtotal_money and charge_money. Informational; it is not added
+     * again to total_money. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
-    "event_config"?: PaymentLinkEventConfig;
-    /** Image shown to buyers with the link. An image with its URL, size, and alt text. */
-    "image"?: Image;
-    /** Message to show the buyer when the link is inactive. */
-    "inactive_message"?: string;
+    "inclusive_tax_money": MoneyValue;
     /**
-     * The terms and policy links checkouts started from this link show the buyer. Legal settings
-     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
-     * shipping policy, and contract.
+     * Tip money in the total: the requested tip before payment, and settled tips net of refunds
+     * after. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
-    "legal"?: LegalSettings;
+    "requested_tip_money": MoneyValue;
     /**
-     * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a payment link.
+     * Sum of the line items' subtotal_money: prices with modifiers, before discounts. Lines with
+     * tax-inclusive prices include their tax here. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
      */
-    "line_items"?: Array<PaymentLinkLineItem>;
+    "subtotal_money": MoneyValue;
     /**
-     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
-     * the limit is reached, resolving the link fails with a request error. It can't be set below
-     * `completed_count`. Format: int32.
+     * Total tax, equal to additive_tax_money + inclusive_tax_money. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
      */
-    "max_completions"?: number;
-    /** Name of the payment link. */
-    "name": string;
-    /** ID of the payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
-    "payment_link_id": string;
-    /** What kind of link this is. Value enum: "standard", "donation", "event". */
-    "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+    "tax_money": MoneyValue;
     /**
-     * Payment options for checkouts started from this link. Payment settings for a checkout: the
-     * enabled payment options and a note shown with payment.
+     * subtotal_money - discount_money + charge_money + additive_tax_money + requested_tip_money,
+     * never below zero. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
-    "payments"?: CheckoutPaymentConfig;
-    /**
-     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
-     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
-     * except that an event link without sales_end_at stops selling at event_config.event_at. A
-     * checkout opened before the end can still start payment for up to 15 minutes after it.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "sales_end_at"?: string;
-    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
-    "status": "active" | "inactive" | (string & {});
-    /** ID of the subscription plan the link sells. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
-    "subscription_plan_id"?: string;
-    /**
-     * The title and colors for checkouts started from this link, over your branding settings.
-     * Colors and title applied to a payment link's checkout page.
-     */
-    "theme"?: ThemeConfig;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: int64.
-     */
-    "version": number;
+    "total_money": MoneyValue;
 };
-/** A response containing `PublicPaymentLinkResult` data. */
-export type PublicPaymentLinkResponse = {
+/**
+ * How to process one line of an existing return: the received quantity, inspection, decision,
+ * disposition, and resolution.
+ */
+export type ProcessExistingReturnLineItemRequest = {
     /**
-     * Resource, collection, or operation result returned by this request. The result of resolving
-     * a public payment link: the link, merchant branding, availability, resolved line items, and a
-     * resolution context for starting checkout.
+     * The decision for this line, as an assertion about the committed terms. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
+     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
+     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
+     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
+     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
+     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
+     * and no receiving_location_id. Each supplied field replaces its starting value;
+     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
+     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
+     * after_inspection when merchandise is required and inspection is required, after_receipt when
+     * merchandise is required without inspection, or after_approval when no merchandise is
+     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
+     * reachable timing and inspection requirements. A pinned policy always requires
+     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
+     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
+     * defaults and override_reason is otherwise optional. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
      */
-    "data": PublicPaymentLinkResult;
+    "decision"?: ReturnProcessDecision;
+    /**
+     * A disposition to record for this line's units. What was done with a returned item, such as
+     * restocked as sellable or sent for repair, supplied when processing an existing return.
+     */
+    "disposition"?: ReturnProcessDispositionRequest;
+    /**
+     * An inspection to record for this line's units. An inspection result for a returned item,
+     * supplied when processing an existing return.
+     */
+    "inspection"?: ReturnProcessInspectionRequest;
+    /**
+     * Whole number of units received. It must equal the line's committed return_required_quantity;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "received_quantity"?: number;
+    /**
+     * A resolution to create and confirm for this line. The resolution to apply to a returned
+     * item, such as refund or exchange, with the quantity and any replacement items.
+     */
+    "resolution"?: ReturnProcessResolutionRequest;
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/**
+ * How to process one line of an existing return: the received quantity, inspection, decision,
+ * disposition, and resolution.
+ */
+export type ProcessExistingReturnLineItemRequestInput = {
+    /**
+     * The decision for this line, as an assertion about the committed terms. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
+     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
+     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
+     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
+     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
+     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
+     * and no receiving_location_id. Each supplied field replaces its starting value;
+     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
+     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
+     * after_inspection when merchandise is required and inspection is required, after_receipt when
+     * merchandise is required without inspection, or after_approval when no merchandise is
+     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
+     * reachable timing and inspection requirements. A pinned policy always requires
+     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
+     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
+     * defaults and override_reason is otherwise optional. Example:
+     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
+     */
+    "decision"?: ReturnProcessDecisionInput;
+    /**
+     * A disposition to record for this line's units. What was done with a returned item, such as
+     * restocked as sellable or sent for repair, supplied when processing an existing return.
+     */
+    "disposition"?: ReturnProcessDispositionRequestInput;
+    /**
+     * An inspection to record for this line's units. An inspection result for a returned item,
+     * supplied when processing an existing return.
+     */
+    "inspection"?: ReturnProcessInspectionRequestInput;
+    /**
+     * Whole number of units received. It must equal the line's committed return_required_quantity;
+     * fractional quantities are not supported. Format: int64.
+     */
+    "received_quantity"?: number;
+    /**
+     * A resolution to create and confirm for this line. The resolution to apply to a returned
+     * item, such as refund or exchange, with the quantity and any replacement items.
+     */
+    "resolution"?: ReturnProcessResolutionRequestInput;
+    /**
+     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/** The request body for: Process existing return. */
+export type ProcessExistingReturnRequest = {
+    /**
+     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
+     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
+     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
+     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
+     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
+     * completion_mode. Value enum: "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic" | (string & {});
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * One decision for each line. minItems: 1. [] (Value): {@link
+     * ProcessExistingReturnLineItemRequest}. How to process one line of an existing return: the
+     * received quantity, inspection, decision, disposition, and resolution.
+     */
+    "line_items": Array<ProcessExistingReturnLineItemRequest>;
+    /**
+     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
+     * it was received, supplied when processing an existing return.
+     */
+    "receipt"?: ReturnProcessReceiptRequest;
+};
+/** The request body for: Process existing return. */
+export type ProcessExistingReturnRequestInput = {
+    /**
+     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
+     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
+     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
+     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
+     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
+     * completion_mode. Value enum: "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic";
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * One decision for each line. minItems: 1. [] (Value): {@link
+     * ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return:
+     * the received quantity, inspection, decision, disposition, and resolution.
+     */
+    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
+    /**
+     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
+     * it was received, supplied when processing an existing return.
+     */
+    "receipt"?: ReturnProcessReceiptRequestInput;
+};
+/** A response containing `ReturnProcessResult` data. */
+export type ProcessExistingReturnResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The return is the
+     * primary resource and expected_version target; the other resources report the processing
+     * effects.
+     */
+    "data": ReturnProcessResult;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -1905,911 +2223,1711 @@ export type PublicPaymentLinkResponse = {
      */
     "request_id": string;
 };
-/**
- * The result of resolving a public payment link: the link, merchant branding, availability,
- * resolved line items, and a resolution context for starting checkout.
- */
-export type PublicPaymentLinkResult = {
+/** An item offered in the merchant's catalog. */
+export type Product = {
+    /** Number of active variants belonging to the product. Format: int32. */
+    "active_variant_count"?: number;
     /**
-     * Start a new checkout before this instant. At or after it, read the public payment link again
-     * for a new resolution_context; its credential expiry is resolution_context_expires_at.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * Always present. Empty collections are returned as []. [] (Value): {@link CategoryReference}.
+     * A reference to a product category by ID, handle, and name.
      */
-    "checkout_start_due_at": string;
+    "categories": Array<CategoryReference>;
     /**
-     * The theme a checkout opened from this link uses: your checkout branding settings, with the
-     * link's own `theme` over them. Use it to style a page that leads to the checkout.
-     * `payment_link.theme` is the link's own theme alone. Omitted when neither sets a value. It
-     * includes the branding settings' `background_color`, `text_color`, `font_family`, and
-     * `corner_radius`. Colors, corner radius, font family, and title that style a checkout, taken
-     * from the session or link theme or the merchant's branding settings.
+     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "checkout_theme"?: CheckoutTheme;
+    "created_at"?: string;
     /**
-     * True when the link's sales end has passed: payment_link.sales_end_at, or
-     * event_config.event_at for an event link without sales_end_at. Resolve then fails with
-     * `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     * The product's default variant, when one is set. A specific purchasable version of a product.
      */
-    "is_past_sales_end": boolean;
+    "default_variant"?: ProductVariant;
     /**
-     * True for an event with no tickets remaining. For other active links with
-     * inventory_routing_source, true when any catalog line cannot be bought at its minimum
-     * quantity from that source. Untracked and ad hoc lines do not count. A choice line counts
-     * only when every offered variant is sold out. Fixed locations use available stock; policies
-     * use their allocatable locations. Stock is not reserved by this read.
+     * Identifier of the variant chosen as this product's default, when one is set. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
      */
-    "is_sold_out": boolean;
-    /** The merchant's icon. An image with its URL, size, and alt text. */
-    "merchant_icon"?: Image;
-    /** The merchant's logo. An image with its URL, size, and alt text. */
-    "merchant_logo"?: Image;
-    /** The merchant's name. */
-    "merchant_name"?: string;
+    "default_variant_id"?: string;
     /**
-     * The payment link that was resolved. The buyer-facing view of a payment link, with its line
-     * items, custom fields, legal and payment settings, and status.
+     * Delivery readiness aggregated across the product's non-archived variants. Value enum:
+     * "configured", "action_required", "not_applicable".
      */
-    "payment_link": PublicPaymentLink;
+    "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+    /** Description of the product shown to buyers. */
+    "description"?: string;
     /**
-     * Event links with a ticket limit: tickets left after tickets sold and tickets held by
-     * payments in progress. Absent when the event has no ticket limit. Whole-number quantity;
-     * fractional quantities are not supported. Format: int32.
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
      */
-    "remaining_quantity"?: number;
+    "external_reference_id"?: string;
     /**
-     * Private resolution context for this payment link. Send it unchanged to resolve the same link
-     * before checkout_start_due_at. The credential expires at resolution_context_expires_at. Keep
-     * the context private and do not cache this response; it is returned with Cache-Control:
-     * private, no-store.
+     * Images attached to this resource, in display order. The first image is primary. [] (Value):
+     * {@link ImageAttachment}. An image attached to a resource, with its display properties and
+     * attachment metadata.
      */
-    "resolution_context": string;
+    "images": Array<ImageAttachment>;
+    /** Whether the product is active and has at least one active variant. */
+    "is_available_for_sale"?: boolean;
     /**
-     * RFC3339 timestamp when the resolution_context credential expires. The earlier
-     * checkout_start_due_at governs starting new checkouts; committed replay remains available
-     * until this expiry. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * On product list rows, the first non-archived variant by position, then variant_id, that
+     * matches all exact variant filters. Without exact variant filters, identifies the first
+     * variant whose SKU matches query. Omitted when no variant matches; a product name or
+     * description match alone does not set it. Page the product's variants to find all matches. A
+     * single variant witness on product list rows only. With exact variant filters, the first
+     * variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first
+     * variant in that order whose SKU matches query. Use the paginated nested variant list to
+     * enumerate every match.
      */
-    "resolution_context_expires_at": string;
+    "matched_variant"?: ProductVariantMatch;
     /**
-     * The link's line items with their current catalog values. [] (Value): {@link
-     * PublicResolvedLineItemInfo}. Current catalog details for a payment link line item, such as
-     * its name, price, image, available modifiers, and bundle components.
+     * Identifier of the merchant that owns this resource. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      */
-    "resolved_line_items"?: Array<PublicResolvedLineItemInfo>;
+    "merchant_id"?: string;
     /**
-     * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
-     * the merchant's agreement with Flint removes it.
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them.
      */
-    "show_flint_mark": boolean;
+    "metadata"?: MetadataMap;
     /**
-     * Present for active plan-backed payment links when authoritative subscription terms are
-     * available. Subscription terms shown before an active plan-backed payment link creates a
-     * checkout session.
+     * Attached modifier set, included when expand=modifier_set is requested. Requires
+     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
+     * includes `modifier_set`; `null` when expanded and there is no related modifier set. anyOf[1]
+     * (Value): {@link ModifierSet}. A reusable collection of customization groups. anyOf[2]
+     * (Value): null.
      */
-    "subscription_preview"?: PaymentLinkSubscriptionPreview;
+    "modifier_set"?: ((ModifierSet) | (null));
+    /**
+     * Attached modifier set. Send null on update to remove it. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id": string | null;
+    /** Product name shown to buyers. */
+    "name": string;
+    /** Number of active options belonging to the product. Format: int32. */
+    "option_count"?: number;
+    /**
+     * Product options and their non-archived values. Empty when the product has no options. []
+     * (Value): {@link ProductOption}. A choice that defines a product's variants.
+     */
+    "options": Array<ProductOption>;
+    /**
+     * Lowest and highest base unit prices among active variants, before any quantity price breaks.
+     * Omitted when there are no active variants or their currencies differ. The lowest and highest
+     * unit prices across a product's variants.
+     */
+    "price_range"?: ProductPriceRange;
+    /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id": string;
+    /**
+     * Kind of goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Product lifecycle status. Archived products remain readable and cannot be edited. Value
+     * enum: "active", "inactive", "archived".
+     */
+    "status": "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /** Number of non-archived variants belonging to the product. Format: int32. */
+    "variant_count"?: number;
+    /**
+     * The product's complete non-archived variants, ordered by `position` and then `variant_id`.
+     * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
+     * archived product returns an empty array. [] (Value): {@link ProductVariant}. A specific
+     * purchasable version of a product.
+     */
+    "variants"?: Array<ProductVariant>;
+    /**
+     * Current resource version. Send it as expected_version to reject a write if the resource has
+     * changed. Format: uint64. minimum: 0.
+     */
+    "version": number;
 };
+export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_variant_count"?: number;
+            "categories": Array<CategoryReference>;
+            "created_at"?: string;
+            "default_variant"?: ProductVariant;
+            "default_variant_id"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale"?: boolean;
+            "matched_variant"?: ProductVariantMatch;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "option_count"?: number;
+            "options": Array<ProductOption>;
+            "price_range"?: ProductPriceRange;
+            "product_id": string;
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "variant_count"?: number;
+            "variants"?: Array<ProductVariant>;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Product>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "product.archived";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_variant_count"?: number;
+            "categories": Array<CategoryReference>;
+            "created_at"?: string;
+            "default_variant"?: ProductVariant;
+            "default_variant_id"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale"?: boolean;
+            "matched_variant"?: ProductVariantMatch;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "option_count"?: number;
+            "options": Array<ProductOption>;
+            "price_range"?: ProductPriceRange;
+            "product_id": string;
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "variant_count"?: number;
+            "variants"?: Array<ProductVariant>;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Product>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "product.archived";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "product.archived";
+});
 /**
- * One component of a bundle on a resolved payment link line item, with its variant and quantity.
+ * The `product.archived` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
  */
-export type PublicResolvedBundleComponent = {
-    /** Position of the component within the bundle. Format: int32. */
+export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `variants`, `matched_variant`, `modifier_set`. object.active_variant_count
+     * (Optional): integer. Number of active variants belonging to the product. Format: int32.
+     * object.categories (Required): Array of {@link CategoryReference}. Always present. Empty
+     * collections are returned as []. object.categories[] (Value): {@link CategoryReference}. A
+     * reference to a product category by ID, handle, and name. object.created_at (Optional):
+     * string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.default_variant (Optional): {@link ProductVariant}. The
+     * product's default variant, when one is set. A specific purchasable version of a product.
+     * object.default_variant_id (Optional): string. Identifier of the variant chosen as this
+     * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * object.delivery_configuration_status (Required): string. Delivery readiness aggregated
+     * across the product's non-archived variants. Value enum: "configured", "action_required",
+     * "not_applicable". object.description (Optional): string. Description of the product shown to
+     * buyers. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.images
+     * (Required): Array of {@link ImageAttachment}. Images attached to this resource, in display
+     * order. The first image is primary. object.images[] (Value): {@link ImageAttachment}. An
+     * image attached to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Optional): boolean. Whether the product is active and has at
+     * least one active variant. object.matched_variant (Optional): {@link ProductVariantMatch}. On
+     * product list rows, the first non-archived variant by position, then variant_id, that matches
+     * all exact variant filters. Without exact variant filters, identifies the first variant whose
+     * SKU matches query. Omitted when no variant matches; a product name or description match
+     * alone does not set it. Page the product's variants to find all matches. A single variant
+     * witness on product list rows only. With exact variant filters, the first variant by
+     * position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in
+     * that order whose SKU matches query. Use the paginated nested variant list to enumerate every
+     * match. object.merchant_id (Optional): string. Identifier of the merchant that owns this
+     * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
+     * MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null.
+     * Attached modifier set, included when expand=modifier_set is requested. Requires
+     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
+     * includes `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Product name shown
+     * to buyers. object.option_count (Optional): integer. Number of active options belonging to
+     * the product. Format: int32. object.options (Required): Array of {@link ProductOption}.
+     * Product options and their non-archived values. Empty when the product has no options.
+     * object.options[] (Value): {@link ProductOption}. A choice that defines a product's variants.
+     * object.price_range (Optional): {@link ProductPriceRange}. Lowest and highest base unit
+     * prices among active variants, before any quantity price breaks. Omitted when there are no
+     * active variants or their currencies differ. The lowest and highest unit prices across a
+     * product's variants. object.product_id (Required): string. Stable identifier of the product.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.product_type (Required): string. Kind of
+     * goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card". object.status (Required):
+     * string. Product lifecycle status. Archived products remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When
+     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.variant_count (Optional): integer. Number of non-archived
+     * variants belonging to the product. Format: int32. object.variants (Optional): Array of
+     * {@link ProductVariant}. The product's complete non-archived variants, ordered by `position`
+     * and then `variant_id`. Present when `expand=variants` is requested, and on the `POST
+     * /v1/products` response. An archived product returns an empty array. object.variants[]
+     * (Value): {@link ProductVariant}. A specific purchasable version of a product. object.version
+     * (Required): integer. Current resource version. Send it as expected_version to reject a write
+     * if the resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`. active_variant_count (Optional): integer. Number of
+         * active variants belonging to the product. Format: int32. categories (Required): Array of
+         * {@link CategoryReference}. Always present. Empty collections are returned as [].
+         * categories[] (Value): {@link CategoryReference}. A reference to a product category by
+         * ID, handle, and name. created_at (Optional): string. When this resource was created, as
+         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * default_variant (Optional): {@link ProductVariant}. The product's default variant, when
+         * one is set. A specific purchasable version of a product. default_variant_id (Optional):
+         * string. Identifier of the variant chosen as this product's default, when one is set.
+         * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". delivery_configuration_status (Required):
+         * string. Delivery readiness aggregated across the product's non-archived variants. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the product shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Optional): boolean. Whether
+         * the product is active and has at least one active variant. matched_variant (Optional):
+         * {@link ProductVariantMatch}. On product list rows, the first non-archived variant by
+         * position, then variant_id, that matches all exact variant filters. Without exact variant
+         * filters, identifies the first variant whose SKU matches query. Omitted when no variant
+         * matches; a product name or description match alone does not set it. Page the product's
+         * variants to find all matches. A single variant witness on product list rows only. With
+         * exact variant filters, the first variant by position, then variant_id, satisfying every
+         * exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use
+         * the paginated nested variant list to enumerate every match. merchant_id (Optional):
+         * string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_set (Optional): {@link ModifierSet} or null. Attached modifier
+         * set, included when expand=modifier_set is requested. Requires commerce.catalog.read in
+         * addition to the resource's read scope. Present only when `expand` includes
+         * `modifier_set`; `null` when expanded and there is no related modifier set.
+         * modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+         * customization groups. modifier_set.anyOf[2] (Value): null. modifier_set_id (Required):
+         * string or null. Attached modifier set. Send null on update to remove it. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required): string. Product name shown to buyers.
+         * option_count (Optional): integer. Number of active options belonging to the product.
+         * Format: int32. options (Required): Array of {@link ProductOption}. Product options and
+         * their non-archived values. Empty when the product has no options. options[] (Value):
+         * {@link ProductOption}. A choice that defines a product's variants. price_range
+         * (Optional): {@link ProductPriceRange}. Lowest and highest base unit prices among active
+         * variants, before any quantity price breaks. Omitted when there are no active variants or
+         * their currencies differ. The lowest and highest unit prices across a product's variants.
+         * product_id (Required): string. Stable identifier of the product. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_type (Required): string. Kind of goods or
+         * service this product represents. New variants of digital products store digital_goods
+         * when line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". status (Required): string. Product
+         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
+         * "active", "inactive", "archived". updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * variant_count (Optional): integer. Number of non-archived variants belonging to the
+         * product. Format: int32. variants (Optional): Array of {@link ProductVariant}. The
+         * product's complete non-archived variants, ordered by `position` and then `variant_id`.
+         * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
+         * archived product returns an empty array. variants[] (Value): {@link ProductVariant}. A
+         * specific purchasable version of a product. version (Required): integer. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * Format: uint64. minimum: 0.
+         */
+        "object": {
+            /** Number of active variants belonging to the product. Format: int32. */
+            "active_variant_count"?: number;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * The product's default variant, when one is set. A specific purchasable version of a
+             * product.
+             */
+            "default_variant"?: ProductVariant;
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+             */
+            "default_variant_id"?: string;
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the product shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /** Whether the product is active and has at least one active variant. */
+            "is_available_for_sale"?: boolean;
+            /**
+             * On product list rows, the first non-archived variant by position, then variant_id,
+             * that matches all exact variant filters. Without exact variant filters, identifies
+             * the first variant whose SKU matches query. Omitted when no variant matches; a
+             * product name or description match alone does not set it. Page the product's variants
+             * to find all matches. A single variant witness on product list rows only. With exact
+             * variant filters, the first variant by position, then variant_id, satisfying every
+             * exact predicate. Otherwise, the first variant in that order whose SKU matches query.
+             * Use the paginated nested variant list to enumerate every match.
+             */
+            "matched_variant"?: ProductVariantMatch;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Product name shown to buyers. */
+            "name": string;
+            /** Number of active options belonging to the product. Format: int32. */
+            "option_count"?: number;
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. [] (Value): {@link ProductOption}. A choice that defines a product's
+             * variants.
+             */
+            "options": Array<ProductOption>;
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ. The
+             * lowest and highest unit prices across a product's variants.
+             */
+            "price_range"?: ProductPriceRange;
+            /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+            "product_id": string;
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             */
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /** Number of non-archived variants belonging to the product. Format: int32. */
+            "variant_count"?: number;
+            /**
+             * The product's complete non-archived variants, ordered by `position` and then
+             * `variant_id`. Present when `expand=variants` is requested, and on the `POST
+             * /v1/products` response. An archived product returns an empty array. [] (Value):
+             * {@link ProductVariant}. A specific purchasable version of a product.
+             */
+            "variants"?: Array<ProductVariant>;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Product>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "product.archived". */
+    "event_type"?: "product.archived";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `product.archived` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `variants`, `matched_variant`, `modifier_set`. object.active_variant_count
+     * (Optional): integer. Number of active variants belonging to the product. Format: int32.
+     * object.categories (Required): Array of {@link CategoryReference}. Always present. Empty
+     * collections are returned as []. object.categories[] (Value): {@link CategoryReference}. A
+     * reference to a product category by ID, handle, and name. object.created_at (Optional):
+     * string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.default_variant (Optional): {@link ProductVariant}. The
+     * product's default variant, when one is set. A specific purchasable version of a product.
+     * object.default_variant_id (Optional): string. Identifier of the variant chosen as this
+     * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * object.delivery_configuration_status (Required): string. Delivery readiness aggregated
+     * across the product's non-archived variants. Value enum: "configured", "action_required",
+     * "not_applicable". object.description (Optional): string. Description of the product shown to
+     * buyers. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.images
+     * (Required): Array of {@link ImageAttachment}. Images attached to this resource, in display
+     * order. The first image is primary. object.images[] (Value): {@link ImageAttachment}. An
+     * image attached to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Optional): boolean. Whether the product is active and has at
+     * least one active variant. object.matched_variant (Optional): {@link ProductVariantMatch}. On
+     * product list rows, the first non-archived variant by position, then variant_id, that matches
+     * all exact variant filters. Without exact variant filters, identifies the first variant whose
+     * SKU matches query. Omitted when no variant matches; a product name or description match
+     * alone does not set it. Page the product's variants to find all matches. A single variant
+     * witness on product list rows only. With exact variant filters, the first variant by
+     * position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in
+     * that order whose SKU matches query. Use the paginated nested variant list to enumerate every
+     * match. object.merchant_id (Optional): string. Identifier of the merchant that owns this
+     * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
+     * MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null.
+     * Attached modifier set, included when expand=modifier_set is requested. Requires
+     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
+     * includes `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Product name shown
+     * to buyers. object.option_count (Optional): integer. Number of active options belonging to
+     * the product. Format: int32. object.options (Required): Array of {@link ProductOption}.
+     * Product options and their non-archived values. Empty when the product has no options.
+     * object.options[] (Value): {@link ProductOption}. A choice that defines a product's variants.
+     * object.price_range (Optional): {@link ProductPriceRange}. Lowest and highest base unit
+     * prices among active variants, before any quantity price breaks. Omitted when there are no
+     * active variants or their currencies differ. The lowest and highest unit prices across a
+     * product's variants. object.product_id (Required): string. Stable identifier of the product.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.product_type (Required): string. Kind of
+     * goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card". object.status (Required):
+     * string. Product lifecycle status. Archived products remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When
+     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.variant_count (Optional): integer. Number of non-archived
+     * variants belonging to the product. Format: int32. object.variants (Optional): Array of
+     * {@link ProductVariant}. The product's complete non-archived variants, ordered by `position`
+     * and then `variant_id`. Present when `expand=variants` is requested, and on the `POST
+     * /v1/products` response. An archived product returns an empty array. object.variants[]
+     * (Value): {@link ProductVariant}. A specific purchasable version of a product. object.version
+     * (Required): integer. Current resource version. Send it as expected_version to reject a write
+     * if the resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`. active_variant_count (Optional): integer. Number of
+         * active variants belonging to the product. Format: int32. categories (Required): Array of
+         * {@link CategoryReference}. Always present. Empty collections are returned as [].
+         * categories[] (Value): {@link CategoryReference}. A reference to a product category by
+         * ID, handle, and name. created_at (Optional): string. When this resource was created, as
+         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * default_variant (Optional): {@link ProductVariant}. The product's default variant, when
+         * one is set. A specific purchasable version of a product. default_variant_id (Optional):
+         * string. Identifier of the variant chosen as this product's default, when one is set.
+         * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". delivery_configuration_status (Required):
+         * string. Delivery readiness aggregated across the product's non-archived variants. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the product shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Optional): boolean. Whether
+         * the product is active and has at least one active variant. matched_variant (Optional):
+         * {@link ProductVariantMatch}. On product list rows, the first non-archived variant by
+         * position, then variant_id, that matches all exact variant filters. Without exact variant
+         * filters, identifies the first variant whose SKU matches query. Omitted when no variant
+         * matches; a product name or description match alone does not set it. Page the product's
+         * variants to find all matches. A single variant witness on product list rows only. With
+         * exact variant filters, the first variant by position, then variant_id, satisfying every
+         * exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use
+         * the paginated nested variant list to enumerate every match. merchant_id (Optional):
+         * string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_set (Optional): {@link ModifierSet} or null. Attached modifier
+         * set, included when expand=modifier_set is requested. Requires commerce.catalog.read in
+         * addition to the resource's read scope. Present only when `expand` includes
+         * `modifier_set`; `null` when expanded and there is no related modifier set.
+         * modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+         * customization groups. modifier_set.anyOf[2] (Value): null. modifier_set_id (Required):
+         * string or null. Attached modifier set. Send null on update to remove it. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required): string. Product name shown to buyers.
+         * option_count (Optional): integer. Number of active options belonging to the product.
+         * Format: int32. options (Required): Array of {@link ProductOption}. Product options and
+         * their non-archived values. Empty when the product has no options. options[] (Value):
+         * {@link ProductOption}. A choice that defines a product's variants. price_range
+         * (Optional): {@link ProductPriceRange}. Lowest and highest base unit prices among active
+         * variants, before any quantity price breaks. Omitted when there are no active variants or
+         * their currencies differ. The lowest and highest unit prices across a product's variants.
+         * product_id (Required): string. Stable identifier of the product. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_type (Required): string. Kind of goods or
+         * service this product represents. New variants of digital products store digital_goods
+         * when line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". status (Required): string. Product
+         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
+         * "active", "inactive", "archived". updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * variant_count (Optional): integer. Number of non-archived variants belonging to the
+         * product. Format: int32. variants (Optional): Array of {@link ProductVariant}. The
+         * product's complete non-archived variants, ordered by `position` and then `variant_id`.
+         * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
+         * archived product returns an empty array. variants[] (Value): {@link ProductVariant}. A
+         * specific purchasable version of a product. version (Required): integer. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * Format: uint64. minimum: 0.
+         */
+        "object": {
+            /** Number of active variants belonging to the product. Format: int32. */
+            "active_variant_count"?: number;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * The product's default variant, when one is set. A specific purchasable version of a
+             * product.
+             */
+            "default_variant"?: ProductVariant;
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+             */
+            "default_variant_id"?: string;
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the product shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /** Whether the product is active and has at least one active variant. */
+            "is_available_for_sale"?: boolean;
+            /**
+             * On product list rows, the first non-archived variant by position, then variant_id,
+             * that matches all exact variant filters. Without exact variant filters, identifies
+             * the first variant whose SKU matches query. Omitted when no variant matches; a
+             * product name or description match alone does not set it. Page the product's variants
+             * to find all matches. A single variant witness on product list rows only. With exact
+             * variant filters, the first variant by position, then variant_id, satisfying every
+             * exact predicate. Otherwise, the first variant in that order whose SKU matches query.
+             * Use the paginated nested variant list to enumerate every match.
+             */
+            "matched_variant"?: ProductVariantMatch;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Product name shown to buyers. */
+            "name": string;
+            /** Number of active options belonging to the product. Format: int32. */
+            "option_count"?: number;
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. [] (Value): {@link ProductOption}. A choice that defines a product's
+             * variants.
+             */
+            "options": Array<ProductOption>;
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ. The
+             * lowest and highest unit prices across a product's variants.
+             */
+            "price_range"?: ProductPriceRange;
+            /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+            "product_id": string;
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             */
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /** Number of non-archived variants belonging to the product. Format: int32. */
+            "variant_count"?: number;
+            /**
+             * The product's complete non-archived variants, ordered by `position` and then
+             * `variant_id`. Present when `expand=variants` is requested, and on the `POST
+             * /v1/products` response. An archived product returns an empty array. [] (Value):
+             * {@link ProductVariant}. A specific purchasable version of a product.
+             */
+            "variants"?: Array<ProductVariant>;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Product>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "product.archived". */
+    "event_type"?: "product.archived";
+});
+export type ProductCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_variant_count"?: number;
+            "categories": Array<CategoryReference>;
+            "created_at"?: string;
+            "default_variant"?: ProductVariant;
+            "default_variant_id"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale"?: boolean;
+            "matched_variant"?: ProductVariantMatch;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "option_count"?: number;
+            "options": Array<ProductOption>;
+            "price_range"?: ProductPriceRange;
+            "product_id": string;
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "variant_count"?: number;
+            "variants"?: Array<ProductVariant>;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "product.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_variant_count"?: number;
+            "categories": Array<CategoryReference>;
+            "created_at"?: string;
+            "default_variant"?: ProductVariant;
+            "default_variant_id"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale"?: boolean;
+            "matched_variant"?: ProductVariantMatch;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "option_count"?: number;
+            "options": Array<ProductOption>;
+            "price_range"?: ProductPriceRange;
+            "product_id": string;
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "variant_count"?: number;
+            "variants"?: Array<ProductVariant>;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "product.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "product.created";
+});
+/**
+ * The `product.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ProductCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `variants`, `matched_variant`, `modifier_set`. object.active_variant_count
+     * (Optional): integer. Number of active variants belonging to the product. Format: int32.
+     * object.categories (Required): Array of {@link CategoryReference}. Always present. Empty
+     * collections are returned as []. object.categories[] (Value): {@link CategoryReference}. A
+     * reference to a product category by ID, handle, and name. object.created_at (Optional):
+     * string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.default_variant (Optional): {@link ProductVariant}. The
+     * product's default variant, when one is set. A specific purchasable version of a product.
+     * object.default_variant_id (Optional): string. Identifier of the variant chosen as this
+     * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * object.delivery_configuration_status (Required): string. Delivery readiness aggregated
+     * across the product's non-archived variants. Value enum: "configured", "action_required",
+     * "not_applicable". object.description (Optional): string. Description of the product shown to
+     * buyers. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.images
+     * (Required): Array of {@link ImageAttachment}. Images attached to this resource, in display
+     * order. The first image is primary. object.images[] (Value): {@link ImageAttachment}. An
+     * image attached to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Optional): boolean. Whether the product is active and has at
+     * least one active variant. object.matched_variant (Optional): {@link ProductVariantMatch}. On
+     * product list rows, the first non-archived variant by position, then variant_id, that matches
+     * all exact variant filters. Without exact variant filters, identifies the first variant whose
+     * SKU matches query. Omitted when no variant matches; a product name or description match
+     * alone does not set it. Page the product's variants to find all matches. A single variant
+     * witness on product list rows only. With exact variant filters, the first variant by
+     * position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in
+     * that order whose SKU matches query. Use the paginated nested variant list to enumerate every
+     * match. object.merchant_id (Optional): string. Identifier of the merchant that owns this
+     * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
+     * MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null.
+     * Attached modifier set, included when expand=modifier_set is requested. Requires
+     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
+     * includes `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Product name shown
+     * to buyers. object.option_count (Optional): integer. Number of active options belonging to
+     * the product. Format: int32. object.options (Required): Array of {@link ProductOption}.
+     * Product options and their non-archived values. Empty when the product has no options.
+     * object.options[] (Value): {@link ProductOption}. A choice that defines a product's variants.
+     * object.price_range (Optional): {@link ProductPriceRange}. Lowest and highest base unit
+     * prices among active variants, before any quantity price breaks. Omitted when there are no
+     * active variants or their currencies differ. The lowest and highest unit prices across a
+     * product's variants. object.product_id (Required): string. Stable identifier of the product.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.product_type (Required): string. Kind of
+     * goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card". object.status (Required):
+     * string. Product lifecycle status. Archived products remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When
+     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.variant_count (Optional): integer. Number of non-archived
+     * variants belonging to the product. Format: int32. object.variants (Optional): Array of
+     * {@link ProductVariant}. The product's complete non-archived variants, ordered by `position`
+     * and then `variant_id`. Present when `expand=variants` is requested, and on the `POST
+     * /v1/products` response. An archived product returns an empty array. object.variants[]
+     * (Value): {@link ProductVariant}. A specific purchasable version of a product. object.version
+     * (Required): integer. Current resource version. Send it as expected_version to reject a write
+     * if the resource has changed. Format: uint64. minimum: 0.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`. active_variant_count (Optional): integer. Number of
+         * active variants belonging to the product. Format: int32. categories (Required): Array of
+         * {@link CategoryReference}. Always present. Empty collections are returned as [].
+         * categories[] (Value): {@link CategoryReference}. A reference to a product category by
+         * ID, handle, and name. created_at (Optional): string. When this resource was created, as
+         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * default_variant (Optional): {@link ProductVariant}. The product's default variant, when
+         * one is set. A specific purchasable version of a product. default_variant_id (Optional):
+         * string. Identifier of the variant chosen as this product's default, when one is set.
+         * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". delivery_configuration_status (Required):
+         * string. Delivery readiness aggregated across the product's non-archived variants. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the product shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Optional): boolean. Whether
+         * the product is active and has at least one active variant. matched_variant (Optional):
+         * {@link ProductVariantMatch}. On product list rows, the first non-archived variant by
+         * position, then variant_id, that matches all exact variant filters. Without exact variant
+         * filters, identifies the first variant whose SKU matches query. Omitted when no variant
+         * matches; a product name or description match alone does not set it. Page the product's
+         * variants to find all matches. A single variant witness on product list rows only. With
+         * exact variant filters, the first variant by position, then variant_id, satisfying every
+         * exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use
+         * the paginated nested variant list to enumerate every match. merchant_id (Optional):
+         * string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_set (Optional): {@link ModifierSet} or null. Attached modifier
+         * set, included when expand=modifier_set is requested. Requires commerce.catalog.read in
+         * addition to the resource's read scope. Present only when `expand` includes
+         * `modifier_set`; `null` when expanded and there is no related modifier set.
+         * modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+         * customization groups. modifier_set.anyOf[2] (Value): null. modifier_set_id (Required):
+         * string or null. Attached modifier set. Send null on update to remove it. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required): string. Product name shown to buyers.
+         * option_count (Optional): integer. Number of active options belonging to the product.
+         * Format: int32. options (Required): Array of {@link ProductOption}. Product options and
+         * their non-archived values. Empty when the product has no options. options[] (Value):
+         * {@link ProductOption}. A choice that defines a product's variants. price_range
+         * (Optional): {@link ProductPriceRange}. Lowest and highest base unit prices among active
+         * variants, before any quantity price breaks. Omitted when there are no active variants or
+         * their currencies differ. The lowest and highest unit prices across a product's variants.
+         * product_id (Required): string. Stable identifier of the product. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_type (Required): string. Kind of goods or
+         * service this product represents. New variants of digital products store digital_goods
+         * when line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". status (Required): string. Product
+         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
+         * "active", "inactive", "archived". updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * variant_count (Optional): integer. Number of non-archived variants belonging to the
+         * product. Format: int32. variants (Optional): Array of {@link ProductVariant}. The
+         * product's complete non-archived variants, ordered by `position` and then `variant_id`.
+         * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
+         * archived product returns an empty array. variants[] (Value): {@link ProductVariant}. A
+         * specific purchasable version of a product. version (Required): integer. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * Format: uint64. minimum: 0.
+         */
+        "object": {
+            /** Number of active variants belonging to the product. Format: int32. */
+            "active_variant_count"?: number;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * The product's default variant, when one is set. A specific purchasable version of a
+             * product.
+             */
+            "default_variant"?: ProductVariant;
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+             */
+            "default_variant_id"?: string;
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the product shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /** Whether the product is active and has at least one active variant. */
+            "is_available_for_sale"?: boolean;
+            /**
+             * On product list rows, the first non-archived variant by position, then variant_id,
+             * that matches all exact variant filters. Without exact variant filters, identifies
+             * the first variant whose SKU matches query. Omitted when no variant matches; a
+             * product name or description match alone does not set it. Page the product's variants
+             * to find all matches. A single variant witness on product list rows only. With exact
+             * variant filters, the first variant by position, then variant_id, satisfying every
+             * exact predicate. Otherwise, the first variant in that order whose SKU matches query.
+             * Use the paginated nested variant list to enumerate every match.
+             */
+            "matched_variant"?: ProductVariantMatch;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Product name shown to buyers. */
+            "name": string;
+            /** Number of active options belonging to the product. Format: int32. */
+            "option_count"?: number;
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. [] (Value): {@link ProductOption}. A choice that defines a product's
+             * variants.
+             */
+            "options": Array<ProductOption>;
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ. The
+             * lowest and highest unit prices across a product's variants.
+             */
+            "price_range"?: ProductPriceRange;
+            /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+            "product_id": string;
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             */
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /** Number of non-archived variants belonging to the product. Format: int32. */
+            "variant_count"?: number;
+            /**
+             * The product's complete non-archived variants, ordered by `position` and then
+             * `variant_id`. Present when `expand=variants` is requested, and on the `POST
+             * /v1/products` response. An archived product returns an empty array. [] (Value):
+             * {@link ProductVariant}. A specific purchasable version of a product.
+             */
+            "variants"?: Array<ProductVariant>;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "product.created". */
+    "event_type"?: "product.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `product.created` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type ProductCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
+     * fields: `variants`, `matched_variant`, `modifier_set`. object.active_variant_count
+     * (Optional): integer. Number of active variants belonging to the product. Format: int32.
+     * object.categories (Required): Array of {@link CategoryReference}. Always present. Empty
+     * collections are returned as []. object.categories[] (Value): {@link CategoryReference}. A
+     * reference to a product category by ID, handle, and name. object.created_at (Optional):
+     * string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.default_variant (Optional): {@link ProductVariant}. The
+     * product's default variant, when one is set. A specific purchasable version of a product.
+     * object.default_variant_id (Optional): string. Identifier of the variant chosen as this
+     * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * object.delivery_configuration_status (Required): string. Delivery readiness aggregated
+     * across the product's non-archived variants. Value enum: "configured", "action_required",
+     * "not_applicable". object.description (Optional): string. Description of the product shown to
+     * buyers. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.images
+     * (Required): Array of {@link ImageAttachment}. Images attached to this resource, in display
+     * order. The first image is primary. object.images[] (Value): {@link ImageAttachment}. An
+     * image attached to a resource, with its display properties and attachment metadata.
+     * object.is_available_for_sale (Optional): boolean. Whether the product is active and has at
+     * least one active variant. object.matched_variant (Optional): {@link ProductVariantMatch}. On
+     * product list rows, the first non-archived variant by position, then variant_id, that matches
+     * all exact variant filters. Without exact variant filters, identifies the first variant whose
+     * SKU matches query. Omitted when no variant matches; a product name or description match
+     * alone does not set it. Page the product's variants to find all matches. A single variant
+     * witness on product list rows only. With exact variant filters, the first variant by
+     * position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in
+     * that order whose SKU matches query. Use the paginated nested variant list to enumerate every
+     * match. object.merchant_id (Optional): string. Identifier of the merchant that owns this
+     * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
+     * MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null.
+     * Attached modifier set, included when expand=modifier_set is requested. Requires
+     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
+     * includes `modifier_set`; `null` when expanded and there is no related modifier set.
+     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
+     * (Required): string or null. Attached modifier set. Send null on update to remove it.
+     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Product name shown
+     * to buyers. object.option_count (Optional): integer. Number of active options belonging to
+     * the product. Format: int32. object.options (Required): Array of {@link ProductOption}.
+     * Product options and their non-archived values. Empty when the product has no options.
+     * object.options[] (Value): {@link ProductOption}. A choice that defines a product's variants.
+     * object.price_range (Optional): {@link ProductPriceRange}. Lowest and highest base unit
+     * prices among active variants, before any quantity price breaks. Omitted when there are no
+     * active variants or their currencies differ. The lowest and highest unit prices across a
+     * product's variants. object.product_id (Required): string. Stable identifier of the product.
+     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.product_type (Required): string. Kind of
+     * goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card". object.status (Required):
+     * string. Product lifecycle status. Archived products remain readable and cannot be edited.
+     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When
+     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.variant_count (Optional): integer. Number of non-archived
+     * variants belonging to the product. Format: int32. object.variants (Optional): Array of
+     * {@link ProductVariant}. The product's complete non-archived variants, ordered by `position`
+     * and then `variant_id`. Present when `expand=variants` is requested, and on the `POST
+     * /v1/products` response. An archived product returns an empty array. object.variants[]
+     * (Value): {@link ProductVariant}. A specific purchasable version of a product. object.version
+     * (Required): integer. Current resource version. Send it as expected_version to reject a write
+     * if the resource has changed. Format: uint64. minimum: 0.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
+         * `matched_variant`, `modifier_set`. active_variant_count (Optional): integer. Number of
+         * active variants belonging to the product. Format: int32. categories (Required): Array of
+         * {@link CategoryReference}. Always present. Empty collections are returned as [].
+         * categories[] (Value): {@link CategoryReference}. A reference to a product category by
+         * ID, handle, and name. created_at (Optional): string. When this resource was created, as
+         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * default_variant (Optional): {@link ProductVariant}. The product's default variant, when
+         * one is set. A specific purchasable version of a product. default_variant_id (Optional):
+         * string. Identifier of the variant chosen as this product's default, when one is set.
+         * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". delivery_configuration_status (Required):
+         * string. Delivery readiness aggregated across the product's non-archived variants. Value
+         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
+         * Description of the product shown to buyers. external_reference_id (Optional): string.
+         * Caller-owned identifier for this resource in an external system. maxLength: 255.
+         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
+         * attached to this resource, in display order. The first image is primary. images[]
+         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+         * properties and attachment metadata. is_available_for_sale (Optional): boolean. Whether
+         * the product is active and has at least one active variant. matched_variant (Optional):
+         * {@link ProductVariantMatch}. On product list rows, the first non-archived variant by
+         * position, then variant_id, that matches all exact variant filters. Without exact variant
+         * filters, identifies the first variant whose SKU matches query. Omitted when no variant
+         * matches; a product name or description match alone does not set it. Page the product's
+         * variants to find all matches. A single variant witness on product list rows only. With
+         * exact variant filters, the first variant by position, then variant_id, satisfying every
+         * exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use
+         * the paginated nested variant list to enumerate every match. merchant_id (Optional):
+         * string. Identifier of the merchant that owns this resource. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. modifier_set (Optional): {@link ModifierSet} or null. Attached modifier
+         * set, included when expand=modifier_set is requested. Requires commerce.catalog.read in
+         * addition to the resource's read scope. Present only when `expand` includes
+         * `modifier_set`; `null` when expanded and there is no related modifier set.
+         * modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+         * customization groups. modifier_set.anyOf[2] (Value): null. modifier_set_id (Required):
+         * string or null. Attached modifier set. Send null on update to remove it. Example:
+         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required): string. Product name shown to buyers.
+         * option_count (Optional): integer. Number of active options belonging to the product.
+         * Format: int32. options (Required): Array of {@link ProductOption}. Product options and
+         * their non-archived values. Empty when the product has no options. options[] (Value):
+         * {@link ProductOption}. A choice that defines a product's variants. price_range
+         * (Optional): {@link ProductPriceRange}. Lowest and highest base unit prices among active
+         * variants, before any quantity price breaks. Omitted when there are no active variants or
+         * their currencies differ. The lowest and highest unit prices across a product's variants.
+         * product_id (Required): string. Stable identifier of the product. Example:
+         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_type (Required): string. Kind of goods or
+         * service this product represents. New variants of digital products store digital_goods
+         * when line_item_tax_category is omitted; explicit categories are preserved. Value enum:
+         * "physical", "service", "fee", "digital", "gift_card". status (Required): string. Product
+         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
+         * "active", "inactive", "archived". updated_at (Optional): string. When this resource last
+         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * variant_count (Optional): integer. Number of non-archived variants belonging to the
+         * product. Format: int32. variants (Optional): Array of {@link ProductVariant}. The
+         * product's complete non-archived variants, ordered by `position` and then `variant_id`.
+         * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
+         * archived product returns an empty array. variants[] (Value): {@link ProductVariant}. A
+         * specific purchasable version of a product. version (Required): integer. Current resource
+         * version. Send it as expected_version to reject a write if the resource has changed.
+         * Format: uint64. minimum: 0.
+         */
+        "object": {
+            /** Number of active variants belonging to the product. Format: int32. */
+            "active_variant_count"?: number;
+            /**
+             * Always present. Empty collections are returned as []. [] (Value): {@link
+             * CategoryReference}. A reference to a product category by ID, handle, and name.
+             */
+            "categories": Array<CategoryReference>;
+            /**
+             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * The product's default variant, when one is set. A specific purchasable version of a
+             * product.
+             */
+            "default_variant"?: ProductVariant;
+            /**
+             * Identifier of the variant chosen as this product's default, when one is set.
+             * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+             */
+            "default_variant_id"?: string;
+            /**
+             * Delivery readiness aggregated across the product's non-archived variants. Value
+             * enum: "configured", "action_required", "not_applicable".
+             */
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            /** Description of the product shown to buyers. */
+            "description"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Images attached to this resource, in display order. The first image is primary. []
+             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
+             * properties and attachment metadata.
+             */
+            "images": Array<ImageAttachment>;
+            /** Whether the product is active and has at least one active variant. */
+            "is_available_for_sale"?: boolean;
+            /**
+             * On product list rows, the first non-archived variant by position, then variant_id,
+             * that matches all exact variant filters. Without exact variant filters, identifies
+             * the first variant whose SKU matches query. Omitted when no variant matches; a
+             * product name or description match alone does not set it. Page the product's variants
+             * to find all matches. A single variant witness on product list rows only. With exact
+             * variant filters, the first variant by position, then variant_id, satisfying every
+             * exact predicate. Otherwise, the first variant in that order whose SKU matches query.
+             * Use the paginated nested variant list to enumerate every match.
+             */
+            "matched_variant"?: ProductVariantMatch;
+            /**
+             * Identifier of the merchant that owns this resource. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id"?: string;
+            /**
+             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
+             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
+             * before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Attached modifier set, included when expand=modifier_set is requested. Requires
+             * commerce.catalog.read in addition to the resource's read scope. Present only when
+             * `expand` includes `modifier_set`; `null` when expanded and there is no related
+             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
+             * customization groups. anyOf[2] (Value): null.
+             */
+            "modifier_set"?: ((ModifierSet) | (null));
+            /**
+             * Attached modifier set. Send null on update to remove it. Example:
+             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+             */
+            "modifier_set_id": string | null;
+            /** Product name shown to buyers. */
+            "name": string;
+            /** Number of active options belonging to the product. Format: int32. */
+            "option_count"?: number;
+            /**
+             * Product options and their non-archived values. Empty when the product has no
+             * options. [] (Value): {@link ProductOption}. A choice that defines a product's
+             * variants.
+             */
+            "options": Array<ProductOption>;
+            /**
+             * Lowest and highest base unit prices among active variants, before any quantity price
+             * breaks. Omitted when there are no active variants or their currencies differ. The
+             * lowest and highest unit prices across a product's variants.
+             */
+            "price_range"?: ProductPriceRange;
+            /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+            "product_id": string;
+            /**
+             * Kind of goods or service this product represents. New variants of digital products
+             * store digital_goods when line_item_tax_category is omitted; explicit categories are
+             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
+             */
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            /**
+             * Product lifecycle status. Archived products remain readable and cannot be edited.
+             * Value enum: "active", "inactive", "archived".
+             */
+            "status": "active" | "inactive" | "archived" | (string & {});
+            /**
+             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at"?: string;
+            /** Number of non-archived variants belonging to the product. Format: int32. */
+            "variant_count"?: number;
+            /**
+             * The product's complete non-archived variants, ordered by `position` and then
+             * `variant_id`. Present when `expand=variants` is requested, and on the `POST
+             * /v1/products` response. An archived product returns an empty array. [] (Value):
+             * {@link ProductVariant}. A specific purchasable version of a product.
+             */
+            "variants"?: Array<ProductVariant>;
+            /**
+             * Current resource version. Send it as expected_version to reject a write if the
+             * resource has changed. Format: uint64. minimum: 0.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "product.created". */
+    "event_type"?: "product.created";
+});
+/** A page of `Product` objects. */
+export type ProductListResponse = {
+    /**
+     * The requested product data. [] (Value): {@link Product}. An item offered in the merchant's
+     * catalog.
+     */
+    "data": Array<Product>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /** Token for the next page. Omitted when there are no more results. */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
+     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A choice that defines a product's variants. */
+export type ProductOption = {
+    /**
+     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Option name, such as Size or Color. */
+    "name": string;
+    /** Stable identifier of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
+    "option_id": string;
+    /** Display order among the product's options, starting at zero. Format: int32. */
     "position": number;
     /**
-     * ID of the product the component's variant belongs to. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     * Summary of the component's variant. A summary of a bundle component's variant, with its
-     * name, SKU, selected options, and whether it is available for sale.
-     */
-    "variant"?: PublicResolvedBundleVariantSummary;
-    /** ID of the component's variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id": string;
-};
-/**
- * A summary of a bundle component's variant, with its name, SKU, selected options, and whether it
- * is available for sale.
- */
-export type PublicResolvedBundleVariantSummary = {
-    /** Whether the variant can be sold now. */
-    "is_available_for_sale": boolean;
-    /** Name of the variant. */
-    "name"?: string;
-    /**
-     * Identifier of the product this resolved bundle component variant belongs to. Example:
+     * Identifier of the product this option belongs to. Example:
      * "prod_01KEZF7C00BVSHCNWVH528HB66".
      */
     "product_id": string;
     /**
-     * The product options the variant selects, such as size or color. [] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
+     * Option lifecycle status. Every active variant must select an active value for each active
+     * option. Value enum: "active", "inactive", "archived".
      */
-    "selected_options"?: Array<SelectedProductOption>;
-    /** SKU of the variant. */
-    "sku"?: string;
-    /** ID of the variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id": string;
-};
-/**
- * Current catalog details for a payment link line item, such as its name, price, image, available
- * modifiers, and bundle components.
- */
-export type PublicResolvedLineItemInfo = {
+    "status": "active" | "inactive" | "archived" | (string & {});
     /**
-     * Modifier groups the buyer can choose from for this item. [] (Value): {@link
-     * PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item,
-     * with its selection limits, display flags, and options or text settings.
-     */
-    "available_modifiers"?: Array<PublicResolvedModifierGroup>;
-    /**
-     * Listed variants that can currently be sold in the line currency, in variant_ids order.
-     * Inactive, archived, unsellable, and other-currency variants are omitted. Each variant
-     * includes its advisory sold-out state and its own modifiers. Present only on variant_ids
-     * lines. [] (Value): {@link PaymentLinkAvailableVariant}. A listed payment link variant that
-     * can be sold in the line currency, with its current price, options, image, modifiers, and
-     * advisory stock state.
-     */
-    "available_variants"?: Array<PaymentLinkAvailableVariant>;
-    /**
-     * The components of the bundle. Present for a bundle line item. [] (Value): {@link
-     * PublicResolvedBundleComponent}. One component of a bundle on a resolved payment link line
-     * item, with its variant and quantity.
-     */
-    "bundle_components"?: Array<PublicResolvedBundleComponent>;
-    /** ID of the bundle this line item sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /** What the line item sells. Value enum: "variant", "bundle". */
-    "catalog_object_type"?: "variant" | "bundle" | (string & {});
-    /** Image of the variant or bundle. An image with its URL, size, and alt text. */
-    "image"?: Image;
-    /** Whether Flint tracks stock for the item. */
-    "is_inventory_tracked"?: boolean;
-    /**
-     * True when the fixed variant or bundle components cannot be bought at the line minimum
-     * quantity from the link inventory_routing_source. The minimum is min_quantity when quantity
-     * adjustment is enabled, otherwise quantity. For variant choice lines, true only when every
-     * available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes
-     * no stock counts and reserves no stock.
-     */
-    "is_sold_out": boolean;
-    /** Key of the payment link line item this entry describes. */
-    "key": string;
-    /** ID of the product the variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
-    "product_id"?: string;
-    /**
-     * Active product options for a variant_ids line, in option position order. Values include only
-     * those used by available_variants and retain value position order. Empty when the product has
-     * no options; omitted on fixed variant and bundle lines. [] (Value): {@link
-     * PaymentLinkProductOption}. An active product option offered on a payment link, with values
-     * used by its available variants.
-     */
-    "product_options"?: Array<PaymentLinkProductOption>;
-    /**
-     * Default quantity breaks for a fixed variant. Empty for bundles, variant choice lines, and ad
-     * hoc lines. Each offered variant on a variant choice line has its own schedule in
-     * available_variants. [] (Value): {@link QuantityPriceBreak}. A net unit price that applies
-     * when one catalog line reaches minimum_quantity.
-     */
-    "quantity_price_breaks": Array<QuantityPriceBreak>;
-    /** Current catalog description of the variant or bundle, as of this read. */
-    "resolved_description"?: string;
-    /** Current catalog name of the variant or bundle, as of this read. */
-    "resolved_name"?: string;
-    /**
-     * Current catalog unit price of the variant or bundle, as of this read. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "resolved_unit_price_money"?: MoneyValue;
-    /**
-     * The product options the variant selects, such as size or color. [] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    /** ID of the variant this line item sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-};
-/**
- * A modifier group as resolved for a payment link line item, with its selection limits, display
- * flags, and options or text settings.
- */
-export type PublicResolvedModifierGroup = {
-    "allow_quantities"?: boolean;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "max_quantity"?: number;
-    /** Format: int32. */
-    "max_selected"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "max_total_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "min_quantity"?: number;
-    /** Format: int32. */
-    "min_selected"?: number;
-    /** Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". */
-    "modifier_group_id": string;
-    /** Value enum: "list", "text". */
-    "modifier_group_type": "list" | "text" | (string & {});
-    "name": string;
-    /**
-     *  [] (Value): {@link PublicResolvedModifierOption}. One selectable option in a resolved
-     * modifier group, with its price change, tax category, and whether it is available.
-     */
-    "options"?: Array<PublicResolvedModifierOption>;
-    /** Format: int32. */
-    "position"?: number;
-    /** Value enum: "per_item". */
-    "pricing_scope"?: "per_item" | (string & {});
-    "show_on_fulfillment"?: boolean;
-    "show_on_receipt"?: boolean;
-    /**
-     * Input rules for a free-text modifier group on a payment link line item: required, multiline,
-     * and length limits.
-     */
-    "text"?: TextModifierConfigRequest;
-};
-/**
- * One selectable option in a resolved modifier group, with its price change, tax category, and
- * whether it is available.
- */
-export type PublicResolvedModifierOption = {
-    /** Whether the choice can be selected now. */
-    "available": boolean;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "default_quantity"?: number;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    /** ID of the modifier this choice selects. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S". */
-    "modifier_id": string;
-    /** Name of the choice. */
-    "name": string;
-    /** Position of the choice within its group. Format: int32. */
-    "position"?: number;
-    /** Whether the choice is selected when the buyer adds the item without choosing modifiers. */
-    "selected_by_default"?: boolean;
-    /** Whether the choice appears on fulfillment documents. */
-    "show_on_fulfillment"?: boolean;
-    /** Whether the choice appears on receipts. */
-    "show_on_receipt"?: boolean;
-    /** Whether the choice's price is subject to tax. */
-    "taxable"?: boolean;
-    /**
-     * The amount the choice adds to the item's unit price. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_delta_money": MoneyValue;
-};
-/** The request body for: Publish return policy revision. */
-export type PublishReturnPolicyRevisionRequest = {
-    /**
-     * Required current version of the Return policy. A stale value returns VERSION_CONFLICT.
-     * Publishing increments the policy version. Format: int64. minimum: 1.
-     */
-    "expected_version": number;
-    /**
-     * The revision with the complete rules. A field you leave out doesn't carry over from the
-     * previous revision. The rules for a return policy revision: scope, eligibility, return
-     * window, approval and resolution modes, shipping, and restocking fee.
-     */
-    "revision": ReturnPolicyRevisionRequest;
-};
-/** The request body for: Publish return policy revision. */
-export type PublishReturnPolicyRevisionRequestInput = {
-    /**
-     * Required current version of the Return policy. A stale value returns VERSION_CONFLICT.
-     * Publishing increments the policy version. Format: int64. minimum: 1.
-     */
-    "expected_version": number;
-    /**
-     * The revision with the complete rules. A field you leave out doesn't carry over from the
-     * previous revision. The rules for a return policy revision: scope, eligibility, return
-     * window, approval and resolution modes, shipping, and restocking fee.
-     */
-    "revision": ReturnPolicyRevisionRequestInput;
-};
-export type PublishReturnPolicyRevisionResponse = GetReturnPolicyResponse;
-/**
- * A gift card issued for one unit of a purchased order line item, with its last four code
- * characters and any card it replaced.
- */
-export type PurchasedGiftCard = {
-    /**
-     * ID of the gift card issued for the purchased unit. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "gift_card_id": string;
-    /** Last four characters of the card's current code. */
-    "last4": string;
-    /**
-     * ID of the card that this card replaces. Set when restoring reversed value needed a
-     * replacement card. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
-     */
-    "original_gift_card_id"?: string;
-    /**
-     * What restored the reversed value onto a replacement card. Value enum: "manual_recollection",
-     * "processor_recollection".
-     */
-    "restoration_reason"?: "manual_recollection" | "processor_recollection" | (string & {});
-    /**
-     * Which unit of the line item's quantity this card was issued for, starting at 1. Format:
-     * int64. minimum: 1.
-     */
-    "unit_ordinal": number;
-};
-/** A net unit price that applies when one catalog line reaches minimum_quantity. */
-export type QuantityPriceBreak = {
-    /**
-     * Minimum whole-number quantity on one line for this price to apply; fractional quantities are
-     * not supported. Must strictly increase between entries. Format: int64. minimum: 2.
-     */
-    "minimum_quantity": number;
-    /**
-     * Net unit price in the base unit price's currency. Must be greater than zero and below the
-     * preceding price, starting with the base unit price. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValue;
-};
-/** A net unit price that applies when one catalog line reaches minimum_quantity. */
-export type QuantityPriceBreakRequestInput = {
-    /**
-     * Minimum whole-number quantity on one line for this price to apply; fractional quantities are
-     * not supported. Must strictly increase between entries. Format: int64. minimum: 2.
-     */
-    "minimum_quantity": number;
-    /**
-     * Net unit price in the base unit price's currency. Must be greater than zero and below the
-     * preceding price, starting with the base unit price. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_money": MoneyValueInput;
-};
-/**
- * Storage usage and limits for a resource, returned in the error details when an image quota is
- * exhausted.
- */
-export type QuotaDetails = {
-    /** Maximum bytes available for the resource in the authenticated scope. Format: int64. */
-    "limit_bytes": number;
-    /**
-     * RFC 3339 time when the next ready unattached image becomes eligible for cleanup, when known.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "next_expiration_at"?: string;
-    /** Stored bytes held by completed images that are not attached to a resource. Format: int64. */
-    "ready_unattached_bytes": number;
-    /** Bytes reserved by in-progress resource mutations. Format: int64. */
-    "reserved_bytes": number;
-    /** Stable resource name whose quota was exhausted. */
-    "resource": string;
-    /** Bytes currently stored for the resource in the authenticated scope. Format: int64. */
-    "used_bytes": number;
-};
-/**
- * A step that moves a merchant capability or readiness axis forward, with the party that must do
- * it (`owner`) and any required fields.
- */
-export type ReadinessAction = {
-    /**
-     * The kind of step to take. Each value says what the step is and who carries it out. Value
-     * enum: "advance_onboarding", "create_api_key", "create_merchant_account_session",
-     * "wait_for_review", "settle_flint_balance", "set_tax_category", "contact_support", "other".
-     */
-    "action_type": "advance_onboarding"
-        | "create_api_key"
-        | "create_merchant_account_session"
-        | "wait_for_review"
-        | "settle_flint_balance"
-        | "set_tax_category"
-        | "contact_support"
-        | "other"
-        | (string & {});
-    /**
-     * Request body for `POST /v1/merchant-account-sessions`, on a
-     * `create_merchant_account_session` action. Send it unchanged. Shared request body for
-     * `create_merchant_account_session` next actions in readiness, onboarding, errors, and
-     * warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection
-     * policy describe which requirements to collect.
-     */
-    "merchant_account_session"?: ReadinessMerchantAccountSession;
-    /** Who has to act on this step. Value enum: "integrator", "merchant", "flint". */
-    "owner": "integrator" | "merchant" | "flint" | (string & {});
-    /**
-     * Paths in the action's target request body, using dotted JSON paths from the request root.
-     * For advance_onboarding, profile fields use profile.website_url, profile.support_email,
-     * profile.support_phone and profile.support_url. Top-level inputs such as country,
-     * requested_capabilities and name stay bare. [] (Value): string.
-     */
-    "required_fields"?: Array<string>;
-};
-/**
- * Readiness for one area of a merchant account, with its `status`, the reason for it, and the
- * actions that would advance it.
- */
-export type ReadinessAxis = {
-    /**
-     * Steps that move this area toward `ready`. Empty when there is nothing to do. [] (Value):
-     * {@link ReadinessAction}. A step that moves a merchant capability or readiness axis forward,
-     * with the party that must do it (`owner`) and any required fields.
-     */
-    "next_actions": Array<ReadinessAction>;
-    /**
-     * Whether this area works now. `status_reason` says why when the status is neither `ready` nor
-     * `not_requested`. Value enum: "ready", "pending", "blocked", "not_requested",
-     * "not_available".
-     */
-    "status": "ready" | "pending" | "blocked" | "not_requested" | "not_available" | (string & {});
-    /**
-     * Why readiness has its current status. MERCHANT_NOT_READY uses onboarding_required for
-     * onboarding_not_started, requirements_due, requirements_past_due and pending_verification,
-     * and platform_review for Flint's own review. `null` when no reason applies. Value enum:
-     * "provisioning", "onboarding_not_started", "requirements_due", "requirements_past_due",
-     * "pending_verification", "account_rejected", "disabled_by_platform_policy",
-     * "billing_suspended", "platform_review", "processing_not_enabled",
-     * "platform_funding_unavailable", "tax_category_required", "service_unavailable",
-     * "payment_option_access_not_provisioned", "payment_option_activation_pending",
-     * "payment_option_not_in_plan", "payment_option_not_available", "capability_not_active",
-     * "other".
-     */
-    "status_reason"?: "provisioning"
-        | "onboarding_not_started"
-        | "requirements_due"
-        | "requirements_past_due"
-        | "pending_verification"
-        | "account_rejected"
-        | "disabled_by_platform_policy"
-        | "billing_suspended"
-        | "platform_review"
-        | "processing_not_enabled"
-        | "platform_funding_unavailable"
-        | "tax_category_required"
-        | "service_unavailable"
-        | "payment_option_access_not_provisioned"
-        | "payment_option_activation_pending"
-        | "payment_option_not_in_plan"
-        | "payment_option_not_available"
-        | "capability_not_active"
-        | "other"
-        | (string & {});
-};
-/**
- * Shared request body for `create_merchant_account_session` next actions in readiness, onboarding,
- * errors, and warnings. Send unchanged to POST /v1/merchant-account-sessions; components and
- * collection policy describe which requirements to collect.
- */
-export type ReadinessMerchantAccountSession = {
-    /**
-     * How onboarding collects requirements. upfront asks for everything the account will
-     * eventually need; incremental asks only for what is currently due. Value enum: "upfront",
-     * "incremental".
-     */
-    "collection_strategy": "upfront" | "incremental" | (string & {});
-    /**
-     * Flint components to request. Send this list as components in POST
-     * /v1/merchant-account-sessions. [] enum: "account_onboarding", "account_management",
-     * "payouts", "balances", "tax_documents", "notification_banner", "payments". [] (Value):
-     * string. Value enum: "account_onboarding", "account_management", "payouts", "balances",
-     * "tax_documents", "notification_banner", "payments".
-     */
-    "components": Array<"account_onboarding"
-        | "account_management"
-        | "payouts"
-        | "balances"
-        | "tax_documents"
-        | "notification_banner"
-        | "payments"
-        | (string & {})>;
-    /**
-     * Whether onboarding also collects requirements the processor has scheduled for a future date.
-     * include collects them now; omit leaves them until they are due. Value enum: "omit",
-     * "include".
-     */
-    "future_requirements": "omit" | "include" | (string & {});
-    /**
-     * Flint requirement codes. New codes can appear; treat an unknown code as
-     * additional_account_information. [] enum: "additional_account_information",
-     * "business_address", "business_description", "business_directors", "business_executives",
-     * "business_name", "business_owners", "business_phone", "business_support_phone",
-     * "business_support_url", "business_tax_id", "business_verification_document",
-     * "business_website", "merchant_category_code", "owner_address",
-     * "owner_additional_identity_document", "owner_date_of_birth", "owner_first_name",
-     * "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four". [] (Value): string. Value enum:
-     * "additional_account_information", "business_address", "business_description",
-     * "business_directors", "business_executives", "business_name", "business_owners",
-     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
-     * "business_verification_document", "business_website", "merchant_category_code",
-     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
-     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four".
-     */
-    "targeted_requirements"?: Array<"additional_account_information"
-        | "business_address"
-        | "business_description"
-        | "business_directors"
-        | "business_executives"
-        | "business_name"
-        | "business_owners"
-        | "business_phone"
-        | "business_support_phone"
-        | "business_support_url"
-        | "business_tax_id"
-        | "business_verification_document"
-        | "business_website"
-        | "merchant_category_code"
-        | "owner_address"
-        | "owner_additional_identity_document"
-        | "owner_date_of_birth"
-        | "owner_first_name"
-        | "owner_identity_document"
-        | "owner_last_name"
-        | "owner_tax_id_last_four"
-        | "payout_destination"
-        | "representative_address"
-        | "representative_additional_identity_document"
-        | "representative_date_of_birth"
-        | "representative_email"
-        | "representative_first_name"
-        | "representative_identity_document"
-        | "representative_last_name"
-        | "representative_phone"
-        | "representative_tax_id"
-        | "representative_tax_id_last_four"
-        | (string & {})>;
-};
-/**
- * Account information requirements for a merchant, grouped as currently due, eventually due, past
- * due, and pending verification.
- */
-export type ReadinessRequirements = {
-    /**
-     * Flint requirement codes. New codes can appear; treat an unknown code as
-     * additional_account_information. [] enum: "additional_account_information",
-     * "business_address", "business_description", "business_directors", "business_executives",
-     * "business_name", "business_owners", "business_phone", "business_support_phone",
-     * "business_support_url", "business_tax_id", "business_verification_document",
-     * "business_website", "merchant_category_code", "owner_address",
-     * "owner_additional_identity_document", "owner_date_of_birth", "owner_first_name",
-     * "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four". [] (Value): string. Value enum:
-     * "additional_account_information", "business_address", "business_description",
-     * "business_directors", "business_executives", "business_name", "business_owners",
-     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
-     * "business_verification_document", "business_website", "merchant_category_code",
-     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
-     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four".
-     */
-    "currently_due": Array<"additional_account_information"
-        | "business_address"
-        | "business_description"
-        | "business_directors"
-        | "business_executives"
-        | "business_name"
-        | "business_owners"
-        | "business_phone"
-        | "business_support_phone"
-        | "business_support_url"
-        | "business_tax_id"
-        | "business_verification_document"
-        | "business_website"
-        | "merchant_category_code"
-        | "owner_address"
-        | "owner_additional_identity_document"
-        | "owner_date_of_birth"
-        | "owner_first_name"
-        | "owner_identity_document"
-        | "owner_last_name"
-        | "owner_tax_id_last_four"
-        | "payout_destination"
-        | "representative_address"
-        | "representative_additional_identity_document"
-        | "representative_date_of_birth"
-        | "representative_email"
-        | "representative_first_name"
-        | "representative_identity_document"
-        | "representative_last_name"
-        | "representative_phone"
-        | "representative_tax_id"
-        | "representative_tax_id_last_four"
-        | (string & {})>;
-    /**
-     * Why the account is disabled. Omitted when it isn't. Value enum:
-     * "account_attention_required", "account_paused", "account_rejected",
-     * "account_requirements_due", "account_under_review", "requirements_past_due",
-     * "requirements_pending_verification".
-     */
-    "disabled_reason"?: "account_attention_required"
-        | "account_paused"
-        | "account_rejected"
-        | "account_requirements_due"
-        | "account_under_review"
-        | "requirements_past_due"
-        | "requirements_pending_verification"
-        | (string & {});
-    /**
-     * Time by which the merchant must submit currently due onboarding requirements, as an RFC 3339
-     * UTC timestamp. Omitted when no submission deadline is set. Format: date-time. Example:
+     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
      * "2026-08-02T16:00:00Z".
      */
-    "due_at"?: string;
+    "updated_at"?: string;
     /**
-     * Flint requirement codes. New codes can appear; treat an unknown code as
-     * additional_account_information. [] enum: "additional_account_information",
-     * "business_address", "business_description", "business_directors", "business_executives",
-     * "business_name", "business_owners", "business_phone", "business_support_phone",
-     * "business_support_url", "business_tax_id", "business_verification_document",
-     * "business_website", "merchant_category_code", "owner_address",
-     * "owner_additional_identity_document", "owner_date_of_birth", "owner_first_name",
-     * "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four". [] (Value): string. Value enum:
-     * "additional_account_information", "business_address", "business_description",
-     * "business_directors", "business_executives", "business_name", "business_owners",
-     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
-     * "business_verification_document", "business_website", "merchant_category_code",
-     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
-     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four".
+     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
+     * {@link ProductOptionValue}. One value of a product option, such as a size or color.
      */
-    "eventually_due": Array<"additional_account_information"
-        | "business_address"
-        | "business_description"
-        | "business_directors"
-        | "business_executives"
-        | "business_name"
-        | "business_owners"
-        | "business_phone"
-        | "business_support_phone"
-        | "business_support_url"
-        | "business_tax_id"
-        | "business_verification_document"
-        | "business_website"
-        | "merchant_category_code"
-        | "owner_address"
-        | "owner_additional_identity_document"
-        | "owner_date_of_birth"
-        | "owner_first_name"
-        | "owner_identity_document"
-        | "owner_last_name"
-        | "owner_tax_id_last_four"
-        | "payout_destination"
-        | "representative_address"
-        | "representative_additional_identity_document"
-        | "representative_date_of_birth"
-        | "representative_email"
-        | "representative_first_name"
-        | "representative_identity_document"
-        | "representative_last_name"
-        | "representative_phone"
-        | "representative_tax_id"
-        | "representative_tax_id_last_four"
-        | (string & {})>;
-    /**
-     * Flint requirement codes. New codes can appear; treat an unknown code as
-     * additional_account_information. [] enum: "additional_account_information",
-     * "business_address", "business_description", "business_directors", "business_executives",
-     * "business_name", "business_owners", "business_phone", "business_support_phone",
-     * "business_support_url", "business_tax_id", "business_verification_document",
-     * "business_website", "merchant_category_code", "owner_address",
-     * "owner_additional_identity_document", "owner_date_of_birth", "owner_first_name",
-     * "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four". [] (Value): string. Value enum:
-     * "additional_account_information", "business_address", "business_description",
-     * "business_directors", "business_executives", "business_name", "business_owners",
-     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
-     * "business_verification_document", "business_website", "merchant_category_code",
-     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
-     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four".
-     */
-    "past_due": Array<"additional_account_information"
-        | "business_address"
-        | "business_description"
-        | "business_directors"
-        | "business_executives"
-        | "business_name"
-        | "business_owners"
-        | "business_phone"
-        | "business_support_phone"
-        | "business_support_url"
-        | "business_tax_id"
-        | "business_verification_document"
-        | "business_website"
-        | "merchant_category_code"
-        | "owner_address"
-        | "owner_additional_identity_document"
-        | "owner_date_of_birth"
-        | "owner_first_name"
-        | "owner_identity_document"
-        | "owner_last_name"
-        | "owner_tax_id_last_four"
-        | "payout_destination"
-        | "representative_address"
-        | "representative_additional_identity_document"
-        | "representative_date_of_birth"
-        | "representative_email"
-        | "representative_first_name"
-        | "representative_identity_document"
-        | "representative_last_name"
-        | "representative_phone"
-        | "representative_tax_id"
-        | "representative_tax_id_last_four"
-        | (string & {})>;
-    /**
-     * Flint requirement codes. New codes can appear; treat an unknown code as
-     * additional_account_information. [] enum: "additional_account_information",
-     * "business_address", "business_description", "business_directors", "business_executives",
-     * "business_name", "business_owners", "business_phone", "business_support_phone",
-     * "business_support_url", "business_tax_id", "business_verification_document",
-     * "business_website", "merchant_category_code", "owner_address",
-     * "owner_additional_identity_document", "owner_date_of_birth", "owner_first_name",
-     * "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four". [] (Value): string. Value enum:
-     * "additional_account_information", "business_address", "business_description",
-     * "business_directors", "business_executives", "business_name", "business_owners",
-     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
-     * "business_verification_document", "business_website", "merchant_category_code",
-     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
-     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
-     * "payout_destination", "representative_address",
-     * "representative_additional_identity_document", "representative_date_of_birth",
-     * "representative_email", "representative_first_name", "representative_identity_document",
-     * "representative_last_name", "representative_phone", "representative_tax_id",
-     * "representative_tax_id_last_four".
-     */
-    "pending_verification": Array<"additional_account_information"
-        | "business_address"
-        | "business_description"
-        | "business_directors"
-        | "business_executives"
-        | "business_name"
-        | "business_owners"
-        | "business_phone"
-        | "business_support_phone"
-        | "business_support_url"
-        | "business_tax_id"
-        | "business_verification_document"
-        | "business_website"
-        | "merchant_category_code"
-        | "owner_address"
-        | "owner_additional_identity_document"
-        | "owner_date_of_birth"
-        | "owner_first_name"
-        | "owner_identity_document"
-        | "owner_last_name"
-        | "owner_tax_id_last_four"
-        | "payout_destination"
-        | "representative_address"
-        | "representative_additional_identity_document"
-        | "representative_date_of_birth"
-        | "representative_email"
-        | "representative_first_name"
-        | "representative_identity_document"
-        | "representative_last_name"
-        | "representative_phone"
-        | "representative_tax_id"
-        | "representative_tax_id_last_four"
-        | (string & {})>;
-    /**
-     * Who rejected the account. Present only when `disabled_reason` is `account_rejected`. Value
-     * enum: "flint", "payment_processor".
-     */
-    "rejected_by"?: "flint" | "payment_processor" | (string & {});
+    "values"?: Array<ProductOptionValue>;
 };
-/**
- * Adds in-transit stock to the destination location. Optional condition targets split the received
- * quantity by condition.
- */
-export type ReceiveInventoryTransferRequest = {
-    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
+/** A page of `ProductOption` objects. */
+export type ProductOptionListResponse = {
     /**
-     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
-     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
-     * Transfer line this action changes. minLength: 1. Example:
-     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_received_damaged_quantity (Optional):
-     * integer. Cumulative received quantity classified as damaged. Whole-number quantity;
-     * fractional quantities are not supported. Format: int64. minimum: 0.
-     * [].target_received_quality_control_quantity (Optional): integer. Cumulative received
-     * quantity classified for quality control. Whole-number quantity; fractional quantities are
-     * not supported. Format: int64. minimum: 0. [].target_received_quantity (Required): integer.
-     * Cumulative quantity that should have been received at the destination. Whole-number
-     * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-     * [].target_received_quarantined_quantity (Optional): integer. Cumulative received quantity
-     * classified as quarantined. Whole-number quantity; fractional quantities are not supported.
-     * Format: int64. minimum: 0. [].target_received_sellable_quantity (Optional): integer.
-     * Cumulative received quantity classified as sellable. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. minimum: 0.
+     * The requested product option data. [] (Value): {@link ProductOption}. A choice that defines
+     * a product's variants.
      */
-    "lines": Array<({
-        /**
-         * Transfer line this action changes. minLength: 1. Example:
-         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
-         */
-        "inventory_transfer_line_id": string;
-        /**
-         * Cumulative received quantity classified as damaged. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_received_damaged_quantity"?: number;
-        /**
-         * Cumulative received quantity classified for quality control. Whole-number quantity;
-         * fractional quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_received_quality_control_quantity"?: number;
-        /**
-         * Cumulative quantity that should have been received at the destination. Whole-number
-         * quantity; fractional quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_received_quantity": number;
-        /**
-         * Cumulative received quantity classified as quarantined. Whole-number quantity;
-         * fractional quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_received_quarantined_quantity"?: number;
-        /**
-         * Cumulative received quantity classified as sellable. Whole-number quantity; fractional
-         * quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_received_sellable_quantity"?: number;
-    })>;
+    "data": Array<ProductOption>;
     /**
-     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
-     * received the command as occurred_at and a null source_system. Where and when an inventory
-     * event happened: the source system, external actor, and time.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "provenance"?: InventoryProvenanceRequest;
+    "meta"?: ResponseMeta;
+    /** Token for the next page. Omitted when there are no more results. */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
+     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
+/** A response containing `ProductOption` data. */
+export type ProductOptionResponse = {
+    /** The requested product option data. A choice that defines a product's variants. */
+    "data": ProductOption;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
+     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** One value of a product option, such as a size or color. */
+export type ProductOptionValue = {
+    /**
+     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /**
+     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Stable identifier of the option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
+    "option_value_id": string;
+    /** Display order among the option's values, starting at zero. Format: int32. */
+    "position": number;
+    /**
+     * Option value lifecycle status. Only active values can be newly selected by active variants.
+     * Value enum: "active", "inactive", "archived".
+     */
+    "status"?: "active" | "inactive" | "archived" | (string & {});
+    /**
+     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at"?: string;
+    /** Option value shown to buyers, such as Medium. */
+    "value": string;
+};
+/** The lowest and highest unit prices across a product's variants. */
+export type ProductPriceRange = {
+    /**
+     * Highest unit price among the product's active variants. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money": MoneyValue;
+    /**
+     * Lowest unit price among the product's active variants. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money": MoneyValue;
+};
+/** A response containing `Product` data. */
+export type ProductResponse = {
+    /** The requested product data. An item offered in the merchant's catalog. */
+    "data": Product;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
+     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_variant_count"?: number;
+            "categories": Array<CategoryReference>;
+            "created_at"?: string;
+            "default_variant"?: ProductVariant;
+            "default_variant_id"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale"?: boolean;
+            "matched_variant"?: ProductVariantMatch;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "option_count"?: number;
+            "options": Array<ProductOption>;
+            "price_range"?: ProductPriceRange;
+            "product_id": string;
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "variant_count"?: number;
+            "variants"?: Array<ProductVariant>;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Product>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "product.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_variant_count"?: number;
+            "categories": Array<CategoryReference>;
+            "created_at"?: string;
+            "default_variant"?: ProductVariant;
+            "default_variant_id"?: string;
+            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
+            "description"?: string;
+            "external_reference_id"?: string;
+            "images": Array<ImageAttachment>;
+            "is_available_for_sale"?: boolean;
+            "matched_variant"?: ProductVariantMatch;
+            "merchant_id"?: string;
+            "metadata"?: MetadataMap;
+            "modifier_set"?: ((ModifierSet) | (null));
+            "modifier_set_id": string | null;
+            "name": string;
+            "option_count"?: number;
+            "options": Array<ProductOption>;
+            "price_range"?: ProductPriceRange;
+            "product_id": string;
+            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+            "status": "active" | "inactive" | "archived" | (string & {});
+            "updated_at"?: string;
+            "variant_count"?: number;
+            "variants"?: Array<ProductVariant>;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Product>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "product.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "product.updated";
+});

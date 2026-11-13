@@ -8,7 +8,7 @@ namespace Flint;
 final class PendingPaymentActionSubjectInput extends Model {
     /** @param array{'payment_intent'?: PendingPaymentActionPaymentIntentSubjectInput|array<array-key, mixed>|\stdClass, 'setup_payment_source'?: PendingPaymentActionSetupPaymentSourceSubjectInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentActionSubjectInput')); }
-    /** PaymentIntent that requires buyer authentication. It can be a standalone intent or an order-owned payment leg. The payment intent that needs buyer authentication in a pending payment action.
+    /** PaymentIntent that requires buyer authentication or card presentment. It can be a standalone intent or an order-owned payment leg. The payment intent that needs buyer authentication in a pending payment action.
      * @return PendingPaymentActionPaymentIntentSubjectInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_intent is omitted; use hasPaymentIntent() or valueOrDefault().
      */

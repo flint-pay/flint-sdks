@@ -1,11 +1,10 @@
-import { d5796 as c0, d5797 as c1, d5798 as c3 } from '../descriptors/data/254.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5824 as c2, d5825 as c4, d5826 as c5 } from '../descriptors/data/256.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5799 as c6, d5800 as c7 } from '../descriptors/data/255.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5797 as d5797 } from '../descriptors/data/254.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d6498 as c0, d6499 as c1 } from '../descriptors/data/296.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6504 as c2, d6500 as c3, d6505 as c4, d6506 as c5, d6501 as c6, d6502 as c7 } from '../descriptors/data/297.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6499 as d6499 } from '../descriptors/data/296.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5797;
+const read = d6499;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DeliveryAddressRequest"]:c0(),["DeliveryBuyerLocationRequest"]:c1(),["DeliveryCoordinateRequest"]:c2(),["SharedCodec456"]:c3(),["SharedCodec457"]:c4(),["SharedCodec458"]:c5(),["SharedCodec459"]:c6(),["SharedCodec460"]:c7()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DeliveryAddressRequest"]:c0(),["DeliveryBuyerLocationRequest"]:c1(),["DeliveryCoordinateRequest"]:c2(),["SharedCodec504"]:c3(),["SharedCodec505"]:c4(),["SharedCodec506"]:c5(),["SharedCodec507"]:c6(),["SharedCodec508"]:c7()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeDeliveryBuyerLocationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

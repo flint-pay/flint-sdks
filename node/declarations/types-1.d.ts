@@ -1,9 +1,16 @@
-import type { MoneyValue, MoneyMovementListMeta, ModifierSet } from './types-37.js';
-import type { ExpandedOrderSummary } from './types-23.js';
-import type { ResourceReference, ResponseMeta } from './types-51.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-36.js';
-import type { PartnerWebhookEnvelope } from './types-42.js';
+import type { APIKeyAuthContext } from './types-0.js';
+import type { CLILoginAuthContext } from './types-4.js';
+import type { OnboardingSessionAuthContext } from './types-39.js';
+import type { PartnerAppAuthContext } from './types-43.js';
+import type { WorkloadIdentityAuthContext } from './types-69.js';
 import type { InputValue } from '../runtime.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { ResponseMeta, ResourceReference, ResolvePaymentLinkResponse } from './types-54.js';
+import type { Credentials } from './types-14.js';
+import type { MoneyValue, MoneyMovementListMeta, ModifierSet } from './types-38.js';
+import type { ExpandedOrderSummary } from './types-24.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
 import type {
     CategoryReference,
     CheckoutBuyerContact,
@@ -20,9 +27,9 @@ import type {
     CheckoutRedirects
 } from './types-5.js';
 import type { ImageAttachment, Image } from './types-27.js';
-import type { SelectedProductOption } from './types-56.js';
+import type { SelectedProductOption } from './types-59.js';
 import type { CreateBundleRequestInput } from './types-7.js';
-import type { UpdateBundleRequestInput } from './types-63.js';
+import type { UpdateBundleRequestInput } from './types-66.js';
 import type {
     BuyerPauseActionOptions,
     BuyerPayBalanceActionOptions,
@@ -30,23 +37,119 @@ import type {
     BuyerPauseCapabilityInput,
     BuyerErrorRemediation,
     BuyerOrderPaymentAttempt,
-    BuyerPaymentCollection
+    BuyerPaymentCollection,
+    BuyerCreateReturnResolutionPreviewRequest,
+    BuyerCreateReturnResolutionPreviewRequestInput
 } from './types-2.js';
 import type {
+    BuyerRetryPaymentActionOptions,
     BuyerRetentionOffer,
     BuyerSkipCapability,
     BuyerRetentionOfferRequestInput,
     BuyerSkipCapabilityInput,
-    BuyerReturnReplacementLineItemRequest,
-    BuyerReturnReplacementLineItemRequestInput
+    BuyerSetupCollection
 } from './types-3.js';
 import type { CheckoutSessionTax, CheckoutSubscriptionTerms, CheckoutTheme, CheckoutTipConfig } from './types-6.js';
 import type { LegalSettings } from './types-34.js';
-import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-11.js';
-import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-52.js';
-import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-54.js';
-import type { CreditNoteLineItem } from './types-13.js';
-import type { TaxCurrencyConversion, TaxIdentity } from './types-61.js';
+import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-12.js';
+import type { ReturnLineItemRequest } from './types-55.js';
+/** Non-secret metadata for the calling credential, selected by auth_type. */
+export type AuthContext = ({
+    /**
+     * Access level; scoped tokens always have restricted access. Value enum: "full", "read_only",
+     * "restricted".
+     */
+    "access"?: "full" | "read_only" | "restricted" | (string & {});
+    /** ID of the API key. Example: "key_01KEZF7C008CTC2G5V6J08M6S7". */
+    "api_key_id"?: string;
+    /**
+     * Credential type that selects this object's fields. Value enum: "api_key", "cli_login",
+     * "workload_identity", "partner_app", "onboarding_session".
+     */
+    "auth_type": "api_key" | "cli_login" | "workload_identity" | "partner_app" | "onboarding_session" | (string & {});
+    /** Whether the onboarding user's role permits managing API keys. */
+    "can_manage_api_keys"?: boolean;
+    /**
+     * ID of the selected CLI context. Example:
+     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     */
+    "context_id"?: string;
+    /**
+     * Time the credential expires; absent for keys without an expiry. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string;
+    /**
+     * Time fresh identity verification expires; it may be in the past. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "fresh_verification_expires_at"?: string;
+    /** Merchant the credential acts for. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /** Whether the credential acts in test or live mode. Value enum: "test", "live". */
+    "mode": "test" | "live" | (string & {});
+    /** Name of the key, CLI context, or workload identity. */
+    "name"?: string;
+    /** ID of the CLI login grant. Example: "clg_01KEZF7C00F8Q8XM1TZ6Y1GB31". */
+    "oauth_grant_id"?: string;
+    /**
+     * ID of the CLI session. Example:
+     * "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".
+     */
+    "oauth_session_id"?: string;
+    /**
+     * Organization selected by the key's access scope, when available. Example:
+     * "org_01KEZF7C00EA57F19C2ZFWA7HJ".
+     */
+    "organization_id"?: string;
+    /** ID of the partner app. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id"?: string;
+    /**
+     * ID of the partner app install. Null when the API key is not linked to an install. Example:
+     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id"?: string | null;
+    /**
+     * Sandbox the credential is bound to, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id"?: string;
+    /**
+     * Current granted API scopes, resolved at request time for full and read_only keys. []
+     * (Value): string.
+     */
+    "scopes"?: Array<string>;
+    /** User the session acts for. Example: "usr_01KEZF7C00YC8757ZYP9727JM0". */
+    "user_id"?: string;
+    /** ID of the workload identity. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP". */
+    "workload_identity_id"?: string;
+})
+    & ((Exclude<APIKeyAuthContext & object, readonly unknown[]>)
+    | (Exclude<CLILoginAuthContext & object, readonly unknown[]>)
+    | (Exclude<WorkloadIdentityAuthContext & object, readonly unknown[]>)
+    | (Exclude<PartnerAppAuthContext & object, readonly unknown[]>)
+    | (Exclude<OnboardingSessionAuthContext & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+export type AuthContextGetParams = DisputesAcceptParams;
+/** A response containing `AuthContext` data. */
+export type AuthContextResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Non-secret metadata for
+     * the calling credential, selected by auth_type.
+     */
+    "data": AuthContext;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type AuthMode = keyof Credentials;
 /** Backorder settings shared by every variant using an inventory item. */
 export type BackorderPolicy = {
     /** Whether this inventory item allows backorders. */
@@ -169,11 +272,12 @@ export type BalanceTransaction = {
     "description"?: string;
     /**
      * Fee deducted from this balance movement. On payments, this is processing_fee_money plus
-     * every add-on fee in add_on_fees. On disputes and dispute reversals, this includes the
-     * processor's dispute fee charged to your balance or actually returned to it. Charges are
-     * positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount
-     * of -5700. A won dispute does not by itself return the fee. Signed monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
+     * every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app charged a
+     * platform fee; the payment intent carries the breakdown. On disputes and dispute reversals,
+     * this includes the processor's dispute fee charged to your balance or actually returned to
+     * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500
+     * has a net amount of -5700. A won dispute does not by itself return the fee. Signed monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "fee_money": MoneyValue;
     /** Merchant whose balance this transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
@@ -213,9 +317,9 @@ export type BalanceTransaction = {
      */
     "related_balance_transaction_ids": Array<string>;
     /**
-     * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
-     * payout_destination, or merchant_billing_invoice. Absent when the movement has none. A
-     * reference to another resource by `resource_type` and `resource_id`.
+     * The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute,
+     * payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when
+     * the movement has none. A reference to another resource by `resource_type` and `resource_id`.
      */
     "related_resource"?: ResourceReference;
     /**
@@ -229,7 +333,11 @@ export type BalanceTransaction = {
      * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
      * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
      * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     * "merchant_billing_collection", "merchant_billing_collection_reversal",
+     * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+     * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+     * "payment_split_failure", "seller_shortfall_coverage", "seller_shortfall_coverage_reversal",
+     * "other".
      */
     "type": "payment"
         | "refund"
@@ -248,6 +356,15 @@ export type BalanceTransaction = {
         | "adjustment"
         | "merchant_billing_collection"
         | "merchant_billing_collection_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal"
+        | "payment_split"
+        | "payment_split_reversal"
+        | "payment_split_reinstatement"
+        | "payment_split_failure"
+        | "seller_shortfall_coverage"
+        | "seller_shortfall_coverage_reversal"
         | "other"
         | (string & {});
 };
@@ -287,6 +404,15 @@ export type BalanceTransactionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope
                 | "adjustment"
                 | "merchant_billing_collection"
                 | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
                 | "other"
                 | (string & {});
         };
@@ -330,6 +456,15 @@ export type BalanceTransactionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope
                 | "adjustment"
                 | "merchant_billing_collection"
                 | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
                 | "other"
                 | (string & {});
         };
@@ -366,22 +501,23 @@ export type BalanceTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
      * Example: "USD". object.description (Optional): string. Short text describing the movement,
      * from Flint or your processor. Use it for display, not for matching. object.fee_money
      * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments, this
-     * is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute
-     * reversals, this includes the processor's dispute fee charged to your balance or actually
-     * returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a
-     * fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.merchant_id (Required): string. Merchant whose balance this transaction moved.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required): {@link MoneyValue}.
-     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.occurred_at (Required): string. When the balance movement happened. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link
-     * ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when
-     * expanded and the transaction has no order_id. Present only when `expand` includes `order`;
-     * `null` when expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money
+     * when a partner app charged a platform fee; the payment intent carries the breakdown. On
+     * disputes and dispute reversals, this includes the processor's dispute fee charged to your
+     * balance or actually returned to it. Charges are positive; returned fees are negative. A
+     * dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by
+     * itself return the fee. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.merchant_id (Required): string. Merchant whose balance this
+     * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required):
+     * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus fee_money in
+     * the same currency. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.occurred_at (Required): string. When the balance movement
+     * happened. Format: date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional):
+     * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null
+     * when expanded and the transaction has no order_id. Present only when `expand` includes
+     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
      * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. The Flint order
      * this movement relates to, such as the order a payment was for. Absent when the movement
      * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payout_id
@@ -395,17 +531,21 @@ export type BalanceTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
      * merchant_billing_collection_reversal reverses. Empty when there are none.
      * object.related_balance_transaction_ids[] (Value): string. Example:
      * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.related_resource (Optional): {@link
-     * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
-     * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement
-     * has none. A reference to another resource by `resource_type` and `resource_id`.
-     * object.status (Required): string. Whether the funds can be paid out yet: pending until they
-     * become available, then available. Only these two values appear, and the change to available
-     * sends balance_transaction.updated. Value enum: "pending", "available". object.type
-     * (Required): string. Kind of balance movement. Unmapped movement types are returned as other.
-     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
-     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
-     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+     * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+     * platform_fee_payout. Absent when the movement has none. A reference to another resource by
+     * `resource_type` and `resource_id`. object.status (Required): string. Whether the funds can
+     * be paid out yet: pending until they become available, then available. Only these two values
+     * appear, and the change to available sends balance_transaction.updated. Value enum:
+     * "pending", "available". object.type (Required): string. Kind of balance movement. Unmapped
+     * movement types are returned as other. Value enum: "payment", "refund", "dispute",
+     * "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation",
+     * "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold",
+     * "reserve_release", "adjustment", "merchant_billing_collection",
+     * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+     * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+     * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+     * "seller_shortfall_coverage_reversal", "other".
      */
     "data"?: {
         /**
@@ -421,47 +561,52 @@ export type BalanceTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
          * ^[A-Z]{3}$. Example: "USD". description (Optional): string. Short text describing the
          * movement, from Flint or your processor. Use it for display, not for matching. fee_money
          * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments,
-         * this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and
-         * dispute reversals, this includes the processor's dispute fee charged to your balance or
-         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
-         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
-         * return the fee. Signed monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. merchant_id (Required): string. Merchant whose balance this
-         * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required):
-         * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
-         * fee_money in the same currency. Signed monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. occurred_at (Required): string. When the balance
-         * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". order (Optional):
-         * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
-         * null when expanded and the transaction has no order_id. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
-         * payment and refund status, and pricing and settlement amounts, returned when the order
-         * is expanded. order.anyOf[2] (Value): null. order_id (Optional): string. The Flint order
-         * this movement relates to, such as the order a payment was for. Absent when the movement
-         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional):
-         * string. The payout that carried this balance transaction to your bank. Set once, when
-         * that payout's contents are prepared, and never changed afterward, including if the
-         * payout later fails or is reversed. Absent until then, and on transactions no payout
-         * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids
-         * (Required): Array of string. Earlier balance transactions this one is linked to,
-         * including the exact payment principal a refund returns, the payout transaction that a
-         * payout_failure, payout_cancellation, or payout_reversal returns, or the collection a
+         * this is processing_fee_money plus every add-on fee in add_on_fees plus
+         * platform_fee.amount_money when a partner app charged a platform fee; the payment intent
+         * carries the breakdown. On disputes and dispute reversals, this includes the processor's
+         * dispute fee charged to your balance or actually returned to it. Charges are positive;
+         * returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of
+         * -5700. A won dispute does not by itself return the fee. Signed monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. merchant_id
+         * (Required): string. Merchant whose balance this transaction moved. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required): {@link MoneyValue}. Signed net
+         * effect on your Flint balance: amount_money minus fee_money in the same currency. Signed
+         * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * occurred_at (Required): string. When the balance movement happened. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". order (Optional): {@link ExpandedOrderSummary} or null.
+         * The order, inlined when you request expand=order. null when expanded and the transaction
+         * has no order_id. Present only when `expand` includes `order`; `null` when expanded and
+         * there is no related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+         * order's summary fields, including status, payment and refund status, and pricing and
+         * settlement amounts, returned when the order is expanded. order.anyOf[2] (Value): null.
+         * order_id (Optional): string. The Flint order this movement relates to, such as the order
+         * a payment was for. Absent when the movement isn't tied to an order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional): string. The payout that carried
+         * this balance transaction to your bank. Set once, when that payout's contents are
+         * prepared, and never changed afterward, including if the payout later fails or is
+         * reversed. Absent until then, and on transactions no payout carries. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids (Required): Array of
+         * string. Earlier balance transactions this one is linked to, including the exact payment
+         * principal a refund returns, the payout transaction that a payout_failure,
+         * payout_cancellation, or payout_reversal returns, or the collection a
          * merchant_billing_collection_reversal reverses. Empty when there are none.
          * related_balance_transaction_ids[] (Value): string. Example:
          * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_resource (Optional): {@link
-         * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
-         * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the
-         * movement has none. A reference to another resource by `resource_type` and `resource_id`.
-         * status (Required): string. Whether the funds can be paid out yet: pending until they
-         * become available, then available. Only these two values appear, and the change to
-         * available sends balance_transaction.updated. Value enum: "pending", "available". type
-         * (Required): string. Kind of balance movement. Unmapped movement types are returned as
-         * other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
-         * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
-         * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release",
-         * "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal",
-         * "other".
+         * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+         * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+         * platform_fee_payout. Absent when the movement has none. A reference to another resource
+         * by `resource_type` and `resource_id`. status (Required): string. Whether the funds can
+         * be paid out yet: pending until they become available, then available. Only these two
+         * values appear, and the change to available sends balance_transaction.updated. Value
+         * enum: "pending", "available". type (Required): string. Kind of balance movement.
+         * Unmapped movement types are returned as other. Value enum: "payment", "refund",
+         * "dispute", "dispute_reversal", "return", "recovery", "payout", "payout_failure",
+         * "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding",
+         * "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection",
+         * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+         * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+         * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+         * "seller_shortfall_coverage_reversal", "other".
          */
         "object": {
             /**
@@ -492,12 +637,13 @@ export type BalanceTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
             "description"?: string;
             /**
              * Fee deducted from this balance movement. On payments, this is processing_fee_money
-             * plus every add-on fee in add_on_fees. On disputes and dispute reversals, this
-             * includes the processor's dispute fee charged to your balance or actually returned to
-             * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee
-             * of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
-             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
-             * code.
+             * plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner
+             * app charged a platform fee; the payment intent carries the breakdown. On disputes
+             * and dispute reversals, this includes the processor's dispute fee charged to your
+             * balance or actually returned to it. Charges are positive; returned fees are
+             * negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won
+             * dispute does not by itself return the fee. Signed monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
              */
             "fee_money": MoneyValue;
             /**
@@ -547,9 +693,10 @@ export type BalanceTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "related_balance_transaction_ids": Array<string>;
             /**
-             * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
-             * payout_destination, or merchant_billing_invoice. Absent when the movement has none.
-             * A reference to another resource by `resource_type` and `resource_id`.
+             * The Flint resource behind this movement: a payment_intent, payment_split, refund,
+             * dispute, payout, payout_destination, merchant_billing_invoice, or
+             * platform_fee_payout. Absent when the movement has none. A reference to another
+             * resource by `resource_type` and `resource_id`.
              */
             "related_resource"?: ResourceReference;
             /**
@@ -563,7 +710,11 @@ export type BalanceTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
              * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
              * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
              * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-             * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+             * "merchant_billing_collection", "merchant_billing_collection_reversal",
+             * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+             * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+             * "payment_split_failure", "seller_shortfall_coverage",
+             * "seller_shortfall_coverage_reversal", "other".
              */
             "type": "payment"
                 | "refund"
@@ -582,6 +733,15 @@ export type BalanceTransactionCreatedInstalledMerchantsEvent = (Exclude<PartnerW
                 | "adjustment"
                 | "merchant_billing_collection"
                 | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
                 | "other"
                 | (string & {});
         };
@@ -644,22 +804,23 @@ export type BalanceTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * Example: "USD". object.description (Optional): string. Short text describing the movement,
      * from Flint or your processor. Use it for display, not for matching. object.fee_money
      * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments, this
-     * is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute
-     * reversals, this includes the processor's dispute fee charged to your balance or actually
-     * returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a
-     * fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.merchant_id (Required): string. Merchant whose balance this transaction moved.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required): {@link MoneyValue}.
-     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.occurred_at (Required): string. When the balance movement happened. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link
-     * ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when
-     * expanded and the transaction has no order_id. Present only when `expand` includes `order`;
-     * `null` when expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money
+     * when a partner app charged a platform fee; the payment intent carries the breakdown. On
+     * disputes and dispute reversals, this includes the processor's dispute fee charged to your
+     * balance or actually returned to it. Charges are positive; returned fees are negative. A
+     * dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by
+     * itself return the fee. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.merchant_id (Required): string. Merchant whose balance this
+     * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required):
+     * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus fee_money in
+     * the same currency. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.occurred_at (Required): string. When the balance movement
+     * happened. Format: date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional):
+     * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null
+     * when expanded and the transaction has no order_id. Present only when `expand` includes
+     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
      * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. The Flint order
      * this movement relates to, such as the order a payment was for. Absent when the movement
      * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payout_id
@@ -673,17 +834,21 @@ export type BalanceTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * merchant_billing_collection_reversal reverses. Empty when there are none.
      * object.related_balance_transaction_ids[] (Value): string. Example:
      * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.related_resource (Optional): {@link
-     * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
-     * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement
-     * has none. A reference to another resource by `resource_type` and `resource_id`.
-     * object.status (Required): string. Whether the funds can be paid out yet: pending until they
-     * become available, then available. Only these two values appear, and the change to available
-     * sends balance_transaction.updated. Value enum: "pending", "available". object.type
-     * (Required): string. Kind of balance movement. Unmapped movement types are returned as other.
-     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
-     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
-     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+     * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+     * platform_fee_payout. Absent when the movement has none. A reference to another resource by
+     * `resource_type` and `resource_id`. object.status (Required): string. Whether the funds can
+     * be paid out yet: pending until they become available, then available. Only these two values
+     * appear, and the change to available sends balance_transaction.updated. Value enum:
+     * "pending", "available". object.type (Required): string. Kind of balance movement. Unmapped
+     * movement types are returned as other. Value enum: "payment", "refund", "dispute",
+     * "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation",
+     * "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold",
+     * "reserve_release", "adjustment", "merchant_billing_collection",
+     * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+     * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+     * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+     * "seller_shortfall_coverage_reversal", "other".
      */
     "data"?: {
         /**
@@ -699,47 +864,52 @@ export type BalanceTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * ^[A-Z]{3}$. Example: "USD". description (Optional): string. Short text describing the
          * movement, from Flint or your processor. Use it for display, not for matching. fee_money
          * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments,
-         * this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and
-         * dispute reversals, this includes the processor's dispute fee charged to your balance or
-         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
-         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
-         * return the fee. Signed monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. merchant_id (Required): string. Merchant whose balance this
-         * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required):
-         * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
-         * fee_money in the same currency. Signed monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. occurred_at (Required): string. When the balance
-         * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". order (Optional):
-         * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
-         * null when expanded and the transaction has no order_id. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
-         * payment and refund status, and pricing and settlement amounts, returned when the order
-         * is expanded. order.anyOf[2] (Value): null. order_id (Optional): string. The Flint order
-         * this movement relates to, such as the order a payment was for. Absent when the movement
-         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional):
-         * string. The payout that carried this balance transaction to your bank. Set once, when
-         * that payout's contents are prepared, and never changed afterward, including if the
-         * payout later fails or is reversed. Absent until then, and on transactions no payout
-         * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids
-         * (Required): Array of string. Earlier balance transactions this one is linked to,
-         * including the exact payment principal a refund returns, the payout transaction that a
-         * payout_failure, payout_cancellation, or payout_reversal returns, or the collection a
+         * this is processing_fee_money plus every add-on fee in add_on_fees plus
+         * platform_fee.amount_money when a partner app charged a platform fee; the payment intent
+         * carries the breakdown. On disputes and dispute reversals, this includes the processor's
+         * dispute fee charged to your balance or actually returned to it. Charges are positive;
+         * returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of
+         * -5700. A won dispute does not by itself return the fee. Signed monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. merchant_id
+         * (Required): string. Merchant whose balance this transaction moved. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required): {@link MoneyValue}. Signed net
+         * effect on your Flint balance: amount_money minus fee_money in the same currency. Signed
+         * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * occurred_at (Required): string. When the balance movement happened. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". order (Optional): {@link ExpandedOrderSummary} or null.
+         * The order, inlined when you request expand=order. null when expanded and the transaction
+         * has no order_id. Present only when `expand` includes `order`; `null` when expanded and
+         * there is no related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+         * order's summary fields, including status, payment and refund status, and pricing and
+         * settlement amounts, returned when the order is expanded. order.anyOf[2] (Value): null.
+         * order_id (Optional): string. The Flint order this movement relates to, such as the order
+         * a payment was for. Absent when the movement isn't tied to an order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional): string. The payout that carried
+         * this balance transaction to your bank. Set once, when that payout's contents are
+         * prepared, and never changed afterward, including if the payout later fails or is
+         * reversed. Absent until then, and on transactions no payout carries. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids (Required): Array of
+         * string. Earlier balance transactions this one is linked to, including the exact payment
+         * principal a refund returns, the payout transaction that a payout_failure,
+         * payout_cancellation, or payout_reversal returns, or the collection a
          * merchant_billing_collection_reversal reverses. Empty when there are none.
          * related_balance_transaction_ids[] (Value): string. Example:
          * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_resource (Optional): {@link
-         * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
-         * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the
-         * movement has none. A reference to another resource by `resource_type` and `resource_id`.
-         * status (Required): string. Whether the funds can be paid out yet: pending until they
-         * become available, then available. Only these two values appear, and the change to
-         * available sends balance_transaction.updated. Value enum: "pending", "available". type
-         * (Required): string. Kind of balance movement. Unmapped movement types are returned as
-         * other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
-         * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
-         * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release",
-         * "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal",
-         * "other".
+         * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+         * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+         * platform_fee_payout. Absent when the movement has none. A reference to another resource
+         * by `resource_type` and `resource_id`. status (Required): string. Whether the funds can
+         * be paid out yet: pending until they become available, then available. Only these two
+         * values appear, and the change to available sends balance_transaction.updated. Value
+         * enum: "pending", "available". type (Required): string. Kind of balance movement.
+         * Unmapped movement types are returned as other. Value enum: "payment", "refund",
+         * "dispute", "dispute_reversal", "return", "recovery", "payout", "payout_failure",
+         * "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding",
+         * "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection",
+         * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+         * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+         * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+         * "seller_shortfall_coverage_reversal", "other".
          */
         "object": {
             /**
@@ -770,12 +940,13 @@ export type BalanceTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
             "description"?: string;
             /**
              * Fee deducted from this balance movement. On payments, this is processing_fee_money
-             * plus every add-on fee in add_on_fees. On disputes and dispute reversals, this
-             * includes the processor's dispute fee charged to your balance or actually returned to
-             * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee
-             * of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
-             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
-             * code.
+             * plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner
+             * app charged a platform fee; the payment intent carries the breakdown. On disputes
+             * and dispute reversals, this includes the processor's dispute fee charged to your
+             * balance or actually returned to it. Charges are positive; returned fees are
+             * negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won
+             * dispute does not by itself return the fee. Signed monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
              */
             "fee_money": MoneyValue;
             /**
@@ -825,9 +996,10 @@ export type BalanceTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "related_balance_transaction_ids": Array<string>;
             /**
-             * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
-             * payout_destination, or merchant_billing_invoice. Absent when the movement has none.
-             * A reference to another resource by `resource_type` and `resource_id`.
+             * The Flint resource behind this movement: a payment_intent, payment_split, refund,
+             * dispute, payout, payout_destination, merchant_billing_invoice, or
+             * platform_fee_payout. Absent when the movement has none. A reference to another
+             * resource by `resource_type` and `resource_id`.
              */
             "related_resource"?: ResourceReference;
             /**
@@ -841,7 +1013,11 @@ export type BalanceTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
              * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
              * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-             * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+             * "merchant_billing_collection", "merchant_billing_collection_reversal",
+             * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+             * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+             * "payment_split_failure", "seller_shortfall_coverage",
+             * "seller_shortfall_coverage_reversal", "other".
              */
             "type": "payment"
                 | "refund"
@@ -860,6 +1036,15 @@ export type BalanceTransactionCreatedMerchantEvent = (Exclude<MerchantWebhookEnv
                 | "adjustment"
                 | "merchant_billing_collection"
                 | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
                 | "other"
                 | (string & {});
         };
@@ -946,6 +1131,15 @@ export type BalanceTransactionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
                 | "adjustment"
                 | "merchant_billing_collection"
                 | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
                 | "other"
                 | (string & {});
         };
@@ -990,6 +1184,15 @@ export type BalanceTransactionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope
                 | "adjustment"
                 | "merchant_billing_collection"
                 | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
                 | "other"
                 | (string & {});
         };
@@ -1027,22 +1230,23 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * Example: "USD". object.description (Optional): string. Short text describing the movement,
      * from Flint or your processor. Use it for display, not for matching. object.fee_money
      * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments, this
-     * is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute
-     * reversals, this includes the processor's dispute fee charged to your balance or actually
-     * returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a
-     * fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.merchant_id (Required): string. Merchant whose balance this transaction moved.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required): {@link MoneyValue}.
-     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.occurred_at (Required): string. When the balance movement happened. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link
-     * ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when
-     * expanded and the transaction has no order_id. Present only when `expand` includes `order`;
-     * `null` when expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money
+     * when a partner app charged a platform fee; the payment intent carries the breakdown. On
+     * disputes and dispute reversals, this includes the processor's dispute fee charged to your
+     * balance or actually returned to it. Charges are positive; returned fees are negative. A
+     * dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by
+     * itself return the fee. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.merchant_id (Required): string. Merchant whose balance this
+     * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required):
+     * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus fee_money in
+     * the same currency. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.occurred_at (Required): string. When the balance movement
+     * happened. Format: date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional):
+     * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null
+     * when expanded and the transaction has no order_id. Present only when `expand` includes
+     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
      * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. The Flint order
      * this movement relates to, such as the order a payment was for. Absent when the movement
      * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payout_id
@@ -1056,21 +1260,25 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
      * merchant_billing_collection_reversal reverses. Empty when there are none.
      * object.related_balance_transaction_ids[] (Value): string. Example:
      * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.related_resource (Optional): {@link
-     * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
-     * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement
-     * has none. A reference to another resource by `resource_type` and `resource_id`.
-     * object.status (Required): string. Whether the funds can be paid out yet: pending until they
-     * become available, then available. Only these two values appear, and the change to available
-     * sends balance_transaction.updated. Value enum: "pending", "available". object.type
-     * (Required): string. Kind of balance movement. Unmapped movement types are returned as other.
-     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
-     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
-     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+     * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+     * platform_fee_payout. Absent when the movement has none. A reference to another resource by
+     * `resource_type` and `resource_id`. object.status (Required): string. Whether the funds can
+     * be paid out yet: pending until they become available, then available. Only these two values
+     * appear, and the change to available sends balance_transaction.updated. Value enum:
+     * "pending", "available". object.type (Required): string. Kind of balance movement. Unmapped
+     * movement types are returned as other. Value enum: "payment", "refund", "dispute",
+     * "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation",
+     * "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold",
+     * "reserve_release", "adjustment", "merchant_billing_collection",
+     * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+     * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+     * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+     * "seller_shortfall_coverage_reversal", "other". previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
@@ -1086,47 +1294,52 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
          * ^[A-Z]{3}$. Example: "USD". description (Optional): string. Short text describing the
          * movement, from Flint or your processor. Use it for display, not for matching. fee_money
          * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments,
-         * this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and
-         * dispute reversals, this includes the processor's dispute fee charged to your balance or
-         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
-         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
-         * return the fee. Signed monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. merchant_id (Required): string. Merchant whose balance this
-         * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required):
-         * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
-         * fee_money in the same currency. Signed monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. occurred_at (Required): string. When the balance
-         * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". order (Optional):
-         * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
-         * null when expanded and the transaction has no order_id. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
-         * payment and refund status, and pricing and settlement amounts, returned when the order
-         * is expanded. order.anyOf[2] (Value): null. order_id (Optional): string. The Flint order
-         * this movement relates to, such as the order a payment was for. Absent when the movement
-         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional):
-         * string. The payout that carried this balance transaction to your bank. Set once, when
-         * that payout's contents are prepared, and never changed afterward, including if the
-         * payout later fails or is reversed. Absent until then, and on transactions no payout
-         * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids
-         * (Required): Array of string. Earlier balance transactions this one is linked to,
-         * including the exact payment principal a refund returns, the payout transaction that a
-         * payout_failure, payout_cancellation, or payout_reversal returns, or the collection a
+         * this is processing_fee_money plus every add-on fee in add_on_fees plus
+         * platform_fee.amount_money when a partner app charged a platform fee; the payment intent
+         * carries the breakdown. On disputes and dispute reversals, this includes the processor's
+         * dispute fee charged to your balance or actually returned to it. Charges are positive;
+         * returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of
+         * -5700. A won dispute does not by itself return the fee. Signed monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. merchant_id
+         * (Required): string. Merchant whose balance this transaction moved. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required): {@link MoneyValue}. Signed net
+         * effect on your Flint balance: amount_money minus fee_money in the same currency. Signed
+         * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * occurred_at (Required): string. When the balance movement happened. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". order (Optional): {@link ExpandedOrderSummary} or null.
+         * The order, inlined when you request expand=order. null when expanded and the transaction
+         * has no order_id. Present only when `expand` includes `order`; `null` when expanded and
+         * there is no related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+         * order's summary fields, including status, payment and refund status, and pricing and
+         * settlement amounts, returned when the order is expanded. order.anyOf[2] (Value): null.
+         * order_id (Optional): string. The Flint order this movement relates to, such as the order
+         * a payment was for. Absent when the movement isn't tied to an order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional): string. The payout that carried
+         * this balance transaction to your bank. Set once, when that payout's contents are
+         * prepared, and never changed afterward, including if the payout later fails or is
+         * reversed. Absent until then, and on transactions no payout carries. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids (Required): Array of
+         * string. Earlier balance transactions this one is linked to, including the exact payment
+         * principal a refund returns, the payout transaction that a payout_failure,
+         * payout_cancellation, or payout_reversal returns, or the collection a
          * merchant_billing_collection_reversal reverses. Empty when there are none.
          * related_balance_transaction_ids[] (Value): string. Example:
          * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_resource (Optional): {@link
-         * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
-         * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the
-         * movement has none. A reference to another resource by `resource_type` and `resource_id`.
-         * status (Required): string. Whether the funds can be paid out yet: pending until they
-         * become available, then available. Only these two values appear, and the change to
-         * available sends balance_transaction.updated. Value enum: "pending", "available". type
-         * (Required): string. Kind of balance movement. Unmapped movement types are returned as
-         * other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
-         * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
-         * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release",
-         * "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal",
-         * "other".
+         * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+         * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+         * platform_fee_payout. Absent when the movement has none. A reference to another resource
+         * by `resource_type` and `resource_id`. status (Required): string. Whether the funds can
+         * be paid out yet: pending until they become available, then available. Only these two
+         * values appear, and the change to available sends balance_transaction.updated. Value
+         * enum: "pending", "available". type (Required): string. Kind of balance movement.
+         * Unmapped movement types are returned as other. Value enum: "payment", "refund",
+         * "dispute", "dispute_reversal", "return", "recovery", "payout", "payout_failure",
+         * "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding",
+         * "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection",
+         * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+         * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+         * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+         * "seller_shortfall_coverage_reversal", "other".
          */
         "object": {
             /**
@@ -1157,12 +1370,13 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
             "description"?: string;
             /**
              * Fee deducted from this balance movement. On payments, this is processing_fee_money
-             * plus every add-on fee in add_on_fees. On disputes and dispute reversals, this
-             * includes the processor's dispute fee charged to your balance or actually returned to
-             * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee
-             * of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
-             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
-             * code.
+             * plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner
+             * app charged a platform fee; the payment intent carries the breakdown. On disputes
+             * and dispute reversals, this includes the processor's dispute fee charged to your
+             * balance or actually returned to it. Charges are positive; returned fees are
+             * negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won
+             * dispute does not by itself return the fee. Signed monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
              */
             "fee_money": MoneyValue;
             /**
@@ -1212,9 +1426,10 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              */
             "related_balance_transaction_ids": Array<string>;
             /**
-             * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
-             * payout_destination, or merchant_billing_invoice. Absent when the movement has none.
-             * A reference to another resource by `resource_type` and `resource_id`.
+             * The Flint resource behind this movement: a payment_intent, payment_split, refund,
+             * dispute, payout, payout_destination, merchant_billing_invoice, or
+             * platform_fee_payout. Absent when the movement has none. A reference to another
+             * resource by `resource_type` and `resource_id`.
              */
             "related_resource"?: ResourceReference;
             /**
@@ -1228,7 +1443,11 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
              * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
              * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
              * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-             * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+             * "merchant_billing_collection", "merchant_billing_collection_reversal",
+             * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+             * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+             * "payment_split_failure", "seller_shortfall_coverage",
+             * "seller_shortfall_coverage_reversal", "other".
              */
             "type": "payment"
                 | "refund"
@@ -1247,6 +1466,15 @@ export type BalanceTransactionUpdatedInstalledMerchantsEvent = (Exclude<PartnerW
                 | "adjustment"
                 | "merchant_billing_collection"
                 | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
                 | "other"
                 | (string & {});
         };
@@ -1316,22 +1544,23 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * Example: "USD". object.description (Optional): string. Short text describing the movement,
      * from Flint or your processor. Use it for display, not for matching. object.fee_money
      * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments, this
-     * is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute
-     * reversals, this includes the processor's dispute fee charged to your balance or actually
-     * returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a
-     * fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.merchant_id (Required): string. Merchant whose balance this transaction moved.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required): {@link MoneyValue}.
-     * Signed net effect on your Flint balance: amount_money minus fee_money in the same currency.
-     * Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.occurred_at (Required): string. When the balance movement happened. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link
-     * ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null when
-     * expanded and the transaction has no order_id. Present only when `expand` includes `order`;
-     * `null` when expanded and there is no related order. object.order.anyOf[1] (Value): {@link
-     * ExpandedOrderSummary}. An order's summary fields, including status, payment and refund
-     * status, and pricing and settlement amounts, returned when the order is expanded.
+     * is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money
+     * when a partner app charged a platform fee; the payment intent carries the breakdown. On
+     * disputes and dispute reversals, this includes the processor's dispute fee charged to your
+     * balance or actually returned to it. Charges are positive; returned fees are negative. A
+     * dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by
+     * itself return the fee. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.merchant_id (Required): string. Merchant whose balance this
+     * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.net_money (Required):
+     * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus fee_money in
+     * the same currency. Signed monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.occurred_at (Required): string. When the balance movement
+     * happened. Format: date-time. Example: "2026-08-02T16:00:00Z". object.order (Optional):
+     * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order. null
+     * when expanded and the transaction has no order_id. Present only when `expand` includes
+     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
+     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
      * object.order.anyOf[2] (Value): null. object.order_id (Optional): string. The Flint order
      * this movement relates to, such as the order a payment was for. Absent when the movement
      * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payout_id
@@ -1345,21 +1574,25 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
      * merchant_billing_collection_reversal reverses. Empty when there are none.
      * object.related_balance_transaction_ids[] (Value): string. Example:
      * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". object.related_resource (Optional): {@link
-     * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
-     * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement
-     * has none. A reference to another resource by `resource_type` and `resource_id`.
-     * object.status (Required): string. Whether the funds can be paid out yet: pending until they
-     * become available, then available. Only these two values appear, and the change to available
-     * sends balance_transaction.updated. Value enum: "pending", "available". object.type
-     * (Required): string. Kind of balance movement. Unmapped movement types are returned as other.
-     * Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery",
-     * "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
-     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
+     * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+     * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+     * platform_fee_payout. Absent when the movement has none. A reference to another resource by
+     * `resource_type` and `resource_id`. object.status (Required): string. Whether the funds can
+     * be paid out yet: pending until they become available, then available. Only these two values
+     * appear, and the change to available sends balance_transaction.updated. Value enum:
+     * "pending", "available". object.type (Required): string. Kind of balance movement. Unmapped
+     * movement types are returned as other. Value enum: "payment", "refund", "dispute",
+     * "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation",
+     * "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold",
+     * "reserve_release", "adjustment", "merchant_billing_collection",
+     * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+     * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+     * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+     * "seller_shortfall_coverage_reversal", "other". previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
@@ -1375,47 +1608,52 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
          * ^[A-Z]{3}$. Example: "USD". description (Optional): string. Short text describing the
          * movement, from Flint or your processor. Use it for display, not for matching. fee_money
          * (Required): {@link MoneyValue}. Fee deducted from this balance movement. On payments,
-         * this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and
-         * dispute reversals, this includes the processor's dispute fee charged to your balance or
-         * actually returned to it. Charges are positive; returned fees are negative. A dispute of
-         * -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself
-         * return the fee. Signed monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. merchant_id (Required): string. Merchant whose balance this
-         * transaction moved. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required):
-         * {@link MoneyValue}. Signed net effect on your Flint balance: amount_money minus
-         * fee_money in the same currency. Signed monetary amount represented as integer minor
-         * units plus an ISO 4217 currency code. occurred_at (Required): string. When the balance
-         * movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". order (Optional):
-         * {@link ExpandedOrderSummary} or null. The order, inlined when you request expand=order.
-         * null when expanded and the transaction has no order_id. Present only when `expand`
-         * includes `order`; `null` when expanded and there is no related order. order.anyOf[1]
-         * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status,
-         * payment and refund status, and pricing and settlement amounts, returned when the order
-         * is expanded. order.anyOf[2] (Value): null. order_id (Optional): string. The Flint order
-         * this movement relates to, such as the order a payment was for. Absent when the movement
-         * isn't tied to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional):
-         * string. The payout that carried this balance transaction to your bank. Set once, when
-         * that payout's contents are prepared, and never changed afterward, including if the
-         * payout later fails or is reversed. Absent until then, and on transactions no payout
-         * carries. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids
-         * (Required): Array of string. Earlier balance transactions this one is linked to,
-         * including the exact payment principal a refund returns, the payout transaction that a
-         * payout_failure, payout_cancellation, or payout_reversal returns, or the collection a
+         * this is processing_fee_money plus every add-on fee in add_on_fees plus
+         * platform_fee.amount_money when a partner app charged a platform fee; the payment intent
+         * carries the breakdown. On disputes and dispute reversals, this includes the processor's
+         * dispute fee charged to your balance or actually returned to it. Charges are positive;
+         * returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of
+         * -5700. A won dispute does not by itself return the fee. Signed monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. merchant_id
+         * (Required): string. Merchant whose balance this transaction moved. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". net_money (Required): {@link MoneyValue}. Signed net
+         * effect on your Flint balance: amount_money minus fee_money in the same currency. Signed
+         * monetary amount represented as integer minor units plus an ISO 4217 currency code.
+         * occurred_at (Required): string. When the balance movement happened. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". order (Optional): {@link ExpandedOrderSummary} or null.
+         * The order, inlined when you request expand=order. null when expanded and the transaction
+         * has no order_id. Present only when `expand` includes `order`; `null` when expanded and
+         * there is no related order. order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+         * order's summary fields, including status, payment and refund status, and pricing and
+         * settlement amounts, returned when the order is expanded. order.anyOf[2] (Value): null.
+         * order_id (Optional): string. The Flint order this movement relates to, such as the order
+         * a payment was for. Absent when the movement isn't tied to an order. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". payout_id (Optional): string. The payout that carried
+         * this balance transaction to your bank. Set once, when that payout's contents are
+         * prepared, and never changed afterward, including if the payout later fails or is
+         * reversed. Absent until then, and on transactions no payout carries. Example:
+         * "po_01KEZF7C00PXK8XREWJA6K4FGV". related_balance_transaction_ids (Required): Array of
+         * string. Earlier balance transactions this one is linked to, including the exact payment
+         * principal a refund returns, the payout transaction that a payout_failure,
+         * payout_cancellation, or payout_reversal returns, or the collection a
          * merchant_billing_collection_reversal reverses. Empty when there are none.
          * related_balance_transaction_ids[] (Value): string. Example:
          * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ". related_resource (Optional): {@link
-         * ResourceReference}. The Flint resource behind this movement: a payment_intent, refund,
-         * dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the
-         * movement has none. A reference to another resource by `resource_type` and `resource_id`.
-         * status (Required): string. Whether the funds can be paid out yet: pending until they
-         * become available, then available. Only these two values appear, and the change to
-         * available sends balance_transaction.updated. Value enum: "pending", "available". type
-         * (Required): string. Kind of balance movement. Unmapped movement types are returned as
-         * other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
-         * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
-         * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release",
-         * "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal",
-         * "other".
+         * ResourceReference}. The Flint resource behind this movement: a payment_intent,
+         * payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or
+         * platform_fee_payout. Absent when the movement has none. A reference to another resource
+         * by `resource_type` and `resource_id`. status (Required): string. Whether the funds can
+         * be paid out yet: pending until they become available, then available. Only these two
+         * values appear, and the change to available sends balance_transaction.updated. Value
+         * enum: "pending", "available". type (Required): string. Kind of balance movement.
+         * Unmapped movement types are returned as other. Value enum: "payment", "refund",
+         * "dispute", "dispute_reversal", "return", "recovery", "payout", "payout_failure",
+         * "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding",
+         * "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection",
+         * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+         * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+         * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+         * "seller_shortfall_coverage_reversal", "other".
          */
         "object": {
             /**
@@ -1446,12 +1684,13 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
             "description"?: string;
             /**
              * Fee deducted from this balance movement. On payments, this is processing_fee_money
-             * plus every add-on fee in add_on_fees. On disputes and dispute reversals, this
-             * includes the processor's dispute fee charged to your balance or actually returned to
-             * it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee
-             * of 1500 has a net amount of -5700. A won dispute does not by itself return the fee.
-             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
-             * code.
+             * plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner
+             * app charged a platform fee; the payment intent carries the breakdown. On disputes
+             * and dispute reversals, this includes the processor's dispute fee charged to your
+             * balance or actually returned to it. Charges are positive; returned fees are
+             * negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won
+             * dispute does not by itself return the fee. Signed monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
              */
             "fee_money": MoneyValue;
             /**
@@ -1501,9 +1740,10 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              */
             "related_balance_transaction_ids": Array<string>;
             /**
-             * The Flint resource behind this movement: a payment_intent, refund, dispute, payout,
-             * payout_destination, or merchant_billing_invoice. Absent when the movement has none.
-             * A reference to another resource by `resource_type` and `resource_id`.
+             * The Flint resource behind this movement: a payment_intent, payment_split, refund,
+             * dispute, payout, payout_destination, merchant_billing_invoice, or
+             * platform_fee_payout. Absent when the movement has none. A reference to another
+             * resource by `resource_type` and `resource_id`.
              */
             "related_resource"?: ResourceReference;
             /**
@@ -1517,7 +1757,11 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
              * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
              * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
              * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-             * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+             * "merchant_billing_collection", "merchant_billing_collection_reversal",
+             * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+             * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+             * "payment_split_failure", "seller_shortfall_coverage",
+             * "seller_shortfall_coverage_reversal", "other".
              */
             "type": "payment"
                 | "refund"
@@ -1536,6 +1780,15 @@ export type BalanceTransactionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnv
                 | "adjustment"
                 | "merchant_billing_collection"
                 | "merchant_billing_collection_reversal"
+                | "platform_fee_refund"
+                | "platform_fee_payout"
+                | "platform_fee_payout_reversal"
+                | "payment_split"
+                | "payment_split_reversal"
+                | "payment_split_reinstatement"
+                | "payment_split_failure"
+                | "seller_shortfall_coverage"
+                | "seller_shortfall_coverage_reversal"
                 | "other"
                 | (string & {});
         };
@@ -1588,11 +1841,14 @@ export type BalanceTransactionsListParams = {
      * the payout's `amount_money`. Works in any payout status once the payout's contents are
      * prepared, usually minutes after it is created. Returns `503 SERVICE_UNAVAILABLE` with
      * `Retry-After` while they are prepared, and `409 ACTION_NOT_ALLOWED` with `reason:
-     * not_itemized` for a payout that doesn't list its contents, such as a manual payout. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV".
+     * not_itemized` for a payout that doesn't list its contents, such as a manual payout. pattern:
+     * ^po_[0-9A-HJKMNP-TV-Z]{26}$. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
      */
     "payout_id"?: InputValue<string>;
-    /** Exact-match filter on `order_id`. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    /**
+     * Exact-match filter on `order_id`. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
     "order_id"?: InputValue<string>;
     /**
      * Include related objects in the response. Supported expansions: order. Each expansion
@@ -1609,24 +1865,40 @@ export type BalanceTransactionsListParams = {
      * filters are ANDed. [] enum: "payment", "refund", "dispute", "dispute_reversal", "return",
      * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
      * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other". Value enum:
+     * "merchant_billing_collection", "merchant_billing_collection_reversal",
+     * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+     * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+     * "payment_split_failure", "seller_shortfall_coverage", "seller_shortfall_coverage_reversal",
+     * "other". Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
+     * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
+     * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal",
+     * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+     * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+     * "payment_split_failure", "seller_shortfall_coverage", "seller_shortfall_coverage_reversal",
+     * "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "payment", "refund",
+     * "dispute", "dispute_reversal", "return", "recovery", "payout", "payout_failure",
+     * "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding",
+     * "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection",
+     * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+     * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+     * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+     * "seller_shortfall_coverage_reversal", "other". anyOf[1][] (Value): string. Value enum:
      * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
      * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
      * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other". anyOf[1]
-     * (Value): Array of string. minItems: 1. [] enum: "payment", "refund", "dispute",
+     * "merchant_billing_collection", "merchant_billing_collection_reversal",
+     * "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal",
+     * "payment_split", "payment_split_reversal", "payment_split_reinstatement",
+     * "payment_split_failure", "seller_shortfall_coverage", "seller_shortfall_coverage_reversal",
+     * "other". anyOf[2] (Value): string. Value enum: "payment", "refund", "dispute",
      * "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation",
      * "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold",
      * "reserve_release", "adjustment", "merchant_billing_collection",
-     * "merchant_billing_collection_reversal", "other". anyOf[1][] (Value): string. Value enum:
-     * "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout",
-     * "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance",
-     * "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other". anyOf[2]
-     * (Value): string. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return",
-     * "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal",
-     * "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment",
-     * "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+     * "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout",
+     * "platform_fee_payout_reversal", "payment_split", "payment_split_reversal",
+     * "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage",
+     * "seller_shortfall_coverage_reversal", "other".
      */
     "type"?: InputValue<("payment"
         | "refund"
@@ -1645,6 +1917,15 @@ export type BalanceTransactionsListParams = {
         | "adjustment"
         | "merchant_billing_collection"
         | "merchant_billing_collection_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal"
+        | "payment_split"
+        | "payment_split_reversal"
+        | "payment_split_reinstatement"
+        | "payment_split_failure"
+        | "seller_shortfall_coverage"
+        | "seller_shortfall_coverage_reversal"
         | "other")
         | readonly ("payment"
         | "refund"
@@ -1663,32 +1944,51 @@ export type BalanceTransactionsListParams = {
         | "adjustment"
         | "merchant_billing_collection"
         | "merchant_billing_collection_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal"
+        | "payment_split"
+        | "payment_split_reversal"
+        | "payment_split_reinstatement"
+        | "payment_split_failure"
+        | "seller_shortfall_coverage"
+        | "seller_shortfall_coverage_reversal"
         | "other")[]>;
     /**
      * Filter by related_resource.resource_type. Values are trimmed and deduplicated in first-seen
      * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
      * filters are ANDed. [] enum: "payment_intent", "refund", "dispute", "payout",
-     * "payout_destination", "merchant_billing_invoice". Value enum: "payment_intent", "refund",
-     * "dispute", "payout", "payout_destination", "merchant_billing_invoice". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "payment_intent", "refund", "dispute", "payout",
-     * "payout_destination", "merchant_billing_invoice". anyOf[1][] (Value): string. Value enum:
-     * "payment_intent", "refund", "dispute", "payout", "payout_destination",
-     * "merchant_billing_invoice". anyOf[2] (Value): string. Value enum: "payment_intent",
-     * "refund", "dispute", "payout", "payout_destination", "merchant_billing_invoice".
+     * "payout_destination", "merchant_billing_invoice", "platform_fee_payout", "payment_split".
+     * Value enum: "payment_intent", "refund", "dispute", "payout", "payout_destination",
+     * "merchant_billing_invoice", "platform_fee_payout", "payment_split". anyOf[1] (Value): Array
+     * of string. minItems: 1. [] enum: "payment_intent", "refund", "dispute", "payout",
+     * "payout_destination", "merchant_billing_invoice", "platform_fee_payout", "payment_split".
+     * anyOf[1][] (Value): string. Value enum: "payment_intent", "refund", "dispute", "payout",
+     * "payout_destination", "merchant_billing_invoice", "platform_fee_payout", "payment_split".
+     * anyOf[2] (Value): string. Value enum: "payment_intent", "refund", "dispute", "payout",
+     * "payout_destination", "merchant_billing_invoice", "platform_fee_payout", "payment_split".
      */
     "related_resource_type"?: InputValue<("payment_intent"
         | "refund"
         | "dispute"
         | "payout"
         | "payout_destination"
-        | "merchant_billing_invoice")
+        | "merchant_billing_invoice"
+        | "platform_fee_payout"
+        | "payment_split")
         | readonly ("payment_intent"
         | "refund"
         | "dispute"
         | "payout"
         | "payout_destination"
-        | "merchant_billing_invoice")[]>;
-    /** Filter by related_resource.resource_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+        | "merchant_billing_invoice"
+        | "platform_fee_payout"
+        | "payment_split")[]>;
+    /**
+     * Filter by related_resource.resource_id. pattern:
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
     "related_resource_id"?: InputValue<string>;
     /**
      * Optional balance transaction status filter. Without it, the list returns transactions in
@@ -4138,7 +4438,10 @@ export type BundlesCreateParams = (InputValue<CreateBundleRequestInput>)
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
 export type BundlesDeleteParams = {
-    /** Optional bundle version last read by the caller. Format: uint64. minimum: 1. */
+    /**
+     * Optional bundle version last read by the caller. Format: uint64. minimum: 1. maximum:
+     * 9007199254740991.
+     */
     "expected_version"?: InputValue<number>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -4200,7 +4503,10 @@ export type BundlesListComponentsParams = {
      * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
-    /** Filter by assigned delivery profile ID. Example: "dprof_01KEZF7C0020J13FQYNY9854R0". */
+    /**
+     * Filter by assigned delivery profile ID. pattern: ^dprof_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "dprof_01KEZF7C0020J13FQYNY9854R0".
+     */
     "delivery_profile_id"?: InputValue<string>;
     /**
      * Filter by delivery readiness. Values are trimmed and deduplicated in first-seen order; empty
@@ -4278,8 +4584,8 @@ export type BundlesListParams = {
     /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
     "sort_direction"?: InputValue<"asc" | "desc">;
     /**
-     * Filter bundles with at least one component assigned to this delivery profile. Example:
-     * "dprof_01KEZF7C0020J13FQYNY9854R0".
+     * Filter bundles with at least one component assigned to this delivery profile. pattern:
+     * ^dprof_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      */
     "delivery_profile_id"?: InputValue<string>;
     /**
@@ -4416,10 +4722,17 @@ export type BuyerAction = {
      */
     "pay_balance"?: BuyerPayBalanceActionOptions;
     /**
+     * How many payment retries the buyer has left this billing period, and the retry that is
+     * running. Present while the subscription is past due, including when the action is
+     * unavailable. How many payment retries the buyer has left this billing period, and the retry
+     * that is running.
+     */
+    "retry_payment"?: BuyerRetryPaymentActionOptions;
+    /**
      * Why the action can't be taken now. Present exactly when is_available is false. New reasons
      * may be added; show a general message for a reason you don't recognize. Value enum:
      * "sign_in_required", "store_policy", "not_in_state", "window_closed", "nothing_to_return",
-     * "collection_unavailable", "limit_reached".
+     * "collection_unavailable", "limit_reached", "delivery_hold", "in_progress".
      */
     "unavailable_reason"?: "sign_in_required"
         | "store_policy"
@@ -4428,6 +4741,8 @@ export type BuyerAction = {
         | "nothing_to_return"
         | "collection_unavailable"
         | "limit_reached"
+        | "delivery_hold"
+        | "in_progress"
         | (string & {});
 };
 /** The cancellation choices this subscription accepts from its buyer. */
@@ -4651,13 +4966,22 @@ export type BuyerCheckoutSession = {
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
     "buyer_fields"?: CheckoutBuyerFields;
     /**
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply.
+     */
+    "can_apply_promotion_code": boolean;
+    /**
      * Whether checkout offers the buyer the option to save the card they type for faster checkout
-     * at this merchant. When true and save_payment_method_requires_verification is false, PayOrder
-     * accepts save_payment_method: true for one newly collected card. False when the merchant
-     * turned checkout.saved_payment_details off, customer accounts are merchant hosted, card is
-     * not an available payment option, the checkout collects an invoice, a subscription, or a
-     * return, or the checkout acts for no customer and Flint cannot email the buyer a verification
-     * code. Returned only to the checkout credential; never in webhook payloads.
+     * at this merchant. When true, PayOrder accepts save_payment_method: true for one newly
+     * collected card. False when the merchant turned checkout.saved_payment_details off, customer
+     * accounts are merchant hosted, card is not an available payment option, the checkout collects
+     * an invoice, a subscription, or a return, or the checkout acts for no customer and Flint
+     * cannot email the buyer a verification code. Returned only to the checkout credential; never
+     * in webhook payloads.
      */
     "can_save_payment_method"?: boolean;
     /**
@@ -4779,7 +5103,7 @@ export type BuyerCheckoutSession = {
      * has no order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "order_id"?: string;
-    /** Origin of the page that renders this embedded checkout. Omitted when not set. */
+    /** Origin of the page that renders this headless checkout. Omitted when not set. */
     "page_origin"?: string;
     /**
      * Guidance for collecting a payment source. Checkout-credential reads include it only while
@@ -4805,19 +5129,19 @@ export type BuyerCheckoutSession = {
      */
     "payment_link_image"?: Image;
     /**
-     * The card the buyer saved with this checkout's payment by giving a mobile phone number, and
-     * whether they confirmed it. Present on GET and PATCH responses after a payment that paid the
-     * order in full, or that was approved for the merchant to capture later, and saved a card this
-     * way. A checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with the checkout's
-     * payment by giving a mobile phone number. It works for nothing until the buyer confirms it
-     * with a code: request one with POST
+     * The card the buyer saved pending with this checkout's payment, and whether they confirmed
+     * it. Present on GET and PATCH responses after a payment that paid the order in full, or that
+     * was approved for the merchant to capture later, and saved a card this way. Without a number,
+     * confirmation requires an emailed code. A checkout whose payment is approved stays open until
+     * the capture. Returned only to the checkout credential; never in webhook payloads. A card the
+     * buyer saved with this checkout's payment that waits for a code. It works for nothing until
+     * the buyer confirms it with a code: request one with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
      * confirm_saved_payment_method.
      */
     "payment_method_save"?: CheckoutPaymentMethodSave;
     /**
-     * Embedded sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
      * redirect payment such as Affirm, whatever the outcome; read the session there to show the
      * result. Required when the session offers affirm. It can't contain credentials, a query
      * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
@@ -4866,18 +5190,19 @@ export type BuyerCheckoutSession = {
      */
     "recovery_payment_attempt_id"?: string;
     /**
-     * Where hosted checkout sends the buyer. Not allowed when surface is embedded; use
+     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
      * payment_return_url.
      */
     "redirects"?: CheckoutRedirects;
     /**
-     * Whether the buyer must confirm their email with a code before the checkout can save their
-     * card or use their saved cards. True when can_save_payment_method is true and the checkout
-     * acts for no customer for this credential: the merchant created it without one, and either
-     * the buyer has not confirmed an email with this credential, or the customer whose email they
-     * confirmed has since changed that email or been deleted. A credential other than the one a
-     * confirmation returned, such as the hosted checkout link opened on another device, reads
-     * true. Send the code with POST
+     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
+     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
+     * saved cards still needs the code before paying. True when can_save_payment_method is true
+     * and the checkout acts for no customer for this credential: the merchant created it without
+     * one, and either the buyer has not confirmed an email with this credential, or the customer
+     * whose email they confirmed has since changed that email or been deleted. A credential other
+     * than the one a confirmation returned, such as the hosted checkout link opened on another
+     * device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads.
@@ -4896,10 +5221,9 @@ export type BuyerCheckoutSession = {
     /**
      * Guidance for collecting a payment method to save. Checkout-credential reads include it only
      * while the session is open. Returned only to the checkout credential; never in webhook
-     * payloads. What a client needs to collect payment for a buyer's order. The `stripe` field
-     * holds the Stripe values.
+     * payloads. Client guidance for saving a payment method on the merchant's connected account.
      */
-    "setup_collection"?: BuyerPaymentCollection;
+    "setup_collection"?: BuyerSetupCollection;
     /**
      * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
      * the merchant's agreement with Flint removes it. Returned by `GET
@@ -4931,9 +5255,9 @@ export type BuyerCheckoutSession = {
     "superseding_checkout_session_id"?: string;
     /**
      * How the session is presented to the buyer. A hosted session has a `url` on Flint's checkout
-     * page; an embedded one is rendered on your own page. Value enum: "hosted", "embedded".
+     * page; a headless one is rendered on your own page. Value enum: "hosted", "headless".
      */
-    "surface": "hosted" | "embedded" | (string & {});
+    "surface": "hosted" | "headless" | (string & {});
     /**
      * The session's tax settings. Omitted when the session sets none. Tax settings of a checkout
      * session: whether it collects tax and any tax location the merchant fixed.
@@ -4945,7 +5269,7 @@ export type BuyerCheckoutSession = {
      * applies only to invalidated sessions when payment succeeds or partially succeeds outside the
      * session. order_mutated applies when an edit closes or completes its order, or ends an
      * invoice, return-resolution, or subscription-plan session. Other merchant edits keep hosted
-     * and embedded sessions open. A session already past expires_at ends with expired before the
+     * and headless sessions open. A session already past expires_at ends with expired before the
      * edit is applied. Value enum: "payment_succeeded", "payment_partially_succeeded", "expired",
      * "closed_by_merchant", "order_mutated", "superseded", "order_paid_elsewhere",
      * "invoice_paid_elsewhere", "invoice_voided", "invoice_uncollectible",
@@ -4987,7 +5311,7 @@ export type BuyerCheckoutSession = {
      * Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay.
      * Present only for hosted sessions read with a merchant credential that can manage checkout
      * sessions. Launch results include it for hosted sessions: create, payment-link resolve, and
-     * invoice and return-resolution checkout. Omitted for embedded sessions.
+     * invoice and return-resolution checkout. Omitted for headless sessions.
      */
     "url"?: string;
     /**
@@ -4996,9 +5320,10 @@ export type BuyerCheckoutSession = {
      */
     "version": number;
 };
+export type BuyerCheckoutSessionLaunchResponse = ResolvePaymentLinkResponse;
 /**
  * The checkout session with any newly issued checkout credential. Hosted launches return url
- * without checkout_auth_token. Embedded launches return checkout_auth_token without url. Customer
+ * without checkout_auth_token. Headless launches return checkout_auth_token without url. Customer
  * binding confirmation returns its newly issued credential for either surface. A session in which
  * a buyer completes an order's payment.
  */
@@ -5006,7 +5331,7 @@ export type BuyerCheckoutSessionWithSecret = (Exclude<BuyerCheckoutSession & obj
     & ({
     /**
      * Checkout credential. Send it as Authorization: Bearer <checkout_auth_token>. Present on
-     * embedded checkout launch and customer binding confirmation. Omitted on hosted checkout
+     * headless checkout launch and customer binding confirmation. Omitted on hosted checkout
      * launch and when a saved-card confirmation keeps the current credential.
      */
     "checkout_auth_token"?: string;
@@ -5161,191 +5486,4 @@ export type BuyerCreateReturnRequest = {
      * "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "order_id": string;
-};
-/** The request body for: Create a Return for the current buyer. */
-export type BuyerCreateReturnRequestInput = {
-    /**
-     * The lines to check or return, each naming an order line item. minItems: 1. maxItems: 100. []
-     * (Value): {@link ReturnLineItemRequestInput}. An order line item to return, with the
-     * quantity, return reason, and optionally a note and the resolution the buyer wants.
-     */
-    "line_items": Array<ReturnLineItemRequestInput>;
-    /**
-     * ID of the Order to return items from. minLength: 1. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id": string;
-};
-/**
- * The buyer's proposed resolution type, returned quantities, and replacement items to preview for
- * a Return.
- */
-export type BuyerCreateReturnResolutionPreviewRequest = ({
-    /**
-     * Return lines and quantities to cover, up to 100. Not allowed on a correction. minItems: 1.
-     * [] (Value): {@link ReturnResolutionLineItemRequest}. A return line and quantity to include
-     * in a return resolution.
-     */
-    "line_items": Array<ReturnResolutionLineItemRequest>;
-    /**
-     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
-     * (Value): {@link BuyerReturnReplacementLineItemRequest}. A catalog variant or bundle and
-     * quantity the buyer requests as a replacement in a Return resolution preview.
-     */
-    "replacement_line_items"?: Array<BuyerReturnReplacementLineItemRequest>;
-    /**
-     * The proposed resolution type. For store_credit, send a nonempty line_items list and omit
-     * replacement_line_items. Value enum: "refund", "exchange", "replacement",
-     * "no_monetary_action", "store_credit".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
-    /**
-     * ID of the Return the resolution is for. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-});
-/**
- * The buyer's proposed resolution type, returned quantities, and replacement items to preview for
- * a Return.
- */
-export type BuyerCreateReturnResolutionPreviewRequestInput = ({
-    /**
-     * Return lines and quantities to cover, up to 100. Not allowed on a correction. minItems: 1.
-     * [] (Value): {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to
-     * include in a return resolution.
-     */
-    "line_items": Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
-     * (Value): {@link BuyerReturnReplacementLineItemRequestInput}. A catalog variant or bundle and
-     * quantity the buyer requests as a replacement in a Return resolution preview.
-     */
-    "replacement_line_items"?: Array<BuyerReturnReplacementLineItemRequestInput>;
-    /**
-     * The proposed resolution type. For store_credit, send a nonempty line_items list and omit
-     * replacement_line_items. Value enum: "refund", "exchange", "replacement",
-     * "no_monetary_action", "store_credit".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-    /**
-     * ID of the Return the resolution is for. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-});
-/**
- * The buyer-visible view of a credit note. Drafts are never returned, and how much credit is left
- * to allocate is omitted.
- */
-export type BuyerCreditNote = {
-    /**
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no buyer tax identity was captured on the source invoice. Customer
-     * deletion preserves identities captured on issued invoices and credit notes. anyOf[1]
-     * (Value): {@link TaxIdentity}. Merchant-provided legal identity displayed on invoices and
-     * credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection
-     * in display order; replacing the array requires the parent's expected_version. Existing
-     * entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
-     * anyOf[2] (Value): null.
-     */
-    "buyer_tax_identity": ((TaxIdentity) | (null));
-    /** Unique identifier of the credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". */
-    "credit_note_id": string;
-    /** Assigned at issue and stable from then on. Absent while the credit note is a draft. */
-    "credit_note_number": string;
-    /** The invoice this credit note corrects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
-    "invoice_id": string;
-    /** When the credit note was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "issued_at": string;
-    /**
-     * Status of the most recent refund linked to this credit note. Absent when no refund has been
-     * requested. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
-     */
-    "latest_refund_status"?: "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-    /**
-     * Itemized corrections against frozen invoice lines. Amount and quantity corrections share
-     * each source line's remaining value, discount, and tax across issued credit notes that have
-     * not been voided. Drafts reserve no credit. [] (Value): {@link CreditNoteLineItem}. One
-     * correction calculated from the frozen invoice line's remaining billed value, discount, and
-     * tax. The source line's inclusive or additive tax mode is preserved. Current catalog prices
-     * and tax settings do not affect the correction. Stored issued values are never recalculated
-     * by a read.
-     */
-    "line_items": Array<CreditNoteLineItem>;
-    /** Free text shown on the credit note. Null when none was set. */
-    "memo": string | null;
-    /**
-     * Credit reserved by linked refunds that have not resolved yet. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "pending_refund_money": MoneyValue;
-    /**
-     * Why the invoice is being corrected. Shown on the credit note document. Value enum:
-     * "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-     */
-    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
-    /**
-     * Credit consumed by linked refunds that succeeded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * Identity frozen on the source invoice at issue. Later profile edits do not change this
-     * document. `null` when no seller tax identity was captured. anyOf[1] (Value): {@link
-     * TaxIdentity}. Merchant-provided legal identity displayed on invoices and credit notes. Does
-     * not verify IDs or change tax treatment. Tax IDs are an owned collection in display order;
-     * replacing the array requires the parent's expected_version. Existing entries retain their
-     * document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value):
-     * null.
-     */
-    "seller_tax_identity": ((TaxIdentity) | (null));
-    /**
-     * issued once it is numbered and frozen, voided once withdrawn. Value enum: "issued",
-     * "voided".
-     */
-    "status": "issued" | "voided" | (string & {});
-    /**
-     * The credit note's VAT stated in the currency of the country that charges it, frozen at
-     * issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source
-     * from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount
-     * converted the same way. Always [] on drafts and when the invoice froze no conversion. The
-     * credit note PDF prints the same figures. [] (Value): {@link TaxCurrencyConversion}. VAT on
-     * an issued document converted into the currency of the country whose VAT is charged.
-     */
-    "tax_currency_conversions": Array<TaxCurrencyConversion>;
-    /**
-     * The face value of the credit note, the sum of its lines. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
-    /**
-     * When the credit note was voided. Absent unless its status is voided. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "voided_at"?: string;
-};
-/** A page of `BuyerCreditNote` objects. */
-export type BuyerCreditNoteListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * BuyerCreditNote}. The buyer-visible view of a credit note. Drafts are never returned, and
-     * how much credit is left to allocate is omitted.
-     */
-    "data": Array<BuyerCreditNote>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
 };

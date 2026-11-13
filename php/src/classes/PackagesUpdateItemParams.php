@@ -2,13 +2,20 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|null $bundle_component_id
  * @property-read int $expected_version
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read int $quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackagesUpdateItemParams extends Model {
-    /** @param array{'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'bundle_component_id'?: string|null, 'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesUpdateItemParams')); }
+    /** Bundle component to pack on this order line in the fulfillment. Every PATCH of a bundle line requires its component ID, including when the fulfillment has only one component for the line. Send null for a non-bundle line. minLength: 1. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     * @return string|null
+     * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
+     */
+    public function getBundleComponentId(): string|null { return $this->get('bundle_component_id'); }
+    public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
     /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().

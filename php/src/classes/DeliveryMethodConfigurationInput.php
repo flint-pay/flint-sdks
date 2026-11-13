@@ -24,7 +24,7 @@ final class DeliveryMethodConfigurationInput extends Model {
      */
     public function getBuyerInstructions(): mixed { return $this->get('buyer_instructions'); }
     public function hasBuyerInstructions(): bool { return $this->has('buyer_instructions'); }
-    /** Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge location, including the store for pickup. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
+    /** Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge location, including the store for pickup. `null` when the method inherits the default delivery tax category from settings. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
      * @return string|null
      * @throws SdkError When charge_tax_category is omitted; use hasChargeTaxCategory() or valueOrDefault().
      */
@@ -84,7 +84,7 @@ final class DeliveryMethodConfigurationInput extends Model {
      */
     public function getSelectionGuaranteeSeconds(): int { return $this->get('selection_guarantee_seconds'); }
     public function hasSelectionGuaranteeSeconds(): bool { return $this->has('selection_guarantee_seconds'); }
-    /** Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting.
+    /** Whether the delivery charge is taxable. Null inherits settings.tax.default_delivery_taxable. Omit it on create to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to inheriting. `null` when the method inherits `settings.tax.default_delivery_taxable`.
      * @return bool|null
      * @throws SdkError When taxable is omitted; use hasTaxable() or valueOrDefault().
      */

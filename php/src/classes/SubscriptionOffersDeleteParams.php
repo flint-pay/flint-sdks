@@ -7,7 +7,7 @@ namespace Flint;
 final class SubscriptionOffersDeleteParams extends Model {
     /** @param array{'expected_version'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOffersDeleteParams')); }
-    /** Resource version last read by the caller. Refuses the deletion if the offer has changed. Format: uint64. minimum: 1.
+    /** Resource version last read by the caller. Refuses the deletion if the offer has changed. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

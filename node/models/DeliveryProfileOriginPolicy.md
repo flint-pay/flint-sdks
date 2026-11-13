@@ -10,6 +10,6 @@ Where items under a delivery profile ship or leave from: a fixed Location (`loca
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Optional | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-| `type` | Required | string | Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
+| `location_id` | Optional | string | ID of the Location items leave from. Required for `fixed_location` and not allowed otherwise. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `type` | Required | string | Where items under the profile leave from. Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
 

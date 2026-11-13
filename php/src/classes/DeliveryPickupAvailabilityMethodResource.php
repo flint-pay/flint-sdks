@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryPickupAvailabilityMethodResource extends Model {
     /** @param array{'delivery_method_id': string, 'delivery_method_revision_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityMethodResource')); }
-    /** delivery_method_id
+    /** ID of the pickup method.
      * @return string
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** delivery_method_revision_id
+    /** ID of the method revision that was evaluated.
      * @return string
      */
     public function getDeliveryMethodRevisionId(): string { return $this->get('delivery_method_revision_id'); }

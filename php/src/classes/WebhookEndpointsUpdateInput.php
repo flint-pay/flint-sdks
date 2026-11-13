@@ -16,7 +16,7 @@ final class WebhookEndpointsUpdateInput extends Model {
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** The request body for: Update webhook endpoint. Example: {"description":"Updated production endpoint","expected_version":1,"status":"active"}.
+    /** The request body for: Update webhook endpoint. minProperties: 1. Example: {"description":"Updated production endpoint","expected_version":1,"status":"active"}.
      * @return array{'api_version'?: string, 'description'?: string|null, 'enabled_events'?: list<string>, 'event_sources'?: list<string>, 'expected_api_version'?: string, 'expected_version'?: int, 'installed_merchant_modes'?: list<string>, 'partner_app_id'?: string, 'signing_methods'?: list<mixed>, 'status'?: string, 'url'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

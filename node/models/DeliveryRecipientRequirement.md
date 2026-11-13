@@ -10,9 +10,9 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `field` | Required | string | Values: `"name"`, `"email"`, `"phone"`. |
-| `format` | Optional | string | Values: `"text"`, `"email"`, `"e164"`. |
-| `required` | Required | boolean |  |
+| `field` | Required | string | Recipient field the method asks for. Values: `"name"`, `"email"`, `"phone"`. |
+| `format` | Optional | string | Format the value must follow. Values: `"text"`, `"email"`, `"e164"`. |
+| `required` | Required | boolean | Whether payment needs this field. |
 
 ### DeliveryRecipientRequirement variant 1
 

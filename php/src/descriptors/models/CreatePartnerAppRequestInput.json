@@ -1,1 +1,1 @@
-{"shared":"CreatePartnerAppRequest","dependencies":["CreatePartnerAppRequest","MoneyValue","PartnerAppPermissionManifestEntryRequest","PartnerAppPlatformProfileRequest"]}
+{"shared":"CreatePartnerAppRequest","dependencies":["CreatePartnerAppRequest","MoneyValue","PartnerAppPaymentSplitsRequest","PartnerAppPermissionManifestEntryRequest","PartnerAppPlatformProfileRequest","PlatformFeeCapRequest"]}

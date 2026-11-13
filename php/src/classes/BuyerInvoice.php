@@ -44,7 +44,7 @@ namespace Flint;
  * @property-read string|null $scheduled_issue_at
  * @property-read string|null $service_date
  * @property-read ?bool $show_flint_mark
- * @property-read ?InvoiceSnapshot $snapshot
+ * @property-read ?BuyerInvoiceSnapshot $snapshot
  * @property-read string $status
  * @property-read string|null $subscription_id
  * @property-read ?CheckoutTheme $theme
@@ -188,7 +188,7 @@ final class BuyerInvoice extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
@@ -198,7 +198,7 @@ final class BuyerInvoice extends Model {
      */
     public function getPaidAt(): ?string { return $this->get('paid_at'); }
     public function hasPaidAt(): bool { return $this->has('paid_at'); }
-    /** Payments collected toward this invoice, online or as recorded manual payments, minus reversed payments, including payments toward late fees. Never below zero. Refunds don't reduce it; they are in refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Payments collected toward this invoice, online or as recorded manual payments, minus reversed payments, including payments toward late fees. Never below zero. Disputes, including losses, don't reduce it. Refunds don't reduce it; they are in refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getPaidMoney(): MoneyValue { return $this->get('paid_money'); }
@@ -268,12 +268,12 @@ final class BuyerInvoice extends Model {
      */
     public function getShowFlintMark(): ?bool { return $this->get('show_flint_mark'); }
     public function hasShowFlintMark(): bool { return $this->has('show_flint_mark'); }
-    /** The billing content of the invoice: line items, discounts, charges, tip, tax, and totals. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts.
-     * @return ?InvoiceSnapshot
+    /** The billing content of the invoice: line items, discounts, charges, tip, tax, and totals, frozen at issue. Invoice details captured at issue. Buyer views omit merchant exemption evidence references.
+     * @return ?BuyerInvoiceSnapshot
      */
-    public function getSnapshot(): ?InvoiceSnapshot { return $this->get('snapshot'); }
+    public function getSnapshot(): ?BuyerInvoiceSnapshot { return $this->get('snapshot'); }
     public function hasSnapshot(): bool { return $this->has('snapshot'); }
-    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. Value enum: "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again requires a new invoice. Value enum: "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

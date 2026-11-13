@@ -10,9 +10,9 @@ The buyer's location for pickup or local delivery, supplied as an address or a c
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Conditional | [DeliveryAddressRequest](../models/DeliveryAddressRequest.md#deliveryaddressrequest) | A partial address for delivery quotes, previews, and buyer locations. Country is required when any member is present. |
-| `coordinate` | Conditional | [LocationCoordinate](../models/LocationCoordinate.md#locationcoordinate) | A latitude and longitude. `coordinate`: [field definitions](../models/DeliveryBuyerLocationInputAddress.md#deliverybuyerlocationinputaddresscoordinate). |
-| `type` | Required | string | Values: `"address"`, `"coordinate"`. |
+| `address` | Conditional | [DeliveryAddressRequest](../models/DeliveryAddressRequest.md#deliveryaddressrequest) | The buyer location as an address. Set only when `type` is `address`. A partial address for delivery quotes, previews, and buyer locations. Country is required when any member is present. |
+| `coordinate` | Conditional | [LocationCoordinate](../models/LocationCoordinate.md#locationcoordinate) | The buyer location as a coordinate. Set only when `type` is `coordinate`. A latitude and longitude. `coordinate`: [field definitions](../models/DeliveryBuyerLocationInputAddress.md#deliverybuyerlocationinputaddresscoordinate). |
+| `type` | Required | string | Whether the buyer location is an address or a coordinate. Values: `"address"`, `"coordinate"`. |
 
 ### DeliveryBuyerLocationRequest variant 1: `type` = `"address"`
 

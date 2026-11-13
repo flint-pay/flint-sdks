@@ -16,7 +16,7 @@ final class PartnerAppsAcceptPlatformTermsInput extends Model {
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** The request body for: Accept platform terms. Example: {"expected_version":1,"platform_terms_version":"2026-11-01"}.
+    /** The request body for: Accept platform terms. Example: {"expected_version":1,"platform_terms_version":"2026-11-12"}.
      * @return array{'expected_version'?: int, 'platform_terms_version': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

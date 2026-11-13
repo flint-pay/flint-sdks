@@ -34,7 +34,7 @@ final class ModifierSetsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update modifier set.
+    /** The request body for: Update modifier set. minProperties: 1.
      * @return array{'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_groups'?: list<mixed>, 'name'?: string, 'status'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read array{'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: mixed, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: mixed, 'test_clock_id'?: string}|object $body
+ * @property-read array{'addresses'?: list<mixed>, 'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: mixed, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: mixed, 'test_clock_id'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomersCreateInput extends Model {
-    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: mixed, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: mixed, 'test_clock_id'?: string}|object}|object $values */
+    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'addresses'?: list<mixed>, 'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: mixed, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: mixed, 'test_clock_id'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomersCreateInput')); }
     /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
@@ -28,7 +28,7 @@ final class CustomersCreateInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Create customer. Example: {"email":"jane@example.com","metadata":{"crm_id":"crm_123"},"name":"Jane Doe"}.
-     * @return array{'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: mixed, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: mixed, 'test_clock_id'?: string}|object
+     * @return array{'addresses'?: list<mixed>, 'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: mixed, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: mixed, 'test_clock_id'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

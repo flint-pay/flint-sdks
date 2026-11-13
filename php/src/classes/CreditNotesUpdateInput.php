@@ -34,7 +34,7 @@ final class CreditNotesUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update credit note.
+    /** The request body for: Update credit note. minProperties: 1.
      * @return array{'expected_version'?: int, 'external_reference_id'?: string|null, 'line_items'?: list<mixed>, 'memo'?: string|null, 'reason'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

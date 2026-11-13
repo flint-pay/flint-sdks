@@ -18,6 +18,7 @@ namespace Flint;
  * @property-read int $quantity
  * @property-read list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass> $selected_options
  * @property-read string $sku
+ * @property-read string $subscription_id
  * @property-read string $subscription_line_item_id
  * @property-read string $subscription_offer_id
  * @property-read string $subscription_plan_line_item_id
@@ -27,7 +28,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionLineItemInput extends Model {
-    /** @param array{'allow_quantity_adjustment': bool, 'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'max_quantity'?: int, 'min_quantity'?: int, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment': bool, 'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components'?: list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'categories'?: list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'max_quantity'?: int, 'min_quantity'?: int, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers'?: list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription_id': string, 'subscription_line_item_id'?: string, 'subscription_offer_id'?: string, 'subscription_plan_line_item_id'?: string, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionLineItemInput')); }
     /** Whether the frozen terms allow the buyer to adjust this line quantity.
      * @return bool
@@ -125,6 +126,12 @@ final class SubscriptionLineItemInput extends Model {
      */
     public function getSku(): string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
+    /** Subscription that owns this line, including frozen lines in a scheduled plan change. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * @return string
+     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+     */
+    public function getSubscriptionId(): string { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
     /** Unique identifier for this subscription line item, prefixed `sli_`. Example: "sli_01KEZF7C00PPWVJ2N321V84ASA".
      * @return string
      * @throws SdkError When subscription_line_item_id is omitted; use hasSubscriptionLineItemId() or valueOrDefault().

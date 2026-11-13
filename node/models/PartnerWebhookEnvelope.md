@@ -14,7 +14,7 @@ Fields shared by partner webhook payloads.
 | `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/MerchantWebhookEnvelope.md#merchantwebhookenvelopedata). |
 | `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"partner_app"`, `"installed_merchants"`. |
-| `event_type` | Required | string | The resource change or condition this event announces. Values: [275 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: [291 declared values](CreateWebhookTestEventRequest.md#createwebhooktesteventrequest-event_type-values). |
 | `partner_app_id` | Required | string | ID of the partner app that owns the receiving endpoint. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
 | `source` | Required | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) | The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events. |

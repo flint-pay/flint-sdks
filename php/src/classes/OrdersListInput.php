@@ -19,6 +19,7 @@ namespace Flint;
  * @property-read string $order_number
  * @property-read bool $has_backordered_quantity
  * @property-read bool $has_unassigned_fulfillment_quantity
+ * @property-read bool $has_invoice
  * @property-read bool $has_open_fulfillment
  * @property-read string $external_reference_id
  * @property-read list<string>|string $origin
@@ -40,7 +41,7 @@ namespace Flint;
  * @property-read list<string>|string $expand
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersListInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'customer_id'?: string, 'product_id'?: string, 'variant_id'?: string, 'email'?: string, 'order_id'?: list<string>|string, 'closed_reason'?: list<string>|string, 'status'?: list<string>|string, 'payment_status'?: list<string>|string, 'refund_status'?: list<string>|string, 'fulfillment_status'?: list<string>|string, 'order_number'?: string, 'has_backordered_quantity'?: bool, 'has_unassigned_fulfillment_quantity'?: bool, 'has_open_fulfillment'?: bool, 'external_reference_id'?: string, 'origin'?: list<string>|string, 'query'?: string, 'subscription_id'?: string, 'subscription_delivery_changed'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'payment_link_id'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'customer_id'?: string, 'product_id'?: string, 'variant_id'?: string, 'email'?: string, 'order_id'?: list<string>|string, 'closed_reason'?: list<string>|string, 'status'?: list<string>|string, 'payment_status'?: list<string>|string, 'refund_status'?: list<string>|string, 'fulfillment_status'?: list<string>|string, 'order_number'?: string, 'has_backordered_quantity'?: bool, 'has_unassigned_fulfillment_quantity'?: bool, 'has_invoice'?: bool, 'has_open_fulfillment'?: bool, 'external_reference_id'?: string, 'origin'?: list<string>|string, 'query'?: string, 'subscription_id'?: string, 'subscription_delivery_changed'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'payment_link_id'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersListInput')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -54,7 +55,7 @@ final class OrdersListInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Filter by customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -84,7 +85,7 @@ final class OrdersListInput extends Model {
      */
     public function getOrderId(): mixed { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[1][] (Value): string.  Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): string.  Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+    /** Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[1][] (Value): string.  Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): string.  Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
      * @return list<string>|string
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
      */
@@ -132,6 +133,12 @@ final class OrdersListInput extends Model {
      */
     public function getHasUnassignedFulfillmentQuantity(): bool { return $this->get('has_unassigned_fulfillment_quantity'); }
     public function hasHasUnassignedFulfillmentQuantity(): bool { return $this->has('has_unassigned_fulfillment_quantity'); }
+    /** Filter by whether invoice_id is set, including a voided invoice. False includes orders with no invoice.
+     * @return bool
+     * @throws SdkError When has_invoice is omitted; use hasHasInvoice() or valueOrDefault().
+     */
+    public function getHasInvoice(): bool { return $this->get('has_invoice'); }
+    public function hasHasInvoice(): bool { return $this->has('has_invoice'); }
     /** Filter by whether the order has an open fulfillment. A fulfillment remains open until it completes, is canceled, fails, or is marked as a no-show. False includes orders with no fulfillments.
      * @return bool
      * @throws SdkError When has_open_fulfillment is omitted; use hasHasOpenFulfillment() or valueOrDefault().
@@ -144,7 +151,7 @@ final class OrdersListInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by order origin. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". anyOf[1][] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". anyOf[2] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription".
+    /** Filter by order origin. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[1][] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[2] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
      * @return list<string>|string
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */
@@ -156,7 +163,7 @@ final class OrdersListInput extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter by subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+    /** Filter by subscription ID. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */
@@ -168,19 +175,19 @@ final class OrdersListInput extends Model {
      */
     public function getSubscriptionDeliveryChanged(): bool { return $this->get('subscription_delivery_changed'); }
     public function hasSubscriptionDeliveryChanged(): bool { return $this->has('subscription_delivery_changed'); }
-    /** Filter by the Return that created a replacement order. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Filter by the Return that created a replacement order. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by the ReturnResolution that created a replacement order. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+    /** Filter by the ReturnResolution that created a replacement order. pattern: ^retres_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** Filter by the payment link whose checkout created the order. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+    /** Filter by the payment link whose checkout created the order. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
      */

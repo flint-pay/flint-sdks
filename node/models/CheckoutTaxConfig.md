@@ -10,29 +10,30 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `enabled` | Optional | boolean |  |
+| `calculation` | Optional | [CheckoutTaxCalculation](../models/CheckoutTaxCalculation.md#checkouttaxcalculation) | How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again. `calculation`: [field definitions](../models/CheckoutTaxConfig.md#checkouttaxconfig-variant-1calculation), [field definitions](../models/CheckoutTaxConfig.md#checkouttaxconfig-variant-2calculation). |
+| `enabled` | Optional | boolean | Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. |
 
 ### CheckoutTaxConfig variant 1
 
-anyOf variant 1: Declared schema CheckoutSavedPaymentDetailsSettings. Saved payment details settings for hosted checkout. On update, an omitted field keeps its value..
+anyOf variant 1: Declared schema CheckoutTaxConfig. Whether tax is collected for a checkout session or payment link..
 
-- Constraints for `enabled`: Whether hosted checkout shows buyers an unchecked option to save the card they type. A card is saved only when the buyer checks it and the payment succeeds, with usage on_session: Flint charges it only in checkouts the buyer completes, never for subscriptions, automatic invoices, or other charges without the buyer. Checkout never shows the option when customer accounts are merchant hosted, or for invoice, subscription, and return checkouts.
+No additional constraints.
 
 ### CheckoutTaxConfig variant 2
 
-anyOf variant 2: Declared schema CheckoutSavedPaymentDetailsSettingsRequest. Saved payment details settings for hosted checkout. On update, an omitted field keeps its value..
+anyOf variant 2: Declared schema CheckoutTaxConfigRequest. Whether tax is collected for a checkout session or payment link..
 
-- Constraints for `enabled`: Whether hosted checkout shows buyers an unchecked option to save the card they type. A card is saved only when the buyer checks it and the payment succeeds, with usage on_session: Flint charges it only in checkouts the buyer completes, never for subscriptions, automatic invoices, or other charges without the buyer. Checkout never shows the option when customer accounts are merchant hosted, or for invoice, subscription, and return checkouts.
+No additional constraints.
 
-### CheckoutTaxConfig variant 3
+### CheckoutTaxConfig variant 1.calculation
 
-anyOf variant 3: Declared schema CheckoutTaxConfig. Whether tax is collected for a checkout session or payment link..
+How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again. The calculation the order Flint creates uses while tax is enabled. Replaced as a whole: send every field you want to keep. Omit it to use `tax.default_calculation` from your settings; a `provided` default applies only to orders you create, so it means automatic here.
 
-- Constraints for `enabled`: Whether Flint calculates automatic tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings.
+Field definitions: [shared fields](CheckoutTaxCalculationRequestInput.md#checkouttaxcalculationrequestinput).
 
-### CheckoutTaxConfig variant 4
+### CheckoutTaxConfig variant 2.calculation
 
-anyOf variant 4: Declared schema CheckoutTaxConfigRequest. Whether tax is collected for a checkout session or payment link..
+How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again. The calculation the order Flint creates uses while tax is enabled. Replaced as a whole: send every field you want to keep. Omit it to use `tax.default_calculation` from your settings; a `provided` default applies only to orders you create, so it means automatic here.
 
-- Constraints for `enabled`: Whether Flint calculates automatic tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings.
+Field definitions: [shared fields](CheckoutTaxCalculationRequestInput.md#checkouttaxcalculationrequestinput).
 

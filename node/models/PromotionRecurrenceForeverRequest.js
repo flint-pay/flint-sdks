@@ -1,10 +1,10 @@
-import { d1216 as c0 } from '../descriptors/data/56.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7157 as c1 } from '../descriptors/data/333.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d1216 as d1216 } from '../descriptors/data/56.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d1271 as c0 } from '../descriptors/data/61.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d7458 as c1 } from '../descriptors/data/354.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d1271 as d1271 } from '../descriptors/data/61.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1216;
+const read = d1271;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["PromotionRecurrenceForeverRequest"]:c0(),["SharedCodec1242"]:c1()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["PromotionRecurrenceForeverRequest"]:c0(),["SharedCodec1352"]:c1()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePromotionRecurrenceForeverRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

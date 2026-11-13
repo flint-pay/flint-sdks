@@ -16,13 +16,13 @@ namespace Flint;
 final class DeliveryQuotesListInput extends Model {
     /** @param array{'checkout_session_id'?: string, 'order_id'?: string, 'status'?: list<string>|string, 'evaluation_status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'page_size'?: int, 'page_token'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuotesListInput')); }
-    /** Filter by checkout session. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+    /** Filter by checkout session. Required with a checkout credential, and must be the credential's own checkout session. pattern: ^cs_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** Filter by order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by order. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

@@ -9,7 +9,7 @@ namespace Flint;
 final class CreateCheckoutSessionSavePaymentMethodVerificationRequestInput extends Model {
     /** @param array{'channel'?: string, 'email': string, 'purpose': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCheckoutSessionSavePaymentMethodVerificationRequestInput')); }
-    /** How Flint delivers the code. Default: "email". Value enum: "email".
+    /** How Flint delivers the code. Default: "email". Value enum: "email", "auto".
      * @return string
      * @throws SdkError When channel is omitted; use hasChannel() or valueOrDefault().
      */

@@ -1,0 +1,1 @@
+{"shared":"PartnerAppPlatformCurrentTerms","phpRepresentation":{"kind":"record","fields":{"acceptance_due_at":{"kind":"value","type":"string"},"platform_terms_version":{"kind":"value","type":"string"},"url":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["PartnerAppPlatformCurrentTerms"]}

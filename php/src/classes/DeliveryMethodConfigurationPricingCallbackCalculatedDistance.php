@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingCallbackCalculatedDistance extends Model {
     /** @param array{'currency_options': \stdClass, 'unit': string, 'unit_quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingCallbackCalculatedDistance')); }
-    /**  * (Value): {@see DeliveryMethodConfigurationPricingCallbackCalculatedDistanceCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price by ISO 4217 currency code. Each key must equal the currency of its Money value. * (Value): {@see DeliveryMethodConfigurationPricingCallbackCalculatedDistanceCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, DeliveryMethodConfigurationPricingCallbackCalculatedDistanceCurrencyOptionsValue>
      */
     public function getCurrencyOptions(): array { return $this->get('currency_options'); }

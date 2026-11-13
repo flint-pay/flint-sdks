@@ -88,7 +88,7 @@ final class WebhookDeliveryInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted", "authorization_revoked", "scope_missing", "event_not_allowed", "partner_app_install_revoked".
+    /** Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted", "authorization_revoked", "scope_missing", "event_not_allowed", "partner_app_install_revoked", "sandbox_reset".
      * @return string
      * @throws SdkError When suppression_reason is omitted; use hasSuppressionReason() or valueOrDefault().
      */

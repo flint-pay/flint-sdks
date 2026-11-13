@@ -1,11 +1,12 @@
-import { d348 as c0 } from '../descriptors/data/20.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d8154 as c1, d8155 as c2, d8156 as c3, d8157 as c6, d8158 as c7 } from '../descriptors/data/392.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5638 as c4, d5639 as c5 } from '../descriptors/data/246.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d348 as d348 } from '../descriptors/data/20.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d365 as c0 } from '../descriptors/data/23.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d5845 as c1, d5846 as c4, d5847 as c5 } from '../descriptors/data/260.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d5790 as c2 } from '../descriptors/data/257.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8543 as c3, d8544 as c6, d8545 as c7 } from '../descriptors/data/417.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d365 as d365 } from '../descriptors/data/23.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d348;
+const read = d365;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateSandboxRequest"]:c0(),["SharedCodec369"]:c1(),["SharedCodec370"]:c2(),["SharedCodec371"]:c3(),["SharedCodec372"]:c4(),["SharedCodec373"]:c5(),["SharedCodec374"]:c6(),["SharedCodec375"]:c7()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateSandboxRequest"]:c0(),["SharedCodec193"]:c1(),["SharedCodec3"]:c2(),["SharedCodec417"]:c3(),["SharedCodec418"]:c4(),["SharedCodec419"]:c5(),["SharedCodec420"]:c6(),["SharedCodec421"]:c7()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateSandboxRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

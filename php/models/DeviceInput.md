@@ -2,7 +2,7 @@
 
 ## DeviceInput
 
-A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't change how payments are accepted.
+A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't take payments; a reader does.
 
 Request input.
 

@@ -3,19 +3,26 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $bundle_component_id
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read int $quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryQuoteLineItemResourceInput extends Model {
-    /** @param array{'bundle_component_id'?: string, 'order_line_item_id': string, 'quantity': int, ...}|object $values */
+    /** @param array{'bundle_component_id'?: string, 'order_id': string, 'order_line_item_id': string, 'quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteLineItemResourceInput')); }
-    /** Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+    /** ID of the bundle component the quantity belongs to. Omitted when the line item is not a bundle. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
      * @return string
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */
     public function getBundleComponentId(): string { return $this->get('bundle_component_id'); }
     public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
-    /** Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
+    /** ID of the order that owns this line item. Checkout credentials receive only their own session's order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** ID of the order line item. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
      */

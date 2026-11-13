@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $completed_at
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $customer_id
- * @property-read DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $digital_details
+ * @property-read BuyerDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $digital_details
  * @property-read string|\DateTimeInterface $dispatched_at
  * @property-read string $fulfillment_id
  * @property-read list<BuyerFulfillmentLineItemInput|array<array-key, mixed>|\stdClass> $line_items
@@ -30,7 +30,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerFulfillmentInput extends Model {
-    /** @param array{'charges'?: list<FulfillmentChargeLinkInput|array<array-key, mixed>|\stdClass>, 'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'digital_details'?: DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'dispatched_at'?: string|\DateTimeInterface, 'fulfillment_id': string, 'line_items': list<BuyerFulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: BuyerDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_number'?: string, 'outcome'?: BuyerFulfillmentOutcomeInput|array<array-key, mixed>|\stdClass, 'packages'?: list<BuyerExpandedPackageSummaryInput|array<array-key, mixed>|\stdClass>, 'packed_at'?: string|\DateTimeInterface, 'picked_at'?: string|\DateTimeInterface, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'scheduled_start_at': string|\DateTimeInterface|null, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment_details'?: ShipmentFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipments'?: list<BuyerExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>, 'status': string, 'terminal_at'?: string|\DateTimeInterface, 'type': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'charges'?: list<FulfillmentChargeLinkInput|array<array-key, mixed>|\stdClass>, 'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'customer_id'?: string, 'digital_details'?: BuyerDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'dispatched_at'?: string|\DateTimeInterface, 'fulfillment_id': string, 'line_items': list<BuyerFulfillmentLineItemInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: BuyerDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'order_number'?: string, 'outcome'?: BuyerFulfillmentOutcomeInput|array<array-key, mixed>|\stdClass, 'packages'?: list<BuyerExpandedPackageSummaryInput|array<array-key, mixed>|\stdClass>, 'packed_at'?: string|\DateTimeInterface, 'picked_at'?: string|\DateTimeInterface, 'pickup_details'?: PickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientInput|array<array-key, mixed>|\stdClass, 'scheduled_start_at': string|\DateTimeInterface|null, 'service_details'?: ServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment_details'?: ShipmentFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipments'?: list<BuyerExpandedShipmentSummaryInput|array<array-key, mixed>|\stdClass>, 'status': string, 'terminal_at'?: string|\DateTimeInterface, 'type': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFulfillmentInput')); }
     /** Order charges associated with this fulfillment. [] (Value): {@see FulfillmentChargeLinkInput}. Links a fulfillment to an order charge by `order_charge_id`.
      * @return list<FulfillmentChargeLinkInput|array<array-key, mixed>|\stdClass>
@@ -56,8 +56,8 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Delivery URL and completion time for a digital fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
-     * @return DigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
+    /** Delivery URL and completion time for a digital fulfillment. Buyer-facing details of a digital fulfillment: when it was delivered and the download link, which is `null` once the buyer no longer has download access.
+     * @return BuyerDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When digital_details is omitted; use hasDigitalDetails() or valueOrDefault().
      */
     public function getDigitalDetails(): mixed { return $this->get('digital_details'); }
@@ -170,7 +170,7 @@ final class BuyerFulfillmentInput extends Model {
      */
     public function getTerminalAt(): string|\DateTimeInterface { return $this->get('terminal_at'); }
     public function hasTerminalAt(): bool { return $this->has('terminal_at'); }
-    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

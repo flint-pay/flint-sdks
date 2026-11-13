@@ -1,1 +1,1 @@
-{"shared":"PaymentSourceSummary","dependencies":["PaymentSourceAchDebitSummary","PaymentSourceCardSummary","PaymentSourceSummary"]}
+{"shared":"PaymentSourceSummary","dependencies":["PaymentSourceAchDebitSummary","PaymentSourceCardPresentDetails","PaymentSourceCardSummary","PaymentSourceSummary"]}

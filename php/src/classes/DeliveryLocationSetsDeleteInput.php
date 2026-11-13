@@ -16,7 +16,7 @@ final class DeliveryLocationSetsDeleteInput extends Model {
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** Optional current resource version. The delete is rejected if the resource changed after this version was read. Format: uint64. minimum: 1.
+    /** Optional current resource version. The delete is rejected if the resource changed after this version was read. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

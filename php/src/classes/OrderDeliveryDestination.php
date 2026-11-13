@@ -11,7 +11,7 @@ namespace Flint;
 final class OrderDeliveryDestination extends Model {
     /** @param array{'address': mixed, 'delivery_selection_id'?: string, 'frozen_at'?: string, 'recipient'?: mixed, 'source': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderDeliveryDestination')); }
-    /** A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** Address the order's items are delivered to. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return Address
      */
     public function getAddress(): Address { return $this->get('address'); }
@@ -26,12 +26,12 @@ final class OrderDeliveryDestination extends Model {
      */
     public function getFrozenAt(): ?string { return $this->get('frozen_at'); }
     public function hasFrozenAt(): bool { return $this->has('frozen_at'); }
-    /** The name and phone number of the person receiving an order delivery.
+    /** Who receives the order. Omitted when no recipient was saved. The name and phone number of the person receiving an order delivery.
      * @return ?OrderDeliveryDestinationRecipient
      */
     public function getRecipient(): ?OrderDeliveryDestinationRecipient { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Value enum: "delivery_selection", "api", "dashboard".
+    /** Where the destination came from. Value enum: "delivery_selection", "api", "dashboard".
      * @return string
      */
     public function getSource(): string { return $this->get('source'); }

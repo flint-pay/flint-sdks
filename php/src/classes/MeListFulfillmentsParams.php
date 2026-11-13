@@ -28,7 +28,7 @@ final class MeListFulfillmentsParams extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -40,7 +40,7 @@ final class MeListFulfillmentsParams extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". Value enum: "shipment", "pickup", "local_delivery", "digital", "service". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". anyOf[1][] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service". anyOf[2] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover". Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[1][] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[2] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
      * @return list<string>|string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

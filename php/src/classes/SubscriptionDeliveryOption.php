@@ -17,12 +17,12 @@ namespace Flint;
 final class SubscriptionDeliveryOption extends Model {
     /** @param array{'amount_money'?: mixed, 'availability': string, 'current': bool, 'delivery_method_id': string, 'description'?: string, 'failure_category'?: string, 'name': string, 'price_type': string, 'selectable': bool, 'type': string, 'unavailable_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryOption')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of one delivery with this method. Omitted unless `availability` is `available`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getAmountMoney(): ?MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Value enum: "available", "unavailable", "cannot_calculate".
+    /** Whether the method can serve the destination now. Value enum: "available", "unavailable", "cannot_calculate".
      * @return string
      */
     public function getAvailability(): string { return $this->get('availability'); }
@@ -32,27 +32,27 @@ final class SubscriptionDeliveryOption extends Model {
      */
     public function getCurrent(): bool { return $this->get('current'); }
     public function hasCurrent(): bool { return $this->has('current'); }
-    /** delivery_method_id
+    /** ID of the delivery method.
      * @return string
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** description
+    /** Buyer-facing description of the delivery method. Omitted when the method has none.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Value enum: "dependency_failure", "timeout", "malformed_response", "callback_transport_failure", "callback_circuit_open", "callback_result_invalid", "callback_unavailable", "pricing_failure", "schedule_failure", "option_lifetime_too_short", "geography_failure", "routing_failure", "invalid_configuration", "invalid_buyer_input", "address_verification_failed", "address_could_not_be_verified".
+    /** Why Flint could not price or evaluate the method. Omitted when evaluation did not fail. Values can expand as delivery capabilities change. Value enum: "dependency_failure", "timeout", "malformed_response", "callback_transport_failure", "callback_circuit_open", "callback_result_invalid", "callback_unavailable", "pricing_failure", "schedule_failure", "option_lifetime_too_short", "geography_failure", "routing_failure", "invalid_configuration", "invalid_buyer_input", "address_verification_failed", "address_could_not_be_verified".
      * @return ?string
      */
     public function getFailureCategory(): ?string { return $this->get('failure_category'); }
     public function hasFailureCategory(): bool { return $this->has('failure_category'); }
-    /** name
+    /** Buyer-facing name of the delivery method.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "fixed", "quoted".
+    /** Whether the method charges a flat price or Flint works the price out for each delivery. Value enum: "fixed", "quoted".
      * @return string
      */
     public function getPriceType(): string { return $this->get('price_type'); }
@@ -62,12 +62,12 @@ final class SubscriptionDeliveryOption extends Model {
      */
     public function getSelectable(): bool { return $this->get('selectable'); }
     public function hasSelectable(): bool { return $this->has('selectable'); }
-    /** Value enum: "shipment", "local_delivery".
+    /** How the method delivers the items. Value enum: "shipment", "local_delivery".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Value enum: "dependency_revoked", "destination_not_served", "pickup_unavailable", "no_window_available", "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable".
+    /** Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Value enum: "dependency_revoked", "destination_not_served", "no_window_available", "eligibility_no_match", "method_type_not_allowed", "pricing_unavailable", "inventory_unavailable".
      * @return ?string
      */
     public function getUnavailableReason(): ?string { return $this->get('unavailable_reason'); }

@@ -15,7 +15,7 @@ The `custom` variant of `UpdateSubscriptionPlanLineItemInput`.
 | `description` | Optional | string | minLength: `1`. |
 | `max_quantity` | Optional | integer | Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. Default: `9999`. |
 | `min_quantity` | Optional | integer | Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. Default: `1`. |
-| `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmodifiers). |
+| `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundlemodifiers). |
 | `name` | Required | string | minLength: `1`. |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format: `int32`. minimum: `1`. maximum: `9999`. Default: `1`. |
 | `subscription_plan_line_item_id` | Optional | string | ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs from other plans are rejected. minLength: `1`. Example: `"spli_01KEZF7C00H9FGC2KBRF82H87N"`. |
@@ -27,7 +27,7 @@ The `custom` variant of `UpdateSubscriptionPlanLineItemInput`.
 
 ### UpdateSubscriptionPlanLineItemInputCustom.modifiers[]
 
-Declared alternatives: [AddLineItemsRequest.line_items[].modifiers[]](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmodifiers).
+Declared alternatives: [CreateOrderLineItemInputBundle.modifiers[]](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundlemodifiers).
 
 ### UpdateSubscriptionPlanLineItemInputCustom.tax
 

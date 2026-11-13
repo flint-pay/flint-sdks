@@ -22,7 +22,7 @@ Resource, collection, or operation result returned by this request. Work require
 | `completed_at` | Optional | string | When the fulfillment was completed. Mirrors the completion time for its type: delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and service_details.completed_at for service fulfillments. Omitted until a completion time is recorded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `created_at` | Required | string | When the fulfillment was created, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer_id` | Optional | string | Customer receiving this fulfillment, when one is set. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
-| `digital_details` | Optional | [DigitalFulfillmentDetails](../models/DigitalFulfillmentDetails.md#digitalfulfillmentdetails) | Delivery URL and completion time for a digital fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`. `digital_details`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedatadigital_details). |
+| `digital_details` | Optional | [BuyerDigitalFulfillmentDetails](../models/BuyerDigitalFulfillmentDetails.md#buyerdigitalfulfillmentdetails) | Delivery URL and completion time for a digital fulfillment. Buyer-facing details of a digital fulfillment: when it was delivered and the download link, which is `null` once the buyer no longer has download access. `digital_details`: [field definitions](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1fulfillmentsdigital_details). |
 | `dispatched_at` | Optional | string | First time this fulfillment reached dispatched. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `fulfillment_id` | Required | string | Stable identifier of the fulfillment. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |
 | `line_items` | Required | Array of [BuyerFulfillmentLineItem](../models/BuyerFulfillmentLineItem.md#buyerfulfillmentlineitem) | Order lines and quantities allocated to this fulfillment. `line_items[]`: [field definitions](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1fulfillmentsline_items). |
@@ -41,7 +41,7 @@ Resource, collection, or operation result returned by this request. Work require
 | `shipments` | Optional | Array of [BuyerExpandedShipmentSummary](../models/BuyerExpandedShipmentSummary.md#buyerexpandedshipmentsummary) | Shipments associated with this fulfillment. `shipments[]`: [field definitions](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1fulfillmentsshipments). |
 | `status` | Required | string | Buyer-visible fulfillment status. Held fulfillments show their pre-hold status. Values: [13 declared values](#buyerfulfillmentresponsedata-status-values). |
 | `terminal_at` | Optional | string | When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records the state transition; completed_at records completion evidence supplied for the fulfillment. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `type` | Required | string | How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
+| `type` | Required | string | How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`, `"handover"`. |
 | `updated_at` | Required | string | When the fulfillment was last updated, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Monotonic fulfillment version for expected_version checks. Format: `uint64`. minimum: `1`. |
 
@@ -67,7 +67,7 @@ Field definitions: [FulfillmentResponse.data.charges[]](../models/FulfillmentRes
 
 ### BuyerFulfillmentResponse.data.digital_details
 
-Field definitions: [FulfillmentResponse.data.digital_details](../models/FulfillmentResponse.md#fulfillmentresponsedatadigital_details).
+Field definitions: [BuyerSubscriptionPlanChangeResultResponse.data.order variant 1.fulfillments[].digital_details](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1fulfillmentsdigital_details).
 
 ### BuyerFulfillmentResponse.data.line_items[]
 

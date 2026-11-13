@@ -1,1 +1,1 @@
-{"shared":"CreatePaymentMethodDomainRequest","dependencies":["CreatePaymentMethodDomainRequest"]}
+{"shared":"CreatePaymentMethodDomainRequest","dependencies":["CreatePaymentMethodDomainRequest","SharedCodec376"]}

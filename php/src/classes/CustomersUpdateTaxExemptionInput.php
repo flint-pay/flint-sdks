@@ -23,7 +23,7 @@ final class CustomersUpdateTaxExemptionInput extends Model {
      */
     public function getCustomerTaxExemptionId(): string { return $this->get('customer_tax_exemption_id'); }
     public function hasCustomerTaxExemptionId(): bool { return $this->has('customer_tax_exemption_id'); }
-    /** Sparse patch. Omitted fields stay unchanged. Expired and archived records cannot be edited. A version fence alone is not a change. Example: {"certificate_number":null,"expected_version":1}.
+    /** Sparse patch. Omitted fields stay unchanged. Expired and archived records cannot be edited. A version fence alone is not a change. minProperties: 1.
      * @return mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

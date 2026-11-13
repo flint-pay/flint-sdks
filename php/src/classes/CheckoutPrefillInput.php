@@ -6,9 +6,10 @@ namespace Flint;
  * @property-read string $email
  * @property-read string $phone
  * @property-read AddressInput|array<array-key, mixed>|\stdClass $shipping_address
+ * @property-read string $shipping_recipient_name
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutPrefillInput extends Model {
-    /** @param array{'billing_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'phone'?: string, 'shipping_address'?: AddressInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'billing_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'email'?: string, 'phone'?: string, 'shipping_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'shipping_recipient_name'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutPrefillInput')); }
     /** The billing address to fill in. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return AddressInput|array<array-key, mixed>|\stdClass
@@ -34,4 +35,10 @@ final class CheckoutPrefillInput extends Model {
      */
     public function getShippingAddress(): mixed { return $this->get('shipping_address'); }
     public function hasShippingAddress(): bool { return $this->has('shipping_address'); }
+    /** The name of the person receiving the delivery, to fill in with the shipping address. minLength: 1. maxLength: 200.
+     * @return string
+     * @throws SdkError When shipping_recipient_name is omitted; use hasShippingRecipientName() or valueOrDefault().
+     */
+    public function getShippingRecipientName(): string { return $this->get('shipping_recipient_name'); }
+    public function hasShippingRecipientName(): bool { return $this->has('shipping_recipient_name'); }
 }

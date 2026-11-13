@@ -13,7 +13,7 @@ namespace Flint;
 final class APIRequestLogReproduction extends Model {
     /** @param array{'body'?: mixed, 'curl': string, 'has_redactions': bool, 'headers': \stdClass, 'http_method': string, 'path': string, 'query_params': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('APIRequestLogReproduction')); }
-    /** The captured request body to resend. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. oneOf[1] (Value): object. oneOf[2] (Value): Array of any. oneOf[2][] (Value): any. oneOf[3] (Value): string.
+    /** The captured request body to resend. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. Requests under /v1/me never store bodies. oneOf[1] (Value): object. oneOf[2] (Value): Array of any. oneOf[2][] (Value): any. oneOf[3] (Value): string.
      * @return mixed
      */
     public function getBody(): mixed { return $this->get('body'); }

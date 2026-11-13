@@ -47,7 +47,7 @@ final class BalanceTransactionCreatedMerchantEventDataObject extends Model {
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Fee deducted from this balance movement. On payments, this is processing_fee_money plus every add-on fee in add_on_fees. On disputes and dispute reversals, this includes the processor's dispute fee charged to your balance or actually returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fee deducted from this balance movement. On payments, this is processing_fee_money plus every add-on fee in add_on_fees plus platform_fee.amount_money when a partner app charged a platform fee; the payment intent carries the breakdown. On disputes and dispute reversals, this includes the processor's dispute fee charged to your balance or actually returned to it. Charges are positive; returned fees are negative. A dispute of -4200 with a fee of 1500 has a net amount of -5700. A won dispute does not by itself return the fee. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return SignedMoney
      */
     public function getFeeMoney(): SignedMoney { return $this->get('fee_money'); }
@@ -87,7 +87,7 @@ final class BalanceTransactionCreatedMerchantEventDataObject extends Model {
      */
     public function getRelatedBalanceTransactionIds(): array { return $this->get('related_balance_transaction_ids'); }
     public function hasRelatedBalanceTransactionIds(): bool { return $this->has('related_balance_transaction_ids'); }
-    /** The Flint resource behind this movement: a payment_intent, refund, dispute, payout, payout_destination, or merchant_billing_invoice. Absent when the movement has none. A reference to another resource by `resource_type` and `resource_id`.
+    /** The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. A reference to another resource by `resource_type` and `resource_id`.
      * @return ?ResourceReference
      */
     public function getRelatedResource(): ?ResourceReference { return $this->get('related_resource'); }
@@ -97,7 +97,7 @@ final class BalanceTransactionCreatedMerchantEventDataObject extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Kind of balance movement. Unmapped movement types are returned as other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal", "other".
+    /** Kind of balance movement. Unmapped movement types are returned as other. Value enum: "payment", "refund", "dispute", "dispute_reversal", "return", "recovery", "payout", "payout_failure", "payout_cancellation", "payout_reversal", "payout_advance", "payout_advance_funding", "reserve_hold", "reserve_release", "adjustment", "merchant_billing_collection", "merchant_billing_collection_reversal", "platform_fee_refund", "platform_fee_payout", "platform_fee_payout_reversal", "payment_split", "payment_split_reversal", "payment_split_reinstatement", "payment_split_failure", "seller_shortfall_coverage", "seller_shortfall_coverage_reversal", "other".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

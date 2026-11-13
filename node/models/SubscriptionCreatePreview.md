@@ -25,6 +25,9 @@ The first Flint collection, priced as billing collects it: trial end without a s
 | --- | --- | --- | --- |
 | `billing_at` | Conditional | string or null | Expected collection time. Null when billing is not scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `currency` | Conditional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
+| `deliveries_per_period` | Conditional | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `delivery_interval` | Conditional | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Conditional | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `discount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Estimated discount total. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `discount_money`: [field definitions](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1discount_money). |
 | `discounts` | Conditional | Array of [SubscriptionRenewalEstimateDiscount](../models/SubscriptionRenewalEstimateDiscount.md#subscriptionrenewalestimatediscount) | Promotions and credits applied to this estimated collection; [] when none apply. |
 | `line_items` | Conditional | Array of [SubscriptionRenewalEstimateLineItem](../models/SubscriptionRenewalEstimateLineItem.md#subscriptionrenewalestimatelineitem) | Items and quantities included in this estimated collection. |
@@ -38,13 +41,13 @@ The first Flint collection, priced as billing collects it: trial end without a s
 
 anyOf SubscriptionChargeEstimate: Estimated subscription collection, including items, discounts, shipping, and tax. Total excludes tax that cannot yet be calculated..
 
-- Required: `billing_at`, `currency`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
+- Required: `billing_at`, `currency`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
 
 ### SubscriptionCreatePreview.first_charge variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_at`, `currency`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
+- Undeclared: `billing_at`, `currency`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
 - Value shape: null. The first Flint collection, priced as billing collects it: trial end without a setup fee, now for a setup fee (or the scheduled start), or imported-period end. With `prorate_first_period` and no setup fee, it's the prorated first period. `null` when validation prevents pricing. 
 
 ### SubscriptionCreatePreview.first_charge variant 1.discount_money
@@ -77,13 +80,13 @@ Field definitions: [shared fields](#subscriptioncreatepreviewfirst_charge).
 
 anyOf SubscriptionChargeEstimate: Estimated subscription collection, including items, discounts, shipping, and tax. Total excludes tax that cannot yet be calculated..
 
-- Required: `billing_at`, `currency`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
+- Required: `billing_at`, `currency`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
 
 ### SubscriptionCreatePreview.first_period_charge variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_at`, `currency`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
+- Undeclared: `billing_at`, `currency`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
 - Value shape: null. The prorated first period, when billing collects it as its own order after a setup fee in `first_charge`. `null` when no proration was requested, when the prorated period is already included in `first_charge`, when the first paid start is on the anchor day so there is no prorated period, or when validation prevents pricing. 
 
 ### SubscriptionCreatePreview.first_period_charge variant 1.discount_money
@@ -116,13 +119,13 @@ Field definitions: [shared fields](#subscriptioncreatepreviewfirst_charge).
 
 anyOf SubscriptionChargeEstimate: Estimated subscription collection, including items, discounts, shipping, and tax. Total excludes tax that cannot yet be calculated..
 
-- Required: `billing_at`, `currency`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
+- Required: `billing_at`, `currency`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
 
 ### SubscriptionCreatePreview.recurring variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_at`, `currency`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
+- Undeclared: `billing_at`, `currency`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `discount_money`, `discounts`, `line_items`, `shipping_money`, `subscription_cycle`, `subtotal_money`, `tax_money`, `total_money`.
 - Value shape: null. The first normal full-period collection, without setup fees. With `prorate_first_period`, it's cycle 2, billed at the end of the prorated period. `null` when validation prevents pricing. 
 
 ### SubscriptionCreatePreview.recurring variant 1.discount_money

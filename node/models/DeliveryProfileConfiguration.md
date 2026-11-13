@@ -2,7 +2,7 @@
 
 ## DeliveryProfileConfiguration
 
-Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
+Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, and grouping and splitting rules.
 
 
 

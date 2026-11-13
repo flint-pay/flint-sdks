@@ -8,13 +8,13 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [Device](../models/Device.md#device) | Resource, collection, or operation result returned by this request. A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't change how payments are accepted. `data`: [field definitions](../models/DeviceResponse.md#deviceresponsedata). |
+| `data` | Required | [Device](../models/Device.md#device) | Resource, collection, or operation result returned by this request. A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't take payments; a reader does. `data`: [field definitions](../models/DeviceResponse.md#deviceresponsedata). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
 | `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### DeviceResponse.data
 
-Resource, collection, or operation result returned by this request. A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't change how payments are accepted.
+Resource, collection, or operation result returned by this request. A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't take payments; a reader does.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |

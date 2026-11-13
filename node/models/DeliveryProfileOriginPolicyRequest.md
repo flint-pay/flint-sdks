@@ -10,8 +10,8 @@ Origin policy you supply for a delivery profile: a fixed Location (`location_id`
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Conditional | string | minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-| `type` | Required | string | Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
+| `location_id` | Conditional | string | ID of the Location items leave from. Required for `fixed_location` and not allowed otherwise. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `type` | Required | string | Where items under the profile leave from. Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
 
 ### DeliveryProfileOriginPolicyRequest variant 1: `type` = `"fixed_location"`
 

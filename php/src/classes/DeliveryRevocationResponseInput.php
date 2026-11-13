@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryRevocationResponseInput extends Model {
     /** @param array{'data': DeliveryRevocationInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRevocationResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. A withdrawal of a previously available delivery choice.
+    /** Resource, collection, or operation result returned by this request. A permanent fence on an exact delivery method revision, rate callback revision, callback signing key, or Location geography version. Quotes that depend on it are revoked, and selections that depend on it stop being current.
      * @return DeliveryRevocationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

@@ -24,9 +24,11 @@ Response model.
 | `modifier_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Sum of the line item's modifier totals. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `modifiers` | Required | Array of [BuyerOrderLineItemModifier](../models/BuyerOrderLineItemModifier.md#buyerorderlineitemmodifier) | Modifiers selected on the line, with their prices. `modifiers[]`: [field definitions](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedataline_itemsmodifiers). |
 | `name` | Required | string | Name of the item as sold. |
+| `order_edit_id` | Required | string or null | The edit that added this line. Null when the line was not added by an order edit. |
+| `order_id` | Required | string | Order that owns this record or its referenced line item and charge. |
 | `order_line_item_id` | Required | string | Unique identifier for this order line item, prefixed `li_`. |
 | `payment_link_line_item_key` | Required | string or null | The `key` of the payment link line item this line was created from. Match order lines to the link's line items with it instead of by name. Flint sets it when checkout starts and it never changes; metadata updates don't affect it. `null` when the line didn't come from a payment link line item: the order didn't come from a payment link, the line was added to the order later, or the line came from a subscription plan through a subscription signup link. minLength: `1`. maxLength: `100`. |
-| `product_id` | Optional | string | ID of the catalog product the item was sold from. |
+| `product_id` | Optional | string | ID of the catalog product the item was sold from. Required whenever variant_id is present. Absent on bundle and custom lines, which have no parent product. |
 | `purchased_gift_cards` | Required | Array of [PurchasedGiftCard](../models/PurchasedGiftCard.md#purchasedgiftcard) | Masked card identities for fully funded units of this purchase line. Partial consideration does not issue a card. `purchased_gift_cards[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemspurchased_gift_cards). |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount of this line already refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |

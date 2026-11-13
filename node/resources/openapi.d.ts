@@ -1,8 +1,8 @@
 import type { Result } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { OpenapiGetSpecParams, OpenapiGetSpecResponse } from '../declarations/types-38.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { OpenapiGetSpecParams, OpenapiGetSpecResponse } from '../declarations/types-39.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -17,12 +17,12 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { OpenapiGetSpecParams, OpenapiGetSpecResponse } from '../declarations/types-38.js';
-export type { _SdkWithoutIdempotency, WebhookPreviousAttributes } from '../declarations/types-66.js';
-export type { RequestOptions } from '../declarations/types-51.js';
+export type { OpenapiGetSpecParams, OpenapiGetSpecResponse } from '../declarations/types-39.js';
+export type { _SdkWithoutIdempotency, WebhookPreviousAttributes } from '../declarations/types-69.js';
+export type { RequestOptions } from '../declarations/types-53.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
 export interface OpenapiResource {
     /**
  * Returns the Flint public OpenAPI document for tooling, schema inspection, and client generation.

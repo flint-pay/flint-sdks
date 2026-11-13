@@ -1,7 +1,10 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { PartnerApp, PartnerAppCredential, PartnerAppCredentialListResponse, PartnerAppCredentialResponse } from '../declarations/types-41.js';
 import type {
+    PartnerApp,
+    PartnerAppCredential,
+    PartnerAppCredentialListResponse,
+    PartnerAppCredentialResponse,
     PartnerAppInstall,
     PartnerAppInstallListResponse,
     PartnerAppInstallResponse,
@@ -14,7 +17,9 @@ import type {
     PartnerAppWithSecretResponse,
     PartnerAppsAcceptPlatformTermsParams,
     PartnerAppsCreateCredentialParams,
-    PartnerAppsCreateParams,
+    PartnerAppsCreateParams
+} from '../declarations/types-43.js';
+import type {
     PartnerAppsDeleteCredentialParams,
     PartnerAppsDeleteParams,
     PartnerAppsGetCredentialParams,
@@ -27,10 +32,10 @@ import type {
     PartnerAppsRevokeInstallParams,
     PartnerAppsRotateSecretParams,
     PartnerAppsUpdateParams
-} from '../declarations/types-42.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { RotatePartnerAppSecretResponse } from '../declarations/types-56.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-44.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { RotatePartnerAppSecretResponse } from '../declarations/types-58.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -47,95 +52,106 @@ export type {
 } from '../runtime.js';
 export type {
     PartnerAppsAcceptPlatformTermsParams,
+    PartnerApp,
     PartnerAppResponse,
     PartnerAppsCreateParams,
     PartnerAppWithSecret,
     PartnerAppWithSecretResponse,
     PartnerAppsCreateCredentialParams,
-    PartnerAppsDeleteParams,
-    PartnerAppsDeleteCredentialParams,
-    PartnerAppsGetParams,
-    PartnerAppsGetCredentialParams,
-    PartnerAppsGetInstallParams,
+    PartnerAppCredential,
+    PartnerAppCredentialResponse,
     PartnerAppInstall,
     PartnerAppInstallResponse,
-    PartnerAppsListCredentialsParams,
-    PartnerAppsListInstallsParams,
+    PartnerAppCredentialListResponse,
     PartnerAppInstallListResponse,
-    PartnerAppsListParams,
     PartnerAppListResponse,
-    PartnerAppsRevokeEnvironmentGrantParams,
     PartnerAppInstallWithEndedAccess,
     PartnerAppInstallWithEndedAccessResponse,
-    PartnerAppsRevokeInstallParams,
-    PartnerAppsRotateSecretParams,
     PartnerAppWithRotatedSecret,
-    PartnerAppsUpdateParams,
+    PartnerAppMerchantActionRouting,
+    PartnerAppPaymentSplits,
     PartnerAppPermissionManifestEntry,
     PartnerAppPlatform,
     PartnerAppPlatformCapability,
+    PartnerAppPlatformCurrentTerms,
     PartnerAppPlatformLimits,
     PartnerAppPlatformUsage,
     PartnerAppPlatformReserve,
     PartnerAppPlatformTermsAcceptance,
     PartnerAppPlatformProfile,
+    PartnerAppPaymentSplitsRequestInput,
     PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput,
-    PartnerAppCredentialWorkloadIdentityRequestInput,
-    PartnerEnvironmentGrant,
-    PartnerAppMerchantReadiness,
-    PartnerAppMerchantReadinessAxis
-} from '../declarations/types-42.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-51.js';
-export type {
-    PartnerApp,
-    PartnerAppCredential,
-    PartnerAppCredentialResponse,
-    PartnerAppCredentialListResponse,
     PartnerAppCredentialPublicKeyRequestInput,
     PartnerAppCredentialJWKSURLRequestInput,
+    PartnerAppCredentialWorkloadIdentityRequestInput,
     PartnerAppCredentialJWKSURL,
     PartnerAppCredentialPublicKey,
     PartnerAppCredentialWorkloadIdentity,
+    PartnerAppMerchantReadiness,
+    PartnerAppMerchantReadinessAxis,
     PartnerAppCredentialPublicKeyRequest
-} from '../declarations/types-41.js';
+} from '../declarations/types-43.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type {
+    PartnerAppsDeleteParams,
+    PartnerAppsDeleteCredentialParams,
+    PartnerAppsGetParams,
+    PartnerAppsGetCredentialParams,
+    PartnerAppsGetInstallParams,
+    PartnerAppsListCredentialsParams,
+    PartnerAppsListInstallsParams,
+    PartnerAppsListParams,
+    PartnerAppsRevokeEnvironmentGrantParams,
+    PartnerAppsRevokeInstallParams,
+    PartnerAppsRotateSecretParams,
+    PartnerAppsUpdateParams,
+    PartnerEnvironmentGrant,
+    PartnerEnvironmentGrantPaymentSplits
+} from '../declarations/types-44.js';
 export type {
     _SdkWithoutIdempotency,
     WorkloadIdentityClaimConditionRequestInput,
     WorkloadIdentityClaimCondition
-} from '../declarations/types-66.js';
-export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-56.js';
-export type { ClientOptions } from '../declarations/types-6.js';
-export type { AcceptPartnerAppPlatformTermsRequestInput, AuthMode, AcceptPartnerAppPlatformTermsRequest } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { CreatePartnerAppRequestInput, CreatePartnerAppCredentialWorkloadIdentityRequestInput } from '../declarations/types-11.js';
+} from '../declarations/types-69.js';
+export type { RotatePartnerAppSecretResponse, RotatePartnerAppSecretRequestInput } from '../declarations/types-58.js';
+export type { ClientOptions, CheckoutSessionsListCustomerVerificationsParams } from '../declarations/types-6.js';
+export type { AcceptPartnerAppPlatformTermsRequestInput, AcceptPartnerAppPlatformTermsRequest } from '../declarations/types-0.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-38.js';
+export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
+export type { PlatformFeeCap, PlatformFeeCapRequestInput } from '../declarations/types-48.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type {
+    CreatePartnerAppRequestInput,
     CreatePartnerAppCredentialRequestInput,
     CreatePartnerAppCredentialPublicKeyRequestInput,
-    CreatePartnerAppCredentialJWKSURLRequestInput
-} from '../declarations/types-10.js';
-export type { UpdatePartnerAppRequestInput } from '../declarations/types-64.js';
-export type { FeedbackReportsListParams } from '../declarations/types-23.js';
-export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-66.js';
+    CreatePartnerAppCredentialJWKSURLRequestInput,
+    CreatePartnerAppCredentialWorkloadIdentityRequestInput
+} from '../declarations/types-11.js';
+export type { UpdatePartnerAppRequestInput } from '../declarations/types-67.js';
+export { makeAcceptPartnerAppPlatformTermsRequest } from '../declarations/types-69.js';
 export {
     makeCreatePartnerAppCredentialJWKSURLRequest,
     makeCreatePartnerAppCredentialPublicKeyRequest,
     makeCreatePartnerAppCredentialRequest,
     makeCreatePartnerAppCredentialWorkloadIdentityRequest,
     makeCreatePartnerAppRequest
-} from '../declarations/types-70.js';
+} from '../declarations/types-73.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
 export {
-    makeMoneyValue,
     makePartnerAppCredentialJWKSURLRequest,
     makePartnerAppCredentialPublicKeyRequest,
     makePartnerAppCredentialWorkloadIdentityRequest,
+    makePartnerAppPaymentSplitsRequest,
     makePartnerAppPermissionManifestEntryRequest,
     makePartnerAppPlatformProfileRequest
-} from '../declarations/types-75.js';
-export { makeRotatePartnerAppSecretRequest } from '../declarations/types-78.js';
-export { makeUpdatePartnerAppRequest, makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-80.js';
+} from '../declarations/types-79.js';
+export { makePlatformFeeCapRequest } from '../declarations/types-80.js';
+export { makeRotatePartnerAppSecretRequest } from '../declarations/types-81.js';
+export { makeUpdatePartnerAppRequest } from '../declarations/types-83.js';
+export { makeWorkloadIdentityClaimConditionRequest } from '../declarations/types-84.js';
 export interface PartnerAppsResource {
     /**
  * Records that the authenticated credential accepted the current version of Flint's platform terms
@@ -154,7 +170,7 @@ export interface PartnerAppsResource {
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.partnerApps.acceptPlatformTerms("papp_01KEZF7C00Y8VMXYZ1GNPP3WHV", {expected_version: 1,
- * platform_terms_version: "2026-11-01"}, { idempotencyKey: idempotencyKey })
+ * platform_terms_version: "2026-11-12"}, { idempotencyKey: idempotencyKey })
  */
     acceptPlatformTerms(partner_app_id: InputValue<string>, params: PartnerAppsAcceptPlatformTermsParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerApp, PartnerAppResponse>>;
     /**
@@ -224,7 +240,9 @@ export interface PartnerAppsResource {
  */
     deleteCredential(partner_app_id: InputValue<string>, partner_app_credential_id: InputValue<string>, params?: PartnerAppsDeleteCredentialParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppCredential, PartnerAppCredentialResponse>>;
     /**
- * Returns a single partner app owned by the authenticated merchant.
+ * Returns a single partner app owned by the authenticated merchant. A live partner app token can
+ * read its own app, without Flint-Merchant-Id or Flint-Sandbox-Id; another app's ID returns 404 as
+ * an unknown ID does.
  *
  * `GET /v1/partner-apps/{partner_app_id}`
  * @param partner_app_id Flint partner app ID.
@@ -248,9 +266,11 @@ export interface PartnerAppsResource {
  */
     getCredential(partner_app_id: InputValue<string>, partner_app_credential_id: InputValue<string>, params?: PartnerAppsGetCredentialParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<PartnerAppCredential, PartnerAppCredentialResponse>>;
     /**
- * Returns a single install for the installing merchant or the partner app owner. For the app’s
- * owner, each active grant that can read the merchant profile carries `merchant_readiness`, the
- * installed merchant’s payments and payouts readiness in that environment.
+ * Returns a single install for the installing merchant, the partner app owner, or a live partner
+ * app token for the app. A merchant-bound token reads only its merchant's install; other installs
+ * return 404. For the app’s owner and its tokens, each active grant that can read the merchant
+ * profile carries `merchant_readiness`, the installed merchant’s payments and payouts readiness in
+ * that environment.
  *
  * `GET /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}`
  * @param partner_app_id Flint partner app ID.
@@ -286,8 +306,10 @@ export interface PartnerAppsResource {
  * Returns installs for a partner app owned by the authenticated merchant. Each active grant that
  * can read the merchant profile carries `merchant_readiness`: whether the installed merchant can
  * take payments and receive payouts in that environment, and how many requirements are due. Use it
- * to find merchants who still need to finish onboarding without exchanging each install’s token.
- * Default order: partner_app_install_id ascending; this key uniquely orders the results.
+ * to find merchants who still need to finish onboarding without exchanging each install’s token. A
+ * live partner app token can list its own app's installs, with the same filters and summaries as
+ * the owner; a merchant-bound token lists at most its merchant's install. Default order:
+ * partner_app_install_id ascending; this key uniquely orders the results.
  *
  * `GET /v1/partner-apps/{partner_app_id}/installs`
  * @param partner_app_id Flint partner app ID.
@@ -325,10 +347,12 @@ export interface PartnerAppsResource {
      */
     listItems(params?: PartnerAppsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<PartnerApp>;
     /**
- * The installing merchant or partner app owner can revoke a single test or live environment grant
- * for an install. This revokes linked API keys and deletes linked webhook endpoints in that
- * environment. Revoking the last grant also revokes the install and ends its remaining links.
- * Unlinked keys and endpoints keep working.
+ * The installing merchant, the partner app owner, or a live partner app token for the app can
+ * revoke a single test or live environment grant for an install. A live token can revoke a test
+ * grant. A merchant-bound token can revoke only its merchant's grants; other installs return 404.
+ * This revokes linked API keys and deletes linked webhook endpoints in that environment. Revoking
+ * the last grant also revokes the install and ends its remaining links. Unlinked keys and
+ * endpoints keep working.
  *
  * `POST
  * /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/environment-grants/{environment_grant_id}/revoke`
@@ -346,9 +370,12 @@ export interface PartnerAppsResource {
  */
     revokeEnvironmentGrant(partner_app_id: InputValue<string>, partner_app_install_id: InputValue<string>, environment_grant_id: InputValue<string>, params?: PartnerAppsRevokeEnvironmentGrantParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PartnerAppInstallWithEndedAccess, PartnerAppInstallWithEndedAccessResponse>>;
     /**
- * The installing merchant or partner app owner can revoke an install and all of its environment
- * grants. This also revokes linked API keys and deletes linked webhook endpoints. Unlinked keys
- * and endpoints keep working. Reinstalling does not restore ended access.
+ * The installing merchant, the partner app owner, or a live partner app token for the app can
+ * revoke an install and all of its environment grants. A merchant-bound token can revoke only its
+ * merchant's install; other installs return 404. The owner and the app's tokens record revoked_by
+ * partner_app, and a token records no revoked_by_user_id. This also revokes linked API keys and
+ * deletes linked webhook endpoints. Unlinked keys and endpoints keep working. Reinstalling does
+ * not restore ended access.
  *
  * `POST /v1/partner-apps/{partner_app_id}/installs/{partner_app_install_id}/revoke`
  * @param partner_app_id Flint partner app ID.

@@ -76,7 +76,7 @@ final class BundlesListParams extends Model {
      */
     public function getSortDirection(): string { return $this->get('sort_direction'); }
     public function hasSortDirection(): bool { return $this->has('sort_direction'); }
-    /** Filter bundles with at least one component assigned to this delivery profile. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+    /** Filter bundles with at least one component assigned to this delivery profile. pattern: ^dprof_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
      * @return string
      * @throws SdkError When delivery_profile_id is omitted; use hasDeliveryProfileId() or valueOrDefault().
      */

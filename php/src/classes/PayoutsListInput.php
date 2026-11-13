@@ -23,7 +23,7 @@ namespace Flint;
 final class PayoutsListInput extends Model {
     /** @param array{'idempotency_key'?: string, 'currency'?: string, 'expand'?: list<string>|string, 'method'?: list<string>|string, 'balance_source_type'?: list<string>|string, 'payout_destination_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'arrival_date_from'?: string, 'arrival_date_to'?: string, 'page_size'?: int, 'page_token'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutsListInput')); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -53,7 +53,7 @@ final class PayoutsListInput extends Model {
      */
     public function getBalanceSourceType(): mixed { return $this->get('balance_source_type'); }
     public function hasBalanceSourceType(): bool { return $this->has('balance_source_type'); }
-    /** Optional payout destination ID filter. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
+    /** Optional payout destination ID filter. pattern: ^pdest_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
      * @return string
      * @throws SdkError When payout_destination_id is omitted; use hasPayoutDestinationId() or valueOrDefault().
      */

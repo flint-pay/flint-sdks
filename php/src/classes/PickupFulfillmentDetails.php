@@ -5,10 +5,10 @@ namespace Flint;
  * @property-read ?Address $address
  * @property-read ?string $curbside_instructions
  * @property-read ?string $customer_arrived_at
- * @property-read ?string $expires_at
  * @property-read ?string $instructions
  * @property-read ?string $location_name
  * @property-read ?string $picked_up_at
+ * @property-read ?string $pickup_due_at
  * @property-read ?string $pickup_mode
  * @property-read ?int $pickup_window_duration_seconds
  * @property-read ?int $prep_time_duration_seconds
@@ -19,7 +19,7 @@ namespace Flint;
  * @property-read ?string $window_start_at
  * Presence-aware response; omitted optional fields return null. */
 final class PickupFulfillmentDetails extends Model {
-    /** @param array{'address'?: mixed, 'curbside_instructions'?: string, 'customer_arrived_at'?: string, 'expires_at'?: string, 'instructions'?: string, 'location_name'?: string, 'picked_up_at'?: string, 'pickup_mode'?: string, 'pickup_window_duration_seconds'?: int, 'prep_time_duration_seconds'?: int, 'ready_at'?: string, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string, 'window_start_at'?: string, ...}|object $values */
+    /** @param array{'address'?: mixed, 'curbside_instructions'?: string, 'customer_arrived_at'?: string, 'instructions'?: string, 'location_name'?: string, 'picked_up_at'?: string, 'pickup_due_at'?: string, 'pickup_mode'?: string, 'pickup_window_duration_seconds'?: int, 'prep_time_duration_seconds'?: int, 'ready_at'?: string, 'timezone'?: string, 'vehicle_description'?: string, 'window_end_at'?: string, 'window_start_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PickupFulfillmentDetails')); }
     /** Address where the buyer collects the order. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
@@ -36,11 +36,6 @@ final class PickupFulfillmentDetails extends Model {
      */
     public function getCustomerArrivedAt(): ?string { return $this->get('customer_arrived_at'); }
     public function hasCustomerArrivedAt(): bool { return $this->has('customer_arrived_at'); }
-    /** Deadline after which an uncollected pickup should enter merchant review. Format: date-time.
-     * @return ?string
-     */
-    public function getExpiresAt(): ?string { return $this->get('expires_at'); }
-    public function hasExpiresAt(): bool { return $this->has('expires_at'); }
     /** Pickup instructions for the buyer, such as where to go on arrival.
      * @return ?string
      */
@@ -56,6 +51,11 @@ final class PickupFulfillmentDetails extends Model {
      */
     public function getPickedUpAt(): ?string { return $this->get('picked_up_at'); }
     public function hasPickedUpAt(): bool { return $this->has('picked_up_at'); }
+    /** Time by which the buyer should collect the order. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Format: date-time.
+     * @return ?string
+     */
+    public function getPickupDueAt(): ?string { return $this->get('pickup_due_at'); }
+    public function hasPickupDueAt(): bool { return $this->has('pickup_due_at'); }
     /** How the buyer collects the items, such as in store or curbside. Value enum: "in_store", "curbside", "locker", "other".
      * @return ?string
      */

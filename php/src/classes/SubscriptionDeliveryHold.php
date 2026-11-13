@@ -20,7 +20,7 @@ final class SubscriptionDeliveryHold extends Model {
      */
     public function getFixableBy(): string { return $this->get('fixable_by'); }
     public function hasFixableBy(): bool { return $this->has('fixable_by'); }
-    /** Value enum: "method_unavailable", "destination_not_served", "rate_unavailable".
+    /** Why the subscription's delivery needs attention. Value enum: "method_unavailable", "destination_not_served", "rate_unavailable".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }

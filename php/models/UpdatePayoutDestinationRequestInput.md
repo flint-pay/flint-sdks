@@ -4,6 +4,8 @@
 
 The request body for: Update payout destination metadata.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |

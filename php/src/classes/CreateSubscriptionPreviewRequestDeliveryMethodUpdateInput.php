@@ -9,19 +9,19 @@ namespace Flint;
 final class CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput extends Model {
     /** @param array{'delivery_method': UpdateDeliveryMethodRequestInput|array<array-key, mixed>|\stdClass, 'delivery_method_id': string, 'mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionPreviewRequestDeliveryMethodUpdateInput')); }
-    /** The request body for: Update delivery method.
+    /** The edit to preview, in the same shape as an update to the delivery method. Flint saves nothing. The request body for: Update delivery method. minProperties: 1.
      * @return UpdateDeliveryMethodRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery_method is omitted; use hasDeliveryMethod() or valueOrDefault().
      */
     public function getDeliveryMethod(): mixed { return $this->get('delivery_method'); }
     public function hasDeliveryMethod(): bool { return $this->has('delivery_method'); }
-    /** minLength: 1. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** ID of the delivery method whose edit to preview. minLength: 1. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Value enum: "delivery_method_update".
+    /** Selects the delivery method update preview. Value enum: "delivery_method_update".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */

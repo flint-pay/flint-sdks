@@ -29,27 +29,27 @@ final class SubscriptionDeliveryMigrationCompletedInstalledMerchantsEventDataObj
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Format: int64.
+    /** Subscriptions that could not be moved. See `failure_reason_counts`, or list the failures for each subscription. Format: int64.
      * @return int
      */
     public function getFailedCount(): int { return $this->get('failed_count'); }
     public function hasFailedCount(): bool { return $this->has('failed_count'); }
-    /**  [] (Value): {@see SubscriptionDeliveryMigrationFailureReasonCount}. The number of subscriptions that failed a delivery method migration for one reason.
+    /** Failed subscriptions grouped by reason. Empty when none failed. [] (Value): {@see SubscriptionDeliveryMigrationFailureReasonCount}. The number of subscriptions that failed a delivery method migration for one reason.
      * @return list<SubscriptionDeliveryMigrationFailureReasonCount>
      */
     public function getFailureReasonCounts(): array { return $this->get('failure_reason_counts'); }
     public function hasFailureReasonCounts(): bool { return $this->has('failure_reason_counts'); }
-    /** from_delivery_method_id
+    /** ID of the delivery method the subscriptions moved away from.
      * @return string
      */
     public function getFromDeliveryMethodId(): string { return $this->get('from_delivery_method_id'); }
     public function hasFromDeliveryMethodId(): bool { return $this->has('from_delivery_method_id'); }
-    /** Format: int64.
+    /** Subscriptions now using the new method. Format: int64.
      * @return int
      */
     public function getMovedCount(): int { return $this->get('moved_count'); }
     public function hasMovedCount(): bool { return $this->has('moved_count'); }
-    /** Format: int64.
+    /** Subscriptions not yet moved or failed, including ones Flint is retrying. Format: int64.
      * @return int
      */
     public function getPendingCount(): int { return $this->get('pending_count'); }
@@ -64,17 +64,17 @@ final class SubscriptionDeliveryMigrationCompletedInstalledMerchantsEventDataObj
      */
     public function getSubscriptionDeliveryMigrationId(): string { return $this->get('subscription_delivery_migration_id'); }
     public function hasSubscriptionDeliveryMigrationId(): bool { return $this->has('subscription_delivery_migration_id'); }
-    /** subscription_plan_id
+    /** Plan the migration was limited to. Omitted when it covered every plan.
      * @return ?string
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** to_delivery_method_id
+    /** ID of the delivery method the subscriptions move to.
      * @return string
      */
     public function getToDeliveryMethodId(): string { return $this->get('to_delivery_method_id'); }
     public function hasToDeliveryMethodId(): bool { return $this->has('to_delivery_method_id'); }
-    /** Format: int64.
+    /** Number of active, paused, and past due subscriptions on the original method when the migration started. Format: int64.
      * @return int
      */
     public function getTotalCount(): int { return $this->get('total_count'); }

@@ -10,112 +10,17 @@ The delivery options and prices Flint would offer for the supplied items and buy
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_location` | Optional | [DeliveryBuyerLocationResource](../models/DeliveryBuyerLocationResource.md#deliverybuyerlocationresource) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote. |
-| `choice_groups` | Required | Array of [DeliveryPreviewChoiceGroupResource](../models/DeliveryPreviewChoiceGroupResource.md#deliverypreviewchoicegroupresource) |  |
+| `buyer_location` | Optional | [DeliveryBuyerLocationResource](../models/DeliveryBuyerLocationResource.md#deliverybuyerlocationresource) | Buyer location used to evaluate delivery availability and pickup proximity. Omitted when the request sent none. The normalized buyer address or coordinate used for this quote. |
+| `choice_groups` | Required | Array of [DeliveryPreviewChoiceGroupResource](../models/DeliveryPreviewChoiceGroupResource.md#deliverypreviewchoicegroupresource) | Groups of order items that each choose their own delivery option. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
-| `delivery_method_ids` | Required | Array of string | Items: Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
-| `destination_address` | Optional | [Address](../models/Address.md#address) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
-| `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
-| `expires_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `delivery_method_ids` | Required | Array of string | Delivery methods the preview evaluated. Items: Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
+| `destination_address` | Optional | [Address](../models/Address.md#address) | Destination address used to evaluate shipment and local delivery options. Omitted when the request sent none. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
+| `evaluated_at` | Required | string | Time Flint computed this preview. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `evaluation_status` | Required | string | How completely Flint evaluated the candidate delivery methods. Values: `"complete"`, `"incomplete"`, `"degraded"`. |
+| `expires_at` | Required | string | Request a new preview after this time, because prices and availability may have changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) | Inputs the delivery methods need. A quote requirement, such as the destination address, is input a method needs before Flint can price it. A selection requirement is input a delivery selection needs before payment, such as a recipient field or delivery window an option requires. A method that waits on the buyer's address or store, or on an address the buyer must correct, already lists the recipient fields it requires. Those requirements name the method's choice group and have no delivery_option_ids. |
-| `line_items` | Required | Array of [CreateOrderLineItem](../models/CreateOrderLineItem.md#createorderlineitem) | `line_items[]`: [declared alternatives](../models/DeliveryPreview.md#deliverypreviewline_items). |
+| `line_items` | Required | Array of [CreateOrderLineItem](../models/CreateOrderLineItem.md#createorderlineitem) | Items the preview evaluated. |
 | `merchant_diagnostics` | Optional | Array of [DeliveryMerchantDiagnostic](../models/DeliveryMerchantDiagnostic.md#deliverymerchantdiagnostic) | Present for merchant callers as an array, including when empty. Absent for buyer callers. |
 | `mode` | Required | string | The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods and prices for the supplied items and buyer location. Values: `"delivery_options"`. |
-| `pickup_location_id` | Optional | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-
-### DeliveryPreview.line_items[]
-
-A line item in a delivery preview: a catalog variant, a bundle, or a custom item with a name and unit price.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `bundle_id` | Conditional | string | ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item sends neither. Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
-| `description` | Optional | string | Description of the item as it appears on the order. |
-| `fulfillment` | Conditional | [LineItemFulfillmentRequest](../models/LineItemFulfillmentRequest.md#lineitemfulfillmentrequest) | Required on line items without variant_id or bundle_id, and rejected on catalog lines, which use the catalog's delivery settings. Send {"requirement": "none"} when nothing is delivered. For manual digital or service delivery, send requirement required, resolution_mode manual, and allowed_types containing digital or service. Fulfillment requirements you supply for an order line item, such as allowed fulfillment types, package size and weight, and origin. `fulfillment`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1fulfillment). |
-| `gift_card_purchase` | Optional | [GiftCardPurchaseRequest](../models/GiftCardPurchaseRequest.md#giftcardpurchaserequest) | Buyer-selected face value and recipient for a gift_card variant. The server freezes the offer and resolves consideration per unit. Omit to purchase the reference denomination without a recipient. Gift card details for an order line item: the `face_value_money` and the `recipient` who receives the card. `gift_card_purchase`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1gift_card_purchase). |
-| `image` | Optional | [ImageReferenceRequest](../models/ImageReferenceRequest.md#imagereferencerequest) | Image of the item as it appears on the order. A reference to an image by `url`, with optional `alt` text, used on an order line item. |
-| `inventory_demands` | Optional | Array of [OrderDraftLineItemInventoryDemandRequest](../models/OrderDraftLineItemInventoryDemandRequest.md#orderdraftlineiteminventorydemandrequest) | Inventory items and quantities each unit of the line takes from stock. |
-| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata). |
-| `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | Modifiers sold with the item, each chosen from the catalog or typed as text. Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/CreateOrderLineItem.md#createorderlineitem-variant-1modifiers). |
-| `name` | Conditional | string | Name of the item as it appears on the order. |
-| `quantity` | Optional | integer | Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: `int64`. minimum: `1`. maximum: `9999`. Default: `1`. |
-| `subscription` | Optional | [SubscribedLineRequest](../models/SubscribedLineRequest.md#subscribedlinerequest) | Selected recurring terms for this variant. Lines with the same cadence start one subscription after payment. Makes an order line a subscription purchase, with the subscription offer and billing interval. `subscription`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1subscription). |
-| `tax` | Optional | [OrderCalculatedLineItemTax](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax) | How tax applies to this line item. Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation. `tax`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1tax), [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-3tax). |
-| `type` | Required | string | Selects the type branch. Values: `"variant"`, `"bundle"`, `"custom"`. |
-| `unit_dimensions` | Optional | [Dimensions](../models/Dimensions.md#dimensions) | Dimensions of one unit. Accepted only for custom lines without variant_id or bundle_id. Package or item dimensions as `length`, `width`, and `height` in the given `unit`. `unit_dimensions`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1unit_dimensions). |
-| `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price of one unit. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsunit_price_money). |
-| `unit_weight` | Optional | [Weight](../models/Weight.md#weight) | Weight of one unit. Accepted only for custom lines without variant_id or bundle_id. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. `unit_weight`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1unit_weight). |
-| `variant_id` | Conditional | string | ID of the product variant to add. A catalog line item sends this or `bundle_id`; a custom line item sends neither. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
-
-### DeliveryPreview.line_items[] variant 1: `type` = `"variant"`
-
-oneOf with type: "variant": The `variant` variant of `CreateOrderLineItem`..
-
-- Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`))).
-- Required: `variant_id`.
-- Optional: `bundle_id`, `fulfillment`, `name`, `unit_price_money`.
-- Constraints for `type`: Values: `"variant"`.
-
-### DeliveryPreview.line_items[] variant 2: `type` = `"bundle"`
-
-oneOf with type: "bundle": The `bundle` variant of `CreateOrderLineItem`..
-
-- Condition: not (at least one(present(`variant_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`); present(`gift_card_purchase`))).
-- Required: `bundle_id`.
-- Optional: `fulfillment`, `name`, `unit_price_money`, `variant_id`.
-- Constraints for `type`: Values: `"bundle"`.
-
-### DeliveryPreview.line_items[] variant 3: `type` = `"custom"`
-
-oneOf with type: "custom": The `custom` variant of `CreateOrderLineItem`..
-
-- Condition: not (at least one(present(`variant_id`); present(`bundle_id`); present(`gift_card_purchase`))).
-- Required: `fulfillment`, `name`, `unit_price_money`.
-- Optional: `bundle_id`, `variant_id`.
-- Constraints for `type`: Values: `"custom"`.
-
-### DeliveryPreview.line_items[].fulfillment
-
-Field definitions: [CreateOrderLineItem variant 1.fulfillment](../models/CreateOrderLineItem.md#createorderlineitem-variant-1fulfillment).
-
-### DeliveryPreview.line_items[].gift_card_purchase
-
-Field definitions: [CreateOrderLineItem variant 1.gift_card_purchase](../models/CreateOrderLineItem.md#createorderlineitem-variant-1gift_card_purchase).
-
-### DeliveryPreview.line_items[].metadata
-
-Field definitions: [CreateOrderLineItem variant 1.metadata](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata).
-
-### DeliveryPreview.line_items[].modifiers[]
-
-Declared alternatives: [CreateOrderLineItem variant 1.modifiers[]](../models/CreateOrderLineItem.md#createorderlineitem-variant-1modifiers).
-
-### DeliveryPreview.line_items[].subscription
-
-Field definitions: [CreateOrderLineItem variant 1.subscription](../models/CreateOrderLineItem.md#createorderlineitem-variant-1subscription).
-
-### DeliveryPreview.line_items[] variant 1.tax
-
-Field definitions: [CreateOrderLineItem variant 1.tax](../models/CreateOrderLineItem.md#createorderlineitem-variant-1tax).
-
-### DeliveryPreview.line_items[].unit_dimensions
-
-Field definitions: [CreateOrderLineItem variant 1.unit_dimensions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1unit_dimensions).
-
-### DeliveryPreview.line_items[].unit_price_money
-
-Field definitions: [AddLineItemsRequest.line_items[].unit_price_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsunit_price_money).
-
-### DeliveryPreview.line_items[].unit_weight
-
-Field definitions: [CreateOrderLineItem variant 1.unit_weight](../models/CreateOrderLineItem.md#createorderlineitem-variant-1unit_weight).
-
-### DeliveryPreview.line_items[] variant 2.tax
-
-Field definitions: [CreateOrderLineItem variant 1.tax](../models/CreateOrderLineItem.md#createorderlineitem-variant-1tax).
-
-### DeliveryPreview.line_items[] variant 3.tax
-
-Field definitions: [CreateOrderLineItem variant 3.tax](../models/CreateOrderLineItem.md#createorderlineitem-variant-3tax).
+| `pickup_location_id` | Optional | string | ID of the Location at which pickup methods were priced. Omitted when the request sent none. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 

@@ -101,7 +101,7 @@ Signature: `delete(string|Model $bundle_id, array|Model|null $params = null, ?Re
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `bundle_id` | Required | string | Flint bundle ID. |
-| `expected_version` | Optional | integer | Optional bundle version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional bundle version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -176,6 +176,7 @@ Returned payload: [Bundle](../models/Bundle.md#bundle).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -219,7 +220,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by bundle_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"name"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `delivery_profile_id` | Optional | string | Filter bundles with at least one component assigned to this delivery profile. |
+| `delivery_profile_id` | Optional | string | Filter bundles with at least one component assigned to this delivery profile. pattern: `^dprof_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `delivery_configuration_status` | Optional | Array of string or string | Filter by aggregated delivery readiness across bundle components. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"configured"`, `"action_required"`, `"not_applicable"`. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
@@ -241,6 +242,7 @@ Returned payload: [BundleListResponse](../models/BundleListResponse.md#bundlelis
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -280,7 +282,7 @@ Signature: `listComponents(string|Model $bundle_id, array|Model|null $params = n
 | `bundle_id` | Required | string | Flint bundle ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `delivery_profile_id` | Optional | string | Filter by assigned delivery profile ID. |
+| `delivery_profile_id` | Optional | string | Filter by assigned delivery profile ID. pattern: `^dprof_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `delivery_configuration_status` | Optional | Array of string or string | Filter by delivery readiness. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"configured"`, `"action_required"`, `"not_applicable"`. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -298,6 +300,7 @@ Returned payload: [BundleComponentListResponse](../models/BundleComponentListRes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -338,7 +341,7 @@ Signature: `update(string|Model $bundle_id, array|Model $params, ?RequestOptions
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateBundleRequestInput](../models/UpdateBundleRequestInput.md#updatebundlerequestinput) | Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. |
+| `body` | Required | [UpdateBundleRequestInput](../models/UpdateBundleRequestInput.md#updatebundlerequestinput) | Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. minProperties: `1`. |
 
 Body model: [UpdateBundleRequestInput](../models/UpdateBundleRequestInput.md#updatebundlerequestinput).
 

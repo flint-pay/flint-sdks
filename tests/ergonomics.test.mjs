@@ -24,6 +24,7 @@ test("Node and PHP support apiKey, direct payloads, and full response access", a
     last_payment_error: null,
     statement_descriptor: null,
     customer_presence: "present",
+    refund_expires_at: null,
   };
   const server = createServer((req, res) => {
     assert.equal(req.url, "/v1/payment-intents/pi_shortcut_test");

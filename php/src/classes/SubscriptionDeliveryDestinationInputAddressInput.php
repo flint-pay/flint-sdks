@@ -8,13 +8,13 @@ namespace Flint;
 final class SubscriptionDeliveryDestinationInputAddressInput extends Model {
     /** @param array{'address': AddressRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryDestinationInputAddressInput')); }
-    /** A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+    /** Delivery address. Flint saves a copy with the subscription. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address is omitted; use hasAddress() or valueOrDefault().
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
-    /** Value enum: "address".
+    /** Selects a new address as the destination. Value enum: "address".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

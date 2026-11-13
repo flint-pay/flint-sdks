@@ -21,12 +21,16 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $current_period_start_at
  * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
  * @property-read string $customer_id
+ * @property-read int $deliveries_per_period
  * @property-read SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass $delivery
  * @property-read SubscriptionDeliveryHoldInput|array<array-key, mixed>|\stdClass $delivery_hold
+ * @property-read string|null $delivery_interval
+ * @property-read int|null $delivery_interval_count
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $early_termination_fee_money
  * @property-read array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone': string, 'type': string}|object|null $end_after
  * @property-read string|\DateTimeInterface|null $expires_at
  * @property-read string $external_reference_id
+ * @property-read array{'email': string, 'message': string|null, 'name': string|null, ...}|object|null $gift_recipient
  * @property-read SubscriptionInventoryWaitInput|array<array-key, mixed>|\stdClass $inventory_wait
  * @property-read bool $is_awaiting_billing_schedule
  * @property-read PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass $last_payment_error
@@ -35,6 +39,7 @@ namespace Flint;
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string|\DateTimeInterface $missed_billing_at
  * @property-read string|\DateTimeInterface $next_billing_at
+ * @property-read string|\DateTimeInterface|null $next_delivery_at
  * @property-read string|\DateTimeInterface|null $next_retry_at
  * @property-read string $open_renewal_order_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $outstanding_money
@@ -49,6 +54,7 @@ namespace Flint;
  * @property-read list<int> $quantity_options
  * @property-read array{'amount': string, 'currency': string}|object|null $recurring_subtotal_money
  * @property-read int|null $remaining_cycles
+ * @property-read int $remaining_prepaid_deliveries
  * @property-read string|\DateTimeInterface|null $resume_requested_at
  * @property-read string|\DateTimeInterface|null $scheduled_cancel_at
  * @property-read array{'billing_interval': string, 'billing_interval_count': int, 'effective_at': string|\DateTimeInterface|null, 'line_items': list<SubscriptionLineItemInput|array<array-key, mixed>|\stdClass>, 'quantity': int, 'recurring_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'requested_by': string, 'scheduled_at': string|\DateTimeInterface, 'subscription_plan_id': string, ...}|object|null $scheduled_plan_change
@@ -61,6 +67,7 @@ namespace Flint;
  * @property-read array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $subscription_plan
  * @property-read string $subscription_plan_id
  * @property-read list<string> $supported_actions
+ * @property-read array{'calculation': array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool, ...}|object|null $tax
  * @property-read string $terms_type
  * @property-read string $test_clock_id
  * @property-read string|\DateTimeInterface $trial_end_at
@@ -69,7 +76,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionInput extends Model {
-    /** @param array{'billing_anchor_day'?: int, 'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'billing_schedule_owner': string, 'billing_schedule_waiting_started_at'?: string|\DateTimeInterface, 'buyer_actions': list<BuyerActionInput|array<array-key, mixed>|\stdClass>, 'cancel_at_period_end': bool, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_details'?: SubscriptionCancellationDetailsInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'completed_cycles': int, 'contract_end_at'?: string|\DateTimeInterface, 'contract_start_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'current_period_end_at'?: string|\DateTimeInterface, 'current_period_start_at'?: string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string, 'delivery'?: SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass, 'delivery_hold'?: SubscriptionDeliveryHoldInput|array<array-key, mixed>|\stdClass, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after': array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone': string, 'type': string}|object|null, 'expires_at': string|\DateTimeInterface|null, 'external_reference_id'?: string, 'inventory_wait'?: SubscriptionInventoryWaitInput|array<array-key, mixed>|\stdClass, 'is_awaiting_billing_schedule'?: bool, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'line_items': list<SubscriptionLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'missed_billing_at'?: string|\DateTimeInterface, 'next_billing_at'?: string|\DateTimeInterface, 'next_retry_at': string|\DateTimeInterface|null, 'open_renewal_order_id'?: string, 'outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'pause_reason'?: string, 'paused_at'?: string|\DateTimeInterface, 'payment_method'?: array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'payment_method_due_at': string|\DateTimeInterface|null, 'payment_method_id': string|null, 'promotions': list<SubscriptionPromotionInput|array<array-key, mixed>|\stdClass>, 'prorate_first_period': bool, 'quantity': int, 'quantity_options'?: list<int>, 'recurring_subtotal_money': array{'amount': string, 'currency': string}|object|null, 'remaining_cycles': int|null, 'resume_requested_at': string|\DateTimeInterface|null, 'scheduled_cancel_at': string|\DateTimeInterface|null, 'scheduled_plan_change': array{'billing_interval': string, 'billing_interval_count': int, 'effective_at': string|\DateTimeInterface|null, 'line_items': list<SubscriptionLineItemInput|array<array-key, mixed>|\stdClass>, 'quantity': int, 'recurring_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'requested_by': string, 'scheduled_at': string|\DateTimeInterface, 'subscription_plan_id': string, ...}|object|null, 'scheduled_promotions': list<SubscriptionPromotionInput|array<array-key, mixed>|\stdClass>, 'scheduled_resume_at': string|\DateTimeInterface|null, 'service_location'?: SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass, 'starts_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_plan'?: array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'subscription_plan_id'?: string, 'supported_actions': list<string>, 'terms_type': string, 'test_clock_id'?: string, 'trial_end_at'?: string|\DateTimeInterface, 'upcoming_delivery_hold'?: SubscriptionUpcomingDeliveryHoldInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'billing_anchor_day'?: int, 'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'billing_schedule_owner': string, 'billing_schedule_waiting_started_at'?: string|\DateTimeInterface, 'buyer_actions': list<BuyerActionInput|array<array-key, mixed>|\stdClass>, 'cancel_at_period_end': bool, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_details'?: SubscriptionCancellationDetailsInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'completed_cycles': int, 'contract_end_at'?: string|\DateTimeInterface, 'contract_start_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'current_period_end_at'?: string|\DateTimeInterface, 'current_period_start_at'?: string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id': string, 'deliveries_per_period': int, 'delivery'?: SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass, 'delivery_hold'?: SubscriptionDeliveryHoldInput|array<array-key, mixed>|\stdClass, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after': array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone': string, 'type': string}|object|null, 'expires_at': string|\DateTimeInterface|null, 'external_reference_id'?: string, 'gift_recipient': array{'email': string, 'message': string|null, 'name': string|null, ...}|object|null, 'inventory_wait'?: SubscriptionInventoryWaitInput|array<array-key, mixed>|\stdClass, 'is_awaiting_billing_schedule'?: bool, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'line_items': list<SubscriptionLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'missed_billing_at'?: string|\DateTimeInterface, 'next_billing_at'?: string|\DateTimeInterface, 'next_delivery_at': string|\DateTimeInterface|null, 'next_retry_at': string|\DateTimeInterface|null, 'open_renewal_order_id'?: string, 'outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'pause_reason'?: string, 'paused_at'?: string|\DateTimeInterface, 'payment_method'?: array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'payment_method_due_at': string|\DateTimeInterface|null, 'payment_method_id': string|null, 'promotions': list<SubscriptionPromotionInput|array<array-key, mixed>|\stdClass>, 'prorate_first_period': bool, 'quantity': int, 'quantity_options'?: list<int>, 'recurring_subtotal_money': array{'amount': string, 'currency': string}|object|null, 'remaining_cycles': int|null, 'remaining_prepaid_deliveries': int, 'resume_requested_at': string|\DateTimeInterface|null, 'scheduled_cancel_at': string|\DateTimeInterface|null, 'scheduled_plan_change': array{'billing_interval': string, 'billing_interval_count': int, 'effective_at': string|\DateTimeInterface|null, 'line_items': list<SubscriptionLineItemInput|array<array-key, mixed>|\stdClass>, 'quantity': int, 'recurring_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'requested_by': string, 'scheduled_at': string|\DateTimeInterface, 'subscription_plan_id': string, ...}|object|null, 'scheduled_promotions': list<SubscriptionPromotionInput|array<array-key, mixed>|\stdClass>, 'scheduled_resume_at': string|\DateTimeInterface|null, 'service_location'?: SubscriptionServiceLocationInput|array<array-key, mixed>|\stdClass, 'starts_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_plan'?: array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'subscription_plan_id'?: string, 'supported_actions': list<string>, 'tax': array{'calculation': array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool, ...}|object|null, 'terms_type': string, 'test_clock_id'?: string, 'trial_end_at'?: string|\DateTimeInterface, 'upcoming_delivery_hold'?: SubscriptionUpcomingDeliveryHoldInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionInput')); }
     /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
      * @return int
@@ -89,7 +96,7 @@ final class SubscriptionInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Billing interval and count pairs frozen from the plan or shared by the subscription offers. Every option bills the same recorded line prices once per period. Changing the interval does not scale those prices. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Billing interval and count pairs frozen from the plan or shared by the subscription offers. Line prices are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
      * @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
@@ -107,7 +114,7 @@ final class SubscriptionInput extends Model {
      */
     public function getBillingScheduleWaitingStartedAt(): string|\DateTimeInterface { return $this->get('billing_schedule_waiting_started_at'); }
     public function hasBillingScheduleWaitingStartedAt(): bool { return $this->has('billing_schedule_waiting_started_at'); }
-    /** What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment, update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change, then renew, under the store's buyer policy. The available cancel and pause actions carry the choices they accept. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: []. [] (Value): {@see BuyerActionInput}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
+    /** What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment, update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change, then renew, under the store's buyer policy. The available cancel and pause actions carry the choices they accept. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due without an inventory_wait, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: []. [] (Value): {@see BuyerActionInput}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
      * @return list<BuyerActionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When buyer_actions is omitted; use hasBuyerActions() or valueOrDefault().
      */
@@ -185,6 +192,12 @@ final class SubscriptionInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+     * @return int
+     * @throws SdkError When deliveries_per_period is omitted; use hasDeliveriesPerPeriod() or valueOrDefault().
+     */
+    public function getDeliveriesPerPeriod(): int { return $this->get('deliveries_per_period'); }
+    public function hasDeliveriesPerPeriod(): bool { return $this->has('deliveries_per_period'); }
     /** Saved delivery preference with the current delivery method display. Write responses use the same display as GET: fixed shipping reflects the current method configuration, and quoted shipping shows the last paid shipping amount when available. A subscription's saved delivery preference: method, destination, recipient, shipping cost, and who last changed it.
      * @return SubscriptionDeliveryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
@@ -197,6 +210,18 @@ final class SubscriptionInput extends Model {
      */
     public function getDeliveryHold(): mixed { return $this->get('delivery_hold'); }
     public function hasDeliveryHold(): bool { return $this->has('delivery_hold'); }
+    /** Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null.
+     * @return string|null
+     * @throws SdkError When delivery_interval is omitted; use hasDeliveryInterval() or valueOrDefault().
+     */
+    public function getDeliveryInterval(): string|null { return $this->get('delivery_interval'); }
+    public function hasDeliveryInterval(): bool { return $this->has('delivery_interval'); }
+    /** Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: int32. minimum: 1.
+     * @return int|null
+     * @throws SdkError When delivery_interval_count is omitted; use hasDeliveryIntervalCount() or valueOrDefault().
+     */
+    public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
+    public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
     /** The fee in the recorded contract terms. Present whenever those terms include a fee. It applies only to a cancellation before contract_end_at. Flint never charges it. Later plan changes do not change this fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When early_termination_fee_money is omitted; use hasEarlyTerminationFeeMoney() or valueOrDefault().
@@ -209,7 +234,7 @@ final class SubscriptionInput extends Model {
      */
     public function getEndAfter(): mixed { return $this->get('end_after'); }
     public function hasEndAfter(): bool { return $this->has('end_after'); }
-    /** Projected end under the current schedule and committed plan changes, including an earlier scheduled cancellation. A date limit preserves already-paid entitlement without requiring a future charge schedule. A reached cycle limit uses the last paid period end, or current_period_end_at when no paid history exists; that fallback includes any skip or pause extension. A cycle limit with cycles left needs a future charge schedule unless a known scheduled cancellation determines the end. Null when the end cannot be determined or the subscription is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** Projected end under the current schedule and committed plan changes, including an earlier scheduled cancellation. A date limit preserves already-paid entitlement without requiring a future charge schedule. A reached cycle limit uses the last paid period end, or current_period_end_at when no paid history exists; that fallback includes any skip or pause extension. A cycle limit with cycles left needs a future charge schedule unless a known scheduled cancellation determines the end. Paid deliveries extend the end to the last paid delivery when it is later. An indefinite pause with paid deliveries owed makes the end unknown. Null when the end cannot be determined or the subscription is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -221,7 +246,13 @@ final class SubscriptionInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Renewal waiting for stock. Included only in merchant responses and omitted from buyer responses. Shows that a subscription renewal is waiting for inventory, with the order and invoice involved and when the wait started.
+    /** Who receives the gift, when this is a gift subscription. customer_id stays the purchaser. Flint clears it when the subscription ends and when the purchaser's data is erased. Null when the subscription isn't a gift. anyOf[1] (Value): {@see SubscriptionGiftRecipientInput}. Who receives a gift subscription. The customer stays the purchaser, who pays, gets receipts and reminders, and manages the subscription. delivery.recipient stays the ship-to address. anyOf[2] (Value): null.
+     * @return array{'email': string, 'message': string|null, 'name': string|null, ...}|object|null
+     * @throws SdkError When gift_recipient is omitted; use hasGiftRecipient() or valueOrDefault().
+     */
+    public function getGiftRecipient(): mixed { return $this->get('gift_recipient'); }
+    public function hasGiftRecipient(): bool { return $this->has('gift_recipient'); }
+    /** Renewal waiting for stock. Buyers receive only started_at. Shows that a subscription renewal is waiting for inventory, with the order and invoice involved and when the wait started.
      * @return SubscriptionInventoryWaitInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_wait is omitted; use hasInventoryWait() or valueOrDefault().
      */
@@ -269,6 +300,12 @@ final class SubscriptionInput extends Model {
      */
     public function getNextBillingAt(): string|\DateTimeInterface { return $this->get('next_billing_at'); }
     public function hasNextBillingAt(): bool { return $this->has('next_billing_at'); }
+    /** When the next prepaid delivery order is due, shifted by a timed pause. Null when the subscription has an indefinite pause, no delivery is scheduled, or the subscription is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When next_delivery_at is omitted; use hasNextDeliveryAt() or valueOrDefault().
+     */
+    public function getNextDeliveryAt(): string|\DateTimeInterface|null { return $this->get('next_delivery_at'); }
+    public function hasNextDeliveryAt(): bool { return $this->has('next_delivery_at'); }
     /** Recorded automatic payment retry time. Null when no retry time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When next_retry_at is omitted; use hasNextRetryAt() or valueOrDefault().
@@ -305,7 +342,7 @@ final class SubscriptionInput extends Model {
      */
     public function getPaymentMethod(): mixed { return $this->get('payment_method'); }
     public function hasPaymentMethod(): bool { return $this->has('payment_method'); }
-    /** First charge boundary while no card is bound: the later of trial_end_at and next_billing_at during a trial, or the next billing date for an imported period, even when that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a card at its boundary cancels without an order or payment attempt. At that boundary, an imported subscription with a positive charge that still has no card enters its normal dunning schedule without a payment attempt. For an imported subscription, a zero charge completes the renewal without a card and the deadline advances to the following boundary. Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel at period end), or an external schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** First charge boundary while no card is bound: the later of trial_end_at and next_billing_at during a trial, or the next billing date for an imported period, even when that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a card at its boundary cancels without an order or payment attempt. At that boundary, an imported subscription with a positive charge that still has no card enters its normal dunning schedule without a payment attempt. For an imported subscription, a zero charge completes the renewal without a card and the deadline advances to the following boundary. Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel at period end), an active or trialing subscription is in its final end_after cycle, or an external schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When payment_method_due_at is omitted; use hasPaymentMethodDueAt() or valueOrDefault().
      */
@@ -353,13 +390,19 @@ final class SubscriptionInput extends Model {
      */
     public function getRemainingCycles(): int|null { return $this->get('remaining_cycles'); }
     public function hasRemainingCycles(): bool { return $this->has('remaining_cycles'); }
+    /** Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts with deliveries_per_period minus one. When delivery_hold is present and this count is positive, fixing delivery releases an already-paid delivery with shipping waived and no new charge. A next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual refunds. Format: int32. minimum: 0. maximum: 23.
+     * @return int
+     * @throws SdkError When remaining_prepaid_deliveries is omitted; use hasRemainingPrepaidDeliveries() or valueOrDefault().
+     */
+    public function getRemainingPrepaidDeliveries(): int { return $this->get('remaining_prepaid_deliveries'); }
+    public function hasRemainingPrepaidDeliveries(): bool { return $this->has('remaining_prepaid_deliveries'); }
     /** When Flint accepted a pending resume request. Set only while paused with a resume Flint has not applied yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When resume_requested_at is omitted; use hasResumeRequestedAt() or valueOrDefault().
      */
     public function getResumeRequestedAt(): string|\DateTimeInterface|null { return $this->get('resume_requested_at'); }
     public function hasResumeRequestedAt(): bool { return $this->has('resume_requested_at'); }
-    /** When the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** When the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at while active, or next_retry_at while past_due. Paid deliveries extend it to the last paid delivery when it is later. Null when cancel_at_period_end is false or no cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_cancel_at is omitted; use hasScheduledCancelAt() or valueOrDefault().
      */
@@ -377,7 +420,7 @@ final class SubscriptionInput extends Model {
      */
     public function getScheduledPromotions(): array { return $this->get('scheduled_promotions'); }
     public function hasScheduledPromotions(): bool { return $this->has('scheduled_promotions'); }
-    /** When a pause with a length (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at. Null when the subscription is not paused or the pause has no length, such as a pause until you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** When a pause with a length (pause_duration_cycles) resumes on its own: that many delivery intervals after paused_at on a prepaid subscription, or billing intervals otherwise. Null when the subscription is not paused or the pause has no length, such as a pause until you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When scheduled_resume_at is omitted; use hasScheduledResumeAt() or valueOrDefault().
      */
@@ -425,6 +468,12 @@ final class SubscriptionInput extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** The tax the subscription's renewal, setup fee and plan change orders use. `null` when they follow `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only to merchant credentials; omitted for buyer credentials. anyOf[1] (Value): {@see SubscriptionTaxInput}. The tax the subscription's renewal, setup fee and plan change orders use. Returned only to merchant credentials; omitted for buyer credentials. anyOf[2] (Value): null.
+     * @return array{'calculation': array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool, ...}|object|null
+     * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
+     */
+    public function getTax(): mixed { return $this->get('tax'); }
+    public function hasTax(): bool { return $this->has('tax'); }
     /** Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
      * @return string
      * @throws SdkError When terms_type is omitted; use hasTermsType() or valueOrDefault().

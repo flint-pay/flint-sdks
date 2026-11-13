@@ -9,5 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `component` | Required | string | Which embedded Stripe component to render. Values: `"payment_disputes"`. |
-| `stripe_payment_intent_id` | Required | string | Stripe PaymentIntent ID to pass to setPayment or the React payment prop. This is a Stripe ID, not the dispute's Flint payment_intent_id. |
+| `stripe_payment_id` | Required | string | Stripe payment reference to pass to setPayment or the React payment prop: a PaymentIntent ID for an ordinary payment, or the destination payment ID (py_) for a payment with splits. This is separate from the dispute's Flint payment_intent_id. |
 

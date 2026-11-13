@@ -36,9 +36,17 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](OrderEdit.md#orderedit).
 
+### OrderEditCreatedInstalledMerchantsEvent.data.object.added_total_money
+
+Field definitions: [OrderEdit.added_total_money](../models/OrderEdit.md#ordereditadded_total_money).
+
 ### OrderEditCreatedInstalledMerchantsEvent.data.object.refund_money
 
 Field definitions: [OrderEdit.refund_money](../models/OrderEdit.md#ordereditrefund_money).
+
+### OrderEditCreatedInstalledMerchantsEvent.data.object.removed_total_money
+
+Field definitions: [OrderEdit.removed_total_money](../models/OrderEdit.md#ordereditremoved_total_money).
 
 ### OrderEditCreatedInstalledMerchantsEvent.data.object.unrefunded_money
 

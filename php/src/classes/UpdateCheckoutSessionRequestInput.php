@@ -36,7 +36,7 @@ final class UpdateCheckoutSessionRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Subscription plan sessions only. The billing interval and quantity the buyer chose from subscription_terms.billing_interval_options and quantity_options. Send billing_interval and billing_interval_count together. Accepted from your API key or the checkout credential. Subscription terms you set on a checkout session: billing interval, interval count, and quantity.
+    /** Subscription plan sessions only. The billing interval and quantity the buyer chose from subscription_terms.billing_interval_options and quantity_options, and the gift recipient when subscription_terms.gifts_enabled is true. Send billing_interval and billing_interval_count together. Accepted from your API key or the checkout credential. Subscription terms you set on a checkout session: billing interval, interval count, and quantity.
      * @return CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When subscription_terms is omitted; use hasSubscriptionTerms() or valueOrDefault().
      */

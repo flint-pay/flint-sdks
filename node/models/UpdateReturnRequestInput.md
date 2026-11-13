@@ -4,7 +4,7 @@
 
 Request input. Response: [UpdateRefundRequest](../models/UpdateRefundRequest.md#updaterefundrequest).
 
-The request body for: Update return.
+The request body for: Update return. minProperties: `1`.
 
 
 

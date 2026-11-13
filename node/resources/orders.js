@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import r0 from '../descriptors/resources/orders.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createFulfillment"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderEdit"]:r0,["createOrderLineItems"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderCurrentDeliverySelection"]:r0,["getOrderEdit"]:r0,["getOrderPaymentAttempt"]:r0,["getOrderReceiptPDF"]:r0,["listOrderActivities"]:r0,["listOrderEdits"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["retryOrderEditRefund"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderEdit"]:r0,["createOrderLineItems"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderEdit"]:r0,["getOrderPaymentAttempt"]:r0,["getOrderReceiptPDF"]:r0,["listOrderActivities"]:r0,["listOrderCharges"]:r0,["listOrderEdits"]:r0,["listOrderLineItems"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["retryOrderEditRefund"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -61,17 +61,6 @@ this.orders = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("closeOrder", result, path))),
-      createFulfillment: async (order_id, params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillment", result, path))),
       create: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
@@ -173,16 +162,6 @@ this.orders = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrder", result, path))),
-      getCurrentDeliverySelection: async (order_id, params, options) => this.#runtime.request("getOrderCurrentDeliverySelection", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], false, false, params, [
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrderCurrentDeliverySelection", result, path))),
       getEdit: async (order_id, order_edit_id, params, options) => this.#runtime.request("getOrderEdit", _sdkRequestInput([
   "order_id",
   "order_edit_id"
@@ -257,6 +236,42 @@ this.orders = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+      listCharges: async (order_id, params, options) => this.#runtime.request("listOrderCharges", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listOrderCharges", result, path))),
+      listChargesPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderCharges", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listOrderCharges", result, path)),
+      listChargesItems: (order_id, params, options) => this.#runtime.items("listOrderCharges", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listEdits: async (order_id, params, options) => this.#runtime.request("listOrderEdits", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -292,6 +307,42 @@ this.orders = Object.freeze({
   "page_token",
   "created_after",
   "created_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listLineItems: async (order_id, params, options) => this.#runtime.request("listOrderLineItems", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listOrderLineItems", result, path))),
+      listLineItemsPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderLineItems", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listOrderLineItems", result, path)),
+      listLineItemsItems: (order_id, params, options) => this.#runtime.items("listOrderLineItems", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
@@ -354,6 +405,7 @@ this.orders = Object.freeze({
   "order_number",
   "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
+  "has_invoice",
   "has_open_fulfillment",
   "external_reference_id",
   "origin",
@@ -396,6 +448,7 @@ this.orders = Object.freeze({
   "order_number",
   "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
+  "has_invoice",
   "has_open_fulfillment",
   "external_reference_id",
   "origin",
@@ -438,6 +491,7 @@ this.orders = Object.freeze({
   "order_number",
   "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
+  "has_invoice",
   "has_open_fulfillment",
   "external_reference_id",
   "origin",
@@ -595,14 +649,6 @@ export { makeApplyOrderGiftCardRequest } from '../models/ApplyOrderGiftCardReque
 export { makeCancelOrderPaymentAttemptRequest } from '../models/CancelOrderPaymentAttemptRequest.js';
 export { makeCheckoutBuyerContactRequest } from '../models/CheckoutBuyerContactRequest.js';
 export { makeCloseOrderRequest } from '../models/CloseOrderRequest.js';
-export { makeCreateDeliveryFulfillmentDetails } from '../models/CreateDeliveryFulfillmentDetails.js';
-export { makeCreateDigitalFulfillmentDetails } from '../models/CreateDigitalFulfillmentDetails.js';
-export { makeCreateFulfillmentRequest } from '../models/CreateFulfillmentRequest.js';
-export { makeCreateFulfillmentRequestDigital } from '../models/CreateFulfillmentRequestDigital.js';
-export { makeCreateFulfillmentRequestLocalDelivery } from '../models/CreateFulfillmentRequestLocalDelivery.js';
-export { makeCreateFulfillmentRequestPickup } from '../models/CreateFulfillmentRequestPickup.js';
-export { makeCreateFulfillmentRequestService } from '../models/CreateFulfillmentRequestService.js';
-export { makeCreateFulfillmentRequestShipment } from '../models/CreateFulfillmentRequestShipment.js';
 export { makeCreateOrderDiscount } from '../models/CreateOrderDiscount.js';
 export { makeCreateOrderDiscountManual } from '../models/CreateOrderDiscountManual.js';
 export { makeCreateOrderDiscountPromotion } from '../models/CreateOrderDiscountPromotion.js';
@@ -616,18 +662,12 @@ export { makeCreateOrderRequest } from '../models/CreateOrderRequest.js';
 export { makeCreateOrderTip } from '../models/CreateOrderTip.js';
 export { makeCreateOrderTipAmount } from '../models/CreateOrderTipAmount.js';
 export { makeCreateOrderTipPercent } from '../models/CreateOrderTipPercent.js';
-export { makeCreatePackageItemRequest } from '../models/CreatePackageItemRequest.js';
-export { makeCreatePickupFulfillmentDetails } from '../models/CreatePickupFulfillmentDetails.js';
-export { makeCreateServiceFulfillmentDetails } from '../models/CreateServiceFulfillmentDetails.js';
+export { makeCustomerTaxExemptionCoverageAllStatesRequest } from '../models/CustomerTaxExemptionCoverageAllStatesRequest.js';
+export { makeCustomerTaxExemptionCoverageRequest } from '../models/CustomerTaxExemptionCoverageRequest.js';
+export { makeCustomerTaxExemptionCoverageStatesRequest } from '../models/CustomerTaxExemptionCoverageStatesRequest.js';
 export { makeDeliveryChargeTaxCalculationRequestModel } from '../models/DeliveryChargeTaxCalculationRequestModel.js';
-export { makeDeliverySelectionInstructionsRequest } from '../models/DeliverySelectionInstructionsRequest.js';
-export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
+export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
 export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
-export { makeFulfillmentItemizedPackagesRequest } from '../models/FulfillmentItemizedPackagesRequest.js';
-export { makeFulfillmentLineItemRequest } from '../models/FulfillmentLineItemRequest.js';
-export { makeFulfillmentPackagingRequest } from '../models/FulfillmentPackagingRequest.js';
-export { makeFulfillmentRecipientRequest } from '../models/FulfillmentRecipientRequest.js';
-export { makeFulfillmentSinglePackageRequest } from '../models/FulfillmentSinglePackageRequest.js';
 export { makeGiftCardPurchaseDetailsRequest } from '../models/GiftCardPurchaseDetailsRequest.js';
 export { makeGiftCardPurchaseRecipientPatchRequest } from '../models/GiftCardPurchaseRecipientPatchRequest.js';
 export { makeGiftCardPurchaseRecipientRequest } from '../models/GiftCardPurchaseRecipientRequest.js';
@@ -650,6 +690,7 @@ export { makeOrderChargeRequest } from '../models/OrderChargeRequest.js';
 export { makeOrderChargeTaxAssignment } from '../models/OrderChargeTaxAssignment.js';
 export { makeOrderDeliveryDestinationRecipientRequest } from '../models/OrderDeliveryDestinationRecipientRequest.js';
 export { makeOrderDeliveryDestinationRequest } from '../models/OrderDeliveryDestinationRequest.js';
+export { makeOrderDeliveryRequest } from '../models/OrderDeliveryRequest.js';
 export { makeOrderDraftLineItemInventoryDemandRequest } from '../models/OrderDraftLineItemInventoryDemandRequest.js';
 export { makeOrderDraftLineItemTaxCalculationRequestModel } from '../models/OrderDraftLineItemTaxCalculationRequestModel.js';
 export { makeOrderDraftLineItemTaxRequestModel } from '../models/OrderDraftLineItemTaxRequestModel.js';
@@ -657,6 +698,7 @@ export { makeOrderDraftTaxComponentRequestModel } from '../models/OrderDraftTaxC
 export { makeOrderDraftTaxJurisdictionRequestModel } from '../models/OrderDraftTaxJurisdictionRequestModel.js';
 export { makeOrderEditRemovalRequest } from '../models/OrderEditRemovalRequest.js';
 export { makeOrderGiftCardAllocationAcceptance } from '../models/OrderGiftCardAllocationAcceptance.js';
+export { makeOrderHandoverRequest } from '../models/OrderHandoverRequest.js';
 export { makeOrderLineItemModifierInputCatalogRequest } from '../models/OrderLineItemModifierInputCatalogRequest.js';
 export { makeOrderLineItemModifierInputTextRequest } from '../models/OrderLineItemModifierInputTextRequest.js';
 export { makeOrderLineItemModifierRequestModel } from '../models/OrderLineItemModifierRequestModel.js';
@@ -664,6 +706,7 @@ export { makeOrderLineItemTaxAssignment } from '../models/OrderLineItemTaxAssign
 export { makeOrderPaymentIntentSelection } from '../models/OrderPaymentIntentSelection.js';
 export { makeOrderPaymentIntentSelectionAttached } from '../models/OrderPaymentIntentSelectionAttached.js';
 export { makeOrderPaymentIntentSelectionPaymentMethod } from '../models/OrderPaymentIntentSelectionPaymentMethod.js';
+export { makeOrderPaymentIntentSelectionReader } from '../models/OrderPaymentIntentSelectionReader.js';
 export { makeOrderPaymentIntentSelectionStripeConfirmationToken } from '../models/OrderPaymentIntentSelectionStripeConfirmationToken.js';
 export { makeOrderPaymentIntentSelectionToken } from '../models/OrderPaymentIntentSelectionToken.js';
 export { makeOrderPaymentSourceCardSelection } from '../models/OrderPaymentSourceCardSelection.js';
@@ -672,6 +715,10 @@ export { makeOrderTaxCalculationInputAutomatic } from '../models/OrderTaxCalcula
 export { makeOrderTaxCalculationInputExternal } from '../models/OrderTaxCalculationInputExternal.js';
 export { makeOrderTaxCalculationRequest } from '../models/OrderTaxCalculationRequest.js';
 export { makeOrderTaxComponentRequest } from '../models/OrderTaxComponentRequest.js';
+export { makeOrderTaxExemptionInputCustomer } from '../models/OrderTaxExemptionInputCustomer.js';
+export { makeOrderTaxExemptionInputNone } from '../models/OrderTaxExemptionInputNone.js';
+export { makeOrderTaxExemptionInputOrder } from '../models/OrderTaxExemptionInputOrder.js';
+export { makeOrderTaxExemptionRequest } from '../models/OrderTaxExemptionRequest.js';
 export { makeOrderTaxJurisdictionRequest } from '../models/OrderTaxJurisdictionRequest.js';
 export { makeOrderTaxLocationFullAddressRequest } from '../models/OrderTaxLocationFullAddressRequest.js';
 export { makeOrderTaxLocationInputFullAddress } from '../models/OrderTaxLocationInputFullAddress.js';
@@ -680,33 +727,33 @@ export { makeOrderTaxLocationPostalAddressRequest } from '../models/OrderTaxLoca
 export { makeOrderTaxLocationRequest } from '../models/OrderTaxLocationRequest.js';
 export { makeOrderTaxRequest } from '../models/OrderTaxRequest.js';
 export { makeOrderTaxUpdateRequest } from '../models/OrderTaxUpdateRequest.js';
-export { makePackageCreateInputCreated } from '../models/PackageCreateInputCreated.js';
-export { makePackageCreateInputShipped } from '../models/PackageCreateInputShipped.js';
-export { makePackageCreateRequest } from '../models/PackageCreateRequest.js';
 export { makePaymentSourceCredential } from '../models/PaymentSourceCredential.js';
 export { makePaymentSourceCredentialPaymentMethod } from '../models/PaymentSourceCredentialPaymentMethod.js';
+export { makePaymentSourceCredentialReader } from '../models/PaymentSourceCredentialReader.js';
 export { makePaymentSourceCredentialStripeConfirmationToken } from '../models/PaymentSourceCredentialStripeConfirmationToken.js';
 export { makePaymentSourceCredentialToken } from '../models/PaymentSourceCredentialToken.js';
+export { makePaymentSplitRequest } from '../models/PaymentSplitRequest.js';
 export { makePayOrderRequest } from '../models/PayOrderRequest.js';
 export { makePayOrderRequestConfirmPaymentIntents } from '../models/PayOrderRequestConfirmPaymentIntents.js';
 export { makePayOrderRequestPay } from '../models/PayOrderRequestPay.js';
 export { makePayOrderRequestResume } from '../models/PayOrderRequestResume.js';
 export { makePayOrderRequestSetup } from '../models/PayOrderRequestSetup.js';
+export { makePlatformFeeRequest } from '../models/PlatformFeeRequest.js';
 export { makePromotionRefInputPromotionCode } from '../models/PromotionRefInputPromotionCode.js';
 export { makePromotionRefInputPromotionID } from '../models/PromotionRefInputPromotionID.js';
 export { makePromotionRefRequest } from '../models/PromotionRefRequest.js';
+export { makeReaderPaymentSourceTip } from '../models/ReaderPaymentSourceTip.js';
 export { makeRefundCharge } from '../models/RefundCharge.js';
 export { makeRefundDestinations } from '../models/RefundDestinations.js';
 export { makeRemoveDiscountsRequest } from '../models/RemoveDiscountsRequest.js';
 export { makeRepriceDiscountsRequest } from '../models/RepriceDiscountsRequest.js';
 export { makeResolveOrderInventoryExceptionRequest } from '../models/ResolveOrderInventoryExceptionRequest.js';
 export { makeRetryOrderEditRefundRequest } from '../models/RetryOrderEditRefundRequest.js';
-export { makeReturnShipmentLineItemAllocationRequest } from '../models/ReturnShipmentLineItemAllocationRequest.js';
 export { makeSendOrderReceiptRequest } from '../models/SendOrderReceiptRequest.js';
-export { makeSinglePackageCreateInputCreated } from '../models/SinglePackageCreateInputCreated.js';
-export { makeSinglePackageCreateInputShipped } from '../models/SinglePackageCreateInputShipped.js';
-export { makeSinglePackageCreateRequest } from '../models/SinglePackageCreateRequest.js';
 export { makeSubscribedLineRequestModel } from '../models/SubscribedLineRequestModel.js';
+export { makeSubscriptionDeliveryDestinationInputAddress } from '../models/SubscriptionDeliveryDestinationInputAddress.js';
+export { makeSubscriptionDeliveryDestinationInputCustomerAddress } from '../models/SubscriptionDeliveryDestinationInputCustomerAddress.js';
+export { makeSubscriptionDeliveryDestinationRequest } from '../models/SubscriptionDeliveryDestinationRequest.js';
 export { makeTaxCalculationRequestModel } from '../models/TaxCalculationRequestModel.js';
 export { makeTaxCalculationRequestRequest } from '../models/TaxCalculationRequestRequest.js';
 export { makeTaxComponentRequestModel } from '../models/TaxComponentRequestModel.js';

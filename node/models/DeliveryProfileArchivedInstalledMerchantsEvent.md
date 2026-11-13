@@ -12,7 +12,7 @@ Fields shared by partner webhook payloads.
 | --- | --- | --- | --- |
 | `api_version` | Required | string | API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: `date`. Example: `"2026-08-02"`. |
 | `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/DeliveryProfileActivatedInstalledMerchantsEvent.md#deliveryprofileactivatedinstalledmerchantseventdata). |
+| `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/DeliveryProfileArchivedInstalledMerchantsEvent.md#deliveryprofilearchivedinstalledmerchantseventdata). |
 | `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"installed_merchants"`. |
 | `event_type` | Required | string | The resource change or condition this event announces. Values: `"delivery_profile.archived"`. |
 | `partner_app_id` | Required | string | ID of the partner app that owns the receiving endpoint. Example: `"papp_01KEZF7C00Y8VMXYZ1GNPP3WHV"`. |
@@ -23,7 +23,22 @@ Fields shared by partner webhook payloads.
 
 ### DeliveryProfileArchivedInstalledMerchantsEvent.data
 
-Field definitions: [DeliveryProfileActivatedInstalledMerchantsEvent.data](../models/DeliveryProfileActivatedInstalledMerchantsEvent.md#deliveryprofileactivatedinstalledmerchantseventdata).
+The resource snapshot recorded for this event and rendered at the delivery API version.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`. `object`: [field definitions](../models/DeliveryProfileArchivedInstalledMerchantsEvent.md#deliveryprofilearchivedinstalledmerchantseventdataobject). |
+| `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+
+### DeliveryProfileArchivedInstalledMerchantsEvent.data.object
+
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `diagnostics`, `unconfigured_assignment`.
+
+Field definitions: [shared fields](DeliveryProfile.md#deliveryprofile).
+
+### DeliveryProfileArchivedInstalledMerchantsEvent.data.object.metadata
+
+Field definitions: [DeliveryLocationSet.metadata](../models/DeliveryLocationSet.md#deliverylocationsetmetadata).
 
 ### DeliveryProfileArchivedInstalledMerchantsEvent.source
 

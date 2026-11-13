@@ -42,7 +42,7 @@ final class DeliveryZonesListParams extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by an active current method that references this resource. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** Filter by an active current method that references this resource. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */

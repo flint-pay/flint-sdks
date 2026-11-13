@@ -1,6 +1,6 @@
 # Flint Public API runtime guide
 
-Package 8.0.0-beta.2; API 2026-09-07.
+Package 8.0.0; API 2026-09-07.
 
 [Back to the quickstart](README.md) · [API index](REFERENCE.md) · [Models](MODELS.md)
 
@@ -71,8 +71,6 @@ Timeout precedence is request > client > operation default > global default. Glo
 | orders.close | 150000 | 300000 |
 | paymentIntents.confirm | 150000 | 300000 |
 | checkoutSessions.create | 150000 | 300000 |
-| invoices.createCheckoutSession | 150000 | 300000 |
-| me.createInvoiceCheckoutSession | 150000 | 300000 |
 | orders.create | 150000 | 300000 |
 | orders.createCharge | 150000 | 300000 |
 | orders.createLineItems | 150000 | 300000 |
@@ -247,7 +245,7 @@ if (error instanceof SdkError && error instanceof errors.UnexpectedResponseError
 
 ## Retries and idempotency
 
-Reads (GET, HEAD and OPTIONS) allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 345 write operations create `Idempotency-Key` automatically when you supply none, beginning with `flint-sdk-` and allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 39 write operations accept `idempotencyKey` and send once until you supply a key; with a key, they allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 17 write operations declare no idempotency key and always send once. maxAttempts caps total attempts including the first. HTTP 412 never retries.
+Reads (GET, HEAD and OPTIONS) allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 351 write operations create `Idempotency-Key` automatically when you supply none, beginning with `flint-sdk-` and allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 39 write operations accept `idempotencyKey` and send once until you supply a key; with a key, they allow up to 3 total attempts for transport failures and HTTP 429, 500, 502, 503 and 504. 18 write operations declare no idempotency key and always send once. maxAttempts caps total attempts including the first. HTTP 412 never retries.
 
 Backoff waits uniformly between half and all of baseDelayMs * 2^(attempt - 1), capped by maxDelayMs when declared. Retry-After is a minimum wait. Nonnegative decimal seconds or canonical GMT HTTP dates are accepted; malformed values are ignored. If the next wait exceeds the deadline, the last error is returned unchanged.
 

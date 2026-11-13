@@ -21,7 +21,7 @@ Resource, collection, or operation result returned by this request.
 | `address_verification` | Conditional | [SubscriptionAddressVerification](../models/SubscriptionAddressVerification.md#subscriptionaddressverification) | The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`. |
 | `currency` | Conditional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
 | `delivery_methods` | Conditional | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Delivery methods available for the proposed destination. `delivery_methods[]`: [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-1delivery_methods). |
-| `destination_address` | Conditional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `destination_address`: [field definitions](../models/OrderResponse.md#orderresponsedatadelivery_destinationaddress). |
+| `destination_address` | Conditional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `destination_address`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedataservice_locationaddress). |
 | `mode` | Required | string |  |
 | `subscription_id` | Conditional | string |  |
 | `renewal` | Conditional | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. `renewal`: [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewal), [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-4renewal). |
@@ -29,6 +29,9 @@ Resource, collection, or operation result returned by this request.
 | `billing_interval_count` | Conditional | integer | Format: `int32`. |
 | `billing_starts` | Conditional | string |  |
 | `credit_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null |  |
+| `deliveries_per_period` | Conditional | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `delivery_interval` | Conditional | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Conditional | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Conditional | string or null | Format: `date-time`. |
 | `quantity` | Conditional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -42,7 +45,7 @@ oneOf with mode: "delivery_options": Available subscription delivery methods sho
 
 - Required: `delivery_methods`.
 - Optional: `address_verification`, `currency`, `destination_address`, `subscription_id`.
-- Undeclared: `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
+- Undeclared: `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
 - Constraints for `mode`: Always delivery_options for buyer previews. Values: `"delivery_options"`.
 
 ### BuyerSubscriptionPreviewResponse.data variant 2: `mode` = `"next_renewal"`
@@ -50,14 +53,14 @@ oneOf with mode: "delivery_options": Available subscription delivery methods sho
 oneOf with mode: "next_renewal": A preview of a subscription's next renewal and its estimated pricing..
 
 - Required: `renewal`, `subscription_id`.
-- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
+- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
 - Constraints for `mode`: Values: `"next_renewal"`.
 
 ### BuyerSubscriptionPreviewResponse.data variant 3: `mode` = `"plan_change"`
 
 oneOf with mode: "plan_change": Estimated pricing for a subscription plan change, including the recurring item subtotal and renewal amounts..
 
-- Required: `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `effective_at`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`, `subscription_plan_id`.
+- Required: `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`, `subscription_plan_id`.
 - Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `interval`, `interval_count`.
 - Constraints for `billing_starts`: Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`.
 - Constraints for `credit_money`: Unused paid item time credited when billing_starts is now or prorated_now; null for next_renewal and period_end.
@@ -68,7 +71,7 @@ oneOf with mode: "plan_change": Estimated pricing for a subscription plan change
 
 oneOf with mode: "quantity_change": Estimated pricing for a quantity change that keeps the billing period and anchor..
 
-- Required: `billing_starts`, `credit_money`, `effective_at`, `interval`, `interval_count`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`.
+- Required: `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `interval`, `interval_count`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`.
 - Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`.
 - Constraints for `billing_starts`: When this quantity change is billed. Values: `"prorated_now"`.
 - Constraints for `credit_money`: Credit for unused paid subscription time. Null when there is no paid period to credit.
@@ -84,23 +87,22 @@ A delivery method offered for a subscription, with its availability, price, and 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `availability` | Required | string | Values: `"available"`, `"unavailable"`, `"cannot_calculate"`. |
+| `amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price of one delivery with this method. Omitted unless `availability` is `available`. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `availability` | Required | string | Whether the method can serve the destination now. Values: `"available"`, `"unavailable"`, `"cannot_calculate"`. |
 | `current` | Required | boolean | True when this is the subscription's saved preferred delivery method, including when unavailable. |
-| `delivery_method_id` | Required | string | Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
-| `description` | Optional | string |  |
-| `failure_category` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [16 declared values](DeliveryCandidateOutcomeResourceInput.md#deliverycandidateoutcomeresourceinput-failure_category-values). |
-| `name` | Required | string |  |
-| `price_type` | Required | string | Values: `"fixed"`, `"quoted"`. |
+| `delivery_method_id` | Required | string | ID of the delivery method. Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
+| `description` | Optional | string | Buyer-facing description of the delivery method. Omitted when the method has none. |
+| `failure_category` | Optional | string | Why Flint could not price or evaluate the method. Omitted when evaluation did not fail. Values can expand as delivery capabilities change. Values: [16 declared values](DeliveryCandidateOutcomeResourceInput.md#deliverycandidateoutcomeresourceinput-failure_category-values). |
+| `name` | Required | string | Buyer-facing name of the delivery method. |
+| `price_type` | Required | string | Whether the method charges a flat price or Flint works the price out for each delivery. Values: `"fixed"`, `"quoted"`. |
 | `selectable` | Required | boolean | True when this method is offered, renewable, and currently serves the destination. |
-| `type` | Required | string | Values: `"shipment"`, `"local_delivery"`. |
-| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [8 declared values](#buyersubscriptionpreviewresponsedata-variant-1delivery_methods-unavailable_reason-values). |
+| `type` | Required | string | How the method delivers the items. Values: `"shipment"`, `"local_delivery"`. |
+| `unavailable_reason` | Optional | string | Reason the method cannot serve this subscription destination. Values can expand as delivery capabilities change. Values: [7 declared values](#buyersubscriptionpreviewresponsedata-variant-1delivery_methods-unavailable_reason-values). |
 
 #### BuyerSubscriptionPreviewResponse.data variant 1.delivery_methods[] unavailable_reason values
 
 - `"dependency_revoked"`
 - `"destination_not_served"`
-- `"pickup_unavailable"`
 - `"no_window_available"`
 - `"eligibility_no_match"`
 - `"method_type_not_allowed"`
@@ -109,7 +111,7 @@ A delivery method offered for a subscription, with its availability, price, and 
 
 ### BuyerSubscriptionPreviewResponse.data variant 1.destination_address
 
-Field definitions: [OrderResponse.data.delivery_destination.address](../models/OrderResponse.md#orderresponsedatadelivery_destinationaddress).
+Field definitions: [SubscriptionResponse.data.service_location.address](../models/SubscriptionResponse.md#subscriptionresponsedataservice_locationaddress).
 
 ### BuyerSubscriptionPreviewResponse.data variant 2.renewal
 
@@ -119,6 +121,9 @@ Estimated pricing and billing time for a subscription renewal, including items, 
 | --- | --- | --- | --- |
 | `billing_at` | Required | string or null | Expected billing time, or null when billing is not scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
+| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `delivery_interval` | Required | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `discounts` | Required | Array of [SubscriptionRenewalEstimateDiscount](../models/SubscriptionRenewalEstimateDiscount.md#subscriptionrenewalestimatediscount) | `discounts[]`: [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewaldiscounts). |
 | `line_items` | Required | Array of [SubscriptionRenewalEstimateLineItem](../models/SubscriptionRenewalEstimateLineItem.md#subscriptionrenewalestimatelineitem) | `line_items[]`: [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewalline_items). |
@@ -148,6 +153,7 @@ A subscription item's quantity, subtotal, and discount in an estimated renewal.
 | `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `name` | Required | string |  |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
+| `subscription_id` | Required | string or null | Subscription that owns subscription_line_item_id. Null when subscription_line_item_id is null for new or replacement lines. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 | `subscription_line_item_id` | Required | string or null | The saved subscription line ID; null when previewing new or replacement lines. Example: `"sli_01KEZF7C00PPWVJ2N321V84ASA"`. |
 | `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

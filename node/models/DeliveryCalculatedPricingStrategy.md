@@ -11,11 +11,11 @@
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `base_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Base delivery fee by ISO currency code. Each key must equal the Money object's currency. `base_fee_currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `distance` | Optional | [DeliveryDistanceUnitPrice](../models/DeliveryDistanceUnitPrice.md#deliverydistanceunitprice) | `distance`: [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-1distance), [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-2distance). |
+| `distance` | Optional | [DeliveryDistanceUnitPrice](../models/DeliveryDistanceUnitPrice.md#deliverydistanceunitprice) | Charge per unit of distance between the origin and the destination. `distance`: [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-1distance), [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-2distance). |
 | `maximum_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. `maximum_fee_currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `minimum_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. `minimum_fee_currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `per_item_handling_fee_currency_options` | Optional | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Handling fee per item by ISO currency code. Each key must equal the Money object's currency. `per_item_handling_fee_currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `weight` | Optional | [DeliveryWeightUnitPrice](../models/DeliveryWeightUnitPrice.md#deliveryweightunitprice) | `weight`: [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-1weight), [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-2weight). |
+| `weight` | Optional | [DeliveryWeightUnitPrice](../models/DeliveryWeightUnitPrice.md#deliveryweightunitprice) | Charge per unit of weight of the items. `weight`: [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-1weight), [field definitions](../models/DeliveryCalculatedPricingStrategy.md#deliverycalculatedpricingstrategy-variant-2weight). |
 
 ### DeliveryCalculatedPricingStrategy variant 1
 
@@ -35,7 +35,7 @@ Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../model
 
 ### DeliveryCalculatedPricingStrategy variant 1.distance
 
-A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
+Charge per unit of distance between the origin and the destination. A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
 
 Field definitions: [shared fields](DeliveryDistanceUnitPrice.md#deliverydistanceunitprice).
 
@@ -57,7 +57,7 @@ Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../model
 
 ### DeliveryCalculatedPricingStrategy variant 1.weight
 
-Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
+Charge per unit of weight of the items. Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
 
 Field definitions: [shared fields](DeliveryWeightUnitPrice.md#deliveryweightunitprice).
 
@@ -67,7 +67,7 @@ Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../model
 
 ### DeliveryCalculatedPricingStrategy variant 2.distance
 
-A distance rate you supply for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
+Charge per unit of distance between the origin and the destination. A distance rate you supply for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
 
 Field definitions: [shared fields](DeliveryDistanceUnitPrice.md#deliverydistanceunitprice).
 
@@ -77,7 +77,7 @@ Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../model
 
 ### DeliveryCalculatedPricingStrategy variant 2.weight
 
-Price per unit of weight you supply for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
+Charge per unit of weight of the items. Price per unit of weight you supply for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
 
 Field definitions: [shared fields](DeliveryWeightUnitPrice.md#deliveryweightunitprice).
 

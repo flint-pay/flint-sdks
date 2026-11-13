@@ -16,7 +16,7 @@ final class WorkloadIdentitiesUpdateInput extends Model {
      */
     public function getWorkloadIdentityId(): string { return $this->get('workload_identity_id'); }
     public function hasWorkloadIdentityId(): bool { return $this->has('workload_identity_id'); }
-    /** The request body for: Update a workload identity. Example: {"expected_version":1,"name":"Release deploy","status":"inactive"}.
+    /** The request body for: Update a workload identity. minProperties: 1. Example: {"expected_version":1,"name":"Release deploy","status":"inactive"}.
      * @return array{'claim_conditions'?: list<mixed>, 'expected_version'?: int, 'name'?: string, 'scopes'?: list<string>, 'status'?: string, 'subject'?: string, 'subject_match'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -16,9 +16,9 @@ Buyer-facing details of a local delivery fulfillment: courier, timing, and track
 | `courier_provider_name` | Optional | string | Delivery network or merchant fleet provider handling the job. maxLength: `255`. |
 | `courier_support_phone` | Optional | string | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
 | `delivered_at` | Optional | string | When the items were delivered, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `delivery_due_at` | Optional | string | Time by which the order should be delivered. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `dispatched_at` | Optional | string | When the delivery was dispatched, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `dropoff_notes` | Optional | string | Driver-facing notes for the final handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `2048`. |
-| `expires_at` | Optional | string | Deadline after which an undelivered job should enter merchant review. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `instructions` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `no_contact` | Optional | boolean | Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `prep_time_duration_seconds` | Optional | integer | Expected preparation time before courier pickup, from 0 to 86400 seconds. Format: `int64`. minimum: `0`. maximum: `86400`. |

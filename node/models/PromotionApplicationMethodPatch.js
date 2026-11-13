@@ -1,12 +1,12 @@
-import { d5556 as c0 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7788 as c1, d7795 as c2, d7796 as c3, d7797 as c4, d7799 as c5 } from '../descriptors/data/370.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7800 as c6, d7801 as c7, d7802 as c8, d7803 as c9, d7804 as c10, d7805 as c11, d7806 as c12, d7812 as c18, d7813 as c19, d7814 as c20, d7815 as c21 } from '../descriptors/data/371.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7153 as c13, d7154 as c14, d7155 as c15, d7156 as c16, d7157 as c17 } from '../descriptors/data/333.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7788 as d7788 } from '../descriptors/data/370.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5764 as c0 } from '../descriptors/data/255.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8165 as c1, d8172 as c2 } from '../descriptors/data/394.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8173 as c3, d8174 as c4, d8176 as c5, d8177 as c6, d8178 as c7, d8179 as c8, d8180 as c9, d8181 as c10, d8182 as c11, d8183 as c12, d8189 as c18, d8190 as c19, d8191 as c20, d8192 as c21 } from '../descriptors/data/395.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d7454 as c13, d7455 as c14, d7456 as c15, d7457 as c16, d7458 as c17 } from '../descriptors/data/354.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8165 as d8165 } from '../descriptors/data/394.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7788;
+const read = d8165;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionApplicationMethodPatch"]:c1(),["PromotionRuleGroupRequest"]:c2(),["PromotionRuleRequest"]:c3(),["PromotionRuleValueRequest"]:c4(),["SharedCodec1230"]:c5(),["SharedCodec1231"]:c6(),["SharedCodec1232"]:c7(),["SharedCodec1233"]:c8(),["SharedCodec1234"]:c9(),["SharedCodec1235"]:c10(),["SharedCodec1236"]:c11(),["SharedCodec1237"]:c12(),["SharedCodec1238"]:c13(),["SharedCodec1239"]:c14(),["SharedCodec1240"]:c15(),["SharedCodec1241"]:c16(),["SharedCodec1242"]:c17(),["SharedCodec1273"]:c18(),["SharedCodec1274"]:c19(),["SharedCodec1275"]:c20(),["SharedCodec1276"]:c21()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["PromotionApplicationMethodPatch"]:c1(),["PromotionRuleGroupRequest"]:c2(),["PromotionRuleRequest"]:c3(),["PromotionRuleValueRequest"]:c4(),["SharedCodec1340"]:c5(),["SharedCodec1341"]:c6(),["SharedCodec1342"]:c7(),["SharedCodec1343"]:c8(),["SharedCodec1344"]:c9(),["SharedCodec1345"]:c10(),["SharedCodec1346"]:c11(),["SharedCodec1347"]:c12(),["SharedCodec1348"]:c13(),["SharedCodec1349"]:c14(),["SharedCodec1350"]:c15(),["SharedCodec1351"]:c16(),["SharedCodec1352"]:c17(),["SharedCodec1383"]:c18(),["SharedCodec1384"]:c19(),["SharedCodec1385"]:c20(),["SharedCodec1386"]:c21()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makePromotionApplicationMethodPatch(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

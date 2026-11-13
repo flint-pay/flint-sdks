@@ -1,36 +1,1401 @@
+import type {
+    ResourceReference,
+    ReturnActor,
+    RetryReturnResolutionRequestInput,
+    ReturnCompletionBlocker,
+    ReturnDisposition,
+    ResponseMeta
+} from './types-54.js';
+import type { MoneyValue, MoneyValueInput } from './types-38.js';
+import type { ReturnReplacementLineItem, ReturnResolutionAdjustment, ReturnResolution, ReturnReceipt } from './types-56.js';
+import type {
+    ExpandedOrderSummary,
+    ExpandedPaymentIntentSummary,
+    ExpandedCustomerSummary,
+    ExpandedShipmentSummary,
+    FilesCompleteParams
+} from './types-24.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { Refund } from './types-52.js';
 import type { InputValue } from '../runtime.js';
-import type { UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-65.js';
-import type { Dimensions, DimensionsRequestInput } from './types-22.js';
-import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-36.js';
-import type { Weight, WeightRequestInput } from './types-66.js';
-import type { ConfigurationVersionRequestInput } from './types-6.js';
-import type { AcceptFulfillmentRequestInput } from './types-0.js';
-import type { MoneyValue } from './types-37.js';
+import type { CancelReturnResolutionRequestInput, CancelReturnLineItemRequestInput, CancelReturnRequestInput } from './types-4.js';
+import type { ConfirmReturnResolutionRequestInput, CompleteReturnRequestInput } from './types-7.js';
+import type { ReleaseReturnResolutionRequestInput, ReopenReturnRequestInput } from './types-53.js';
+import type { UpdateReturnResolutionRequestInput, WaiveReturnLineInspectionRequestInput } from './types-68.js';
 import type { BuyerAction } from './types-1.js';
-import type { ExpandedCustomerSummary, ExpandedPaymentMethodSummary, ExpandedSubscriptionPlanSummary } from './types-23.js';
-import type { PaymentErrorSummary } from './types-43.js';
 import type {
-    SubscriptionDelivery,
-    SubscriptionDeliveryHold,
-    SubscriptionEndAfter,
-    SubscriptionIntervalOption,
-    SubscriptionInventoryWait,
-    SubscriptionLineItem
-} from './types-58.js';
+    ReturnFinancialSummary,
+    ReturnHandoffRequirement,
+    ReturnInspection,
+    ReturnLineItem,
+    ReturnPolicyEvaluation
+} from './types-55.js';
 import type {
-    SubscriptionPromotion,
-    SubscriptionScheduledPlanChange,
-    SubscriptionServiceLocation,
-    SubscriptionUpcomingDeliveryHold,
-    SubscriptionSnapshotMetrics,
-    SubscriptionWindowMetrics,
-    SubscriptionRenewalEstimateDiscount,
-    SubscriptionRenewalEstimateLineItem,
-    SubscriptionPreviewError
-} from './types-60.js';
-import type { PartnerWebhookEnvelope } from './types-42.js';
-import type { ResponseMeta } from './types-51.js';
-export type ShipmentsUpdateParams = (InputValue<UpdateShipmentRequestInput>)
+    CreateReturnDispositionRequestInput,
+    CreateReturnInspectionRequestInput,
+    CreateReturnRequestInput,
+    CreateReturnReceiptRequestInput
+} from './types-12.js';
+import type { AddReturnLineItemRequestInput } from './types-0.js';
+import type { CreateReturnResolutionRequestInput } from './types-13.js';
+import type { DecideReturnRequestInput } from './types-16.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { ProcessExistingReturnRequestInput } from './types-49.js';
+import type { UpdateReturnLineItemRequestInput, UpdateReturnRequestInput } from './types-67.js';
+/** Work that must complete before a Return resolution can finish. */
+export type ReturnResolutionExecutionBlocker = {
+    /**
+     * handoff_pending: The buyer has not handed off the required merchandise. receipt_pending:
+     * Required merchandise has not been received. inspection_pending: Required inspection is
+     * incomplete. manual_release_pending: The merchant must release the resolution.
+     * buyer_payment_pending: The buyer's balance has not been collected. refund_pending: A linked
+     * Refund has not succeeded. replacement_order_pending: The replacement Order has not been
+     * created. fulfillment_pending: The replacement Order, in linked_resource, has units not yet
+     * fulfilled. Value enum: "handoff_pending", "receipt_pending", "inspection_pending",
+     * "manual_release_pending", "buyer_payment_pending", "refund_pending",
+     * "replacement_order_pending", "fulfillment_pending".
+     */
+    "code": "handoff_pending"
+        | "receipt_pending"
+        | "inspection_pending"
+        | "manual_release_pending"
+        | "buyer_payment_pending"
+        | "refund_pending"
+        | "replacement_order_pending"
+        | "fulfillment_pending"
+        | (string & {});
+    /**
+     * The resource the blocker waits on, such as a Refund or the replacement Order. A reference to
+     * another resource by `resource_type` and `resource_id`.
+     */
+    "linked_resource"?: ResourceReference;
+    /**
+     * ID of the Return line the blocker gates. Absent when it applies to the whole resolution.
+     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: string;
+};
+/** A return line included in a resolution, with its quantity and returned total. */
+export type ReturnResolutionLineItem = {
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Release gate for every resolution type, including exchanges and replacements. Released after
+     * the Return is approved. Released after the buyer hands back the required merchandise.
+     * Released after the required merchandise is received. Released after the required merchandise
+     * passes inspection. Held until a merchant calls POST /v1/return-resolutions/{id}/release.
+     * Value enum: "after_approval", "after_handoff", "after_receipt", "after_inspection",
+     * "manual".
+     */
+    "release_timing"?: "after_approval" | "after_handoff" | "after_receipt" | "after_inspection" | "manual" | (string & {});
+    /** ID of the Return line the resolution covers. Example: "retli_01KEZF7C00R813VR7ECXS062QG". */
+    "return_line_item_id": string;
+    /** ID of the resolution the line belongs to. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". */
+    "return_resolution_id": string;
+    /**
+     * ID of an existing resolution line to keep. Leave out to add a new line. Example:
+     * "retresli_01KEZF7C00CR5NCDXRBP9W14CB".
+     */
+    "return_resolution_line_item_id": string;
+    /**
+     * Value of the returned units this line covers. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "returned_total_money": MoneyValue;
+};
+/** A return line and quantity to include in a return resolution. */
+export type ReturnResolutionLineItemRequest = {
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of the Return line the resolution covers. minLength: 1. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/** A return line and quantity to include in a return resolution. */
+export type ReturnResolutionLineItemRequestInput = ReturnResolutionLineItemRequest;
+/**
+ * A preview of a return resolution before it is created: returned and replacement totals,
+ * adjustments, and amounts due to or from the buyer.
+ */
+export type ReturnResolutionPreview = {
+    /**
+     * Fees and credits to apply to the resolution, at most 50. [] (Value): {@link
+     * ReturnResolutionAdjustment}. A fee or credit applied to a return resolution, such as a
+     * restocking fee, with the assessed and applied amounts and any waiver.
+     */
+    "adjustments": Array<ReturnResolutionAdjustment>;
+    /** Version of the Return the preview was priced against. Format: int64. minimum: 0. */
+    "based_on_return_version": number;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "buyer_payment_amount_money": MoneyValue;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "buyer_refund_amount_money": MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "calculated_at": string;
+    /**
+     * ID of the settled resolution to correct. Send only with `resolution_type: correction`.
+     * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "corrects_return_resolution_id"?: string;
+    /**
+     * Credits the proposed resolution's adjustments would add to the value returned to the buyer.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "credit_adjustment_money": MoneyValue;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "deduction_money": MoneyValue;
+    /**
+     * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
+     * {@link ReturnResolutionLineItem}. A return line included in a resolution, with its quantity
+     * and returned total.
+     */
+    "line_items": Array<ReturnResolutionLineItem>;
+    /**
+     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
+     * (Value): {@link ReturnReplacementLineItem}. A replacement item added to a return resolution,
+     * with its quantity and price totals.
+     */
+    "replacement_line_items": Array<ReturnReplacementLineItem>;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "replacement_total_money": MoneyValue;
+    /**
+     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
+     * "replacement", "store_credit", "no_monetary_action", "correction".
+     */
+    "resolution_type": "refund"
+        | "exchange"
+        | "replacement"
+        | "store_credit"
+        | "no_monetary_action"
+        | "correction"
+        | (string & {});
+    /** ID of the Return the resolution is for. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". */
+    "return_id": string;
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "returned_total_money": MoneyValue;
+};
+export type ReturnResolutionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "action_reason"?: "buyer_payment" | "manual_release" | (string & {});
+            "action_required_by"?: "buyer" | "merchant" | (string & {});
+            "adjustments": Array<ReturnResolutionAdjustment>;
+            "buyer_payment_amount_money": MoneyValue;
+            "buyer_refund_amount_money": MoneyValue;
+            "canceled_at"?: string;
+            "canceled_by"?: ReturnActor;
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            "cancellation_reason_message"?: string;
+            "confirmed_at"?: string;
+            "confirmed_by"?: ReturnActor;
+            "corrects_return_resolution_id"?: string;
+            "created_at": string;
+            "created_by": ReturnActor;
+            "credit_adjustment_money": MoneyValue;
+            "deduction_money": MoneyValue;
+            "execution_blockers": Array<ReturnResolutionExecutionBlocker>;
+            "external_reference_id"?: string;
+            "failure_code"?: "gift_card_refund_destination_required"
+                | "store_credit_unavailable"
+                | "refund_creation_failed"
+                | "refund_failed"
+                | "refund_line_value_unavailable"
+                | "payment_intent_creation_failed"
+                | "payment_failed"
+                | "replacement_order_creation_failed"
+                | "replacement_fulfillment_canceled"
+                | "resolution_effect_failed"
+                | (string & {});
+            "failure_message"?: string;
+            "fulfilled_at"?: string;
+            "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
+            "line_items": Array<ReturnResolutionLineItem>;
+            "metadata": MetadataMap;
+            "payment_intent_ids": Array<string>;
+            "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
+            "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
+            "refund_ids": Array<string>;
+            "refunds"?: Array<Refund>;
+            "replacement_line_items": Array<ReturnReplacementLineItem>;
+            "replacement_order"?: ((ExpandedOrderSummary) | (null));
+            "replacement_order_id"?: string;
+            "replacement_total_money": MoneyValue;
+            "resolution_type": "refund"
+                | "exchange"
+                | "replacement"
+                | "store_credit"
+                | "no_monetary_action"
+                | "correction"
+                | (string & {});
+            "return_id": string;
+            "return_policy_revision_id"?: string;
+            "return_resolution_id": string;
+            "returned_total_money": MoneyValue;
+            "status": "proposed" | "pending" | "requires_action" | "fulfilled" | "failed" | "canceled" | (string & {});
+            "supported_actions": Array<"cancel" | "checkout_session" | "confirm" | "release" | "retry" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<ReturnResolution>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "return_resolution.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "action_reason"?: "buyer_payment" | "manual_release" | (string & {});
+            "action_required_by"?: "buyer" | "merchant" | (string & {});
+            "adjustments": Array<ReturnResolutionAdjustment>;
+            "buyer_payment_amount_money": MoneyValue;
+            "buyer_refund_amount_money": MoneyValue;
+            "canceled_at"?: string;
+            "canceled_by"?: ReturnActor;
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            "cancellation_reason_message"?: string;
+            "confirmed_at"?: string;
+            "confirmed_by"?: ReturnActor;
+            "corrects_return_resolution_id"?: string;
+            "created_at": string;
+            "created_by": ReturnActor;
+            "credit_adjustment_money": MoneyValue;
+            "deduction_money": MoneyValue;
+            "execution_blockers": Array<ReturnResolutionExecutionBlocker>;
+            "external_reference_id"?: string;
+            "failure_code"?: "gift_card_refund_destination_required"
+                | "store_credit_unavailable"
+                | "refund_creation_failed"
+                | "refund_failed"
+                | "refund_line_value_unavailable"
+                | "payment_intent_creation_failed"
+                | "payment_failed"
+                | "replacement_order_creation_failed"
+                | "replacement_fulfillment_canceled"
+                | "resolution_effect_failed"
+                | (string & {});
+            "failure_message"?: string;
+            "fulfilled_at"?: string;
+            "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
+            "line_items": Array<ReturnResolutionLineItem>;
+            "metadata": MetadataMap;
+            "payment_intent_ids": Array<string>;
+            "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
+            "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
+            "refund_ids": Array<string>;
+            "refunds"?: Array<Refund>;
+            "replacement_line_items": Array<ReturnReplacementLineItem>;
+            "replacement_order"?: ((ExpandedOrderSummary) | (null));
+            "replacement_order_id"?: string;
+            "replacement_total_money": MoneyValue;
+            "resolution_type": "refund"
+                | "exchange"
+                | "replacement"
+                | "store_credit"
+                | "no_monetary_action"
+                | "correction"
+                | (string & {});
+            "return_id": string;
+            "return_policy_revision_id"?: string;
+            "return_resolution_id": string;
+            "returned_total_money": MoneyValue;
+            "status": "proposed" | "pending" | "requires_action" | "fulfilled" | "failed" | "canceled" | (string & {});
+            "supported_actions": Array<"cancel" | "checkout_session" | "confirm" | "release" | "retry" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<ReturnResolution>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "return_resolution.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "return_resolution.updated";
+});
+/**
+ * The `return_resolution.updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type ReturnResolutionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.action_reason (Optional): string. Why a requires_action resolution
+     * is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release
+     * means the merchant must release the resolution. Value enum: "buyer_payment",
+     * "manual_release". object.action_required_by (Optional): string. Who has to act while the
+     * resolution's status is `requires_action`. Value enum: "buyer", "merchant".
+     * object.adjustments (Required): Array of {@link ReturnResolutionAdjustment}. Fees and credits
+     * applied to the resolution's amounts. object.adjustments[] (Value): {@link
+     * ReturnResolutionAdjustment}. A fee or credit applied to a return resolution, such as a
+     * restocking fee, with the assessed and applied amounts and any waiver.
+     * object.buyer_payment_amount_money (Required): {@link MoneyValue}. Amount the buyer owes when
+     * deduction_money and replacement_total_money exceed returned_total_money plus
+     * credit_adjustment_money. Zero when the buyer is owed a refund and for no_monetary_action.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.buyer_refund_amount_money (Required): {@link MoneyValue}. Value returned to the
+     * buyer: returned_total_money plus credit_adjustment_money, minus deduction_money and
+     * replacement_total_money, when that balance is zero or more. For store_credit, the value
+     * issued on new gift cards. Zero for no_monetary_action. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.canceled_at (Optional): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by
+     * (Optional): {@link ReturnActor}. Who canceled the resolution. Merchant reads only. Who
+     * performed a return action: a buyer, merchant, integration, or the system, with an optional
+     * ID. object.cancellation_reason (Optional): string. Why the resolution was canceled. Value
+     * enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
+     * "other". object.cancellation_reason_message (Optional): string. Detail sent with the
+     * cancellation. Merchant reads only. object.confirmed_at (Optional): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.confirmed_by
+     * (Optional): {@link ReturnActor}. Who confirmed the resolution. Who performed a return
+     * action: a buyer, merchant, integration, or the system, with an optional ID.
+     * object.corrects_return_resolution_id (Optional): string. ID of the settled resolution this
+     * correction adjusts. Present only when `resolution_type` is `correction`. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.created_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_by (Required):
+     * {@link ReturnActor}. Who created the resolution. Who performed a return action: a buyer,
+     * merchant, integration, or the system, with an optional ID. object.credit_adjustment_money
+     * (Required): {@link MoneyValue}. Credits added by the resolution's adjustments. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.deduction_money (Required): {@link MoneyValue}. Deductions taken by the resolution's
+     * adjustments, such as a restocking fee. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. object.execution_blockers (Required): Array of {@link
+     * ReturnResolutionExecutionBlocker}. What a confirmed resolution is still waiting for. Empty
+     * when nothing is. object.execution_blockers[] (Value): {@link
+     * ReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution can
+     * finish. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.failure_code (Optional): string. Reason code for a failed Return resolution, when
+     * available. refund_line_value_unavailable means another refund already returned part of an
+     * order line, so retrying cannot succeed; cancel the resolution and resolve the line for fewer
+     * units or without a refund. replacement_fulfillment_canceled means the replacement Order's
+     * fulfillment was canceled, so it won't be sent. gift_card_refund_destination_required means
+     * the original gift card cannot accept the refund; retry with gift_card_refund_destination set
+     * to new_gift_card. store_credit_unavailable means the original payment cannot fund store
+     * credit; cancel the resolution and create a refund resolution. Value enum:
+     * "gift_card_refund_destination_required", "store_credit_unavailable",
+     * "refund_creation_failed", "refund_failed", "refund_line_value_unavailable",
+     * "payment_intent_creation_failed", "payment_failed", "replacement_order_creation_failed",
+     * "replacement_fulfillment_canceled", "resolution_effect_failed". object.failure_message
+     * (Optional): string. Explanation of a failed Return resolution, when available.
+     * object.fulfilled_at (Optional): string. When the resolution became fulfilled. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.gift_card_refund_destination (Optional):
+     * string. Where the gift-card-paid portion is refunded. original credits the original gift
+     * card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction,
+     * except a correction of store_credit. Omit for store_credit, replacement, and
+     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at
+     * gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and
+     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
+     * persists the chosen destination before starting the new attempt. Default: "original". Value
+     * enum: "original", "new_gift_card". object.line_items (Required): Array of {@link
+     * ReturnResolutionLineItem}. Return lines and quantities the resolution covers. Absent on a
+     * correction. object.line_items[] (Value): {@link ReturnResolutionLineItem}. A return line
+     * included in a resolution, with its quantity and returned total. object.metadata (Required):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     * object.payment_intent_ids (Required): Array of string. object.payment_intent_ids[] (Value):
+     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
+     * of {@link ExpandedPaymentIntentSummary}. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.pricing_basis
+     * (Optional): string. How replacement lines are priced. Present on exchanges and replacements.
+     * Value enum: "original_price", "current_price", "merchant_agreed_price". object.refund_ids
+     * (Required): Array of string. object.refund_ids[] (Value): string. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refunds (Optional): Array of {@link Refund}.
+     * object.refunds[] (Value): {@link Refund}. Money returned against a collected payment.
+     * object.replacement_line_items (Required): Array of {@link ReturnReplacementLineItem}.
+     * Merchandise the buyer receives instead, for an exchange or replacement.
+     * object.replacement_line_items[] (Value): {@link ReturnReplacementLineItem}. A replacement
+     * item added to a return resolution, with its quantity and price totals.
+     * object.replacement_order (Optional): {@link ExpandedOrderSummary} or null. Present only when
+     * `expand` includes `replacement_order`; `null` when expanded and there is no related order.
+     * object.replacement_order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+     * fields, including status, payment and refund status, and pricing and settlement amounts,
+     * returned when the order is expanded. object.replacement_order.anyOf[2] (Value): null.
+     * object.replacement_order_id (Optional): string. ID of the replacement Order Flint created
+     * for an exchange or replacement. Absent until it exists. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". object.replacement_total_money (Required): {@link
+     * MoneyValue}. Total of the replacement items the buyer receives. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code. object.resolution_type (Required):
+     * string. What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
+     * "replacement", "store_credit", "no_monetary_action", "correction". object.return_id
+     * (Required): string. ID of the Return the resolution belongs to. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_policy_revision_id (Optional): string.
+     * Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC". object.return_resolution_id (Required): string.
+     * Unique identifier for this return resolution, prefixed `retres_`. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.returned_total_money (Required): {@link
+     * MoneyValue}. Value of the returned units this resolution covers. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code. object.status (Required): string.
+     * fulfilled means the buyer has the value: every linked Refund succeeded, any balance was
+     * collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable.
+     * Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+     * object.supported_actions (Required): Array of string. Actions that can succeed now. Empty
+     * unless the parent Return is open, except checkout_session. A failed resolution lists retry
+     * while it has a failed effect and its failure code permits retry. It lists cancel when it
+     * never created a Refund, PaymentIntent, or Order. [] enum: "cancel", "checkout_session",
+     * "confirm", "release", "retry". object.supported_actions[] (Value): string. Value enum:
+     * "cancel", "checkout_session", "confirm", "release", "retry". object.updated_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * minimum: 0. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * action_reason (Optional): string. Why a requires_action resolution is waiting.
+         * buyer_payment means the buyer must pay the exchange balance; manual_release means the
+         * merchant must release the resolution. Value enum: "buyer_payment", "manual_release".
+         * action_required_by (Optional): string. Who has to act while the resolution's status is
+         * `requires_action`. Value enum: "buyer", "merchant". adjustments (Required): Array of
+         * {@link ReturnResolutionAdjustment}. Fees and credits applied to the resolution's
+         * amounts. adjustments[] (Value): {@link ReturnResolutionAdjustment}. A fee or credit
+         * applied to a return resolution, such as a restocking fee, with the assessed and applied
+         * amounts and any waiver. buyer_payment_amount_money (Required): {@link MoneyValue}.
+         * Amount the buyer owes when deduction_money and replacement_total_money exceed
+         * returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a refund
+         * and for no_monetary_action. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. buyer_refund_amount_money (Required): {@link MoneyValue}. Value
+         * returned to the buyer: returned_total_money plus credit_adjustment_money, minus
+         * deduction_money and replacement_total_money, when that balance is zero or more. For
+         * store_credit, the value issued on new gift cards. Zero for no_monetary_action. Monetary
+         * amount represented as integer minor units plus an ISO 4217 currency code. canceled_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". canceled_by (Optional): {@link ReturnActor}. Who canceled the
+         * resolution. Merchant reads only. Who performed a return action: a buyer, merchant,
+         * integration, or the system, with an optional ID. cancellation_reason (Optional): string.
+         * Why the resolution was canceled. Value enum: "buyer_request", "merchant_request",
+         * "duplicate", "expired", "created_in_error", "other". cancellation_reason_message
+         * (Optional): string. Detail sent with the cancellation. Merchant reads only. confirmed_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". confirmed_by (Optional): {@link ReturnActor}. Who confirmed the
+         * resolution. Who performed a return action: a buyer, merchant, integration, or the
+         * system, with an optional ID. corrects_return_resolution_id (Optional): string. ID of the
+         * settled resolution this correction adjusts. Present only when `resolution_type` is
+         * `correction`. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_by (Required): {@link ReturnActor}. Who created the resolution. Who performed a
+         * return action: a buyer, merchant, integration, or the system, with an optional ID.
+         * credit_adjustment_money (Required): {@link MoneyValue}. Credits added by the
+         * resolution's adjustments. Monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. deduction_money (Required): {@link MoneyValue}. Deductions taken by
+         * the resolution's adjustments, such as a restocking fee. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. execution_blockers (Required): Array
+         * of {@link ReturnResolutionExecutionBlocker}. What a confirmed resolution is still
+         * waiting for. Empty when nothing is. execution_blockers[] (Value): {@link
+         * ReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution
+         * can finish. external_reference_id (Optional): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842". failure_code
+         * (Optional): string. Reason code for a failed Return resolution, when available.
+         * refund_line_value_unavailable means another refund already returned part of an order
+         * line, so retrying cannot succeed; cancel the resolution and resolve the line for fewer
+         * units or without a refund. replacement_fulfillment_canceled means the replacement
+         * Order's fulfillment was canceled, so it won't be sent.
+         * gift_card_refund_destination_required means the original gift card cannot accept the
+         * refund; retry with gift_card_refund_destination set to new_gift_card.
+         * store_credit_unavailable means the original payment cannot fund store credit; cancel the
+         * resolution and create a refund resolution. Value enum:
+         * "gift_card_refund_destination_required", "store_credit_unavailable",
+         * "refund_creation_failed", "refund_failed", "refund_line_value_unavailable",
+         * "payment_intent_creation_failed", "payment_failed", "replacement_order_creation_failed",
+         * "replacement_fulfillment_canceled", "resolution_effect_failed". failure_message
+         * (Optional): string. Explanation of a failed Return resolution, when available.
+         * fulfilled_at (Optional): string. When the resolution became fulfilled. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". gift_card_refund_destination (Optional):
+         * string. Where the gift-card-paid portion is refunded. original credits the original gift
+         * card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
+         * correction, except a correction of store_credit. Omit for store_credit, replacement, and
+         * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at
+         * gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit
+         * and its corrections always issue new gift cards. PATCH can change it only while
+         * proposed. Retry persists the chosen destination before starting the new attempt.
+         * Default: "original". Value enum: "original", "new_gift_card". line_items (Required):
+         * Array of {@link ReturnResolutionLineItem}. Return lines and quantities the resolution
+         * covers. Absent on a correction. line_items[] (Value): {@link ReturnResolutionLineItem}.
+         * A return line included in a resolution, with its quantity and returned total. metadata
+         * (Required): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. payment_intent_ids (Required): Array of string. payment_intent_ids[]
+         * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional):
+         * Array of {@link ExpandedPaymentIntentSummary}. payment_intents[] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded. pricing_basis
+         * (Optional): string. How replacement lines are priced. Present on exchanges and
+         * replacements. Value enum: "original_price", "current_price", "merchant_agreed_price".
+         * refund_ids (Required): Array of string. refund_ids[] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunds (Optional): Array of {@link Refund}. refunds[]
+         * (Value): {@link Refund}. Money returned against a collected payment.
+         * replacement_line_items (Required): Array of {@link ReturnReplacementLineItem}.
+         * Merchandise the buyer receives instead, for an exchange or replacement.
+         * replacement_line_items[] (Value): {@link ReturnReplacementLineItem}. A replacement item
+         * added to a return resolution, with its quantity and price totals. replacement_order
+         * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `replacement_order`; `null` when expanded and there is no related order.
+         * replacement_order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. replacement_order.anyOf[2] (Value): null.
+         * replacement_order_id (Optional): string. ID of the replacement Order Flint created for
+         * an exchange or replacement. Absent until it exists. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". replacement_total_money (Required): {@link
+         * MoneyValue}. Total of the replacement items the buyer receives. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. resolution_type
+         * (Required): string. What the buyer gets for the approved quantity. Value enum: "refund",
+         * "exchange", "replacement", "store_credit", "no_monetary_action", "correction". return_id
+         * (Required): string. ID of the Return the resolution belongs to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_policy_revision_id (Optional): string. Example:
+         * "rpolv_01KEZF7C007AWH6P4QC14Q25TC". return_resolution_id (Required): string. Unique
+         * identifier for this return resolution, prefixed `retres_`. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". returned_total_money (Required): {@link
+         * MoneyValue}. Value of the returned units this resolution covers. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. status (Required):
+         * string. fulfilled means the buyer has the value: every linked Refund succeeded, any
+         * balance was collected, and any replacement Order's fulfillment_status is fulfilled or
+         * not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled",
+         * "failed", "canceled". supported_actions (Required): Array of string. Actions that can
+         * succeed now. Empty unless the parent Return is open, except checkout_session. A failed
+         * resolution lists retry while it has a failed effect and its failure code permits retry.
+         * It lists cancel when it never created a Refund, PaymentIntent, or Order. [] enum:
+         * "cancel", "checkout_session", "confirm", "release", "retry". supported_actions[]
+         * (Value): string. Value enum: "cancel", "checkout_session", "confirm", "release",
+         * "retry". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64. minimum: 0.
+         */
+        "object": {
+            /**
+             * Why a requires_action resolution is waiting. buyer_payment means the buyer must pay
+             * the exchange balance; manual_release means the merchant must release the resolution.
+             * Value enum: "buyer_payment", "manual_release".
+             */
+            "action_reason"?: "buyer_payment" | "manual_release" | (string & {});
+            /**
+             * Who has to act while the resolution's status is `requires_action`. Value enum:
+             * "buyer", "merchant".
+             */
+            "action_required_by"?: "buyer" | "merchant" | (string & {});
+            /**
+             * Fees and credits applied to the resolution's amounts. [] (Value): {@link
+             * ReturnResolutionAdjustment}. A fee or credit applied to a return resolution, such as
+             * a restocking fee, with the assessed and applied amounts and any waiver.
+             */
+            "adjustments": Array<ReturnResolutionAdjustment>;
+            /**
+             * Amount the buyer owes when deduction_money and replacement_total_money exceed
+             * returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a
+             * refund and for no_monetary_action. Monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "buyer_payment_amount_money": MoneyValue;
+            /**
+             * Value returned to the buyer: returned_total_money plus credit_adjustment_money,
+             * minus deduction_money and replacement_total_money, when that balance is zero or
+             * more. For store_credit, the value issued on new gift cards. Zero for
+             * no_monetary_action. Monetary amount represented as integer minor units plus an ISO
+             * 4217 currency code.
+             */
+            "buyer_refund_amount_money": MoneyValue;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "canceled_at"?: string;
+            /**
+             * Who canceled the resolution. Merchant reads only. Who performed a return action: a
+             * buyer, merchant, integration, or the system, with an optional ID.
+             */
+            "canceled_by"?: ReturnActor;
+            /**
+             * Why the resolution was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other".
+             */
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            /** Detail sent with the cancellation. Merchant reads only. */
+            "cancellation_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "confirmed_at"?: string;
+            /**
+             * Who confirmed the resolution. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "confirmed_by"?: ReturnActor;
+            /**
+             * ID of the settled resolution this correction adjusts. Present only when
+             * `resolution_type` is `correction`. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+             */
+            "corrects_return_resolution_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Who created the resolution. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "created_by": ReturnActor;
+            /**
+             * Credits added by the resolution's adjustments. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "credit_adjustment_money": MoneyValue;
+            /**
+             * Deductions taken by the resolution's adjustments, such as a restocking fee. Monetary
+             * amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "deduction_money": MoneyValue;
+            /**
+             * What a confirmed resolution is still waiting for. Empty when nothing is. [] (Value):
+             * {@link ReturnResolutionExecutionBlocker}. Work that must complete before a Return
+             * resolution can finish.
+             */
+            "execution_blockers": Array<ReturnResolutionExecutionBlocker>;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Reason code for a failed Return resolution, when available.
+             * refund_line_value_unavailable means another refund already returned part of an order
+             * line, so retrying cannot succeed; cancel the resolution and resolve the line for
+             * fewer units or without a refund. replacement_fulfillment_canceled means the
+             * replacement Order's fulfillment was canceled, so it won't be sent.
+             * gift_card_refund_destination_required means the original gift card cannot accept the
+             * refund; retry with gift_card_refund_destination set to new_gift_card.
+             * store_credit_unavailable means the original payment cannot fund store credit; cancel
+             * the resolution and create a refund resolution. Value enum:
+             * "gift_card_refund_destination_required", "store_credit_unavailable",
+             * "refund_creation_failed", "refund_failed", "refund_line_value_unavailable",
+             * "payment_intent_creation_failed", "payment_failed",
+             * "replacement_order_creation_failed", "replacement_fulfillment_canceled",
+             * "resolution_effect_failed".
+             */
+            "failure_code"?: "gift_card_refund_destination_required"
+                | "store_credit_unavailable"
+                | "refund_creation_failed"
+                | "refund_failed"
+                | "refund_line_value_unavailable"
+                | "payment_intent_creation_failed"
+                | "payment_failed"
+                | "replacement_order_creation_failed"
+                | "replacement_fulfillment_canceled"
+                | "resolution_effect_failed"
+                | (string & {});
+            /** Explanation of a failed Return resolution, when available. */
+            "failure_message"?: string;
+            /**
+             * When the resolution became fulfilled. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "fulfilled_at"?: string;
+            /**
+             * Where the gift-card-paid portion is refunded. original credits the original gift
+             * card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
+             * correction, except a correction of store_credit. Omit for store_credit, replacement,
+             * and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail
+             * at gift_card_refund_destination and conflicting_fields naming resolution_type. Store
+             * credit and its corrections always issue new gift cards. PATCH can change it only
+             * while proposed. Retry persists the chosen destination before starting the new
+             * attempt. Default: "original". Value enum: "original", "new_gift_card".
+             */
+            "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
+            /**
+             * Return lines and quantities the resolution covers. Absent on a correction. []
+             * (Value): {@link ReturnResolutionLineItem}. A return line included in a resolution,
+             * with its quantity and returned total.
+             */
+            "line_items": Array<ReturnResolutionLineItem>;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata": MetadataMap;
+            /**  [] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            "payment_intent_ids": Array<string>;
+            /**
+             *  [] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary
+             * fields, including amount, status, and capture method, returned when the payment
+             * intent is expanded.
+             */
+            "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
+            /**
+             * How replacement lines are priced. Present on exchanges and replacements. Value enum:
+             * "original_price", "current_price", "merchant_agreed_price".
+             */
+            "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
+            /**  [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". */
+            "refund_ids": Array<string>;
+            /**  [] (Value): {@link Refund}. Money returned against a collected payment. */
+            "refunds"?: Array<Refund>;
+            /**
+             * Merchandise the buyer receives instead, for an exchange or replacement. [] (Value):
+             * {@link ReturnReplacementLineItem}. A replacement item added to a return resolution,
+             * with its quantity and price totals.
+             */
+            "replacement_line_items": Array<ReturnReplacementLineItem>;
+            /**
+             * Present only when `expand` includes `replacement_order`; `null` when expanded and
+             * there is no related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
+             */
+            "replacement_order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * ID of the replacement Order Flint created for an exchange or replacement. Absent
+             * until it exists. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "replacement_order_id"?: string;
+            /**
+             * Total of the replacement items the buyer receives. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "replacement_total_money": MoneyValue;
+            /**
+             * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
+             * "replacement", "store_credit", "no_monetary_action", "correction".
+             */
+            "resolution_type": "refund"
+                | "exchange"
+                | "replacement"
+                | "store_credit"
+                | "no_monetary_action"
+                | "correction"
+                | (string & {});
+            /**
+             * ID of the Return the resolution belongs to. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             */
+            "return_id": string;
+            /** Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC". */
+            "return_policy_revision_id"?: string;
+            /**
+             * Unique identifier for this return resolution, prefixed `retres_`. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+             */
+            "return_resolution_id": string;
+            /**
+             * Value of the returned units this resolution covers. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "returned_total_money": MoneyValue;
+            /**
+             * fulfilled means the buyer has the value: every linked Refund succeeded, any balance
+             * was collected, and any replacement Order's fulfillment_status is fulfilled or
+             * not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled",
+             * "failed", "canceled".
+             */
+            "status": "proposed" | "pending" | "requires_action" | "fulfilled" | "failed" | "canceled" | (string & {});
+            /**
+             * Actions that can succeed now. Empty unless the parent Return is open, except
+             * checkout_session. A failed resolution lists retry while it has a failed effect and
+             * its failure code permits retry. It lists cancel when it never created a Refund,
+             * PaymentIntent, or Order. [] enum: "cancel", "checkout_session", "confirm",
+             * "release", "retry". [] (Value): string. Value enum: "cancel", "checkout_session",
+             * "confirm", "release", "retry".
+             */
+            "supported_actions": Array<"cancel" | "checkout_session" | "confirm" | "release" | "retry" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<ReturnResolution>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "return_resolution.updated". */
+    "event_type"?: "return_resolution.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `return_resolution.updated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type ReturnResolutionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.action_reason (Optional): string. Why a requires_action resolution
+     * is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release
+     * means the merchant must release the resolution. Value enum: "buyer_payment",
+     * "manual_release". object.action_required_by (Optional): string. Who has to act while the
+     * resolution's status is `requires_action`. Value enum: "buyer", "merchant".
+     * object.adjustments (Required): Array of {@link ReturnResolutionAdjustment}. Fees and credits
+     * applied to the resolution's amounts. object.adjustments[] (Value): {@link
+     * ReturnResolutionAdjustment}. A fee or credit applied to a return resolution, such as a
+     * restocking fee, with the assessed and applied amounts and any waiver.
+     * object.buyer_payment_amount_money (Required): {@link MoneyValue}. Amount the buyer owes when
+     * deduction_money and replacement_total_money exceed returned_total_money plus
+     * credit_adjustment_money. Zero when the buyer is owed a refund and for no_monetary_action.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.buyer_refund_amount_money (Required): {@link MoneyValue}. Value returned to the
+     * buyer: returned_total_money plus credit_adjustment_money, minus deduction_money and
+     * replacement_total_money, when that balance is zero or more. For store_credit, the value
+     * issued on new gift cards. Zero for no_monetary_action. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code. object.canceled_at (Optional): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by
+     * (Optional): {@link ReturnActor}. Who canceled the resolution. Merchant reads only. Who
+     * performed a return action: a buyer, merchant, integration, or the system, with an optional
+     * ID. object.cancellation_reason (Optional): string. Why the resolution was canceled. Value
+     * enum: "buyer_request", "merchant_request", "duplicate", "expired", "created_in_error",
+     * "other". object.cancellation_reason_message (Optional): string. Detail sent with the
+     * cancellation. Merchant reads only. object.confirmed_at (Optional): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.confirmed_by
+     * (Optional): {@link ReturnActor}. Who confirmed the resolution. Who performed a return
+     * action: a buyer, merchant, integration, or the system, with an optional ID.
+     * object.corrects_return_resolution_id (Optional): string. ID of the settled resolution this
+     * correction adjusts. Present only when `resolution_type` is `correction`. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.created_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_by (Required):
+     * {@link ReturnActor}. Who created the resolution. Who performed a return action: a buyer,
+     * merchant, integration, or the system, with an optional ID. object.credit_adjustment_money
+     * (Required): {@link MoneyValue}. Credits added by the resolution's adjustments. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     * object.deduction_money (Required): {@link MoneyValue}. Deductions taken by the resolution's
+     * adjustments, such as a restocking fee. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code. object.execution_blockers (Required): Array of {@link
+     * ReturnResolutionExecutionBlocker}. What a confirmed resolution is still waiting for. Empty
+     * when nothing is. object.execution_blockers[] (Value): {@link
+     * ReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution can
+     * finish. object.external_reference_id (Optional): string. Caller-owned identifier for this
+     * resource in an external system. maxLength: 255. Example: "warehouse-1842".
+     * object.failure_code (Optional): string. Reason code for a failed Return resolution, when
+     * available. refund_line_value_unavailable means another refund already returned part of an
+     * order line, so retrying cannot succeed; cancel the resolution and resolve the line for fewer
+     * units or without a refund. replacement_fulfillment_canceled means the replacement Order's
+     * fulfillment was canceled, so it won't be sent. gift_card_refund_destination_required means
+     * the original gift card cannot accept the refund; retry with gift_card_refund_destination set
+     * to new_gift_card. store_credit_unavailable means the original payment cannot fund store
+     * credit; cancel the resolution and create a refund resolution. Value enum:
+     * "gift_card_refund_destination_required", "store_credit_unavailable",
+     * "refund_creation_failed", "refund_failed", "refund_line_value_unavailable",
+     * "payment_intent_creation_failed", "payment_failed", "replacement_order_creation_failed",
+     * "replacement_fulfillment_canceled", "resolution_effect_failed". object.failure_message
+     * (Optional): string. Explanation of a failed Return resolution, when available.
+     * object.fulfilled_at (Optional): string. When the resolution became fulfilled. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.gift_card_refund_destination (Optional):
+     * string. Where the gift-card-paid portion is refunded. original credits the original gift
+     * card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction,
+     * except a correction of store_credit. Omit for store_credit, replacement, and
+     * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at
+     * gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and
+     * its corrections always issue new gift cards. PATCH can change it only while proposed. Retry
+     * persists the chosen destination before starting the new attempt. Default: "original". Value
+     * enum: "original", "new_gift_card". object.line_items (Required): Array of {@link
+     * ReturnResolutionLineItem}. Return lines and quantities the resolution covers. Absent on a
+     * correction. object.line_items[] (Value): {@link ReturnResolutionLineItem}. A return line
+     * included in a resolution, with its quantity and returned total. object.metadata (Required):
+     * {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
+     * and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+     * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     * object.payment_intent_ids (Required): Array of string. object.payment_intent_ids[] (Value):
+     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
+     * of {@link ExpandedPaymentIntentSummary}. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.pricing_basis
+     * (Optional): string. How replacement lines are priced. Present on exchanges and replacements.
+     * Value enum: "original_price", "current_price", "merchant_agreed_price". object.refund_ids
+     * (Required): Array of string. object.refund_ids[] (Value): string. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refunds (Optional): Array of {@link Refund}.
+     * object.refunds[] (Value): {@link Refund}. Money returned against a collected payment.
+     * object.replacement_line_items (Required): Array of {@link ReturnReplacementLineItem}.
+     * Merchandise the buyer receives instead, for an exchange or replacement.
+     * object.replacement_line_items[] (Value): {@link ReturnReplacementLineItem}. A replacement
+     * item added to a return resolution, with its quantity and price totals.
+     * object.replacement_order (Optional): {@link ExpandedOrderSummary} or null. Present only when
+     * `expand` includes `replacement_order`; `null` when expanded and there is no related order.
+     * object.replacement_order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+     * fields, including status, payment and refund status, and pricing and settlement amounts,
+     * returned when the order is expanded. object.replacement_order.anyOf[2] (Value): null.
+     * object.replacement_order_id (Optional): string. ID of the replacement Order Flint created
+     * for an exchange or replacement. Absent until it exists. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A". object.replacement_total_money (Required): {@link
+     * MoneyValue}. Total of the replacement items the buyer receives. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code. object.resolution_type (Required):
+     * string. What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
+     * "replacement", "store_credit", "no_monetary_action", "correction". object.return_id
+     * (Required): string. ID of the Return the resolution belongs to. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_policy_revision_id (Optional): string.
+     * Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC". object.return_resolution_id (Required): string.
+     * Unique identifier for this return resolution, prefixed `retres_`. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.returned_total_money (Required): {@link
+     * MoneyValue}. Value of the returned units this resolution covers. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code. object.status (Required): string.
+     * fulfilled means the buyer has the value: every linked Refund succeeded, any balance was
+     * collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable.
+     * Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+     * object.supported_actions (Required): Array of string. Actions that can succeed now. Empty
+     * unless the parent Return is open, except checkout_session. A failed resolution lists retry
+     * while it has a failed effect and its failure code permits retry. It lists cancel when it
+     * never created a Refund, PaymentIntent, or Order. [] enum: "cancel", "checkout_session",
+     * "confirm", "release", "retry". object.supported_actions[] (Value): string. Value enum:
+     * "cancel", "checkout_session", "confirm", "release", "retry". object.updated_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.version (Required): integer. Current version of this resource's owned state. Send it
+     * as `expected_version` when changing the resource to reject a stale write. Format: int64.
+     * minimum: 0. previous_attributes (Optional): object. Previous values of changed top-level
+     * fields in data.object, at this delivery's API version. Nested changes include the whole
+     * previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * action_reason (Optional): string. Why a requires_action resolution is waiting.
+         * buyer_payment means the buyer must pay the exchange balance; manual_release means the
+         * merchant must release the resolution. Value enum: "buyer_payment", "manual_release".
+         * action_required_by (Optional): string. Who has to act while the resolution's status is
+         * `requires_action`. Value enum: "buyer", "merchant". adjustments (Required): Array of
+         * {@link ReturnResolutionAdjustment}. Fees and credits applied to the resolution's
+         * amounts. adjustments[] (Value): {@link ReturnResolutionAdjustment}. A fee or credit
+         * applied to a return resolution, such as a restocking fee, with the assessed and applied
+         * amounts and any waiver. buyer_payment_amount_money (Required): {@link MoneyValue}.
+         * Amount the buyer owes when deduction_money and replacement_total_money exceed
+         * returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a refund
+         * and for no_monetary_action. Monetary amount represented as integer minor units plus an
+         * ISO 4217 currency code. buyer_refund_amount_money (Required): {@link MoneyValue}. Value
+         * returned to the buyer: returned_total_money plus credit_adjustment_money, minus
+         * deduction_money and replacement_total_money, when that balance is zero or more. For
+         * store_credit, the value issued on new gift cards. Zero for no_monetary_action. Monetary
+         * amount represented as integer minor units plus an ISO 4217 currency code. canceled_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". canceled_by (Optional): {@link ReturnActor}. Who canceled the
+         * resolution. Merchant reads only. Who performed a return action: a buyer, merchant,
+         * integration, or the system, with an optional ID. cancellation_reason (Optional): string.
+         * Why the resolution was canceled. Value enum: "buyer_request", "merchant_request",
+         * "duplicate", "expired", "created_in_error", "other". cancellation_reason_message
+         * (Optional): string. Detail sent with the cancellation. Merchant reads only. confirmed_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". confirmed_by (Optional): {@link ReturnActor}. Who confirmed the
+         * resolution. Who performed a return action: a buyer, merchant, integration, or the
+         * system, with an optional ID. corrects_return_resolution_id (Optional): string. ID of the
+         * settled resolution this correction adjusts. Present only when `resolution_type` is
+         * `correction`. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * created_by (Required): {@link ReturnActor}. Who created the resolution. Who performed a
+         * return action: a buyer, merchant, integration, or the system, with an optional ID.
+         * credit_adjustment_money (Required): {@link MoneyValue}. Credits added by the
+         * resolution's adjustments. Monetary amount represented as integer minor units plus an ISO
+         * 4217 currency code. deduction_money (Required): {@link MoneyValue}. Deductions taken by
+         * the resolution's adjustments, such as a restocking fee. Monetary amount represented as
+         * integer minor units plus an ISO 4217 currency code. execution_blockers (Required): Array
+         * of {@link ReturnResolutionExecutionBlocker}. What a confirmed resolution is still
+         * waiting for. Empty when nothing is. execution_blockers[] (Value): {@link
+         * ReturnResolutionExecutionBlocker}. Work that must complete before a Return resolution
+         * can finish. external_reference_id (Optional): string. Caller-owned identifier for this
+         * resource in an external system. maxLength: 255. Example: "warehouse-1842". failure_code
+         * (Optional): string. Reason code for a failed Return resolution, when available.
+         * refund_line_value_unavailable means another refund already returned part of an order
+         * line, so retrying cannot succeed; cancel the resolution and resolve the line for fewer
+         * units or without a refund. replacement_fulfillment_canceled means the replacement
+         * Order's fulfillment was canceled, so it won't be sent.
+         * gift_card_refund_destination_required means the original gift card cannot accept the
+         * refund; retry with gift_card_refund_destination set to new_gift_card.
+         * store_credit_unavailable means the original payment cannot fund store credit; cancel the
+         * resolution and create a refund resolution. Value enum:
+         * "gift_card_refund_destination_required", "store_credit_unavailable",
+         * "refund_creation_failed", "refund_failed", "refund_line_value_unavailable",
+         * "payment_intent_creation_failed", "payment_failed", "replacement_order_creation_failed",
+         * "replacement_fulfillment_canceled", "resolution_effect_failed". failure_message
+         * (Optional): string. Explanation of a failed Return resolution, when available.
+         * fulfilled_at (Optional): string. When the resolution became fulfilled. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". gift_card_refund_destination (Optional):
+         * string. Where the gift-card-paid portion is refunded. original credits the original gift
+         * card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
+         * correction, except a correction of store_credit. Omit for store_credit, replacement, and
+         * no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at
+         * gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit
+         * and its corrections always issue new gift cards. PATCH can change it only while
+         * proposed. Retry persists the chosen destination before starting the new attempt.
+         * Default: "original". Value enum: "original", "new_gift_card". line_items (Required):
+         * Array of {@link ReturnResolutionLineItem}. Return lines and quantities the resolution
+         * covers. Absent on a correction. line_items[] (Value): {@link ReturnResolutionLineItem}.
+         * A return line included in a resolution, with its quantity and returned total. metadata
+         * (Required): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. payment_intent_ids (Required): Array of string. payment_intent_ids[]
+         * (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional):
+         * Array of {@link ExpandedPaymentIntentSummary}. payment_intents[] (Value): {@link
+         * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+         * status, and capture method, returned when the payment intent is expanded. pricing_basis
+         * (Optional): string. How replacement lines are priced. Present on exchanges and
+         * replacements. Value enum: "original_price", "current_price", "merchant_agreed_price".
+         * refund_ids (Required): Array of string. refund_ids[] (Value): string. Example:
+         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunds (Optional): Array of {@link Refund}. refunds[]
+         * (Value): {@link Refund}. Money returned against a collected payment.
+         * replacement_line_items (Required): Array of {@link ReturnReplacementLineItem}.
+         * Merchandise the buyer receives instead, for an exchange or replacement.
+         * replacement_line_items[] (Value): {@link ReturnReplacementLineItem}. A replacement item
+         * added to a return resolution, with its quantity and price totals. replacement_order
+         * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
+         * `replacement_order`; `null` when expanded and there is no related order.
+         * replacement_order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+         * fields, including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. replacement_order.anyOf[2] (Value): null.
+         * replacement_order_id (Optional): string. ID of the replacement Order Flint created for
+         * an exchange or replacement. Absent until it exists. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". replacement_total_money (Required): {@link
+         * MoneyValue}. Total of the replacement items the buyer receives. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. resolution_type
+         * (Required): string. What the buyer gets for the approved quantity. Value enum: "refund",
+         * "exchange", "replacement", "store_credit", "no_monetary_action", "correction". return_id
+         * (Required): string. ID of the Return the resolution belongs to. Example:
+         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_policy_revision_id (Optional): string. Example:
+         * "rpolv_01KEZF7C007AWH6P4QC14Q25TC". return_resolution_id (Required): string. Unique
+         * identifier for this return resolution, prefixed `retres_`. Example:
+         * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". returned_total_money (Required): {@link
+         * MoneyValue}. Value of the returned units this resolution covers. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code. status (Required):
+         * string. fulfilled means the buyer has the value: every linked Refund succeeded, any
+         * balance was collected, and any replacement Order's fulfillment_status is fulfilled or
+         * not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled",
+         * "failed", "canceled". supported_actions (Required): Array of string. Actions that can
+         * succeed now. Empty unless the parent Return is open, except checkout_session. A failed
+         * resolution lists retry while it has a failed effect and its failure code permits retry.
+         * It lists cancel when it never created a Refund, PaymentIntent, or Order. [] enum:
+         * "cancel", "checkout_session", "confirm", "release", "retry". supported_actions[]
+         * (Value): string. Value enum: "cancel", "checkout_session", "confirm", "release",
+         * "retry". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
+         * owned state. Send it as `expected_version` when changing the resource to reject a stale
+         * write. Format: int64. minimum: 0.
+         */
+        "object": {
+            /**
+             * Why a requires_action resolution is waiting. buyer_payment means the buyer must pay
+             * the exchange balance; manual_release means the merchant must release the resolution.
+             * Value enum: "buyer_payment", "manual_release".
+             */
+            "action_reason"?: "buyer_payment" | "manual_release" | (string & {});
+            /**
+             * Who has to act while the resolution's status is `requires_action`. Value enum:
+             * "buyer", "merchant".
+             */
+            "action_required_by"?: "buyer" | "merchant" | (string & {});
+            /**
+             * Fees and credits applied to the resolution's amounts. [] (Value): {@link
+             * ReturnResolutionAdjustment}. A fee or credit applied to a return resolution, such as
+             * a restocking fee, with the assessed and applied amounts and any waiver.
+             */
+            "adjustments": Array<ReturnResolutionAdjustment>;
+            /**
+             * Amount the buyer owes when deduction_money and replacement_total_money exceed
+             * returned_total_money plus credit_adjustment_money. Zero when the buyer is owed a
+             * refund and for no_monetary_action. Monetary amount represented as integer minor
+             * units plus an ISO 4217 currency code.
+             */
+            "buyer_payment_amount_money": MoneyValue;
+            /**
+             * Value returned to the buyer: returned_total_money plus credit_adjustment_money,
+             * minus deduction_money and replacement_total_money, when that balance is zero or
+             * more. For store_credit, the value issued on new gift cards. Zero for
+             * no_monetary_action. Monetary amount represented as integer minor units plus an ISO
+             * 4217 currency code.
+             */
+            "buyer_refund_amount_money": MoneyValue;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "canceled_at"?: string;
+            /**
+             * Who canceled the resolution. Merchant reads only. Who performed a return action: a
+             * buyer, merchant, integration, or the system, with an optional ID.
+             */
+            "canceled_by"?: ReturnActor;
+            /**
+             * Why the resolution was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other".
+             */
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            /** Detail sent with the cancellation. Merchant reads only. */
+            "cancellation_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "confirmed_at"?: string;
+            /**
+             * Who confirmed the resolution. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "confirmed_by"?: ReturnActor;
+            /**
+             * ID of the settled resolution this correction adjusts. Present only when
+             * `resolution_type` is `correction`. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+             */
+            "corrects_return_resolution_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Who created the resolution. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "created_by": ReturnActor;
+            /**
+             * Credits added by the resolution's adjustments. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "credit_adjustment_money": MoneyValue;
+            /**
+             * Deductions taken by the resolution's adjustments, such as a restocking fee. Monetary
+             * amount represented as integer minor units plus an ISO 4217 currency code.
+             */
+            "deduction_money": MoneyValue;
+            /**
+             * What a confirmed resolution is still waiting for. Empty when nothing is. [] (Value):
+             * {@link ReturnResolutionExecutionBlocker}. Work that must complete before a Return
+             * resolution can finish.
+             */
+            "execution_blockers": Array<ReturnResolutionExecutionBlocker>;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Reason code for a failed Return resolution, when available.
+             * refund_line_value_unavailable means another refund already returned part of an order
+             * line, so retrying cannot succeed; cancel the resolution and resolve the line for
+             * fewer units or without a refund. replacement_fulfillment_canceled means the
+             * replacement Order's fulfillment was canceled, so it won't be sent.
+             * gift_card_refund_destination_required means the original gift card cannot accept the
+             * refund; retry with gift_card_refund_destination set to new_gift_card.
+             * store_credit_unavailable means the original payment cannot fund store credit; cancel
+             * the resolution and create a refund resolution. Value enum:
+             * "gift_card_refund_destination_required", "store_credit_unavailable",
+             * "refund_creation_failed", "refund_failed", "refund_line_value_unavailable",
+             * "payment_intent_creation_failed", "payment_failed",
+             * "replacement_order_creation_failed", "replacement_fulfillment_canceled",
+             * "resolution_effect_failed".
+             */
+            "failure_code"?: "gift_card_refund_destination_required"
+                | "store_credit_unavailable"
+                | "refund_creation_failed"
+                | "refund_failed"
+                | "refund_line_value_unavailable"
+                | "payment_intent_creation_failed"
+                | "payment_failed"
+                | "replacement_order_creation_failed"
+                | "replacement_fulfillment_canceled"
+                | "resolution_effect_failed"
+                | (string & {});
+            /** Explanation of a failed Return resolution, when available. */
+            "failure_message"?: string;
+            /**
+             * When the resolution became fulfilled. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "fulfilled_at"?: string;
+            /**
+             * Where the gift-card-paid portion is refunded. original credits the original gift
+             * card; new_gift_card issues new gift cards. Accepted for refund, exchange, and
+             * correction, except a correction of store_credit. Omit for store_credit, replacement,
+             * and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail
+             * at gift_card_refund_destination and conflicting_fields naming resolution_type. Store
+             * credit and its corrections always issue new gift cards. PATCH can change it only
+             * while proposed. Retry persists the chosen destination before starting the new
+             * attempt. Default: "original". Value enum: "original", "new_gift_card".
+             */
+            "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
+            /**
+             * Return lines and quantities the resolution covers. Absent on a correction. []
+             * (Value): {@link ReturnResolutionLineItem}. A return line included in a resolution,
+             * with its quantity and returned total.
+             */
+            "line_items": Array<ReturnResolutionLineItem>;
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata": MetadataMap;
+            /**  [] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            "payment_intent_ids": Array<string>;
+            /**
+             *  [] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary
+             * fields, including amount, status, and capture method, returned when the payment
+             * intent is expanded.
+             */
+            "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
+            /**
+             * How replacement lines are priced. Present on exchanges and replacements. Value enum:
+             * "original_price", "current_price", "merchant_agreed_price".
+             */
+            "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
+            /**  [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". */
+            "refund_ids": Array<string>;
+            /**  [] (Value): {@link Refund}. Money returned against a collected payment. */
+            "refunds"?: Array<Refund>;
+            /**
+             * Merchandise the buyer receives instead, for an exchange or replacement. [] (Value):
+             * {@link ReturnReplacementLineItem}. A replacement item added to a return resolution,
+             * with its quantity and price totals.
+             */
+            "replacement_line_items": Array<ReturnReplacementLineItem>;
+            /**
+             * Present only when `expand` includes `replacement_order`; `null` when expanded and
+             * there is no related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
+             */
+            "replacement_order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * ID of the replacement Order Flint created for an exchange or replacement. Absent
+             * until it exists. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "replacement_order_id"?: string;
+            /**
+             * Total of the replacement items the buyer receives. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "replacement_total_money": MoneyValue;
+            /**
+             * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
+             * "replacement", "store_credit", "no_monetary_action", "correction".
+             */
+            "resolution_type": "refund"
+                | "exchange"
+                | "replacement"
+                | "store_credit"
+                | "no_monetary_action"
+                | "correction"
+                | (string & {});
+            /**
+             * ID of the Return the resolution belongs to. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             */
+            "return_id": string;
+            /** Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC". */
+            "return_policy_revision_id"?: string;
+            /**
+             * Unique identifier for this return resolution, prefixed `retres_`. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+             */
+            "return_resolution_id": string;
+            /**
+             * Value of the returned units this resolution covers. Monetary amount represented as
+             * integer minor units plus an ISO 4217 currency code.
+             */
+            "returned_total_money": MoneyValue;
+            /**
+             * fulfilled means the buyer has the value: every linked Refund succeeded, any balance
+             * was collected, and any replacement Order's fulfillment_status is fulfilled or
+             * not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled",
+             * "failed", "canceled".
+             */
+            "status": "proposed" | "pending" | "requires_action" | "fulfilled" | "failed" | "canceled" | (string & {});
+            /**
+             * Actions that can succeed now. Empty unless the parent Return is open, except
+             * checkout_session. A failed resolution lists retry while it has a failed effect and
+             * its failure code permits retry. It lists cancel when it never created a Refund,
+             * PaymentIntent, or Order. [] enum: "cancel", "checkout_session", "confirm",
+             * "release", "retry". [] (Value): string. Value enum: "cancel", "checkout_session",
+             * "confirm", "release", "retry".
+             */
+            "supported_actions": Array<"cancel" | "checkout_session" | "confirm" | "release" | "retry" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Current version of this resource's owned state. Send it as `expected_version` when
+             * changing the resource to reject a stale write. Format: int64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<ReturnResolution>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "return_resolution.updated". */
+    "event_type"?: "return_resolution.updated";
+});
+export type ReturnResolutionsCancelParams = (InputValue<CancelReturnResolutionRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -51,11 +1416,1951 @@ export type ShipmentsUpdateParams = (InputValue<UpdateShipmentRequestInput>)
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type ShipmentsVoidParams = (InputValue<VoidShipmentRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
+export type ReturnResolutionsConfirmParams = (InputValue<ConfirmReturnResolutionRequestInput> | {
     "expected_version"?: never;
-    "occurred_at"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: payment_intents, refunds,
+     * replacement_order. Expanded relationships are returned only when explicitly requested and
+     * authorized. Limits: at most 10 unique expand paths per request. To-many expansions are
+     * capped at 20 related objects per path. [] enum: "payment_intents", "refunds",
+     * "replacement_order". Value enum: "payment_intents", "refunds", "replacement_order". anyOf[1]
+     * (Value): Array of string. [] enum: "payment_intents", "refunds", "replacement_order".
+     * anyOf[1][] (Value): string. Value enum: "payment_intents", "refunds", "replacement_order".
+     * anyOf[2] (Value): string. Value enum: "payment_intents", "refunds", "replacement_order".
+     */
+    "expand"?: InputValue<("payment_intents" | "refunds" | "replacement_order")
+        | readonly ("payment_intents" | "refunds" | "replacement_order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsListParams = {
+    /**
+     * Filter by action required by. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "buyer", "merchant", "integration". Value enum: "buyer", "merchant",
+     * "integration". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "buyer", "merchant",
+     * "integration". anyOf[1][] (Value): string. Value enum: "buyer", "merchant", "integration".
+     * anyOf[2] (Value): string. Value enum: "buyer", "merchant", "integration".
+     */
+    "action_required_by"?: InputValue<("buyer" | "merchant" | "integration") | readonly ("buyer" | "merchant" | "integration")[]>;
+    /**
+     * Filter by corrects return resolution id. pattern: ^retres_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "corrects_return_resolution_id"?: InputValue<string>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Search by return resolution ID or external reference ID. */
+    "query"?: InputValue<string>;
+    /**
+     * Filter by resolution type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action",
+     * "correction". Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+     * anyOf[1][] (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction". anyOf[2] (Value): string. Value enum: "refund",
+     * "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+     */
+    "resolution_type"?: InputValue<("refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction")
+        | readonly ("refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction")[]>;
+    /**
+     * Filter by return id. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id"?: InputValue<string>;
+    /**
+     * Filter by return line item id. pattern: ^retli_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id"?: InputValue<string>;
+    /**
+     * Filter by return policy revision id. pattern: ^rpolv_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
+     */
+    "return_policy_revision_id"?: InputValue<string>;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled". Value
+     * enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "proposed", "pending", "requires_action",
+     * "fulfilled", "failed", "canceled". anyOf[1][] (Value): string. Value enum: "proposed",
+     * "pending", "requires_action", "fulfilled", "failed", "canceled". anyOf[2] (Value): string.
+     * Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+     */
+    "status"?: InputValue<("proposed" | "pending" | "requires_action" | "fulfilled" | "failed" | "canceled")
+        | readonly ("proposed" | "pending" | "requires_action" | "fulfilled" | "failed" | "canceled")[]>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Include related objects in the response. Supported expansions: replacement_order. Include
+     * the requested related resources using scoped batch reads for this page. Each relationship
+     * requires its existing target read scopes. Expansion changes the representation without
+     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
+     * "replacement_order". Value enum: "replacement_order". anyOf[1] (Value): Array of string. []
+     * enum: "replacement_order". anyOf[1][] (Value): string. Value enum: "replacement_order".
+     * anyOf[2] (Value): string. Value enum: "replacement_order".
+     */
+    "expand"?: InputValue<("replacement_order") | readonly ("replacement_order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsReleaseParams = (InputValue<ReleaseReturnResolutionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsRetryParams = (InputValue<RetryReturnResolutionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnResolutionsUpdateParams = (InputValue<UpdateReturnResolutionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** A request to send purchased items back. */
+export type ReturnResource = {
+    /**
+     * What the buyer can do with the return, in this order: withdraw, ship_items, then
+     * pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's
+     * buyer account, lists all three every time; merchant reads and webhooks get an empty list.
+     * ship_items is required while handoff_requirements is not empty, due by the earliest
+     * expires_at there. pay_balance is required while a resolution waits for the buyer's payment.
+     * Example: []. [] (Value): {@link BuyerAction}. One thing a buyer can do with an order,
+     * subscription, invoice or return they read through /v1/me. Show the actions with is_required
+     * as what needs the buyer's attention, and the first available action as the primary action on
+     * the resource's page in your account.
+     */
+    "buyer_actions": Array<BuyerAction>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "canceled_at"?: string;
+    /**
+     * Who canceled the Return. Who performed a return action: a buyer, merchant, integration, or
+     * the system, with an optional ID.
+     */
+    "canceled_by"?: ReturnActor;
+    /**
+     * Why the Return was canceled. Value enum: "buyer_request", "merchant_request", "duplicate",
+     * "expired", "created_in_error", "other".
+     */
+    "cancellation_reason"?: "buyer_request"
+        | "merchant_request"
+        | "duplicate"
+        | "expired"
+        | "created_in_error"
+        | "other"
+        | (string & {});
+    /** Detail sent with the cancellation. Merchant reads only. */
+    "cancellation_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /**
+     * Who completed the Return. `system` when Flint completed it automatically. Who performed a
+     * return action: a buyer, merchant, integration, or the system, with an optional ID.
+     */
+    "completed_by"?: ReturnActor;
+    /**
+     * What is still owed before the Return can complete. Empty when nothing is. [] (Value): {@link
+     * ReturnCompletionBlocker}. Something still owed before a return can complete, with the return
+     * line or record it concerns.
+     */
+    "completion_blockers": Array<ReturnCompletionBlocker>;
+    /**
+     * automatic completes the Return when the last completion blocker clears; manual waits for
+     * POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+     * "manual", "automatic".
+     */
+    "completion_mode"?: "manual" | "automatic" | (string & {});
+    /**
+     * Why the Return was completed by hand. Absent when Flint completed it automatically. Value
+     * enum: "manual_completion", "exception_waived", "other".
+     */
+    "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+    /** Detail sent when the Return was completed by hand. */
+    "completion_reason_message"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
+     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
+     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     */
+    "customer"?: ((ExpandedCustomerSummary) | (null));
+    /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "decision_at"?: string;
+    /**
+     * Whether the requested units were approved. `pending` until one decision covers every line.
+     * Value enum: "pending", "approved", "partially_approved", "declined".
+     */
+    "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The Return's money in one place: the value of the returned lines, deductions and credits,
+     * and what has been refunded or collected. The money for a return: returned value, deductions,
+     * credits, replacement total, and amounts due to or from the buyer.
+     */
+    "financial_summary": ReturnFinancialSummary;
+    /**
+     * What the buyer still has to send back and where. Each entry leaves the list once it is
+     * satisfied, so an empty list means nothing is waiting on the buyer. [] (Value): {@link
+     * ReturnHandoffRequirement}. What the buyer must do to hand merchandise back: the destination,
+     * instructions, line items, and expiry.
+     */
+    "handoff_requirements": Array<ReturnHandoffRequirement>;
+    /**
+     * Who created the Return, from the credential that sent the request: buyer for a customer
+     * session on /v1/me or Flint's hosted account, merchant for a Dashboard user, integration for
+     * an API key or partner app. It cannot be sent. Value enum: "buyer", "merchant",
+     * "integration".
+     */
+    "initiated_by": "buyer" | "merchant" | "integration" | (string & {});
+    /**
+     * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a return
+     * request.
+     */
+    "line_items": Array<ReturnLineItem>;
+    /**
+     * On the Return, the least-finished line's value. Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception".
+     */
+    "merchandise_status": "not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception"
+        | (string & {});
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata": MetadataMap;
+    /**
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+     * status, payment and refund status, and pricing and settlement amounts, returned when the
+     * order is expanded. anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /**
+     * How your return policies judged the request when the Return was created. How a return policy
+     * evaluated a return request: overall status and reason, the policy revision used, and
+     * per-line results.
+     */
+    "policy_evaluation"?: ReturnPolicyEvaluation;
+    /**
+     * Whether the buyer has received the value they are owed. Combines the Return's resolutions
+     * and its unsettled corrections. Value enum: "not_selected", "pending", "partially_fulfilled",
+     * "requires_action", "fulfilled", "failed".
+     */
+    "resolution_status": "not_selected"
+        | "pending"
+        | "partially_fulfilled"
+        | "requires_action"
+        | "fulfilled"
+        | "failed"
+        | (string & {});
+    /**
+     * IDs of every disposition recorded for this Return, oldest first, including failed and
+     * canceled dispositions. Expand `return_dispositions` on `GET /v1/returns/{return_id}` to read
+     * them inline. [] (Value): string. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+     */
+    "return_disposition_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_dispositions`. The dispositions in
+     * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}. A
+     * decision about how returned merchandise will be handled.
+     */
+    "return_dispositions"?: Array<ReturnDisposition>;
+    /**
+     * Unique identifier for this return, prefixed `ret_`. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
+     * IDs of every inspection recorded for this Return, oldest first, including superseded
+     * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read them
+     * inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     */
+    "return_inspection_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_inspections`. The inspections in
+     * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
+     * assessment of the condition of returned items.
+     */
+    "return_inspections"?: Array<ReturnInspection>;
+    /** Human-readable number for the Return. */
+    "return_number": string;
+    /**
+     * IDs of every receipt recorded for this Return, oldest first, including superseded receipts.
+     * Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them inline. [] (Value):
+     * string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     */
+    "return_receipt_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_receipts`. The receipts in `return_receipt_ids`,
+     * in the same order. [] (Value): {@link ReturnReceipt}. A record of returned items arriving at
+     * a location.
+     */
+    "return_receipts"?: Array<ReturnReceipt>;
+    /**
+     * IDs of every resolution created for this Return, oldest first, including failed and canceled
+     * resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them
+     * inline. [] (Value): string. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `return_resolutions`. The resolutions in
+     * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}. The
+     * refund, exchange, or other outcome of a return.
+     */
+    "return_resolutions"?: Array<ReturnResolution>;
+    /**
+     * IDs of every shipment raised to send this Return's items back, oldest first, including
+     * voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to read them inline.
+     * [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+     */
+    "shipment_ids": Array<string>;
+    /**
+     * Present only when `expand` includes `shipments`. Summaries of the shipments in
+     * `shipment_ids`, in the same order. [] (Value): {@link ExpandedShipmentSummary}. A shipment's
+     * summary fields, including direction, status, and package count, returned when the shipment
+     * is expanded.
+     */
+    "shipments"?: Array<ExpandedShipmentSummary>;
+    /**
+     * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+     * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+     * "declined", "canceled".
+     */
+    "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+    /**
+     * [] enum: "cancel", "complete", "decide", "reopen". [] (Value): string. Value enum: "cancel",
+     * "complete", "decide", "reopen".
+     */
+    "supported_actions": Array<"cancel" | "complete" | "decide" | "reopen" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Goes up with every change to the Return. Each activity's `return_version` is the version
+     * that activity produced. A write that takes `expected_version` or `expected_return_version`
+     * for this Return compares it with this value. Format: int64. minimum: 0.
+     */
+    "version": number;
+};
+/** A restocking fee in a return policy, charged as a flat amount or a percent. */
+export type ReturnRestockingFeePolicy = {
+    /** How the fee is worked out. Value enum: "flat", "percent". */
+    "calculation_type": "flat" | "percent" | (string & {});
+    /**
+     * Fixed fee proposed for each line, whatever the quantity. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValue;
+    /**
+     * Percentage points of the returned units' subtotal, from 1 to 100 with up to four decimal
+     * places. `10` means 10%. Format: double. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+};
+/** A restocking fee in a return policy, charged as a flat amount or a percent. */
+export type ReturnRestockingFeePolicyRequestInput = {
+    /** How the fee is worked out. Value enum: "flat", "percent". */
+    "calculation_type": "flat" | "percent";
+    /**
+     * Fixed fee proposed for each line, whatever the quantity. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "flat_money"?: MoneyValueInput;
+    /**
+     * Percentage points of the returned units' subtotal, from 1 to 100 with up to four decimal
+     * places. `10` means 10%. Format: double. multipleOf: 0.0001.
+     */
+    "percent"?: number;
+};
+/** A return line and the quantity placed in a return shipment or package. */
+export type ReturnShipmentLineItemAllocationRequestInput = {
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Return line whose quantity is allocated to the shipment or package. minLength: 1. Example:
+     * "retli_01KEZF7C00R813VR7ECXS062QG".
+     */
+    "return_line_item_id": string;
+};
+/** Who pays for return shipping in a return policy: the merchant or the buyer. */
+export type ReturnShippingPolicy = {
+    /**
+     * Who pays for shipping the goods back. This states your policy and charges nothing. Value
+     * enum: "merchant", "buyer".
+     */
+    "payer": "merchant" | "buyer" | (string & {});
+};
+/** Who pays for return shipping in a return policy: the merchant or the buyer. */
+export type ReturnShippingPolicyRequestInput = {
+    /**
+     * Who pays for shipping the goods back. This states your policy and charges nothing. Value
+     * enum: "merchant", "buyer".
+     */
+    "payer": "merchant" | "buyer";
+};
+/**
+ * The system a return event came from, such as a point of sale or warehouse system, with its own
+ * identifier.
+ */
+export type ReturnSourceSystem = ({
+    /**
+     * Your source system's identifier. Required when source_system_type is pos, wms, erp, or
+     * other; not allowed when source_system_type is manual. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_source_id"?: string;
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "other", "flint".
+     */
+    "source_system_type": "manual" | "pos" | "wms" | "erp" | "other" | "flint" | (string & {});
+});
+/**
+ * The system a return event came from, such as a point of sale or warehouse system, with its own
+ * identifier.
+ */
+export type ReturnSourceSystemRequest = ({
+    /**
+     * Your source system's identifier. Required when source_system_type is pos, wms, erp, or
+     * other; not allowed when source_system_type is manual. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_source_id"?: string;
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "other".
+     */
+    "source_system_type": "manual" | "pos" | "wms" | "erp" | "other" | (string & {});
+});
+/**
+ * The system a return event came from, such as a point of sale or warehouse system, with its own
+ * identifier.
+ */
+export type ReturnSourceSystemRequestInput = ({
+    /**
+     * Your source system's identifier. Required when source_system_type is pos, wms, erp, or
+     * other; not allowed when source_system_type is manual. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_source_id"?: string;
+    /**
+     * Source of the event: manual for a manual entry, pos for a point of sale, wms for a warehouse
+     * management system, erp for an enterprise resource planning system, or other for another
+     * external system. Flint-authored events use flint in responses. Value enum: "manual", "pos",
+     * "wms", "erp", "other".
+     */
+    "source_system_type": "manual" | "pos" | "wms" | "erp" | "other";
+});
+/**
+ * Merchandise received in a return that does not match an expected return line, described by name,
+ * SKU, and description.
+ */
+export type ReturnUnverifiedItem = {
+    /** Description of the unidentified item. minLength: 1. */
+    "description"?: string;
+    /** Name of the unidentified item. minLength: 1. */
+    "name": string;
+    /** SKU of the unidentified item. minLength: 1. */
+    "sku"?: string;
+};
+/**
+ * Merchandise received in a return that does not match an expected return line, described by name,
+ * SKU, and description.
+ */
+export type ReturnUnverifiedItemInput = ReturnUnverifiedItem;
+export type ReturnUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_actions": Array<BuyerAction>;
+            "canceled_at"?: string;
+            "canceled_by"?: ReturnActor;
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            "cancellation_reason_message"?: string;
+            "completed_at"?: string;
+            "completed_by"?: ReturnActor;
+            "completion_blockers": Array<ReturnCompletionBlocker>;
+            "completion_mode"?: "manual" | "automatic" | (string & {});
+            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+            "completion_reason_message"?: string;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id"?: string;
+            "decision_at"?: string;
+            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+            "external_reference_id"?: string;
+            "financial_summary": ReturnFinancialSummary;
+            "handoff_requirements": Array<ReturnHandoffRequirement>;
+            "initiated_by": "buyer" | "merchant" | "integration" | (string & {});
+            "line_items": Array<ReturnLineItem>;
+            "merchandise_status": "not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {});
+            "metadata": MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "policy_evaluation"?: ReturnPolicyEvaluation;
+            "resolution_status": "not_selected"
+                | "pending"
+                | "partially_fulfilled"
+                | "requires_action"
+                | "fulfilled"
+                | "failed"
+                | (string & {});
+            "return_disposition_ids": Array<string>;
+            "return_dispositions"?: Array<ReturnDisposition>;
+            "return_id": string;
+            "return_inspection_ids": Array<string>;
+            "return_inspections"?: Array<ReturnInspection>;
+            "return_number": string;
+            "return_receipt_ids": Array<string>;
+            "return_receipts"?: Array<ReturnReceipt>;
+            "return_resolution_ids": Array<string>;
+            "return_resolutions"?: Array<ReturnResolution>;
+            "shipment_ids": Array<string>;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+            "supported_actions": Array<"cancel" | "complete" | "decide" | "reopen" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<ReturnResource>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "return.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "buyer_actions": Array<BuyerAction>;
+            "canceled_at"?: string;
+            "canceled_by"?: ReturnActor;
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            "cancellation_reason_message"?: string;
+            "completed_at"?: string;
+            "completed_by"?: ReturnActor;
+            "completion_blockers": Array<ReturnCompletionBlocker>;
+            "completion_mode"?: "manual" | "automatic" | (string & {});
+            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+            "completion_reason_message"?: string;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id"?: string;
+            "decision_at"?: string;
+            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+            "external_reference_id"?: string;
+            "financial_summary": ReturnFinancialSummary;
+            "handoff_requirements": Array<ReturnHandoffRequirement>;
+            "initiated_by": "buyer" | "merchant" | "integration" | (string & {});
+            "line_items": Array<ReturnLineItem>;
+            "merchandise_status": "not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {});
+            "metadata": MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "policy_evaluation"?: ReturnPolicyEvaluation;
+            "resolution_status": "not_selected"
+                | "pending"
+                | "partially_fulfilled"
+                | "requires_action"
+                | "fulfilled"
+                | "failed"
+                | (string & {});
+            "return_disposition_ids": Array<string>;
+            "return_dispositions"?: Array<ReturnDisposition>;
+            "return_id": string;
+            "return_inspection_ids": Array<string>;
+            "return_inspections"?: Array<ReturnInspection>;
+            "return_number": string;
+            "return_receipt_ids": Array<string>;
+            "return_receipts"?: Array<ReturnReceipt>;
+            "return_resolution_ids": Array<string>;
+            "return_resolutions"?: Array<ReturnResolution>;
+            "shipment_ids": Array<string>;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+            "supported_actions": Array<"cancel" | "complete" | "decide" | "reopen" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<ReturnResource>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "return.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "return.updated";
+});
+/**
+ * The `return.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type ReturnUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_actions (Required): Array of {@link BuyerAction}. What the
+     * buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A
+     * buyer's read or change through a customer session on /v1/me, or in Flint's buyer account,
+     * lists all three every time; merchant reads and webhooks get an empty list. ship_items is
+     * required while handoff_requirements is not empty, due by the earliest expires_at there.
+     * pay_balance is required while a resolution waits for the buyer's payment. Example: [].
+     * object.buyer_actions[] (Value): {@link BuyerAction}. One thing a buyer can do with an order,
+     * subscription, invoice or return they read through /v1/me. Show the actions with is_required
+     * as what needs the buyer's attention, and the first available action as the primary action on
+     * the resource's page in your account. object.canceled_at (Optional): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by
+     * (Optional): {@link ReturnActor}. Who canceled the Return. Who performed a return action: a
+     * buyer, merchant, integration, or the system, with an optional ID. object.cancellation_reason
+     * (Optional): string. Why the Return was canceled. Value enum: "buyer_request",
+     * "merchant_request", "duplicate", "expired", "created_in_error", "other".
+     * object.cancellation_reason_message (Optional): string. Detail sent with the cancellation.
+     * Merchant reads only. object.completed_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.completed_by (Optional): {@link
+     * ReturnActor}. Who completed the Return. `system` when Flint completed it automatically. Who
+     * performed a return action: a buyer, merchant, integration, or the system, with an optional
+     * ID. object.completion_blockers (Required): Array of {@link ReturnCompletionBlocker}. What is
+     * still owed before the Return can complete. Empty when nothing is.
+     * object.completion_blockers[] (Value): {@link ReturnCompletionBlocker}. Something still owed
+     * before a return can complete, with the return line or record it concerns.
+     * object.completion_mode (Optional): string. automatic completes the Return when the last
+     * completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete. Reopening
+     * a Return sets it to manual. Value enum: "manual", "automatic". object.completion_reason
+     * (Optional): string. Why the Return was completed by hand. Absent when Flint completed it
+     * automatically. Value enum: "manual_completion", "exception_waived", "other".
+     * object.completion_reason_message (Optional): string. Detail sent when the Return was
+     * completed by hand. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link
+     * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+     * when expanded and there is no related customer. object.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. object.customer.anyOf[2] (Value): null. object.customer_id
+     * (Optional): string. The customer the Return belongs to. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.decision_at (Optional): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.decision_status (Required):
+     * string. Whether the requested units were approved. `pending` until one decision covers every
+     * line. Value enum: "pending", "approved", "partially_approved", "declined".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.financial_summary
+     * (Required): {@link ReturnFinancialSummary}. The Return's money in one place: the value of
+     * the returned lines, deductions and credits, and what has been refunded or collected. The
+     * money for a return: returned value, deductions, credits, replacement total, and amounts due
+     * to or from the buyer. object.handoff_requirements (Required): Array of {@link
+     * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+     * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. object.handoff_requirements[] (Value): {@link ReturnHandoffRequirement}. What the
+     * buyer must do to hand merchandise back: the destination, instructions, line items, and
+     * expiry. object.initiated_by (Required): string. Who created the Return, from the credential
+     * that sent the request: buyer for a customer session on /v1/me or Flint's hosted account,
+     * merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent.
+     * Value enum: "buyer", "merchant", "integration". object.line_items (Required): Array of
+     * {@link ReturnLineItem}. The lines being returned. object.line_items[] (Value): {@link
+     * ReturnLineItem}. An item included in a return request. object.merchandise_status (Required):
+     * string. On the Return, the least-finished line's value. Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value
+     * data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored
+     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
+     * string. ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.policy_evaluation (Optional): {@link ReturnPolicyEvaluation}. How your return
+     * policies judged the request when the Return was created. How a return policy evaluated a
+     * return request: overall status and reason, the policy revision used, and per-line results.
+     * object.resolution_status (Required): string. Whether the buyer has received the value they
+     * are owed. Combines the Return's resolutions and its unsettled corrections. Value enum:
+     * "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+     * object.return_disposition_ids (Required): Array of string. IDs of every disposition recorded
+     * for this Return, oldest first, including failed and canceled dispositions. Expand
+     * `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_disposition_ids[] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order. object.return_dispositions[]
+     * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.return_id (Required): string. Unique identifier for this return, prefixed
+     * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_ids (Required):
+     * Array of string. IDs of every inspection recorded for this Return, oldest first, including
+     * superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+     * them inline. object.return_inspection_ids[] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_inspections (Optional): Array of {@link
+     * ReturnInspection}. Present only when `expand` includes `return_inspections`. The inspections
+     * in `return_inspection_ids`, in the same order. object.return_inspections[] (Value): {@link
+     * ReturnInspection}. An assessment of the condition of returned items. object.return_number
+     * (Required): string. Human-readable number for the Return. object.return_receipt_ids
+     * (Required): Array of string. IDs of every receipt recorded for this Return, oldest first,
+     * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to
+     * read them inline. object.return_receipt_ids[] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipts (Optional): Array of {@link
+     * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. object.return_receipts[] (Value): {@link
+     * ReturnReceipt}. A record of returned items arriving at a location.
+     * object.return_resolution_ids (Required): Array of string. IDs of every resolution created
+     * for this Return, oldest first, including failed and canceled resolutions. Expand
+     * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_resolution_ids[] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.return_resolutions (Optional): Array of {@link
+     * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The resolutions
+     * in `return_resolution_ids`, in the same order. object.return_resolutions[] (Value): {@link
+     * ReturnResolution}. The refund, exchange, or other outcome of a return. object.shipment_ids
+     * (Required): Array of string. IDs of every shipment raised to send this Return's items back,
+     * oldest first, including voided shipments. Expand `shipments` on `GET
+     * /v1/returns/{return_id}` to read them inline. object.shipment_ids[] (Value): string.
+     * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipments (Optional): Array of {@link
+     * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of the
+     * shipments in `shipment_ids`, in the same order. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+     * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+     * "declined", "canceled". object.supported_actions (Required): Array of string. [] enum:
+     * "cancel", "complete", "decide", "reopen". object.supported_actions[] (Value): string. Value
+     * enum: "cancel", "complete", "decide", "reopen". object.updated_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Goes up with every change to the Return. Each activity's
+     * `return_version` is the version that activity produced. A write that takes
+     * `expected_version` or `expected_return_version` for this Return compares it with this value.
+     * Format: int64. minimum: 0. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_actions (Required): Array of {@link BuyerAction}. What the buyer can do with the
+         * return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change
+         * through a customer session on /v1/me, or in Flint's buyer account, lists all three every
+         * time; merchant reads and webhooks get an empty list. ship_items is required while
+         * handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is
+         * required while a resolution waits for the buyer's payment. Example: []. buyer_actions[]
+         * (Value): {@link BuyerAction}. One thing a buyer can do with an order, subscription,
+         * invoice or return they read through /v1/me. Show the actions with is_required as what
+         * needs the buyer's attention, and the first available action as the primary action on the
+         * resource's page in your account. canceled_at (Optional): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". canceled_by (Optional): {@link
+         * ReturnActor}. Who canceled the Return. Who performed a return action: a buyer, merchant,
+         * integration, or the system, with an optional ID. cancellation_reason (Optional): string.
+         * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+         * "duplicate", "expired", "created_in_error", "other". cancellation_reason_message
+         * (Optional): string. Detail sent with the cancellation. Merchant reads only. completed_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". completed_by (Optional): {@link ReturnActor}. Who completed the
+         * Return. `system` when Flint completed it automatically. Who performed a return action: a
+         * buyer, merchant, integration, or the system, with an optional ID. completion_blockers
+         * (Required): Array of {@link ReturnCompletionBlocker}. What is still owed before the
+         * Return can complete. Empty when nothing is. completion_blockers[] (Value): {@link
+         * ReturnCompletionBlocker}. Something still owed before a return can complete, with the
+         * return line or record it concerns. completion_mode (Optional): string. automatic
+         * completes the Return when the last completion blocker clears; manual waits for POST
+         * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+         * "manual", "automatic". completion_reason (Optional): string. Why the Return was
+         * completed by hand. Absent when Flint completed it automatically. Value enum:
+         * "manual_completion", "exception_waived", "other". completion_reason_message (Optional):
+         * string. Detail sent when the Return was completed by hand. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer
+         * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place
+         * of a customer ID when the customer is expanded. customer.anyOf[2] (Value): null.
+         * customer_id (Optional): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". decision_at (Optional): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". decision_status (Required): string.
+         * Whether the requested units were approved. `pending` until one decision covers every
+         * line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
+         * an external system. maxLength: 255. Example: "warehouse-1842". financial_summary
+         * (Required): {@link ReturnFinancialSummary}. The Return's money in one place: the value
+         * of the returned lines, deductions and credits, and what has been refunded or collected.
+         * The money for a return: returned value, deductions, credits, replacement total, and
+         * amounts due to or from the buyer. handoff_requirements (Required): Array of {@link
+         * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+         * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+         * buyer. handoff_requirements[] (Value): {@link ReturnHandoffRequirement}. What the buyer
+         * must do to hand merchandise back: the destination, instructions, line items, and expiry.
+         * initiated_by (Required): string. Who created the Return, from the credential that sent
+         * the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant
+         * for a Dashboard user, integration for an API key or partner app. It cannot be sent.
+         * Value enum: "buyer", "merchant", "integration". line_items (Required): Array of {@link
+         * ReturnLineItem}. The lines being returned. line_items[] (Value): {@link ReturnLineItem}.
+         * An item included in a return request. merchandise_status (Required): string. On the
+         * Return, the least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception". metadata
+         * (Required): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. order (Optional): {@link ExpandedOrderSummary} or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. ID of the Order the Return is against. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". policy_evaluation (Optional): {@link
+         * ReturnPolicyEvaluation}. How your return policies judged the request when the Return was
+         * created. How a return policy evaluated a return request: overall status and reason, the
+         * policy revision used, and per-line results. resolution_status (Required): string.
+         * Whether the buyer has received the value they are owed. Combines the Return's
+         * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+         * "partially_fulfilled", "requires_action", "fulfilled", "failed". return_disposition_ids
+         * (Required): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids[] (Value): string.
+         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_dispositions (Optional): Array of
+         * {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order. return_dispositions[]
+         * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+         * handled. return_id (Required): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_ids (Required):
+         * Array of string. IDs of every inspection recorded for this Return, oldest first,
+         * including superseded inspections. Expand `return_inspections` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_inspection_ids[] (Value): string.
+         * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspections (Optional): Array of
+         * {@link ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections[] (Value):
+         * {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_number (Required): string. Human-readable number for the Return.
+         * return_receipt_ids (Required): Array of string. IDs of every receipt recorded for this
+         * Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_receipt_ids[] (Value): string.
+         * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipts (Optional): Array of {@link
+         * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
+         * `return_receipt_ids`, in the same order. return_receipts[] (Value): {@link
+         * ReturnReceipt}. A record of returned items arriving at a location. return_resolution_ids
+         * (Required): Array of string. IDs of every resolution created for this Return, oldest
+         * first, including failed and canceled resolutions. Expand `return_resolutions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_resolution_ids[] (Value): string.
+         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolutions (Optional): Array of
+         * {@link ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions[] (Value):
+         * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * shipment_ids (Required): Array of string. IDs of every shipment raised to send this
+         * Return's items back, oldest first, including voided shipments. Expand `shipments` on
+         * `GET /v1/returns/{return_id}` to read them inline. shipment_ids[] (Value): string.
+         * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of
+         * the shipments in `shipment_ids`, in the same order. shipments[] (Value): {@link
+         * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+         * package count, returned when the shipment is expanded. status (Required): string. Where
+         * the whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". supported_actions (Required): Array of string. [] enum:
+         * "cancel", "complete", "decide", "reopen". supported_actions[] (Value): string. Value
+         * enum: "cancel", "complete", "decide", "reopen". updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Goes up with every change to the Return. Each activity's `return_version` is
+         * the version that activity produced. A write that takes `expected_version` or
+         * `expected_return_version` for this Return compares it with this value. Format: int64.
+         * minimum: 0.
+         */
+        "object": {
+            /**
+             * What the buyer can do with the return, in this order: withdraw, ship_items, then
+             * pay_balance. A buyer's read or change through a customer session on /v1/me, or in
+             * Flint's buyer account, lists all three every time; merchant reads and webhooks get
+             * an empty list. ship_items is required while handoff_requirements is not empty, due
+             * by the earliest expires_at there. pay_balance is required while a resolution waits
+             * for the buyer's payment. Example: []. [] (Value): {@link BuyerAction}. One thing a
+             * buyer can do with an order, subscription, invoice or return they read through
+             * /v1/me. Show the actions with is_required as what needs the buyer's attention, and
+             * the first available action as the primary action on the resource's page in your
+             * account.
+             */
+            "buyer_actions": Array<BuyerAction>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "canceled_at"?: string;
+            /**
+             * Who canceled the Return. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "canceled_by"?: ReturnActor;
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other".
+             */
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            /** Detail sent with the cancellation. Merchant reads only. */
+            "cancellation_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "completed_at"?: string;
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. Who
+             * performed a return action: a buyer, merchant, integration, or the system, with an
+             * optional ID.
+             */
+            "completed_by"?: ReturnActor;
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. []
+             * (Value): {@link ReturnCompletionBlocker}. Something still owed before a return can
+             * complete, with the return line or record it concerns.
+             */
+            "completion_blockers": Array<ReturnCompletionBlocker>;
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic".
+             */
+            "completion_mode"?: "manual" | "automatic" | (string & {});
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other".
+             */
+            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+            /** Detail sent when the Return was completed by hand. */
+            "completion_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            "customer_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "decision_at"?: string;
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined".
+             */
+            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. The money for a return: returned
+             * value, deductions, credits, replacement total, and amounts due to or from the buyer.
+             */
+            "financial_summary": ReturnFinancialSummary;
+            /**
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. [] (Value):
+             * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back:
+             * the destination, instructions, line items, and expiry.
+             */
+            "handoff_requirements": Array<ReturnHandoffRequirement>;
+            /**
+             * Who created the Return, from the credential that sent the request: buyer for a
+             * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+             * integration for an API key or partner app. It cannot be sent. Value enum: "buyer",
+             * "merchant", "integration".
+             */
+            "initiated_by": "buyer" | "merchant" | "integration" | (string & {});
+            /**
+             * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a
+             * return request.
+             */
+            "line_items": Array<ReturnLineItem>;
+            /**
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception".
+             */
+            "merchandise_status": "not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {});
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata": MetadataMap;
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+             * fields, including status, payment and refund status, and pricing and settlement
+             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /**
+             * How your return policies judged the request when the Return was created. How a
+             * return policy evaluated a return request: overall status and reason, the policy
+             * revision used, and per-line results.
+             */
+            "policy_evaluation"?: ReturnPolicyEvaluation;
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_fulfilled", "requires_action", "fulfilled", "failed".
+             */
+            "resolution_status": "not_selected"
+                | "pending"
+                | "partially_fulfilled"
+                | "requires_action"
+                | "fulfilled"
+                | "failed"
+                | (string & {});
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. [] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "return_disposition_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}.
+             * A decision about how returned merchandise will be handled.
+             */
+            "return_dispositions"?: Array<ReturnDisposition>;
+            /**
+             * Unique identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             */
+            "return_id": string;
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
+             * assessment of the condition of returned items.
+             */
+            "return_inspections"?: Array<ReturnInspection>;
+            /** Human-readable number for the Return. */
+            "return_number": string;
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. [] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+             */
+            "return_receipt_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. [] (Value): {@link ReturnReceipt}. A record
+             * of returned items arriving at a location.
+             */
+            "return_receipts"?: Array<ReturnReceipt>;
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. [] (Value): string. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+             */
+            "return_resolution_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}.
+             * The refund, exchange, or other outcome of a return.
+             */
+            "return_resolutions"?: Array<ReturnResolution>;
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+             */
+            "shipment_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. [] (Value): {@link ExpandedShipmentSummary}. A
+             * shipment's summary fields, including direction, status, and package count, returned
+             * when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled".
+             */
+            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+            /**
+             * [] enum: "cancel", "complete", "decide", "reopen". [] (Value): string. Value enum:
+             * "cancel", "complete", "decide", "reopen".
+             */
+            "supported_actions": Array<"cancel" | "complete" | "decide" | "reopen" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. Format:
+             * int64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<ReturnResource>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "return.updated". */
+    "event_type"?: "return.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `return.updated` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type ReturnUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.buyer_actions (Required): Array of {@link BuyerAction}. What the
+     * buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A
+     * buyer's read or change through a customer session on /v1/me, or in Flint's buyer account,
+     * lists all three every time; merchant reads and webhooks get an empty list. ship_items is
+     * required while handoff_requirements is not empty, due by the earliest expires_at there.
+     * pay_balance is required while a resolution waits for the buyer's payment. Example: [].
+     * object.buyer_actions[] (Value): {@link BuyerAction}. One thing a buyer can do with an order,
+     * subscription, invoice or return they read through /v1/me. Show the actions with is_required
+     * as what needs the buyer's attention, and the first available action as the primary action on
+     * the resource's page in your account. object.canceled_at (Optional): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.canceled_by
+     * (Optional): {@link ReturnActor}. Who canceled the Return. Who performed a return action: a
+     * buyer, merchant, integration, or the system, with an optional ID. object.cancellation_reason
+     * (Optional): string. Why the Return was canceled. Value enum: "buyer_request",
+     * "merchant_request", "duplicate", "expired", "created_in_error", "other".
+     * object.cancellation_reason_message (Optional): string. Detail sent with the cancellation.
+     * Merchant reads only. object.completed_at (Optional): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.completed_by (Optional): {@link
+     * ReturnActor}. Who completed the Return. `system` when Flint completed it automatically. Who
+     * performed a return action: a buyer, merchant, integration, or the system, with an optional
+     * ID. object.completion_blockers (Required): Array of {@link ReturnCompletionBlocker}. What is
+     * still owed before the Return can complete. Empty when nothing is.
+     * object.completion_blockers[] (Value): {@link ReturnCompletionBlocker}. Something still owed
+     * before a return can complete, with the return line or record it concerns.
+     * object.completion_mode (Optional): string. automatic completes the Return when the last
+     * completion blocker clears; manual waits for POST /v1/returns/{return_id}/complete. Reopening
+     * a Return sets it to manual. Value enum: "manual", "automatic". object.completion_reason
+     * (Optional): string. Why the Return was completed by hand. Absent when Flint completed it
+     * automatically. Value enum: "manual_completion", "exception_waived", "other".
+     * object.completion_reason_message (Optional): string. Detail sent when the Return was
+     * completed by hand. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link
+     * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
+     * when expanded and there is no related customer. object.customer.anyOf[1] (Value): {@link
+     * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID
+     * when the customer is expanded. object.customer.anyOf[2] (Value): null. object.customer_id
+     * (Optional): string. The customer the Return belongs to. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.decision_at (Optional): string. RFC3339 timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.decision_status (Required):
+     * string. Whether the requested units were approved. `pending` until one decision covers every
+     * line. Value enum: "pending", "approved", "partially_approved", "declined".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.financial_summary
+     * (Required): {@link ReturnFinancialSummary}. The Return's money in one place: the value of
+     * the returned lines, deductions and credits, and what has been refunded or collected. The
+     * money for a return: returned value, deductions, credits, replacement total, and amounts due
+     * to or from the buyer. object.handoff_requirements (Required): Array of {@link
+     * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+     * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+     * buyer. object.handoff_requirements[] (Value): {@link ReturnHandoffRequirement}. What the
+     * buyer must do to hand merchandise back: the destination, instructions, line items, and
+     * expiry. object.initiated_by (Required): string. Who created the Return, from the credential
+     * that sent the request: buyer for a customer session on /v1/me or Flint's hosted account,
+     * merchant for a Dashboard user, integration for an API key or partner app. It cannot be sent.
+     * Value enum: "buyer", "merchant", "integration". object.line_items (Required): Array of
+     * {@link ReturnLineItem}. The lines being returned. object.line_items[] (Value): {@link
+     * ReturnLineItem}. An item included in a return request. object.merchandise_status (Required):
+     * string. On the Return, the least-finished line's value. Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". object.metadata (Required): {@link MetadataMap}. Stored caller-owned key-value
+     * data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored
+     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
+     * string. ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.policy_evaluation (Optional): {@link ReturnPolicyEvaluation}. How your return
+     * policies judged the request when the Return was created. How a return policy evaluated a
+     * return request: overall status and reason, the policy revision used, and per-line results.
+     * object.resolution_status (Required): string. Whether the buyer has received the value they
+     * are owed. Combines the Return's resolutions and its unsettled corrections. Value enum:
+     * "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+     * object.return_disposition_ids (Required): Array of string. IDs of every disposition recorded
+     * for this Return, oldest first, including failed and canceled dispositions. Expand
+     * `return_dispositions` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_disposition_ids[] (Value): string. Example:
+     * "retdsp_01KEZF7C007H87J66PH2EEK1VW". object.return_dispositions (Optional): Array of {@link
+     * ReturnDisposition}. Present only when `expand` includes `return_dispositions`. The
+     * dispositions in `return_disposition_ids`, in the same order. object.return_dispositions[]
+     * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+     * handled. object.return_id (Required): string. Unique identifier for this return, prefixed
+     * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". object.return_inspection_ids (Required):
+     * Array of string. IDs of every inspection recorded for this Return, oldest first, including
+     * superseded inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+     * them inline. object.return_inspection_ids[] (Value): string. Example:
+     * "retins_01KEZF7C00WPB0BR4WTT7CMSB8". object.return_inspections (Optional): Array of {@link
+     * ReturnInspection}. Present only when `expand` includes `return_inspections`. The inspections
+     * in `return_inspection_ids`, in the same order. object.return_inspections[] (Value): {@link
+     * ReturnInspection}. An assessment of the condition of returned items. object.return_number
+     * (Required): string. Human-readable number for the Return. object.return_receipt_ids
+     * (Required): Array of string. IDs of every receipt recorded for this Return, oldest first,
+     * including superseded receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to
+     * read them inline. object.return_receipt_ids[] (Value): string. Example:
+     * "retrc_01KEZF7C0052GWDW41D9AJAVJZ". object.return_receipts (Optional): Array of {@link
+     * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
+     * `return_receipt_ids`, in the same order. object.return_receipts[] (Value): {@link
+     * ReturnReceipt}. A record of returned items arriving at a location.
+     * object.return_resolution_ids (Required): Array of string. IDs of every resolution created
+     * for this Return, oldest first, including failed and canceled resolutions. Expand
+     * `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline.
+     * object.return_resolution_ids[] (Value): string. Example:
+     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.return_resolutions (Optional): Array of {@link
+     * ReturnResolution}. Present only when `expand` includes `return_resolutions`. The resolutions
+     * in `return_resolution_ids`, in the same order. object.return_resolutions[] (Value): {@link
+     * ReturnResolution}. The refund, exchange, or other outcome of a return. object.shipment_ids
+     * (Required): Array of string. IDs of every shipment raised to send this Return's items back,
+     * oldest first, including voided shipments. Expand `shipments` on `GET
+     * /v1/returns/{return_id}` to read them inline. object.shipment_ids[] (Value): string.
+     * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipments (Optional): Array of {@link
+     * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of the
+     * shipments in `shipment_ids`, in the same order. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+     * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+     * "declined", "canceled". object.supported_actions (Required): Array of string. [] enum:
+     * "cancel", "complete", "decide", "reopen". object.supported_actions[] (Value): string. Value
+     * enum: "cancel", "complete", "decide", "reopen". object.updated_at (Required): string.
+     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version
+     * (Required): integer. Goes up with every change to the Return. Each activity's
+     * `return_version` is the version that activity produced. A write that takes
+     * `expected_version` or `expected_return_version` for this Return compares it with this value.
+     * Format: int64. minimum: 0. previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * buyer_actions (Required): Array of {@link BuyerAction}. What the buyer can do with the
+         * return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change
+         * through a customer session on /v1/me, or in Flint's buyer account, lists all three every
+         * time; merchant reads and webhooks get an empty list. ship_items is required while
+         * handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is
+         * required while a resolution waits for the buyer's payment. Example: []. buyer_actions[]
+         * (Value): {@link BuyerAction}. One thing a buyer can do with an order, subscription,
+         * invoice or return they read through /v1/me. Show the actions with is_required as what
+         * needs the buyer's attention, and the first available action as the primary action on the
+         * resource's page in your account. canceled_at (Optional): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". canceled_by (Optional): {@link
+         * ReturnActor}. Who canceled the Return. Who performed a return action: a buyer, merchant,
+         * integration, or the system, with an optional ID. cancellation_reason (Optional): string.
+         * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+         * "duplicate", "expired", "created_in_error", "other". cancellation_reason_message
+         * (Optional): string. Detail sent with the cancellation. Merchant reads only. completed_at
+         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". completed_by (Optional): {@link ReturnActor}. Who completed the
+         * Return. `system` when Flint completed it automatically. Who performed a return action: a
+         * buyer, merchant, integration, or the system, with an optional ID. completion_blockers
+         * (Required): Array of {@link ReturnCompletionBlocker}. What is still owed before the
+         * Return can complete. Empty when nothing is. completion_blockers[] (Value): {@link
+         * ReturnCompletionBlocker}. Something still owed before a return can complete, with the
+         * return line or record it concerns. completion_mode (Optional): string. automatic
+         * completes the Return when the last completion blocker clears; manual waits for POST
+         * /v1/returns/{return_id}/complete. Reopening a Return sets it to manual. Value enum:
+         * "manual", "automatic". completion_reason (Optional): string. Why the Return was
+         * completed by hand. Absent when Flint completed it automatically. Value enum:
+         * "manual_completion", "exception_waived", "other". completion_reason_message (Optional):
+         * string. Detail sent when the Return was completed by hand. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer
+         * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+         * `customer`; `null` when expanded and there is no related customer. customer.anyOf[1]
+         * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place
+         * of a customer ID when the customer is expanded. customer.anyOf[2] (Value): null.
+         * customer_id (Optional): string. The customer the Return belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". decision_at (Optional): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". decision_status (Required): string.
+         * Whether the requested units were approved. `pending` until one decision covers every
+         * line. Value enum: "pending", "approved", "partially_approved", "declined".
+         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
+         * an external system. maxLength: 255. Example: "warehouse-1842". financial_summary
+         * (Required): {@link ReturnFinancialSummary}. The Return's money in one place: the value
+         * of the returned lines, deductions and credits, and what has been refunded or collected.
+         * The money for a return: returned value, deductions, credits, replacement total, and
+         * amounts due to or from the buyer. handoff_requirements (Required): Array of {@link
+         * ReturnHandoffRequirement}. What the buyer still has to send back and where. Each entry
+         * leaves the list once it is satisfied, so an empty list means nothing is waiting on the
+         * buyer. handoff_requirements[] (Value): {@link ReturnHandoffRequirement}. What the buyer
+         * must do to hand merchandise back: the destination, instructions, line items, and expiry.
+         * initiated_by (Required): string. Who created the Return, from the credential that sent
+         * the request: buyer for a customer session on /v1/me or Flint's hosted account, merchant
+         * for a Dashboard user, integration for an API key or partner app. It cannot be sent.
+         * Value enum: "buyer", "merchant", "integration". line_items (Required): Array of {@link
+         * ReturnLineItem}. The lines being returned. line_items[] (Value): {@link ReturnLineItem}.
+         * An item included in a return request. merchandise_status (Required): string. On the
+         * Return, the least-finished line's value. Value enum: "not_required", "awaiting_handoff",
+         * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+         * "inspection_review_required", "disposition_required", "resolved", "exception". metadata
+         * (Required): {@link MetadataMap}. Stored caller-owned key-value data. See `MetadataInput`
+         * for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys
+         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
+         * satisfy them. order (Optional): {@link ExpandedOrderSummary} or null. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. ID of the Order the Return is against. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". policy_evaluation (Optional): {@link
+         * ReturnPolicyEvaluation}. How your return policies judged the request when the Return was
+         * created. How a return policy evaluated a return request: overall status and reason, the
+         * policy revision used, and per-line results. resolution_status (Required): string.
+         * Whether the buyer has received the value they are owed. Combines the Return's
+         * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+         * "partially_fulfilled", "requires_action", "fulfilled", "failed". return_disposition_ids
+         * (Required): Array of string. IDs of every disposition recorded for this Return, oldest
+         * first, including failed and canceled dispositions. Expand `return_dispositions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_disposition_ids[] (Value): string.
+         * Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW". return_dispositions (Optional): Array of
+         * {@link ReturnDisposition}. Present only when `expand` includes `return_dispositions`.
+         * The dispositions in `return_disposition_ids`, in the same order. return_dispositions[]
+         * (Value): {@link ReturnDisposition}. A decision about how returned merchandise will be
+         * handled. return_id (Required): string. Unique identifier for this return, prefixed
+         * `ret_`. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X". return_inspection_ids (Required):
+         * Array of string. IDs of every inspection recorded for this Return, oldest first,
+         * including superseded inspections. Expand `return_inspections` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_inspection_ids[] (Value): string.
+         * Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8". return_inspections (Optional): Array of
+         * {@link ReturnInspection}. Present only when `expand` includes `return_inspections`. The
+         * inspections in `return_inspection_ids`, in the same order. return_inspections[] (Value):
+         * {@link ReturnInspection}. An assessment of the condition of returned items.
+         * return_number (Required): string. Human-readable number for the Return.
+         * return_receipt_ids (Required): Array of string. IDs of every receipt recorded for this
+         * Return, oldest first, including superseded receipts. Expand `return_receipts` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_receipt_ids[] (Value): string.
+         * Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ". return_receipts (Optional): Array of {@link
+         * ReturnReceipt}. Present only when `expand` includes `return_receipts`. The receipts in
+         * `return_receipt_ids`, in the same order. return_receipts[] (Value): {@link
+         * ReturnReceipt}. A record of returned items arriving at a location. return_resolution_ids
+         * (Required): Array of string. IDs of every resolution created for this Return, oldest
+         * first, including failed and canceled resolutions. Expand `return_resolutions` on `GET
+         * /v1/returns/{return_id}` to read them inline. return_resolution_ids[] (Value): string.
+         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". return_resolutions (Optional): Array of
+         * {@link ReturnResolution}. Present only when `expand` includes `return_resolutions`. The
+         * resolutions in `return_resolution_ids`, in the same order. return_resolutions[] (Value):
+         * {@link ReturnResolution}. The refund, exchange, or other outcome of a return.
+         * shipment_ids (Required): Array of string. IDs of every shipment raised to send this
+         * Return's items back, oldest first, including voided shipments. Expand `shipments` on
+         * `GET /v1/returns/{return_id}` to read them inline. shipment_ids[] (Value): string.
+         * Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipments (Optional): Array of {@link
+         * ExpandedShipmentSummary}. Present only when `expand` includes `shipments`. Summaries of
+         * the shipments in `shipment_ids`, in the same order. shipments[] (Value): {@link
+         * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+         * package count, returned when the shipment is expanded. status (Required): string. Where
+         * the whole Return stands. Read `decision_status`, `merchandise_status`, and
+         * `resolution_status` for the part you need. Value enum: "requested", "open", "completed",
+         * "declined", "canceled". supported_actions (Required): Array of string. [] enum:
+         * "cancel", "complete", "decide", "reopen". supported_actions[] (Value): string. Value
+         * enum: "cancel", "complete", "decide", "reopen". updated_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Goes up with every change to the Return. Each activity's `return_version` is
+         * the version that activity produced. A write that takes `expected_version` or
+         * `expected_return_version` for this Return compares it with this value. Format: int64.
+         * minimum: 0.
+         */
+        "object": {
+            /**
+             * What the buyer can do with the return, in this order: withdraw, ship_items, then
+             * pay_balance. A buyer's read or change through a customer session on /v1/me, or in
+             * Flint's buyer account, lists all three every time; merchant reads and webhooks get
+             * an empty list. ship_items is required while handoff_requirements is not empty, due
+             * by the earliest expires_at there. pay_balance is required while a resolution waits
+             * for the buyer's payment. Example: []. [] (Value): {@link BuyerAction}. One thing a
+             * buyer can do with an order, subscription, invoice or return they read through
+             * /v1/me. Show the actions with is_required as what needs the buyer's attention, and
+             * the first available action as the primary action on the resource's page in your
+             * account.
+             */
+            "buyer_actions": Array<BuyerAction>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "canceled_at"?: string;
+            /**
+             * Who canceled the Return. Who performed a return action: a buyer, merchant,
+             * integration, or the system, with an optional ID.
+             */
+            "canceled_by"?: ReturnActor;
+            /**
+             * Why the Return was canceled. Value enum: "buyer_request", "merchant_request",
+             * "duplicate", "expired", "created_in_error", "other".
+             */
+            "cancellation_reason"?: "buyer_request"
+                | "merchant_request"
+                | "duplicate"
+                | "expired"
+                | "created_in_error"
+                | "other"
+                | (string & {});
+            /** Detail sent with the cancellation. Merchant reads only. */
+            "cancellation_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "completed_at"?: string;
+            /**
+             * Who completed the Return. `system` when Flint completed it automatically. Who
+             * performed a return action: a buyer, merchant, integration, or the system, with an
+             * optional ID.
+             */
+            "completed_by"?: ReturnActor;
+            /**
+             * What is still owed before the Return can complete. Empty when nothing is. []
+             * (Value): {@link ReturnCompletionBlocker}. Something still owed before a return can
+             * complete, with the return line or record it concerns.
+             */
+            "completion_blockers": Array<ReturnCompletionBlocker>;
+            /**
+             * automatic completes the Return when the last completion blocker clears; manual waits
+             * for POST /v1/returns/{return_id}/complete. Reopening a Return sets it to manual.
+             * Value enum: "manual", "automatic".
+             */
+            "completion_mode"?: "manual" | "automatic" | (string & {});
+            /**
+             * Why the Return was completed by hand. Absent when Flint completed it automatically.
+             * Value enum: "manual_completion", "exception_waived", "other".
+             */
+            "completion_reason"?: "manual_completion" | "exception_waived" | "other" | (string & {});
+            /** Detail sent when the Return was completed by hand. */
+            "completion_reason_message"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /** The customer the Return belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            "customer_id"?: string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "decision_at"?: string;
+            /**
+             * Whether the requested units were approved. `pending` until one decision covers every
+             * line. Value enum: "pending", "approved", "partially_approved", "declined".
+             */
+            "decision_status": "pending" | "approved" | "partially_approved" | "declined" | (string & {});
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * The Return's money in one place: the value of the returned lines, deductions and
+             * credits, and what has been refunded or collected. The money for a return: returned
+             * value, deductions, credits, replacement total, and amounts due to or from the buyer.
+             */
+            "financial_summary": ReturnFinancialSummary;
+            /**
+             * What the buyer still has to send back and where. Each entry leaves the list once it
+             * is satisfied, so an empty list means nothing is waiting on the buyer. [] (Value):
+             * {@link ReturnHandoffRequirement}. What the buyer must do to hand merchandise back:
+             * the destination, instructions, line items, and expiry.
+             */
+            "handoff_requirements": Array<ReturnHandoffRequirement>;
+            /**
+             * Who created the Return, from the credential that sent the request: buyer for a
+             * customer session on /v1/me or Flint's hosted account, merchant for a Dashboard user,
+             * integration for an API key or partner app. It cannot be sent. Value enum: "buyer",
+             * "merchant", "integration".
+             */
+            "initiated_by": "buyer" | "merchant" | "integration" | (string & {});
+            /**
+             * The lines being returned. [] (Value): {@link ReturnLineItem}. An item included in a
+             * return request.
+             */
+            "line_items": Array<ReturnLineItem>;
+            /**
+             * On the Return, the least-finished line's value. Value enum: "not_required",
+             * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+             * "partially_inspected", "inspection_review_required", "disposition_required",
+             * "resolved", "exception".
+             */
+            "merchandise_status": "not_required"
+                | "awaiting_handoff"
+                | "in_transit"
+                | "partially_received"
+                | "inspection_required"
+                | "partially_inspected"
+                | "inspection_review_required"
+                | "disposition_required"
+                | "resolved"
+                | "exception"
+                | (string & {});
+            /**
+             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
+             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
+             * are reserved for Flint and are not returned. Writes follow the limits on
+             * MetadataInput and MetadataPatchInput; maps written before those limits may not
+             * satisfy them.
+             */
+            "metadata": MetadataMap;
+            /**
+             * Present only when `expand` includes `order`; `null` when expanded and there is no
+             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+             * fields, including status, payment and refund status, and pricing and settlement
+             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /** ID of the Order the Return is against. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /**
+             * How your return policies judged the request when the Return was created. How a
+             * return policy evaluated a return request: overall status and reason, the policy
+             * revision used, and per-line results.
+             */
+            "policy_evaluation"?: ReturnPolicyEvaluation;
+            /**
+             * Whether the buyer has received the value they are owed. Combines the Return's
+             * resolutions and its unsettled corrections. Value enum: "not_selected", "pending",
+             * "partially_fulfilled", "requires_action", "fulfilled", "failed".
+             */
+            "resolution_status": "not_selected"
+                | "pending"
+                | "partially_fulfilled"
+                | "requires_action"
+                | "fulfilled"
+                | "failed"
+                | (string & {});
+            /**
+             * IDs of every disposition recorded for this Return, oldest first, including failed
+             * and canceled dispositions. Expand `return_dispositions` on `GET
+             * /v1/returns/{return_id}` to read them inline. [] (Value): string. Example:
+             * "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+             */
+            "return_disposition_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_dispositions`. The dispositions in
+             * `return_disposition_ids`, in the same order. [] (Value): {@link ReturnDisposition}.
+             * A decision about how returned merchandise will be handled.
+             */
+            "return_dispositions"?: Array<ReturnDisposition>;
+            /**
+             * Unique identifier for this return, prefixed `ret_`. Example:
+             * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+             */
+            "return_id": string;
+            /**
+             * IDs of every inspection recorded for this Return, oldest first, including superseded
+             * inspections. Expand `return_inspections` on `GET /v1/returns/{return_id}` to read
+             * them inline. [] (Value): string. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+             */
+            "return_inspection_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_inspections`. The inspections in
+             * `return_inspection_ids`, in the same order. [] (Value): {@link ReturnInspection}. An
+             * assessment of the condition of returned items.
+             */
+            "return_inspections"?: Array<ReturnInspection>;
+            /** Human-readable number for the Return. */
+            "return_number": string;
+            /**
+             * IDs of every receipt recorded for this Return, oldest first, including superseded
+             * receipts. Expand `return_receipts` on `GET /v1/returns/{return_id}` to read them
+             * inline. [] (Value): string. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+             */
+            "return_receipt_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_receipts`. The receipts in
+             * `return_receipt_ids`, in the same order. [] (Value): {@link ReturnReceipt}. A record
+             * of returned items arriving at a location.
+             */
+            "return_receipts"?: Array<ReturnReceipt>;
+            /**
+             * IDs of every resolution created for this Return, oldest first, including failed and
+             * canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}`
+             * to read them inline. [] (Value): string. Example:
+             * "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+             */
+            "return_resolution_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `return_resolutions`. The resolutions in
+             * `return_resolution_ids`, in the same order. [] (Value): {@link ReturnResolution}.
+             * The refund, exchange, or other outcome of a return.
+             */
+            "return_resolutions"?: Array<ReturnResolution>;
+            /**
+             * IDs of every shipment raised to send this Return's items back, oldest first,
+             * including voided shipments. Expand `shipments` on `GET /v1/returns/{return_id}` to
+             * read them inline. [] (Value): string. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+             */
+            "shipment_ids": Array<string>;
+            /**
+             * Present only when `expand` includes `shipments`. Summaries of the shipments in
+             * `shipment_ids`, in the same order. [] (Value): {@link ExpandedShipmentSummary}. A
+             * shipment's summary fields, including direction, status, and package count, returned
+             * when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Where the whole Return stands. Read `decision_status`, `merchandise_status`, and
+             * `resolution_status` for the part you need. Value enum: "requested", "open",
+             * "completed", "declined", "canceled".
+             */
+            "status": "requested" | "open" | "completed" | "declined" | "canceled" | (string & {});
+            /**
+             * [] enum: "cancel", "complete", "decide", "reopen". [] (Value): string. Value enum:
+             * "cancel", "complete", "decide", "reopen".
+             */
+            "supported_actions": Array<"cancel" | "complete" | "decide" | "reopen" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Goes up with every change to the Return. Each activity's `return_version` is the
+             * version that activity produced. A write that takes `expected_version` or
+             * `expected_return_version` for this Return compares it with this value. Format:
+             * int64. minimum: 0.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<ReturnResource>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "return.updated". */
+    "event_type"?: "return.updated";
+});
+/**
+ * How long after an event, such as fulfillment or delivery, an order can be returned under a
+ * return policy.
+ */
+export type ReturnWindow = {
+    /**
+     * Length of the window in seconds, above 0 and at most 158,112,000 (1,830 days). Format:
+     * int64.
+     */
+    "duration_seconds": number;
+    /**
+     * The fulfillment event the window counts from. Value enum: "fulfilled", "delivered",
+     * "picked_up", "service_completed".
+     */
+    "starts_at_event": "fulfilled" | "delivered" | "picked_up" | "service_completed" | (string & {});
+};
+/**
+ * How long after an event, such as fulfillment or delivery, an order can be returned under a
+ * return policy.
+ */
+export type ReturnWindowRequestInput = {
+    /**
+     * Length of the window in seconds, above 0 and at most 158,112,000 (1,830 days). Format:
+     * int64.
+     */
+    "duration_seconds": number;
+    /**
+     * The fulfillment event the window counts from. Value enum: "fulfilled", "delivered",
+     * "picked_up", "service_completed".
+     */
+    "starts_at_event": "fulfilled" | "delivered" | "picked_up" | "service_completed";
+};
+export type ReturnsCancelLineItemParams = (InputValue<CancelReturnLineItemRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsCancelParams = (InputValue<CancelReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsCompleteParams = (InputValue<CompleteReturnRequestInput>
+    | {
+    "expected_version"?: never;
+    "reason"?: never;
     "reason_message"?: never;
 })
     & {
@@ -78,3247 +3383,782 @@ export type ShipmentsVoidParams = (InputValue<VoidShipmentRequestInput>
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** Signed monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-export type SignedMoneyRequestInput = {
+export type ReturnsCreateAccessLinkParams = FilesCompleteParams;
+export type ReturnsCreateDispositionParams = (CreateReturnDispositionRequestInput)
+    & {
     /**
-     * Signed amount in the currency's minor unit, such as cents for USD. Use an integer string
-     * (decimal digits), not a floating-point number. Format: int64.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "amount": `${bigint}` | bigint;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "currency": string;
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** The request body for: Simulate a dispute outcome. */
-export type SimulateDisputeRequest = {
+export type ReturnsCreateInspectionParams = (InputValue<CreateReturnInspectionRequestInput>)
+    & {
     /**
-     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
-     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "outcome": "won" | "lost" | "inquiry_closed" | "escalated" | (string & {});
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** The request body for: Simulate a dispute outcome. */
-export type SimulateDisputeRequestInput = {
+export type ReturnsCreateLineItemParams = (InputValue<AddReturnLineItemRequestInput>)
+    & {
     /**
-     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
-     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "outcome": "won" | "lost" | "inquiry_closed" | "escalated";
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreated = ({
+export type ReturnsCreateParams = (InputValue<CreateReturnRequestInput>)
+    & {
     /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "dimensions"?: Dimensions;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created" | (string & {});
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreatedInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created";
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & (({
-    "shipped_at"?: never;
-}))
-    & (({
-    "buyer_notification_behavior"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShipped = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped" | (string & {});
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShippedInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped";
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & (({
-    "return_line_items"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequest = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped" | (string & {});
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<SinglePackageCreateInputCreated & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequestInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped";
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & ((Exclude<SinglePackageCreateInputCreatedInput & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShippedInput & object, readonly unknown[]>));
-/** The request body for: Skip subscription cycle. */
-export type SkipMeSubscriptionCycleRequestInput = ConfigurationVersionRequestInput;
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/skip-cycle. Flint's skip email says the buyer
-     * skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequestInput = {
+export type ReturnsCreateReceiptParams = (InputValue<CreateReturnReceiptRequestInput>)
+    & {
     /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "expected_version"?: number;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/skip-cycle. Flint's skip email says the buyer
-     * skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "initiated_by"?: "buyer" | "merchant" | "integration";
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** Starts fulfillment work. */
-export type StartFulfillmentRequestInput = AcceptFulfillmentRequestInput;
-/**
- * One-time client authority for the named Stripe object. This payload always names the Stripe.js
- * call and carries its client secret.
- */
-export type StripeClientAuthority = {
-    /** Stripe client secret for the named PaymentIntent or SetupIntent. */
-    "client_secret": string;
+export type ReturnsCreateResolutionParams = (CreateReturnResolutionRequestInput)
+    & {
     /**
-     * Stripe.js operation to perform now. confirm_setup applies to client_setup. Standalone
-     * PaymentIntents use payment_collection plus server confirmation instead of initial
-     * confirm_payment authority. Value enum: "confirm_payment", "confirm_setup".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "stripe_js_call": "confirm_payment" | "confirm_setup" | (string & {});
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now.
- * setup_collection is guidance instead and never carries a secret.
- */
-export type StripeClientSetup = {
-    /** Stripe.js initialization context and SetupIntent setup authority. */
-    "stripe"?: StripeClientSetupStripe;
+export type ReturnsDecideParams = (InputValue<DecideReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/** Stripe.js initialization context and SetupIntent setup authority. */
-export type StripeClientSetupStripe = {
+export type ReturnsDeleteLineItemParams = {
     /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example:
-     * "acct_1234567890".
+     * Optional version of the parent Return. Supply exactly once. A stale value returns
+     * VERSION_CONFLICT with the current Return version. Format: int64. minimum: 1. maximum:
+     * 9007199254740991.
      */
-    "account_id"?: string;
+    "expected_version"?: InputValue<number>;
     /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "publishable_key"?: string;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * One-time client authority for the named Stripe object. This payload always names the
-     * Stripe.js call and carries its client secret.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "setup_intent"?: StripeClientAuthority;
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * Stripe.js initialization context plus one flow-specific authority object. Exactly one of
- * payment_intent or setup_intent is present.
- */
-export type StripePaymentClientAction = {
+export type ReturnsGetLineItemParams = DisputesAcceptParams;
+export type ReturnsGetParams = {
     /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Example:
-     * "acct_1234567890".
+     * Include related objects in the response. Supported expansions: customer,
+     * line_items.fulfillment, line_items.return_reason, order, return_dispositions,
+     * return_inspections, return_receipts, return_resolutions, shipments. Expanded relationships
+     * are returned only when explicitly requested and authorized. Limits: at most 10 unique expand
+     * paths per request. To-many expansions are capped per path: at 100 related objects for
+     * return_dispositions, return_inspections, return_receipts, return_resolutions, and shipments;
+     * at 20 for line_items.fulfillment and line_items.return_reason. [] enum: "customer",
+     * "line_items.fulfillment", "line_items.return_reason", "order", "return_dispositions",
+     * "return_inspections", "return_receipts", "return_resolutions", "shipments". Value enum:
+     * "customer", "line_items.fulfillment", "line_items.return_reason", "order",
+     * "return_dispositions", "return_inspections", "return_receipts", "return_resolutions",
+     * "shipments". anyOf[1] (Value): Array of string. [] enum: "customer",
+     * "line_items.fulfillment", "line_items.return_reason", "order", "return_dispositions",
+     * "return_inspections", "return_receipts", "return_resolutions", "shipments". anyOf[1][]
+     * (Value): string. Value enum: "customer", "line_items.fulfillment",
+     * "line_items.return_reason", "order", "return_dispositions", "return_inspections",
+     * "return_receipts", "return_resolutions", "shipments". anyOf[2] (Value): string. Value enum:
+     * "customer", "line_items.fulfillment", "line_items.return_reason", "order",
+     * "return_dispositions", "return_inspections", "return_receipts", "return_resolutions",
+     * "shipments".
      */
-    "account_id": string;
+    "expand"?: InputValue<("customer"
+        | "line_items.fulfillment"
+        | "line_items.return_reason"
+        | "order"
+        | "return_dispositions"
+        | "return_inspections"
+        | "return_receipts"
+        | "return_resolutions"
+        | "shipments")
+        | readonly ("customer"
+        | "line_items.fulfillment"
+        | "line_items.return_reason"
+        | "order"
+        | "return_dispositions"
+        | "return_inspections"
+        | "return_receipts"
+        | "return_resolutions"
+        | "shipments")[]>;
     /**
-     * PaymentIntent authority for an order payment authentication action. The client action for a
-     * Stripe payment intent: the client secret to pass to Stripe.js `handleNextAction`.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "payment_intent"?: StripeSetupIntentClientAction;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Stripe publishable key for the active Flint payment mode; use this with account_id when
-     * loading Stripe.js.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "publishable_key": string;
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * SetupIntent authority for a saved-payment-method authentication action. The client action
-     * for a Stripe setup intent: the client secret to pass to Stripe.js `handleNextAction`.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "setup_intent"?: StripeSetupIntentClientAction;
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * The client action for a Stripe setup intent: the client secret to pass to Stripe.js
- * `handleNextAction`.
- */
-export type StripeSetupIntentClientAction = {
-    /** SetupIntent client secret to pass to Stripe.js handleNextAction. */
-    "client_secret": string;
+export type ReturnsListActivitiesParams = {
     /**
-     * Stripe.js operation to perform. Today this is handle_next_action. Value enum:
-     * "handle_next_action".
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
      */
-    "stripe_js_call": "handle_next_action" | (string & {});
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * The subscription offer and billing interval an order line was bought under, with the recurring
- * amount.
- */
-export type SubscribedLine = {
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Format: int32. */
-    "billing_interval_count": number;
+export type ReturnsListLineItemsParams = {
     /**
-     * Line amount for the first renewal, including modifiers and recurring discounts, before
-     * shipping and tax. Signup-only discounts are excluded. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
+     * Filter by fulfillment id. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      */
-    "recurring_amount_money"?: MoneyValue;
-    /** Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA". */
-    "subscription_offer_id": string;
+    "fulfillment_id"?: InputValue<string>;
+    /**
+     * Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved", "exception". Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1][] (Value): string. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2]
+     * (Value): string. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
+     */
+    "merchandise_status"?: InputValue<("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")
+        | readonly ("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")[]>;
+    /**
+     * Filter by order line item id. pattern: ^li_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31".
+     */
+    "order_line_item_id"?: InputValue<string>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_selected", "pending", "requires_action", "fulfilled", "failed". Value
+     * enum: "not_selected", "pending", "requires_action", "fulfilled", "failed". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "not_selected", "pending", "requires_action",
+     * "fulfilled", "failed". anyOf[1][] (Value): string. Value enum: "not_selected", "pending",
+     * "requires_action", "fulfilled", "failed". anyOf[2] (Value): string. Value enum:
+     * "not_selected", "pending", "requires_action", "fulfilled", "failed".
+     */
+    "resolution_status"?: InputValue<("not_selected" | "pending" | "requires_action" | "fulfilled" | "failed")
+        | readonly ("not_selected" | "pending" | "requires_action" | "fulfilled" | "failed")[]>;
+    /**
+     * Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id"?: InputValue<string>;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested",
+     * "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1.
+     * [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value):
+     * string. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2]
+     * (Value): string. Value enum: "requested", "open", "completed", "declined", "canceled".
+     */
+    "status"?: InputValue<("requested" | "open" | "completed" | "declined" | "canceled")
+        | readonly ("requested" | "open" | "completed" | "declined" | "canceled")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-/**
- * Makes an order line a subscription purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequest = {
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Format: int32. minimum: 1. maximum: 365. */
-    "billing_interval_count": number;
+export type ReturnsListParams = {
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Active subscription offer for this catalog variant. minLength: 1. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+     * Filter by customer id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      */
-    "subscription_offer_id": string;
-};
-/**
- * Makes an order line a subscription purchase, with the subscription offer and billing interval.
- */
-export type SubscribedLineRequestModelInput = {
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly";
-    /** Format: int32. minimum: 1. maximum: 365. */
-    "billing_interval_count": number;
+    "customer_id"?: InputValue<string>;
     /**
-     * Active subscription offer for this catalog variant. minLength: 1. Example:
-     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+     * Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "pending", "approved", "partially_approved", "declined". Value enum:
+     * "pending", "approved", "partially_approved", "declined". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "pending", "approved", "partially_approved", "declined". anyOf[1][]
+     * (Value): string. Value enum: "pending", "approved", "partially_approved", "declined".
+     * anyOf[2] (Value): string. Value enum: "pending", "approved", "partially_approved",
+     * "declined".
      */
-    "subscription_offer_id": string;
-};
-/** A customer's recurring purchase. */
-export type Subscription = {
+    "decision_status"?: InputValue<("pending" | "approved" | "partially_approved" | "declined")
+        | readonly ("pending" | "approved" | "partially_approved" | "declined")[]>;
     /**
-     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
-     * schedules. Format: int32. minimum: 1. maximum: 31.
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
      */
-    "billing_anchor_day"?: number;
+    "external_reference_id"?: InputValue<string>;
     /**
-     * How often the subscription bills now. Read with billing_interval_count: monthly with a count
-     * of 3 bills quarterly. A change applies from the next renewal that has not been paid;
-     * next_billing_at does not move. Value enum: "daily", "weekly", "monthly", "yearly".
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      */
-    "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
+    "idempotency_key"?: InputValue<string>;
     /**
-     * Number of billing_interval units between charges. Changes with billing_interval. Format:
-     * int32.
+     * Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_required", "awaiting_handoff", "in_transit", "partially_received",
+     * "inspection_required", "partially_inspected", "inspection_review_required",
+     * "disposition_required", "resolved", "exception". Value enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_required",
+     * "awaiting_handoff", "in_transit", "partially_received", "inspection_required",
+     * "partially_inspected", "inspection_review_required", "disposition_required", "resolved",
+     * "exception". anyOf[1][] (Value): string. Value enum: "not_required", "awaiting_handoff",
+     * "in_transit", "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception". anyOf[2]
+     * (Value): string. Value enum: "not_required", "awaiting_handoff", "in_transit",
+     * "partially_received", "inspection_required", "partially_inspected",
+     * "inspection_review_required", "disposition_required", "resolved", "exception".
      */
-    "billing_interval_count": number;
+    "merchandise_status"?: InputValue<("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")
+        | readonly ("not_required"
+        | "awaiting_handoff"
+        | "in_transit"
+        | "partially_received"
+        | "inspection_required"
+        | "partially_inspected"
+        | "inspection_review_required"
+        | "disposition_required"
+        | "resolved"
+        | "exception")[]>;
     /**
-     * Billing interval and count pairs frozen from the plan or shared by the subscription offers.
-     * Every option bills the same recorded line prices once per period. Changing the interval does
-     * not scale those prices. maxItems: 12. uniqueItems: true. [] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * Who supplies billing dates: flint advances the schedule after each paid renewal; external
-     * uses dates you supply. Change it with billing_schedule on PATCH
-     * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-     */
-    "billing_schedule_owner": "flint" | "external" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "billing_schedule_waiting_started_at"?: string;
-    /**
-     * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-     * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-     * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change, then
-     * renew, under the store's buyer policy. The available cancel and pause actions carry the
-     * choices they accept. A buyer's read or change through a customer session on /v1/me, or in
-     * Flint's buyer account, lists all fourteen every time; a merchant read gets an empty list.
-     * update_payment_method is required while a payment is past due, due by next_retry_at when a
-     * retry is scheduled, and when the card expires before next_billing_at, due by then. Example:
-     * []. [] (Value): {@link BuyerAction}. One thing a buyer can do with an order, subscription,
-     * invoice or return they read through /v1/me. Show the actions with is_required as what needs
-     * the buyer's attention, and the first available action as the primary action on the
-     * resource's page in your account.
-     */
-    "buyer_actions": Array<BuyerAction>;
-    /**
-     * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     */
-    "cancel_at_period_end": boolean;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "canceled_at"?: string;
-    /**
-     * Who asked to cancel, when, and why. Present once a cancellation is requested, whether it
-     * takes effect at the end of the billing period or right away. Omitted when no one asked, and
-     * removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and
-     * payment-related cancellations. The cancellation request behind a scheduled or completed
-     * cancellation.
-     */
-    "cancellation_details"?: SubscriptionCancellationDetails;
-    /**
-     * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when the
-     * automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     */
-    "cancellation_reason"?: "buyer"
-        | "merchant"
-        | "integration"
-        | "payment_failed"
-        | "other"
-        | "end_after_reached"
-        | (string & {});
-    /**
-     * Billing cycles charged so far, including cycles imported with
-     * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-     * number plus one. Format: uint64. minimum: 0.
-     */
-    "completed_cycles": number;
-    /**
-     * When the recorded contract term ends. Does not move when the subscription pauses or changes
-     * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "contract_end_at"?: string;
-    /**
-     * When the recorded contract term started. Does not move when the subscription pauses or
-     * changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "contract_start_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "current_period_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "current_period_start_at"?: string;
-    /**
-     * Present only when `expand` includes `customer`; `null` when expanded and there is no related
-     * customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary fields,
-     * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
-     */
-    "customer"?: ((ExpandedCustomerSummary) | (null));
-    /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id": string;
-    /**
-     * Saved delivery preference with the current delivery method display. Write responses use the
-     * same display as GET: fixed shipping reflects the current method configuration, and quoted
-     * shipping shows the last paid shipping amount when available. A subscription's saved delivery
-     * preference: method, destination, recipient, shipping cost, and who last changed it.
-     */
-    "delivery"?: SubscriptionDelivery;
-    /**
-     * Current delivery issue that blocks collection. Mutually exclusive with
-     * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or
-     * destination no longer works, and who can fix it.
-     */
-    "delivery_hold"?: SubscriptionDeliveryHold;
-    /**
-     * The fee in the recorded contract terms. Present whenever those terms include a fee. It
-     * applies only to a cancellation before contract_end_at. Flint never charges it. Later plan
-     * changes do not change this fee. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Recorded automatic end condition. Null when no automatic end is set. Cycles count charged
-     * billing periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. anyOf[2] (Value): null.
-     */
-    "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-    /**
-     * Projected end under the current schedule and committed plan changes, including an earlier
-     * scheduled cancellation. A date limit preserves already-paid entitlement without requiring a
-     * future charge schedule. A reached cycle limit uses the last paid period end, or
-     * current_period_end_at when no paid history exists; that fallback includes any skip or pause
-     * extension. A cycle limit with cycles left needs a future charge schedule unless a known
-     * scheduled cancellation determines the end. Null when the end cannot be determined or the
-     * subscription is canceled. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started.
-     */
-    "inventory_wait"?: SubscriptionInventoryWait;
-    /**
-     * True while an active or trialing subscription on an external billing schedule has no next
-     * billing date.
-     */
-    "is_awaiting_billing_schedule"?: boolean;
-    /**
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation.
-     */
-    "last_payment_error"?: PaymentErrorSummary;
-    /**
-     * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a line
-     * takes that variant's current catalog price, which then stays until the line changes again.
-     * [] (Value): {@link SubscriptionLineItem}. An item included in a customer's recurring
-     * purchase.
-     */
-    "line_items": Array<SubscriptionLineItem>;
-    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * The billing date whose payment failed, as an RFC3339 timestamp. Present only while status is
-     * past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "missed_billing_at"?: string;
-    /**
-     * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only
-     * while a trialing or active subscription has a billing date and isn't set to cancel at the
-     * end of its period. Absent when no renewal is scheduled: a paused subscription resumes at
-     * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and
-     * retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start
-     * begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule
-     * awaiting a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "next_billing_at"?: string;
-    /**
-     * Recorded automatic payment retry time. Null when no retry time is available. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "next_retry_at": string | null;
-    /**
-     * ID of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-     * delivery destination after preference changes and cancellation. Absent when no such renewal
-     * order exists. Only renewal orders count; the signup order is not included. Example:
+     * Filter by order id. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "ord_01KEZF7C0054GQKJ142A8X367A".
      */
-    "open_renewal_order_id"?: string;
+    "order_id"?: InputValue<string>;
     /**
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. Format: int32. minimum:
+     * 1. maximum: 100. Default: 20.
      */
-    "outstanding_money"?: MoneyValue;
+    "page_size"?: InputValue<number>;
     /**
-     * Why the subscription is paused: merchant for a pause made with your API key or dashboard,
-     * buyer for the buyer's own pause, delivery_action_required for a pause during or after a
-     * delivery hold, and payment_failed when renewal payment retries ran out and your dunning
-     * settings pause the subscription. Omitted when the subscription is not paused. Value enum:
-     * "buyer", "delivery_action_required", "merchant", "payment_failed".
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
-    "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "paused_at"?: string;
+    "page_token"?: InputValue<string>;
     /**
-     * Present only when `expand` includes `payment_method`; `null` when expanded and there is no
-     * related payment method. anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-     * method's summary fields, including type, status, and card details, returned when the payment
-     * method is expanded. anyOf[2] (Value): null.
+     * Search by return ID, return number, external reference ID, the order's number, or the
+     * buyer's email.
      */
-    "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
+    "query"?: InputValue<string>;
     /**
-     * First charge boundary while no card is bound: the later of trial_end_at and next_billing_at
-     * during a trial, or the next billing date for an imported period, even when that cycle's
-     * charge is zero. Recomputed when the schedule changes. A trial still without a card at its
-     * boundary cancels without an order or payment attempt. At that boundary, an imported
-     * subscription with a positive charge that still has no card enters its normal dunning
-     * schedule without a payment attempt. For an imported subscription, a zero charge completes
-     * the renewal without a card and the deadline advances to the following boundary. Null when a
-     * card is bound, collection is not scheduled (paused, canceled, or set to cancel at period
-     * end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
+     * Filter by receiving location id. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
      */
-    "payment_method_due_at": string | null;
+    "receiving_location_id"?: InputValue<string>;
     /**
-     * Saved payment method used for renewal charges. Null when no card is bound. Bind a card to
-     * this subscription with PATCH; changing the customer's default alone does not bind it.
-     * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "not_selected", "pending", "partially_fulfilled", "requires_action",
+     * "fulfilled", "failed". Value enum: "not_selected", "pending", "partially_fulfilled",
+     * "requires_action", "fulfilled", "failed". anyOf[1] (Value): Array of string. minItems: 1. []
+     * enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled",
+     * "failed". anyOf[1][] (Value): string. Value enum: "not_selected", "pending",
+     * "partially_fulfilled", "requires_action", "fulfilled", "failed". anyOf[2] (Value): string.
+     * Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action",
+     * "fulfilled", "failed".
      */
-    "payment_method_id": string | null;
+    "resolution_status"?: InputValue<("not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed")
+        | readonly ("not_selected" | "pending" | "partially_fulfilled" | "requires_action" | "fulfilled" | "failed")[]>;
     /**
-     * Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in
-     * scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are
-     * excluded. [] (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-     * subscription, including its recurrence and remaining discounted cycles.
+     * Filter by resolution type. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "refund", "exchange", "replacement", "store_credit", "no_monetary_action",
+     * "correction". Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "refund", "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
+     * anyOf[1][] (Value): string. Value enum: "refund", "exchange", "replacement", "store_credit",
+     * "no_monetary_action", "correction". anyOf[2] (Value): string. Value enum: "refund",
+     * "exchange", "replacement", "store_credit", "no_monetary_action", "correction".
      */
-    "promotions": Array<SubscriptionPromotion>;
+    "resolution_type"?: InputValue<("refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction")
+        | readonly ("refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction")[]>;
+    /** Filter by return number. */
+    "return_number"?: InputValue<string>;
     /**
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
+     * Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      */
-    "prorate_first_period": boolean;
+    "return_reason_id"?: InputValue<string>;
     /**
-     * How many of each line the subscription bills each period, as a whole number; fractional
-     * quantities are not supported. A change applies from the next renewal that has not been paid.
-     * Format: int32.
+     * Field to sort by. Defaults to created_at; ties are broken by return_id. Default:
+     * "created_at". Value enum: "created_at".
      */
-    "quantity": number;
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-    "quantity_options"?: Array<number>;
+    "sort_by"?: InputValue<"created_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
     /**
-     * What one billing period's items cost before discounts, shipping, and tax: each line's price
-     * with modifiers, times quantity. It changes when items, quantity, or the plan change; editing
-     * the plan doesn't change it. For the next charge, use a subscription preview in next_renewal
-     * mode. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "requested", "open", "completed", "declined", "canceled". Value enum: "requested",
+     * "open", "completed", "declined", "canceled". anyOf[1] (Value): Array of string. minItems: 1.
+     * [] enum: "requested", "open", "completed", "declined", "canceled". anyOf[1][] (Value):
+     * string. Value enum: "requested", "open", "completed", "declined", "canceled". anyOf[2]
+     * (Value): string. Value enum: "requested", "open", "completed", "declined", "canceled".
      */
-    "recurring_subtotal_money": ((MoneyValue) | (null));
+    "status"?: InputValue<("requested" | "open" | "completed" | "declined" | "canceled")
+        | readonly ("requested" | "open" | "completed" | "declined" | "canceled")[]>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null when
-     * there is no cycle limit or the subscription is canceled. Format: uint64. minimum: 0.
+     * Filter by work type. Matches only returns that are still requested or open. Values are
+     * trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values
+     * within this filter are ORed; separate filters are ANDed. [] enum: "decision", "handoff",
+     * "receipt", "inspection", "disposition", "resolution", "exception". Value enum: "decision",
+     * "handoff", "receipt", "inspection", "disposition", "resolution", "exception". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "decision", "handoff", "receipt",
+     * "inspection", "disposition", "resolution", "exception". anyOf[1][] (Value): string. Value
+     * enum: "decision", "handoff", "receipt", "inspection", "disposition", "resolution",
+     * "exception". anyOf[2] (Value): string. Value enum: "decision", "handoff", "receipt",
+     * "inspection", "disposition", "resolution", "exception".
      */
-    "remaining_cycles": number | null;
+    "work_type"?: InputValue<("decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception")
+        | readonly ("decision" | "handoff" | "receipt" | "inspection" | "disposition" | "resolution" | "exception")[]>;
     /**
-     * When Flint accepted a pending resume request. Set only while paused with a resume Flint has
-     * not applied yet. Clears when Flint resumes the subscription or refuses the request. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
+     * Include related objects in the response. Supported expansions: customer, order. Include the
+     * requested related resources using scoped batch reads for this page. Each relationship
+     * requires its existing target read scopes. Expansion changes the representation without
+     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
+     * "customer", "order". Value enum: "customer", "order". anyOf[1] (Value): Array of string. []
+     * enum: "customer", "order". anyOf[1][] (Value): string. Value enum: "customer", "order".
+     * anyOf[2] (Value): string. Value enum: "customer", "order".
      */
-    "resume_requested_at": string | null;
+    "expand"?: InputValue<("customer" | "order") | readonly ("customer" | "order")[]>;
     /**
-     * When the scheduled cancellation takes effect: trial_end_at while trialing,
-     * current_period_end_at while active, or next_retry_at while past_due. Null when
-     * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "scheduled_cancel_at": string | null;
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. anyOf[1]
-     * (Value): {@link SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next
-     * charged renewal. anyOf[2] (Value): null.
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     * Attached promotions whose first_cycle is after the next charged cycle, completed_cycles + 1.
-     * Always present; empty when no promotions are scheduled. [] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "scheduled_promotions": Array<SubscriptionPromotion>;
-    /**
-     * When a pause with a length (pause_duration_cycles) resumes on its own: that many billing
-     * intervals after paused_at. Null when the subscription is not paused or the pause has no
-     * length, such as a pause until you resume it or the pause Flint starts when a delivery hold
-     * runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "scheduled_resume_at": string | null;
-    /**
-     * Omitted for a checkout session credential that doesn't act for the customer the buyer
-     * verified. The address where a subscription's service is delivered, with the saved customer
-     * address it came from.
-     */
-    "service_location"?: SubscriptionServiceLocation;
-    /**
-     * When a scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "starts_at"?: string;
-    /**
-     * Where the subscription is in its lifecycle. Each value says what it means. Value enum:
-     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     */
-    "status": "trialing"
-        | "active"
-        | "paused"
-        | "past_due"
-        | "canceled"
-        | "incomplete"
-        | "scheduled"
-        | (string & {});
-    /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-    "subscription_id": string;
-    /**
-     * Present only when `expand` includes `subscription_plan`; `null` when expanded and there is
-     * no related subscription plan. anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. anyOf[2] (Value): null.
-     */
-    "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-    /**
-     * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id"?: string;
-    /**
-     * Merchant actions allowed by the subscription's state. A route can still refuse a listed
-     * action for a transient reason, such as a renewal already in progress, with its own error. []
-     * enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-     * "change_quantity". [] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     */
-    "supported_actions": Array<"cancel"
-        | "pause"
-        | "resume"
-        | "skip_cycle"
-        | "renew"
-        | "retry_payment"
-        | "change_plan"
-        | "change_quantity"
-        | (string & {})>;
-    /**
-     * Terms come from the subscription plan in subscription_plan_id, or from subscription offers
-     * identified on each offer line by subscription_offer_id. Value enum: "subscription_plan",
-     * "subscription_offer".
-     */
-    "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-    /**
-     * ID of the test clock the subscription's customer was created on. The subscription bills at
-     * the clock's time. Present only when the customer is on a test clock. Included only in
-     * merchant responses and omitted from buyer responses. Example:
-     * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     */
-    "test_clock_id"?: string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "trial_end_at"?: string;
-    /**
-     * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-     * delivery_hold. A delivery problem detected for an upcoming renewal that will hold the
-     * subscription's delivery, and who can fix it.
-     */
-    "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Goes up with every change to the subscription, including renewals and other changes Flint
-     * makes. Send it as `expected_version` to apply an update only if nothing changed. Format:
-     * uint64. minimum: 0.
-     */
-    "version": number;
+    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type SubscriptionActivatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "subscription.activated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "subscription.activated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
+export type ReturnsProcessParams = (InputValue<ProcessExistingReturnRequestInput>)
     & {
-    "event_type": "subscription.activated";
-});
-/**
- * The `subscription.activated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type SubscriptionActivatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * frozen from the plan or shared by the subscription offers. Every option bills the same
-     * recorded line prices once per period. Changing the interval does not scale those prices.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     * object.billing_schedule_owner (Required): string. Who supplies billing dates: flint advances
-     * the schedule after each paid renewal; external uses dates you supply. Change it with
-     * billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-     * "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.buyer_actions
-     * (Required): Array of {@link BuyerAction}. What the buyer can do with the subscription, in
-     * this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan,
-     * cancel_plan_change, then renew, under the store's buyer policy. The available cancel and
-     * pause actions carry the choices they accept. A buyer's read or change through a customer
-     * session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant
-     * read gets an empty list. update_payment_method is required while a payment is past due, due
-     * by next_retry_at when a retry is scheduled, and when the card expires before
-     * next_billing_at, due by then. Example: []. object.buyer_actions[] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     * object.cancel_at_period_end (Required): boolean. True when the subscription is scheduled to
-     * cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * object.canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-     * cancellation is requested, whether it takes effect at the end of the billing period or right
-     * away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See
-     * cancellation_reason for voluntary and payment-related cancellations. The cancellation
-     * request behind a scheduled or completed cancellation. object.cancellation_reason (Optional):
-     * string. Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-     * the automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery
-     * (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it. object.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive
-     * with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-     * method or destination no longer works, and who can fix it.
-     * object.early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-     * contract terms. Present whenever those terms include a fee. It applies only to a
-     * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-     * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-     * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-     * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value): null.
-     * object.expires_at (Required): string or null. Projected end under the current schedule and
-     * committed plan changes, including an earlier scheduled cancellation. A date limit preserves
-     * already-paid entitlement without requiring a future charge schedule. A reached cycle limit
-     * uses the last paid period end, or current_period_end_at when no paid history exists; that
-     * fallback includes any skip or pause extension. A cycle limit with cycles left needs a future
-     * charge schedule unless a known scheduled cancellation determines the end. Null when the end
-     * cannot be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.inventory_wait (Optional): {@link SubscriptionInventoryWait}.
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started. object.is_awaiting_billing_schedule (Optional):
-     * boolean. True while an active or trialing subscription on an external billing schedule has
-     * no next billing date. object.last_payment_error (Optional): {@link PaymentErrorSummary}.
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What
-     * each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-     * that variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null. Recorded automatic
-     * payment retry time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string. ID of the paid
-     * renewal order whose shipment has not been dispatched. It keeps its committed delivery
-     * destination after preference changes and cancellation. Absent when no such renewal order
-     * exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.payment_method_id (Required): string or null. Saved payment
-     * method used for renewal charges. Null when no card is bound. Bind a card to this
-     * subscription with PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.promotions (Required): Array of {@link
-     * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled
-     * attachments are listed in scheduled_promotions. Empty when none apply; signup-only and
-     * exhausted promotions are excluded. object.promotions[] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles. object.prorate_first_period (Required): boolean.
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     * object.quantity (Required): integer. How many of each line the subscription bills each
-     * period, as a whole number; fractional quantities are not supported. A change applies from
-     * the next renewal that has not been paid. Format: int32. object.quantity_options (Optional):
-     * Array of integer. maxItems: 10. uniqueItems: true. object.quantity_options[] (Value):
-     * integer. minimum: 1. maximum: 100. object.recurring_subtotal_money (Required): {@link
-     * MoneyValue} or null. What one billing period's items cost before discounts, shipping, and
-     * tax: each line's price with modifiers, times quantity. It changes when items, quantity, or
-     * the plan change; editing the plan doesn't change it. For the next charge, use a subscription
-     * preview in next_renewal mode. object.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.recurring_subtotal_money.anyOf[2] (Value): null. object.remaining_cycles
-     * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. object.resume_requested_at (Required): string or null. When Flint
-     * accepted a pending resume request. Set only while paused with a resume Flint has not applied
-     * yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When
-     * the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at.
-     * Null when the subscription is not paused or the pause has no length, such as a pause until
-     * you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.service_location (Optional): {@link
-     * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for
-     * the customer the buyer verified. The address where a subscription's service is delivered,
-     * with the saved customer address it came from. object.starts_at (Optional): string. When a
-     * scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-     * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     * object.subscription_id (Required): string. Stable identifier of the subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. Subscription plan ID. Omitted when
-     * terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * object.supported_actions (Required): Array of string. Merchant actions allowed by the
-     * subscription's state. A route can still refuse a listed action for a transient reason, such
-     * as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     * object.supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". object.terms_type
-     * (Required): string. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". object.test_clock_id (Optional): string. ID of
-     * the test clock the subscription's customer was created on. The subscription bills at the
-     * clock's time. Present only when the customer is on a test clock. Included only in merchant
-     * responses and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * object.trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-     * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-     * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs frozen from the plan or shared by the subscription
-         * offers. Every option bills the same recorded line prices once per period. Changing the
-         * interval does not scale those prices. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * cadence offered by a subscription plan or offer. Every option bills the same line prices
-         * once per period; prices are not scaled by the interval. For a different price per
-         * interval, create separate plans. billing_schedule_owner (Required): string. Who supplies
-         * billing dates: flint advances the schedule after each paid renewal; external uses dates
-         * you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". buyer_actions (Required): Array of {@link
-         * BuyerAction}. What the buyer can do with the subscription, in this order: cancel, pause,
-         * resume, reactivate, update_payment_method, retry_payment, update_delivery, skip,
-         * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change,
-         * then renew, under the store's buyer policy. The available cancel and pause actions carry
-         * the choices they accept. A buyer's read or change through a customer session on /v1/me,
-         * or in Flint's buyer account, lists all fourteen every time; a merchant read gets an
-         * empty list. update_payment_method is required while a payment is past due, due by
-         * next_retry_at when a retry is scheduled, and when the card expires before
-         * next_billing_at, due by then. Example: []. buyer_actions[] (Value): {@link BuyerAction}.
-         * One thing a buyer can do with an order, subscription, invoice or return they read
-         * through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-         * and the first available action as the primary action on the resource's page in your
-         * account. cancel_at_period_end (Required): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached". completed_cycles (Required): integer.
-         * Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. Format: uint64. minimum: 0. contract_end_at (Optional): string. When
-         * the recorded contract term ends. Does not move when the subscription pauses or changes
-         * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". contract_start_at (Optional): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_start_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery (Optional): {@link SubscriptionDelivery}.
-         * Saved delivery preference with the current delivery method display. Write responses use
-         * the same display as GET: fixed shipping reflects the current method configuration, and
-         * quoted shipping shows the last paid shipping amount when available. A subscription's
-         * saved delivery preference: method, destination, recipient, shipping cost, and who last
-         * changed it. delivery_hold (Optional): {@link SubscriptionDeliveryHold}. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on
-         * a subscription's deliveries because its delivery method or destination no longer works,
-         * and who can fix it. early_termination_fee_money (Optional): {@link MoneyValue}. The fee
-         * in the recorded contract terms. Present whenever those terms include a fee. It applies
-         * only to a cancellation before contract_end_at. Flint never charges it. Later plan
-         * changes do not change this fee. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. end_after (Required): {@link SubscriptionEndAfter} or null.
-         * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): {@link SubscriptionEndAfter}. The subscription's automatic end condition,
-         * measured by charged billing cycles or a saved local calendar date. end_after.anyOf[2]
-         * (Value): null. expires_at (Required): string or null. Projected end under the current
-         * schedule and committed plan changes, including an earlier scheduled cancellation. A date
-         * limit preserves already-paid entitlement without requiring a future charge schedule. A
-         * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-         * history exists; that fallback includes any skip or pause extension. A cycle limit with
-         * cycles left needs a future charge schedule unless a known scheduled cancellation
-         * determines the end. Null when the end cannot be determined or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". inventory_wait (Optional): {@link
-         * SubscriptionInventoryWait}. Renewal waiting for stock. Included only in merchant
-         * responses and omitted from buyer responses. Shows that a subscription renewal is waiting
-         * for inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required): string or null.
-         * Recorded automatic payment retry time. Null when no retry time is available. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id (Optional): string. ID
-         * of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional): {@link
-         * MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and
-         * discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), or an external
-         * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_id (Required): string or null. Saved payment method used for renewal
-         * charges. Null when no card is bound. Bind a card to this subscription with PATCH;
-         * changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions (Required): Array of {@link
-         * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle.
-         * Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-         * signup-only and exhausted promotions are excluded. promotions[] (Value): {@link
-         * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-         * recurrence and remaining discounted cycles. prorate_first_period (Required): boolean.
-         * Whether this subscription was created to prorate its first anchored paid period. Set at
-         * creation and never changes; starting on the anchor day still bills a normal full period.
-         * quantity (Required): integer. How many of each line the subscription bills each period,
-         * as a whole number; fractional quantities are not supported. A change applies from the
-         * next renewal that has not been paid. Format: int32. quantity_options (Optional): Array
-         * of integer. maxItems: 10. uniqueItems: true. quantity_options[] (Value): integer.
-         * minimum: 1. maximum: 100. recurring_subtotal_money (Required): {@link MoneyValue} or
-         * null. What one billing period's items cost before discounts, shipping, and tax: each
-         * line's price with modifiers, times quantity. It changes when items, quantity, or the
-         * plan change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. resume_requested_at (Required): string or null.
-         * When Flint accepted a pending resume request. Set only while paused with a resume Flint
-         * has not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required):
-         * string or null. When the scheduled cancellation takes effect: trial_end_at while
-         * trialing, current_period_end_at while active, or next_retry_at while past_due. Null when
-         * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many billing intervals after
-         * paused_at. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Required): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "retry_payment", "change_plan", "change_quantity". supported_actions[] (Value):
-         * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment",
-         * "change_plan", "change_quantity". terms_type (Required): string. Terms come from the
-         * subscription plan in subscription_plan_id, or from subscription offers identified on
-         * each offer line by subscription_offer_id. Value enum: "subscription_plan",
-         * "subscription_offer". test_clock_id (Optional): string. ID of the test clock the
-         * subscription's customer was created on. The subscription bills at the clock's time.
-         * Present only when the customer is on a test clock. Included only in merchant responses
-         * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-         * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-         * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs frozen from the plan or shared by the subscription
-             * offers. Every option bills the same recorded line prices once per period. Changing
-             * the interval does not scale those prices. maxItems: 12. uniqueItems: true. []
-             * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-             * subscription plan or offer. Every option bills the same line prices once per period;
-             * prices are not scaled by the interval. For a different price per interval, create
-             * separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-             * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-             * update_billing_interval, update_quantity, swap_items, change_plan,
-             * cancel_plan_change, then renew, under the store's buyer policy. The available cancel
-             * and pause actions carry the choices they accept. A buyer's read or change through a
-             * customer session on /v1/me, or in Flint's buyer account, lists all fourteen every
-             * time; a merchant read gets an empty list. update_payment_method is required while a
-             * payment is past due, due by next_retry_at when a retry is scheduled, and when the
-             * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-             * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or
-             * return they read through /v1/me. Show the actions with is_required as what needs the
-             * buyer's attention, and the first available action as the primary action on the
-             * resource's page in your account.
-             */
-            "buyer_actions": Array<BuyerAction>;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Null when
-             * the end cannot be determined or the subscription is canceled. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Renewal waiting for stock. Included only in merchant responses and omitted from
-             * buyer responses. Shows that a subscription renewal is waiting for inventory, with
-             * the order and invoice involved and when the wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), or an external
-             * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * How many of each line the subscription bills each period, as a whole number;
-             * fractional quantities are not supported. A change applies from the next renewal that
-             * has not been paid. Format: int32.
-             */
-            "quantity": number;
-            /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-            "quantity_options"?: Array<number>;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. anyOf[1] (Value): {@link MoneyValue}.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-             * anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Null when
-             * cancel_at_period_end is false or no cancellation time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * billing intervals after paused_at. Null when the subscription is not paused or the
-             * pause has no length, such as a pause until you resume it or the pause Flint starts
-             * when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "retry_payment", "change_plan", "change_quantity". [] (Value): string. Value enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-             * "change_quantity".
-             */
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "subscription.activated". */
-    "event_type"?: "subscription.activated";
+    "Flint-Merchant-Id"?: InputValue<string>;
     /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
      */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `subscription.activated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type SubscriptionActivatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+    "Flint-Mode"?: InputValue<"test" | "live">;
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * frozen from the plan or shared by the subscription offers. Every option bills the same
-     * recorded line prices once per period. Changing the interval does not scale those prices.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     * object.billing_schedule_owner (Required): string. Who supplies billing dates: flint advances
-     * the schedule after each paid renewal; external uses dates you supply. Change it with
-     * billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-     * "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.buyer_actions
-     * (Required): Array of {@link BuyerAction}. What the buyer can do with the subscription, in
-     * this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan,
-     * cancel_plan_change, then renew, under the store's buyer policy. The available cancel and
-     * pause actions carry the choices they accept. A buyer's read or change through a customer
-     * session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant
-     * read gets an empty list. update_payment_method is required while a payment is past due, due
-     * by next_retry_at when a retry is scheduled, and when the card expires before
-     * next_billing_at, due by then. Example: []. object.buyer_actions[] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     * object.cancel_at_period_end (Required): boolean. True when the subscription is scheduled to
-     * cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * object.canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-     * cancellation is requested, whether it takes effect at the end of the billing period or right
-     * away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See
-     * cancellation_reason for voluntary and payment-related cancellations. The cancellation
-     * request behind a scheduled or completed cancellation. object.cancellation_reason (Optional):
-     * string. Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-     * the automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery
-     * (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it. object.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive
-     * with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-     * method or destination no longer works, and who can fix it.
-     * object.early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-     * contract terms. Present whenever those terms include a fee. It applies only to a
-     * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-     * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-     * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-     * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value): null.
-     * object.expires_at (Required): string or null. Projected end under the current schedule and
-     * committed plan changes, including an earlier scheduled cancellation. A date limit preserves
-     * already-paid entitlement without requiring a future charge schedule. A reached cycle limit
-     * uses the last paid period end, or current_period_end_at when no paid history exists; that
-     * fallback includes any skip or pause extension. A cycle limit with cycles left needs a future
-     * charge schedule unless a known scheduled cancellation determines the end. Null when the end
-     * cannot be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.inventory_wait (Optional): {@link SubscriptionInventoryWait}.
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started. object.is_awaiting_billing_schedule (Optional):
-     * boolean. True while an active or trialing subscription on an external billing schedule has
-     * no next billing date. object.last_payment_error (Optional): {@link PaymentErrorSummary}.
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What
-     * each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-     * that variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null. Recorded automatic
-     * payment retry time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string. ID of the paid
-     * renewal order whose shipment has not been dispatched. It keeps its committed delivery
-     * destination after preference changes and cancellation. Absent when no such renewal order
-     * exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.payment_method_id (Required): string or null. Saved payment
-     * method used for renewal charges. Null when no card is bound. Bind a card to this
-     * subscription with PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.promotions (Required): Array of {@link
-     * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled
-     * attachments are listed in scheduled_promotions. Empty when none apply; signup-only and
-     * exhausted promotions are excluded. object.promotions[] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles. object.prorate_first_period (Required): boolean.
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     * object.quantity (Required): integer. How many of each line the subscription bills each
-     * period, as a whole number; fractional quantities are not supported. A change applies from
-     * the next renewal that has not been paid. Format: int32. object.quantity_options (Optional):
-     * Array of integer. maxItems: 10. uniqueItems: true. object.quantity_options[] (Value):
-     * integer. minimum: 1. maximum: 100. object.recurring_subtotal_money (Required): {@link
-     * MoneyValue} or null. What one billing period's items cost before discounts, shipping, and
-     * tax: each line's price with modifiers, times quantity. It changes when items, quantity, or
-     * the plan change; editing the plan doesn't change it. For the next charge, use a subscription
-     * preview in next_renewal mode. object.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.recurring_subtotal_money.anyOf[2] (Value): null. object.remaining_cycles
-     * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. object.resume_requested_at (Required): string or null. When Flint
-     * accepted a pending resume request. Set only while paused with a resume Flint has not applied
-     * yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When
-     * the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at.
-     * Null when the subscription is not paused or the pause has no length, such as a pause until
-     * you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.service_location (Optional): {@link
-     * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for
-     * the customer the buyer verified. The address where a subscription's service is delivered,
-     * with the saved customer address it came from. object.starts_at (Optional): string. When a
-     * scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-     * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     * object.subscription_id (Required): string. Stable identifier of the subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. Subscription plan ID. Omitted when
-     * terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * object.supported_actions (Required): Array of string. Merchant actions allowed by the
-     * subscription's state. A route can still refuse a listed action for a transient reason, such
-     * as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     * object.supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". object.terms_type
-     * (Required): string. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". object.test_clock_id (Optional): string. ID of
-     * the test clock the subscription's customer was created on. The subscription bills at the
-     * clock's time. Present only when the customer is on a test clock. Included only in merchant
-     * responses and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * object.trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-     * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-     * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs frozen from the plan or shared by the subscription
-         * offers. Every option bills the same recorded line prices once per period. Changing the
-         * interval does not scale those prices. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * cadence offered by a subscription plan or offer. Every option bills the same line prices
-         * once per period; prices are not scaled by the interval. For a different price per
-         * interval, create separate plans. billing_schedule_owner (Required): string. Who supplies
-         * billing dates: flint advances the schedule after each paid renewal; external uses dates
-         * you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". buyer_actions (Required): Array of {@link
-         * BuyerAction}. What the buyer can do with the subscription, in this order: cancel, pause,
-         * resume, reactivate, update_payment_method, retry_payment, update_delivery, skip,
-         * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change,
-         * then renew, under the store's buyer policy. The available cancel and pause actions carry
-         * the choices they accept. A buyer's read or change through a customer session on /v1/me,
-         * or in Flint's buyer account, lists all fourteen every time; a merchant read gets an
-         * empty list. update_payment_method is required while a payment is past due, due by
-         * next_retry_at when a retry is scheduled, and when the card expires before
-         * next_billing_at, due by then. Example: []. buyer_actions[] (Value): {@link BuyerAction}.
-         * One thing a buyer can do with an order, subscription, invoice or return they read
-         * through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-         * and the first available action as the primary action on the resource's page in your
-         * account. cancel_at_period_end (Required): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached". completed_cycles (Required): integer.
-         * Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. Format: uint64. minimum: 0. contract_end_at (Optional): string. When
-         * the recorded contract term ends. Does not move when the subscription pauses or changes
-         * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". contract_start_at (Optional): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_start_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery (Optional): {@link SubscriptionDelivery}.
-         * Saved delivery preference with the current delivery method display. Write responses use
-         * the same display as GET: fixed shipping reflects the current method configuration, and
-         * quoted shipping shows the last paid shipping amount when available. A subscription's
-         * saved delivery preference: method, destination, recipient, shipping cost, and who last
-         * changed it. delivery_hold (Optional): {@link SubscriptionDeliveryHold}. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on
-         * a subscription's deliveries because its delivery method or destination no longer works,
-         * and who can fix it. early_termination_fee_money (Optional): {@link MoneyValue}. The fee
-         * in the recorded contract terms. Present whenever those terms include a fee. It applies
-         * only to a cancellation before contract_end_at. Flint never charges it. Later plan
-         * changes do not change this fee. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. end_after (Required): {@link SubscriptionEndAfter} or null.
-         * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): {@link SubscriptionEndAfter}. The subscription's automatic end condition,
-         * measured by charged billing cycles or a saved local calendar date. end_after.anyOf[2]
-         * (Value): null. expires_at (Required): string or null. Projected end under the current
-         * schedule and committed plan changes, including an earlier scheduled cancellation. A date
-         * limit preserves already-paid entitlement without requiring a future charge schedule. A
-         * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-         * history exists; that fallback includes any skip or pause extension. A cycle limit with
-         * cycles left needs a future charge schedule unless a known scheduled cancellation
-         * determines the end. Null when the end cannot be determined or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". inventory_wait (Optional): {@link
-         * SubscriptionInventoryWait}. Renewal waiting for stock. Included only in merchant
-         * responses and omitted from buyer responses. Shows that a subscription renewal is waiting
-         * for inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required): string or null.
-         * Recorded automatic payment retry time. Null when no retry time is available. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id (Optional): string. ID
-         * of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional): {@link
-         * MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and
-         * discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), or an external
-         * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_id (Required): string or null. Saved payment method used for renewal
-         * charges. Null when no card is bound. Bind a card to this subscription with PATCH;
-         * changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions (Required): Array of {@link
-         * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle.
-         * Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-         * signup-only and exhausted promotions are excluded. promotions[] (Value): {@link
-         * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-         * recurrence and remaining discounted cycles. prorate_first_period (Required): boolean.
-         * Whether this subscription was created to prorate its first anchored paid period. Set at
-         * creation and never changes; starting on the anchor day still bills a normal full period.
-         * quantity (Required): integer. How many of each line the subscription bills each period,
-         * as a whole number; fractional quantities are not supported. A change applies from the
-         * next renewal that has not been paid. Format: int32. quantity_options (Optional): Array
-         * of integer. maxItems: 10. uniqueItems: true. quantity_options[] (Value): integer.
-         * minimum: 1. maximum: 100. recurring_subtotal_money (Required): {@link MoneyValue} or
-         * null. What one billing period's items cost before discounts, shipping, and tax: each
-         * line's price with modifiers, times quantity. It changes when items, quantity, or the
-         * plan change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. resume_requested_at (Required): string or null.
-         * When Flint accepted a pending resume request. Set only while paused with a resume Flint
-         * has not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required):
-         * string or null. When the scheduled cancellation takes effect: trial_end_at while
-         * trialing, current_period_end_at while active, or next_retry_at while past_due. Null when
-         * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many billing intervals after
-         * paused_at. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Required): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "retry_payment", "change_plan", "change_quantity". supported_actions[] (Value):
-         * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment",
-         * "change_plan", "change_quantity". terms_type (Required): string. Terms come from the
-         * subscription plan in subscription_plan_id, or from subscription offers identified on
-         * each offer line by subscription_offer_id. Value enum: "subscription_plan",
-         * "subscription_offer". test_clock_id (Optional): string. ID of the test clock the
-         * subscription's customer was created on. The subscription bills at the clock's time.
-         * Present only when the customer is on a test clock. Included only in merchant responses
-         * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-         * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-         * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs frozen from the plan or shared by the subscription
-             * offers. Every option bills the same recorded line prices once per period. Changing
-             * the interval does not scale those prices. maxItems: 12. uniqueItems: true. []
-             * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-             * subscription plan or offer. Every option bills the same line prices once per period;
-             * prices are not scaled by the interval. For a different price per interval, create
-             * separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-             * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-             * update_billing_interval, update_quantity, swap_items, change_plan,
-             * cancel_plan_change, then renew, under the store's buyer policy. The available cancel
-             * and pause actions carry the choices they accept. A buyer's read or change through a
-             * customer session on /v1/me, or in Flint's buyer account, lists all fourteen every
-             * time; a merchant read gets an empty list. update_payment_method is required while a
-             * payment is past due, due by next_retry_at when a retry is scheduled, and when the
-             * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-             * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or
-             * return they read through /v1/me. Show the actions with is_required as what needs the
-             * buyer's attention, and the first available action as the primary action on the
-             * resource's page in your account.
-             */
-            "buyer_actions": Array<BuyerAction>;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Null when
-             * the end cannot be determined or the subscription is canceled. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Renewal waiting for stock. Included only in merchant responses and omitted from
-             * buyer responses. Shows that a subscription renewal is waiting for inventory, with
-             * the order and invoice involved and when the wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), or an external
-             * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * How many of each line the subscription bills each period, as a whole number;
-             * fractional quantities are not supported. A change applies from the next renewal that
-             * has not been paid. Format: int32.
-             */
-            "quantity": number;
-            /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-            "quantity_options"?: Array<number>;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. anyOf[1] (Value): {@link MoneyValue}.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-             * anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Null when
-             * cancel_at_period_end is false or no cancellation time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * billing intervals after paused_at. Null when the subscription is not paused or the
-             * pause has no length, such as a pause until you resume it or the pause Flint starts
-             * when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "retry_payment", "change_plan", "change_quantity". [] (Value): string. Value enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-             * "change_quantity".
-             */
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "subscription.activated". */
-    "event_type"?: "subscription.activated";
-});
-/**
- * The verification state of a subscription's delivery address: `verified`, `unverified`,
- * `needs_review`, or `unverifiable`.
- */
-export type SubscriptionAddressVerification = {
-    /** Value enum: "verified", "unverified", "needs_review", "unverifiable". */
-    "state": "verified" | "unverified" | "needs_review" | "unverifiable" | (string & {});
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsReopenParams = (InputValue<ReopenReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsUpdateLineItemParams = (InputValue<UpdateReturnLineItemRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsUpdateParams = (InputValue<UpdateReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsWaiveLineItemInspectionParams = (InputValue<WaiveReturnLineInspectionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** The request body for: Reverse manual invoice payment. */
+export type ReverseInvoiceManualPaymentRequest = {
+    /** Expected version of the invoice. Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Why the offline payment is being reversed, up to 4096 characters. minLength: 1. maxLength:
+     * 4096.
+     */
+    "reversal_note"?: string;
+    /**
+     * When the payment was reversed. Defaults to now and must not precede received_at. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "reversed_at"?: string;
+};
+/** The request body for: Reverse manual invoice payment. */
+export type ReverseInvoiceManualPaymentRequestInput = {
+    /** Expected version of the invoice. Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Why the offline payment is being reversed, up to 4096 characters. minLength: 1. maxLength:
+     * 4096.
+     */
+    "reversal_note"?: string;
+    /**
+     * When the payment was reversed. Defaults to now and must not precede received_at. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "reversed_at"?: string | globalThis.Date;
 };
 /**
- * The half-open period [period_start_at, period_end_at) includes its start and excludes its end.
- * Amounts and payments_count use currency; customer and subscription counts span currencies.
+ * One attribute a risk rule can test, with its value type, allowed operators, and whether it is
+ * currently available.
  */
-export type SubscriptionAnalytics = {
+export type RiskAttribute = {
     /**
-     * Currencies of subscription payments selected by succeeded activity created_at in the period,
-     * plus current active and past_due billing snapshots, regardless of the currency filter. The
-     * half-open period [period_start_at, period_end_at) includes its start and excludes its end.
-     * Amounts and payments_count use currency; customer and subscription counts span currencies.
-     * [] (Value): string.
+     * The stage from which the attribute's value is known. Value enum: "pre_authorization",
+     * "post_authorization".
      */
-    "currencies": Array<string>;
+    "available_from": "pre_authorization" | "post_authorization" | (string & {});
+    /** The values the attribute can take. Present for `enum` attributes. [] (Value): string. */
+    "enum_values"?: Array<string>;
+    /** Whether the attribute can be used in rules in this environment. */
+    "is_available": boolean;
+    /** Whether the attribute can be missing from a payment. */
+    "is_nullable": boolean;
     /**
-     * ISO 4217 currency for amounts and payment counts. Defaults to the merchant's default
-     * currency. The half-open period [period_start_at, period_end_at) includes its start and
-     * excludes its end. Amounts and payments_count use currency; customer and subscription counts
-     * span currencies. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
+     * How a comparison treats a payment that has no value for the attribute. Value enum:
+     * "not_applicable_except_is_missing".
      */
-    "currency": string;
+    "missing_value_behavior": "not_applicable_except_is_missing" | (string & {});
+    /** Name of the attribute, as a rule's `attribute` field uses it. */
+    "name": string;
     /**
-     * Exclusive resolved end instant. Omitted or future request ends resolve to the request time
-     * truncated to the second. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * Operators accepted by this attribute. [] enum: "eq", "neq", "gt", "gte", "lt", "lte", "in",
+     * "in_list", "is_missing". [] (Value): string. Value enum: "eq", "neq", "gt", "gte", "lt",
+     * "lte", "in", "in_list", "is_missing".
      */
-    "period_end_at": string;
+    "operators": Array<"eq" | "neq" | "gt" | "gte" | "lt" | "lte" | "in" | "in_list" | "is_missing" | (string & {})>;
     /**
-     * Inclusive start instant. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * Why the attribute can't be used in rules. Present when `is_available` is `false`. Value
+     * enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
      */
-    "period_start_at": string;
+    "unavailable_reason"?: "risk_scoring_not_enabled" | "ip_geolocation_not_enabled" | (string & {});
     /**
-     * Current persisted subscription state at computation time, cached briefly. Independent of the
-     * requested period end. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies. The half-open period [period_start_at, period_end_at)
-     * includes its start and excludes its end. Amounts and payments_count use currency; customer
-     * and subscription counts span currencies.
+     * The kind of value the attribute holds. Value enum: "money", "currency", "string", "enum",
+     * "country", "email", "ip_address", "boolean", "integer".
      */
-    "snapshot_metrics": SubscriptionSnapshotMetrics;
-    /**
-     * Subscription creation, cancellation, and payment success metrics selected within the
-     * requested period. The half-open period [period_start_at, period_end_at) includes its start
-     * and excludes its end. Amounts and payments_count use currency; customer and subscription
-     * counts span currencies. The half-open period [period_start_at, period_end_at) includes its
-     * start and excludes its end. Amounts and payments_count use currency; customer and
-     * subscription counts span currencies.
-     */
-    "window_metrics": SubscriptionWindowMetrics;
+    "value_type": "money"
+        | "currency"
+        | "string"
+        | "enum"
+        | "country"
+        | "email"
+        | "ip_address"
+        | "boolean"
+        | "integer"
+        | (string & {});
 };
-/** A response containing `SubscriptionAnalytics` data. */
-export type SubscriptionAnalyticsResponse = {
+/** The attributes available to risk rules, in the current environment. */
+export type RiskAttributeRegistry = {
     /**
-     * Resource, collection, or operation result returned by this request. The half-open period
-     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies.
+     * The attributes a risk rule can test. [] (Value): {@link RiskAttribute}. One attribute a risk
+     * rule can test, with its value type, allowed operators, and whether it is currently
+     * available.
      */
-    "data": SubscriptionAnalytics;
+    "attributes": Array<RiskAttribute>;
+};
+/** A response containing `RiskAttributeRegistry` data. */
+export type RiskAttributeRegistryResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The attributes available
+     * to risk rules, in the current environment.
+     */
+    "data": RiskAttributeRegistry;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -3330,6826 +4170,166 @@ export type SubscriptionAnalyticsResponse = {
      */
     "request_id": string;
 };
-/** The `external` variant of `SubscriptionBillingScheduleInput`. */
-export type SubscriptionBillingScheduleInputExternal = {
-    /** Value enum: "external". */
-    "owner": "external" | (string & {});
-};
-/** The `external` variant of `SubscriptionBillingScheduleInput`. */
-export type SubscriptionBillingScheduleInputExternalInput = {
-    /** Value enum: "external". */
-    "owner": "external";
-};
-/** The `flint` variant of `SubscriptionBillingScheduleInput`. */
-export type SubscriptionBillingScheduleInputFlint = {
-    /** Value enum: "flint". */
-    "owner": "flint" | (string & {});
-};
-/** The `flint` variant of `SubscriptionBillingScheduleInput`. */
-export type SubscriptionBillingScheduleInputFlintInput = {
-    /** Value enum: "flint". */
-    "owner": "flint";
-};
-/** Who owns the billing schedule when creating a subscription: Flint or an external system. */
-export type SubscriptionBillingScheduleRequest = ({
-    /** Value enum: "flint", "external". */
-    "owner": "flint" | "external" | (string & {});
-})
-    & ((Exclude<SubscriptionBillingScheduleInputFlint & object, readonly unknown[]>)
-    | (Exclude<SubscriptionBillingScheduleInputExternal & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** Who owns the billing schedule when creating a subscription: Flint or an external system. */
-export type SubscriptionBillingScheduleRequestInput = ({
-    /** Value enum: "flint", "external". */
-    "owner": "flint" | "external";
-})
-    & ((Exclude<SubscriptionBillingScheduleInputFlintInput & object, readonly unknown[]>)
-    | (Exclude<SubscriptionBillingScheduleInputExternalInput & object, readonly unknown[]>));
-/** The `external` variant of `SubscriptionBillingScheduleUpdateInput`. */
-export type SubscriptionBillingScheduleUpdateInputExternal = {
+/** A collection of values used in payment risk rules. */
+export type RiskList = {
     /**
-     * Future date at which Flint attempts the next charge. Omit to preserve the date or send null
-     * to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     * Name rules use to refer to this list, such as flagged_emails: a lowercase letter, then up to
+     * 127 lowercase letters, digits, or underscores. Set at creation and never changed.
      */
-    "next_billing_at"?: string | null;
-    /** Value enum: "external". */
-    "owner": "external" | (string & {});
-};
-/** The `external` variant of `SubscriptionBillingScheduleUpdateInput`. */
-export type SubscriptionBillingScheduleUpdateInputExternalInput = {
+    "alias": string;
     /**
-     * Future date at which Flint attempts the next charge. Omit to preserve the date or send null
-     * to clear it. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "next_billing_at"?: string | globalThis.Date | null;
-    /** Value enum: "external". */
-    "owner": "external";
-};
-/** The `flint` variant of `SubscriptionBillingScheduleUpdateInput`. */
-export type SubscriptionBillingScheduleUpdateInputFlint = {
-    /**
-     * UTC day of the month used for monthly and yearly billing. Overrides the day inferred from a
-     * moved next_billing_at. Format: int32. minimum: 1. maximum: 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Future date at which Flint attempts the next charge. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "next_billing_at": string;
-    /** Value enum: "flint". */
-    "owner": "flint" | (string & {});
-};
-/** The `flint` variant of `SubscriptionBillingScheduleUpdateInput`. */
-export type SubscriptionBillingScheduleUpdateInputFlintInput = {
-    /**
-     * UTC day of the month used for monthly and yearly billing. Overrides the day inferred from a
-     * moved next_billing_at. Format: int32. minimum: 1. maximum: 31.
-     */
-    "billing_anchor_day"?: number;
-    /**
-     * Future date at which Flint attempts the next charge. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "next_billing_at": string | globalThis.Date;
-    /** Value enum: "flint". */
-    "owner": "flint";
-};
-/** A closed owner-specific billing schedule update. */
-export type SubscriptionBillingScheduleUpdateRequest = ((SubscriptionBillingScheduleUpdateInputFlint)
-    | (SubscriptionBillingScheduleUpdateInputExternal)
-    | (Record<string, unknown>));
-/** A closed owner-specific billing schedule update. */
-export type SubscriptionBillingScheduleUpdateRequestInput = ((SubscriptionBillingScheduleUpdateInputFlintInput)
-    | (SubscriptionBillingScheduleUpdateInputExternalInput));
-/** The `immediate` variant of `SubscriptionBillingStartInput`. */
-export type SubscriptionBillingStartInputImmediate = {
-    /** Starts billing now, with the plan trial when configured. Value enum: "immediate". */
-    "type": "immediate" | (string & {});
-};
-/** The `immediate` variant of `SubscriptionBillingStartInput`. */
-export type SubscriptionBillingStartInputImmediateInput = {
-    /** Starts billing now, with the plan trial when configured. Value enum: "immediate". */
-    "type": "immediate";
-};
-/** The `imported` variant of `SubscriptionBillingStartInput`. */
-export type SubscriptionBillingStartInputImported = {
-    /**
-     * Billing cycles already charged on the previous billing system, including the current
-     * imported period. Defaults to 1 and must be at least 1. The subscription starts with this
-     * completed_cycles count; its next renewal has subscription_cycle one higher. minimum: 1.
-     * Default: 1.
-     */
-    "completed_cycles"?: number;
-    /**
-     * Start of the already-running billing period being imported. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "period_started_at": string;
-    /** Continues a billing period already paid for on another system. Value enum: "imported". */
-    "type": "imported" | (string & {});
-};
-/** The `imported` variant of `SubscriptionBillingStartInput`. */
-export type SubscriptionBillingStartInputImportedInput = {
-    /**
-     * Billing cycles already charged on the previous billing system, including the current
-     * imported period. Defaults to 1 and must be at least 1. The subscription starts with this
-     * completed_cycles count; its next renewal has subscription_cycle one higher. minimum: 1.
-     * Default: 1.
-     */
-    "completed_cycles"?: number;
-    /**
-     * Start of the already-running billing period being imported. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "period_started_at": string | globalThis.Date;
-    /** Continues a billing period already paid for on another system. Value enum: "imported". */
-    "type": "imported";
-};
-/** The `scheduled` variant of `SubscriptionBillingStartInput`. */
-export type SubscriptionBillingStartInputScheduled = {
-    /**
-     * Future instant when the first billing period starts. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "starts_at": string;
-    /** Starts the first billing period at starts_at. Value enum: "scheduled". */
-    "type": "scheduled" | (string & {});
-};
-/** The `scheduled` variant of `SubscriptionBillingStartInput`. */
-export type SubscriptionBillingStartInputScheduledInput = {
-    /**
-     * Future instant when the first billing period starts. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "starts_at": string | globalThis.Date;
-    /** Starts the first billing period at starts_at. Value enum: "scheduled". */
-    "type": "scheduled";
-};
-/** How billing begins. Send exactly one closed tagged-union branch. */
-export type SubscriptionBillingStartRequest = ((SubscriptionBillingStartInputImmediate)
-    | (SubscriptionBillingStartInputScheduled)
-    | (SubscriptionBillingStartInputImported)
-    | (Record<string, unknown>));
-/** How billing begins. Send exactly one closed tagged-union branch. */
-export type SubscriptionBillingStartRequestInput = ((SubscriptionBillingStartInputImmediateInput)
-    | (SubscriptionBillingStartInputScheduledInput)
-    | (SubscriptionBillingStartInputImportedInput));
-export type SubscriptionCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "subscription.canceled";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "subscription.canceled";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "subscription.canceled";
-});
-/**
- * The `subscription.canceled` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type SubscriptionCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * frozen from the plan or shared by the subscription offers. Every option bills the same
-     * recorded line prices once per period. Changing the interval does not scale those prices.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     * object.billing_schedule_owner (Required): string. Who supplies billing dates: flint advances
-     * the schedule after each paid renewal; external uses dates you supply. Change it with
-     * billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-     * "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.buyer_actions
-     * (Required): Array of {@link BuyerAction}. What the buyer can do with the subscription, in
-     * this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan,
-     * cancel_plan_change, then renew, under the store's buyer policy. The available cancel and
-     * pause actions carry the choices they accept. A buyer's read or change through a customer
-     * session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant
-     * read gets an empty list. update_payment_method is required while a payment is past due, due
-     * by next_retry_at when a retry is scheduled, and when the card expires before
-     * next_billing_at, due by then. Example: []. object.buyer_actions[] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     * object.cancel_at_period_end (Required): boolean. True when the subscription is scheduled to
-     * cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * object.canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-     * cancellation is requested, whether it takes effect at the end of the billing period or right
-     * away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See
-     * cancellation_reason for voluntary and payment-related cancellations. The cancellation
-     * request behind a scheduled or completed cancellation. object.cancellation_reason (Optional):
-     * string. Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-     * the automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery
-     * (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it. object.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive
-     * with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-     * method or destination no longer works, and who can fix it.
-     * object.early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-     * contract terms. Present whenever those terms include a fee. It applies only to a
-     * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-     * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-     * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-     * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value): null.
-     * object.expires_at (Required): string or null. Projected end under the current schedule and
-     * committed plan changes, including an earlier scheduled cancellation. A date limit preserves
-     * already-paid entitlement without requiring a future charge schedule. A reached cycle limit
-     * uses the last paid period end, or current_period_end_at when no paid history exists; that
-     * fallback includes any skip or pause extension. A cycle limit with cycles left needs a future
-     * charge schedule unless a known scheduled cancellation determines the end. Null when the end
-     * cannot be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.inventory_wait (Optional): {@link SubscriptionInventoryWait}.
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started. object.is_awaiting_billing_schedule (Optional):
-     * boolean. True while an active or trialing subscription on an external billing schedule has
-     * no next billing date. object.last_payment_error (Optional): {@link PaymentErrorSummary}.
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What
-     * each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-     * that variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null. Recorded automatic
-     * payment retry time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string. ID of the paid
-     * renewal order whose shipment has not been dispatched. It keeps its committed delivery
-     * destination after preference changes and cancellation. Absent when no such renewal order
-     * exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.payment_method_id (Required): string or null. Saved payment
-     * method used for renewal charges. Null when no card is bound. Bind a card to this
-     * subscription with PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.promotions (Required): Array of {@link
-     * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled
-     * attachments are listed in scheduled_promotions. Empty when none apply; signup-only and
-     * exhausted promotions are excluded. object.promotions[] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles. object.prorate_first_period (Required): boolean.
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     * object.quantity (Required): integer. How many of each line the subscription bills each
-     * period, as a whole number; fractional quantities are not supported. A change applies from
-     * the next renewal that has not been paid. Format: int32. object.quantity_options (Optional):
-     * Array of integer. maxItems: 10. uniqueItems: true. object.quantity_options[] (Value):
-     * integer. minimum: 1. maximum: 100. object.recurring_subtotal_money (Required): {@link
-     * MoneyValue} or null. What one billing period's items cost before discounts, shipping, and
-     * tax: each line's price with modifiers, times quantity. It changes when items, quantity, or
-     * the plan change; editing the plan doesn't change it. For the next charge, use a subscription
-     * preview in next_renewal mode. object.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.recurring_subtotal_money.anyOf[2] (Value): null. object.remaining_cycles
-     * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. object.resume_requested_at (Required): string or null. When Flint
-     * accepted a pending resume request. Set only while paused with a resume Flint has not applied
-     * yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When
-     * the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at.
-     * Null when the subscription is not paused or the pause has no length, such as a pause until
-     * you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.service_location (Optional): {@link
-     * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for
-     * the customer the buyer verified. The address where a subscription's service is delivered,
-     * with the saved customer address it came from. object.starts_at (Optional): string. When a
-     * scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-     * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     * object.subscription_id (Required): string. Stable identifier of the subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. Subscription plan ID. Omitted when
-     * terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * object.supported_actions (Required): Array of string. Merchant actions allowed by the
-     * subscription's state. A route can still refuse a listed action for a transient reason, such
-     * as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     * object.supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". object.terms_type
-     * (Required): string. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". object.test_clock_id (Optional): string. ID of
-     * the test clock the subscription's customer was created on. The subscription bills at the
-     * clock's time. Present only when the customer is on a test clock. Included only in merchant
-     * responses and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * object.trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-     * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-     * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs frozen from the plan or shared by the subscription
-         * offers. Every option bills the same recorded line prices once per period. Changing the
-         * interval does not scale those prices. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * cadence offered by a subscription plan or offer. Every option bills the same line prices
-         * once per period; prices are not scaled by the interval. For a different price per
-         * interval, create separate plans. billing_schedule_owner (Required): string. Who supplies
-         * billing dates: flint advances the schedule after each paid renewal; external uses dates
-         * you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". buyer_actions (Required): Array of {@link
-         * BuyerAction}. What the buyer can do with the subscription, in this order: cancel, pause,
-         * resume, reactivate, update_payment_method, retry_payment, update_delivery, skip,
-         * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change,
-         * then renew, under the store's buyer policy. The available cancel and pause actions carry
-         * the choices they accept. A buyer's read or change through a customer session on /v1/me,
-         * or in Flint's buyer account, lists all fourteen every time; a merchant read gets an
-         * empty list. update_payment_method is required while a payment is past due, due by
-         * next_retry_at when a retry is scheduled, and when the card expires before
-         * next_billing_at, due by then. Example: []. buyer_actions[] (Value): {@link BuyerAction}.
-         * One thing a buyer can do with an order, subscription, invoice or return they read
-         * through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-         * and the first available action as the primary action on the resource's page in your
-         * account. cancel_at_period_end (Required): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached". completed_cycles (Required): integer.
-         * Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. Format: uint64. minimum: 0. contract_end_at (Optional): string. When
-         * the recorded contract term ends. Does not move when the subscription pauses or changes
-         * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". contract_start_at (Optional): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_start_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery (Optional): {@link SubscriptionDelivery}.
-         * Saved delivery preference with the current delivery method display. Write responses use
-         * the same display as GET: fixed shipping reflects the current method configuration, and
-         * quoted shipping shows the last paid shipping amount when available. A subscription's
-         * saved delivery preference: method, destination, recipient, shipping cost, and who last
-         * changed it. delivery_hold (Optional): {@link SubscriptionDeliveryHold}. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on
-         * a subscription's deliveries because its delivery method or destination no longer works,
-         * and who can fix it. early_termination_fee_money (Optional): {@link MoneyValue}. The fee
-         * in the recorded contract terms. Present whenever those terms include a fee. It applies
-         * only to a cancellation before contract_end_at. Flint never charges it. Later plan
-         * changes do not change this fee. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. end_after (Required): {@link SubscriptionEndAfter} or null.
-         * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): {@link SubscriptionEndAfter}. The subscription's automatic end condition,
-         * measured by charged billing cycles or a saved local calendar date. end_after.anyOf[2]
-         * (Value): null. expires_at (Required): string or null. Projected end under the current
-         * schedule and committed plan changes, including an earlier scheduled cancellation. A date
-         * limit preserves already-paid entitlement without requiring a future charge schedule. A
-         * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-         * history exists; that fallback includes any skip or pause extension. A cycle limit with
-         * cycles left needs a future charge schedule unless a known scheduled cancellation
-         * determines the end. Null when the end cannot be determined or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". inventory_wait (Optional): {@link
-         * SubscriptionInventoryWait}. Renewal waiting for stock. Included only in merchant
-         * responses and omitted from buyer responses. Shows that a subscription renewal is waiting
-         * for inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required): string or null.
-         * Recorded automatic payment retry time. Null when no retry time is available. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id (Optional): string. ID
-         * of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional): {@link
-         * MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and
-         * discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), or an external
-         * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_id (Required): string or null. Saved payment method used for renewal
-         * charges. Null when no card is bound. Bind a card to this subscription with PATCH;
-         * changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions (Required): Array of {@link
-         * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle.
-         * Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-         * signup-only and exhausted promotions are excluded. promotions[] (Value): {@link
-         * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-         * recurrence and remaining discounted cycles. prorate_first_period (Required): boolean.
-         * Whether this subscription was created to prorate its first anchored paid period. Set at
-         * creation and never changes; starting on the anchor day still bills a normal full period.
-         * quantity (Required): integer. How many of each line the subscription bills each period,
-         * as a whole number; fractional quantities are not supported. A change applies from the
-         * next renewal that has not been paid. Format: int32. quantity_options (Optional): Array
-         * of integer. maxItems: 10. uniqueItems: true. quantity_options[] (Value): integer.
-         * minimum: 1. maximum: 100. recurring_subtotal_money (Required): {@link MoneyValue} or
-         * null. What one billing period's items cost before discounts, shipping, and tax: each
-         * line's price with modifiers, times quantity. It changes when items, quantity, or the
-         * plan change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. resume_requested_at (Required): string or null.
-         * When Flint accepted a pending resume request. Set only while paused with a resume Flint
-         * has not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required):
-         * string or null. When the scheduled cancellation takes effect: trial_end_at while
-         * trialing, current_period_end_at while active, or next_retry_at while past_due. Null when
-         * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many billing intervals after
-         * paused_at. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Required): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "retry_payment", "change_plan", "change_quantity". supported_actions[] (Value):
-         * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment",
-         * "change_plan", "change_quantity". terms_type (Required): string. Terms come from the
-         * subscription plan in subscription_plan_id, or from subscription offers identified on
-         * each offer line by subscription_offer_id. Value enum: "subscription_plan",
-         * "subscription_offer". test_clock_id (Optional): string. ID of the test clock the
-         * subscription's customer was created on. The subscription bills at the clock's time.
-         * Present only when the customer is on a test clock. Included only in merchant responses
-         * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-         * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-         * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs frozen from the plan or shared by the subscription
-             * offers. Every option bills the same recorded line prices once per period. Changing
-             * the interval does not scale those prices. maxItems: 12. uniqueItems: true. []
-             * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-             * subscription plan or offer. Every option bills the same line prices once per period;
-             * prices are not scaled by the interval. For a different price per interval, create
-             * separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-             * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-             * update_billing_interval, update_quantity, swap_items, change_plan,
-             * cancel_plan_change, then renew, under the store's buyer policy. The available cancel
-             * and pause actions carry the choices they accept. A buyer's read or change through a
-             * customer session on /v1/me, or in Flint's buyer account, lists all fourteen every
-             * time; a merchant read gets an empty list. update_payment_method is required while a
-             * payment is past due, due by next_retry_at when a retry is scheduled, and when the
-             * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-             * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or
-             * return they read through /v1/me. Show the actions with is_required as what needs the
-             * buyer's attention, and the first available action as the primary action on the
-             * resource's page in your account.
-             */
-            "buyer_actions": Array<BuyerAction>;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Null when
-             * the end cannot be determined or the subscription is canceled. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Renewal waiting for stock. Included only in merchant responses and omitted from
-             * buyer responses. Shows that a subscription renewal is waiting for inventory, with
-             * the order and invoice involved and when the wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), or an external
-             * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * How many of each line the subscription bills each period, as a whole number;
-             * fractional quantities are not supported. A change applies from the next renewal that
-             * has not been paid. Format: int32.
-             */
-            "quantity": number;
-            /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-            "quantity_options"?: Array<number>;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. anyOf[1] (Value): {@link MoneyValue}.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-             * anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Null when
-             * cancel_at_period_end is false or no cancellation time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * billing intervals after paused_at. Null when the subscription is not paused or the
-             * pause has no length, such as a pause until you resume it or the pause Flint starts
-             * when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "retry_payment", "change_plan", "change_quantity". [] (Value): string. Value enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-             * "change_quantity".
-             */
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "subscription.canceled". */
-    "event_type"?: "subscription.canceled";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `subscription.canceled` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type SubscriptionCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * frozen from the plan or shared by the subscription offers. Every option bills the same
-     * recorded line prices once per period. Changing the interval does not scale those prices.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     * object.billing_schedule_owner (Required): string. Who supplies billing dates: flint advances
-     * the schedule after each paid renewal; external uses dates you supply. Change it with
-     * billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-     * "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.buyer_actions
-     * (Required): Array of {@link BuyerAction}. What the buyer can do with the subscription, in
-     * this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan,
-     * cancel_plan_change, then renew, under the store's buyer policy. The available cancel and
-     * pause actions carry the choices they accept. A buyer's read or change through a customer
-     * session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant
-     * read gets an empty list. update_payment_method is required while a payment is past due, due
-     * by next_retry_at when a retry is scheduled, and when the card expires before
-     * next_billing_at, due by then. Example: []. object.buyer_actions[] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     * object.cancel_at_period_end (Required): boolean. True when the subscription is scheduled to
-     * cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * object.canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-     * cancellation is requested, whether it takes effect at the end of the billing period or right
-     * away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See
-     * cancellation_reason for voluntary and payment-related cancellations. The cancellation
-     * request behind a scheduled or completed cancellation. object.cancellation_reason (Optional):
-     * string. Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-     * the automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery
-     * (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it. object.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive
-     * with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-     * method or destination no longer works, and who can fix it.
-     * object.early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-     * contract terms. Present whenever those terms include a fee. It applies only to a
-     * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-     * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-     * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-     * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value): null.
-     * object.expires_at (Required): string or null. Projected end under the current schedule and
-     * committed plan changes, including an earlier scheduled cancellation. A date limit preserves
-     * already-paid entitlement without requiring a future charge schedule. A reached cycle limit
-     * uses the last paid period end, or current_period_end_at when no paid history exists; that
-     * fallback includes any skip or pause extension. A cycle limit with cycles left needs a future
-     * charge schedule unless a known scheduled cancellation determines the end. Null when the end
-     * cannot be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.inventory_wait (Optional): {@link SubscriptionInventoryWait}.
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started. object.is_awaiting_billing_schedule (Optional):
-     * boolean. True while an active or trialing subscription on an external billing schedule has
-     * no next billing date. object.last_payment_error (Optional): {@link PaymentErrorSummary}.
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What
-     * each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-     * that variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null. Recorded automatic
-     * payment retry time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string. ID of the paid
-     * renewal order whose shipment has not been dispatched. It keeps its committed delivery
-     * destination after preference changes and cancellation. Absent when no such renewal order
-     * exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.payment_method_id (Required): string or null. Saved payment
-     * method used for renewal charges. Null when no card is bound. Bind a card to this
-     * subscription with PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.promotions (Required): Array of {@link
-     * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled
-     * attachments are listed in scheduled_promotions. Empty when none apply; signup-only and
-     * exhausted promotions are excluded. object.promotions[] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles. object.prorate_first_period (Required): boolean.
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     * object.quantity (Required): integer. How many of each line the subscription bills each
-     * period, as a whole number; fractional quantities are not supported. A change applies from
-     * the next renewal that has not been paid. Format: int32. object.quantity_options (Optional):
-     * Array of integer. maxItems: 10. uniqueItems: true. object.quantity_options[] (Value):
-     * integer. minimum: 1. maximum: 100. object.recurring_subtotal_money (Required): {@link
-     * MoneyValue} or null. What one billing period's items cost before discounts, shipping, and
-     * tax: each line's price with modifiers, times quantity. It changes when items, quantity, or
-     * the plan change; editing the plan doesn't change it. For the next charge, use a subscription
-     * preview in next_renewal mode. object.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.recurring_subtotal_money.anyOf[2] (Value): null. object.remaining_cycles
-     * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. object.resume_requested_at (Required): string or null. When Flint
-     * accepted a pending resume request. Set only while paused with a resume Flint has not applied
-     * yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When
-     * the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at.
-     * Null when the subscription is not paused or the pause has no length, such as a pause until
-     * you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.service_location (Optional): {@link
-     * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for
-     * the customer the buyer verified. The address where a subscription's service is delivered,
-     * with the saved customer address it came from. object.starts_at (Optional): string. When a
-     * scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-     * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     * object.subscription_id (Required): string. Stable identifier of the subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. Subscription plan ID. Omitted when
-     * terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * object.supported_actions (Required): Array of string. Merchant actions allowed by the
-     * subscription's state. A route can still refuse a listed action for a transient reason, such
-     * as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     * object.supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". object.terms_type
-     * (Required): string. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". object.test_clock_id (Optional): string. ID of
-     * the test clock the subscription's customer was created on. The subscription bills at the
-     * clock's time. Present only when the customer is on a test clock. Included only in merchant
-     * responses and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * object.trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-     * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-     * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs frozen from the plan or shared by the subscription
-         * offers. Every option bills the same recorded line prices once per period. Changing the
-         * interval does not scale those prices. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * cadence offered by a subscription plan or offer. Every option bills the same line prices
-         * once per period; prices are not scaled by the interval. For a different price per
-         * interval, create separate plans. billing_schedule_owner (Required): string. Who supplies
-         * billing dates: flint advances the schedule after each paid renewal; external uses dates
-         * you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". buyer_actions (Required): Array of {@link
-         * BuyerAction}. What the buyer can do with the subscription, in this order: cancel, pause,
-         * resume, reactivate, update_payment_method, retry_payment, update_delivery, skip,
-         * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change,
-         * then renew, under the store's buyer policy. The available cancel and pause actions carry
-         * the choices they accept. A buyer's read or change through a customer session on /v1/me,
-         * or in Flint's buyer account, lists all fourteen every time; a merchant read gets an
-         * empty list. update_payment_method is required while a payment is past due, due by
-         * next_retry_at when a retry is scheduled, and when the card expires before
-         * next_billing_at, due by then. Example: []. buyer_actions[] (Value): {@link BuyerAction}.
-         * One thing a buyer can do with an order, subscription, invoice or return they read
-         * through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-         * and the first available action as the primary action on the resource's page in your
-         * account. cancel_at_period_end (Required): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached". completed_cycles (Required): integer.
-         * Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. Format: uint64. minimum: 0. contract_end_at (Optional): string. When
-         * the recorded contract term ends. Does not move when the subscription pauses or changes
-         * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". contract_start_at (Optional): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_start_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery (Optional): {@link SubscriptionDelivery}.
-         * Saved delivery preference with the current delivery method display. Write responses use
-         * the same display as GET: fixed shipping reflects the current method configuration, and
-         * quoted shipping shows the last paid shipping amount when available. A subscription's
-         * saved delivery preference: method, destination, recipient, shipping cost, and who last
-         * changed it. delivery_hold (Optional): {@link SubscriptionDeliveryHold}. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on
-         * a subscription's deliveries because its delivery method or destination no longer works,
-         * and who can fix it. early_termination_fee_money (Optional): {@link MoneyValue}. The fee
-         * in the recorded contract terms. Present whenever those terms include a fee. It applies
-         * only to a cancellation before contract_end_at. Flint never charges it. Later plan
-         * changes do not change this fee. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. end_after (Required): {@link SubscriptionEndAfter} or null.
-         * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): {@link SubscriptionEndAfter}. The subscription's automatic end condition,
-         * measured by charged billing cycles or a saved local calendar date. end_after.anyOf[2]
-         * (Value): null. expires_at (Required): string or null. Projected end under the current
-         * schedule and committed plan changes, including an earlier scheduled cancellation. A date
-         * limit preserves already-paid entitlement without requiring a future charge schedule. A
-         * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-         * history exists; that fallback includes any skip or pause extension. A cycle limit with
-         * cycles left needs a future charge schedule unless a known scheduled cancellation
-         * determines the end. Null when the end cannot be determined or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". inventory_wait (Optional): {@link
-         * SubscriptionInventoryWait}. Renewal waiting for stock. Included only in merchant
-         * responses and omitted from buyer responses. Shows that a subscription renewal is waiting
-         * for inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required): string or null.
-         * Recorded automatic payment retry time. Null when no retry time is available. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id (Optional): string. ID
-         * of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional): {@link
-         * MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and
-         * discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), or an external
-         * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_id (Required): string or null. Saved payment method used for renewal
-         * charges. Null when no card is bound. Bind a card to this subscription with PATCH;
-         * changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions (Required): Array of {@link
-         * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle.
-         * Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-         * signup-only and exhausted promotions are excluded. promotions[] (Value): {@link
-         * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-         * recurrence and remaining discounted cycles. prorate_first_period (Required): boolean.
-         * Whether this subscription was created to prorate its first anchored paid period. Set at
-         * creation and never changes; starting on the anchor day still bills a normal full period.
-         * quantity (Required): integer. How many of each line the subscription bills each period,
-         * as a whole number; fractional quantities are not supported. A change applies from the
-         * next renewal that has not been paid. Format: int32. quantity_options (Optional): Array
-         * of integer. maxItems: 10. uniqueItems: true. quantity_options[] (Value): integer.
-         * minimum: 1. maximum: 100. recurring_subtotal_money (Required): {@link MoneyValue} or
-         * null. What one billing period's items cost before discounts, shipping, and tax: each
-         * line's price with modifiers, times quantity. It changes when items, quantity, or the
-         * plan change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. resume_requested_at (Required): string or null.
-         * When Flint accepted a pending resume request. Set only while paused with a resume Flint
-         * has not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required):
-         * string or null. When the scheduled cancellation takes effect: trial_end_at while
-         * trialing, current_period_end_at while active, or next_retry_at while past_due. Null when
-         * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many billing intervals after
-         * paused_at. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Required): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "retry_payment", "change_plan", "change_quantity". supported_actions[] (Value):
-         * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment",
-         * "change_plan", "change_quantity". terms_type (Required): string. Terms come from the
-         * subscription plan in subscription_plan_id, or from subscription offers identified on
-         * each offer line by subscription_offer_id. Value enum: "subscription_plan",
-         * "subscription_offer". test_clock_id (Optional): string. ID of the test clock the
-         * subscription's customer was created on. The subscription bills at the clock's time.
-         * Present only when the customer is on a test clock. Included only in merchant responses
-         * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-         * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-         * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs frozen from the plan or shared by the subscription
-             * offers. Every option bills the same recorded line prices once per period. Changing
-             * the interval does not scale those prices. maxItems: 12. uniqueItems: true. []
-             * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-             * subscription plan or offer. Every option bills the same line prices once per period;
-             * prices are not scaled by the interval. For a different price per interval, create
-             * separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-             * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-             * update_billing_interval, update_quantity, swap_items, change_plan,
-             * cancel_plan_change, then renew, under the store's buyer policy. The available cancel
-             * and pause actions carry the choices they accept. A buyer's read or change through a
-             * customer session on /v1/me, or in Flint's buyer account, lists all fourteen every
-             * time; a merchant read gets an empty list. update_payment_method is required while a
-             * payment is past due, due by next_retry_at when a retry is scheduled, and when the
-             * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-             * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or
-             * return they read through /v1/me. Show the actions with is_required as what needs the
-             * buyer's attention, and the first available action as the primary action on the
-             * resource's page in your account.
-             */
-            "buyer_actions": Array<BuyerAction>;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Null when
-             * the end cannot be determined or the subscription is canceled. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Renewal waiting for stock. Included only in merchant responses and omitted from
-             * buyer responses. Shows that a subscription renewal is waiting for inventory, with
-             * the order and invoice involved and when the wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), or an external
-             * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * How many of each line the subscription bills each period, as a whole number;
-             * fractional quantities are not supported. A change applies from the next renewal that
-             * has not been paid. Format: int32.
-             */
-            "quantity": number;
-            /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-            "quantity_options"?: Array<number>;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. anyOf[1] (Value): {@link MoneyValue}.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-             * anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Null when
-             * cancel_at_period_end is false or no cancellation time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * billing intervals after paused_at. Null when the subscription is not paused or the
-             * pause has no length, such as a pause until you resume it or the pause Flint starts
-             * when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "retry_payment", "change_plan", "change_quantity". [] (Value): string. Value enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-             * "change_quantity".
-             */
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "subscription.canceled". */
-    "event_type"?: "subscription.canceled";
-});
-/** The cancellation request behind a scheduled or completed cancellation. */
-export type SubscriptionCancellationDetails = {
-    /**
-     * What the requester wrote. Only merchant credentials read it; buyers never receive it.
-     * Omitted when none was given, and cleared when the customer is deleted. maxLength: 500.
-     */
-    "comment"?: string;
-    /**
-     * The reason the requester chose. Omitted when none was given. Value enum: "too_expensive",
-     * "missing_features", "switched_service", "unused", "customer_service", "too_complex",
-     * "low_quality", "other".
-     */
-    "reason_code"?: "too_expensive"
-        | "missing_features"
-        | "switched_service"
-        | "unused"
-        | "customer_service"
-        | "too_complex"
-        | "low_quality"
-        | "other"
-        | (string & {});
-    /** When the cancellation was requested. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "requested_at": string;
-    /**
-     * Who asked to cancel: buyer, merchant, or integration. Merchant credentials can set the
-     * attribution with initiated_by; customer sessions always record buyer. Value enum: "buyer",
-     * "merchant", "integration".
-     */
-    "requested_by": "buyer" | "merchant" | "integration" | (string & {});
-};
-export type SubscriptionCancellationScheduledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "subscription.cancellation_scheduled";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "subscription.cancellation_scheduled";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "subscription.cancellation_scheduled";
-});
-/**
- * The `subscription.cancellation_scheduled` webhook payload for the `installed_merchants` event
- * source. Fields shared by partner webhook payloads.
- */
-export type SubscriptionCancellationScheduledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * frozen from the plan or shared by the subscription offers. Every option bills the same
-     * recorded line prices once per period. Changing the interval does not scale those prices.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     * object.billing_schedule_owner (Required): string. Who supplies billing dates: flint advances
-     * the schedule after each paid renewal; external uses dates you supply. Change it with
-     * billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-     * "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.buyer_actions
-     * (Required): Array of {@link BuyerAction}. What the buyer can do with the subscription, in
-     * this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan,
-     * cancel_plan_change, then renew, under the store's buyer policy. The available cancel and
-     * pause actions carry the choices they accept. A buyer's read or change through a customer
-     * session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant
-     * read gets an empty list. update_payment_method is required while a payment is past due, due
-     * by next_retry_at when a retry is scheduled, and when the card expires before
-     * next_billing_at, due by then. Example: []. object.buyer_actions[] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     * object.cancel_at_period_end (Required): boolean. True when the subscription is scheduled to
-     * cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * object.canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-     * cancellation is requested, whether it takes effect at the end of the billing period or right
-     * away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See
-     * cancellation_reason for voluntary and payment-related cancellations. The cancellation
-     * request behind a scheduled or completed cancellation. object.cancellation_reason (Optional):
-     * string. Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-     * the automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery
-     * (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it. object.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive
-     * with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-     * method or destination no longer works, and who can fix it.
-     * object.early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-     * contract terms. Present whenever those terms include a fee. It applies only to a
-     * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-     * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-     * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-     * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value): null.
-     * object.expires_at (Required): string or null. Projected end under the current schedule and
-     * committed plan changes, including an earlier scheduled cancellation. A date limit preserves
-     * already-paid entitlement without requiring a future charge schedule. A reached cycle limit
-     * uses the last paid period end, or current_period_end_at when no paid history exists; that
-     * fallback includes any skip or pause extension. A cycle limit with cycles left needs a future
-     * charge schedule unless a known scheduled cancellation determines the end. Null when the end
-     * cannot be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.inventory_wait (Optional): {@link SubscriptionInventoryWait}.
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started. object.is_awaiting_billing_schedule (Optional):
-     * boolean. True while an active or trialing subscription on an external billing schedule has
-     * no next billing date. object.last_payment_error (Optional): {@link PaymentErrorSummary}.
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What
-     * each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-     * that variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null. Recorded automatic
-     * payment retry time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string. ID of the paid
-     * renewal order whose shipment has not been dispatched. It keeps its committed delivery
-     * destination after preference changes and cancellation. Absent when no such renewal order
-     * exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.payment_method_id (Required): string or null. Saved payment
-     * method used for renewal charges. Null when no card is bound. Bind a card to this
-     * subscription with PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.promotions (Required): Array of {@link
-     * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled
-     * attachments are listed in scheduled_promotions. Empty when none apply; signup-only and
-     * exhausted promotions are excluded. object.promotions[] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles. object.prorate_first_period (Required): boolean.
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     * object.quantity (Required): integer. How many of each line the subscription bills each
-     * period, as a whole number; fractional quantities are not supported. A change applies from
-     * the next renewal that has not been paid. Format: int32. object.quantity_options (Optional):
-     * Array of integer. maxItems: 10. uniqueItems: true. object.quantity_options[] (Value):
-     * integer. minimum: 1. maximum: 100. object.recurring_subtotal_money (Required): {@link
-     * MoneyValue} or null. What one billing period's items cost before discounts, shipping, and
-     * tax: each line's price with modifiers, times quantity. It changes when items, quantity, or
-     * the plan change; editing the plan doesn't change it. For the next charge, use a subscription
-     * preview in next_renewal mode. object.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.recurring_subtotal_money.anyOf[2] (Value): null. object.remaining_cycles
-     * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. object.resume_requested_at (Required): string or null. When Flint
-     * accepted a pending resume request. Set only while paused with a resume Flint has not applied
-     * yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When
-     * the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at.
-     * Null when the subscription is not paused or the pause has no length, such as a pause until
-     * you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.service_location (Optional): {@link
-     * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for
-     * the customer the buyer verified. The address where a subscription's service is delivered,
-     * with the saved customer address it came from. object.starts_at (Optional): string. When a
-     * scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-     * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     * object.subscription_id (Required): string. Stable identifier of the subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. Subscription plan ID. Omitted when
-     * terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * object.supported_actions (Required): Array of string. Merchant actions allowed by the
-     * subscription's state. A route can still refuse a listed action for a transient reason, such
-     * as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     * object.supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". object.terms_type
-     * (Required): string. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". object.test_clock_id (Optional): string. ID of
-     * the test clock the subscription's customer was created on. The subscription bills at the
-     * clock's time. Present only when the customer is on a test clock. Included only in merchant
-     * responses and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * object.trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-     * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-     * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs frozen from the plan or shared by the subscription
-         * offers. Every option bills the same recorded line prices once per period. Changing the
-         * interval does not scale those prices. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * cadence offered by a subscription plan or offer. Every option bills the same line prices
-         * once per period; prices are not scaled by the interval. For a different price per
-         * interval, create separate plans. billing_schedule_owner (Required): string. Who supplies
-         * billing dates: flint advances the schedule after each paid renewal; external uses dates
-         * you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". buyer_actions (Required): Array of {@link
-         * BuyerAction}. What the buyer can do with the subscription, in this order: cancel, pause,
-         * resume, reactivate, update_payment_method, retry_payment, update_delivery, skip,
-         * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change,
-         * then renew, under the store's buyer policy. The available cancel and pause actions carry
-         * the choices they accept. A buyer's read or change through a customer session on /v1/me,
-         * or in Flint's buyer account, lists all fourteen every time; a merchant read gets an
-         * empty list. update_payment_method is required while a payment is past due, due by
-         * next_retry_at when a retry is scheduled, and when the card expires before
-         * next_billing_at, due by then. Example: []. buyer_actions[] (Value): {@link BuyerAction}.
-         * One thing a buyer can do with an order, subscription, invoice or return they read
-         * through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-         * and the first available action as the primary action on the resource's page in your
-         * account. cancel_at_period_end (Required): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached". completed_cycles (Required): integer.
-         * Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. Format: uint64. minimum: 0. contract_end_at (Optional): string. When
-         * the recorded contract term ends. Does not move when the subscription pauses or changes
-         * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". contract_start_at (Optional): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_start_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery (Optional): {@link SubscriptionDelivery}.
-         * Saved delivery preference with the current delivery method display. Write responses use
-         * the same display as GET: fixed shipping reflects the current method configuration, and
-         * quoted shipping shows the last paid shipping amount when available. A subscription's
-         * saved delivery preference: method, destination, recipient, shipping cost, and who last
-         * changed it. delivery_hold (Optional): {@link SubscriptionDeliveryHold}. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on
-         * a subscription's deliveries because its delivery method or destination no longer works,
-         * and who can fix it. early_termination_fee_money (Optional): {@link MoneyValue}. The fee
-         * in the recorded contract terms. Present whenever those terms include a fee. It applies
-         * only to a cancellation before contract_end_at. Flint never charges it. Later plan
-         * changes do not change this fee. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. end_after (Required): {@link SubscriptionEndAfter} or null.
-         * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): {@link SubscriptionEndAfter}. The subscription's automatic end condition,
-         * measured by charged billing cycles or a saved local calendar date. end_after.anyOf[2]
-         * (Value): null. expires_at (Required): string or null. Projected end under the current
-         * schedule and committed plan changes, including an earlier scheduled cancellation. A date
-         * limit preserves already-paid entitlement without requiring a future charge schedule. A
-         * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-         * history exists; that fallback includes any skip or pause extension. A cycle limit with
-         * cycles left needs a future charge schedule unless a known scheduled cancellation
-         * determines the end. Null when the end cannot be determined or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". inventory_wait (Optional): {@link
-         * SubscriptionInventoryWait}. Renewal waiting for stock. Included only in merchant
-         * responses and omitted from buyer responses. Shows that a subscription renewal is waiting
-         * for inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required): string or null.
-         * Recorded automatic payment retry time. Null when no retry time is available. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id (Optional): string. ID
-         * of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional): {@link
-         * MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and
-         * discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), or an external
-         * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_id (Required): string or null. Saved payment method used for renewal
-         * charges. Null when no card is bound. Bind a card to this subscription with PATCH;
-         * changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions (Required): Array of {@link
-         * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle.
-         * Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-         * signup-only and exhausted promotions are excluded. promotions[] (Value): {@link
-         * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-         * recurrence and remaining discounted cycles. prorate_first_period (Required): boolean.
-         * Whether this subscription was created to prorate its first anchored paid period. Set at
-         * creation and never changes; starting on the anchor day still bills a normal full period.
-         * quantity (Required): integer. How many of each line the subscription bills each period,
-         * as a whole number; fractional quantities are not supported. A change applies from the
-         * next renewal that has not been paid. Format: int32. quantity_options (Optional): Array
-         * of integer. maxItems: 10. uniqueItems: true. quantity_options[] (Value): integer.
-         * minimum: 1. maximum: 100. recurring_subtotal_money (Required): {@link MoneyValue} or
-         * null. What one billing period's items cost before discounts, shipping, and tax: each
-         * line's price with modifiers, times quantity. It changes when items, quantity, or the
-         * plan change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. resume_requested_at (Required): string or null.
-         * When Flint accepted a pending resume request. Set only while paused with a resume Flint
-         * has not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required):
-         * string or null. When the scheduled cancellation takes effect: trial_end_at while
-         * trialing, current_period_end_at while active, or next_retry_at while past_due. Null when
-         * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many billing intervals after
-         * paused_at. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Required): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "retry_payment", "change_plan", "change_quantity". supported_actions[] (Value):
-         * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment",
-         * "change_plan", "change_quantity". terms_type (Required): string. Terms come from the
-         * subscription plan in subscription_plan_id, or from subscription offers identified on
-         * each offer line by subscription_offer_id. Value enum: "subscription_plan",
-         * "subscription_offer". test_clock_id (Optional): string. ID of the test clock the
-         * subscription's customer was created on. The subscription bills at the clock's time.
-         * Present only when the customer is on a test clock. Included only in merchant responses
-         * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-         * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-         * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs frozen from the plan or shared by the subscription
-             * offers. Every option bills the same recorded line prices once per period. Changing
-             * the interval does not scale those prices. maxItems: 12. uniqueItems: true. []
-             * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-             * subscription plan or offer. Every option bills the same line prices once per period;
-             * prices are not scaled by the interval. For a different price per interval, create
-             * separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-             * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-             * update_billing_interval, update_quantity, swap_items, change_plan,
-             * cancel_plan_change, then renew, under the store's buyer policy. The available cancel
-             * and pause actions carry the choices they accept. A buyer's read or change through a
-             * customer session on /v1/me, or in Flint's buyer account, lists all fourteen every
-             * time; a merchant read gets an empty list. update_payment_method is required while a
-             * payment is past due, due by next_retry_at when a retry is scheduled, and when the
-             * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-             * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or
-             * return they read through /v1/me. Show the actions with is_required as what needs the
-             * buyer's attention, and the first available action as the primary action on the
-             * resource's page in your account.
-             */
-            "buyer_actions": Array<BuyerAction>;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Null when
-             * the end cannot be determined or the subscription is canceled. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Renewal waiting for stock. Included only in merchant responses and omitted from
-             * buyer responses. Shows that a subscription renewal is waiting for inventory, with
-             * the order and invoice involved and when the wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), or an external
-             * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * How many of each line the subscription bills each period, as a whole number;
-             * fractional quantities are not supported. A change applies from the next renewal that
-             * has not been paid. Format: int32.
-             */
-            "quantity": number;
-            /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-            "quantity_options"?: Array<number>;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. anyOf[1] (Value): {@link MoneyValue}.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-             * anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Null when
-             * cancel_at_period_end is false or no cancellation time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * billing intervals after paused_at. Null when the subscription is not paused or the
-             * pause has no length, such as a pause until you resume it or the pause Flint starts
-             * when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "retry_payment", "change_plan", "change_quantity". [] (Value): string. Value enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-             * "change_quantity".
-             */
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "subscription.cancellation_scheduled". */
-    "event_type"?: "subscription.cancellation_scheduled";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `subscription.cancellation_scheduled` webhook payload for the `merchant` event source.
- * Fields shared by merchant webhook payloads.
- */
-export type SubscriptionCancellationScheduledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * frozen from the plan or shared by the subscription offers. Every option bills the same
-     * recorded line prices once per period. Changing the interval does not scale those prices.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     * object.billing_schedule_owner (Required): string. Who supplies billing dates: flint advances
-     * the schedule after each paid renewal; external uses dates you supply. Change it with
-     * billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-     * "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.buyer_actions
-     * (Required): Array of {@link BuyerAction}. What the buyer can do with the subscription, in
-     * this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan,
-     * cancel_plan_change, then renew, under the store's buyer policy. The available cancel and
-     * pause actions carry the choices they accept. A buyer's read or change through a customer
-     * session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant
-     * read gets an empty list. update_payment_method is required while a payment is past due, due
-     * by next_retry_at when a retry is scheduled, and when the card expires before
-     * next_billing_at, due by then. Example: []. object.buyer_actions[] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     * object.cancel_at_period_end (Required): boolean. True when the subscription is scheduled to
-     * cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * object.canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-     * cancellation is requested, whether it takes effect at the end of the billing period or right
-     * away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See
-     * cancellation_reason for voluntary and payment-related cancellations. The cancellation
-     * request behind a scheduled or completed cancellation. object.cancellation_reason (Optional):
-     * string. Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-     * the automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery
-     * (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it. object.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive
-     * with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-     * method or destination no longer works, and who can fix it.
-     * object.early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-     * contract terms. Present whenever those terms include a fee. It applies only to a
-     * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-     * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-     * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-     * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value): null.
-     * object.expires_at (Required): string or null. Projected end under the current schedule and
-     * committed plan changes, including an earlier scheduled cancellation. A date limit preserves
-     * already-paid entitlement without requiring a future charge schedule. A reached cycle limit
-     * uses the last paid period end, or current_period_end_at when no paid history exists; that
-     * fallback includes any skip or pause extension. A cycle limit with cycles left needs a future
-     * charge schedule unless a known scheduled cancellation determines the end. Null when the end
-     * cannot be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.inventory_wait (Optional): {@link SubscriptionInventoryWait}.
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started. object.is_awaiting_billing_schedule (Optional):
-     * boolean. True while an active or trialing subscription on an external billing schedule has
-     * no next billing date. object.last_payment_error (Optional): {@link PaymentErrorSummary}.
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What
-     * each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-     * that variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null. Recorded automatic
-     * payment retry time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string. ID of the paid
-     * renewal order whose shipment has not been dispatched. It keeps its committed delivery
-     * destination after preference changes and cancellation. Absent when no such renewal order
-     * exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.payment_method_id (Required): string or null. Saved payment
-     * method used for renewal charges. Null when no card is bound. Bind a card to this
-     * subscription with PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.promotions (Required): Array of {@link
-     * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled
-     * attachments are listed in scheduled_promotions. Empty when none apply; signup-only and
-     * exhausted promotions are excluded. object.promotions[] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles. object.prorate_first_period (Required): boolean.
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     * object.quantity (Required): integer. How many of each line the subscription bills each
-     * period, as a whole number; fractional quantities are not supported. A change applies from
-     * the next renewal that has not been paid. Format: int32. object.quantity_options (Optional):
-     * Array of integer. maxItems: 10. uniqueItems: true. object.quantity_options[] (Value):
-     * integer. minimum: 1. maximum: 100. object.recurring_subtotal_money (Required): {@link
-     * MoneyValue} or null. What one billing period's items cost before discounts, shipping, and
-     * tax: each line's price with modifiers, times quantity. It changes when items, quantity, or
-     * the plan change; editing the plan doesn't change it. For the next charge, use a subscription
-     * preview in next_renewal mode. object.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.recurring_subtotal_money.anyOf[2] (Value): null. object.remaining_cycles
-     * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. object.resume_requested_at (Required): string or null. When Flint
-     * accepted a pending resume request. Set only while paused with a resume Flint has not applied
-     * yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When
-     * the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at.
-     * Null when the subscription is not paused or the pause has no length, such as a pause until
-     * you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.service_location (Optional): {@link
-     * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for
-     * the customer the buyer verified. The address where a subscription's service is delivered,
-     * with the saved customer address it came from. object.starts_at (Optional): string. When a
-     * scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-     * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     * object.subscription_id (Required): string. Stable identifier of the subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. Subscription plan ID. Omitted when
-     * terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * object.supported_actions (Required): Array of string. Merchant actions allowed by the
-     * subscription's state. A route can still refuse a listed action for a transient reason, such
-     * as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     * object.supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". object.terms_type
-     * (Required): string. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". object.test_clock_id (Optional): string. ID of
-     * the test clock the subscription's customer was created on. The subscription bills at the
-     * clock's time. Present only when the customer is on a test clock. Included only in merchant
-     * responses and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * object.trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-     * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-     * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs frozen from the plan or shared by the subscription
-         * offers. Every option bills the same recorded line prices once per period. Changing the
-         * interval does not scale those prices. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * cadence offered by a subscription plan or offer. Every option bills the same line prices
-         * once per period; prices are not scaled by the interval. For a different price per
-         * interval, create separate plans. billing_schedule_owner (Required): string. Who supplies
-         * billing dates: flint advances the schedule after each paid renewal; external uses dates
-         * you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". buyer_actions (Required): Array of {@link
-         * BuyerAction}. What the buyer can do with the subscription, in this order: cancel, pause,
-         * resume, reactivate, update_payment_method, retry_payment, update_delivery, skip,
-         * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change,
-         * then renew, under the store's buyer policy. The available cancel and pause actions carry
-         * the choices they accept. A buyer's read or change through a customer session on /v1/me,
-         * or in Flint's buyer account, lists all fourteen every time; a merchant read gets an
-         * empty list. update_payment_method is required while a payment is past due, due by
-         * next_retry_at when a retry is scheduled, and when the card expires before
-         * next_billing_at, due by then. Example: []. buyer_actions[] (Value): {@link BuyerAction}.
-         * One thing a buyer can do with an order, subscription, invoice or return they read
-         * through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-         * and the first available action as the primary action on the resource's page in your
-         * account. cancel_at_period_end (Required): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached". completed_cycles (Required): integer.
-         * Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. Format: uint64. minimum: 0. contract_end_at (Optional): string. When
-         * the recorded contract term ends. Does not move when the subscription pauses or changes
-         * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". contract_start_at (Optional): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_start_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery (Optional): {@link SubscriptionDelivery}.
-         * Saved delivery preference with the current delivery method display. Write responses use
-         * the same display as GET: fixed shipping reflects the current method configuration, and
-         * quoted shipping shows the last paid shipping amount when available. A subscription's
-         * saved delivery preference: method, destination, recipient, shipping cost, and who last
-         * changed it. delivery_hold (Optional): {@link SubscriptionDeliveryHold}. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on
-         * a subscription's deliveries because its delivery method or destination no longer works,
-         * and who can fix it. early_termination_fee_money (Optional): {@link MoneyValue}. The fee
-         * in the recorded contract terms. Present whenever those terms include a fee. It applies
-         * only to a cancellation before contract_end_at. Flint never charges it. Later plan
-         * changes do not change this fee. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. end_after (Required): {@link SubscriptionEndAfter} or null.
-         * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): {@link SubscriptionEndAfter}. The subscription's automatic end condition,
-         * measured by charged billing cycles or a saved local calendar date. end_after.anyOf[2]
-         * (Value): null. expires_at (Required): string or null. Projected end under the current
-         * schedule and committed plan changes, including an earlier scheduled cancellation. A date
-         * limit preserves already-paid entitlement without requiring a future charge schedule. A
-         * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-         * history exists; that fallback includes any skip or pause extension. A cycle limit with
-         * cycles left needs a future charge schedule unless a known scheduled cancellation
-         * determines the end. Null when the end cannot be determined or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". inventory_wait (Optional): {@link
-         * SubscriptionInventoryWait}. Renewal waiting for stock. Included only in merchant
-         * responses and omitted from buyer responses. Shows that a subscription renewal is waiting
-         * for inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required): string or null.
-         * Recorded automatic payment retry time. Null when no retry time is available. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id (Optional): string. ID
-         * of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional): {@link
-         * MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and
-         * discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), or an external
-         * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_id (Required): string or null. Saved payment method used for renewal
-         * charges. Null when no card is bound. Bind a card to this subscription with PATCH;
-         * changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions (Required): Array of {@link
-         * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle.
-         * Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-         * signup-only and exhausted promotions are excluded. promotions[] (Value): {@link
-         * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-         * recurrence and remaining discounted cycles. prorate_first_period (Required): boolean.
-         * Whether this subscription was created to prorate its first anchored paid period. Set at
-         * creation and never changes; starting on the anchor day still bills a normal full period.
-         * quantity (Required): integer. How many of each line the subscription bills each period,
-         * as a whole number; fractional quantities are not supported. A change applies from the
-         * next renewal that has not been paid. Format: int32. quantity_options (Optional): Array
-         * of integer. maxItems: 10. uniqueItems: true. quantity_options[] (Value): integer.
-         * minimum: 1. maximum: 100. recurring_subtotal_money (Required): {@link MoneyValue} or
-         * null. What one billing period's items cost before discounts, shipping, and tax: each
-         * line's price with modifiers, times quantity. It changes when items, quantity, or the
-         * plan change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. resume_requested_at (Required): string or null.
-         * When Flint accepted a pending resume request. Set only while paused with a resume Flint
-         * has not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required):
-         * string or null. When the scheduled cancellation takes effect: trial_end_at while
-         * trialing, current_period_end_at while active, or next_retry_at while past_due. Null when
-         * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many billing intervals after
-         * paused_at. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Required): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "retry_payment", "change_plan", "change_quantity". supported_actions[] (Value):
-         * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment",
-         * "change_plan", "change_quantity". terms_type (Required): string. Terms come from the
-         * subscription plan in subscription_plan_id, or from subscription offers identified on
-         * each offer line by subscription_offer_id. Value enum: "subscription_plan",
-         * "subscription_offer". test_clock_id (Optional): string. ID of the test clock the
-         * subscription's customer was created on. The subscription bills at the clock's time.
-         * Present only when the customer is on a test clock. Included only in merchant responses
-         * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-         * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-         * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs frozen from the plan or shared by the subscription
-             * offers. Every option bills the same recorded line prices once per period. Changing
-             * the interval does not scale those prices. maxItems: 12. uniqueItems: true. []
-             * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-             * subscription plan or offer. Every option bills the same line prices once per period;
-             * prices are not scaled by the interval. For a different price per interval, create
-             * separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-             * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-             * update_billing_interval, update_quantity, swap_items, change_plan,
-             * cancel_plan_change, then renew, under the store's buyer policy. The available cancel
-             * and pause actions carry the choices they accept. A buyer's read or change through a
-             * customer session on /v1/me, or in Flint's buyer account, lists all fourteen every
-             * time; a merchant read gets an empty list. update_payment_method is required while a
-             * payment is past due, due by next_retry_at when a retry is scheduled, and when the
-             * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-             * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or
-             * return they read through /v1/me. Show the actions with is_required as what needs the
-             * buyer's attention, and the first available action as the primary action on the
-             * resource's page in your account.
-             */
-            "buyer_actions": Array<BuyerAction>;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Null when
-             * the end cannot be determined or the subscription is canceled. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Renewal waiting for stock. Included only in merchant responses and omitted from
-             * buyer responses. Shows that a subscription renewal is waiting for inventory, with
-             * the order and invoice involved and when the wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), or an external
-             * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * How many of each line the subscription bills each period, as a whole number;
-             * fractional quantities are not supported. A change applies from the next renewal that
-             * has not been paid. Format: int32.
-             */
-            "quantity": number;
-            /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-            "quantity_options"?: Array<number>;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. anyOf[1] (Value): {@link MoneyValue}.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-             * anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Null when
-             * cancel_at_period_end is false or no cancellation time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * billing intervals after paused_at. Null when the subscription is not paused or the
-             * pause has no length, such as a pause until you resume it or the pause Flint starts
-             * when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "retry_payment", "change_plan", "change_quantity". [] (Value): string. Value enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-             * "change_quantity".
-             */
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "subscription.cancellation_scheduled". */
-    "event_type"?: "subscription.cancellation_scheduled";
-});
-/**
- * Estimated subscription collection, including items, discounts, shipping, and tax. Total excludes
- * tax that cannot yet be calculated.
- */
-export type SubscriptionChargeEstimate = {
-    /**
-     * Expected collection time. Null when billing is not scheduled. Format: date-time. Example:
+     * RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time. Example:
      * "2026-08-02T16:00:00Z".
      */
-    "billing_at": string | null;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency": string;
+    "archived_at": string | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
     /**
-     * Estimated discount total. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
+     * The credential that created this list. Null when Flint created it, as for Flint's default
+     * lists. The reference may name an API key in the other mode. anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * anyOf[2] (Value): null.
      */
-    "discount_money": MoneyValue;
+    "created_by": ((ResourceReference) | (null));
+    /** Number of values on the list now. Format: int64. */
+    "item_count": number;
     /**
-     * Promotions and credits applied to this estimated collection; [] when none apply. [] (Value):
-     * {@link SubscriptionRenewalEstimateDiscount}. An estimated renewal discount from a promotion
-     * or credit for a subscription plan change.
+     * Values are trimmed and compared exactly after item-type normalization for deduplication and
+     * membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
+     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
      */
-    "discounts": Array<SubscriptionRenewalEstimateDiscount>;
+    "item_type": "card_fingerprint"
+        | "card_bin"
+        | "email"
+        | "email_domain"
+        | "ip_address"
+        | "country"
+        | "customer_id"
+        | "string"
+        | "case_sensitive_string"
+        | (string & {});
+    /** Display name of the list. */
+    "name": string;
     /**
-     * Items and quantities included in this estimated collection. [] (Value): {@link
-     * SubscriptionRenewalEstimateLineItem}. A subscription item's quantity, subtotal, and discount
-     * in an estimated renewal.
+     * Whether Flint manages the list or the merchant created it. Value enum: "system_default",
+     * "merchant".
      */
-    "line_items": Array<SubscriptionRenewalEstimateLineItem>;
+    "origin": "system_default" | "merchant" | (string & {});
     /**
-     * Estimated shipping. Null when this collection has no delivery. anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. anyOf[2] (Value): null.
+     * Unique identifier for this risk list, prefixed `rl_`. Example:
+     * "rl_01KEZF7C00VYSERA4QCTJP147A".
      */
-    "shipping_money": ((MoneyValue) | (null));
+    "risk_list_id": string;
+    /** Whether the list can still be used. Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
     /**
-     * The paid collection cycle, continuing imported completed_cycles; 0 for a separate setup fee.
-     * Format: uint64. minimum: 0.
+     * Version of persisted list configuration and item-count changes. External observations do not
+     * advance this counter. Format: uint64. minimum: 1.
      */
-    "subscription_cycle": number;
-    /**
-     * Estimated item subtotal before discounts, shipping, and tax. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "subtotal_money": MoneyValue;
-    /**
-     * Estimated tax; `null` when tax can't be calculated yet. anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. anyOf[2] (Value): null.
-     */
-    "tax_money": ((MoneyValue) | (null));
-    /**
-     * Estimated collection total, excluding unresolved tax when tax_money is null. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
+    "version": number;
 };
-/** Counts of subscriptions by status: active, past due, and paused. */
-export type SubscriptionCounts = {
-    /** Format: int64. */
-    "active": number;
-    /** Format: int64. */
-    "past_due": number;
-    /** Format: int64. */
-    "paused": number;
+/** One value in a payment risk list. */
+export type RiskListItem = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The credential that created this list item. Null when Flint created it. The reference may
+     * name an API key in the other mode. anyOf[1] (Value): {@link ResourceReference}. A reference
+     * to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+     */
+    "created_by": ((ResourceReference) | (null));
+    /** ID of the risk list this value is on. Example: "rl_01KEZF7C00VYSERA4QCTJP147A". */
+    "risk_list_id": string;
+    /**
+     * Unique identifier for this risk list item, prefixed `rli_`. Example:
+     * "rli_01KEZF7C006BND1CJYPAJW9JWE".
+     */
+    "risk_list_item_id": string;
+    /**
+     * The value as stored after item_type normalization, which is what payments are matched
+     * against.
+     */
+    "value": string;
 };
-/** Validation and estimates for the first and recurring collections of a proposed subscription. */
-export type SubscriptionCreatePreview = {
+/** The risk list item matched or created for one requested value, and its creation outcome. */
+export type RiskListItemAddition = {
     /**
-     * Validation failures for the proposed subscription; [] when the inputs are valid and
-     * priceable. [] (Value): {@link SubscriptionPreviewError}. An error found while previewing a
-     * subscription, with a `code`, message, and the parameter at fault.
+     * Whether the value was added or was already on the list. Value enum: "created", "existing".
      */
-    "errors": Array<SubscriptionPreviewError>;
-    /**
-     * The first Flint collection, priced as billing collects it: trial end without a setup fee,
-     * now for a setup fee (or the scheduled start), or imported-period end. With
-     * `prorate_first_period` and no setup fee, it's the prorated first period. `null` when
-     * validation prevents pricing. anyOf[1] (Value): {@link SubscriptionChargeEstimate}. Estimated
-     * subscription collection, including items, discounts, shipping, and tax. Total excludes tax
-     * that cannot yet be calculated. anyOf[2] (Value): null.
-     */
-    "first_charge": ((SubscriptionChargeEstimate) | (null));
-    /**
-     * The prorated first period, when billing collects it as its own order after a setup fee in
-     * `first_charge`. `null` when no proration was requested, when the prorated period is already
-     * included in `first_charge`, when the first paid start is on the anchor day so there is no
-     * prorated period, or when validation prevents pricing. anyOf[1] (Value): {@link
-     * SubscriptionChargeEstimate}. Estimated subscription collection, including items, discounts,
-     * shipping, and tax. Total excludes tax that cannot yet be calculated. anyOf[2] (Value): null.
-     */
-    "first_period_charge": ((SubscriptionChargeEstimate) | (null));
-    /**
-     * Whether the inputs are valid and priceable. This does not mean the subscription is ready to
-     * pay.
-     */
-    "is_valid": boolean;
-    /** The kind of subscription preview. Value enum: "create". */
-    "mode": "create" | (string & {});
-    /**
-     * The first normal full-period collection, without setup fees. With `prorate_first_period`,
-     * it's cycle 2, billed at the end of the prorated period. `null` when validation prevents
-     * pricing. anyOf[1] (Value): {@link SubscriptionChargeEstimate}. Estimated subscription
-     * collection, including items, discounts, shipping, and tax. Total excludes tax that cannot
-     * yet be calculated. anyOf[2] (Value): null.
-     */
-    "recurring": ((SubscriptionChargeEstimate) | (null));
+    "outcome": "created" | "existing" | (string & {});
+    /** The list item holding the value. One value in a payment risk list. */
+    "risk_list_item": RiskListItem;
 };
-export type SubscriptionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "subscription.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "subscription.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "subscription.created";
-});
-/**
- * The `subscription.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type SubscriptionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+/** A page of `RiskListItem` objects. */
+export type RiskListItemListResponse = {
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * frozen from the plan or shared by the subscription offers. Every option bills the same
-     * recorded line prices once per period. Changing the interval does not scale those prices.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     * object.billing_schedule_owner (Required): string. Who supplies billing dates: flint advances
-     * the schedule after each paid renewal; external uses dates you supply. Change it with
-     * billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-     * "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.buyer_actions
-     * (Required): Array of {@link BuyerAction}. What the buyer can do with the subscription, in
-     * this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan,
-     * cancel_plan_change, then renew, under the store's buyer policy. The available cancel and
-     * pause actions carry the choices they accept. A buyer's read or change through a customer
-     * session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant
-     * read gets an empty list. update_payment_method is required while a payment is past due, due
-     * by next_retry_at when a retry is scheduled, and when the card expires before
-     * next_billing_at, due by then. Example: []. object.buyer_actions[] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     * object.cancel_at_period_end (Required): boolean. True when the subscription is scheduled to
-     * cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * object.canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-     * cancellation is requested, whether it takes effect at the end of the billing period or right
-     * away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See
-     * cancellation_reason for voluntary and payment-related cancellations. The cancellation
-     * request behind a scheduled or completed cancellation. object.cancellation_reason (Optional):
-     * string. Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-     * the automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery
-     * (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it. object.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive
-     * with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-     * method or destination no longer works, and who can fix it.
-     * object.early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-     * contract terms. Present whenever those terms include a fee. It applies only to a
-     * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-     * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-     * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-     * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value): null.
-     * object.expires_at (Required): string or null. Projected end under the current schedule and
-     * committed plan changes, including an earlier scheduled cancellation. A date limit preserves
-     * already-paid entitlement without requiring a future charge schedule. A reached cycle limit
-     * uses the last paid period end, or current_period_end_at when no paid history exists; that
-     * fallback includes any skip or pause extension. A cycle limit with cycles left needs a future
-     * charge schedule unless a known scheduled cancellation determines the end. Null when the end
-     * cannot be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.inventory_wait (Optional): {@link SubscriptionInventoryWait}.
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started. object.is_awaiting_billing_schedule (Optional):
-     * boolean. True while an active or trialing subscription on an external billing schedule has
-     * no next billing date. object.last_payment_error (Optional): {@link PaymentErrorSummary}.
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What
-     * each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-     * that variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null. Recorded automatic
-     * payment retry time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string. ID of the paid
-     * renewal order whose shipment has not been dispatched. It keeps its committed delivery
-     * destination after preference changes and cancellation. Absent when no such renewal order
-     * exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.payment_method_id (Required): string or null. Saved payment
-     * method used for renewal charges. Null when no card is bound. Bind a card to this
-     * subscription with PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.promotions (Required): Array of {@link
-     * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled
-     * attachments are listed in scheduled_promotions. Empty when none apply; signup-only and
-     * exhausted promotions are excluded. object.promotions[] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles. object.prorate_first_period (Required): boolean.
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     * object.quantity (Required): integer. How many of each line the subscription bills each
-     * period, as a whole number; fractional quantities are not supported. A change applies from
-     * the next renewal that has not been paid. Format: int32. object.quantity_options (Optional):
-     * Array of integer. maxItems: 10. uniqueItems: true. object.quantity_options[] (Value):
-     * integer. minimum: 1. maximum: 100. object.recurring_subtotal_money (Required): {@link
-     * MoneyValue} or null. What one billing period's items cost before discounts, shipping, and
-     * tax: each line's price with modifiers, times quantity. It changes when items, quantity, or
-     * the plan change; editing the plan doesn't change it. For the next charge, use a subscription
-     * preview in next_renewal mode. object.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.recurring_subtotal_money.anyOf[2] (Value): null. object.remaining_cycles
-     * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. object.resume_requested_at (Required): string or null. When Flint
-     * accepted a pending resume request. Set only while paused with a resume Flint has not applied
-     * yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When
-     * the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at.
-     * Null when the subscription is not paused or the pause has no length, such as a pause until
-     * you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.service_location (Optional): {@link
-     * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for
-     * the customer the buyer verified. The address where a subscription's service is delivered,
-     * with the saved customer address it came from. object.starts_at (Optional): string. When a
-     * scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-     * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     * object.subscription_id (Required): string. Stable identifier of the subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. Subscription plan ID. Omitted when
-     * terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * object.supported_actions (Required): Array of string. Merchant actions allowed by the
-     * subscription's state. A route can still refuse a listed action for a transient reason, such
-     * as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     * object.supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". object.terms_type
-     * (Required): string. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". object.test_clock_id (Optional): string. ID of
-     * the test clock the subscription's customer was created on. The subscription bills at the
-     * clock's time. Present only when the customer is on a test clock. Included only in merchant
-     * responses and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * object.trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-     * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-     * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskListItem}. One value in a payment risk list.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs frozen from the plan or shared by the subscription
-         * offers. Every option bills the same recorded line prices once per period. Changing the
-         * interval does not scale those prices. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * cadence offered by a subscription plan or offer. Every option bills the same line prices
-         * once per period; prices are not scaled by the interval. For a different price per
-         * interval, create separate plans. billing_schedule_owner (Required): string. Who supplies
-         * billing dates: flint advances the schedule after each paid renewal; external uses dates
-         * you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". buyer_actions (Required): Array of {@link
-         * BuyerAction}. What the buyer can do with the subscription, in this order: cancel, pause,
-         * resume, reactivate, update_payment_method, retry_payment, update_delivery, skip,
-         * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change,
-         * then renew, under the store's buyer policy. The available cancel and pause actions carry
-         * the choices they accept. A buyer's read or change through a customer session on /v1/me,
-         * or in Flint's buyer account, lists all fourteen every time; a merchant read gets an
-         * empty list. update_payment_method is required while a payment is past due, due by
-         * next_retry_at when a retry is scheduled, and when the card expires before
-         * next_billing_at, due by then. Example: []. buyer_actions[] (Value): {@link BuyerAction}.
-         * One thing a buyer can do with an order, subscription, invoice or return they read
-         * through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-         * and the first available action as the primary action on the resource's page in your
-         * account. cancel_at_period_end (Required): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached". completed_cycles (Required): integer.
-         * Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. Format: uint64. minimum: 0. contract_end_at (Optional): string. When
-         * the recorded contract term ends. Does not move when the subscription pauses or changes
-         * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". contract_start_at (Optional): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_start_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery (Optional): {@link SubscriptionDelivery}.
-         * Saved delivery preference with the current delivery method display. Write responses use
-         * the same display as GET: fixed shipping reflects the current method configuration, and
-         * quoted shipping shows the last paid shipping amount when available. A subscription's
-         * saved delivery preference: method, destination, recipient, shipping cost, and who last
-         * changed it. delivery_hold (Optional): {@link SubscriptionDeliveryHold}. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on
-         * a subscription's deliveries because its delivery method or destination no longer works,
-         * and who can fix it. early_termination_fee_money (Optional): {@link MoneyValue}. The fee
-         * in the recorded contract terms. Present whenever those terms include a fee. It applies
-         * only to a cancellation before contract_end_at. Flint never charges it. Later plan
-         * changes do not change this fee. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. end_after (Required): {@link SubscriptionEndAfter} or null.
-         * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): {@link SubscriptionEndAfter}. The subscription's automatic end condition,
-         * measured by charged billing cycles or a saved local calendar date. end_after.anyOf[2]
-         * (Value): null. expires_at (Required): string or null. Projected end under the current
-         * schedule and committed plan changes, including an earlier scheduled cancellation. A date
-         * limit preserves already-paid entitlement without requiring a future charge schedule. A
-         * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-         * history exists; that fallback includes any skip or pause extension. A cycle limit with
-         * cycles left needs a future charge schedule unless a known scheduled cancellation
-         * determines the end. Null when the end cannot be determined or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". inventory_wait (Optional): {@link
-         * SubscriptionInventoryWait}. Renewal waiting for stock. Included only in merchant
-         * responses and omitted from buyer responses. Shows that a subscription renewal is waiting
-         * for inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required): string or null.
-         * Recorded automatic payment retry time. Null when no retry time is available. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id (Optional): string. ID
-         * of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional): {@link
-         * MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and
-         * discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), or an external
-         * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_id (Required): string or null. Saved payment method used for renewal
-         * charges. Null when no card is bound. Bind a card to this subscription with PATCH;
-         * changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions (Required): Array of {@link
-         * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle.
-         * Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-         * signup-only and exhausted promotions are excluded. promotions[] (Value): {@link
-         * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-         * recurrence and remaining discounted cycles. prorate_first_period (Required): boolean.
-         * Whether this subscription was created to prorate its first anchored paid period. Set at
-         * creation and never changes; starting on the anchor day still bills a normal full period.
-         * quantity (Required): integer. How many of each line the subscription bills each period,
-         * as a whole number; fractional quantities are not supported. A change applies from the
-         * next renewal that has not been paid. Format: int32. quantity_options (Optional): Array
-         * of integer. maxItems: 10. uniqueItems: true. quantity_options[] (Value): integer.
-         * minimum: 1. maximum: 100. recurring_subtotal_money (Required): {@link MoneyValue} or
-         * null. What one billing period's items cost before discounts, shipping, and tax: each
-         * line's price with modifiers, times quantity. It changes when items, quantity, or the
-         * plan change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. resume_requested_at (Required): string or null.
-         * When Flint accepted a pending resume request. Set only while paused with a resume Flint
-         * has not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required):
-         * string or null. When the scheduled cancellation takes effect: trial_end_at while
-         * trialing, current_period_end_at while active, or next_retry_at while past_due. Null when
-         * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many billing intervals after
-         * paused_at. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Required): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "retry_payment", "change_plan", "change_quantity". supported_actions[] (Value):
-         * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment",
-         * "change_plan", "change_quantity". terms_type (Required): string. Terms come from the
-         * subscription plan in subscription_plan_id, or from subscription offers identified on
-         * each offer line by subscription_offer_id. Value enum: "subscription_plan",
-         * "subscription_offer". test_clock_id (Optional): string. ID of the test clock the
-         * subscription's customer was created on. The subscription bills at the clock's time.
-         * Present only when the customer is on a test clock. Included only in merchant responses
-         * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-         * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-         * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs frozen from the plan or shared by the subscription
-             * offers. Every option bills the same recorded line prices once per period. Changing
-             * the interval does not scale those prices. maxItems: 12. uniqueItems: true. []
-             * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-             * subscription plan or offer. Every option bills the same line prices once per period;
-             * prices are not scaled by the interval. For a different price per interval, create
-             * separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-             * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-             * update_billing_interval, update_quantity, swap_items, change_plan,
-             * cancel_plan_change, then renew, under the store's buyer policy. The available cancel
-             * and pause actions carry the choices they accept. A buyer's read or change through a
-             * customer session on /v1/me, or in Flint's buyer account, lists all fourteen every
-             * time; a merchant read gets an empty list. update_payment_method is required while a
-             * payment is past due, due by next_retry_at when a retry is scheduled, and when the
-             * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-             * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or
-             * return they read through /v1/me. Show the actions with is_required as what needs the
-             * buyer's attention, and the first available action as the primary action on the
-             * resource's page in your account.
-             */
-            "buyer_actions": Array<BuyerAction>;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Null when
-             * the end cannot be determined or the subscription is canceled. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Renewal waiting for stock. Included only in merchant responses and omitted from
-             * buyer responses. Shows that a subscription renewal is waiting for inventory, with
-             * the order and invoice involved and when the wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), or an external
-             * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * How many of each line the subscription bills each period, as a whole number;
-             * fractional quantities are not supported. A change applies from the next renewal that
-             * has not been paid. Format: int32.
-             */
-            "quantity": number;
-            /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-            "quantity_options"?: Array<number>;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. anyOf[1] (Value): {@link MoneyValue}.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-             * anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Null when
-             * cancel_at_period_end is false or no cancellation time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * billing intervals after paused_at. Null when the subscription is not paused or the
-             * pause has no length, such as a pause until you resume it or the pause Flint starts
-             * when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "retry_payment", "change_plan", "change_quantity". [] (Value): string. Value enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-             * "change_quantity".
-             */
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "subscription.created". */
-    "event_type"?: "subscription.created";
+    "data": Array<RiskListItem>;
     /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `subscription.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type SubscriptionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
+    "meta"?: ResponseMeta;
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.billing_anchor_day (Optional): integer. UTC day of the month used
-     * for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32.
-     * minimum: 1. maximum: 31. object.billing_interval (Required): string. How often the
-     * subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills
-     * quarterly. A change applies from the next renewal that has not been paid; next_billing_at
-     * does not move. Value enum: "daily", "weekly", "monthly", "yearly".
-     * object.billing_interval_count (Required): integer. Number of billing_interval units between
-     * charges. Changes with billing_interval. Format: int32. object.billing_interval_options
-     * (Optional): Array of {@link SubscriptionIntervalOption}. Billing interval and count pairs
-     * frozen from the plan or shared by the subscription offers. Every option bills the same
-     * recorded line prices once per period. Changing the interval does not scale those prices.
-     * maxItems: 12. uniqueItems: true. object.billing_interval_options[] (Value): {@link
-     * SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer.
-     * Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     * object.billing_schedule_owner (Required): string. Who supplies billing dates: flint advances
-     * the schedule after each paid renewal; external uses dates you supply. Change it with
-     * billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Value enum: "flint",
-     * "external". object.billing_schedule_waiting_started_at (Optional): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.buyer_actions
-     * (Required): Array of {@link BuyerAction}. What the buyer can do with the subscription, in
-     * this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment,
-     * update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan,
-     * cancel_plan_change, then renew, under the store's buyer policy. The available cancel and
-     * pause actions carry the choices they accept. A buyer's read or change through a customer
-     * session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant
-     * read gets an empty list. update_payment_method is required while a payment is past due, due
-     * by next_retry_at when a retry is scheduled, and when the card expires before
-     * next_billing_at, due by then. Example: []. object.buyer_actions[] (Value): {@link
-     * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they
-     * read through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-     * and the first available action as the primary action on the resource's page in your account.
-     * object.cancel_at_period_end (Required): boolean. True when the subscription is scheduled to
-     * cancel at scheduled_cancel_at. Schedule with POST
-     * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
-     * object.canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.cancellation_details (Optional): {@link
-     * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-     * cancellation is requested, whether it takes effect at the end of the billing period or right
-     * away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See
-     * cancellation_reason for voluntary and payment-related cancellations. The cancellation
-     * request behind a scheduled or completed cancellation. object.cancellation_reason (Optional):
-     * string. Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-     * the automatic ending agreement is reached, cancellation_details.requested_by when recorded,
-     * payment_failed for other canceled subscriptions without a requester, and other for a
-     * scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer",
-     * "merchant", "integration", "payment_failed", "other", "end_after_reached".
-     * object.completed_cycles (Required): integer. Billing cycles charged so far, including cycles
-     * imported with `billing_start.completed_cycles`. The next renewal order's
-     * `subscription_cycle` is this number plus one. Format: uint64. minimum: 0.
-     * object.contract_end_at (Optional): string. When the recorded contract term ends. Does not
-     * move when the subscription pauses or changes plan. Flint does not stop the buyer from
-     * canceling earlier. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.contract_start_at (Optional): string. When the recorded contract term started. Does
-     * not move when the subscription pauses or changes plan. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.created_at (Required): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.current_period_end_at (Optional): string.
-     * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_period_start_at (Optional): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.customer (Optional): {@link ExpandedCustomerSummary}
-     * or null. Present only when `expand` includes `customer`; `null` when expanded and there is
-     * no related customer. object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A
-     * customer's summary fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. The customer
-     * this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.delivery
-     * (Optional): {@link SubscriptionDelivery}. Saved delivery preference with the current
-     * delivery method display. Write responses use the same display as GET: fixed shipping
-     * reflects the current method configuration, and quoted shipping shows the last paid shipping
-     * amount when available. A subscription's saved delivery preference: method, destination,
-     * recipient, shipping cost, and who last changed it. object.delivery_hold (Optional): {@link
-     * SubscriptionDeliveryHold}. Current delivery issue that blocks collection. Mutually exclusive
-     * with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-     * method or destination no longer works, and who can fix it.
-     * object.early_termination_fee_money (Optional): {@link MoneyValue}. The fee in the recorded
-     * contract terms. Present whenever those terms include a fee. It applies only to a
-     * cancellation before contract_end_at. Flint never charges it. Later plan changes do not
-     * change this fee. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.end_after (Required): {@link SubscriptionEndAfter} or null. Recorded
-     * automatic end condition. Null when no automatic end is set. Cycles count charged billing
-     * periods, including imported completed_cycles. Pauses and skips do not use cycles.
-     * Already-paid prepaid deliveries continue on their shifted dates, even beyond the end date,
-     * and cancellation waits for the last remaining delivery. Skipping defers a delivery without
-     * consuming its entitlement. Ending never refunds. object.end_after.anyOf[1] (Value): {@link
-     * SubscriptionEndAfter}. The subscription's automatic end condition, measured by charged
-     * billing cycles or a saved local calendar date. object.end_after.anyOf[2] (Value): null.
-     * object.expires_at (Required): string or null. Projected end under the current schedule and
-     * committed plan changes, including an earlier scheduled cancellation. A date limit preserves
-     * already-paid entitlement without requiring a future charge schedule. A reached cycle limit
-     * uses the last paid period end, or current_period_end_at when no paid history exists; that
-     * fallback includes any skip or pause extension. A cycle limit with cycles left needs a future
-     * charge schedule unless a known scheduled cancellation determines the end. Null when the end
-     * cannot be determined or the subscription is canceled. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.inventory_wait (Optional): {@link SubscriptionInventoryWait}.
-     * Renewal waiting for stock. Included only in merchant responses and omitted from buyer
-     * responses. Shows that a subscription renewal is waiting for inventory, with the order and
-     * invoice involved and when the wait started. object.is_awaiting_billing_schedule (Optional):
-     * boolean. True while an active or trialing subscription on an external billing schedule has
-     * no next billing date. object.last_payment_error (Optional): {@link PaymentErrorSummary}.
-     * Latest renewal payment failure, present only while status is past_due and the latest payment
-     * failed. Buyer responses omit merchant remediation and sensitive decline signals. A summary
-     * of why a payment attempt failed, with a normalized error code, a message, the failure time,
-     * and remediation. object.line_items (Required): Array of {@link SubscriptionLineItem}. What
-     * each renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-     * that variant's current catalog price, which then stays until the line changes again.
-     * object.line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-     * recurring purchase. object.merchant_id (Required): string. ID of the merchant this resource
-     * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value, and
-     * size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-     * reserved for Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     * object.missed_billing_at (Optional): string. The billing date whose payment failed, as an
-     * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_billing_at (Optional): string. When Flint next starts a
-     * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active
-     * subscription has a billing date and isn't set to cancel at the end of its period. Absent
-     * when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a
-     * past_due one reports the failed billing date in missed_billing_at and retries at
-     * next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at
-     * starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting
-     * a date reports is_awaiting_billing_schedule. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.next_retry_at (Required): string or null. Recorded automatic
-     * payment retry time. Null when no retry time is available. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.open_renewal_order_id (Optional): string. ID of the paid
-     * renewal order whose shipment has not been dispatched. It keeps its committed delivery
-     * destination after preference changes and cancellation. Absent when no such renewal order
-     * exists. Only renewal orders count; the signup order is not included. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.outstanding_money (Optional): {@link MoneyValue}.
-     * Unpaid balance of the failed renewal order, including tax, shipping and discounts, after
-     * payments and credits. Present only while status is past_due and a positive balance remains.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.pause_reason (Optional): string. Why the subscription is paused: merchant for a pause
-     * made with your API key or dashboard, buyer for the buyer's own pause,
-     * delivery_action_required for a pause during or after a delivery hold, and payment_failed
-     * when renewal payment retries ran out and your dunning settings pause the subscription.
-     * Omitted when the subscription is not paused. Value enum: "buyer",
-     * "delivery_action_required", "merchant", "payment_failed". object.paused_at (Optional):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.payment_method (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only
-     * when `expand` includes `payment_method`; `null` when expanded and there is no related
-     * payment method. object.payment_method.anyOf[1] (Value): {@link
-     * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type, status,
-     * and card details, returned when the payment method is expanded.
-     * object.payment_method.anyOf[2] (Value): null. object.payment_method_due_at (Required):
-     * string or null. First charge boundary while no card is bound: the later of trial_end_at and
-     * next_billing_at during a trial, or the next billing date for an imported period, even when
-     * that cycle's charge is zero. Recomputed when the schedule changes. A trial still without a
-     * card at its boundary cancels without an order or payment attempt. At that boundary, an
-     * imported subscription with a positive charge that still has no card enters its normal
-     * dunning schedule without a payment attempt. For an imported subscription, a zero charge
-     * completes the renewal without a card and the deadline advances to the following boundary.
-     * Null when a card is bound, collection is not scheduled (paused, canceled, or set to cancel
-     * at period end), or an external schedule has no known boundary. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.payment_method_id (Required): string or null. Saved payment
-     * method used for renewal charges. Null when no card is bound. Bind a card to this
-     * subscription with PATCH; changing the customer's default alone does not bind it. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.promotions (Required): Array of {@link
-     * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle. Scheduled
-     * attachments are listed in scheduled_promotions. Empty when none apply; signup-only and
-     * exhausted promotions are excluded. object.promotions[] (Value): {@link
-     * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-     * recurrence and remaining discounted cycles. object.prorate_first_period (Required): boolean.
-     * Whether this subscription was created to prorate its first anchored paid period. Set at
-     * creation and never changes; starting on the anchor day still bills a normal full period.
-     * object.quantity (Required): integer. How many of each line the subscription bills each
-     * period, as a whole number; fractional quantities are not supported. A change applies from
-     * the next renewal that has not been paid. Format: int32. object.quantity_options (Optional):
-     * Array of integer. maxItems: 10. uniqueItems: true. object.quantity_options[] (Value):
-     * integer. minimum: 1. maximum: 100. object.recurring_subtotal_money (Required): {@link
-     * MoneyValue} or null. What one billing period's items cost before discounts, shipping, and
-     * tax: each line's price with modifiers, times quantity. It changes when items, quantity, or
-     * the plan change; editing the plan doesn't change it. For the next charge, use a subscription
-     * preview in next_renewal mode. object.recurring_subtotal_money.anyOf[1] (Value): {@link
-     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.recurring_subtotal_money.anyOf[2] (Value): null. object.remaining_cycles
-     * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier scheduled
-     * cancellation. Null when there is no cycle limit or the subscription is canceled. Format:
-     * uint64. minimum: 0. object.resume_requested_at (Required): string or null. When Flint
-     * accepted a pending resume request. Set only while paused with a resume Flint has not applied
-     * yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.scheduled_cancel_at (Required): string or null. When
-     * the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at
-     * while active, or next_retry_at while past_due. Null when cancel_at_period_end is false or no
-     * cancellation time is available. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.scheduled_plan_change (Required): {@link SubscriptionScheduledPlanChange} or null.
-     * Frozen target terms for the next charged renewal. Null when no plan change is scheduled.
-     * Cancel with scheduled_plan_change: null on PATCH; replace through change-plan.
-     * object.scheduled_plan_change.anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}.
-     * Frozen target terms that apply at the next charged renewal.
-     * object.scheduled_plan_change.anyOf[2] (Value): null. object.scheduled_promotions (Required):
-     * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after the
-     * next charged cycle, completed_cycles + 1. Always present; empty when no promotions are
-     * scheduled. object.scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A recurring
-     * promotion applied to a subscription, including its recurrence and remaining discounted
-     * cycles. object.scheduled_resume_at (Required): string or null. When a pause with a length
-     * (pause_duration_cycles) resumes on its own: that many billing intervals after paused_at.
-     * Null when the subscription is not paused or the pause has no length, such as a pause until
-     * you resume it or the pause Flint starts when a delivery hold runs out. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.service_location (Optional): {@link
-     * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act for
-     * the customer the buyer verified. The address where a subscription's service is delivered,
-     * with the saved customer address it came from. object.starts_at (Optional): string. When a
-     * scheduled start's first billing period begins. Present only until that first payment
-     * succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required):
-     * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-     * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-     * object.subscription_id (Required): string. Stable identifier of the subscription. Example:
-     * "sub_01KEZF7C00BVRE8YDBXQB74BBM". object.subscription_plan (Optional): {@link
-     * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-     * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-     * object.subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-     * subscription plan's summary fields, including name, billing interval, currency, and status,
-     * returned when the plan is expanded. object.subscription_plan.anyOf[2] (Value): null.
-     * object.subscription_plan_id (Optional): string. Subscription plan ID. Omitted when
-     * terms_type is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
-     * object.supported_actions (Required): Array of string. Merchant actions allowed by the
-     * subscription's state. A route can still refuse a listed action for a transient reason, such
-     * as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
-     * object.supported_actions[] (Value): string. Value enum: "cancel", "pause", "resume",
-     * "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". object.terms_type
-     * (Required): string. Terms come from the subscription plan in subscription_plan_id, or from
-     * subscription offers identified on each offer line by subscription_offer_id. Value enum:
-     * "subscription_plan", "subscription_offer". object.test_clock_id (Optional): string. ID of
-     * the test clock the subscription's customer was created on. The subscription bills at the
-     * clock's time. Present only when the customer is on a test clock. Included only in merchant
-     * responses and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-     * object.trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.upcoming_delivery_hold (Optional): {@link
-     * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-     * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-     * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Goes up with every change to the
-     * subscription, including renewals and other changes Flint makes. Send it as
-     * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum: 0.
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
      */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * billing_anchor_day (Optional): integer. UTC day of the month used for monthly and yearly
-         * billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-         * billing_interval (Required): string. How often the subscription bills now. Read with
-         * billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from
-         * the next renewal that has not been paid; next_billing_at does not move. Value enum:
-         * "daily", "weekly", "monthly", "yearly". billing_interval_count (Required): integer.
-         * Number of billing_interval units between charges. Changes with billing_interval. Format:
-         * int32. billing_interval_options (Optional): Array of {@link SubscriptionIntervalOption}.
-         * Billing interval and count pairs frozen from the plan or shared by the subscription
-         * offers. Every option bills the same recorded line prices once per period. Changing the
-         * interval does not scale those prices. maxItems: 12. uniqueItems: true.
-         * billing_interval_options[] (Value): {@link SubscriptionIntervalOption}. A billing
-         * cadence offered by a subscription plan or offer. Every option bills the same line prices
-         * once per period; prices are not scaled by the interval. For a different price per
-         * interval, create separate plans. billing_schedule_owner (Required): string. Who supplies
-         * billing dates: flint advances the schedule after each paid renewal; external uses dates
-         * you supply. Change it with billing_schedule on PATCH
-         * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-         * billing_schedule_waiting_started_at (Optional): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". buyer_actions (Required): Array of {@link
-         * BuyerAction}. What the buyer can do with the subscription, in this order: cancel, pause,
-         * resume, reactivate, update_payment_method, retry_payment, update_delivery, skip,
-         * update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change,
-         * then renew, under the store's buyer policy. The available cancel and pause actions carry
-         * the choices they accept. A buyer's read or change through a customer session on /v1/me,
-         * or in Flint's buyer account, lists all fourteen every time; a merchant read gets an
-         * empty list. update_payment_method is required while a payment is past due, due by
-         * next_retry_at when a retry is scheduled, and when the card expires before
-         * next_billing_at, due by then. Example: []. buyer_actions[] (Value): {@link BuyerAction}.
-         * One thing a buyer can do with an order, subscription, invoice or return they read
-         * through /v1/me. Show the actions with is_required as what needs the buyer's attention,
-         * and the first available action as the primary action on the resource's page in your
-         * account. cancel_at_period_end (Required): boolean. True when the subscription is
-         * scheduled to cancel at scheduled_cancel_at. Schedule with POST
-         * /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end
-         * false. canceled_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". cancellation_details (Optional): {@link
-         * SubscriptionCancellationDetails}. Who asked to cancel, when, and why. Present once a
-         * cancellation is requested, whether it takes effect at the end of the billing period or
-         * right away. Omitted when no one asked, and removed when a scheduled cancellation is
-         * undone. See cancellation_reason for voluntary and payment-related cancellations. The
-         * cancellation request behind a scheduled or completed cancellation. cancellation_reason
-         * (Optional): string. Why the subscription is canceled or scheduled to cancel. Uses
-         * end_after_reached when the automatic ending agreement is reached,
-         * cancellation_details.requested_by when recorded, payment_failed for other canceled
-         * subscriptions without a requester, and other for a scheduled cancellation without a
-         * requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration",
-         * "payment_failed", "other", "end_after_reached". completed_cycles (Required): integer.
-         * Billing cycles charged so far, including cycles imported with
-         * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this
-         * number plus one. Format: uint64. minimum: 0. contract_end_at (Optional): string. When
-         * the recorded contract term ends. Does not move when the subscription pauses or changes
-         * plan. Flint does not stop the buyer from canceling earlier. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". contract_start_at (Optional): string. When the recorded contract
-         * term started. Does not move when the subscription pauses or changes plan. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". current_period_end_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". current_period_start_at (Optional): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. The customer this subscription bills. Example:
-         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery (Optional): {@link SubscriptionDelivery}.
-         * Saved delivery preference with the current delivery method display. Write responses use
-         * the same display as GET: fixed shipping reflects the current method configuration, and
-         * quoted shipping shows the last paid shipping amount when available. A subscription's
-         * saved delivery preference: method, destination, recipient, shipping cost, and who last
-         * changed it. delivery_hold (Optional): {@link SubscriptionDeliveryHold}. Current delivery
-         * issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on
-         * a subscription's deliveries because its delivery method or destination no longer works,
-         * and who can fix it. early_termination_fee_money (Optional): {@link MoneyValue}. The fee
-         * in the recorded contract terms. Present whenever those terms include a fee. It applies
-         * only to a cancellation before contract_end_at. Flint never charges it. Later plan
-         * changes do not change this fee. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. end_after (Required): {@link SubscriptionEndAfter} or null.
-         * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-         * charged billing periods, including imported completed_cycles. Pauses and skips do not
-         * use cycles. Already-paid prepaid deliveries continue on their shifted dates, even beyond
-         * the end date, and cancellation waits for the last remaining delivery. Skipping defers a
-         * delivery without consuming its entitlement. Ending never refunds. end_after.anyOf[1]
-         * (Value): {@link SubscriptionEndAfter}. The subscription's automatic end condition,
-         * measured by charged billing cycles or a saved local calendar date. end_after.anyOf[2]
-         * (Value): null. expires_at (Required): string or null. Projected end under the current
-         * schedule and committed plan changes, including an earlier scheduled cancellation. A date
-         * limit preserves already-paid entitlement without requiring a future charge schedule. A
-         * reached cycle limit uses the last paid period end, or current_period_end_at when no paid
-         * history exists; that fallback includes any skip or pause extension. A cycle limit with
-         * cycles left needs a future charge schedule unless a known scheduled cancellation
-         * determines the end. Null when the end cannot be determined or the subscription is
-         * canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". inventory_wait (Optional): {@link
-         * SubscriptionInventoryWait}. Renewal waiting for stock. Included only in merchant
-         * responses and omitted from buyer responses. Shows that a subscription renewal is waiting
-         * for inventory, with the order and invoice involved and when the wait started.
-         * is_awaiting_billing_schedule (Optional): boolean. True while an active or trialing
-         * subscription on an external billing schedule has no next billing date.
-         * last_payment_error (Optional): {@link PaymentErrorSummary}. Latest renewal payment
-         * failure, present only while status is past_due and the latest payment failed. Buyer
-         * responses omit merchant remediation and sensitive decline signals. A summary of why a
-         * payment attempt failed, with a normalized error code, a message, the failure time, and
-         * remediation. line_items (Required): Array of {@link SubscriptionLineItem}. What each
-         * renewal bills. Plan edits do not change it. Adding, changing or swapping a line takes
-         * that variant's current catalog price, which then stays until the line changes again.
-         * line_items[] (Value): {@link SubscriptionLineItem}. An item included in a customer's
-         * recurring purchase. merchant_id (Required): string. ID of the merchant this resource
-         * belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Stored caller-owned key-value data. See `MetadataInput` for key, value,
-         * and size rules. Caller-owned key-value data stored on a resource. Keys starting with
-         * flint_ are reserved for Flint and are not returned. Writes follow the limits on
-         * MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-         * them. missed_billing_at (Optional): string. The billing date whose payment failed, as an
-         * RFC3339 timestamp. Present only while status is past_due. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". next_billing_at (Optional): string. When Flint next starts a
-         * scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or
-         * active subscription has a billing date and isn't set to cancel at the end of its period.
-         * Absent when no renewal is scheduled: a paused subscription resumes at
-         * scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at
-         * and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled
-         * start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an
-         * external schedule awaiting a date reports is_awaiting_billing_schedule. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". next_retry_at (Required): string or null.
-         * Recorded automatic payment retry time. Null when no retry time is available. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". open_renewal_order_id (Optional): string. ID
-         * of the paid renewal order whose shipment has not been dispatched. It keeps its committed
-         * delivery destination after preference changes and cancellation. Absent when no such
-         * renewal order exists. Only renewal orders count; the signup order is not included.
-         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". outstanding_money (Optional): {@link
-         * MoneyValue}. Unpaid balance of the failed renewal order, including tax, shipping and
-         * discounts, after payments and credits. Present only while status is past_due and a
-         * positive balance remains. Monetary amount represented as integer minor units plus an ISO
-         * 4217 currency code. pause_reason (Optional): string. Why the subscription is paused:
-         * merchant for a pause made with your API key or dashboard, buyer for the buyer's own
-         * pause, delivery_action_required for a pause during or after a delivery hold, and
-         * payment_failed when renewal payment retries ran out and your dunning settings pause the
-         * subscription. Omitted when the subscription is not paused. Value enum: "buyer",
-         * "delivery_action_required", "merchant", "payment_failed". paused_at (Optional): string.
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". payment_method
-         * (Optional): {@link ExpandedPaymentMethodSummary} or null. Present only when `expand`
-         * includes `payment_method`; `null` when expanded and there is no related payment method.
-         * payment_method.anyOf[1] (Value): {@link ExpandedPaymentMethodSummary}. A payment
-         * method's summary fields, including type, status, and card details, returned when the
-         * payment method is expanded. payment_method.anyOf[2] (Value): null. payment_method_due_at
-         * (Required): string or null. First charge boundary while no card is bound: the later of
-         * trial_end_at and next_billing_at during a trial, or the next billing date for an
-         * imported period, even when that cycle's charge is zero. Recomputed when the schedule
-         * changes. A trial still without a card at its boundary cancels without an order or
-         * payment attempt. At that boundary, an imported subscription with a positive charge that
-         * still has no card enters its normal dunning schedule without a payment attempt. For an
-         * imported subscription, a zero charge completes the renewal without a card and the
-         * deadline advances to the following boundary. Null when a card is bound, collection is
-         * not scheduled (paused, canceled, or set to cancel at period end), or an external
-         * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * payment_method_id (Required): string or null. Saved payment method used for renewal
-         * charges. Null when no card is bound. Bind a card to this subscription with PATCH;
-         * changing the customer's default alone does not bind it. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". promotions (Required): Array of {@link
-         * SubscriptionPromotion}. Recurring promotions applying to the next charged cycle.
-         * Scheduled attachments are listed in scheduled_promotions. Empty when none apply;
-         * signup-only and exhausted promotions are excluded. promotions[] (Value): {@link
-         * SubscriptionPromotion}. A recurring promotion applied to a subscription, including its
-         * recurrence and remaining discounted cycles. prorate_first_period (Required): boolean.
-         * Whether this subscription was created to prorate its first anchored paid period. Set at
-         * creation and never changes; starting on the anchor day still bills a normal full period.
-         * quantity (Required): integer. How many of each line the subscription bills each period,
-         * as a whole number; fractional quantities are not supported. A change applies from the
-         * next renewal that has not been paid. Format: int32. quantity_options (Optional): Array
-         * of integer. maxItems: 10. uniqueItems: true. quantity_options[] (Value): integer.
-         * minimum: 1. maximum: 100. recurring_subtotal_money (Required): {@link MoneyValue} or
-         * null. What one billing period's items cost before discounts, shipping, and tax: each
-         * line's price with modifiers, times quantity. It changes when items, quantity, or the
-         * plan change; editing the plan doesn't change it. For the next charge, use a subscription
-         * preview in next_renewal mode. recurring_subtotal_money.anyOf[1] (Value): {@link
-         * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
-         * currency code. recurring_subtotal_money.anyOf[2] (Value): null. remaining_cycles
-         * (Required): integer or null. Charges left for a cycle limit, bounded by an earlier
-         * scheduled cancellation. Null when there is no cycle limit or the subscription is
-         * canceled. Format: uint64. minimum: 0. resume_requested_at (Required): string or null.
-         * When Flint accepted a pending resume request. Set only while paused with a resume Flint
-         * has not applied yet. Clears when Flint resumes the subscription or refuses the request.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". scheduled_cancel_at (Required):
-         * string or null. When the scheduled cancellation takes effect: trial_end_at while
-         * trialing, current_period_end_at while active, or next_retry_at while past_due. Null when
-         * cancel_at_period_end is false or no cancellation time is available. Format: date-time.
-         * Example: "2026-08-02T16:00:00Z". scheduled_plan_change (Required): {@link
-         * SubscriptionScheduledPlanChange} or null. Frozen target terms for the next charged
-         * renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null
-         * on PATCH; replace through change-plan. scheduled_plan_change.anyOf[1] (Value): {@link
-         * SubscriptionScheduledPlanChange}. Frozen target terms that apply at the next charged
-         * renewal. scheduled_plan_change.anyOf[2] (Value): null. scheduled_promotions (Required):
-         * Array of {@link SubscriptionPromotion}. Attached promotions whose first_cycle is after
-         * the next charged cycle, completed_cycles + 1. Always present; empty when no promotions
-         * are scheduled. scheduled_promotions[] (Value): {@link SubscriptionPromotion}. A
-         * recurring promotion applied to a subscription, including its recurrence and remaining
-         * discounted cycles. scheduled_resume_at (Required): string or null. When a pause with a
-         * length (pause_duration_cycles) resumes on its own: that many billing intervals after
-         * paused_at. Null when the subscription is not paused or the pause has no length, such as
-         * a pause until you resume it or the pause Flint starts when a delivery hold runs out.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". service_location (Optional): {@link
-         * SubscriptionServiceLocation}. Omitted for a checkout session credential that doesn't act
-         * for the customer the buyer verified. The address where a subscription's service is
-         * delivered, with the saved customer address it came from. starts_at (Optional): string.
-         * When a scheduled start's first billing period begins. Present only until that first
-         * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required):
-         * string. Where the subscription is in its lifecycle. Each value says what it means. Value
-         * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
-         * subscription_id (Required): string. Stable identifier of the subscription. Example:
-         * "sub_01KEZF7C00BVRE8YDBXQB74BBM". subscription_plan (Optional): {@link
-         * ExpandedSubscriptionPlanSummary} or null. Present only when `expand` includes
-         * `subscription_plan`; `null` when expanded and there is no related subscription plan.
-         * subscription_plan.anyOf[1] (Value): {@link ExpandedSubscriptionPlanSummary}. A
-         * subscription plan's summary fields, including name, billing interval, currency, and
-         * status, returned when the plan is expanded. subscription_plan.anyOf[2] (Value): null.
-         * subscription_plan_id (Optional): string. Subscription plan ID. Omitted when terms_type
-         * is subscription_offer. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". supported_actions
-         * (Required): Array of string. Merchant actions allowed by the subscription's state. A
-         * route can still refuse a listed action for a transient reason, such as a renewal already
-         * in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle",
-         * "renew", "retry_payment", "change_plan", "change_quantity". supported_actions[] (Value):
-         * string. Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment",
-         * "change_plan", "change_quantity". terms_type (Required): string. Terms come from the
-         * subscription plan in subscription_plan_id, or from subscription offers identified on
-         * each offer line by subscription_offer_id. Value enum: "subscription_plan",
-         * "subscription_offer". test_clock_id (Optional): string. ID of the test clock the
-         * subscription's customer was created on. The subscription bills at the clock's time.
-         * Present only when the customer is on a test clock. Included only in merchant responses
-         * and omitted from buyer responses. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-         * trial_end_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". upcoming_delivery_hold (Optional): {@link
-         * SubscriptionUpcomingDeliveryHold}. Delivery issue forecast for the next renewal at
-         * renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an
-         * upcoming renewal that will hold the subscription's delivery, and who can fix it.
-         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Goes up with every change to the
-         * subscription, including renewals and other changes Flint makes. Send it as
-         * `expected_version` to apply an update only if nothing changed. Format: uint64. minimum:
-         * 0.
-         */
-        "object": {
-            /**
-             * UTC day of the month used for monthly and yearly billing. Applies only to
-             * Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
-             */
-            "billing_anchor_day"?: number;
-            /**
-             * How often the subscription bills now. Read with billing_interval_count: monthly with
-             * a count of 3 bills quarterly. A change applies from the next renewal that has not
-             * been paid; next_billing_at does not move. Value enum: "daily", "weekly", "monthly",
-             * "yearly".
-             */
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            /**
-             * Number of billing_interval units between charges. Changes with billing_interval.
-             * Format: int32.
-             */
-            "billing_interval_count": number;
-            /**
-             * Billing interval and count pairs frozen from the plan or shared by the subscription
-             * offers. Every option bills the same recorded line prices once per period. Changing
-             * the interval does not scale those prices. maxItems: 12. uniqueItems: true. []
-             * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-             * subscription plan or offer. Every option bills the same line prices once per period;
-             * prices are not scaled by the interval. For a different price per interval, create
-             * separate plans.
-             */
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            /**
-             * Who supplies billing dates: flint advances the schedule after each paid renewal;
-             * external uses dates you supply. Change it with billing_schedule on PATCH
-             * /v1/subscriptions/{subscription_id}. Value enum: "flint", "external".
-             */
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "billing_schedule_waiting_started_at"?: string;
-            /**
-             * What the buyer can do with the subscription, in this order: cancel, pause, resume,
-             * reactivate, update_payment_method, retry_payment, update_delivery, skip,
-             * update_billing_interval, update_quantity, swap_items, change_plan,
-             * cancel_plan_change, then renew, under the store's buyer policy. The available cancel
-             * and pause actions carry the choices they accept. A buyer's read or change through a
-             * customer session on /v1/me, or in Flint's buyer account, lists all fourteen every
-             * time; a merchant read gets an empty list. update_payment_method is required while a
-             * payment is past due, due by next_retry_at when a retry is scheduled, and when the
-             * card expires before next_billing_at, due by then. Example: []. [] (Value): {@link
-             * BuyerAction}. One thing a buyer can do with an order, subscription, invoice or
-             * return they read through /v1/me. Show the actions with is_required as what needs the
-             * buyer's attention, and the first available action as the primary action on the
-             * resource's page in your account.
-             */
-            "buyer_actions": Array<BuyerAction>;
-            /**
-             * True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule
-             * with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and
-             * cancel_at_period_end false.
-             */
-            "cancel_at_period_end": boolean;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "canceled_at"?: string;
-            /**
-             * Who asked to cancel, when, and why. Present once a cancellation is requested,
-             * whether it takes effect at the end of the billing period or right away. Omitted when
-             * no one asked, and removed when a scheduled cancellation is undone. See
-             * cancellation_reason for voluntary and payment-related cancellations. The
-             * cancellation request behind a scheduled or completed cancellation.
-             */
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            /**
-             * Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when
-             * the automatic ending agreement is reached, cancellation_details.requested_by when
-             * recorded, payment_failed for other canceled subscriptions without a requester, and
-             * other for a scheduled cancellation without a requester. Omitted otherwise. Value
-             * enum: "buyer", "merchant", "integration", "payment_failed", "other",
-             * "end_after_reached".
-             */
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            /**
-             * Billing cycles charged so far, including cycles imported with
-             * `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is
-             * this number plus one. Format: uint64. minimum: 0.
-             */
-            "completed_cycles": number;
-            /**
-             * When the recorded contract term ends. Does not move when the subscription pauses or
-             * changes plan. Flint does not stop the buyer from canceling earlier. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_end_at"?: string;
-            /**
-             * When the recorded contract term started. Does not move when the subscription pauses
-             * or changes plan. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "contract_start_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_end_at"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "current_period_start_at"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * Saved delivery preference with the current delivery method display. Write responses
-             * use the same display as GET: fixed shipping reflects the current method
-             * configuration, and quoted shipping shows the last paid shipping amount when
-             * available. A subscription's saved delivery preference: method, destination,
-             * recipient, shipping cost, and who last changed it.
-             */
-            "delivery"?: SubscriptionDelivery;
-            /**
-             * Current delivery issue that blocks collection. Mutually exclusive with
-             * upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery
-             * method or destination no longer works, and who can fix it.
-             */
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            /**
-             * The fee in the recorded contract terms. Present whenever those terms include a fee.
-             * It applies only to a cancellation before contract_end_at. Flint never charges it.
-             * Later plan changes do not change this fee. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "early_termination_fee_money"?: MoneyValue;
-            /**
-             * Recorded automatic end condition. Null when no automatic end is set. Cycles count
-             * charged billing periods, including imported completed_cycles. Pauses and skips do
-             * not use cycles. Already-paid prepaid deliveries continue on their shifted dates,
-             * even beyond the end date, and cancellation waits for the last remaining delivery.
-             * Skipping defers a delivery without consuming its entitlement. Ending never refunds.
-             * anyOf[1] (Value): {@link SubscriptionEndAfter}. The subscription's automatic end
-             * condition, measured by charged billing cycles or a saved local calendar date.
-             * anyOf[2] (Value): null.
-             */
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            /**
-             * Projected end under the current schedule and committed plan changes, including an
-             * earlier scheduled cancellation. A date limit preserves already-paid entitlement
-             * without requiring a future charge schedule. A reached cycle limit uses the last paid
-             * period end, or current_period_end_at when no paid history exists; that fallback
-             * includes any skip or pause extension. A cycle limit with cycles left needs a future
-             * charge schedule unless a known scheduled cancellation determines the end. Null when
-             * the end cannot be determined or the subscription is canceled. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "expires_at": string | null;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Renewal waiting for stock. Included only in merchant responses and omitted from
-             * buyer responses. Shows that a subscription renewal is waiting for inventory, with
-             * the order and invoice involved and when the wait started.
-             */
-            "inventory_wait"?: SubscriptionInventoryWait;
-            /**
-             * True while an active or trialing subscription on an external billing schedule has no
-             * next billing date.
-             */
-            "is_awaiting_billing_schedule"?: boolean;
-            /**
-             * Latest renewal payment failure, present only while status is past_due and the latest
-             * payment failed. Buyer responses omit merchant remediation and sensitive decline
-             * signals. A summary of why a payment attempt failed, with a normalized error code, a
-             * message, the failure time, and remediation.
-             */
-            "last_payment_error"?: PaymentErrorSummary;
-            /**
-             * What each renewal bills. Plan edits do not change it. Adding, changing or swapping a
-             * line takes that variant's current catalog price, which then stays until the line
-             * changes again. [] (Value): {@link SubscriptionLineItem}. An item included in a
-             * customer's recurring purchase.
-             */
-            "line_items": Array<SubscriptionLineItem>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * The billing date whose payment failed, as an RFC3339 timestamp. Present only while
-             * status is past_due. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "missed_billing_at"?: string;
-            /**
-             * When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present
-             * only while a trialing or active subscription has a billing date and isn't set to
-             * cancel at the end of its period. Absent when no renewal is scheduled: a paused
-             * subscription resumes at scheduled_resume_at, a past_due one reports the failed
-             * billing date in missed_billing_at and retries at next_retry_at, an incomplete one
-             * retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel
-             * ends at scheduled_cancel_at, and an external schedule awaiting a date reports
-             * is_awaiting_billing_schedule. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_billing_at"?: string;
-            /**
-             * Recorded automatic payment retry time. Null when no retry time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "next_retry_at": string | null;
-            /**
-             * ID of the paid renewal order whose shipment has not been dispatched. It keeps its
-             * committed delivery destination after preference changes and cancellation. Absent
-             * when no such renewal order exists. Only renewal orders count; the signup order is
-             * not included. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "open_renewal_order_id"?: string;
-            /**
-             * Unpaid balance of the failed renewal order, including tax, shipping and discounts,
-             * after payments and credits. Present only while status is past_due and a positive
-             * balance remains. Monetary amount represented as integer minor units plus an ISO 4217
-             * currency code.
-             */
-            "outstanding_money"?: MoneyValue;
-            /**
-             * Why the subscription is paused: merchant for a pause made with your API key or
-             * dashboard, buyer for the buyer's own pause, delivery_action_required for a pause
-             * during or after a delivery hold, and payment_failed when renewal payment retries ran
-             * out and your dunning settings pause the subscription. Omitted when the subscription
-             * is not paused. Value enum: "buyer", "delivery_action_required", "merchant",
-             * "payment_failed".
-             */
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "paused_at"?: string;
-            /**
-             * Present only when `expand` includes `payment_method`; `null` when expanded and there
-             * is no related payment method. anyOf[1] (Value): {@link
-             * ExpandedPaymentMethodSummary}. A payment method's summary fields, including type,
-             * status, and card details, returned when the payment method is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            /**
-             * First charge boundary while no card is bound: the later of trial_end_at and
-             * next_billing_at during a trial, or the next billing date for an imported period,
-             * even when that cycle's charge is zero. Recomputed when the schedule changes. A trial
-             * still without a card at its boundary cancels without an order or payment attempt. At
-             * that boundary, an imported subscription with a positive charge that still has no
-             * card enters its normal dunning schedule without a payment attempt. For an imported
-             * subscription, a zero charge completes the renewal without a card and the deadline
-             * advances to the following boundary. Null when a card is bound, collection is not
-             * scheduled (paused, canceled, or set to cancel at period end), or an external
-             * schedule has no known boundary. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "payment_method_due_at": string | null;
-            /**
-             * Saved payment method used for renewal charges. Null when no card is bound. Bind a
-             * card to this subscription with PATCH; changing the customer's default alone does not
-             * bind it. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string | null;
-            /**
-             * Recurring promotions applying to the next charged cycle. Scheduled attachments are
-             * listed in scheduled_promotions. Empty when none apply; signup-only and exhausted
-             * promotions are excluded. [] (Value): {@link SubscriptionPromotion}. A recurring
-             * promotion applied to a subscription, including its recurrence and remaining
-             * discounted cycles.
-             */
-            "promotions": Array<SubscriptionPromotion>;
-            /**
-             * Whether this subscription was created to prorate its first anchored paid period. Set
-             * at creation and never changes; starting on the anchor day still bills a normal full
-             * period.
-             */
-            "prorate_first_period": boolean;
-            /**
-             * How many of each line the subscription bills each period, as a whole number;
-             * fractional quantities are not supported. A change applies from the next renewal that
-             * has not been paid. Format: int32.
-             */
-            "quantity": number;
-            /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
-            "quantity_options"?: Array<number>;
-            /**
-             * What one billing period's items cost before discounts, shipping, and tax: each
-             * line's price with modifiers, times quantity. It changes when items, quantity, or the
-             * plan change; editing the plan doesn't change it. For the next charge, use a
-             * subscription preview in next_renewal mode. anyOf[1] (Value): {@link MoneyValue}.
-             * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-             * anyOf[2] (Value): null.
-             */
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            /**
-             * Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null
-             * when there is no cycle limit or the subscription is canceled. Format: uint64.
-             * minimum: 0.
-             */
-            "remaining_cycles": number | null;
-            /**
-             * When Flint accepted a pending resume request. Set only while paused with a resume
-             * Flint has not applied yet. Clears when Flint resumes the subscription or refuses the
-             * request. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "resume_requested_at": string | null;
-            /**
-             * When the scheduled cancellation takes effect: trial_end_at while trialing,
-             * current_period_end_at while active, or next_retry_at while past_due. Null when
-             * cancel_at_period_end is false or no cancellation time is available. Format:
-             * date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_cancel_at": string | null;
-            /**
-             * Frozen target terms for the next charged renewal. Null when no plan change is
-             * scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through
-             * change-plan. anyOf[1] (Value): {@link SubscriptionScheduledPlanChange}. Frozen
-             * target terms that apply at the next charged renewal. anyOf[2] (Value): null.
-             */
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            /**
-             * Attached promotions whose first_cycle is after the next charged cycle,
-             * completed_cycles + 1. Always present; empty when no promotions are scheduled. []
-             * (Value): {@link SubscriptionPromotion}. A recurring promotion applied to a
-             * subscription, including its recurrence and remaining discounted cycles.
-             */
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            /**
-             * When a pause with a length (pause_duration_cycles) resumes on its own: that many
-             * billing intervals after paused_at. Null when the subscription is not paused or the
-             * pause has no length, such as a pause until you resume it or the pause Flint starts
-             * when a delivery hold runs out. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "scheduled_resume_at": string | null;
-            /**
-             * Omitted for a checkout session credential that doesn't act for the customer the
-             * buyer verified. The address where a subscription's service is delivered, with the
-             * saved customer address it came from.
-             */
-            "service_location"?: SubscriptionServiceLocation;
-            /**
-             * When a scheduled start's first billing period begins. Present only until that first
-             * payment succeeds. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "starts_at"?: string;
-            /**
-             * Where the subscription is in its lifecycle. Each value says what it means. Value
-             * enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
-             * "scheduled".
-             */
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            /** Stable identifier of the subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM". */
-            "subscription_id": string;
-            /**
-             * Present only when `expand` includes `subscription_plan`; `null` when expanded and
-             * there is no related subscription plan. anyOf[1] (Value): {@link
-             * ExpandedSubscriptionPlanSummary}. A subscription plan's summary fields, including
-             * name, billing interval, currency, and status, returned when the plan is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            /**
-             * Subscription plan ID. Omitted when terms_type is subscription_offer. Example:
-             * "plan_01KEZF7C004CY5ZR33XST2AASV".
-             */
-            "subscription_plan_id"?: string;
-            /**
-             * Merchant actions allowed by the subscription's state. A route can still refuse a
-             * listed action for a transient reason, such as a renewal already in progress, with
-             * its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew",
-             * "retry_payment", "change_plan", "change_quantity". [] (Value): string. Value enum:
-             * "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan",
-             * "change_quantity".
-             */
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            /**
-             * Terms come from the subscription plan in subscription_plan_id, or from subscription
-             * offers identified on each offer line by subscription_offer_id. Value enum:
-             * "subscription_plan", "subscription_offer".
-             */
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            /**
-             * ID of the test clock the subscription's customer was created on. The subscription
-             * bills at the clock's time. Present only when the customer is on a test clock.
-             * Included only in merchant responses and omitted from buyer responses. Example:
-             * "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
-             */
-            "test_clock_id"?: string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "trial_end_at"?: string;
-            /**
-             * Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with
-             * delivery_hold. A delivery problem detected for an upcoming renewal that will hold
-             * the subscription's delivery, and who can fix it.
-             */
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Goes up with every change to the subscription, including renewals and other changes
-             * Flint makes. Send it as `expected_version` to apply an update only if nothing
-             * changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "subscription.created". */
-    "event_type"?: "subscription.created";
-});
-export type SubscriptionCycleSkippedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "subscription.cycle_skipped";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "billing_anchor_day"?: number;
-            "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-            "billing_interval_count": number;
-            "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-            "billing_schedule_owner": "flint" | "external" | (string & {});
-            "billing_schedule_waiting_started_at"?: string;
-            "buyer_actions": Array<BuyerAction>;
-            "cancel_at_period_end": boolean;
-            "canceled_at"?: string;
-            "cancellation_details"?: SubscriptionCancellationDetails;
-            "cancellation_reason"?: "buyer"
-                | "merchant"
-                | "integration"
-                | "payment_failed"
-                | "other"
-                | "end_after_reached"
-                | (string & {});
-            "completed_cycles": number;
-            "contract_end_at"?: string;
-            "contract_start_at"?: string;
-            "created_at": string;
-            "current_period_end_at"?: string;
-            "current_period_start_at"?: string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "delivery"?: SubscriptionDelivery;
-            "delivery_hold"?: SubscriptionDeliveryHold;
-            "early_termination_fee_money"?: MoneyValue;
-            "end_after": ((SubscriptionEndAfter) | (null) | (unknown));
-            "expires_at": string | null;
-            "external_reference_id"?: string;
-            "inventory_wait"?: SubscriptionInventoryWait;
-            "is_awaiting_billing_schedule"?: boolean;
-            "last_payment_error"?: PaymentErrorSummary;
-            "line_items": Array<SubscriptionLineItem>;
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "missed_billing_at"?: string;
-            "next_billing_at"?: string;
-            "next_retry_at": string | null;
-            "open_renewal_order_id"?: string;
-            "outstanding_money"?: MoneyValue;
-            "pause_reason"?: "buyer" | "delivery_action_required" | "merchant" | "payment_failed" | (string & {});
-            "paused_at"?: string;
-            "payment_method"?: ((ExpandedPaymentMethodSummary) | (null));
-            "payment_method_due_at": string | null;
-            "payment_method_id": string | null;
-            "promotions": Array<SubscriptionPromotion>;
-            "prorate_first_period": boolean;
-            "quantity": number;
-            "quantity_options"?: Array<number>;
-            "recurring_subtotal_money": ((MoneyValue) | (null));
-            "remaining_cycles": number | null;
-            "resume_requested_at": string | null;
-            "scheduled_cancel_at": string | null;
-            "scheduled_plan_change": ((SubscriptionScheduledPlanChange) | (null));
-            "scheduled_promotions": Array<SubscriptionPromotion>;
-            "scheduled_resume_at": string | null;
-            "service_location"?: SubscriptionServiceLocation;
-            "starts_at"?: string;
-            "status": "trialing"
-                | "active"
-                | "paused"
-                | "past_due"
-                | "canceled"
-                | "incomplete"
-                | "scheduled"
-                | (string & {});
-            "subscription_id": string;
-            "subscription_plan"?: ((ExpandedSubscriptionPlanSummary) | (null));
-            "subscription_plan_id"?: string;
-            "supported_actions": Array<"cancel"
-                | "pause"
-                | "resume"
-                | "skip_cycle"
-                | "renew"
-                | "retry_payment"
-                | "change_plan"
-                | "change_quantity"
-                | (string & {})>;
-            "terms_type": "subscription_plan" | "subscription_offer" | (string & {});
-            "test_clock_id"?: string;
-            "trial_end_at"?: string;
-            "upcoming_delivery_hold"?: SubscriptionUpcomingDeliveryHold;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Subscription>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "subscription.cycle_skipped";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "subscription.cycle_skipped";
-});
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `RiskListItem` data. */
+export type RiskListItemResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. One value in a payment
+     * risk list.
+     */
+    "data": RiskListItem;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A page of `RiskList` objects. */
+export type RiskListListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskList}. A collection of values used in payment risk rules.
+     */
+    "data": Array<RiskList>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};

@@ -19,6 +19,14 @@ An application that merchants can authorize to access their accounts.
 
 Field definitions: [shared fields](PartnerAppResponse.md#partnerappresponsedata).
 
+### PartnerAppListResponse.data[].merchant_action_routing
+
+Field definitions: [PartnerAppResponse.data.merchant_action_routing](../models/PartnerAppResponse.md#partnerappresponsedatamerchant_action_routing).
+
+### PartnerAppListResponse.data[].payment_splits
+
+Field definitions: [PartnerAppResponse.data.payment_splits](../models/PartnerAppResponse.md#partnerappresponsedatapayment_splits).
+
 ### PartnerAppListResponse.data[].permission_manifest[]
 
 Field definitions: [PartnerAppResponse.data.permission_manifest[]](../models/PartnerAppResponse.md#partnerappresponsedatapermission_manifest).

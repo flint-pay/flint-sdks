@@ -1,1 +1,1 @@
-{"shared":"PartnerAuthorizePreview","dependencies":["PartnerAuthorizePreview","PartnerAuthorizePreviewPermission"]}
+{"shared":"PartnerAuthorizePreview","dependencies":["MoneyValue","PartnerAppPaymentSplits","PartnerAuthorizePreview","PartnerAuthorizePreviewPermission","PlatformFeeCap"]}

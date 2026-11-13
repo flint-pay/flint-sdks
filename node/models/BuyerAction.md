@@ -17,7 +17,8 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 | `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [20 declared values](#buyeraction-kind-values). |
 | `pause` | Optional | [BuyerPauseActionOptions](../models/BuyerPauseActionOptions.md#buyerpauseactionoptions) | Present only on an available pause action. The pause lengths this subscription accepts from its buyer. |
 | `pay_balance` | Optional | [BuyerPayBalanceActionOptions](../models/BuyerPayBalanceActionOptions.md#buyerpaybalanceactionoptions) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. |
-| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: `"sign_in_required"`, `"store_policy"`, `"not_in_state"`, `"window_closed"`, `"nothing_to_return"`, `"collection_unavailable"`, `"limit_reached"`. |
+| `retry_payment` | Optional | [BuyerRetryPaymentActionOptions](../models/BuyerRetryPaymentActionOptions.md#buyerretrypaymentactionoptions) | How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running. |
+| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: [9 declared values](#buyeraction-unavailable_reason-values). |
 
 #### BuyerAction kind values
 
@@ -41,4 +42,16 @@ One thing a buyer can do with an order, subscription, invoice or return they rea
 - `"renew"`
 - `"change_plan"`
 - `"cancel_plan_change"`
+
+#### BuyerAction unavailable_reason values
+
+- `"sign_in_required"`
+- `"store_policy"`
+- `"not_in_state"`
+- `"window_closed"`
+- `"nothing_to_return"`
+- `"collection_unavailable"`
+- `"limit_reached"`
+- `"delivery_hold"`
+- `"in_progress"`
 

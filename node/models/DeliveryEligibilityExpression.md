@@ -10,20 +10,20 @@ A boolean expression containing exactly one operator or typed condition at each 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | minItems: `1`. maxItems: `100`. Items: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. `all[]`: [declared alternatives](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionall). |
-| `any` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | minItems: `1`. maxItems: `100`. Items: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. `any[]`: [declared alternatives](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionall). |
-| `country` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry). |
-| `customer_has_email` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
-| `customer_has_phone` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
+| `all` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Matches when every nested expression matches. minItems: `1`. maxItems: `100`. Items: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. `all[]`: [declared alternatives](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionall). |
+| `any` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Matches when at least one nested expression matches. minItems: `1`. maxItems: `100`. Items: A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. `any[]`: [declared alternatives](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionall). |
+| `country` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry). |
+| `customer_has_email` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches when whether the customer has an email address equals `value`. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
+| `customer_has_phone` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches when whether the customer has a phone number equals `value`. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
 | `customer_merchant_verified` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches the is_merchant_verified flag you set on the customer against value. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
 | `customer_segment` | Conditional | [AddRiskListItemsRequest](../models/AddRiskListItemsRequest.md#addrisklistitemsrequest) | Matches the free-form segment you assign to the customer against values. A delivery eligibility condition that matches customers in one of the listed segments (`values`). `customer_segment`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment). |
-| `not` | Conditional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. `not`: [declared alternatives](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionall). |
-| `postal_code` | Conditional | [DeliveryPostalCodeCondition](../models/DeliveryPostalCodeCondition.md#deliverypostalcodecondition) | A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code). |
-| `radius` | Conditional | [DeliveryRadiusCondition](../models/DeliveryRadiusCondition.md#deliveryradiuscondition) | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius). |
-| `state` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate). |
-| `subscription_purchase` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
-| `window_time` | Conditional | [DeliveryWindowTimeCondition](../models/DeliveryWindowTimeCondition.md#deliverywindowtimecondition) | Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on the listed `weekdays`. |
-| `zone` | Conditional | [DeliveryZoneCondition](../models/DeliveryZoneCondition.md#deliveryzonecondition) | Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`. `zone`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone). |
+| `not` | Conditional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Matches when the nested expression does not match. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
+| `postal_code` | Conditional | [DeliveryPostalCodeCondition](../models/DeliveryPostalCodeCondition.md#deliverypostalcodecondition) | Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code). |
+| `radius` | Conditional | [DeliveryRadiusCondition](../models/DeliveryRadiusCondition.md#deliveryradiuscondition) | Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius). |
+| `state` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate). |
+| `subscription_purchase` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches when whether the purchase is a subscription purchase equals `value`. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
+| `window_time` | Conditional | [DeliveryWindowTimeCondition](../models/DeliveryWindowTimeCondition.md#deliverywindowtimecondition) | Matches when the delivery window falls on the listed weekdays and within the listed time of day, in the window's timezone. Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on the listed `weekdays`. |
+| `zone` | Conditional | [DeliveryZoneCondition](../models/DeliveryZoneCondition.md#deliveryzonecondition) | Matches when the address is inside the delivery zone you name. Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`. `zone`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone). |
 
 ### DeliveryEligibilityExpression variant 1
 
@@ -129,20 +129,20 @@ A boolean expression containing exactly one operator or typed condition at each 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `all` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | minItems: `1`. maxItems: `100`. |
-| `any` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | minItems: `1`. maxItems: `100`. |
-| `country` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry). |
-| `customer_has_email` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
-| `customer_has_phone` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
+| `all` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Matches when every nested expression matches. minItems: `1`. maxItems: `100`. |
+| `any` | Conditional | Array of [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Matches when at least one nested expression matches. minItems: `1`. maxItems: `100`. |
+| `country` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`. `country`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcountry). |
+| `customer_has_email` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches when whether the customer has an email address equals `value`. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
+| `customer_has_phone` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches when whether the customer has a phone number equals `value`. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
 | `customer_merchant_verified` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches the is_merchant_verified flag you set on the customer against value. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
 | `customer_segment` | Conditional | [AddRiskListItemsRequest](../models/AddRiskListItemsRequest.md#addrisklistitemsrequest) | Matches the free-form segment you assign to the customer against values. A delivery eligibility condition that matches customers in one of the listed segments (`values`). `customer_segment`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment). |
-| `not` | Conditional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
-| `postal_code` | Conditional | [DeliveryPostalCodeCondition](../models/DeliveryPostalCodeCondition.md#deliverypostalcodecondition) | A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code). |
-| `radius` | Conditional | [DeliveryRadiusCondition](../models/DeliveryRadiusCondition.md#deliveryradiuscondition) | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius). |
-| `state` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate). |
-| `subscription_purchase` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
-| `window_time` | Conditional | [DeliveryWindowTimeCondition](../models/DeliveryWindowTimeCondition.md#deliverywindowtimecondition) | Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on the listed `weekdays`. |
-| `zone` | Conditional | [DeliveryZoneCondition](../models/DeliveryZoneCondition.md#deliveryzonecondition) | Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`. `zone`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone). |
+| `not` | Conditional | [DeliveryEligibilityExpression](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpression) | Matches when the nested expression does not match. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. |
+| `postal_code` | Conditional | [DeliveryPostalCodeCondition](../models/DeliveryPostalCodeCondition.md#deliverypostalcodecondition) | Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`. `postal_code`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallpostal_code). |
+| `radius` | Conditional | [DeliveryRadiusCondition](../models/DeliveryRadiusCondition.md#deliveryradiuscondition) | Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. `radius`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradius). |
+| `state` | Conditional | [DeliveryStateCondition](../models/DeliveryStateCondition.md#deliverystatecondition) | Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. `state`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallstate). |
+| `subscription_purchase` | Conditional | [DeliveryCustomerBooleanCondition](../models/DeliveryCustomerBooleanCondition.md#deliverycustomerbooleancondition) | Matches when whether the purchase is a subscription purchase equals `value`. A delivery eligibility condition that tests a true or false fact about the customer against `value`. |
+| `window_time` | Conditional | [DeliveryWindowTimeCondition](../models/DeliveryWindowTimeCondition.md#deliverywindowtimecondition) | Matches when the delivery window falls on the listed weekdays and within the listed time of day, in the window's timezone. Eligibility condition that matches by time of day, using `start_minute` and `end_minute`, on the listed `weekdays`. |
+| `zone` | Conditional | [DeliveryZoneCondition](../models/DeliveryZoneCondition.md#deliveryzonecondition) | Matches when the address is inside the delivery zone you name. Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`. `zone`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallzone). |
 
 ### DeliveryEligibilityExpression.all[] variant 1
 
@@ -244,7 +244,7 @@ oneOf variant 14.
 
 ### DeliveryEligibilityExpression.all[].country
 
-A delivery eligibility condition that matches when the address country is one of `values`.
+Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`.
 
 Field definitions: [shared fields](DeliveryCountryConditionRequestInput.md#deliverycountryconditionrequestinput).
 
@@ -254,11 +254,11 @@ Matches the free-form segment you assign to the customer against values. A deliv
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `values` | Required | Array of string | Items: minLength: `1`. |
+| `values` | Required | Array of string | Customer segments to match, from 1 to 100 unique values. Matches when the customer's segment is one of them. Items: minLength: `1`. |
 
 ### DeliveryEligibilityExpression.all[].postal_code
 
-A delivery eligibility condition that matches the address postal code against exact or prefix `values`.
+Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -273,33 +273,33 @@ Field definitions: [shared fields](DeliveryPostalCodeValue.md#deliverypostalcode
 
 ### DeliveryEligibilityExpression.all[].radius
 
-Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line.
+Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum_distance` | Required | [DeliveryDistance](../models/DeliveryDistance.md#deliverydistance) | A distance as a `value` in meters, kilometers, or miles. `maximum_distance`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradiusmaximum_distance). |
-| `measurement` | Optional | string | Default: `"straight_line"`. Values: `"straight_line"`. |
-| `origin` | Required | [DeliveryRadiusOrigin](../models/DeliveryRadiusOrigin.md#deliveryradiusorigin) | The point a radius condition measures from: a specific Location (`location_id`) or the delivery method's own origin (`method_origin`). |
+| `maximum_distance` | Required | [DeliveryDistance](../models/DeliveryDistance.md#deliverydistance) | The largest distance from the origin that still matches. A distance as a `value` in meters, kilometers, or miles. `maximum_distance`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradiusmaximum_distance). |
+| `measurement` | Optional | string | How Flint measures the distance. Default: `"straight_line"`. Values: `"straight_line"`. |
+| `origin` | Required | [DeliveryRadiusOrigin](../models/DeliveryRadiusOrigin.md#deliveryradiusorigin) | The point to measure the distance from. The point a radius condition measures from: a specific Location (`location_id`) or the delivery method's own origin (`method_origin`). |
 | `subject` | Optional | string | Address facts tested by this condition. destination_address is the shipping destination. buyer_location is the buyer's current pickup or local-delivery location. Default: `"destination_address"`. Values: `"destination_address"`, `"buyer_location"`. |
 
 ### DeliveryEligibilityExpression.all[].radius.maximum_distance
 
-A distance as a `value` in meters, kilometers, or miles.
+The largest distance from the origin that still matches. A distance as a `value` in meters, kilometers, or miles.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `unit` | Required | string | Values: `"meter"`, `"kilometer"`, `"mile"`. |
-| `value` | Required | number |  |
+| `unit` | Required | string | Unit of `value`. Values: `"meter"`, `"kilometer"`, `"mile"`. |
+| `value` | Required | number | Distance, in `unit`. |
 
 ### DeliveryEligibilityExpression.all[].state
 
-Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes.
+Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes.
 
 Field definitions: [shared fields](DeliveryStateConditionRequestInput.md#deliverystateconditionrequestinput).
 
 ### DeliveryEligibilityExpression.all[].zone
 
-Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`.
+Matches when the address is inside the delivery zone you name. Eligibility condition that matches when the destination or buyer location falls inside the delivery zone `delivery_zone_id`.
 
 Field definitions: [shared fields](DeliveryZoneCondition.md#deliveryzonecondition).
 
@@ -314,10 +314,6 @@ Field definitions: [DeliveryEligibilityExpression.all[].country](../models/Deliv
 ### DeliveryEligibilityExpression.customer_segment
 
 Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallcustomer_segment).
-
-### DeliveryEligibilityExpression.not
-
-Declared alternatives: [DeliveryEligibilityExpression.all[]](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionall).
 
 ### DeliveryEligibilityExpression.postal_code
 

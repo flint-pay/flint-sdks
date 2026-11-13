@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-51.js';
+import type { RequestOptions } from '../declarations/types-53.js';
 import type {
     SubscriptionDeliveryMigration,
     SubscriptionDeliveryMigrationFailure,
@@ -11,8 +11,8 @@ import type {
     SubscriptionDeliveryMigrationsGetParams,
     SubscriptionDeliveryMigrationsListFailuresParams,
     SubscriptionDeliveryMigrationsListParams
-} from '../declarations/types-58.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-61.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -38,18 +38,19 @@ export type {
     SubscriptionDeliveryMigrationsListParams,
     SubscriptionDeliveryMigrationListResponse,
     SubscriptionDeliveryMigrationFailureReasonCount
-} from '../declarations/types-58.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-61.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-12.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-71.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
+export type { CreateSubscriptionDeliveryMigrationRequestInput, CreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-13.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCreateSubscriptionDeliveryMigrationRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
 export interface SubscriptionDeliveryMigrationsResource {
     /**
  * Each subscription is previewed before its delivery method changes. Progress and per-subscription

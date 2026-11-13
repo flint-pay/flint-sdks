@@ -2,7 +2,7 @@
 
 ## UpdateGiftCardRequest
 
-The request body for: Update a gift card.
+The request body for: Update a gift card. minProperties: `1`.
 
 
 

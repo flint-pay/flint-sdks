@@ -1,1 +1,1 @@
-{"shared":"PayoutDestinationArchivedMerchantEvent","dependencies":["MetadataMap","PayoutDestination","PayoutDestinationArchivedMerchantEvent","SharedCodec1183","SharedCodec1184","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26"]}
+{"shared":"PayoutDestinationArchivedMerchantEvent","dependencies":["MetadataMap","PayoutDestination","PayoutDestinationArchivedMerchantEvent","SharedCodec10","SharedCodec1282","SharedCodec1283","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

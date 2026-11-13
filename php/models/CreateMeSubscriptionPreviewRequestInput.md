@@ -8,9 +8,10 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `destination` | Conditional | [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequestInput.md#subscriptiondeliverydestinationrequestinput) | Where to deliver a subscription: a saved customer address by ID, or a new address. |
+| `destination` | Conditional | [SubscriptionDeliveryDestinationRequestInput](../models/SubscriptionDeliveryDestinationRequestInput.md#subscriptiondeliverydestinationrequestinput) | Address to evaluate each method against: one of the customer's saved addresses or a new address. Where to deliver a subscription: a saved customer address by ID, or a new address. |
 | `mode` | Required | string |  |
 | `subscription_id` | Required | string | minLength: `1`. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
+| `delivery` | Conditional | [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequestInput.md#subscriptiondeliveryrequestinput) | Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next paid renewal as if this delivery were saved. A held delivery with remaining_prepaid_deliveries greater than zero is already paid: fixing it charges nothing, while this preview still prices the next paid cycle. Nothing is saved, no stock is reserved, and no rate is guaranteed. Refusals match PATCH. The delivery preference to set on a subscription: delivery method, type, destination, and recipient. |
 | `billing_interval` | Conditional | string | Send with billing_interval_count to choose a target plan option. Omit both to keep the current interval if the target offers that pair, otherwise use the target plan's default interval and count. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Conditional | integer | Required when billing_interval is sent; billing_interval is required when this field is sent. minimum: `1`. maximum: `365`. |
 | `quantity` | Conditional | integer | Omit to keep the current subscription quantity. The target plan must offer the quantity. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
@@ -24,13 +25,15 @@ Request input.
 oneOf with mode: "delivery_options": The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`..
 
 - Required: `destination`.
-- Undeclared: `billing_interval`, `billing_interval_count`, `quantity`, `subscription_plan_id`, `billing_starts`, `expected_version`, `line_items`.
-- Constraints for `mode`: Values: `"delivery_options"`.
+- Undeclared: `delivery`, `billing_interval`, `billing_interval_count`, `quantity`, `subscription_plan_id`, `billing_starts`, `expected_version`, `line_items`.
+- Constraints for `mode`: Selects the delivery options preview. Values: `"delivery_options"`.
+- Constraints for `subscription_id`: ID of the subscription to list delivery methods for.
 
 ### CreateMeSubscriptionPreviewRequestInput variant 2: `mode` = `"next_renewal"`
 
 oneOf with mode: "next_renewal": The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`..
 
+- Optional: `delivery`.
 - Undeclared: `destination`, `billing_interval`, `billing_interval_count`, `quantity`, `subscription_plan_id`, `billing_starts`, `expected_version`, `line_items`.
 - Constraints for `mode`: Values: `"next_renewal"`.
 
@@ -40,7 +43,7 @@ oneOf with mode: "plan_change": The `plan_change` variant of `CreateMeSubscripti
 
 - Required: `subscription_plan_id`.
 - Optional: `billing_interval`, `billing_interval_count`, `quantity`.
-- Undeclared: `destination`, `billing_starts`, `expected_version`, `line_items`.
+- Undeclared: `destination`, `delivery`, `billing_starts`, `expected_version`, `line_items`.
 - Constraints for `mode`: The subscription change to preview. Values: `"plan_change"`.
 - Constraints for `subscription_id`: The buyer's subscription to preview a plan change for.
 
@@ -50,7 +53,7 @@ oneOf with mode: "quantity_change": The `quantity_change` variant of `CreateMeSu
 
 - Required: `billing_starts`, `line_items`.
 - Optional: `expected_version`.
-- Undeclared: `destination`, `billing_interval`, `billing_interval_count`, `quantity`, `subscription_plan_id`.
+- Undeclared: `destination`, `delivery`, `billing_interval`, `billing_interval_count`, `quantity`, `subscription_plan_id`.
 - Constraints for `mode`: The subscription change to preview. Values: `"quantity_change"`.
 - Constraints for `subscription_id`: The buyer's subscription to preview a quantity change for.
 

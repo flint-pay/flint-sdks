@@ -174,6 +174,7 @@ Returned payload: [Location](../models/Location.md#location).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -230,6 +231,7 @@ Returned payload: [LocationListResponse](../models/LocationListResponse.md#locat
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -270,7 +272,7 @@ Signature: `update(string|Model $location_id, array|Model $params, ?RequestOptio
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateLocationRequestInput](../models/UpdateLocationRequestInput.md#updatelocationrequestinput) | Sparse Location update. Omitted fields stay unchanged. address and coordinate are atomic value objects. Sending address requires coordinate. Sending coordinate_source requires coordinate. A non-null coordinate requires a non-null coordinate_source. coordinate: null clears both coordinate and coordinate_source; coordinate_source must then be omitted or null. timezone and coordinate may each be updated without address. geography_version advances only when address, timezone, coordinate, or coordinate_source changes; version advances on every Location change. |
+| `body` | Required | [UpdateLocationRequestInput](../models/UpdateLocationRequestInput.md#updatelocationrequestinput) | Sparse Location update. Omitted fields stay unchanged. address and coordinate are atomic value objects. Sending address requires coordinate. Sending coordinate_source requires coordinate. A non-null coordinate requires a non-null coordinate_source. coordinate: null clears both coordinate and coordinate_source; coordinate_source must then be omitted or null. timezone and coordinate may each be updated without address. geography_version advances only when address, timezone, coordinate, or coordinate_source changes; version advances on every Location change. minProperties: `1`. |
 
 Body model: [UpdateLocationRequestInput](../models/UpdateLocationRequestInput.md#updatelocationrequestinput).
 

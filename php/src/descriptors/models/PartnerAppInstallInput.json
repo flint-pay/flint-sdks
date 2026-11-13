@@ -1,1 +1,1 @@
-{"shared":"PartnerAppInstall","dependencies":["PartnerAppInstall","PartnerAppMerchantReadiness","PartnerAppMerchantReadinessAxis","PartnerAppPermissionManifestEntry","PartnerEnvironmentGrant","SharedCodec117","SharedCodec23"]}
+{"shared":"PartnerAppInstall","dependencies":["MoneyValue","PartnerAppInstall","PartnerAppMerchantReadiness","PartnerAppMerchantReadinessAxis","PartnerAppPermissionManifestEntry","PartnerEnvironmentGrant","PartnerEnvironmentGrantPaymentSplits","PlatformFeeCap","SharedCodec10","SharedCodec140"]}

@@ -8,20 +8,20 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [ResourceTimeline](../models/ResourceTimeline.md#resourcetimeline) | Resource, collection, or operation result returned by this request. The activity timeline for one resource, such as API requests, webhook events and deliveries, and image changes. `data`: [field definitions](../models/ResourceTimelineResponse.md#resourcetimelineresponsedata). |
+| `data` | Required | [ResourceTimeline](../models/ResourceTimeline.md#resourcetimeline) | Resource, collection, or operation result returned by this request. The activity timeline for one resource, such as API requests, webhook events and deliveries, and image changes. Request entries include the resource itself and one level of directly owned resources, resolved when the timeline is read: orders include their payment intents, public refunds, fulfillments, returns, invoices, and disputes; payment intents include their public refunds and disputes. Included requests require the caller's read access to each owned resource type. Types the caller cannot read are excluded before pagination. Ownership follows the child resource's order_id or payment_intent_id. Other resource types include only directly attributed requests. Internal payment-refund children are excluded. attributed_resource always names the resource the request log is attributed to. Webhook and image entries remain scoped to the timeline resource. Page sizes and ordering are unchanged. `data`: [field definitions](../models/ResourceTimelineResponse.md#resourcetimelineresponsedata). |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. `meta`: [field definitions](../models/DisputeResponse.md#disputeresponsemeta). |
 | `next_page_token` | Optional | string | Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no next page. |
 | `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 ### ResourceTimelineResponse.data
 
-Resource, collection, or operation result returned by this request. The activity timeline for one resource, such as API requests, webhook events and deliveries, and image changes.
+Resource, collection, or operation result returned by this request. The activity timeline for one resource, such as API requests, webhook events and deliveries, and image changes. Request entries include the resource itself and one level of directly owned resources, resolved when the timeline is read: orders include their payment intents, public refunds, fulfillments, returns, invoices, and disputes; payment intents include their public refunds and disputes. Included requests require the caller's read access to each owned resource type. Types the caller cannot read are excluded before pagination. Ownership follows the child resource's order_id or payment_intent_id. Other resource types include only directly attributed requests. Internal payment-refund children are excluded. attributed_resource always names the resource the request log is attributed to. Webhook and image entries remain scoped to the timeline resource. Page sizes and ordering are unchanged.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `entries` | Required | Array of Alternative shapes (see declared variants) | Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. `entries[]`: [declared alternatives](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries). |
 | `resource_id` | Required | string | ID of the resource this timeline is for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [146 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `test` | Required | boolean | `true` when the timeline is for test mode data and `false` for live data. |
 
 ### ResourceTimelineResponse.data.entries[]
@@ -31,7 +31,8 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_request_log_id` | Conditional | string | Example: `"rlog_01KEZF7C008XJCH6BHA224X46F"`. |
-| `caller` | Conditional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The public resource that made this request. Absent when Flint cannot attribute the caller. A reference to another resource by `resource_type` and `resource_id`. `caller`: [field definitions](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries-variant-1caller). |
+| `attributed_resource` | Conditional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The resource this request log is attributed to. Always present: the timeline resource for a direct request, or its directly owned resource for an included request. A reference to another resource by `resource_type` and `resource_id`. `attributed_resource`: [field definitions](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries-variant-1attributed_resource). |
+| `caller` | Conditional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Who made this request. An API key, workload token, or partner app token records that API key, workload identity, or partner app installation. A Dashboard write, CLI login, or onboarding session records the user. A buyer checkout request records the checkout session. A buyer account request records the customer session. A request made with invoice access records the invoice. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`. `caller`: [field definitions](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatacaller). |
 | `client_request_id` | Conditional | string | The caller's X-Request-Id, matched exactly and case-sensitively. Absent when the caller sent none. minLength: `1`. maxLength: `128`. pattern: `^[\x21-\x7E]+$`. Example: `"checkout-1842"`. |
 | `client_trace_id` | Conditional | string | The trace ID from a valid W3C traceparent, for correlation with the caller's tracing. Flint starts its own trace. Absent when no valid traceparent was sent. pattern: `^[0-9a-f]{32}$`. Example: `"0123456789abcdef0123456789abcdef"`. |
 | `entry_type` | Required | string |  |
@@ -49,7 +50,7 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 | `retry` | Conditional | string | Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Conditional | string | The matched route as a method and path template, such as `POST /v1/orders`. |
 | `status_code` | Conditional | integer | Format: `int32`. |
-| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [275 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
+| `event_type` | Conditional | string | Type of webhook event recorded for this resource. Values: [291 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 | `webhook_event_id` | Conditional | string | ID of the event being delivered. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 | `attempt_number` | Conditional | integer | Which attempt this is for the delivery, starting at 1. Format: `int32`. |
 | `completed_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -84,7 +85,7 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 
 oneOf with entry_type: "api_request": An API request recorded in this resource's timeline..
 
-- Required: `api_request_log_id`, `http_method`, `latency_milliseconds`, `path`, `request_id`, `route_pattern`, `status_code`.
+- Required: `api_request_log_id`, `attributed_resource`, `http_method`, `latency_milliseconds`, `path`, `request_id`, `route_pattern`, `status_code`.
 - Optional: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `recommended_action`, `reference_url`, `retry`.
 - Undeclared: `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: Stable identifier of this log entry.
@@ -100,7 +101,7 @@ oneOf with entry_type: "webhook_event": A webhook event recorded in this resourc
 
 - Required: `event_type`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `request_id`.
-- Undeclared: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
+- Undeclared: `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: ID of the API request log associated with this event. Omitted when no request log is associated.
 - Constraints for `entry_type`: Always `webhook_event` for this kind of entry. Values: `"webhook_event"`.
 - Constraints for `resource_timeline_entry_id`: Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`.
@@ -111,7 +112,7 @@ oneOf with entry_type: "webhook_delivery_attempt": A webhook delivery attempt re
 
 - Required: `attempt_number`, `delivery_trigger`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`, `webhook_event_id`.
 - Optional: `api_request_log_id`, `completed_at`, `duration_milliseconds`, `error_category`, `error_summary`, `reason_message`, `recommended_action`, `request_id`, `retryable`, `started_at`, `status_code`.
-- Undeclared: `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `reference_url`, `retry`, `route_pattern`, `event_type`, `image_version`, `mutation_kind`.
+- Undeclared: `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `reference_url`, `retry`, `route_pattern`, `event_type`, `image_version`, `mutation_kind`.
 - Constraints for `api_request_log_id`: ID of the API request log associated with this attempt. Omitted when no request log is associated.
 - Constraints for `entry_type`: Always `webhook_delivery_attempt` for this kind of entry. Values: `"webhook_delivery_attempt"`.
 - Constraints for `error_summary`: A concise explanation of the failure for this attempt. Present only when this attempt's `status` is `failed`.
@@ -125,15 +126,19 @@ oneOf with entry_type: "image_mutation": A change to this resource's image attac
 
 - Required: `image_version`, `mutation_kind`.
 - Optional: `request_id`.
-- Undeclared: `api_request_log_id`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
+- Undeclared: `api_request_log_id`, `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
 - Constraints for `entry_type`: Always `image_mutation` for this kind of entry. Values: `"image_mutation"`.
 - Constraints for `resource_timeline_entry_id`: Example: `"iomevt_01KEZF7C00D4JSSDP6AB68EFF2"`.
 
-### ResourceTimelineResponse.data.entries[] variant 1.caller
+### ResourceTimelineResponse.data.entries[] variant 1.attributed_resource
 
-The public resource that made this request. Absent when Flint cannot attribute the caller. A reference to another resource by `resource_type` and `resource_id`.
+The resource this request log is attributed to. Always present: the timeline resource for a direct request, or its directly owned resource for an included request. A reference to another resource by `resource_type` and `resource_id`.
 
 Field definitions: [shared fields](ResourceReferenceInput.md#resourcereferenceinput).
+
+### ResourceTimelineResponse.data.entries[] variant 1.caller
+
+Field definitions: [APIRequestLogDetailResponse.data.caller](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatacaller).
 
 ### ResourceTimelineResponse.meta
 

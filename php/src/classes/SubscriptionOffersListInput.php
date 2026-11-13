@@ -39,13 +39,13 @@ final class SubscriptionOffersListInput extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Offers that cover this product, directly or through any of its variants. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+    /** Offers that cover this product, directly or through any of its variants. pattern: ^prod_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Offers that cover this variant, directly or through its product. With `status=active`, at most one offer matches. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** Offers that cover this variant, directly or through its product. With `status=active`, at most one offer matches. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

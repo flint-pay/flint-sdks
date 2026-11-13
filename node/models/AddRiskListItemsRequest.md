@@ -22,5 +22,5 @@ anyOf variant 1: Declared schema AddRiskListItemsRequest. Values to add to the r
 
 anyOf variant 2: Declared schema DeliveryCustomerSegmentCondition. A delivery eligibility condition that matches customers in one of the listed segments (`values`)..
 
-- Constraints for `values`: Items: minLength: `1`.
+- Constraints for `values`: Customer segments to match, from 1 to 100 unique values. Matches when the customer's segment is one of them. Items: minLength: `1`.
 

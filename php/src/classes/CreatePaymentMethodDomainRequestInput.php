@@ -7,7 +7,7 @@ namespace Flint;
 final class CreatePaymentMethodDomainRequestInput extends Model {
     /** @param array{'domain_name': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePaymentMethodDomainRequestInput')); }
-    /** Exact fully-qualified hostname to register. Limited to 253 characters (Unicode code points) before trimming whitespace and lowercasing. The resulting hostname uses ASCII characters only. Do not include a scheme, path, port, IP address, or wildcard. minLength: 1. maxLength: 253.
+    /** Exact fully-qualified hostname to register. Limited to 253 characters (Unicode code points) before trimming whitespace and lowercasing. The resulting hostname uses ASCII characters only. Do not include a scheme, path, port, IP address, or wildcard. minLength: 1. maxLength: 253. pattern: ^[\t\n\v\f\r ]*(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?[\t\n\v\f\r ]*$.
      * @return string
      * @throws SdkError When domain_name is omitted; use hasDomainName() or valueOrDefault().
      */

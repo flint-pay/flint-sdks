@@ -14,6 +14,7 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read ?string $customer_id
  * @property-read list<DeferredPromotion> $deferred_promotions
+ * @property-read ?OrderDeliverySummary $delivery
  * @property-read ?OrderDeliveryDestination $delivery_destination
  * @property-read list<OrderDiscount> $discounts
  * @property-read ?string $fulfillment_status
@@ -23,6 +24,7 @@ namespace Flint;
  * @property-read bool $gift_card_tender_enabled
  * @property-read list<OrderGiftCardSelection> $gift_cards
  * @property-read string|null $governing_delivery_selection_id
+ * @property-read string|null $invoice_id
  * @property-read list<BuyerOrderLineItem> $line_items
  * @property-read string $merchant_id
  * @property-read string $order_id
@@ -33,16 +35,18 @@ namespace Flint;
  * @property-read list<string> $payment_intent_ids
  * @property-read ?string $payment_link_id
  * @property-read string $payment_status
+ * @property-read string|null $prepayment_order_id
  * @property-read PricingAmounts $pricing_amounts
  * @property-read list<string> $refund_ids
  * @property-read string $refund_status
  * @property-read list<OrderReturnCreditSettlement> $return_credit_settlements
  * @property-read ?string $return_resolution_id
  * @property-read OrderSettlementAmounts $settlement_amounts
- * @property-read ?BuyerPaymentCollection $setup_collection
+ * @property-read ?BuyerSetupCollection $setup_collection
  * @property-read string $status
  * @property-read ?int $subscription_cycle
  * @property-read ?string $subscription_delivery_changed_at
+ * @property-read int|null $subscription_delivery_number
  * @property-read ?string $subscription_id
  * @property-read ?string $subscription_plan_id
  * @property-read BuyerOrderTax $tax
@@ -52,7 +56,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerOrder extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'closed_at'?: string, 'closed_reason'?: string, 'created_at': string, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id': string|null, 'line_items': list<mixed>, 'merchant_id': string, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'paid_at': string|null, 'payment_collection'?: mixed, 'payment_intent_ids': list<string>, 'payment_link_id'?: string, 'payment_status': string, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription_cycle'?: int, 'subscription_delivery_changed_at'?: string, 'subscription_id'?: string, 'subscription_plan_id'?: string, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'authorization_amounts'?: mixed, 'buyer_actions': list<mixed>, 'buyer_contact'?: mixed, 'buyer_note'?: string, 'charges': list<mixed>, 'checkout_session_ids': list<string>, 'closed_at'?: string, 'closed_reason'?: string, 'created_at': string, 'customer_id'?: string, 'deferred_promotions': list<mixed>, 'delivery'?: mixed, 'delivery_destination'?: mixed, 'discounts': list<mixed>, 'fulfillment_status'?: string, 'fulfillments': list<mixed>, 'gift_card_estimate'?: mixed, 'gift_card_settlements': list<mixed>, 'gift_card_tender_enabled': bool, 'gift_cards': list<mixed>, 'governing_delivery_selection_id': string|null, 'invoice_id': string|null, 'line_items': list<mixed>, 'merchant_id': string, 'order_id': string, 'order_number'?: string, 'origin'?: string, 'paid_at': string|null, 'payment_collection'?: mixed, 'payment_intent_ids': list<string>, 'payment_link_id'?: string, 'payment_status': string, 'prepayment_order_id': string|null, 'pricing_amounts': mixed, 'refund_ids': list<string>, 'refund_status': string, 'return_credit_settlements': list<mixed>, 'return_resolution_id'?: string, 'settlement_amounts': mixed, 'setup_collection'?: mixed, 'status': string, 'subscription_cycle'?: int, 'subscription_delivery_changed_at'?: string, 'subscription_delivery_number': int|null, 'subscription_id'?: string, 'subscription_plan_id'?: string, 'tax': mixed, 'ticketed_event'?: mixed, 'tips': list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrder')); }
     /** The payment attempt currently collecting this order. Omitted when no attempt is active or its collection surface belongs to another caller. An attempt to pay an order.
      * @return ?BuyerOrderPaymentAttempt
@@ -94,7 +98,7 @@ final class BuyerOrder extends Model {
      */
     public function getClosedAt(): ?string { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+    /** Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
      * @return ?string
      */
     public function getClosedReason(): ?string { return $this->get('closed_reason'); }
@@ -114,6 +118,11 @@ final class BuyerOrder extends Model {
      */
     public function getDeferredPromotions(): array { return $this->get('deferred_promotions'); }
     public function hasDeferredPromotions(): bool { return $this->has('deferred_promotions'); }
+    /** Method, type and recipient of governing_delivery_selection_id. The address remains in delivery_destination. Omitted when no shipment or local-delivery selection governs the order. Method, type and recipient of governing_delivery_selection_id. delivery_destination contains the resolved address. These values describe the same selection.
+     * @return ?OrderDeliverySummary
+     */
+    public function getDelivery(): ?OrderDeliverySummary { return $this->get('delivery'); }
+    public function hasDelivery(): bool { return $this->has('delivery'); }
     /** The shipment or local-delivery destination committed for this order. Payment freezes this value; fulfillment recipient changes do not replace it. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. Where an order is delivered: the address, the recipient, and where the destination came from.
      * @return ?OrderDeliveryDestination
      */
@@ -144,7 +153,7 @@ final class BuyerOrder extends Model {
      */
     public function getGiftCardSettlements(): array { return $this->get('gift_card_settlements'); }
     public function hasGiftCardSettlements(): bool { return $this->has('gift_card_settlements'); }
-    /** Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes.
+    /** Whether gift cards can pay for this order now. Gift cards pay only USD orders that still accept changes, are not subscription purchases, and whose merchant has at least one gift card that is not closed in this environment. Recomputed on each read; a spent but open card still counts.
      * @return bool
      */
     public function getGiftCardTenderEnabled(): bool { return $this->get('gift_card_tender_enabled'); }
@@ -154,11 +163,16 @@ final class BuyerOrder extends Model {
      */
     public function getGiftCards(): array { return $this->get('gift_cards'); }
     public function hasGiftCards(): bool { return $this->has('gift_cards'); }
-    /** ID of the delivery selection that governs this order, including pickup choices without a delivery destination. Null when no selection governs the order. While set, change the destination through the delivery selection.
+    /** ID of the delivery selection that governs this order, including pickup choices without a delivery destination: the checkout's provisional selection before payment, and the selection a payment committed after. Read it with GET /v1/delivery-selections/{delivery_selection_id}. Null when no selection governs the order. While set, change the destination through the delivery selection.
      * @return string|null
      */
     public function getGoverningDeliverySelectionId(): string|null { return $this->get('governing_delivery_selection_id'); }
     public function hasGoverningDeliverySelectionId(): bool { return $this->has('governing_delivery_selection_id'); }
+    /** The invoice associated with this order. Null when the order has no invoice. A replacement invoice replaces this ID; voiding an invoice preserves it.
+     * @return string|null
+     */
+    public function getInvoiceId(): string|null { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** Items the order sells, each with its pricing, tax, and fulfillment quantities. [] (Value): {@see BuyerOrderLineItem}. An item purchased in an order.
      * @return list<BuyerOrderLineItem>
      */
@@ -179,7 +193,7 @@ final class BuyerOrder extends Model {
      */
     public function getOrderNumber(): ?string { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
-    /** How the order was created. Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription".
+    /** How the order was created. invoice means a Quick Pay invoice created the order; attaching an invoice to an existing order preserves its origin. Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
      * @return ?string
      */
     public function getOrigin(): ?string { return $this->get('origin'); }
@@ -209,17 +223,22 @@ final class BuyerOrder extends Model {
      */
     public function getPaymentStatus(): string { return $this->get('payment_status'); }
     public function hasPaymentStatus(): bool { return $this->has('payment_status'); }
+    /** Order that paid for this prepaid delivery. Null when this is not a prepaid delivery order.
+     * @return string|null
+     */
+    public function getPrepaymentOrderId(): string|null { return $this->get('prepayment_order_id'); }
+    public function hasPrepaymentOrderId(): bool { return $this->has('prepayment_order_id'); }
     /** The order's money totals: subtotal, discounts, charges, tax, requested tip, and total. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
      * @return PricingAmounts
      */
     public function getPricingAmounts(): PricingAmounts { return $this->get('pricing_amounts'); }
     public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
-    /** IDs of the refunds issued against this order. [] (Value): string.
+    /** IDs of the refunds that name this order. This includes refunds Flint makes to return a payment it couldn't accept (`reason` `payment_returned`), which never count toward `refund_status` or the order's refunded amounts. [] (Value): string.
      * @return list<string>
      */
     public function getRefundIds(): array { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /** Refund progress for collected money. Value enum: "none", "partially_refunded", "refunded".
+    /** Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. Value enum: "none", "partially_refunded", "refunded".
      * @return string
      */
     public function getRefundStatus(): string { return $this->get('refund_status'); }
@@ -234,15 +253,15 @@ final class BuyerOrder extends Model {
      */
     public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. The bill settlement amounts plus order overpayments, settled tips, and debt discharged by final capture. Money collected, returned, waived, and still owed on a bill.
+    /** How much of the order has been paid, refunded, credited, written off, and settled as tips, and what is still outstanding. The bill settlement amounts plus order overpayments, settled tips, debt discharged by final capture, and value order edits removed. Money collected, returned, waived, and still owed on a bill.
      * @return OrderSettlementAmounts
      */
     public function getSettlementAmounts(): OrderSettlementAmounts { return $this->get('settlement_amounts'); }
     public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
-    /** Instructions for saving a payment method for a subscription order. Omitted when setup is unavailable. What a client needs to collect payment for a buyer's order. The `stripe` field holds the Stripe values.
-     * @return ?BuyerPaymentCollection
+    /** Instructions for saving a payment method for a subscription order. Omitted when setup is unavailable. Client guidance for saving a payment method on the merchant's connected account.
+     * @return ?BuyerSetupCollection
      */
-    public function getSetupCollection(): ?BuyerPaymentCollection { return $this->get('setup_collection'); }
+    public function getSetupCollection(): ?BuyerSetupCollection { return $this->get('setup_collection'); }
     public function hasSetupCollection(): bool { return $this->has('setup_collection'); }
     /** Whether the order still accepts changes and new payments. Refunds, fulfillment, disputes, returns, and metadata or note edits continue on a closed order. Value enum: "open", "closed".
      * @return string
@@ -259,6 +278,11 @@ final class BuyerOrder extends Model {
      */
     public function getSubscriptionDeliveryChangedAt(): ?string { return $this->get('subscription_delivery_changed_at'); }
     public function hasSubscriptionDeliveryChangedAt(): bool { return $this->has('subscription_delivery_changed_at'); }
+    /** Position of this delivery among the deliveries one charge paid for, starting at 2. Null when this is not a prepaid delivery order. Format: uint32. minimum: 2. maximum: 24.
+     * @return int|null
+     */
+    public function getSubscriptionDeliveryNumber(): int|null { return $this->get('subscription_delivery_number'); }
+    public function hasSubscriptionDeliveryNumber(): bool { return $this->has('subscription_delivery_number'); }
     /** ID of the subscription this order bills. Absent on an order that isn't from a subscription.
      * @return ?string
      */

@@ -6,9 +6,9 @@ import type {
     FulfillmentNotificationResponse,
     FulfillmentNotificationsGetParams,
     FulfillmentNotificationsListParams
-} from '../declarations/types-24.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-25.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,22 +30,23 @@ export type {
     FulfillmentNotificationsListParams,
     FulfillmentNotificationListResponse,
     FulfillmentEventsGetParams
-} from '../declarations/types-24.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+} from '../declarations/types-25.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions } from '../declarations/types-53.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { MetadataMap } from '../declarations/types-36.js';
-export type { ExpandedOrderSummary } from '../declarations/types-23.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MetadataMap } from '../declarations/types-37.js';
+export type { ExpandedOrderSummary } from '../declarations/types-24.js';
 export type { CheckoutBuyerContact } from '../declarations/types-5.js';
 export type { DeferredPromotion } from '../declarations/types-16.js';
-export type { PricingAmounts } from '../declarations/types-47.js';
-export type { MoneyValue, NextAction } from '../declarations/types-37.js';
-export type { OrderSettlementAmounts } from '../declarations/types-40.js';
-export type { SettlementAmounts } from '../declarations/types-56.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
+export type { PricingAmounts } from '../declarations/types-49.js';
+export type { MoneyValue, NextAction } from '../declarations/types-38.js';
+export type { OrderSettlementAmounts } from '../declarations/types-41.js';
+export type { SettlementAmounts } from '../declarations/types-59.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
 export interface FulfillmentNotificationsResource {
     /**
  * Retrieves one fulfillment notification audit record by ID.

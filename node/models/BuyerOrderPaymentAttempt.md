@@ -18,11 +18,11 @@ An attempt to pay an order.
 | `mode` | Required | string | Values: `"payment"`, `"setup"`, `"settlement"`. |
 | `order_payment_attempt_id` | Required | string | Unique identifier for this order payment attempt, prefixed `opat_`. Example: `"opat_01KEZF7C00B5PW9F2R8A4YSH5D"`. |
 | `payment_intents` | Required | Array of [BuyerPaymentAttemptPaymentIntent](../models/BuyerPaymentAttemptPaymentIntent.md#buyerpaymentattemptpaymentintent) |  |
-| `payment_method_save` | Optional | [OrderPaymentAttemptPaymentMethodSave](../models/OrderPaymentAttemptPaymentMethodSave.md#orderpaymentattemptpaymentmethodsave) | Set when the pay request sent save_payment_method: true and the attempt paid without saving the payment method. A card typed into checkout and saved has no entry here; read payment_method_save on the checkout session for a card saved with a mobile phone number. What became of the buyer's save_payment_method. The payment does not depend on it. |
+| `payment_method_save` | Optional | [OrderPaymentAttemptPaymentMethodSave](../models/OrderPaymentAttemptPaymentMethodSave.md#orderpaymentattemptpaymentmethodsave) | Set when the pay request sent save_payment_method: true and the attempt paid without saving the payment method. A card typed into checkout and saved has no entry here; read payment_method_save on the checkout session for a card waiting for confirmation. What became of the buyer's save_payment_method. The payment does not depend on it. |
 | `pending_actions` | Required | Array of [PendingPaymentAction](../models/PendingPaymentAction.md#pendingpaymentaction) |  |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `status` | Required | string | Values: [10 declared values](#buyerorderpaymentattempt-status-values). |
-| `status_reason` | Optional | string | Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment reason report other. Canceled and expired attempts include a reason only when it adds information beyond status. New values may be added. Values: [27 declared values](#buyerorderpaymentattempt-status_reason-values). |
+| `status_reason` | Optional | string | Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment reason report other. Canceled and expired attempts include a reason only when it adds information beyond status. New values may be added. Values: [30 declared values](#buyerorderpaymentattempt-status_reason-values). |
 
 #### BuyerOrderPaymentAttempt status values
 
@@ -40,6 +40,8 @@ An attempt to pay an order.
 #### BuyerOrderPaymentAttempt status_reason values
 
 - `"authorization_canceled"`
+- `"canceled_on_reader"`
+- `"reader_unavailable"`
 - `"coupon_reservation_failed"`
 - `"gift_card_hold_acquisition_failed"`
 - `"invalid_payment_source"`
@@ -56,6 +58,7 @@ An attempt to pay an order.
 - `"payment_method_required"`
 - `"payment_option_not_allowed"`
 - `"payment_option_unavailable"`
+- `"payment_returned"`
 - `"payment_source_binding_failed"`
 - `"payment_source_conflict"`
 - `"payment_source_not_updatable"`

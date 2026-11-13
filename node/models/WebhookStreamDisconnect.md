@@ -10,6 +10,6 @@ Sent on the webhook event stream before the server closes it, with the `reason`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `reason` | Required | string | Why Flint is closing the stream. Values: `"ttl"`, `"authorization_changed"`, `"server_error"`, `"backpressure"`. |
+| `reason` | Required | string | Why Flint is closing the stream. Values: `"ttl"`, `"authorization_changed"`, `"server_error"`, `"backpressure"`, `"sandbox_reset"`. |
 | `resume_cursor` | Optional | string | Last event sent before a backpressure disconnect. Reconnect using this value as Last-Event-ID or after. |
 

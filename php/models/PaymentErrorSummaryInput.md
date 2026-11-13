@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string | Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Values: [22 declared values](ErrorDetailInput.md#errordetailinput-failure_code-values). |
+| `code` | Required | string | Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Values: [27 declared values](ErrorDetailInput.md#errordetailinput-failure_code-values). |
 | `failed_at` | Required | string | Time the payment attempt concluded in failure. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `message` | Required | string | Flint-authored merchant-facing payment failure message. This is stable explanatory text, not raw provider copy. |
 | `remediation` | Required | [ErrorRemediationInput](../models/ErrorRemediationInput.md#errorremediationinput) or null | Guidance for resolving the payment failure before trying to collect again. |

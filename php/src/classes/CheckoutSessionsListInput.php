@@ -47,19 +47,19 @@ final class CheckoutSessionsListInput extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by Flint order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by Flint order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Filter by Flint payment link ID. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+    /** Filter by Flint payment link ID. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** Filter by Flint customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Filter by Flint customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -77,7 +77,7 @@ final class CheckoutSessionsListInput extends Model {
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** Filter by checkout surface. Sessions created before surfaces existed are hosted. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "hosted", "embedded". Value enum: "hosted", "embedded". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "hosted", "embedded". anyOf[1][] (Value): string.  Value enum: "hosted", "embedded". anyOf[2] (Value): string.  Value enum: "hosted", "embedded".
+    /** Filter by checkout surface. Sessions created before surfaces existed are hosted. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "hosted", "headless". Value enum: "hosted", "headless". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "hosted", "headless". anyOf[1][] (Value): string.  Value enum: "hosted", "headless". anyOf[2] (Value): string.  Value enum: "hosted", "headless".
      * @return list<string>|string
      * @throws SdkError When surface is omitted; use hasSurface() or valueOrDefault().
      */

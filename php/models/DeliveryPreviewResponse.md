@@ -18,19 +18,19 @@ Resource, collection, or operation result returned by this request.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_location` | Conditional | object and Alternative shapes (see declared variants) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote. `buyer_location`: [declared alternatives](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatabuyer_location). |
-| `choice_groups` | Conditional | Array of [DeliveryPreviewChoiceGroupResource](../models/DeliveryPreviewChoiceGroupResource.md#deliverypreviewchoicegroupresource) |  |
+| `buyer_location` | Conditional | object and Alternative shapes (see declared variants) | Buyer location used to evaluate delivery availability and pickup proximity. Omitted when the request sent none. The normalized buyer address or coordinate used for this quote. `buyer_location`: [declared alternatives](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_location). |
+| `choice_groups` | Conditional | Array of [DeliveryPreviewChoiceGroupResource](../models/DeliveryPreviewChoiceGroupResource.md#deliverypreviewchoicegroupresource) | Groups of order items that each choose their own delivery option. |
 | `currency` | Conditional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `delivery_method_ids` | Conditional | Array of string |  |
-| `destination_address` | Conditional | [Address](../models/Address.md#address) | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `destination_address`: [field definitions](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatadestination_address). |
-| `evaluated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
+| `delivery_method_ids` | Conditional | Array of string | Delivery methods the preview evaluated. |
+| `destination_address` | Conditional | [Address](../models/Address.md#address) | Destination address used to evaluate shipment and local delivery options. Omitted when the request sent none. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `destination_address`: [field definitions](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1destination_address). |
+| `evaluated_at` | Required | string | Format: `date-time`. |
 | `evaluation_status` | Required | string | Values: `"complete"`, `"incomplete"`, `"degraded"`. |
-| `expires_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. |
+| `expires_at` | Conditional | string | Request a new preview after this time, because prices and availability may have changed. Format: `date-time`. |
 | `input_requirements` | Required | Array of [DeliveryInputRequirement](../models/DeliveryInputRequirement.md#deliveryinputrequirement) | `input_requirements[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverychoice_groupscandidate_outcomesinput_requirements). |
-| `line_items` | Conditional | Array of (object and Alternative shapes (see declared variants)) | `line_items[]`: [declared alternatives](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1line_items). |
+| `line_items` | Conditional | Array of (object and Alternative shapes (see declared variants)) | Items the preview evaluated. `line_items[]`: [declared alternatives](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1line_items). |
 | `merchant_diagnostics` | Optional | Varies by condition | `merchant_diagnostics[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatadeliverymerchant_diagnostics), [field definitions](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-2merchant_diagnostics). |
 | `mode` | Required | string |  |
-| `pickup_location_id` | Conditional | string |  |
+| `pickup_location_id` | Conditional | string | ID of the Location at which pickup methods were priced. Omitted when the request sent none. |
 | `locations` | Conditional | Array of [DeliveryPickupAvailabilityLocationResource](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresource) | Up to 25 pickup locations, nearest first when Flint can place the buyer location, otherwise in the order the pickup methods list them. maxItems: `25`. |
 
 ### DeliveryPreviewResponse.data variant 1: `mode` = `"delivery_options"`
@@ -40,6 +40,8 @@ oneOf with mode: "delivery_options": The delivery options and prices Flint would
 - Required: `choice_groups`, `currency`, `delivery_method_ids`, `expires_at`, `line_items`.
 - Optional: `buyer_location`, `destination_address`, `pickup_location_id`.
 - Undeclared: `locations`.
+- Constraints for `evaluated_at`: Time Flint computed this preview.
+- Constraints for `evaluation_status`: How completely Flint evaluated the candidate delivery methods. Values: `"complete"`, `"incomplete"`, `"degraded"`.
 - Constraints for `input_requirements`: Inputs the delivery methods need. A quote requirement, such as the destination address, is input a method needs before Flint can price it. A selection requirement is input a delivery selection needs before payment, such as a recipient field or delivery window an option requires. A method that waits on the buyer's address or store, or on an address the buyer must correct, already lists the recipient fields it requires. Those requirements name the method's choice group and have no delivery_option_ids.
 - Constraints for `merchant_diagnostics`: Array of [DeliveryMerchantDiagnostic](../models/DeliveryMerchantDiagnostic.md#deliverymerchantdiagnostic). Present for merchant callers as an array, including when empty. Absent for buyer callers.
 - Constraints for `mode`: The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods and prices for the supplied items and buyer location. Values: `"delivery_options"`.
@@ -50,16 +52,57 @@ oneOf with mode: "pickup_locations": The result of a pickup locations preview: e
 
 - Required: `locations`.
 - Undeclared: `buyer_location`, `choice_groups`, `currency`, `delivery_method_ids`, `destination_address`, `expires_at`, `line_items`, `pickup_location_id`.
+- Constraints for `evaluated_at`: Time Flint evaluated pickup availability.
+- Constraints for `evaluation_status`: How completely Flint evaluated the pickup Locations. Values: `"complete"`, `"incomplete"`, `"degraded"`.
+- Constraints for `input_requirements`: Inputs the pickup methods need before Flint can evaluate them.
 - Constraints for `merchant_diagnostics`: Array of [DeliveryPickupAvailabilityDiagnostic](../models/DeliveryPickupAvailabilityDiagnostic.md#deliverypickupavailabilitydiagnostic). Configured Locations the search left out, and listed Locations that cannot supply the order's tracked items. Always present with an API key or dashboard credential as an array, including when empty.
 - Constraints for `mode`: The delivery question this preview answers. - `pickup_locations`: Lists the checkout session's pickup locations and whether each can supply its items. Values: `"pickup_locations"`.
 
 ### DeliveryPreviewResponse.data variant 1.buyer_location
 
-Declared alternatives: [DeliveryQuoteResponse.data.buyer_location](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatabuyer_location).
+Buyer location used to evaluate delivery availability and pickup proximity. Omitted when the request sent none. The normalized buyer address or coordinate used for this quote.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `address` | Conditional | [Address](../models/Address.md#address) | The buyer location as an address. Set only when `type` is `address`. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_locationaddress). |
+| `coordinate` | Conditional | object | The buyer location as a coordinate. Set only when `type` is `coordinate`. A latitude and longitude. `coordinate`: [field definitions](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1buyer_locationcoordinate). |
+| `type` | Required | string | Whether the buyer location is an address or a coordinate. Values: `"address"`, `"coordinate"`. |
+
+### DeliveryPreviewResponse.data variant 1.buyer_location variant 1: `type` = `"address"`
+
+oneOf with type: "address": The normalized buyer address or coordinate used for this quote..
+
+- Condition: not (present(`coordinate`)).
+- Required: `address`.
+- Optional: `coordinate`.
+- Constraints for `type`: Values: `"address"`.
+
+### DeliveryPreviewResponse.data variant 1.buyer_location variant 2: `type` = `"coordinate"`
+
+oneOf with type: "coordinate": The normalized buyer address or coordinate used for this quote..
+
+- Condition: not (present(`address`)).
+- Required: `coordinate`.
+- Optional: `address`.
+- Constraints for `type`: Values: `"coordinate"`.
+
+### DeliveryPreviewResponse.data variant 1.buyer_location.address
+
+The buyer location as an address. Set only when `type` is `address`. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+
+Field definitions: [shared fields](AddressInput.md#addressinput).
+
+### DeliveryPreviewResponse.data variant 1.buyer_location.coordinate
+
+The buyer location as a coordinate. Set only when `type` is `coordinate`. A latitude and longitude.
+
+Field definitions: [shared fields](DeliveryPreviewResponseDataDeliveryOptionsBuyerLocationAddressCoordinate.md#deliverypreviewresponsedatadeliveryoptionsbuyerlocationaddresscoordinate).
 
 ### DeliveryPreviewResponse.data variant 1.destination_address
 
-Field definitions: [DeliveryQuoteResponse.data.destination_address](../models/DeliveryQuoteResponse.md#deliveryquoteresponsedatadestination_address).
+Destination address used to evaluate shipment and local delivery options. Omitted when the request sent none. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+
+Field definitions: [shared fields](AddressInput.md#addressinput).
 
 ### DeliveryPreviewResponse.data variant 1.input_requirements[]
 
@@ -80,6 +123,7 @@ A line item in a delivery preview: a catalog variant, a bundle, or a custom item
 | `metadata` | Optional | Map of string | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifiersmetadata). |
 | `modifiers` | Optional | Array of (object and Alternative shapes (see declared variants)) | Modifiers sold with the item, each chosen from the catalog or typed as text. Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1line_itemsmodifiers). |
 | `name` | Conditional | string | Name of the item as it appears on the order. |
+| `product_id` | Conditional | string | Parent product of variant_id, resolved by the preview. Required for variant lines; absent on bundle and custom lines, which have no parent product. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `quantity` | Optional | integer | Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: `int64`. minimum: `1`. maximum: `9999`. Default: `1`. |
 | `subscription` | Optional | object | Selected recurring terms for this variant. Lines with the same cadence start one subscription after payment. Makes an order line a subscription purchase, with the subscription offer and billing interval. `subscription`: [field definitions](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1line_itemssubscription). |
 | `tax` | Optional | object | How tax applies to this line item. Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation. `tax`: [field definitions](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1line_items-variant-1tax), [field definitions](../models/DeliveryPreviewResponse.md#deliverypreviewresponsedata-variant-1line_items-variant-3tax). |
@@ -94,7 +138,7 @@ A line item in a delivery preview: a catalog variant, a bundle, or a custom item
 oneOf with type: "variant": The `variant` variant of `CreateOrderLineItem`..
 
 - Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`))).
-- Required: `variant_id`.
+- Required: `product_id`, `variant_id`.
 - Optional: `bundle_id`, `fulfillment`, `name`, `unit_price_money`.
 - Constraints for `type`: Values: `"variant"`.
 
@@ -104,7 +148,7 @@ oneOf with type: "bundle": The `bundle` variant of `CreateOrderLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`); present(`gift_card_purchase`))).
 - Required: `bundle_id`.
-- Optional: `fulfillment`, `name`, `unit_price_money`, `variant_id`.
+- Optional: `fulfillment`, `name`, `product_id`, `unit_price_money`, `variant_id`.
 - Constraints for `type`: Values: `"bundle"`.
 
 ### DeliveryPreviewResponse.data variant 1.line_items[] variant 3: `type` = `"custom"`
@@ -113,7 +157,7 @@ oneOf with type: "custom": The `custom` variant of `CreateOrderLineItem`..
 
 - Condition: not (at least one(present(`variant_id`); present(`bundle_id`); present(`gift_card_purchase`))).
 - Required: `fulfillment`, `name`, `unit_price_money`.
-- Optional: `bundle_id`, `variant_id`.
+- Optional: `bundle_id`, `product_id`, `variant_id`.
 - Constraints for `type`: Values: `"custom"`.
 
 ### DeliveryPreviewResponse.data variant 1.line_items[].fulfillment
@@ -319,14 +363,14 @@ A merchant-only diagnostic about a configured pickup location that was left out 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `code` | Required | string | Stable reason a configured pickup location was left out of the results or cannot supply the order. - `pickup_location_inactive`: The Location is inactive, so it was left out. - `pickup_location_geography_unavailable`: The Location has no usable published geography, so it was left out. - `pickup_location_inventory_unavailable`: The Location does not allocate inventory, so it cannot supply the order's tracked items. It is listed with an unavailable outcome. Items without tracked inventory need no allocation. - `pickup_location_dependency_failure`: Flint could not resolve the configured Location. Values: [4 declared values](#deliverypreviewresponsedata-variant-2merchant_diagnostics-code-values). |
-| `diagnostic_id` | Required | string | Example: `"ddiag_01KEZF7C002JPVD08857RGDGPC"`. |
-| `location_id` | Required | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-| `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `outcome` | Required | string | Values: `"unavailable"`, `"cannot_calculate"`. |
-| `recommended_action` | Required | string | Values: `"review_configuration"`, `"retry"`. |
-| `retryable` | Required | boolean |  |
-| `scope` | Required | string | Values: `"location"`. |
-| `summary` | Required | string |  |
+| `diagnostic_id` | Required | string | ID to quote when you ask Flint about this diagnostic. Example: `"ddiag_01KEZF7C002JPVD08857RGDGPC"`. |
+| `location_id` | Required | string | ID of the Location that was evaluated. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `occurred_at` | Required | string | Time Flint recorded this diagnostic. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `outcome` | Required | string | What happened when Flint evaluated the method or Location. Values: `"unavailable"`, `"cannot_calculate"`. |
+| `recommended_action` | Required | string | What the merchant can do to get an option. Values: `"review_configuration"`, `"retry"`. |
+| `retryable` | Required | boolean | Whether trying again later can succeed. |
+| `scope` | Required | string | What the diagnostic is about. Values: `"location"`. |
+| `summary` | Required | string | Plain-language explanation for the merchant. |
 
 #### DeliveryPreviewResponse.data variant 2.merchant_diagnostics[] code values
 

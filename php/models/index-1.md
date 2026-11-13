@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerFulfillmentInput
+# AcceptFulfillmentRequestInput to BuyerExpandedShipmentSummaryInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequestInput](AcceptPartnerAppPlatformTermsRequestInput.md)
@@ -22,8 +22,12 @@
 - [AnalyticsOverviewInput](AnalyticsOverviewInput.md)
 - [AnalyticsOverviewResponseInput](AnalyticsOverviewResponseInput.md)
 - [APIKeyInput](APIKeyInput.md)
+- [APIKeyAuthContextInput](APIKeyAuthContextInput.md)
+- [ApiKeyCreatedEventInput](ApiKeyCreatedEventInput.md)
 - [APIKeyListResponseInput](APIKeyListResponseInput.md)
 - [APIKeyResponseInput](APIKeyResponseInput.md)
+- [ApiKeyRevokedEventInput](ApiKeyRevokedEventInput.md)
+- [ApiKeyUpdatedEventInput](ApiKeyUpdatedEventInput.md)
 - [APIKeyWithSecretInput](APIKeyWithSecretInput.md)
 - [APIRequestLogInput](APIRequestLogInput.md)
 - [APIRequestLogDetailInput](APIRequestLogDetailInput.md)
@@ -75,6 +79,7 @@
 - [BuyerCapabilitiesRequestInput](BuyerCapabilitiesRequestInput.md)
 - [BuyerCheckoutProblemResourceInput](BuyerCheckoutProblemResourceInput.md)
 - [BuyerCheckoutSessionInput](BuyerCheckoutSessionInput.md)
+- [BuyerCheckoutSessionLaunchResponseInput](BuyerCheckoutSessionLaunchResponseInput.md)
 - [BuyerCheckoutSessionWithSecretInput](BuyerCheckoutSessionWithSecretInput.md)
 - [BuyerCreateReturnPreviewRequestInput](BuyerCreateReturnPreviewRequestInput.md)
 - [BuyerCreateReturnPreviewRequestEligibilityInput](BuyerCreateReturnPreviewRequestEligibilityInput.md)
@@ -92,14 +97,9 @@
 - [BuyerCustomerSessionInput](BuyerCustomerSessionInput.md)
 - [BuyerCustomerSessionResponseInput](BuyerCustomerSessionResponseInput.md)
 - [BuyerDeliveryFulfillmentDetailsInput](BuyerDeliveryFulfillmentDetailsInput.md)
+- [BuyerDigitalFulfillmentDetailsInput](BuyerDigitalFulfillmentDetailsInput.md)
 - [BuyerErrorRemediationInput](BuyerErrorRemediationInput.md)
 - [BuyerExpandedOrderSummaryInput](BuyerExpandedOrderSummaryInput.md)
 - [BuyerExpandedPackageSummaryInput](BuyerExpandedPackageSummaryInput.md)
 - [BuyerExpandedShipmentSummaryInput](BuyerExpandedShipmentSummaryInput.md)
-- [BuyerExpandedSubscriptionPlanSummaryInput](BuyerExpandedSubscriptionPlanSummaryInput.md)
-- [BuyerFlintWalletCardInput](BuyerFlintWalletCardInput.md)
-- [BuyerFlintWalletCardListResponseInput](BuyerFlintWalletCardListResponseInput.md)
-- [BuyerFlintWalletStoreSetupInput](BuyerFlintWalletStoreSetupInput.md)
-- [BuyerFlintWalletStoreSetupResponseInput](BuyerFlintWalletStoreSetupResponseInput.md)
-- [BuyerFulfillmentInput](BuyerFulfillmentInput.md)
 

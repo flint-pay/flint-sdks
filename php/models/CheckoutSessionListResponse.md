@@ -71,6 +71,10 @@ Declared alternatives: [CheckoutSessionResponse.data.payment_link](../models/Che
 
 Field definitions: [CheckoutSessionResponse.data.payment_method_save](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatapayment_method_save).
 
+### CheckoutSessionListResponse.data[].platform_fee
+
+Field definitions: [CheckoutSessionResponse.data.platform_fee](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataplatform_fee).
+
 ### CheckoutSessionListResponse.data[].redirects
 
 Field definitions: [CheckoutSessionResponse.data.redirects](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataredirects).

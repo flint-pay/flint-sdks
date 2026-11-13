@@ -50,7 +50,7 @@ final class ReturnInspectionsListInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -68,7 +68,7 @@ final class ReturnInspectionsListInput extends Model {
      */
     public function getInspectedBefore(): string|\DateTimeInterface { return $this->get('inspected_before'); }
     public function hasInspectedBefore(): bool { return $this->has('inspected_before'); }
-    /** Filter by inspection location id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by inspection location id. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When inspection_location_id is omitted; use hasInspectionLocationId() or valueOrDefault().
      */
@@ -92,19 +92,19 @@ final class ReturnInspectionsListInput extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter by return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Filter by return id. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by return line item id. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+    /** Filter by return line item id. pattern: ^retli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Filter by return receipt id. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+    /** Filter by return receipt id. pattern: ^retrc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * @return string
      * @throws SdkError When return_receipt_id is omitted; use hasReturnReceiptId() or valueOrDefault().
      */

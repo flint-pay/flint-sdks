@@ -32,7 +32,7 @@ final class BuyerExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Offered billing interval and count pairs, including the plan's default pair. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
      * @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */

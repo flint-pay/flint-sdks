@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read PartnerAppCredentialJWKSURLInput|array<array-key, mixed>|\stdClass $jwks_url
  * @property-read string|\DateTimeInterface|null $last_used_at
+ * @property-read list<string> $modes
  * @property-read string|null $name
  * @property-read string $partner_app_credential_id
  * @property-read string $partner_app_id
@@ -14,7 +15,7 @@ namespace Flint;
  * @property-read PartnerAppCredentialWorkloadIdentityInput|array<array-key, mixed>|\stdClass $workload_identity
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppCredentialInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'jwks_url'?: PartnerAppCredentialJWKSURLInput|array<array-key, mixed>|\stdClass, 'last_used_at': string|\DateTimeInterface|null, 'name': string|null, 'partner_app_credential_id': string, 'partner_app_id': string, 'public_key'?: PartnerAppCredentialPublicKeyInput|array<array-key, mixed>|\stdClass, 'status': string, 'type': string, 'workload_identity'?: PartnerAppCredentialWorkloadIdentityInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'jwks_url'?: PartnerAppCredentialJWKSURLInput|array<array-key, mixed>|\stdClass, 'last_used_at': string|\DateTimeInterface|null, 'modes': list<string>, 'name': string|null, 'partner_app_credential_id': string, 'partner_app_id': string, 'public_key'?: PartnerAppCredentialPublicKeyInput|array<array-key, mixed>|\stdClass, 'status': string, 'type': string, 'workload_identity'?: PartnerAppCredentialWorkloadIdentityInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialInput')); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -34,6 +35,12 @@ final class PartnerAppCredentialInput extends Model {
      */
     public function getLastUsedAt(): string|\DateTimeInterface|null { return $this->get('last_used_at'); }
     public function hasLastUsedAt(): bool { return $this->has('last_used_at'); }
+    /** Modes this credential can mint partner app tokens for, in the order live, test. A mint for another mode returns 400 unauthorized_client. Set at creation and never changed. minItems: 1. maxItems: 2. uniqueItems: true. [] enum: "live", "test". [] (Value): string.  Value enum: "live", "test".
+     * @return list<string>
+     * @throws SdkError When modes is omitted; use hasModes() or valueOrDefault().
+     */
+    public function getModes(): array { return $this->get('modes'); }
+    public function hasModes(): bool { return $this->has('modes'); }
     /** Name given to the credential when it was created. `null` when it has no name.
      * @return string|null
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().

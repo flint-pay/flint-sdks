@@ -7,7 +7,7 @@ namespace Flint;
 final class DeliveryCustomerBooleanConditionInput extends Model {
     /** @param array{'value': bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryCustomerBooleanConditionInput')); }
-    /** value
+    /** The value the fact must have. `true` matches when the fact holds, `false` when it does not.
      * @return bool
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */

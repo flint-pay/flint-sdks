@@ -34,7 +34,7 @@ final class InventoryReservationsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update inventory reservation. Example: {"expected_version":2,"expires_at":"2026-07-22T12:00:00Z"}.
+    /** The request body for: Update inventory reservation. minProperties: 1. Example: {"expected_version":2,"expires_at":"2026-07-22T12:00:00Z"}.
      * @return array{'expected_version'?: int, 'expires_at': string|\DateTimeInterface}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

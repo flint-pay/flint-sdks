@@ -34,7 +34,7 @@ final class BundlesUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging.
+    /** Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. minProperties: 1.
      * @return array{'barcode'?: string|null, 'category_handles'?: list<string>, 'components'?: list<mixed>, 'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'images'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string, 'sku'?: string|null, 'status'?: string, 'unit_price_money'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -15,7 +15,7 @@ Response model.
 
 ### DeliveryMethodListResponse.data[]
 
-A configured shipping, pickup, local delivery, or service option.
+A configured shipping, pickup, or local delivery option.
 
 Field definitions: [shared fields](DeliveryMethodResponse.md#deliverymethodresponsedata).
 

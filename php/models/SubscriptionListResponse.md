@@ -43,6 +43,10 @@ Field definitions: [SubscriptionResponse.data.delivery_hold](../models/Subscript
 
 Declared alternatives: [SubscriptionResponse.data.end_after](../models/SubscriptionResponse.md#subscriptionresponsedataend_after).
 
+### SubscriptionListResponse.data[].gift_recipient
+
+Declared alternatives: [SubscriptionResponse.data.gift_recipient](../models/SubscriptionResponse.md#subscriptionresponsedatagift_recipient).
+
 ### SubscriptionListResponse.data[].inventory_wait
 
 Field definitions: [SubscriptionResponse.data.inventory_wait](../models/SubscriptionResponse.md#subscriptionresponsedatainventory_wait).

@@ -94,6 +94,7 @@ Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestCom
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -129,7 +130,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `status` | Optional | Array of string or string | Only return requests in this lifecycle state. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
-| `customer_id` | Optional | string | Only return requests for this Flint customer ID. |
+| `customer_id` | Optional | string | Only return requests for this Flint customer ID. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
@@ -145,6 +146,7 @@ Returned payload: [CustomerDeletionRequestListResponse](../models/CustomerDeleti
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

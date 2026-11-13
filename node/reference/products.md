@@ -213,7 +213,7 @@ Signature: `delete(product_id: InputValue<string>, params?: ProductsDeleteParams
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `product_id` | Required | string | Flint product ID. |
-| `expected_version` | Optional | integer | Optional product version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional product version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -279,7 +279,7 @@ deleteVariant(product_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `product_id` | Required | string | Flint product ID. |
 | `variant_id` | Required | string | Flint product variant ID. |
-| `expected_version` | Optional | integer | Optional product variant version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional product variant version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -354,6 +354,7 @@ Returned payload: [Product](../models/Product.md#product).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -413,6 +414,7 @@ Returned payload: [ProductOption](../models/ProductOption.md#productoption).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -473,6 +475,7 @@ Returned payload: [ProductVariant](../models/ProductVariant.md#productvariant).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -517,7 +520,7 @@ Signature: `list(params?: ProductsListParams, options?: _SdkWithoutIdempotency<R
 | `variant_external_reference_id` | Optional | string | Byte-sensitive whole-value match on ProductVariant.external_reference_id, preserving whitespace, casing, and Unicode. All exact variant filters must match the same non-archived variant. matched_variant is one deterministic witness; page the nested variant list to enumerate all matches. minLength: `1`. maxLength: `255`. |
 | `inventory_item_id` | Optional | string | Exact match on ProductVariant.inventory_item_id. Multiple variants may share one inventory item; this does not match or synchronize the inventory item's SKU. On products, all exact variant filters must match the same non-archived variant. pattern: `^invi_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `query` | Optional | string | Search across product ID, external reference ID, name, description, and SKU. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as prod_01. |
-| `delivery_profile_id` | Optional | string | Filter products with at least one non-deleted variant assigned to this delivery profile. |
+| `delivery_profile_id` | Optional | string | Filter products with at least one non-deleted variant assigned to this delivery profile. pattern: `^dprof_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `delivery_configuration_status` | Optional | Array of string or string | Filter by aggregated delivery readiness across non-deleted variants. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"configured"`, `"action_required"`, `"not_applicable"`. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by product_id. Default: `"created_at"`. Values: `"name"`, `"created_at"`, `"updated_at"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
@@ -541,6 +544,7 @@ Returned payload: [ProductListResponse](../models/ProductListResponse.md#product
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -603,6 +607,7 @@ Returned payload: [ProductOptionListResponse](../models/ProductOptionListRespons
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -655,7 +660,7 @@ listVariants(product_id: InputValue<string>,
 | `query` | Optional | string | Search across variant ID, external reference ID, name, SKU, and barcode. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as var_01. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to position; ties are broken by variant_id. Default: `"position"`. Values: `"position"`, `"created_at"`, `"updated_at"`, `"unit_price_money"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to asc for position and desc for other sort fields. Default: `"asc"`. Values: `"asc"`, `"desc"`. |
-| `delivery_profile_id` | Optional | string | Filter by assigned delivery profile ID. |
+| `delivery_profile_id` | Optional | string | Filter by assigned delivery profile ID. pattern: `^dprof_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `delivery_configuration_status` | Optional | Array of string or string | Filter by delivery readiness. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"configured"`, `"action_required"`, `"not_applicable"`. Values: `"configured"`, `"action_required"`, `"not_applicable"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
@@ -678,6 +683,7 @@ Returned payload: [ProductVariantListResponse](../models/ProductVariantListRespo
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -718,7 +724,7 @@ Signature: `update(product_id: InputValue<string>, params: ProductsUpdateParams,
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateProductRequestInput](../models/UpdateProductRequest.md#updateproductrequest) | Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. |
+| `body` | Required | [UpdateProductRequestInput](../models/UpdateProductRequest.md#updateproductrequest) | Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. minProperties: `1`. |
 
 Body model: [UpdateProductRequestInput](../models/UpdateProductRequest.md#updateproductrequest).
 
@@ -807,7 +813,7 @@ updateVariant(product_id: InputValue<string>,
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateProductVariantRequestInput](../models/UpdateProductVariantRequest.md#updateproductvariantrequest) | Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. |
+| `body` | Required | [UpdateProductVariantRequestInput](../models/UpdateProductVariantRequest.md#updateproductvariantrequest) | Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. minProperties: `1`. |
 
 Body model: [UpdateProductVariantRequestInput](../models/UpdateProductVariantRequest.md#updateproductvariantrequest).
 

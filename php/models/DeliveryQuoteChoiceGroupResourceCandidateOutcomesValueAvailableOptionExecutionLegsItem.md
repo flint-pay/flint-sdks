@@ -8,6 +8,6 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_execution_leg_id` | Required | string |  |
-| `origin_location_id` | Required | string |  |
+| `delivery_execution_leg_id` | Required | string | Unique ID of this leg. |
+| `origin_location_id` | Required | string | ID of the Location the items leave from. |
 

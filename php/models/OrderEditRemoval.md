@@ -10,6 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `order_line_item_id` | Required | string | The order line the units come off. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Whole line units requested for removal, including all components of a bundle unit. Format: `int64`. |
-| `refund_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The refund for these units at the price the buyer paid, including their share of discounts and tax. Original quantity and pricing remain unchanged. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `refund_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of total_money that would be refunded to the buyer. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `removable_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Whole line units currently unassigned across every fulfillment component, before this requested removal. Format: `int64`. |
+| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The value of these units at the price the buyer paid, including their share of discounts and tax. Original quantity and pricing remain unchanged. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

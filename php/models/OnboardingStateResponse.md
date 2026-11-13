@@ -18,7 +18,6 @@ Resource, collection, or operation result returned by this request. A merchant's
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `can_issue_api_key` | Required | boolean | Whether you can issue the merchant's first API key with `POST /v1/onboarding/api-key`. True while the merchant has no external API key and a default sandbox exists. |
 | `country` | Optional | string | Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. Uses ISO 3166-1 alpha-2 country codes. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Example: `"US"`. Values: `"US"`. |
 | `default_sandbox_id` | Optional | string | ID of the merchant's default sandbox. Omitted when the merchant has no default sandbox. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |

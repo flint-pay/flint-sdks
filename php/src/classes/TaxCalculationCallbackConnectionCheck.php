@@ -29,7 +29,7 @@ final class TaxCalculationCallbackConnectionCheck extends Model {
      */
     public function getHttpStatusCode(): ?int { return $this->get('http_status_code'); }
     public function hasHttpStatusCode(): bool { return $this->has('http_status_code'); }
-    /** ID of the HMAC signing key that signed this request. Empty for a JWT-only callback, which has no shared secret.
+    /** ID of the HMAC signing key that signed this request, as sent in the Flint-Signing-Key-Ids header. Empty for a JWT-only callback, which has no shared secret.
      * @return string
      */
     public function getKeyId(): string { return $this->get('key_id'); }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $api_request_log_id
+ * @property-read ResourceReference $attributed_resource
  * @property-read ?ResourceReference $caller
  * @property-read ?string $client_request_id
  * @property-read ?string $client_trace_id
@@ -23,14 +24,19 @@ namespace Flint;
  * @property-read int $status_code
  * Presence-aware response; omitted optional fields return null. */
 final class ResourceTimelineEntriesItemApiRequest extends Model {
-    /** @param array{'api_request_log_id': string, 'caller'?: mixed, 'client_request_id'?: string, 'client_trace_id'?: string, 'entry_type': string, 'error_code'?: string, 'error_summary'?: string, 'error_type'?: string, 'http_method': string, 'latency_milliseconds': int, 'occurred_at': string, 'path': string, 'recommended_action'?: string, 'reference_url'?: string, 'request_id': string, 'resource_timeline_entry_id': string, 'retry'?: string, 'route_pattern': string, 'status_code': int, ...}|object $values */
+    /** @param array{'api_request_log_id': string, 'attributed_resource': mixed, 'caller'?: mixed, 'client_request_id'?: string, 'client_trace_id'?: string, 'entry_type': string, 'error_code'?: string, 'error_summary'?: string, 'error_type'?: string, 'http_method': string, 'latency_milliseconds': int, 'occurred_at': string, 'path': string, 'recommended_action'?: string, 'reference_url'?: string, 'request_id': string, 'resource_timeline_entry_id': string, 'retry'?: string, 'route_pattern': string, 'status_code': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ResourceTimelineEntriesItemApiRequest')); }
     /** Stable identifier of this log entry.
      * @return string
      */
     public function getApiRequestLogId(): string { return $this->get('api_request_log_id'); }
     public function hasApiRequestLogId(): bool { return $this->has('api_request_log_id'); }
-    /** The public resource that made this request. Absent when Flint cannot attribute the caller. A reference to another resource by `resource_type` and `resource_id`.
+    /** The resource this request log is attributed to. Always present: the timeline resource for a direct request, or its directly owned resource for an included request. A reference to another resource by `resource_type` and `resource_id`.
+     * @return ResourceReference
+     */
+    public function getAttributedResource(): ResourceReference { return $this->get('attributed_resource'); }
+    public function hasAttributedResource(): bool { return $this->has('attributed_resource'); }
+    /** Who made this request. An API key, workload token, or partner app token records that API key, workload identity, or partner app installation. A Dashboard write, CLI login, or onboarding session records the user. A buyer checkout request records the checkout session. A buyer account request records the customer session. A request made with invoice access records the invoice. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`.
      * @return ?ResourceReference
      */
     public function getCaller(): ?ResourceReference { return $this->get('caller'); }

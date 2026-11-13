@@ -1,0 +1,1 @@
+{"shared":"OrderDeliverySummary","phpRepresentation":{"kind":"record","fields":{"delivery_method_id":{"kind":"value","type":"string"},"recipient":{"kind":"entity","name":"DeliveryRecipientResource"},"type":{"kind":"value","type":"string"}}},"dependencies":["DeliveryRecipientResource","OrderDeliverySummary"]}

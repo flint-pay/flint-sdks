@@ -12,13 +12,14 @@ namespace Flint;
  * @property-read ?array<array-key, string> $metadata
  * @property-read string $name
  * @property-read string $status
+ * @property-read DeliveryProfileUnconfiguredAssignment|null $unconfigured_assignment
  * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryProfileCreatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: mixed, 'external_reference_id'?: string, 'is_default': bool, 'metadata'?: mixed, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: mixed, 'external_reference_id'?: string, 'is_default': bool, 'metadata'?: mixed, 'name': string, 'status': string, 'unconfigured_assignment'?: mixed, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileCreatedInstalledMerchantsEventDataObject')); }
-    /** Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
+    /** Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, and grouping and splitting rules.
      * @return DeliveryProfileConfiguration
      */
     public function getConfiguration(): DeliveryProfileConfiguration { return $this->get('configuration'); }
@@ -68,6 +69,11 @@ final class DeliveryProfileCreatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Progress of the profile's latest bulk assignment through `POST /v1/delivery-profiles/{delivery_profile_id}/assign-to-unconfigured`. `null` when the profile has never had one. Omitted when the response is a write response or a webhook object; retrieve and list responses include it. Flint updates it as the assignment's runs commit, without changing the profile's `version` or sending `delivery_profile.updated`; each batch's `product_variant.updated`, `product.updated`, and `bundle.updated` events report the items it assigned. anyOf[1] (Value): {@see DeliveryProfileUnconfiguredAssignment}. Progress of a delivery profile's latest bulk assignment to catalog items that have no delivery profile. It moves from `processing` to `completed`, to `canceled` when it stops early, or to `failed` when Flint can't finish it. anyOf[2] (Value): null.
+     * @return DeliveryProfileUnconfiguredAssignment|null
+     */
+    public function getUnconfiguredAssignment(): DeliveryProfileUnconfiguredAssignment|null { return $this->get('unconfigured_assignment'); }
+    public function hasUnconfiguredAssignment(): bool { return $this->has('unconfigured_assignment'); }
     /** Time the profile last changed. Format: date-time.
      * @return string
      */

@@ -20,10 +20,10 @@ Signature: `list(params?: MerchantBillingEntriesListParams, options?: _SdkWithou
 | `occurred_before` | Optional | string | Exclusive upper bound on occurred_at. Format: `date-time`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
-| `payment_intent_id` | Optional | string | Filter by Flint payment intent ID. |
-| `dispute_id` | Optional | string | Filter by Flint dispute ID. |
-| `merchant_billing_invoice_id` | Optional | string | Filter by Flint merchant billing invoice ID. |
-| `balance_transaction_id` | Optional | string | Filter by Flint balance transaction ID. |
+| `payment_intent_id` | Optional | string | Filter by Flint payment intent ID. pattern: `^pi_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `dispute_id` | Optional | string | Filter by Flint dispute ID. pattern: `^du_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `merchant_billing_invoice_id` | Optional | string | Filter by Flint merchant billing invoice ID. pattern: `^msinv_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `balance_transaction_id` | Optional | string | Filter by Flint balance transaction ID. pattern: `^btxn_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 

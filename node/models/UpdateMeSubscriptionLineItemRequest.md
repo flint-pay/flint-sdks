@@ -2,7 +2,7 @@
 
 ## UpdateMeSubscriptionLineItemRequest
 
-The request body for: Swap subscription variant.
+The request body for: Swap subscription variant. minProperties: `1`.
 
 
 

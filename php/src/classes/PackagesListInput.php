@@ -24,19 +24,19 @@ namespace Flint;
 final class PackagesListInput extends Model {
     /** @param array{'shipment_id'?: string, 'fulfillment_id'?: string, 'order_id'?: string, 'page_size'?: int, 'page_token'?: string, 'external_system'?: string, 'external_reference_id'?: string, 'query'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'status'?: list<string>|string, 'tracking_number'?: string, 'carrier'?: string, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesListInput')); }
-    /** Optional shipment ID filter. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+    /** Optional shipment ID filter. pattern: ^shp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** Optional fulfillment ID filter. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+    /** Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Optional order ID filter. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

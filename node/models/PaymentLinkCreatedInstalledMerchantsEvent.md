@@ -60,10 +60,6 @@ Field definitions: [BuyerCheckoutSession.tip.smart_tip_money_options[]](../model
 
 Field definitions: [PaymentLink.event_config](../models/PaymentLink.md#paymentlinkevent_config).
 
-### PaymentLinkCreatedInstalledMerchantsEvent.data.object.inventory_routing_source
-
-Field definitions: [PaymentLink.inventory_routing_source](../models/PaymentLink.md#paymentlinkinventory_routing_source).
-
 ### PaymentLinkCreatedInstalledMerchantsEvent.data.object.legal
 
 Field definitions: [PaymentLink.legal](../models/PaymentLink.md#paymentlinklegal).

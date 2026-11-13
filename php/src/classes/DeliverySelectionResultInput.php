@@ -16,13 +16,13 @@ final class DeliverySelectionResultInput extends Model {
      */
     public function getCheckoutSession(): mixed { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
-    /** The selection now on the checkout. The delivery choice selected for a checkout or order.
+    /** The selection now on the checkout. The delivery choice selected for a checkout or order. Poll GET /v1/delivery-selections/{delivery_selection_id} or list delivery selections to read its current status.
      * @return DeliverySelectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery_selection is omitted; use hasDeliverySelection() or valueOrDefault().
      */
     public function getDeliverySelection(): mixed { return $this->get('delivery_selection'); }
     public function hasDeliverySelection(): bool { return $this->has('delivery_selection'); }
-    /** The stock held for this selection. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, expiry, and the next action required.
+    /** The stock held for this selection. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, and expiry.
      * @return DeliveryInventoryReservationSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When inventory_reservation is omitted; use hasInventoryReservation() or valueOrDefault().
      */

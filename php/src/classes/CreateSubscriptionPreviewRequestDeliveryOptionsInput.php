@@ -9,19 +9,19 @@ namespace Flint;
 final class CreateSubscriptionPreviewRequestDeliveryOptionsInput extends Model {
     /** @param array{'destination': SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'mode': string, 'subscription_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateSubscriptionPreviewRequestDeliveryOptionsInput')); }
-    /** Where to deliver a subscription: a saved customer address by ID, or a new address.
+    /** Address to evaluate each method against: one of the customer's saved addresses or a new address. Where to deliver a subscription: a saved customer address by ID, or a new address.
      * @return SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination is omitted; use hasDestination() or valueOrDefault().
      */
     public function getDestination(): mixed { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
-    /** Value enum: "delivery_options".
+    /** Selects the delivery options preview. Value enum: "delivery_options".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+    /** ID of the subscription to list delivery methods for. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

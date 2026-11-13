@@ -25,6 +25,7 @@ Body model: [CreateCustomerRequestInput](../models/CreateCustomerRequestInput.md
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `addresses` | Optional | Array of [CreateCustomerAddressRequestInput](../models/CreateCustomerAddressRequestInput.md#createcustomeraddressrequestinput) | Initial saved addresses, created atomically with the customer. Each entry uses the address-book create shape. At most one entry may be the billing default and one the shipping default. Defaults populate billing_address and shipping_address. Omit or send [] for none. When on_email_conflict is return_existing, an existing customer and its addresses stay unchanged. |
 | `default_invoice_payment_term_id` | Optional | string | ID of the invoice payment term that applies to this customer's invoices created with `payment_due.type` set to `customer_default`. minLength: `1`. |
 | `email` | Optional | string | Customer email, unique among the environment's customers. Required when `on_email_conflict` is `return_existing`. Format: `email`. minLength: `1`. maxLength: `320`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
@@ -37,7 +38,7 @@ Body model: [CreateCustomerRequestInput](../models/CreateCustomerRequestInput.md
 | `price_list_id` | Optional | string or null | ID of a wholesale price list in this merchant environment. An inactive list can be assigned but does not apply. An archived list returns 409 ACTION_NOT_ALLOWED; a missing list returns 404 RESOURCE_NOT_FOUND. Omit or send null for no direct list. minLength: `1`. pattern: `^prl_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `segment` | Optional | string | Free-form label you assign, such as wholesale, so promotion and delivery rules can match groups of customers. It is not an ID; Flint does not check it against any resource. minLength: `1`. |
 | `tax_exempt` | Optional | boolean | Whether Flint treats this customer as exempt from tax on their orders, so it skips tax calculation for them. Defaults to `false`. |
-| `tax_identity` | Optional | [TaxIdentityRequestInput](../models/TaxIdentityPatchInput.md#taxidentitypatchinput) | Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. |
+| `tax_identity` | Optional | [TaxIdentityRequestInput](../models/TaxIdentityPatchInput.md#taxidentitypatchinput) | Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. |
 | `test_clock_id` | Optional | string | Sandbox only. ID of a test clock to create the customer on. The customer, and every subscription created for it, read the clock's time instead of real time. A customer can't be moved to another clock or taken off one. A live credential gets `403 FORBIDDEN` with reason `test_mode_required`. minLength: `1`. |
 
 #### Response
@@ -218,7 +219,7 @@ $result = $client->customers->createAddress('cus_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
 
 ### customers.createTaxExemption
 
-Records a nested customer exemption with reason, coverage and an inclusive date window. At most 100 unarchived exemptions may belong to a customer; exceeding that limit returns LIMIT_REACHED with reason customer_tax_exemptions. Saving a record does not apply it to sales or change the customer's blanket tax_exempt flag. Only API keys and dashboard sessions can access these records. Retry a lost response with the same request and Idempotency-Key. If IDEMPOTENCY_RECOVERY_REQUIRED is returned, inspect this customer's list and GET records before sending a new write. Match a lost create against submitted fields across list pages; contact support with the original key and request ID if its outcome is unclear.
+Records a nested customer exemption with reason, coverage and an inclusive date window. At most 100 unarchived exemptions may belong to a customer; exceeding that limit returns LIMIT_REACHED with reason customer_tax_exemptions. An active record applies to the customer's sales whose taxable destination its coverage contains, within its date range. Saving a record doesn't change the customer's blanket tax_exempt flag, which still takes precedence. Only API keys and dashboard sessions can access these records. Retry a lost response with the same request and Idempotency-Key. If IDEMPOTENCY_RECOVERY_REQUIRED is returned, inspect this customer's list and GET records before sending a new write. Match a lost create against submitted fields across list pages; contact support with the original key and request ID if its outcome is unclear.
 
 `POST /v1/customers/{customer_id}/tax-exemptions`
 
@@ -238,12 +239,12 @@ Body model: [CreateCustomerTaxExemptionRequestInput](../models/CreateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. minLength: `1`. maxLength: `255`. |
-| `coverage` | Required | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Required | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. minLength: `1`. maxLength: `1024`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `reason` | Required | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Required | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Required | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### Response
@@ -284,15 +285,12 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customers->createTaxExemption('cus_01KEZF7C006X9JK6NZNA2SM9XD', [
+  'reason' => 'federal_government',
   'coverage' => (object) [
+    'type' => 'all_states',
     'country' => 'US',
-    'states' => [
-      'TX',
-    ],
-    'type' => 'states',
   ],
-  'reason' => 'resale',
-  'start_date' => '2026-01-01',
+  'start_date' => '2026-08-02',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -323,7 +321,7 @@ deleteAddress(string|
 | --- | --- | --- | --- |
 | `customer_id` | Required | string | Flint customer ID. |
 | `customer_address_id` | Required | string | Flint customer address ID. |
-| `expected_version` | Optional | integer | Optional address version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional address version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -393,7 +391,7 @@ deleteTaxExemption(string|
 | --- | --- | --- | --- |
 | `customer_id` | Required | string | Flint ID of the customer that owns this nested child. |
 | `customer_tax_exemption_id` | Required | string | Flint customer tax exemption ID, prefixed ctex_. |
-| `expected_version` | Optional | integer | Resource version last read by the caller. Omit to archive the current record. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version last read by the caller. Omit to archive the current record. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
 
@@ -465,6 +463,7 @@ Returned payload: [Customer](../models/Customer.md#customer).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -517,6 +516,7 @@ Returned payload: [CustomerAddress](../models/CustomerAddress.md#customeraddress
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -568,6 +568,7 @@ Returned payload: [CustomerEmailPreferences](../models/CustomerEmailPreferencesU
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -712,7 +713,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customers->linkGuestPurchases('cus_01KEZF7C006X9JK6NZNA2SM9XD', [
-  'customer_verification_id' => 'cver_01KEZF7C00E7S01991S7457CVK',
+  'customer_verification_id' => 'cver_01ARZ3NDEKTSV4RRFFQ69G5FAV',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -763,6 +764,7 @@ Returned payload: [CustomerListResponse](../models/CustomerListResponse.md#custo
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -818,6 +820,7 @@ Returned payload: [CustomerAddressListResponse](../models/CustomerAddressListRes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -966,7 +969,7 @@ Signature: `update(string|Model $customer_id, array|Model $params, ?RequestOptio
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateCustomerRequestInput](../models/UpdateCustomerRequestInput.md#updatecustomerrequestinput) | The request body for: Update customer. |
+| `body` | Required | [UpdateCustomerRequestInput](../models/UpdateCustomerRequestInput.md#updatecustomerrequestinput) | The request body for: Update customer. minProperties: `1`. |
 
 Body model: [UpdateCustomerRequestInput](../models/UpdateCustomerRequestInput.md#updatecustomerrequestinput).
 
@@ -976,7 +979,7 @@ Body model: [UpdateCustomerRequestInput](../models/UpdateCustomerRequestInput.md
 | --- | --- | --- | --- |
 | `default_invoice_payment_term_id` | Optional | string or null | Default payment term for this customer's invoices. Send null to clear it. minLength: `1`. |
 | `default_payment_method_id` | Optional | string or null | The active off_session payment method to use by default. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: `1`. |
-| `email` | Optional | string or null | The customer's email. Omit to leave unchanged. You can set an email when the customer has none in either customer account mode. Changing or clearing an existing email requires `customer_account.mode` to be `merchant_hosted`; null clears it. In `flint_hosted` mode, the buyer must confirm a change to an existing email. Format: `email`. minLength: `1`. maxLength: `320`. |
+| `email` | Optional | string or null | The customer's email. Omit to leave unchanged; null clears it. In `flint_hosted` mode, you can set, correct, or clear the email until the buyer authenticates or verifies ownership of it. Existing identities with unknown sign-in history remain protected and require a buyer-confirmed change. In `merchant_hosted` mode, you can set, change, or clear it. An email change ends customer sessions and access links for the old address. Format: `email`. minLength: `1`. maxLength: `320`. |
 | `expected_version` | Optional | integer | Required when tax_identity is null or tax_identity.tax_ids is present. Stale versions return a conflict. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Omit to leave unchanged; null clears it. minLength: `1`. maxLength: `255`. |
 | `internal_note` | Optional | string or null | Internal note about this customer. Omit to leave unchanged; null clears it. minLength: `1`. |
@@ -1110,7 +1113,7 @@ Signature: `updateTaxExemption(string|Model $customer_id, string|Model $customer
 | --- | --- | --- | --- |
 | `customer_id` | Required | string | Flint ID of the customer that owns this nested child. |
 | `customer_tax_exemption_id` | Required | string | Flint customer tax exemption ID, prefixed ctex_. |
-| `body` | Required | [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTaxExemptionRequestInput.md#updatecustomertaxexemptionrequestinput) | Sparse patch. Omitted fields stay unchanged. Expired and archived records cannot be edited. A version fence alone is not a change. |
+| `body` | Required | [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTaxExemptionRequestInput.md#updatecustomertaxexemptionrequestinput) | Sparse patch. Omitted fields stay unchanged. Expired and archived records cannot be edited. A version fence alone is not a change. minProperties: `1`. |
 
 Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTaxExemptionRequestInput.md#updatecustomertaxexemptionrequestinput).
 
@@ -1119,13 +1122,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Optional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### customers.updateTaxExemption: variant 1
@@ -1135,13 +1138,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Required | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Required | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Optional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### customers.updateTaxExemption: variant 2
@@ -1151,13 +1154,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Required | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Optional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### customers.updateTaxExemption: variant 3
@@ -1167,13 +1170,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Required | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Required | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Optional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### customers.updateTaxExemption: variant 4
@@ -1183,13 +1186,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Required | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Optional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### customers.updateTaxExemption: variant 5
@@ -1199,13 +1202,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Required | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Optional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### customers.updateTaxExemption: variant 6
@@ -1215,13 +1218,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Required | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### customers.updateTaxExemption: variant 7
@@ -1231,13 +1234,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Required | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Optional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### customers.updateTaxExemption: variant 8
@@ -1247,13 +1250,13 @@ Body model: [UpdateCustomerTaxExemptionRequestInput](../models/UpdateCustomerTax
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `certificate_number` | Optional | string or null | Merchant's exemption certificate number. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageInput.md#customertaxexemptioncoverageinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
+| `coverage` | Optional | [CustomerTaxExemptionCoverageRequestInput](../models/CustomerTaxExemptionCoverageRequestInput.md#customertaxexemptioncoveragerequestinput) | Replaced as a whole: send every field you want to keep. Requires expected_version when present. Replaced as a whole: send every field you want to keep. Covers all US states or an explicit list of US states and DC. |
 | `description` | Optional | string or null | Explanation of the exemption. Required for other. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `500`. |
 | `end_date` | Optional | string or null | Last day of the exemption, inclusive, in YYYY-MM-DD format. Null when the exemption has no end date. Send null to clear it. Format: `date`. minLength: `1`. |
 | `evidence_reference` | Optional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Required | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Optional | string | Exemption reason. Other requires a description. Values: [13 declared values](../models/BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Optional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. |
 
 #### Response

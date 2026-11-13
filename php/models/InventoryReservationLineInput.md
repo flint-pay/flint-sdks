@@ -20,6 +20,7 @@ Request input.
 | `inventory_item_id` | Required | string | ID of the inventory item to reserve. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. |
 | `inventory_reservation_line_id` | Required | string | Unique identifier for this inventory reservation line, prefixed `invrln_`. Example: `"invrln_01KEZF7C002JCDA729XDSNWGY5"`. |
 | `location_id` | Required | string | ID of the Location the stock is allocated from. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `order_id` | Optional | string | Order that owns this record or its referenced line item and charge. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_line_item_id` | Optional | string | ID of the order line item this line covers. Absent unless an order holds the reservation. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `reallocated_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `released_from_backordered_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |

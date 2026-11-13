@@ -247,7 +247,7 @@ final class FulfillmentInput extends Model {
      */
     public function getTerminalAt(): string|\DateTimeInterface { return $this->get('terminal_at'); }
     public function hasTerminalAt(): bool { return $this->has('terminal_at'); }
-    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

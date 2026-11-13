@@ -180,6 +180,7 @@ Returned payload: [CreditNote](../models/CreditNote.md#creditnote).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -243,6 +244,7 @@ Returned payload: [CreditNoteAllocation](../models/CreditNoteAllocationCreatedMe
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -398,8 +400,8 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
-| `invoice_id` | Optional | string | Filter by invoice. |
-| `customer_id` | Optional | string | Filter by the source invoice's current customer_id. |
+| `invoice_id` | Optional | string | Filter by invoice. pattern: `^inv_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `customer_id` | Optional | string | Filter by the source invoice's current customer_id. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `reason` | Optional | Array of string or string | Filter by credit note reason. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. Values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `query` | Optional | string | Search across credit note ID, credit note number, memo, and external reference ID. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as cn_01. |
@@ -420,6 +422,7 @@ Returned payload: [CreditNoteListResponse](../models/CreditNoteListResponse.md#c
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -459,7 +462,7 @@ Signature: `listAllocations(string|Model $credit_note_id, array|Model|null $para
 | `credit_note_id` | Required | string | Flint credit note ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -476,6 +479,7 @@ Returned payload: [CreditNoteAllocationListResponse](../models/CreditNoteAllocat
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -588,7 +592,7 @@ Signature: `update(string|Model $credit_note_id, array|Model $params, ?RequestOp
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateCreditNoteRequestInput](../models/UpdateCreditNoteRequestInput.md#updatecreditnoterequestinput) | The request body for: Update credit note. |
+| `body` | Required | [UpdateCreditNoteRequestInput](../models/UpdateCreditNoteRequestInput.md#updatecreditnoterequestinput) | The request body for: Update credit note. minProperties: `1`. |
 
 Body model: [UpdateCreditNoteRequestInput](../models/UpdateCreditNoteRequestInput.md#updatecreditnoterequestinput).
 

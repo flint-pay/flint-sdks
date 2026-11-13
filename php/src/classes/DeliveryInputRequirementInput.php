@@ -13,31 +13,31 @@ namespace Flint;
 final class DeliveryInputRequirementInput extends Model {
     /** @param array{'constraint': DeliveryInputConstraintInput|array<array-key, mixed>|\stdClass, 'delivery_choice_group_ids'?: list<string>, 'delivery_input_requirement_id': string, 'delivery_method_ids'?: list<string>, 'delivery_option_ids'?: list<string>, 'field_path': string, 'purpose': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryInputRequirementInput')); }
-    /** The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered time windows.
+    /** The rules the input must follow. The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered time windows.
      * @return DeliveryInputConstraintInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When constraint is omitted; use hasConstraint() or valueOrDefault().
      */
     public function getConstraint(): mixed { return $this->get('constraint'); }
     public function hasConstraint(): bool { return $this->has('constraint'); }
-    /**  [] (Value): string. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+    /** Choice groups that need this input. [] (Value): string. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return list<string>
      * @throws SdkError When delivery_choice_group_ids is omitted; use hasDeliveryChoiceGroupIds() or valueOrDefault().
      */
     public function getDeliveryChoiceGroupIds(): array { return $this->get('delivery_choice_group_ids'); }
     public function hasDeliveryChoiceGroupIds(): bool { return $this->has('delivery_choice_group_ids'); }
-    /** Example: "req_24c2628d965d791d993ab70c2c9f77882cc189e3039ef9ef68bf935e59717580".
+    /** Unique ID of this requirement. Example: "req_24c2628d965d791d993ab70c2c9f77882cc189e3039ef9ef68bf935e59717580".
      * @return string
      * @throws SdkError When delivery_input_requirement_id is omitted; use hasDeliveryInputRequirementId() or valueOrDefault().
      */
     public function getDeliveryInputRequirementId(): string { return $this->get('delivery_input_requirement_id'); }
     public function hasDeliveryInputRequirementId(): bool { return $this->has('delivery_input_requirement_id'); }
-    /**  [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** Delivery methods that need this input. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return list<string>
      * @throws SdkError When delivery_method_ids is omitted; use hasDeliveryMethodIds() or valueOrDefault().
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /**  [] (Value): string. Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
+    /** Delivery options that need this input. Omitted when the requirement applies to the choice group or method as a whole. [] (Value): string. Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
      * @return list<string>
      * @throws SdkError When delivery_option_ids is omitted; use hasDeliveryOptionIds() or valueOrDefault().
      */
@@ -49,7 +49,7 @@ final class DeliveryInputRequirementInput extends Model {
      */
     public function getFieldPath(): string { return $this->get('field_path'); }
     public function hasFieldPath(): bool { return $this->has('field_path'); }
-    /** Value enum: "quote", "selection", "pickup_availability".
+    /** When the input is needed. Value enum: "quote", "selection", "pickup_availability".
      * @return string
      * @throws SdkError When purpose is omitted; use hasPurpose() or valueOrDefault().
      */

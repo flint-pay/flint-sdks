@@ -16,7 +16,7 @@ final class TaxCalculationCallbacksDeleteInput extends Model {
      */
     public function getTaxCalculationCallbackId(): string { return $this->get('tax_calculation_callback_id'); }
     public function hasTaxCalculationCallbackId(): bool { return $this->has('tax_calculation_callback_id'); }
-    /** Current callback version. Format: uint64. minimum: 1.
+    /** Current callback version. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string|null $calculation_callback_id
+ * @property-read array{'components_source'?: string, 'mode': string}|object|null $default_calculation
  * @property-read string|null $default_delivery_tax_category
  * @property-read bool $default_delivery_taxable
  * @property-read bool $default_enabled
@@ -11,7 +12,7 @@ namespace Flint;
  * @property-read string $delivery_charge_tax_basis
  * Presence-aware input; omitted fields throw when accessed. */
 final class TaxSettingsRequestInput extends Model {
-    /** @param array{'calculation_callback_id'?: string|null, 'default_delivery_tax_category'?: string|null, 'default_delivery_taxable'?: bool, 'default_enabled'?: bool, 'default_line_item_tax_category'?: string|null, 'default_price_mode'?: string, 'delivery_charge_tax_basis'?: string}|object $values */
+    /** @param array{'calculation_callback_id'?: string|null, 'default_calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'default_delivery_tax_category'?: string|null, 'default_delivery_taxable'?: bool, 'default_enabled'?: bool, 'default_line_item_tax_category'?: string|null, 'default_price_mode'?: string, 'delivery_charge_tax_basis'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxSettingsRequestInput')); }
     /** The active tax calculation callback selected for this merchant and environment. Switching IDs is atomic. Omit to preserve the selection; send null to clear it. minLength: 1. Example: "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
      * @return string|null
@@ -19,6 +20,12 @@ final class TaxSettingsRequestInput extends Model {
      */
     public function getCalculationCallbackId(): string|null { return $this->get('calculation_callback_id'); }
     public function hasCalculationCallbackId(): bool { return $this->has('calculation_callback_id'); }
+    /** Replaced as a whole: send every field you want to keep. The calculation an order uses when nothing sets its own: an order created with `POST /v1/orders` without `tax.calculation`, and the orders of checkout sessions, payment links, and subscriptions that set none. A `provided` default applies only to orders you create; the orders Flint creates use automatic tax under it. Send null to clear it, which means automatic. While `default_enabled` is on, a `callback` default needs a selected tax calculation callback, and clearing `calculation_callback_id` is refused; any other default needs an active tax connection. anyOf[1] (Value): {@see TaxDefaultCalculationRequestInput}. The calculation an order uses when its request leaves `tax.calculation` unset. anyOf[2] (Value): null.
+     * @return array{'components_source'?: string, 'mode': string}|object|null
+     * @throws SdkError When default_calculation is omitted; use hasDefaultCalculation() or valueOrDefault().
+     */
+    public function getDefaultCalculation(): mixed { return $this->get('default_calculation'); }
+    public function hasDefaultCalculation(): bool { return $this->has('default_calculation'); }
     /** Charge category inherited by delivery methods that omit charge_tax_category. `null` when no default is set; the category then follows the method type: shipping for shipments, delivery for local delivery, and service_fee for pickup. Send null to clear it. Value enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null.
      * @return string|null
      * @throws SdkError When default_delivery_tax_category is omitted; use hasDefaultDeliveryTaxCategory() or valueOrDefault().
@@ -31,7 +38,7 @@ final class TaxSettingsRequestInput extends Model {
      */
     public function getDefaultDeliveryTaxable(): bool { return $this->get('default_delivery_taxable'); }
     public function hasDefaultDeliveryTaxable(): bool { return $this->has('default_delivery_taxable'); }
-    /** Whether new checkouts and orders calculate tax by default. This does not decide whether an individual line item or delivery charge is taxable.
+    /** Whether new checkouts and orders calculate tax by default. This does not decide whether an individual line item or delivery charge is taxable. Turning it on, or changing the default calculation while it is on, needs what the default calculation uses: a selected tax calculation callback for an external `callback` default, and an active tax connection for any other, because the orders Flint creates use automatic tax under an automatic or `provided` default.
      * @return bool
      * @throws SdkError When default_enabled is omitted; use hasDefaultEnabled() or valueOrDefault().
      */

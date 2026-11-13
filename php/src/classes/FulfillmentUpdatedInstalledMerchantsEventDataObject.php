@@ -213,7 +213,7 @@ final class FulfillmentUpdatedInstalledMerchantsEventDataObject extends Model {
      */
     public function getTerminalAt(): ?string { return $this->get('terminal_at'); }
     public function hasTerminalAt(): bool { return $this->has('terminal_at'); }
-    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

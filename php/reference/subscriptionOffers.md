@@ -102,7 +102,7 @@ Signature: `delete(string|Model $subscription_offer_id, array|Model|null $params
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `subscription_offer_id` | Required | string | Subscription offer ID. |
-| `expected_version` | Optional | integer | Resource version last read by the caller. Refuses the deletion if the offer has changed. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Resource version last read by the caller. Refuses the deletion if the offer has changed. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -176,6 +176,7 @@ Returned payload: [SubscriptionOffer](../models/SubscriptionOffer.md#subscriptio
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -213,8 +214,8 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
-| `product_id` | Optional | string | Offers that cover this product, directly or through any of its variants. |
-| `variant_id` | Optional | string | Offers that cover this variant, directly or through its product. With `status=active`, at most one offer matches. |
+| `product_id` | Optional | string | Offers that cover this product, directly or through any of its variants. pattern: `^prod_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `variant_id` | Optional | string | Offers that cover this variant, directly or through its product. With `status=active`, at most one offer matches. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `query` | Optional | string | Case-insensitive search over name, subscription_offer_id, and external_reference_id. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
@@ -238,6 +239,7 @@ Returned payload: [SubscriptionOfferListResponse](../models/SubscriptionOfferLis
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

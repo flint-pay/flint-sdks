@@ -20,6 +20,8 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $modifier_total_money
  * @property-read list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
+ * @property-read string|null $order_edit_id
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read string|null $payment_link_line_item_key
  * @property-read string $product_id
@@ -45,7 +47,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderLineItemInput extends Model {
-    /** @param array{'backordered_quantity': int, 'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'catalog_pricing'?: CatalogPricingInput|array<array-key, mixed>|\stdClass, 'categories': list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<OrderLineItemFulfillmentQuantitiesInput|array<array-key, mixed>|\stdClass>, 'fulfillment_requirements'?: OrderLineItemFulfillmentRequirementsInput|array<array-key, mixed>|\stdClass, 'gift_card_purchase'?: GiftCardPurchaseSnapshotInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inventory_snapshot': array{'demands': list<LineItemInventoryDemandInput|array<array-key, mixed>|\stdClass>, 'inventory_tracking': string, ...}|object|null, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers': list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'purchased_gift_cards': list<PurchasedGiftCardInput|array<array-key, mixed>|\stdClass>, 'quantity': int, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription'?: SubscribedLineInput|array<array-key, mixed>|\stdClass, 'subscription_id'?: string, 'subscription_offer'?: OrderLineSubscriptionOfferSummaryInput|array<array-key, mixed>|\stdClass, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedLineItemTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'backordered_quantity': int, 'base_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'catalog_pricing'?: CatalogPricingInput|array<array-key, mixed>|\stdClass, 'categories': list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>, 'description'?: string, 'discount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_ship_date': string|null, 'fulfillment_quantities'?: list<OrderLineItemFulfillmentQuantitiesInput|array<array-key, mixed>|\stdClass>, 'fulfillment_requirements'?: OrderLineItemFulfillmentRequirementsInput|array<array-key, mixed>|\stdClass, 'gift_card_purchase'?: GiftCardPurchaseSnapshotInput|array<array-key, mixed>|\stdClass, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inventory_snapshot': array{'demands': list<LineItemInventoryDemandInput|array<array-key, mixed>|\stdClass>, 'inventory_tracking': string, ...}|object|null, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'modifier_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'modifiers': list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_edit_id': string|null, 'order_id': string, 'order_line_item_id': string, 'payment_link_line_item_key': string|null, 'product_id'?: string, 'purchased_gift_cards': list<PurchasedGiftCardInput|array<array-key, mixed>|\stdClass>, 'quantity': int, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_quantity': int, 'release_date': string|null, 'removed_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'subscription'?: SubscribedLineInput|array<array-key, mixed>|\stdClass, 'subscription_id'?: string, 'subscription_offer'?: OrderLineSubscriptionOfferSummaryInput|array<array-key, mixed>|\stdClass, 'subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax'?: OrderCalculatedLineItemTaxInput|array<array-key, mixed>|\stdClass, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_dimensions'?: DimensionsInput|array<array-key, mixed>|\stdClass, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_weight'?: WeightInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemInput')); }
     /** Tracked line units waiting for stock. Always 0 when none are backordered. Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 0.
      * @return int
@@ -155,6 +157,18 @@ final class OrderLineItemInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** The edit that added this line. Null when the line was not added by an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * @return string|null
+     * @throws SdkError When order_edit_id is omitted; use hasOrderEditId() or valueOrDefault().
+     */
+    public function getOrderEditId(): string|null { return $this->get('order_edit_id'); }
+    public function hasOrderEditId(): bool { return $this->has('order_edit_id'); }
+    /** Order that owns this record or its referenced line item and charge. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** Unique identifier for this order line item, prefixed `li_`. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
@@ -167,7 +181,7 @@ final class OrderLineItemInput extends Model {
      */
     public function getPaymentLinkLineItemKey(): string|null { return $this->get('payment_link_line_item_key'); }
     public function hasPaymentLinkLineItemKey(): bool { return $this->has('payment_link_line_item_key'); }
-    /** ID of the catalog product the item was sold from. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+    /** ID of the catalog product the item was sold from. Required whenever variant_id is present. Absent on bundle and custom lines, which have no parent product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */

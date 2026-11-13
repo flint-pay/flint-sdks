@@ -25,11 +25,11 @@ Fields shared by partner webhook payloads.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](DeliveryProfileActivatedInstalledMerchantsEvent.md#deliveryprofileactivatedinstalledmerchantseventdata).
+Field definitions: [shared fields](DeliveryProfileArchivedInstalledMerchantsEvent.md#deliveryprofilearchivedinstalledmerchantseventdata).
 
 ### DeliveryProfileCreatedInstalledMerchantsEvent.data.object
 
-Field definitions: [DeliveryProfileActivatedInstalledMerchantsEvent.data.object](../models/DeliveryProfileActivatedInstalledMerchantsEvent.md#deliveryprofileactivatedinstalledmerchantseventdataobject).
+Field definitions: [DeliveryProfileArchivedInstalledMerchantsEvent.data.object](../models/DeliveryProfileArchivedInstalledMerchantsEvent.md#deliveryprofilearchivedinstalledmerchantseventdataobject).
 
 ### DeliveryProfileCreatedInstalledMerchantsEvent.source
 

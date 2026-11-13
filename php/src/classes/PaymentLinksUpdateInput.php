@@ -34,7 +34,7 @@ final class PaymentLinksUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update payment link.
+    /** The request body for: Update payment link. minProperties: 1.
      * @return array{'buyer_fields'?: mixed, 'checkout_session_expires_in_seconds'?: int, 'custom_fields'?: list<mixed>, 'custom_text'?: mixed, 'delivery_method_ids'?: list<string>, 'description'?: string|null, 'donation_max_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_min_amount_money'?: array{'amount': string, 'currency': string}|object|null, 'donation_suggested_amount_money_options'?: list<mixed>, 'event_config'?: mixed, 'expected_version'?: int, 'external_reference_id'?: string|null, 'image'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'inactive_message'?: string|null, 'inventory_routing_source'?: mixed, 'legal'?: mixed, 'line_items'?: list<mixed>, 'max_completions'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'payments'?: mixed, 'promotion_config'?: mixed, 'redirects'?: mixed, 'sales_end_at'?: string|\DateTimeInterface|null, 'status'?: string, 'tax'?: mixed, 'theme'?: mixed, 'tip'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

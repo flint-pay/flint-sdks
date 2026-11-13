@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<DeliveryAddressAdvisoryResourceInput|array<array-key, mixed>|\stdClass> $address_advisories
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_amount_money
  * @property-read string $failure_category
  * @property-read list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass> $input_requirements
  * @property-read DeliveryOptionProjectionInput|array<array-key, mixed>|\stdClass $option
@@ -11,39 +12,45 @@ namespace Flint;
  * @property-read string $unavailable_reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryCandidateOutcomeResourceInputRequiredInput extends Model {
-    /** @param array{'address_advisories'?: list<DeliveryAddressAdvisoryResourceInput|array<array-key, mixed>|\stdClass>, 'failure_category'?: string, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'option'?: DeliveryOptionProjectionInput|array<array-key, mixed>|\stdClass, 'retryable'?: bool, 'type': string, 'unavailable_reason'?: string, ...}|object $values */
+    /** @param array{'address_advisories'?: list<DeliveryAddressAdvisoryResourceInput|array<array-key, mixed>|\stdClass>, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'failure_category'?: string, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'option'?: DeliveryOptionProjectionInput|array<array-key, mixed>|\stdClass, 'retryable'?: bool, 'type': string, 'unavailable_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryCandidateOutcomeResourceInputRequiredInput')); }
-    /**  [] (Value): {@see DeliveryAddressAdvisoryResourceInput}. An address verification result for a delivery address or buyer location. `suggested_address` may offer a correction.
+    /** Address verification results that affected this method. Omitted when there are none. [] (Value): {@see DeliveryAddressAdvisoryResourceInput}. An address verification result for a delivery address or buyer location. `suggested_address` may offer a correction.
      * @return list<DeliveryAddressAdvisoryResourceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When address_advisories is omitted; use hasAddressAdvisories() or valueOrDefault().
      */
     public function getAddressAdvisories(): array { return $this->get('address_advisories'); }
     public function hasAddressAdvisories(): bool { return $this->has('address_advisories'); }
+    /** The delivery charge this method will quote once its input_requirements are met, when the charge does not depend on them. Only present on input_required outcomes with fixed pricing. Pickup candidates report it only when every pickup method that could serve the choice group has fixed pricing and the same amount. Omitted when unknown; never included in order amounts. Pickup-location previews do not carry this field. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When expected_amount_money is omitted; use hasExpectedAmountMoney() or valueOrDefault().
+     */
+    public function getExpectedAmountMoney(): mixed { return $this->get('expected_amount_money'); }
+    public function hasExpectedAmountMoney(): bool { return $this->has('expected_amount_money'); }
     /** Why Flint could not calculate the method and the action that can make calculation succeed. - `dependency_failure`: Retry after the dependent service recovers. - `timeout`: Retry after the timed-out dependency recovers. - `malformed_response`: Fix the callback response so it matches the documented response schema, then retry. - `callback_transport_failure`: Restore callback DNS, TLS, network connectivity, and response timing, then retry. - `callback_circuit_open`: Restore the callback and wait for circuit recovery before retrying. - `callback_result_invalid`: Fix the callback result fields or values identified by the callback logs, then retry. - `callback_unavailable`: Retry when callback capacity is available, restore the configured callback endpoint, or choose a non-callback pricing strategy. - `pricing_failure`: Fix the method pricing configuration or matching rate, then retry. - `schedule_failure`: Fix the method schedule, timezone, or requested window, then retry. - `option_lifetime_too_short`: Lower the method's minimum option lifetime below the quote's remaining lifetime. A quote for a cart with tracked inventory lasts just under 5 minutes. - `geography_failure`: Fix the destination, origin, or geographic configuration, then retry. - `routing_failure`: Fix inventory routing or origin assignment, then retry. - `invalid_configuration`: Correct the invalid delivery configuration identified by diagnostics, then retry. - `invalid_buyer_input`: Correct the buyer input identified by the outcome, then retry. - `address_verification_failed`: Correct the address fields rejected by verification, then retry. - `address_could_not_be_verified`: Confirm or correct the address, or retry when address verification is available. Value enum: "dependency_failure", "timeout", "malformed_response", "callback_transport_failure", "callback_circuit_open", "callback_result_invalid", "callback_unavailable", "pricing_failure", "schedule_failure", "option_lifetime_too_short", "geography_failure", "routing_failure", "invalid_configuration", "invalid_buyer_input", "address_verification_failed", "address_could_not_be_verified".
      * @return string
      * @throws SdkError When failure_category is omitted; use hasFailureCategory() or valueOrDefault().
      */
     public function getFailureCategory(): string { return $this->get('failure_category'); }
     public function hasFailureCategory(): bool { return $this->has('failure_category'); }
-    /**  [] (Value): {@see DeliveryInputRequirementInput}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
+    /** Inputs the method needs before Flint can price it. Set only when `type` is `input_required`. [] (Value): {@see DeliveryInputRequirementInput}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
      * @return list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When input_requirements is omitted; use hasInputRequirements() or valueOrDefault().
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
-    /** A delivery option in a quote or preview: its price, type, timing, delivery plan, execution legs, and shipment, pickup, or local delivery details.
+    /** The option the method produced. Set only when `type` is `available`. A delivery option in a quote or preview: its price, type, timing, delivery plan, execution legs, and shipment, pickup, or local delivery details.
      * @return DeliveryOptionProjectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When option is omitted; use hasOption() or valueOrDefault().
      */
     public function getOption(): mixed { return $this->get('option'); }
     public function hasOption(): bool { return $this->has('option'); }
-    /** retryable
+    /** Whether trying again later can succeed. Set only when `type` is `cannot_calculate`.
      * @return bool
      * @throws SdkError When retryable is omitted; use hasRetryable() or valueOrDefault().
      */
     public function getRetryable(): bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** Value enum: "input_required".
+    /** What happened when Flint evaluated this delivery method. Value enum: "input_required".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

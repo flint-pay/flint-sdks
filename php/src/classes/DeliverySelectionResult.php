@@ -15,12 +15,12 @@ final class DeliverySelectionResult extends Model {
      */
     public function getCheckoutSession(): CheckoutSession { return $this->get('checkout_session'); }
     public function hasCheckoutSession(): bool { return $this->has('checkout_session'); }
-    /** The selection now on the checkout. The delivery choice selected for a checkout or order.
+    /** The selection now on the checkout. The delivery choice selected for a checkout or order. Poll GET /v1/delivery-selections/{delivery_selection_id} or list delivery selections to read its current status.
      * @return DeliverySelection
      */
     public function getDeliverySelection(): DeliverySelection { return $this->get('delivery_selection'); }
     public function hasDeliverySelection(): bool { return $this->has('delivery_selection'); }
-    /** The stock held for this selection. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, expiry, and the next action required.
+    /** The stock held for this selection. Omitted when the order holds no stock reservation, and for checkout credentials. The inventory reservation held for a delivery selection: its owner, status, and expiry.
      * @return ?DeliveryInventoryReservationSummary
      */
     public function getInventoryReservation(): ?DeliveryInventoryReservationSummary { return $this->get('inventory_reservation'); }

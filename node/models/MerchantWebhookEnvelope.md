@@ -14,17 +14,20 @@ Fields shared by merchant webhook payloads.
 | `created_at` | Required | string | When Flint recorded the event. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `data` | Required | object | The resource snapshot recorded for this event and rendered at the delivery API version. `data`: [field definitions](../models/MerchantWebhookEnvelope.md#merchantwebhookenvelopedata). |
 | `event_source` | Required | string | The origin of the event. Selects the webhook envelope and the fields in source. Values: `"merchant"`. |
-| `event_type` | Required | string | The resource change or condition this event announces. Values: [269 declared values](#merchantwebhookenvelope-event_type-values). |
+| `event_type` | Required | string | The resource change or condition this event announces. Values: [284 declared values](#merchantwebhookenvelope-event_type-values). |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `mode` | Required | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `request` | Required | object or null | The originating request. `null` when the event has no originating request ID. `request`: [field definitions](../models/BalanceTransactionCreatedMerchantEvent.md#balancetransactioncreatedmerchanteventrequest). |
+| `request` | Required | object or null | The originating request. `null` when the event has no originating request ID. `request`: [field definitions](../models/ApiKeyCreatedEvent.md#apikeycreatedeventrequest). |
 | `sandbox_id` | Optional | string | Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
 
 #### MerchantWebhookEnvelope event_type values
 
+- `"api_key.created"`
+- `"api_key.updated"`
+- `"api_key.revoked"`
 - `"test_clock.created"`
 - `"test_clock.advancing"`
 - `"test_clock.ready"`
@@ -51,6 +54,9 @@ Fields shared by merchant webhook payloads.
 - `"price_list.created"`
 - `"price_list.updated"`
 - `"price_list.archived"`
+- `"reader.created"`
+- `"reader.updated"`
+- `"reader.archived"`
 - `"category.created"`
 - `"category.updated"`
 - `"category.deleted"`
@@ -130,20 +136,14 @@ Fields shared by merchant webhook payloads.
 - `"delivery_method.updated"`
 - `"delivery_location_set.archived"`
 - `"delivery_location_set.created"`
-- `"delivery_location_set.deactivated"`
-- `"delivery_location_set.activated"`
 - `"delivery_location_set.updated"`
 - `"delivery_profile.archived"`
 - `"delivery_profile.created"`
-- `"delivery_profile.deactivated"`
-- `"delivery_profile.activated"`
 - `"delivery_profile.updated"`
 - `"delivery_revocation.created"`
 - `"delivery_selection.committed"`
 - `"delivery_zone.archived"`
 - `"delivery_zone.created"`
-- `"delivery_zone.deactivated"`
-- `"delivery_zone.activated"`
 - `"delivery_zone.updated"`
 - `"invoice.collection_block_resolved"`
 - `"invoice.collection_blocked"`
@@ -174,6 +174,7 @@ Fields shared by merchant webhook payloads.
 - `"invoice.voided"`
 - `"inventory_reservation.action_required"`
 - `"inventory_count.applied"`
+- `"inventory_count.updated"`
 - `"inventory_level.updated"`
 - `"inventory_receipt.created"`
 - `"inventory_reservation.at_risk"`
@@ -183,12 +184,14 @@ Fields shared by merchant webhook payloads.
 - `"inventory_reservation.created"`
 - `"inventory_reservation.hold_expired"`
 - `"inventory_reservation.released"`
+- `"inventory_reservation.updated"`
 - `"inventory_level.shortage_detected"`
 - `"inventory_transfer.closed"`
 - `"inventory_transfer.departed"`
 - `"inventory_transfer.lost"`
 - `"inventory_transfer.received"`
 - `"inventory_transfer.returned"`
+- `"inventory_transfer.updated"`
 - `"merchant_billing_balance.updated"`
 - `"merchant.readiness_updated"`
 - `"merchant_billing_invoice.issued"`
@@ -294,6 +297,18 @@ Fields shared by merchant webhook payloads.
 - `"partner_app.platform_approved"`
 - `"partner_app.platform_limited"`
 - `"partner_app.platform_rejected"`
+- `"platform_fee_payout.created"`
+- `"platform_fee_payout.succeeded"`
+- `"platform_fee_payout.failed"`
+- `"payment_split.created"`
+- `"payment_split.succeeded"`
+- `"payment_split.failed"`
+- `"payment_split.canceled"`
+- `"payment_split.updated"`
+- `"platform_fee.created"`
+- `"platform_fee.succeeded"`
+- `"platform_fee.canceled"`
+- `"platform_fee.updated"`
 
 ### MerchantWebhookEnvelope.data
 
@@ -306,5 +321,5 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 ### MerchantWebhookEnvelope.request
 
-Field definitions: [BalanceTransactionCreatedMerchantEvent.request](../models/BalanceTransactionCreatedMerchantEvent.md#balancetransactioncreatedmerchanteventrequest).
+Field definitions: [ApiKeyCreatedEvent.request](../models/ApiKeyCreatedEvent.md#apikeycreatedeventrequest).
 

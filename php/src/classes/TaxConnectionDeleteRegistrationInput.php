@@ -16,7 +16,7 @@ final class TaxConnectionDeleteRegistrationInput extends Model {
      */
     public function getTaxRegistrationId(): string { return $this->get('tax_registration_id'); }
     public function hasTaxRegistrationId(): bool { return $this->has('tax_registration_id'); }
-    /** Registration version last read by the caller. Omit to delete the current registration. Format: uint64. minimum: 1.
+    /** Registration version last read by the caller. Omit to delete the current registration. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

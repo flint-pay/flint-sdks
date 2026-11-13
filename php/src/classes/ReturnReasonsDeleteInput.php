@@ -16,7 +16,7 @@ final class ReturnReasonsDeleteInput extends Model {
      */
     public function getReturnReasonId(): string { return $this->get('return_reason_id'); }
     public function hasReturnReasonId(): bool { return $this->has('return_reason_id'); }
-    /** Optional. The reason's current version. If it changed, the archive fails with 409 VERSION_CONFLICT and nothing changes. Format: int64. minimum: 1.
+    /** Optional. The reason's current version. If it changed, the archive fails with 409 VERSION_CONFLICT and nothing changes. Format: int64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

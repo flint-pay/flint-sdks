@@ -1,22 +1,21 @@
-import { d6374 as c0 } from '../descriptors/data/286.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6375 as c1 } from '../descriptors/data/287.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5685 as c2 } from '../descriptors/data/248.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5556 as c3 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d8030 as c4 } from '../descriptors/data/385.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d1175 as c5 } from '../descriptors/data/54.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d8038 as c6, d8039 as c7, d8040 as c8, d8041 as c9, d8042 as c10 } from '../descriptors/data/386.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7972 as c11, d7974 as c24, d7975 as c25, d7976 as c26, d7977 as c28 } from '../descriptors/data/382.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d8046 as c12, d8049 as c17, d8050 as c18 } from '../descriptors/data/387.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5895 as c13 } from '../descriptors/data/260.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7905 as c14, d7906 as c15, d7907 as c16 } from '../descriptors/data/377.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7964 as c19, d7965 as c20, d7966 as c21, d7967 as c22, d7968 as c23 } from '../descriptors/data/381.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6697 as c27 } from '../descriptors/data/304.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d8099 as c29 } from '../descriptors/data/389.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d1175 as d1175 } from '../descriptors/data/54.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d6537 as c0, d6538 as c1 } from '../descriptors/data/298.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d5893 as c2 } from '../descriptors/data/264.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d5764 as c3 } from '../descriptors/data/255.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8420 as c4 } from '../descriptors/data/410.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d1230 as c5 } from '../descriptors/data/60.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8428 as c6, d8429 as c7, d8430 as c8, d8431 as c9, d8432 as c10 } from '../descriptors/data/411.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8363 as c11, d8365 as c24, d8366 as c25, d8367 as c26, d8368 as c28 } from '../descriptors/data/407.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8436 as c12, d8439 as c17, d8440 as c18 } from '../descriptors/data/412.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6648 as c13 } from '../descriptors/data/305.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8296 as c14, d8297 as c15, d8298 as c16 } from '../descriptors/data/402.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8355 as c19, d8356 as c20, d8357 as c21, d8358 as c22, d8359 as c23 } from '../descriptors/data/406.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6978 as c27 } from '../descriptors/data/325.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8489 as c29 } from '../descriptors/data/414.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d1230 as d1230 } from '../descriptors/data/60.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1175;
+const read = d1230;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["LineItemFulfillmentOriginRequestModel"]:c0(),["LineItemFulfillmentRequestModel"]:c1(),["MetadataRequest"]:c2(),["MoneyValue"]:c3(),["ProcessExistingReturnLineItemRequest"]:c4(),["ProcessExistingReturnRequest"]:c5(),["ReturnProcessDecision"]:c6(),["ReturnProcessDispositionRequest"]:c7(),["ReturnProcessInspectionRequest"]:c8(),["ReturnProcessReceiptRequest"]:c9(),["ReturnProcessResolutionRequest"]:c10(),["ReturnReplacementLineItemRequest"]:c11(),["ReturnSourceSystemRequest"]:c12(),["SharedCodec106"]:c13(),["SharedCodec1348"]:c14(),["SharedCodec1349"]:c15(),["SharedCodec1350"]:c16(),["SharedCodec1361"]:c17(),["SharedCodec1362"]:c18(),["SharedCodec1400"]:c19(),["SharedCodec1401"]:c20(),["SharedCodec1402"]:c21(),["SharedCodec1403"]:c22(),["SharedCodec1404"]:c23(),["SharedCodec1405"]:c24(),["SharedCodec1406"]:c25(),["SharedCodec1407"]:c26(),["SharedCodec270"]:c27(),["SharedCodec350"]:c28(),["SharedCodec356"]:c29()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["LineItemFulfillmentOriginRequestModel"]:c0(),["LineItemFulfillmentRequestModel"]:c1(),["MetadataRequest"]:c2(),["MoneyValue"]:c3(),["ProcessExistingReturnLineItemRequest"]:c4(),["ProcessExistingReturnRequest"]:c5(),["ReturnProcessDecision"]:c6(),["ReturnProcessDispositionRequest"]:c7(),["ReturnProcessInspectionRequest"]:c8(),["ReturnProcessReceiptRequest"]:c9(),["ReturnProcessResolutionRequest"]:c10(),["ReturnReplacementLineItemRequest"]:c11(),["ReturnSourceSystemRequest"]:c12(),["SharedCodec121"]:c13(),["SharedCodec1468"]:c14(),["SharedCodec1469"]:c15(),["SharedCodec1470"]:c16(),["SharedCodec1481"]:c17(),["SharedCodec1482"]:c18(),["SharedCodec1523"]:c19(),["SharedCodec1524"]:c20(),["SharedCodec1525"]:c21(),["SharedCodec1526"]:c22(),["SharedCodec1527"]:c23(),["SharedCodec1528"]:c24(),["SharedCodec1529"]:c25(),["SharedCodec1530"]:c26(),["SharedCodec304"]:c27(),["SharedCodec398"]:c28(),["SharedCodec404"]:c29()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeProcessExistingReturnRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

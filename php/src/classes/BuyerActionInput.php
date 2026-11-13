@@ -9,10 +9,11 @@ namespace Flint;
  * @property-read string $kind
  * @property-read BuyerPauseActionOptionsInput|array<array-key, mixed>|\stdClass $pause
  * @property-read BuyerPayBalanceActionOptionsInput|array<array-key, mixed>|\stdClass $pay_balance
+ * @property-read BuyerRetryPaymentActionOptionsInput|array<array-key, mixed>|\stdClass $retry_payment
  * @property-read string $unavailable_reason
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerActionInput extends Model {
-    /** @param array{'cancel'?: BuyerCancelActionOptionsInput|array<array-key, mixed>|\stdClass, 'due_at'?: string|\DateTimeInterface, 'is_available': bool, 'is_required': bool, 'kind': string, 'pause'?: BuyerPauseActionOptionsInput|array<array-key, mixed>|\stdClass, 'pay_balance'?: BuyerPayBalanceActionOptionsInput|array<array-key, mixed>|\stdClass, 'unavailable_reason'?: string, ...}|object $values */
+    /** @param array{'cancel'?: BuyerCancelActionOptionsInput|array<array-key, mixed>|\stdClass, 'due_at'?: string|\DateTimeInterface, 'is_available': bool, 'is_required': bool, 'kind': string, 'pause'?: BuyerPauseActionOptionsInput|array<array-key, mixed>|\stdClass, 'pay_balance'?: BuyerPayBalanceActionOptionsInput|array<array-key, mixed>|\stdClass, 'retry_payment'?: BuyerRetryPaymentActionOptionsInput|array<array-key, mixed>|\stdClass, 'unavailable_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerActionInput')); }
     /** Present only on an available cancel action. The cancellation choices this subscription accepts from its buyer.
      * @return BuyerCancelActionOptionsInput|array<array-key, mixed>|\stdClass
@@ -56,7 +57,13 @@ final class BuyerActionInput extends Model {
      */
     public function getPayBalance(): mixed { return $this->get('pay_balance'); }
     public function hasPayBalance(): bool { return $this->has('pay_balance'); }
-    /** Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Value enum: "sign_in_required", "store_policy", "not_in_state", "window_closed", "nothing_to_return", "collection_unavailable", "limit_reached".
+    /** How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running.
+     * @return BuyerRetryPaymentActionOptionsInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When retry_payment is omitted; use hasRetryPayment() or valueOrDefault().
+     */
+    public function getRetryPayment(): mixed { return $this->get('retry_payment'); }
+    public function hasRetryPayment(): bool { return $this->has('retry_payment'); }
+    /** Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Value enum: "sign_in_required", "store_policy", "not_in_state", "window_closed", "nothing_to_return", "collection_unavailable", "limit_reached", "delivery_hold", "in_progress".
      * @return string
      * @throws SdkError When unavailable_reason is omitted; use hasUnavailableReason() or valueOrDefault().
      */

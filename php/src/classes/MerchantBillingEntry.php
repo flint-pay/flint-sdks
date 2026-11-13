@@ -45,7 +45,7 @@ final class MerchantBillingEntry extends Model {
      */
     public function getDisputeId(): ?string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Event fee category. Present only for event_fee entries. card_dispute applies only when Flint paid the processor's dispute fee; a fee already deducted from your balance is recorded on the dispute balance transaction instead. Value enum: "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute", "external_paid_order_overage".
+    /** Event fee category. Present only for event_fee entries. card_dispute and card_dispute_countered apply only when Flint paid the processor's dispute fee; a fee already deducted from your balance is recorded on the dispute balance transaction instead. Value enum: "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute", "card_dispute_countered", "external_paid_order_overage".
      * @return ?string
      */
     public function getEventFeeType(): ?string { return $this->get('event_fee_type'); }

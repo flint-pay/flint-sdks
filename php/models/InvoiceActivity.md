@@ -24,6 +24,7 @@ Response model.
 | `expected_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount the processing payment is expected to settle. Present on payment_processing. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `invoice_activity_id` | Required | string | Flint invoice activity ID. IDs begin with inevt_. |
 | `invoice_delivery_attempt_id` | Optional | string | The delivery attempt that sent the email. Present on delivery_sent and reminder_sent. |
+| `invoice_id` | Required | string | Invoice whose history contains this activity and owns its referenced delivery attempt, late fee, or manual payment. |
 | `invoice_late_fee_id` | Optional | string | The late fee. Present on late_fee_assessed and late_fee_waived. |
 | `invoice_manual_payment_id` | Optional | string | The manual payment. Present on manual_payment_recorded and manual_payment_reversed. |
 | `invoice_payment_attempt_id` | Optional | string | The payment attempt. Present on payment_attempt_started and payment_processing. |

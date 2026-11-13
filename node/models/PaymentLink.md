@@ -25,7 +25,7 @@ A reusable link that opens checkout.
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `image` | Optional | [ImageAttachment](../models/ImageAttachment.md#imageattachment) | Image shown to buyers with the link. An image attached to a resource, with its display properties and attachment metadata. |
 | `inactive_message` | Optional | string | Message to show the buyer when the link is inactive. |
-| `inventory_routing_source` | Optional | [InventoryRoutingSource](../models/InventoryRoutingSource.md#inventoryroutingsource) | The inventory location or routing policy that supplies stock for the link's catalog lines. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. `inventory_routing_source`: [field definitions](../models/PaymentLink.md#paymentlinkinventory_routing_source). |
+| `inventory_routing_source` | Optional | [InventoryRoutingSource](../models/InventoryRoutingSource.md#inventoryroutingsource) | The inventory location or routing policy that supplies stock for the link's catalog lines. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision. |
 | `legal` | Optional | [LegalSettings](../models/LegalSettings.md#legalsettings) | The terms and policy links checkouts started from this link show the buyer. Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract. `legal`: [field definitions](../models/PaymentLink.md#paymentlinklegal). |
 | `line_items` | Optional | Array of [PaymentLinkLineItem](../models/PaymentLinkLineItem.md#paymentlinklineitem) | What the link sells. |
 | `max_completions` | Optional | integer | Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once the limit is reached, resolving the link fails with a request error. It can't be set below `completed_count`. Format: `int32`. |
@@ -36,7 +36,7 @@ A reusable link that opens checkout.
 | `payment_link_type` | Optional | string | What kind of link this is. Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [CheckoutPaymentConfig](../models/CheckoutPaymentConfig.md#checkoutpaymentconfig) | Payment options for checkouts started from this link. Payment settings for a checkout: the enabled payment options and a note shown with payment. `payments`: [field definitions](../models/PaymentLink.md#paymentlinkpayments). |
 | `promotion_config` | Optional | [CheckoutPromotionConfig](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. `promotion_config`: [field definitions](../models/PaymentLink.md#paymentlinkpromotion_config). |
-| `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url. `redirects`: [field definitions](../models/PaymentLink.md#paymentlinkredirects). |
+| `redirects` | Optional | [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. `redirects`: [field definitions](../models/PaymentLink.md#paymentlinkredirects). |
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `sales_summary` | Optional | [PaymentLinkSalesSummary](../models/PaymentLinkSalesSummary.md#paymentlinksalessummary) | Present only with expand=sales_summary on GET /v1/payment-links or GET /v1/payment-links/{payment_link_id}. Available to merchant callers, including dashboard sessions and API keys with checkouts.payment_links.read. Uses the same paid-order definition as the merchant sales summary. Paid-order sales totals for a payment link, computed on request. Paid means the order's collection has completed. Fully and partially refunded orders still count, and paid_totals reports the amount collected before refunds. Each order counts once even if it has multiple checkout sessions. |
 | `status` | Required | string | Whether the link can start new checkouts. Values: `"active"`, `"inactive"`. |
@@ -86,12 +86,6 @@ Event details for an `event` link: when and where it takes place and how many ti
 | `timezone` | Optional | string | IANA time zone of the event venue, used to show `event_at` as venue time. |
 | `venue` | Optional | string | Where the event takes place. maxLength: `500`. |
 
-### PaymentLink.inventory_routing_source
-
-The inventory location or routing policy that supplies stock for the link's catalog lines. Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision.
-
-Field definitions: [shared fields](DeliverySelectionOrder.md#deliveryselectionorderinventory_routing_source).
-
 ### PaymentLink.legal
 
 The terms and policy links checkouts started from this link show the buyer. Legal settings for a checkout: whether buyers must accept terms, and links to the terms, refund policy, shipping policy, and contract.
@@ -116,7 +110,7 @@ Field definitions: [shared fields](CheckoutPromotionConfig.md#checkoutpromotionc
 
 ### PaymentLink.redirects
 
-Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
+Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
 
 Field definitions: [shared fields](BuyerCheckoutSession.md#buyercheckoutsessionredirects).
 
@@ -126,7 +120,12 @@ Tax settings for checkouts started from this link. Whether tax is collected for 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `enabled` | Optional | boolean | Whether Flint calculates automatic tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. |
+| `calculation` | Optional | [CheckoutTaxCalculation](../models/CheckoutTaxCalculation.md#checkouttaxcalculation) | How the order Flint creates calculates tax while tax is enabled. Omitted when it follows `tax.default_calculation` from your settings, where a `provided` default means automatic. On a payment link update, send null to follow your settings again. The calculation the order Flint creates uses while tax is enabled. Replaced as a whole: send every field you want to keep. Omit it to use `tax.default_calculation` from your settings; a `provided` default applies only to orders you create, so it means automatic here. `calculation`: [field definitions](../models/CheckoutTaxConfig.md#checkouttaxconfig-variant-1calculation). |
+| `enabled` | Optional | boolean | Whether Flint calculates tax on the order it creates for this checkout. Omit to use tax.default_enabled from your settings. |
+
+### PaymentLink.tax.calculation
+
+Field definitions: [CheckoutTaxConfig variant 1.calculation](../models/CheckoutTaxConfig.md#checkouttaxconfig-variant-1calculation).
 
 ### PaymentLink.theme
 

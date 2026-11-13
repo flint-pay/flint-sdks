@@ -9,13 +9,13 @@ namespace Flint;
 final class DeliveryTieredPricingStrategyWeightInput extends Model {
     /** @param array{'bands': list<DeliveryPricingTierBandInput|array<array-key, mixed>|\stdClass>, 'basis': string, 'unit': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryTieredPricingStrategyWeightInput')); }
-    /**  [] (Value): {@see DeliveryPricingTierBandInput}. One band of a tiered pricing strategy, covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
+    /** One to 25 contiguous bands in ascending order. The final band has no upper bound. minItems: 1. maxItems: 25. [] (Value): {@see DeliveryPricingTierBandInput}. One band of a tiered pricing strategy, covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
      * @return list<DeliveryPricingTierBandInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When bands is omitted; use hasBands() or valueOrDefault().
      */
     public function getBands(): array { return $this->get('bands'); }
     public function hasBands(): bool { return $this->has('bands'); }
-    /** Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value enum: "choice_group.total_weight".
+    /** Value matched against the numeric tier bands. Money subtotal bases use minor currency units; caller.tier_key uses the nonnegative tier_key supplied when creating the checkout delivery quote. Value enum: "choice_group.total_weight".
      * @return string
      * @throws SdkError When basis is omitted; use hasBasis() or valueOrDefault().
      */

@@ -17,7 +17,7 @@ final class DeliveryMethodConfigurationPricingCallbackCalculated extends Model {
      */
     public function getBaseFeeCurrencyOptions(): ?array { return $this->get('base_fee_currency_options'); }
     public function hasBaseFeeCurrencyOptions(): bool { return $this->has('base_fee_currency_options'); }
-    /** A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
+    /** Charge per unit of distance between the origin and the destination. A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`.
      * @return ?DeliveryMethodConfigurationPricingCallbackCalculatedDistance
      */
     public function getDistance(): ?DeliveryMethodConfigurationPricingCallbackCalculatedDistance { return $this->get('distance'); }
@@ -37,7 +37,7 @@ final class DeliveryMethodConfigurationPricingCallbackCalculated extends Model {
      */
     public function getPerItemHandlingFeeCurrencyOptions(): ?array { return $this->get('per_item_handling_fee_currency_options'); }
     public function hasPerItemHandlingFeeCurrencyOptions(): bool { return $this->has('per_item_handling_fee_currency_options'); }
-    /** Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
+    /** Charge per unit of weight of the items. Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`.
      * @return ?DeliveryMethodConfigurationPricingCallbackCalculatedWeight
      */
     public function getWeight(): ?DeliveryMethodConfigurationPricingCallbackCalculatedWeight { return $this->get('weight'); }

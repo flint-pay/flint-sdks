@@ -11,13 +11,13 @@ namespace Flint;
 final class DeliveryZonesUpdateParams extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZonesUpdateParams')); }
-    /** Send the whole geography. It replaces the zone's current geography; leave configuration out to keep it. Null and an empty object are invalid. Requires expected_version. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
+    /** Replaced as a whole: send every field you want to keep. Send the whole geography; leave configuration out to keep it. Null and an empty object are invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
      * @return DeliveryZoneConfigurationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
     public function hasConfiguration(): bool { return $this->has('configuration'); }
-    /** Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration. Format: uint64. minimum: 1.
+    /** Current resource version. Required when the request carries a revision field: configuration. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: uint64. minimum: 1.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class DeliveryZonesUpdateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Merchant-facing name. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

@@ -197,7 +197,7 @@ Signature: `delete(string|Model $tax_calculation_callback_id, array|Model|null $
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. |
-| `expected_version` | Optional | integer | Current callback version. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Current callback version. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
 
@@ -410,7 +410,7 @@ Signature: `update(string|Model $tax_calculation_callback_id, array|Model $param
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `tax_calculation_callback_id` | Required | string | Tax calculation callback ID. |
-| `body` | Required | [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalculationCallbackRequestInput.md#updatetaxcalculationcallbackrequestinput) | The request body for: Update a tax calculation callback. |
+| `body` | Required | [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalculationCallbackRequestInput.md#updatetaxcalculationcallbackrequestinput) | The request body for: Update a tax calculation callback. minProperties: `1`. |
 
 Body model: [UpdateTaxCalculationCallbackRequestInput](../models/UpdateTaxCalculationCallbackRequestInput.md#updatetaxcalculationcallbackrequestinput).
 

@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $order_id
- * @property-read array{'amount_money'?: mixed, 'capture_method'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed}|object $body
+ * @property-read array{'amount_money'?: mixed, 'capture_method'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed, 'platform_fee'?: mixed, 'request_overcapture'?: bool, 'splits'?: list<mixed>}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreatePaymentIntentInput extends Model {
-    /** @param array{'order_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'amount_money'?: mixed, 'capture_method'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed}|object}|object $values */
+    /** @param array{'order_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'amount_money'?: mixed, 'capture_method'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed, 'platform_fee'?: mixed, 'request_overcapture'?: bool, 'splits'?: list<mixed>}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreatePaymentIntentInput')); }
     /** Flint order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
@@ -35,7 +35,7 @@ final class OrdersCreatePaymentIntentInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Create order payment intent.
-     * @return array{'amount_money'?: mixed, 'capture_method'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed}|object
+     * @return array{'amount_money'?: mixed, 'capture_method'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed, 'platform_fee'?: mixed, 'request_overcapture'?: bool, 'splits'?: list<mixed>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

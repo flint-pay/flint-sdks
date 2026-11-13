@@ -2,7 +2,7 @@
 
 ## UpdateSubscriptionRequest
 
-The request body for: Update subscription.
+The request body for: Update subscription. minProperties: `1`.
 
 
 
@@ -18,8 +18,10 @@ The request body for: Update subscription.
 | `end_after` | Optional | [SubscriptionEndAfterRequest](../models/SubscriptionEndAfterRequest.md#subscriptionendafterrequest) or null | Replace the complete automatic end condition, or send null to clear it. Requires expected_version. Buyers cannot change this field. |
 | `expected_version` | Optional | integer | The current subscription version. Required when end_after is present. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
+| `gift_recipient` | Optional | [SubscriptionGiftRecipientRequest](../models/SubscriptionGiftRecipientRequest.md#subscriptiongiftrecipientrequest) or null | Replace the whole gift recipient, or send null to clear it. There are no partial changes. Send expected_version to guard against concurrent changes. Buyers cannot change this field. |
 | `metadata` | Optional | [MetadataPatchRequest](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `payment_method_id` | Optional | string | minLength: `1`. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 | `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
 | `scheduled_plan_change` | Optional | null | Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan. |
+| `tax` | Optional | [SubscriptionTaxRequest](../models/SubscriptionTaxRequest.md#subscriptiontaxrequest) or null | Replace the subscription's tax as a whole, or send null to clear it, so its orders follow your settings again. Orders Flint creates after the change use it; an open renewal order keeps the tax it was created with. Buyers cannot change this field. |
 

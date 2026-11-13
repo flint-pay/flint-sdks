@@ -14,27 +14,27 @@ namespace Flint;
 final class CheckoutDerivedDeliveryResource extends Model {
     /** @param array{'buyer_reasons': list<string>, 'choice_groups': list<mixed>, 'delivery_quote_id'?: string, 'delivery_selection_id': string|null, 'evaluation_status': string, 'expires_at'?: string, 'input_requirements': list<mixed>, 'merchant_diagnostics'?: list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutDerivedDeliveryResource')); }
-    /**  [] (Value): string.
+    /** Buyer-safe reasons candidate methods did not produce an option. These can be present even when another method is available. [] (Value): string.
      * @return list<string>
      */
     public function getBuyerReasons(): array { return $this->get('buyer_reasons'); }
     public function hasBuyerReasons(): bool { return $this->has('buyer_reasons'); }
-    /**  [] (Value): {@see DeliveryQuoteChoiceGroupResource}. One group of order items in a delivery quote, with the delivery options the buyer can choose, its availability status, and any input still needed.
+    /** Groups of order items that each choose their own delivery option. Empty until the checkout has a delivery quote. [] (Value): {@see DeliveryQuoteChoiceGroupResource}. One group of order items in a delivery quote, with the delivery options the buyer can choose, its availability status, and any input still needed.
      * @return list<DeliveryQuoteChoiceGroupResource>
      */
     public function getChoiceGroups(): array { return $this->get('choice_groups'); }
     public function hasChoiceGroups(): bool { return $this->has('choice_groups'); }
-    /** delivery_quote_id
+    /** ID of the checkout's current delivery quote. Omitted until the checkout has one.
      * @return ?string
      */
     public function getDeliveryQuoteId(): ?string { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
-    /** Current delivery selection ID after reconciliation, or null when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes.
+    /** Current delivery selection ID after reconciliation. `null` when no selection is current. Assert this value with expected_delivery_selection_id on checkout delivery writes.
      * @return string|null
      */
     public function getDeliverySelectionId(): string|null { return $this->get('delivery_selection_id'); }
     public function hasDeliverySelectionId(): bool { return $this->has('delivery_selection_id'); }
-    /** Value enum: "complete", "incomplete", "degraded", "requires_explicit_quote".
+    /** How completely Flint evaluated the candidate delivery methods. Value enum: "complete", "incomplete", "degraded", "requires_explicit_quote".
      * @return string
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }

@@ -9,19 +9,19 @@ namespace Flint;
 final class SubscriptionDeliveryMigrationFailureInput extends Model {
     /** @param array{'message': string, 'reason': string, 'subscription_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMigrationFailureInput')); }
-    /** message
+    /** Plain-language explanation of the failure.
      * @return string
      * @throws SdkError When message is omitted; use hasMessage() or valueOrDefault().
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Value enum: "method_not_offered", "destination_not_served", "rate_unavailable", "method_unavailable", "no_longer_applicable", "not_movable".
+    /** Why the subscription could not be moved. Value enum: "method_not_offered", "destination_not_served", "rate_unavailable", "method_unavailable", "no_longer_applicable", "not_movable".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+    /** ID of the subscription that could not be moved. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

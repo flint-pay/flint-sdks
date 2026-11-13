@@ -12,21 +12,27 @@ The request body for: Create order.
 | --- | --- | --- | --- |
 | `buyer_note` | Optional | string | A note to the buyer. minLength: `1`. maxLength: `1000`. |
 | `customer_id` | Optional | string | ID of the customer this order belongs to. minLength: `1`. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
+| `delivery` | Optional | [OrderDeliveryRequest](../models/OrderDeliveryRequest.md#orderdeliveryrequest) | Quotes the exact delivery method and atomically selects it with its charge and inventory hold. Requires orders-write and delivery-write. Shipment and local delivery with one choice group are supported. Cannot be combined with delivery_destination or handover. Complete delivery preference to quote and select together with the order's delivery charge and inventory hold. |
 | `delivery_destination` | Optional | [OrderDeliveryDestinationRequest](../models/OrderDeliveryDestinationRequest.md#orderdeliverydestinationrequest) | Shipment or local-delivery destination for an order created without a delivery selection. The delivery destination you set when creating or updating an order, with an address and an optional recipient. |
 | `discounts` | Optional | Array of [CreateOrderDiscount](../models/CreateOrderDiscount.md#createorderdiscount) | Discounts applied to the order, each with its amount, status, and the line items and charges it covers. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
+| `handover` | Optional | [OrderHandover](../models/OrderHandover.md#orderhandover) | Carry-out sale: every physical item is handed to the buyer at this location when the order is paid, so paying needs no delivery selection. Can't be combined with delivery_destination. Every physical item is handed to the buyer at this location when the order is paid. Replaces a delivery selection. `handover`: [field definitions](../models/CreateOrderRequest.md#createorderrequesthandover). |
 | `internal_note` | Optional | string | A note for your team. Buyer reads leave it out. minLength: `1`. maxLength: `1000`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequest](../models/InventoryRoutingSourceRequest.md#inventoryroutingsourcerequest) | How Flint chooses the Locations that fill this order's inventory: one fixed Location, an allocation policy, or a specific policy revision. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
-| `line_items` | Required | Array of [CreateOrderLineItem](../models/CreateOrderLineItem.md#createorderlineitem) | Items the order sells, each with its pricing, tax, and fulfillment quantities. minItems: `1`. `line_items[]`: [declared alternatives](../models/AddLineItemsRequest.md#addlineitemsrequestline_items). |
-| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata). |
+| `line_items` | Required | Array of [CreateOrderLineItemRequest](../models/CreateOrderLineItemRequest.md#createorderlineitemrequest) | Items the order sells, each with its pricing, tax, and fulfillment quantities. minItems: `1`. |
+| `metadata` | Optional | [MetadataMap](../models/MetadataMap.md#metadatamap) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. `metadata`: [field definitions](../models/CreateBundleRequest.md#createbundlerequestmetadata). |
 | `requested_tip` | Optional | [CreateOrderTip](../models/CreateOrderTip.md#createordertip) | Optional requested tip. Its effective amount must satisfy the CreateOrderTip limit. Requested tip expressed as either a flat amount or a percentage. Send exactly one of amount_money or percent. |
-| `tax` | Optional | [OrderTaxRequest](../models/OrderTaxRequest.md#ordertaxrequest) | Tax settings for the order. Tax settings you supply when creating an order: whether tax is enabled, how it is calculated, and the tax location. |
+| `tax` | Optional | [OrderTaxRequest](../models/OrderTaxRequest.md#ordertaxrequest) | Tax settings for the order. Tax settings for a new order: whether tax is enabled, its calculation, location, and exemption selection. |
 
-### CreateOrderRequest.line_items[]
+### CreateOrderRequest.handover
 
-Declared alternatives: [AddLineItemsRequest.line_items[]](../models/AddLineItemsRequest.md#addlineitemsrequestline_items).
+Carry-out sale: every physical item is handed to the buyer at this location when the order is paid, so paying needs no delivery selection. Can't be combined with delivery_destination. Every physical item is handed to the buyer at this location when the order is paid. Replaces a delivery selection.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `location_id` | Required | string | Active location with a complete address where the buyer receives the goods. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 
 ### CreateOrderRequest.metadata
 
-Field definitions: [AddLineItemsRequest.line_items[].metadata](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmetadata).
+Field definitions: [CreateBundleRequest.metadata](../models/CreateBundleRequest.md#createbundlerequestmetadata).
 

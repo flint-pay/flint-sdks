@@ -2,7 +2,7 @@
 
 ## UpdatePaymentMethodDomainRequest
 
-The request body for: Update payment method domain.
+The request body for: Update payment method domain. minProperties: `1`.
 
 
 

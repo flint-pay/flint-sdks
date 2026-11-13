@@ -47,7 +47,7 @@ Body model: [CreatePaymentLinkRequestInput](../models/CreatePaymentLinkRequest.m
 | `payment_link_type` | Optional | string | Payment link type. Omit to use standard. Explicit values must be standard, donation, or event; empty or padded values are invalid. Default: `"standard"`. Values: `"standard"`, `"donation"`, `"event"`. |
 | `payments` | Optional | [PaymentLinkPaymentConfigInput](../models/PaymentLinkPaymentConfigInput.md#paymentlinkpaymentconfiginput) | Payment options for checkouts started from this link. Payment settings on a payment link: the enabled payment options and a note shown with payment. |
 | `promotion_config` | Optional | [CheckoutPromotionConfigRequestInput](../models/CheckoutPromotionConfig.md#checkoutpromotionconfig) | Whether automatic promotions apply to checkouts started from this link and whether buyers can enter promotion codes. Promotion settings for a checkout: whether automatic promotions apply and whether the buyer can apply promotion codes. |
-| `redirects` | Optional | [CheckoutRedirectsRequestInput](../models/CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url. |
+| `redirects` | Optional | [CheckoutRedirectsRequestInput](../models/CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput) | Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. |
 | `sales_end_at` | Optional | string | RFC3339 timestamp after which the link stops starting checkouts and resolve fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own, except that an event link without sales_end_at stops selling at event_config.event_at. A checkout opened before the end can still start payment for up to 15 minutes after it. Format: `date-time`. minLength: `1`. |
 | `subscription_plan_id` | Optional | string | minLength: `1`. |
 | `tax` | Optional | [CheckoutTaxConfigRequestInput](../models/CheckoutTaxConfigRequestInput.md#checkouttaxconfigrequestinput) | Tax settings for checkouts started from this link. Whether tax is collected for a checkout session or payment link. |
@@ -128,6 +128,7 @@ Returned payload: [PaymentLink](../models/PaymentLink.md#paymentlink).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -244,6 +245,7 @@ Returned payload: [PaymentLinkListResponse](../models/PaymentLinkListResponse.md
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -358,7 +360,7 @@ Signature: `update(payment_link_id: InputValue<string>, params: PaymentLinksUpda
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdatePaymentLinkRequestInput](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequest) | The request body for: Update payment link. |
+| `body` | Required | [UpdatePaymentLinkRequestInput](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequest) | The request body for: Update payment link. minProperties: `1`. |
 
 Body model: [UpdatePaymentLinkRequestInput](../models/UpdatePaymentLinkRequest.md#updatepaymentlinkrequest).
 

@@ -38,7 +38,7 @@ final class MeListReturnsParams extends Model {
      */
     public function getDecisionStatus(): mixed { return $this->get('decision_status'); }
     public function hasDecisionStatus(): bool { return $this->has('decision_status'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -50,7 +50,7 @@ final class MeListReturnsParams extends Model {
      */
     public function getMerchandiseStatus(): mixed { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** Filter by order id. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by order id. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -80,7 +80,7 @@ final class MeListReturnsParams extends Model {
      */
     public function getReturnNumber(): string { return $this->get('return_number'); }
     public function hasReturnNumber(): bool { return $this->has('return_number'); }
-    /** Filter by return reason id. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+    /** Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */

@@ -33,7 +33,7 @@ final class CheckoutSettingsInput extends Model {
      */
     public function getEnabledPaymentOptions(): array { return $this->get('enabled_payment_options'); }
     public function hasEnabledPaymentOptions(): bool { return $this->has('enabled_payment_options'); }
-    /** Merchant default for whether a checkout session's buyer can apply promotion codes, hosted or headless; hosted checkout shows or hides code entry to match. Object-level promotion_config.codes_enabled can override it for a session or payment link.
+    /** Merchant default for whether a checkout session's buyer can apply promotion codes, hosted or headless; when unset, hosted checkout offers code entry only while an active code promotion exists in this environment. Read can_apply_promotion_code on the session. Object-level promotion_config.codes_enabled can override it for a session or payment link.
      * @return bool
      * @throws SdkError When promotion_codes_enabled is omitted; use hasPromotionCodesEnabled() or valueOrDefault().
      */

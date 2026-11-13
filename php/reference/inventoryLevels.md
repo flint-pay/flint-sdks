@@ -32,6 +32,7 @@ Returned payload: [InventoryLevel](../models/InventoryLevel.md#inventorylevel).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -68,8 +69,8 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `inventory_item_id` | Optional | string | Filter by inventory item. |
-| `location_id` | Optional | string | Filter by Location. |
+| `inventory_item_id` | Optional | string | Filter by inventory item. pattern: `^invi_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `location_id` | Optional | string | Filter by Location. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `inventory_item_status` | Optional | Array of string or string | Filter by the status of the inventory item the level belongs to. Only active items can be routed or reserved. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `has_available_quantity` | Optional | boolean | True selects levels with available quantity; false selects levels with zero available quantity. Omit for all levels. |
 | `has_unavailable_condition` | Optional | boolean | True selects levels with unavailable physical stock; false selects levels with none. Omit for all levels. |
@@ -96,6 +97,7 @@ Returned payload: [InventoryLevelListResponse](../models/InventoryLevelListRespo
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -136,7 +138,7 @@ Signature: `update(string|Model $inventory_level_id, array|Model $params, ?Reque
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateInventoryLevelRequestInput](../models/UpdateInventoryLevelRequestInput.md#updateinventorylevelrequestinput) | The request body for: Update inventory level. |
+| `body` | Required | [UpdateInventoryLevelRequestInput](../models/UpdateInventoryLevelRequestInput.md#updateinventorylevelrequestinput) | The request body for: Update inventory level. minProperties: `1`. |
 
 Body model: [UpdateInventoryLevelRequestInput](../models/UpdateInventoryLevelRequestInput.md#updateinventorylevelrequestinput).
 

@@ -46,7 +46,7 @@ final class InvoiceScheduleEntry extends Model {
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
-    /** Payments applied to this entry, minus reversed payments, including payments toward its late fee. It can exceed total_money when the entry carries a late fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Payments applied to this entry, minus reversed payments, including payments toward its late fee. Dispute losses don't reduce it. It can exceed total_money when the entry carries a late fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getPaidMoney(): MoneyValue { return $this->get('paid_money'); }

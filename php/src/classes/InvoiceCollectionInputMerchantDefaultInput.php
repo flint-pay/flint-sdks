@@ -21,7 +21,7 @@ final class InvoiceCollectionInputMerchantDefaultInput extends Model {
      */
     public function getPaymentMethodId(): string|null { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings payment_policy, or the checkout payment options when that isn't set. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison.
+    /** The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An explicit policy takes precedence over invoices.payment_policy, then checkout payment options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when the draft is written; later settings changes do not change its stored policy. Wallets appear only on supported devices over HTTPS with the payment domain registered. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison.
      * @return InvoicePaymentPolicyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_policy is omitted; use hasPaymentPolicy() or valueOrDefault().
      */

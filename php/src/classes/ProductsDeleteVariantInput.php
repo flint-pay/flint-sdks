@@ -23,7 +23,7 @@ final class ProductsDeleteVariantInput extends Model {
      */
     public function getVariantId(): string { return $this->get('variant_id'); }
     public function hasVariantId(): bool { return $this->has('variant_id'); }
-    /** Optional product variant version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional product variant version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

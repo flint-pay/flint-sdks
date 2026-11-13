@@ -9,6 +9,7 @@ namespace Flint;
  * @property-read ?Image $merchant_icon
  * @property-read ?Image $merchant_logo
  * @property-read ?string $merchant_name
+ * @property-read ?CheckoutMerchantSupport $merchant_support
  * @property-read PublicPaymentLink $payment_link
  * @property-read ?int $remaining_quantity
  * @property-read string $resolution_context
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read ?PaymentLinkSubscriptionPreview $subscription_preview
  * Presence-aware response; omitted optional fields return null. */
 final class PublicPaymentLinkResult extends Model {
-    /** @param array{'checkout_start_due_at': string, 'checkout_theme'?: mixed, 'is_past_sales_end': bool, 'is_sold_out': bool, 'merchant_icon'?: mixed, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'payment_link': mixed, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string, 'resolved_line_items'?: list<mixed>, 'show_flint_mark': bool, 'subscription_preview'?: mixed, ...}|object $values */
+    /** @param array{'checkout_start_due_at': string, 'checkout_theme'?: mixed, 'is_past_sales_end': bool, 'is_sold_out': bool, 'merchant_icon'?: mixed, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'payment_link': mixed, 'remaining_quantity'?: int, 'resolution_context': string, 'resolution_context_expires_at': string, 'resolved_line_items'?: list<mixed>, 'show_flint_mark': bool, 'subscription_preview'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicPaymentLinkResult')); }
     /** Start a new checkout before this instant. At or after it, read the public payment link again for a new resolution_context; its credential expiry is resolution_context_expires_at. Format: date-time.
      * @return string
@@ -55,6 +56,11 @@ final class PublicPaymentLinkResult extends Model {
      */
     public function getMerchantName(): ?string { return $this->get('merchant_name'); }
     public function hasMerchantName(): bool { return $this->has('merchant_name'); }
+    /** How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Omitted when the merchant set none. The merchant's support contact. Each field is omitted when the merchant has not set it.
+     * @return ?CheckoutMerchantSupport
+     */
+    public function getMerchantSupport(): ?CheckoutMerchantSupport { return $this->get('merchant_support'); }
+    public function hasMerchantSupport(): bool { return $this->has('merchant_support'); }
     /** The payment link that was resolved. The buyer-facing view of a payment link, with its line items, custom fields, legal and payment settings, and status.
      * @return PublicPaymentLink
      */

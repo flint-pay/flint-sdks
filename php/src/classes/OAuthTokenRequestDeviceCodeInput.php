@@ -90,7 +90,7 @@ final class OAuthTokenRequestDeviceCodeInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Partner redirect URI used in authorization, required for authorization_code.
+    /** The redirect URI the authorization request used, character for character. Required for a code from the consent screen. Omit it for a code from a merchant signup, which had no authorization request: a signup code sent with one, or a consent-screen code sent without one, returns invalid_grant.
      * @return string
      * @throws SdkError When redirect_uri is omitted; use hasRedirectUri() or valueOrDefault().
      */

@@ -34,7 +34,7 @@ final class PromotionCodesUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update promotion code. Example: {"expected_version":1,"max_uses":50,"status":"inactive"}.
+    /** The request body for: Update promotion code. minProperties: 1. Example: {"expected_version":1,"max_uses":50,"status":"inactive"}.
      * @return array{'customer_id'?: string|null, 'expected_version'?: int, 'expires_at'?: string|\DateTimeInterface|null, 'max_uses'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'status'?: string, 'timezone'?: string|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

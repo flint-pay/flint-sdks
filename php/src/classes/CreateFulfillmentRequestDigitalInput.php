@@ -10,6 +10,7 @@ namespace Flint;
  * @property-read CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $local_delivery_details
  * @property-read string $location_id
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
+ * @property-read string $order_id
  * @property-read CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $pickup_details
  * @property-read FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass $recipient
  * @property-read CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass $service_details
@@ -17,7 +18,7 @@ namespace Flint;
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateFulfillmentRequestDigitalInput extends Model {
-    /** @param array{'customer_id'?: string, 'device_id'?: string, 'digital_details'?: CreateDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pickup_details'?: CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass, 'service_details'?: CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment'?: FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
+    /** @param array{'customer_id'?: string, 'device_id'?: string, 'digital_details'?: CreateDigitalFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'line_items': list<FulfillmentLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'local_delivery_details'?: CreateDeliveryFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'pickup_details'?: CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'recipient'?: FulfillmentRecipientRequestInput|array<array-key, mixed>|\stdClass, 'service_details'?: CreateServiceFulfillmentDetailsInput|array<array-key, mixed>|\stdClass, 'shipment'?: FulfillmentPackagingRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateFulfillmentRequestDigitalInput')); }
     /** Customer receiving this fulfillment, when one is set. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
@@ -67,6 +68,12 @@ final class CreateFulfillmentRequestDigitalInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** Paid order whose quantities this fulfillment delivers. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details.
      * @return CreatePickupFulfillmentDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When pickup_details is omitted; use hasPickupDetails() or valueOrDefault().

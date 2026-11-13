@@ -14,25 +14,25 @@ namespace Flint;
 final class MeListFulfillmentEventsInput extends Model {
     /** @param array{'order_id': string, 'fulfillment_id'?: string, 'shipment_id'?: string, 'package_id'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListFulfillmentEventsInput')); }
-    /** Required buyer-owned order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Required buyer-owned order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Filter by fulfillment ID. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+    /** Filter by fulfillment ID. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Filter by shipment ID. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+    /** Filter by shipment ID. pattern: ^shp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */
     public function getShipmentId(): string { return $this->get('shipment_id'); }
     public function hasShipmentId(): bool { return $this->has('shipment_id'); }
-    /** Filter by package ID. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
+    /** Filter by package ID. pattern: ^pkg_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
      * @return string
      * @throws SdkError When package_id is omitted; use hasPackageId() or valueOrDefault().
      */

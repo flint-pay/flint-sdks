@@ -10,7 +10,7 @@ A response containing `DeliveryProfileAssignment` data.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `data` | Required | [DeliveryProfileAssignment](../models/DeliveryProfileAssignment.md#deliveryprofileassignment) | Resource, collection, or operation result returned by this request. Result of assigning a delivery profile to catalog items that had none, with counts of the product variants and bundle components updated. |
+| `data` | Required | [DeliveryProfileAssignment](../models/DeliveryProfileAssignment.md#deliveryprofileassignment) | Resource, collection, or operation result returned by this request. An accepted assignment of a delivery profile to catalog items that have none, with counts of the product variants and bundle components that had none when Flint accepted it. Flint assigns them after responding; `unconfigured_assignment` is the progress to poll. |
 | `meta` | Optional | [ResponseMeta](../models/ResponseMeta.md#responsemeta) | Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings. |
 | `request_id` | Required | string | Identifier of this API request, used to correlate logs and support requests. maxLength: `128`. pattern: `^req_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"req_01KWM6WAHG3N9Q8T2V5XRZ7C4D"`. |
 

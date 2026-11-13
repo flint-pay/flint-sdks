@@ -15,13 +15,13 @@ final class DeliveryPostalCodeValueInput extends Model {
      */
     public function getCountry(): string { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** Default: "exact". Value enum: "exact", "prefix".
+    /** Whether `value` is a whole postal code or the start of one. Default: "exact". Value enum: "exact", "prefix".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** minLength: 1.
+    /** The postal code, or the start of postal codes, to match. minLength: 1.
      * @return string
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */

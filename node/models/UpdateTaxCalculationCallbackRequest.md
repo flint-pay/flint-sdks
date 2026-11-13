@@ -2,7 +2,7 @@
 
 ## UpdateTaxCalculationCallbackRequest
 
-The request body for: Update a tax calculation callback.
+The request body for: Update a tax calculation callback. minProperties: `1`.
 
 
 

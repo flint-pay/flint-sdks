@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<OrderEditLineAdditionInput|array<array-key, mixed>|\stdClass> $add_line_items
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $added_total_money
  * @property-read list<OrderEditChargeRefundInput|array<array-key, mixed>|\stdClass> $charge_refunds
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $note
@@ -11,14 +13,27 @@ namespace Flint;
  * @property-read list<string> $refund_ids
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refund_money
  * @property-read list<OrderEditLineRemovalInput|array<array-key, mixed>|\stdClass> $remove_line_items
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $removed_total_money
  * @property-read string $status
  * @property-read list<string> $supported_actions
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unrefunded_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderEditInput extends Model {
-    /** @param array{'charge_refunds': list<OrderEditChargeRefundInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'note'?: string, 'order_edit_id': string, 'order_id': string, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'remove_line_items': list<OrderEditLineRemovalInput|array<array-key, mixed>|\stdClass>, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'add_line_items': list<OrderEditLineAdditionInput|array<array-key, mixed>|\stdClass>, 'added_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'charge_refunds': list<OrderEditChargeRefundInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'note'?: string, 'order_edit_id': string, 'order_id': string, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'remove_line_items': list<OrderEditLineRemovalInput|array<array-key, mixed>|\stdClass>, 'removed_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditInput')); }
-    /** Explicit charge refunds frozen at commit. Empty when no charges were refunded. [] (Value): {@see OrderEditChargeRefundInput}. The refund the preview would make for one order charge.
+    /** Added order lines, in request order, with their quantities and values frozen at commit. Empty when the edit added nothing. [] (Value): {@see OrderEditLineAdditionInput}. An order line added by the enclosing edit, with its value frozen at commit.
+     * @return list<OrderEditLineAdditionInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When add_line_items is omitted; use hasAddLineItems() or valueOrDefault().
+     */
+    public function getAddLineItems(): array { return $this->get('add_line_items'); }
+    public function hasAddLineItems(): bool { return $this->has('add_line_items'); }
+    /** The cost of the added lines: the sum of add_line_items[].total_money. Zero when the edit added nothing. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When added_total_money is omitted; use hasAddedTotalMoney() or valueOrDefault().
+     */
+    public function getAddedTotalMoney(): mixed { return $this->get('added_total_money'); }
+    public function hasAddedTotalMoney(): bool { return $this->has('added_total_money'); }
+    /** Charges released by this edit, frozen at commit. Empty when no charges were released. [] (Value): {@see OrderEditChargeRefundInput}. The value an edit releases from one order charge, and the part refunded to the buyer.
      * @return list<OrderEditChargeRefundInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When charge_refunds is omitted; use hasChargeRefunds() or valueOrDefault().
      */
@@ -60,7 +75,7 @@ final class OrderEditInput extends Model {
      */
     public function getRefundIds(): array { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /** Total money to refund for removed units and charges. May be zero; a zero-value edit creates no refund. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Money to refund after the removed value and released charges pay for added lines. May be zero; an edit with no refund money creates no refund. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When refund_money is omitted; use hasRefundMoney() or valueOrDefault().
      */
@@ -72,6 +87,12 @@ final class OrderEditInput extends Model {
      */
     public function getRemoveLineItems(): array { return $this->get('remove_line_items'); }
     public function hasRemoveLineItems(): bool { return $this->has('remove_line_items'); }
+    /** The value of the removed units: the sum of remove_line_items[].total_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When removed_total_money is omitted; use hasRemovedTotalMoney() or valueOrDefault().
+     */
+    public function getRemovedTotalMoney(): mixed { return $this->get('removed_total_money'); }
+    public function hasRemovedTotalMoney(): bool { return $this->has('removed_total_money'); }
     /** Whether this edit has committed. Refund processing has its own status on each refund. Value enum: "completed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

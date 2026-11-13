@@ -10,8 +10,8 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `face_value_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Buyer-selected face value within the gift card offer's limits. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `face_value_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money). |
-| `recipient` | Optional | [GiftCardPurchaseRecipient](../models/GiftCardPurchaseRecipient.md#giftcardpurchaserecipient) | Who receives the gift card. `null` when no recipient was set. `recipient`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaserecipient), [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1gift_card_purchaserecipient). |
+| `face_value_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Buyer-selected face value within the gift card offer's limits. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `face_value_money`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitemgift_card_purchaseface_value_money). |
+| `recipient` | Optional | [GiftCardPurchaseRecipient](../models/GiftCardPurchaseRecipient.md#giftcardpurchaserecipient) | Who receives the gift card. `null` when no recipient was set. `recipient`: [field definitions](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundlegift_card_purchaserecipient), [field definitions](../models/CreateOrderLineItem.md#createorderlineitemgift_card_purchaserecipient). |
 
 ### GiftCardPurchaseRequest variant 1
 
@@ -27,13 +27,13 @@ No additional constraints.
 
 ### GiftCardPurchaseRequest.face_value_money
 
-Field definitions: [AddLineItemsRequest.line_items[].gift_card_purchase.face_value_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaseface_value_money).
+Field definitions: [CreateOrderLineItem.gift_card_purchase.face_value_money](../models/CreateOrderLineItem.md#createorderlineitemgift_card_purchaseface_value_money).
 
 ### GiftCardPurchaseRequest variant 1.recipient
 
-Field definitions: [AddLineItemsRequest.line_items[].gift_card_purchase.recipient](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsgift_card_purchaserecipient).
+Field definitions: [CreateOrderLineItemInputBundle.gift_card_purchase.recipient](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundlegift_card_purchaserecipient).
 
 ### GiftCardPurchaseRequest variant 2.recipient
 
-Field definitions: [CreateOrderLineItem variant 1.gift_card_purchase.recipient](../models/CreateOrderLineItem.md#createorderlineitem-variant-1gift_card_purchaserecipient).
+Field definitions: [CreateOrderLineItem.gift_card_purchase.recipient](../models/CreateOrderLineItem.md#createorderlineitemgift_card_purchaserecipient).
 

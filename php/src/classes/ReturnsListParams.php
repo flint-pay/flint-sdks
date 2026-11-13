@@ -41,7 +41,7 @@ final class ReturnsListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Filter by customer id. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Filter by customer id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -59,7 +59,7 @@ final class ReturnsListParams extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -71,7 +71,7 @@ final class ReturnsListParams extends Model {
      */
     public function getMerchandiseStatus(): mixed { return $this->get('merchandise_status'); }
     public function hasMerchandiseStatus(): bool { return $this->has('merchandise_status'); }
-    /** Filter by order id. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by order id. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -95,7 +95,7 @@ final class ReturnsListParams extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter by receiving location id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by receiving location id. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When receiving_location_id is omitted; use hasReceivingLocationId() or valueOrDefault().
      */
@@ -119,7 +119,7 @@ final class ReturnsListParams extends Model {
      */
     public function getReturnNumber(): string { return $this->get('return_number'); }
     public function hasReturnNumber(): bool { return $this->has('return_number'); }
-    /** Filter by return reason id. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+    /** Filter by return reason id. pattern: ^rrsn_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
      * @return string
      * @throws SdkError When return_reason_id is omitted; use hasReturnReasonId() or valueOrDefault().
      */

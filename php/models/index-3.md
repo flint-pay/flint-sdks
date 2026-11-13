@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# BuyerSubscriptionQuantityChangeResultResponseInput to CheckoutSessionPartiallyPaidInstalledMerchantsEventInput
+# BuyerSubscriptionPlanChangeOptionInput to CheckoutSessionCustomerVerificationInput
 
+- [BuyerSubscriptionPlanChangeOptionInput](BuyerSubscriptionPlanChangeOptionInput.md)
+- [BuyerSubscriptionPlanChangeResultInput](BuyerSubscriptionPlanChangeResultInput.md)
+- [BuyerSubscriptionPlanChangeResultResponseInput](BuyerSubscriptionPlanChangeResultResponseInput.md)
+- [BuyerSubscriptionPlanLineItemInput](BuyerSubscriptionPlanLineItemInput.md)
+- [BuyerSubscriptionPlanLineItemBundleInput](BuyerSubscriptionPlanLineItemBundleInput.md)
+- [BuyerSubscriptionPlanLineItemCustomInput](BuyerSubscriptionPlanLineItemCustomInput.md)
+- [BuyerSubscriptionPlanLineItemVariantInput](BuyerSubscriptionPlanLineItemVariantInput.md)
+- [BuyerSubscriptionPreviewInput](BuyerSubscriptionPreviewInput.md)
+- [BuyerSubscriptionPreviewResponseInput](BuyerSubscriptionPreviewResponseInput.md)
+- [BuyerSubscriptionQuantityChangeResultInput](BuyerSubscriptionQuantityChangeResultInput.md)
 - [BuyerSubscriptionQuantityChangeResultResponseInput](BuyerSubscriptionQuantityChangeResultResponseInput.md)
 - [BuyerSubscriptionRenewalResultInput](BuyerSubscriptionRenewalResultInput.md)
 - [BuyerSubscriptionRenewalResultResponseInput](BuyerSubscriptionRenewalResultResponseInput.md)
@@ -38,6 +48,7 @@
 - [CancelSubscriptionRequestInput](CancelSubscriptionRequestInput.md)
 - [CapabilityReadinessInput](CapabilityReadinessInput.md)
 - [CapturePaymentIntentRequestInput](CapturePaymentIntentRequestInput.md)
+- [CapturePaymentSplitRequestInput](CapturePaymentSplitRequestInput.md)
 - [CardDetailsInput](CardDetailsInput.md)
 - [CashOutGiftCardRequestInput](CashOutGiftCardRequestInput.md)
 - [CashOutGiftCardResultInput](CashOutGiftCardResultInput.md)
@@ -91,15 +102,4 @@
 - [CheckoutSessionCreatedInstalledMerchantsEventInput](CheckoutSessionCreatedInstalledMerchantsEventInput.md)
 - [CheckoutSessionCreatedMerchantEventInput](CheckoutSessionCreatedMerchantEventInput.md)
 - [CheckoutSessionCustomerVerificationInput](CheckoutSessionCustomerVerificationInput.md)
-- [CheckoutSessionCustomerVerificationConfirmationResponseInput](CheckoutSessionCustomerVerificationConfirmationResponseInput.md)
-- [CheckoutSessionCustomerVerificationResponseInput](CheckoutSessionCustomerVerificationResponseInput.md)
-- [CheckoutSessionExpiredInstalledMerchantsEventInput](CheckoutSessionExpiredInstalledMerchantsEventInput.md)
-- [CheckoutSessionExpiredMerchantEventInput](CheckoutSessionExpiredMerchantEventInput.md)
-- [CheckoutSessionInvalidatedInstalledMerchantsEventInput](CheckoutSessionInvalidatedInstalledMerchantsEventInput.md)
-- [CheckoutSessionInvalidatedMerchantEventInput](CheckoutSessionInvalidatedMerchantEventInput.md)
-- [CheckoutSessionLaunchResponseInput](CheckoutSessionLaunchResponseInput.md)
-- [CheckoutSessionListResponseInput](CheckoutSessionListResponseInput.md)
-- [CheckoutSessionPaidInstalledMerchantsEventInput](CheckoutSessionPaidInstalledMerchantsEventInput.md)
-- [CheckoutSessionPaidMerchantEventInput](CheckoutSessionPaidMerchantEventInput.md)
-- [CheckoutSessionPartiallyPaidInstalledMerchantsEventInput](CheckoutSessionPartiallyPaidInstalledMerchantsEventInput.md)
 

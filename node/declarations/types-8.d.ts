@@ -1,47 +1,1171 @@
-import type { AddressRequestInput, AddressRequest, APIKey } from './types-0.js';
-import type { MetadataMap, MetadataRequestInput } from './types-36.js';
-import type { TaxIdentityPatch, TaxIdentityRequestInput } from './types-61.js';
-import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestInput } from './types-15.js';
+import type {
+    CheckoutBuyerFieldsRequestInput,
+    CheckoutCustomTextWriteConfigInput,
+    CheckoutLegalConfigRequestInput,
+    CheckoutPaymentConfigRequestInput,
+    CheckoutPrefillRequestInput,
+    CheckoutPromotionConfigRequestInput,
+    CheckoutQuickPayItemRequestInput,
+    CheckoutRedirectsRequestInput,
+    CheckoutRedirects,
+    CheckoutBuyerFields,
+    CheckoutCustomTextConfig,
+    CheckoutPaymentConfig,
+    CheckoutPrefillRequest,
+    CheckoutPromotionConfig
+} from './types-5.js';
+import type {
+    CheckoutSubscriptionTermsRequestInput,
+    CheckoutTaxConfigRequestInput,
+    CheckoutTipConfigRequestInput,
+    CheckoutSubscriptionTermsRequest,
+    CheckoutTaxConfig,
+    CheckoutTipConfig
+} from './types-6.js';
+import type {
+    CreateCheckoutSessionDiscountInput,
+    CreateCheckoutSessionInvoiceInput,
+    CreateCheckoutSessionOrderInput,
+    CreateCheckoutSessionQuickPayInput,
+    CreateCheckoutSessionDiscount
+} from './types-7.js';
+import type { MetadataRequestInput, MoneyValue, MoneyValueInput } from './types-38.js';
+import type { PlatformFeeRequestInput, PlatformFeeRequest } from './types-49.js';
+import type { ThemeConfigRequestInput, ThemeConfig } from './types-65.js';
+import type { LegalSettings } from './types-34.js';
+import type { MetadataMap } from './types-37.js';
+import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-14.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
+import type { TaxIdentityPatch, TaxIdentityRequestInput } from './types-64.js';
+import type {
+    CustomerTaxExemptionCoverage,
+    CustomerTaxExemptionCoverageRequestInput,
+    DeliveryAddressRequest,
+    DeliveryAddressRequestInput
+} from './types-16.js';
 import type {
     DeliveryLocationSetConfiguration,
     DeliveryLocationSetConfigurationInput,
+    DeliveryBuyerLocationRequest,
+    DeliveryBuyerLocationRequestInput,
+    DeliveryDistance
+} from './types-17.js';
+import type {
     DeliveryMethodConfigurationCreateRequest,
     DeliveryMethodConfigurationCreateRequestInput,
     DeliveryMethodConfigurationRequest,
     DeliveryMethodConfigurationRequestInput,
-    DeliveryMethodOriginSelectorRequest
-} from './types-17.js';
-import type {
+    DeliveryMethodOriginSelectorRequest,
     DeliveryMethodOriginSelectorRequestInput,
-    DeliveryPreviewRoutingSourceInput,
     DeliveryPickupAvailabilityMaximumDistanceRequestInput
 } from './types-18.js';
-import type { CreateOrderLineItem, CreateOrderLineItemRequestInput } from './types-10.js';
+import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
+import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-30.js';
 import type {
-    DeliveryAddressRequest,
-    DeliveryBuyerLocationRequest,
-    DeliveryAddressRequestInput,
-    DeliveryBuyerLocationRequestInput,
-    DeliveryDistance
-} from './types-16.js';
-import type { InventoryRoutingSource } from './types-29.js';
-import type { DeliveryProfileConfigurationRequest, DeliveryProfileConfigurationRequestInput } from './types-19.js';
-import type {
+    DeliveryProfileConfigurationRequest,
+    DeliveryProfileConfigurationRequestInput,
     DeliveryRateCallbackConfiguration,
-    DeliveryRateCallbackConfigurationRequestInput,
-    DeliveryRevocationTarget
+    DeliveryRateCallbackConfigurationRequestInput
 } from './types-20.js';
-import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-66.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-69.js';
+import type { DeliveryRevocationTarget, DeliverySelectionInstructionsRequest } from './types-21.js';
 import type {
-    DeliverySelectionInstructionsRequest,
     DeliverySelectionInstructionsRequestInput,
     DeliverySelectionRecipientRequest,
     DeliverySelectionRecipientRequestInput,
     DeliveryZoneConfigurationRequest,
     DeliveryZoneConfigurationRequestInput
-} from './types-21.js';
-import type { Sandbox } from './types-56.js';
-import type { FeedbackReportingClient, FeedbackReportingClientRequestInput } from './types-23.js';
+} from './types-22.js';
+/** The request body for: Create checkout session. */
+export type CreateCheckoutSessionRequestInput = ({
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFieldsRequestInput;
+    /**
+     * Custom text for this session's checkout: an order summary message and a shipping address
+     * label. Custom checkout text you supply when creating a checkout session: an order summary
+     * message and a shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextWriteConfigInput;
+    /**
+     * Existing customer to link to the order Flint creates. Not allowed with type: order: the
+     * session uses the order's customer, so set customer_id on the order first. minLength: 1.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise
+     * no methods are assigned. Empty arrays and null are rejected. minItems: 1. maxItems: 25.
+     * uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Promotions to apply to the order Flint creates, using your account promotion settings. Only
+     * for quick_pay and subscription_plan. A ranking loss returns a promotion_declined warning; an
+     * unredeemable promotion fails the request. Read the result on order.discounts, or
+     * order.deferred_promotions for a trial. minItems: 1. maxItems: 10. [] (Value): {@link
+     * CreateCheckoutSessionDiscountInput}. A promotion to apply to the order Flint creates for a
+     * checkout session.
+     */
+    "discounts"?: Array<CreateCheckoutSessionDiscountInput>;
+    /**
+     * Seconds the session stays open, from 60 to 86,400. Omit it to use
+     * settings.checkout.default_expires_in_seconds, or 24 hours. Format: int64. minimum: 60.
+     * maximum: 86400.
+     */
+    "expires_in_seconds"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Merchant-created cart holds this session may adopt during delivery selection. Only with
+     * type: order and a merchant credential. At most 100 unique IDs; exceeding the cap returns
+     * INVALID_REQUEST with param inventory_reservation_ids. Immutable after creation. Buyer quotes
+     * credit still-eligible bound holds and buyer selections adopt matching units without
+     * supplying IDs. Merchant delivery requests that omit IDs also use this binding; explicit IDs,
+     * including an empty array, replace it for that request. First adopter wins when sessions
+     * share a hold. Unused units remain held until released or expired. Unknown or ineligible IDs
+     * at creation return 404. Invalidated or otherwise ended sessions cannot use the binding, and
+     * replacement sessions never inherit it. maxItems: 100. uniqueItems: true. [] (Value): string.
+     * minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_ids"?: Array<string>;
+    /**
+     * The open invoice whose balance due now this checkout collects. An open session for the
+     * invoice's current collection is reused and returned with 200. Required when type is invoice,
+     * and not allowed otherwise. minLength: 1. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id"?: string;
+    /**
+     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
+     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
+     * invoice without a schedule. Only with type invoice. minLength: 1. Example:
+     * "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
+     * The terms and policy links this session shows the buyer, and whether the buyer must accept
+     * the terms. Legal settings you supply when creating a checkout session: whether buyers must
+     * accept terms, and links to the terms, refund policy, shipping policy, and contract.
+     */
+    "legal"?: CheckoutLegalConfigRequestInput;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * The order to collect. It must be open and not collected by an invoice or a return
+     * resolution. minLength: 1. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Origin of the page where you render this headless checkout, such as
+     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
+     * receive its result. It does not let the browser call the Flint API. Accepted only when
+     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
+     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
+     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
+     */
+    "page_origin"?: string;
+    /**
+     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
+     * result. Required when the session offers affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
+     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "payment_return_url"?: string;
+    /**
+     * Payment settings you supply when creating a checkout session: the enabled payment options
+     * and a note shown with payment.
+     */
+    "payments"?: CheckoutPaymentConfigRequestInput;
+    /**
+     * A platform fee your partner app charges on the payment the session collects, checked once
+     * against the order total when the session is created. Each payment the session creates
+     * carries its own fee, lowered to the cap for its amount. Only a partner app install token can
+     * send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A
+     * subscription_plan checkout session, or an order whose payment starts or renews a
+     * subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because
+     * Flint's billing creates the renewals. amount_money must be above zero, in the payment's
+     * currency, at most the platform fee cap the merchant approved for this amount, and below the
+     * amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with
+     * maximum_money when the cap or the amount bounds it. Without an approved cap in this currency
+     * it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner
+     * app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability
+     * platform_fees and the reason the app's platform status gives. Test mode never checks the
+     * capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less
+     * at confirm or capture, so the payment never fails because of it. Part of the request
+     * fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app
+     * charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes
+     * no share of it.
+     */
+    "platform_fee"?: PlatformFeeRequestInput;
+    /**
+     * Contact details and addresses to fill in for the buyer, who can change them. For a customer
+     * with saved addresses, Flint fills in any address you leave out, and reads include it. With
+     * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's
+     * tax location. Not changed by what the buyer types; for that, read buyer_contact.
+     * customer_prefill is what the checkout credential reads from the customer record.
+     */
+    "prefill"?: CheckoutPrefillRequestInput;
+    /**
+     * Whether automatic promotions apply to this session and whether the buyer can enter promotion
+     * codes. Promotion settings for a checkout: whether automatic promotions apply and whether the
+     * buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfigRequestInput;
+    /**
+     * The one named amount to collect. Flint creates the order from it. Required when `type` is
+     * `quick_pay`. A single custom item to charge on a checkout session, supplied as
+     * `quick_pay_item`: a name, an amount, and optional tax settings.
+     */
+    "quick_pay_item"?: CheckoutQuickPayItemRequestInput;
+    /**
+     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+     * payment_return_url.
+     */
+    "redirects"?: CheckoutRedirectsRequestInput;
+    /**
+     * Expected checkout session for an atomic replacement. Allowed only with type: order. The
+     * named session must belong to the same merchant, environment, and order. Active payment work
+     * fails with `OPERATION_IN_PROGRESS`. minLength: 1. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "replace_checkout_session_id"?: string;
+    /**
+     * The return resolution whose buyer balance this checkout collects. Required when type is
+     * return_resolution, and not allowed otherwise. The resolution must have a buyer payment
+     * pending on its replacement order. An open session with the same surface is reused and
+     * returned with 200. minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id"?: string;
+    /**
+     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
+     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
+     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
+     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
+     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
+     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
+     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
+     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
+     * or payment_return_url on headless checkout; keep them consistent when sending both. Only
+     * with type return_resolution or invoice. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+    /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+    "subscription_plan_id"?: string;
+    /**
+     * Subscription terms you set on a checkout session: billing interval, interval count, and
+     * quantity.
+     */
+    "subscription_terms"?: CheckoutSubscriptionTermsRequestInput;
+    /**
+     * Defaults to hosted when omitted. Use headless for a merchant-owned presentation. Default:
+     * "hosted". Value enum: "hosted", "headless".
+     */
+    "surface"?: "hosted" | "headless";
+    /**
+     * Automatic tax settings for the order Flint creates from quick_pay_item or
+     * subscription_plan_id. With order_id, set tax on the order; sending tax returns
+     * INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and
+     * status. Whether tax is collected for a checkout session or payment link.
+     */
+    "tax"?: CheckoutTaxConfigRequestInput;
+    /**
+     * The title and colors for this session's checkout. Fields you omit come from your branding
+     * settings. Colors and title to apply to a checkout session's page.
+     */
+    "theme"?: ThemeConfigRequestInput;
+    /**
+     * Tip options for this session. Fields you omit follow your tipping settings. Tip settings for
+     * a checkout: whether tips are enabled, the percent or fixed amount options, the default tip,
+     * and custom tips.
+     */
+    "tip"?: CheckoutTipConfigRequestInput;
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "order", "quick_pay", "subscription_plan", "return_resolution", "invoice".
+     */
+    "type": "order" | "quick_pay" | "subscription_plan" | "return_resolution" | "invoice";
+})
+    & ((Exclude<CreateCheckoutSessionOrderInput & object, readonly unknown[]>)
+    | (Exclude<CreateCheckoutSessionQuickPayInput & object, readonly unknown[]>)
+    | (Exclude<CreateCheckoutSessionSubscriptionPlanInput & object, readonly unknown[]>)
+    | (Exclude<CreateCheckoutSessionReturnResolutionInput & object, readonly unknown[]>)
+    | (Exclude<CreateCheckoutSessionInvoiceInput & object, readonly unknown[]>));
+/** The `return_resolution` variant of `CreateCheckoutSessionRequest`. */
+export type CreateCheckoutSessionReturnResolution = ({
+    /**
+     * Origin of the page where you render this headless checkout, such as
+     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
+     * receive its result. It does not let the browser call the Flint API. Accepted only when
+     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
+     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
+     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
+     */
+    "page_origin"?: string;
+    /**
+     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
+     * result. Required when the session offers affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
+     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "payment_return_url"?: string;
+    /**
+     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+     * payment_return_url.
+     */
+    "redirects"?: CheckoutRedirects;
+    /**
+     * The return resolution whose buyer balance this checkout collects. Required when type is
+     * return_resolution, and not allowed otherwise. The resolution must have a buyer payment
+     * pending on its replacement order. An open session with the same surface is reused and
+     * returned with 200. minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id": string;
+    /**
+     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
+     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
+     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
+     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
+     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
+     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
+     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
+     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
+     * or payment_return_url on headless checkout; keep them consistent when sending both. Only
+     * with type return_resolution or invoice. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+    /**
+     * Defaults to hosted when omitted. Use headless for a merchant-owned presentation. Default:
+     * "hosted". Value enum: "hosted", "headless".
+     */
+    "surface"?: "hosted" | "headless" | (string & {});
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "return_resolution".
+     */
+    "type": "return_resolution" | (string & {});
+})
+    & (({
+    /** Value enum: "return_resolution". */
+    "type": "return_resolution" | (string & {});
+    /**
+     * The return resolution whose buyer balance this checkout collects. Required when type is
+     * return_resolution, and not allowed otherwise. The resolution must have a buyer payment
+     * pending on its replacement order. An open session with the same surface is reused and
+     * returned with 200. minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id": string;
+}));
+/** The `return_resolution` variant of `CreateCheckoutSessionRequest`. */
+export type CreateCheckoutSessionReturnResolutionInput = ({
+    /**
+     * Origin of the page where you render this headless checkout, such as
+     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
+     * receive its result. It does not let the browser call the Flint API. Accepted only when
+     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
+     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
+     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
+     */
+    "page_origin"?: string;
+    /**
+     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
+     * result. Required when the session offers affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
+     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "payment_return_url"?: string;
+    /**
+     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+     * payment_return_url.
+     */
+    "redirects"?: CheckoutRedirectsRequestInput;
+    /**
+     * The return resolution whose buyer balance this checkout collects. Required when type is
+     * return_resolution, and not allowed otherwise. The resolution must have a buyer payment
+     * pending on its replacement order. An open session with the same surface is reused and
+     * returned with 200. minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id": string;
+    /**
+     * Where the checkout sends the buyer after paying, such as the invoice's or Return's page in
+     * the customer account. Limited to 2048 characters (Unicode code points) before trimming
+     * surrounding whitespace. It must be an HTTPS address of the merchant's customer account:
+     * /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the
+     * host of customer_account.merchant_account_url when the merchant hosts the account. In test
+     * mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also
+     * accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with
+     * an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout
+     * or payment_return_url on headless checkout; keep them consistent when sending both. Only
+     * with type return_resolution or invoice. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+    /**
+     * Defaults to hosted when omitted. Use headless for a merchant-owned presentation. Default:
+     * "hosted". Value enum: "hosted", "headless".
+     */
+    "surface"?: "hosted" | "headless";
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "return_resolution".
+     */
+    "type": "return_resolution";
+})
+    & (({
+    /** Value enum: "return_resolution". */
+    "type": "return_resolution";
+    /**
+     * The return resolution whose buyer balance this checkout collects. Required when type is
+     * return_resolution, and not allowed otherwise. The resolution must have a buyer payment
+     * pending on its replacement order. An open session with the same surface is reused and
+     * returned with 200. minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_id": string;
+})
+    & (({
+    "order_id"?: never;
+})
+    & ({
+    "replace_checkout_session_id"?: never;
+})
+    & ({
+    "quick_pay_item"?: never;
+})
+    & ({
+    "subscription_plan_id"?: never;
+})
+    & ({
+    "subscription_terms"?: never;
+})
+    & ({
+    "customer_id"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "discounts"?: never;
+})
+    & ({
+    "theme"?: never;
+})
+    & ({
+    "payments"?: never;
+})
+    & ({
+    "tip"?: never;
+})
+    & ({
+    "buyer_fields"?: never;
+})
+    & ({
+    "prefill"?: never;
+})
+    & ({
+    "metadata"?: never;
+})
+    & ({
+    "external_reference_id"?: never;
+})
+    & ({
+    "legal"?: never;
+})
+    & ({
+    "expires_in_seconds"?: never;
+})
+    & ({
+    "custom_text"?: never;
+})
+    & ({
+    "promotion_config"?: never;
+})
+    & ({
+    "delivery_method_ids"?: never;
+})
+    & ({
+    "platform_fee"?: never;
+})
+    & ({
+    "inventory_reservation_ids"?: never;
+})
+    & ({
+    "invoice_id"?: never;
+})
+    & ({
+    "invoice_schedule_entry_id"?: never;
+})));
+/**
+ * By email, the default, Flint emails a code to any valid address while the session is open and
+ * save_payment_method_requires_verification is true. By auto, accepted only on a checkout whose
+ * order starts a subscription, Flint emails a code only when saving the renewal card would require
+ * email verification at payment. Otherwise, or past a recognition limit or when no code can be
+ * sent, it returns 409 ACTION_NOT_ALLOWED with reason not_offered. Auto reveals whether the email
+ * belongs to an existing customer of this merchant, as the payment refusal does. Requests count
+ * against the same limits as saved-details recognition; while a code for this purpose still works,
+ * a repeat returns it without sending another email. Confirming opens the same access as an
+ * explicit email request.
+ */
+export type CreateCheckoutSessionSavePaymentMethodVerificationRequest = {
+    /** How Flint delivers the code. Default: "email". Value enum: "email", "auto". */
+    "channel"?: "email" | "auto" | (string & {});
+    /**
+     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
+     * regard to case. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "email": string;
+    /**
+     * What the buyer is confirming their email or number for. Value enum: "save_payment_method".
+     */
+    "purpose": "save_payment_method" | (string & {});
+};
+/**
+ * By email, the default, Flint emails a code to any valid address while the session is open and
+ * save_payment_method_requires_verification is true. By auto, accepted only on a checkout whose
+ * order starts a subscription, Flint emails a code only when saving the renewal card would require
+ * email verification at payment. Otherwise, or past a recognition limit or when no code can be
+ * sent, it returns 409 ACTION_NOT_ALLOWED with reason not_offered. Auto reveals whether the email
+ * belongs to an existing customer of this merchant, as the payment refusal does. Requests count
+ * against the same limits as saved-details recognition; while a code for this purpose still works,
+ * a repeat returns it without sending another email. Confirming opens the same access as an
+ * explicit email request.
+ */
+export type CreateCheckoutSessionSavePaymentMethodVerificationRequestInput = {
+    /** How Flint delivers the code. Default: "email". Value enum: "email", "auto". */
+    "channel"?: "email" | "auto";
+    /**
+     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
+     * regard to case. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "email": string;
+    /**
+     * What the buyer is confirming their email or number for. Value enum: "save_payment_method".
+     */
+    "purpose": "save_payment_method";
+};
+/** The `subscription_plan` variant of `CreateCheckoutSessionRequest`. */
+export type CreateCheckoutSessionSubscriptionPlan = ({
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFields;
+    /**
+     * Custom text for this session's checkout: an order summary message and a shipping address
+     * label. Custom checkout text you supply when creating a checkout session: an order summary
+     * message and a shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextConfig;
+    /**
+     * Existing customer to link to the order Flint creates. Not allowed with type: order: the
+     * session uses the order's customer, so set customer_id on the order first. minLength: 1.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise
+     * no methods are assigned. Empty arrays and null are rejected. minItems: 1. maxItems: 25.
+     * uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Promotions to apply to the order Flint creates, using your account promotion settings. Only
+     * for quick_pay and subscription_plan. A ranking loss returns a promotion_declined warning; an
+     * unredeemable promotion fails the request. Read the result on order.discounts, or
+     * order.deferred_promotions for a trial. minItems: 1. maxItems: 10. [] (Value): {@link
+     * CreateCheckoutSessionDiscount}. A promotion to apply to the order Flint creates for a
+     * checkout session.
+     */
+    "discounts"?: Array<CreateCheckoutSessionDiscount>;
+    /**
+     * Seconds the session stays open, from 60 to 86,400. Omit it to use
+     * settings.checkout.default_expires_in_seconds, or 24 hours. Format: int64. minimum: 60.
+     * maximum: 86400.
+     */
+    "expires_in_seconds"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The terms and policy links this session shows the buyer, and whether the buyer must accept
+     * the terms. Legal settings you supply when creating a checkout session: whether buyers must
+     * accept terms, and links to the terms, refund policy, shipping policy, and contract.
+     */
+    "legal"?: LegalSettings;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Origin of the page where you render this headless checkout, such as
+     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
+     * receive its result. It does not let the browser call the Flint API. Accepted only when
+     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
+     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
+     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
+     */
+    "page_origin"?: string;
+    /**
+     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
+     * result. Required when the session offers affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
+     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "payment_return_url"?: string;
+    /**
+     * Payment settings you supply when creating a checkout session: the enabled payment options
+     * and a note shown with payment.
+     */
+    "payments"?: CheckoutPaymentConfig;
+    /**
+     * A platform fee your partner app charges on the payment the session collects, checked once
+     * against the order total when the session is created. Each payment the session creates
+     * carries its own fee, lowered to the cap for its amount. Only a partner app install token can
+     * send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A
+     * subscription_plan checkout session, or an order whose payment starts or renews a
+     * subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because
+     * Flint's billing creates the renewals. amount_money must be above zero, in the payment's
+     * currency, at most the platform fee cap the merchant approved for this amount, and below the
+     * amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with
+     * maximum_money when the cap or the amount bounds it. Without an approved cap in this currency
+     * it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner
+     * app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability
+     * platform_fees and the reason the app's platform status gives. Test mode never checks the
+     * capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less
+     * at confirm or capture, so the payment never fails because of it. Part of the request
+     * fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app
+     * charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes
+     * no share of it.
+     */
+    "platform_fee"?: PlatformFeeRequest;
+    /**
+     * Contact details and addresses to fill in for the buyer, who can change them. For a customer
+     * with saved addresses, Flint fills in any address you leave out, and reads include it. With
+     * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's
+     * tax location. Not changed by what the buyer types; for that, read buyer_contact.
+     * customer_prefill is what the checkout credential reads from the customer record.
+     */
+    "prefill"?: CheckoutPrefillRequest;
+    /**
+     * Whether automatic promotions apply to this session and whether the buyer can enter promotion
+     * codes. Promotion settings for a checkout: whether automatic promotions apply and whether the
+     * buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfig;
+    /**
+     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+     * payment_return_url.
+     */
+    "redirects"?: CheckoutRedirects;
+    /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+    "subscription_plan_id": string;
+    /**
+     * Subscription terms you set on a checkout session: billing interval, interval count, and
+     * quantity.
+     */
+    "subscription_terms"?: CheckoutSubscriptionTermsRequest;
+    /**
+     * Defaults to hosted when omitted. Use headless for a merchant-owned presentation. Default:
+     * "hosted". Value enum: "hosted", "headless".
+     */
+    "surface"?: "hosted" | "headless" | (string & {});
+    /**
+     * Automatic tax settings for the order Flint creates from quick_pay_item or
+     * subscription_plan_id. With order_id, set tax on the order; sending tax returns
+     * INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and
+     * status. Whether tax is collected for a checkout session or payment link.
+     */
+    "tax"?: CheckoutTaxConfig;
+    /**
+     * The title and colors for this session's checkout. Fields you omit come from your branding
+     * settings. Colors and title to apply to a checkout session's page.
+     */
+    "theme"?: ThemeConfig;
+    /**
+     * Tip options for this session. Fields you omit follow your tipping settings. Tip settings for
+     * a checkout: whether tips are enabled, the percent or fixed amount options, the default tip,
+     * and custom tips.
+     */
+    "tip"?: CheckoutTipConfig;
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "subscription_plan".
+     */
+    "type": "subscription_plan" | (string & {});
+})
+    & (({
+    /**  require_email (Optional): boolean.  Value enum: true. */
+    "buyer_fields"?: null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: true. */
+        "require_email"?: boolean;
+    });
+    /** Value enum: "subscription_plan". */
+    "type": "subscription_plan" | (string & {});
+    /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+    "subscription_plan_id": string;
+}));
+/** The `subscription_plan` variant of `CreateCheckoutSessionRequest`. */
+export type CreateCheckoutSessionSubscriptionPlanInput = ({
+    /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
+    "buyer_fields"?: CheckoutBuyerFieldsRequestInput;
+    /**
+     * Custom text for this session's checkout: an order summary message and a shipping address
+     * label. Custom checkout text you supply when creating a checkout session: an order summary
+     * message and a shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextWriteConfigInput;
+    /**
+     * Existing customer to link to the order Flint creates. Not allowed with type: order: the
+     * session uses the order's customer, so set customer_id on the order first. minLength: 1.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Immutable delivery method assignment for this checkout, 1 to 25 unique IDs. Omit it to use
+     * settings.checkout.default_delivery_method_ids when the order has items to deliver; otherwise
+     * no methods are assigned. Empty arrays and null are rejected. minItems: 1. maxItems: 25.
+     * uniqueItems: true. [] (Value): string. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_ids"?: Array<string>;
+    /**
+     * Promotions to apply to the order Flint creates, using your account promotion settings. Only
+     * for quick_pay and subscription_plan. A ranking loss returns a promotion_declined warning; an
+     * unredeemable promotion fails the request. Read the result on order.discounts, or
+     * order.deferred_promotions for a trial. minItems: 1. maxItems: 10. [] (Value): {@link
+     * CreateCheckoutSessionDiscountInput}. A promotion to apply to the order Flint creates for a
+     * checkout session.
+     */
+    "discounts"?: Array<CreateCheckoutSessionDiscountInput>;
+    /**
+     * Seconds the session stays open, from 60 to 86,400. Omit it to use
+     * settings.checkout.default_expires_in_seconds, or 24 hours. Format: int64. minimum: 60.
+     * maximum: 86400.
+     */
+    "expires_in_seconds"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The terms and policy links this session shows the buyer, and whether the buyer must accept
+     * the terms. Legal settings you supply when creating a checkout session: whether buyers must
+     * accept terms, and links to the terms, refund policy, shipping policy, and contract.
+     */
+    "legal"?: CheckoutLegalConfigRequestInput;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Origin of the page where you render this headless checkout, such as
+     * https://shop.example.com. Only this origin can show the checkout's gift card challenge and
+     * receive its result. It does not let the browser call the Flint API. Accepted only when
+     * surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query,
+     * fragment, or default port. In test mode, localhost, names ending in .localhost, and
+     * 127.0.0.1 also work over HTTP or HTTPS. minLength: 1. maxLength: 255.
+     */
+    "page_origin"?: string;
+    /**
+     * Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a
+     * redirect payment such as Affirm, whatever the outcome; read the session there to show the
+     * result. Required when the session offers affirm. It can't contain credentials, a query
+     * string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters.
+     * Format: uri. minLength: 1. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "payment_return_url"?: string;
+    /**
+     * Payment settings you supply when creating a checkout session: the enabled payment options
+     * and a note shown with payment.
+     */
+    "payments"?: CheckoutPaymentConfigRequestInput;
+    /**
+     * A platform fee your partner app charges on the payment the session collects, checked once
+     * against the order total when the session is created. Each payment the session creates
+     * carries its own fee, lowered to the cap for its amount. Only a partner app install token can
+     * send it; from any other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. A
+     * subscription_plan checkout session, or an order whose payment starts or renews a
+     * subscription, refuses it with INVALID_REQUEST and NOT_ALLOWED on platform_fee, because
+     * Flint's billing creates the renewals. amount_money must be above zero, in the payment's
+     * currency, at most the platform fee cap the merchant approved for this amount, and below the
+     * amount; otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money, with
+     * maximum_money when the cap or the amount bounds it. Without an approved cap in this currency
+     * it is ACTION_NOT_ALLOWED with reason platform_fee_consent_required. In live mode the partner
+     * app's platform_fees capability must be active; otherwise ACTION_NOT_ALLOWED with capability
+     * platform_fees and the reason the app's platform status gives. Test mode never checks the
+     * capability. Flint lowers the fee, or cancels it, when the cap or Flint's own fees leave less
+     * at confirm or capture, so the payment never fails because of it. Part of the request
+     * fingerprint. See [Platform fees](/docs/guides/platform-fees). A platform fee the partner app
+     * charges on the payment, beside Flint's fees. The installed merchant pays it, and Flint takes
+     * no share of it.
+     */
+    "platform_fee"?: PlatformFeeRequestInput;
+    /**
+     * Contact details and addresses to fill in for the buyer, who can change them. For a customer
+     * with saved addresses, Flint fills in any address you leave out, and reads include it. With
+     * quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's
+     * tax location. Not changed by what the buyer types; for that, read buyer_contact.
+     * customer_prefill is what the checkout credential reads from the customer record.
+     */
+    "prefill"?: CheckoutPrefillRequestInput;
+    /**
+     * Whether automatic promotions apply to this session and whether the buyer can enter promotion
+     * codes. Promotion settings for a checkout: whether automatic promotions apply and whether the
+     * buyer can apply promotion codes.
+     */
+    "promotion_config"?: CheckoutPromotionConfigRequestInput;
+    /**
+     * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+     * payment_return_url.
+     */
+    "redirects"?: CheckoutRedirectsRequestInput;
+    /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+    "subscription_plan_id": string;
+    /**
+     * Subscription terms you set on a checkout session: billing interval, interval count, and
+     * quantity.
+     */
+    "subscription_terms"?: CheckoutSubscriptionTermsRequestInput;
+    /**
+     * Defaults to hosted when omitted. Use headless for a merchant-owned presentation. Default:
+     * "hosted". Value enum: "hosted", "headless".
+     */
+    "surface"?: "hosted" | "headless";
+    /**
+     * Automatic tax settings for the order Flint creates from quick_pay_item or
+     * subscription_plan_id. With order_id, set tax on the order; sending tax returns
+     * INVALID_REQUEST with a NOT_ALLOWED detail. Read order.tax for the resulting tax settings and
+     * status. Whether tax is collected for a checkout session or payment link.
+     */
+    "tax"?: CheckoutTaxConfigRequestInput;
+    /**
+     * The title and colors for this session's checkout. Fields you omit come from your branding
+     * settings. Colors and title to apply to a checkout session's page.
+     */
+    "theme"?: ThemeConfigRequestInput;
+    /**
+     * Tip options for this session. Fields you omit follow your tipping settings. Tip settings for
+     * a checkout: whether tips are enabled, the percent or fixed amount options, the default tip,
+     * and custom tips.
+     */
+    "tip"?: CheckoutTipConfigRequestInput;
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "subscription_plan".
+     */
+    "type": "subscription_plan";
+})
+    & (({
+    /**  require_email (Optional): boolean.  Value enum: true. */
+    "buyer_fields"?: null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: true. */
+        "require_email"?: true;
+    });
+    /** Value enum: "subscription_plan". */
+    "type": "subscription_plan";
+    /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+    "subscription_plan_id": string;
+})
+    & (({
+    "order_id"?: never;
+})
+    & ({
+    "replace_checkout_session_id"?: never;
+})
+    & ({
+    "quick_pay_item"?: never;
+})
+    & ({
+    "inventory_reservation_ids"?: never;
+})
+    & ({
+    "return_resolution_id"?: never;
+})
+    & ({
+    "invoice_id"?: never;
+})
+    & ({
+    "invoice_schedule_entry_id"?: never;
+})
+    & ({
+    "return_url"?: never;
+})));
+/**
+ * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
+ * number saved with the email's details, or emails a code when they have cards saved by email and
+ * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered. The response's channel says which. By email, Flint sends a code only when the email
+ * has saved details and an active card saved by email or with a number; the response is the same
+ * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
+ * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
+ * cards saved with that number; an emailed code opens only cards saved by email.
+ */
+export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest = {
+    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
+    "channel"?: "email" | "sms" | "auto" | (string & {});
+    /**
+     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
+     * regard to case. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "email": string;
+    /**
+     * What the buyer is confirming their email or number for. Value enum:
+     * "use_saved_payment_methods".
+     */
+    "purpose": "use_saved_payment_methods" | (string & {});
+};
+/**
+ * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
+ * number saved with the email's details, or emails a code when they have cards saved by email and
+ * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered. The response's channel says which. By email, Flint sends a code only when the email
+ * has saved details and an active card saved by email or with a number; the response is the same
+ * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
+ * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
+ * cards saved with that number; an emailed code opens only cards saved by email.
+ */
+export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput = {
+    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
+    "channel"?: "email" | "sms" | "auto";
+    /**
+     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
+     * regard to case. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "email": string;
+    /**
+     * What the buyer is confirming their email or number for. Value enum:
+     * "use_saved_payment_methods".
+     */
+    "purpose": "use_saved_payment_methods";
+};
+/** The request body for: Allocate credit note. */
+export type CreateCreditNoteAllocationRequest = {
+    /**
+     * Credit to apply, no more than the credit note's available_money or the invoice's outstanding
+     * balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Allocate credit note. */
+export type CreateCreditNoteAllocationRequestInput = {
+    /**
+     * Credit to apply, no more than the credit note's available_money or the invoice's outstanding
+     * balance. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValueInput;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Create credit note. */
+export type CreateCreditNoteRequest = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The invoice to correct. It has to be past draft and not voided. minLength: 1. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id": string;
+    /**
+     * Initial draft corrections. Omit or send [] to create an empty draft. Null is not accepted.
+     * [] (Value): {@link CreditNoteLineItemRequest}. A credit note line you supply when creating
+     * or updating a credit note: the invoice line item it credits and how much, or an existing
+     * line to keep.
+     */
+    "line_items"?: Array<CreditNoteLineItemRequest>;
+    /** Free text shown on the credit note, up to 4096 characters. minLength: 1. maxLength: 4096. */
+    "memo"?: string;
+    /**
+     * Why the invoice is being corrected: returned_goods, order_adjustment, billing_error,
+     * goodwill, or other. Shown on the credit note document. Value enum: "returned_goods",
+     * "order_adjustment", "billing_error", "goodwill", "other".
+     */
+    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other" | (string & {});
+};
+/** The request body for: Create credit note. */
+export type CreateCreditNoteRequestInput = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The invoice to correct. It has to be past draft and not voided. minLength: 1. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id": string;
+    /**
+     * Initial draft corrections. Omit or send [] to create an empty draft. Null is not accepted.
+     * [] (Value): {@link CreditNoteLineItemRequestInput}. A credit note line you supply when
+     * creating or updating a credit note: the invoice line item it credits and how much, or an
+     * existing line to keep.
+     */
+    "line_items"?: Array<CreditNoteLineItemRequestInput>;
+    /** Free text shown on the credit note, up to 4096 characters. minLength: 1. maxLength: 4096. */
+    "memo"?: string;
+    /**
+     * Why the invoice is being corrected: returned_goods, order_adjustment, billing_error,
+     * goodwill, or other. Shown on the credit note document. Value enum: "returned_goods",
+     * "order_adjustment", "billing_error", "goodwill", "other".
+     */
+    "reason": "returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other";
+};
+/** The request body for: Create a custom domain. */
+export type CreateCustomDomainRequest = {
+    /**
+     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
+     * maxLength: 253.
+     */
+    "hostname": string;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account" | (string & {});
+};
+/** The request body for: Create a custom domain. */
+export type CreateCustomDomainRequestInput = {
+    /**
+     * Hostname to configure, such as checkout.example.com or account.example.com. minLength: 1.
+     * maxLength: 253.
+     */
+    "hostname": string;
+    /**
+     * Whether the hostname serves checkout pages or the customer account Flint hosts. Value enum:
+     * "checkout", "customer_account".
+     */
+    "type": "checkout" | "customer_account";
+};
+/** Optional destination to return to from the hosted customer account. */
+export type CreateCustomerAccessLinkRequest = {
+    /**
+     * Where the buyer can return to on your site. Kept for the browser session this link starts,
+     * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
+     * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
+     * Omit it for no return destination. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+};
+/** Optional destination to return to from the hosted customer account. */
+export type CreateCustomerAccessLinkRequestInput = CreateCustomerAccessLinkRequest;
+/** The request body for: Create a customer address; Create an address for the current buyer. */
+export type CreateCustomerAddressRequest = {
+    /**
+     * The postal address to save. A complete postal address. State and postal_code are required
+     * for US addresses and optional for other countries. Send null or omit line2, state, and
+     * postal_code when the address has none.
+     */
+    "address": AddressRequest;
+    /**
+     * Set true to make this the default billing address and remove that default from any other
+     * saved address. Defaults to false.
+     */
+    "is_default_billing"?: boolean;
+    /**
+     * Set true to make this the default shipping address and remove that default from any other
+     * saved address. Defaults to false.
+     */
+    "is_default_shipping"?: boolean;
+    /**
+     * Limited to 100 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 100.
+     */
+    "label"?: string;
+    /**
+     * E.164 phone number. Limited to 30 characters (Unicode code points), counted before
+     * surrounding whitespace is trimmed. minLength: 1. maxLength: 30.
+     */
+    "phone"?: string;
+    /**
+     * Limited to 255 characters (Unicode code points), counted before surrounding whitespace is
+     * trimmed. minLength: 1. maxLength: 255.
+     */
+    "recipient_name": string;
+};
 /** The request body for: Create a customer address; Create an address for the current buyer. */
 export type CreateCustomerAddressRequestInput = {
     /**
@@ -88,6 +1212,15 @@ export type CreateCustomerDeletionRequest = {
 export type CreateCustomerDeletionRequestInput = CreateCustomerDeletionRequest;
 /** The request body for: Create customer. */
 export type CreateCustomerRequest = ({
+    /**
+     * Initial saved addresses, created atomically with the customer. Each entry uses the
+     * address-book create shape. At most one entry may be the billing default and one the shipping
+     * default. Defaults populate billing_address and shipping_address. Omit or send [] for none.
+     * When on_email_conflict is return_existing, an existing customer and its addresses stay
+     * unchanged. [] (Value): {@link CreateCustomerAddressRequest}. The request body for: Create a
+     * customer address; Create an address for the current buyer.
+     */
+    "addresses"?: Array<CreateCustomerAddressRequest>;
     /**
      * ID of the invoice payment term that applies to this customer's invoices created with
      * `payment_due.type` set to `customer_default`. minLength: 1. Example:
@@ -156,10 +1289,12 @@ export type CreateCustomerRequest = ({
     "tax_exempt"?: boolean;
     /**
      * Legal name, registered address and tax IDs printed on this customer's invoices and credit
-     * notes. Merchant-provided legal identity displayed on invoices and credit notes. Does not
-     * verify IDs or change tax treatment. Tax IDs are an owned collection in display order;
-     * replacing the array requires the parent's expected_version. Existing entries retain their
-     * document_tax_id; omit an entry to remove it, or omit its ID to add one.
+     * notes. Merchant-provided legal identity displayed on invoices and credit notes. Flint does
+     * not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
+     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
+     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
+     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
+     * an entry to remove it, or omit its ID to add one.
      */
     "tax_identity"?: TaxIdentityPatch;
     /**
@@ -172,6 +1307,15 @@ export type CreateCustomerRequest = ({
 });
 /** The request body for: Create customer. */
 export type CreateCustomerRequestInput = ({
+    /**
+     * Initial saved addresses, created atomically with the customer. Each entry uses the
+     * address-book create shape. At most one entry may be the billing default and one the shipping
+     * default. Defaults populate billing_address and shipping_address. Omit or send [] for none.
+     * When on_email_conflict is return_existing, an existing customer and its addresses stay
+     * unchanged. [] (Value): {@link CreateCustomerAddressRequestInput}. The request body for:
+     * Create a customer address; Create an address for the current buyer.
+     */
+    "addresses"?: Array<CreateCustomerAddressRequestInput>;
     /**
      * ID of the invoice payment term that applies to this customer's invoices created with
      * `payment_due.type` set to `customer_default`. minLength: 1. Example:
@@ -240,10 +1384,12 @@ export type CreateCustomerRequestInput = ({
     "tax_exempt"?: boolean;
     /**
      * Legal name, registered address and tax IDs printed on this customer's invoices and credit
-     * notes. Merchant-provided legal identity displayed on invoices and credit notes. Does not
-     * verify IDs or change tax treatment. Tax IDs are an owned collection in display order;
-     * replacing the array requires the parent's expected_version. Existing entries retain their
-     * document_tax_id; omit an entry to remove it, or omit its ID to add one.
+     * notes. Merchant-provided legal identity displayed on invoices and credit notes. Flint does
+     * not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ
+     * destination to its tax provider, which can apply a reverse charge; other IDs do not change
+     * tax treatment. Tax IDs are an owned collection in display order; replacing the array
+     * requires the parent's expected_version. Existing entries retain their document_tax_id; omit
+     * an entry to remove it, or omit its ID to add one.
      */
     "tax_identity"?: TaxIdentityRequestInput;
     /**
@@ -441,7 +1587,7 @@ export type CreateCustomerVerificationRequestInput = {
  * instructions, and tracking.
  */
 export type CreateDeliveryFulfillmentDetails = {
-    /** minLength: 1. */
+    /** Carrier or courier handling the local delivery. minLength: 1. */
     "carrier"?: string;
     /**
      * Time at which the courier collected the order. Format: date-time. minLength: 1. Example:
@@ -459,21 +1605,22 @@ export type CreateDeliveryFulfillmentDetails = {
     "courier_provider_name"?: string;
     /** Buyer-safe support number for the courier or merchant fleet. minLength: 1. maxLength: 30. */
     "courier_support_phone"?: string;
+    /**
+     * Time by which the order should be delivered. Passing it does not change status or emit an
+     * event automatically; the merchant decides how to follow up. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "delivery_due_at"?: string;
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "dispatched_at"?: string;
     /** Driver-facing notes for the final handoff. minLength: 1. maxLength: 2048. */
     "dropoff_notes"?: string;
     /**
-     * Deadline after which an undelivered job should enter merchant review. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string;
-    /**
      * Stable delivery job ID owned by the courier or merchant dispatch system. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
      */
     "external_delivery_id"?: string;
-    /** minLength: 1. */
+    /** Instructions for the delivery, such as where to leave the items. minLength: 1. */
     "instructions"?: string;
     /** Whether the buyer requested a no-contact handoff. */
     "no_contact"?: boolean;
@@ -487,7 +1634,10 @@ export type CreateDeliveryFulfillmentDetails = {
      * Example: "2026-08-02T16:00:00Z".
      */
     "ready_at"?: string;
-    /** minLength: 1. Example: "boston-north". */
+    /**
+     * Your ID for the service area this delivery covers. Only merchant credentials can read it
+     * back. minLength: 1. Example: "boston-north".
+     */
     "service_area_id"?: string;
     /** Uses an IANA time zone name. minLength: 1. */
     "timezone"?: string;
@@ -503,7 +1653,7 @@ export type CreateDeliveryFulfillmentDetails = {
  * instructions, and tracking.
  */
 export type CreateDeliveryFulfillmentDetailsInput = {
-    /** minLength: 1. */
+    /** Carrier or courier handling the local delivery. minLength: 1. */
     "carrier"?: string;
     /**
      * Time at which the courier collected the order. Format: date-time. minLength: 1. Example:
@@ -521,21 +1671,22 @@ export type CreateDeliveryFulfillmentDetailsInput = {
     "courier_provider_name"?: string;
     /** Buyer-safe support number for the courier or merchant fleet. minLength: 1. maxLength: 30. */
     "courier_support_phone"?: string;
+    /**
+     * Time by which the order should be delivered. Passing it does not change status or emit an
+     * event automatically; the merchant decides how to follow up. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "delivery_due_at"?: string | globalThis.Date;
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "dispatched_at"?: string | globalThis.Date;
     /** Driver-facing notes for the final handoff. minLength: 1. maxLength: 2048. */
     "dropoff_notes"?: string;
     /**
-     * Deadline after which an undelivered job should enter merchant review. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string | globalThis.Date;
-    /**
      * Stable delivery job ID owned by the courier or merchant dispatch system. minLength: 1.
      * maxLength: 255. Example: "warehouse-1842".
      */
     "external_delivery_id"?: string;
-    /** minLength: 1. */
+    /** Instructions for the delivery, such as where to leave the items. minLength: 1. */
     "instructions"?: string;
     /** Whether the buyer requested a no-contact handoff. */
     "no_contact"?: boolean;
@@ -549,7 +1700,10 @@ export type CreateDeliveryFulfillmentDetailsInput = {
      * Example: "2026-08-02T16:00:00Z".
      */
     "ready_at"?: string | globalThis.Date;
-    /** minLength: 1. Example: "boston-north". */
+    /**
+     * Your ID for the service area this delivery covers. Only merchant credentials can read it
+     * back. minLength: 1. Example: "boston-north".
+     */
     "service_area_id"?: string;
     /** Uses an IANA time zone name. minLength: 1. */
     "timezone"?: string;
@@ -562,7 +1716,10 @@ export type CreateDeliveryFulfillmentDetailsInput = {
 };
 /** The request body for: Create delivery location set. */
 export type CreateDeliveryLocationSetRequest = {
-    /** The location IDs in a delivery location set. */
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. The location
+     * IDs in a delivery location set.
+     */
     "configuration": DeliveryLocationSetConfiguration;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -578,12 +1735,15 @@ export type CreateDeliveryLocationSetRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** minLength: 1. */
+    /** Merchant-facing name. minLength: 1. */
     "name": string;
 };
 /** The request body for: Create delivery location set. */
 export type CreateDeliveryLocationSetRequestInput = {
-    /** The location IDs in a delivery location set. */
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. The location
+     * IDs in a delivery location set.
+     */
     "configuration": DeliveryLocationSetConfigurationInput;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -599,19 +1759,23 @@ export type CreateDeliveryLocationSetRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
+    /** Merchant-facing name. minLength: 1. */
     "name": string;
 };
 /** The request body for: Create delivery method. */
 export type CreateDeliveryMethodRequest = ({
     /**
-     * The configuration you supply when creating a delivery method. `origin` and `pricing` are
-     * required.
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
      */
     "configuration": DeliveryMethodConfigurationCreateRequest;
-    /** minLength: 1. */
+    /** Buyer-visible description of the method. minLength: 1. */
     "description"?: string;
-    /** Format: int32. */
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
     "display_position"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -627,7 +1791,7 @@ export type CreateDeliveryMethodRequest = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** minLength: 1. */
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -640,7 +1804,10 @@ export type CreateDeliveryMethodRequest = ({
      * "inactive". Value enum: "inactive", "active".
      */
     "status"?: "inactive" | "active" | (string & {});
-    /** Value enum: "shipment", "local_delivery", "pickup". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment", "local_delivery", "pickup".
+     */
     "type": "shipment" | "local_delivery" | "pickup" | (string & {});
 })
     & ((Exclude<CreateDeliveryMethodRequestShipment & object, readonly unknown[]>)
@@ -650,13 +1817,17 @@ export type CreateDeliveryMethodRequest = ({
 /** The request body for: Create delivery method. */
 export type CreateDeliveryMethodRequestInput = ({
     /**
-     * The configuration you supply when creating a delivery method. `origin` and `pricing` are
-     * required.
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
      */
     "configuration": DeliveryMethodConfigurationCreateRequestInput;
-    /** minLength: 1. */
+    /** Buyer-visible description of the method. minLength: 1. */
     "description"?: string;
-    /** Format: int32. */
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
     "display_position"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -672,7 +1843,7 @@ export type CreateDeliveryMethodRequestInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -685,7 +1856,10 @@ export type CreateDeliveryMethodRequestInput = ({
      * "inactive". Value enum: "inactive", "active".
      */
     "status"?: "inactive" | "active";
-    /** Value enum: "shipment", "local_delivery", "pickup". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment", "local_delivery", "pickup".
+     */
     "type": "shipment" | "local_delivery" | "pickup";
 })
     & ((Exclude<CreateDeliveryMethodRequestShipmentInput & object, readonly unknown[]>)
@@ -694,13 +1868,17 @@ export type CreateDeliveryMethodRequestInput = ({
 /** The `local_delivery` variant of `CreateDeliveryMethodRequest`. */
 export type CreateDeliveryMethodRequestLocalDelivery = ({
     /**
-     * The configuration you supply when creating a delivery method. `origin` and `pricing` are
-     * required.
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
      */
     "configuration": DeliveryMethodConfigurationCreateRequest;
-    /** minLength: 1. */
+    /** Buyer-visible description of the method. minLength: 1. */
     "description"?: string;
-    /** Format: int32. */
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
     "display_position"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -716,7 +1894,7 @@ export type CreateDeliveryMethodRequestLocalDelivery = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** minLength: 1. */
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -729,42 +1907,47 @@ export type CreateDeliveryMethodRequestLocalDelivery = ({
      * "inactive". Value enum: "inactive", "active".
      */
     "status"?: "inactive" | "active" | (string & {});
-    /** Value enum: "local_delivery". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "local_delivery".
+     */
     "type": "local_delivery" | (string & {});
 })
     & ({
     /**
-     * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
-     * estimate, tax settings, and recipient requirements. buyer_instructions (Optional): {@link
-     * BuyerInstructionsConfig}. Controls whether checkout collects buyer instructions for this
-     * method. Controls buyer instructions for a delivery option. Omit it from a method
-     * configuration to disable instruction collection. charge_tax_category (Optional): string or
-     * null. Tax category of the delivery charge, which decides its automatic tax and appears in
-     * tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if
-     * unset, Flint derives shipping for shipment methods, delivery for local delivery, or
-     * service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the
-     * current value, or send null to clear it back to inheriting. Automatic tax calculates
-     * service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge
-     * location, including the store for pickup. Value enum: "service_fee", "shipping", "delivery",
-     * "handling", "surcharge", null. eligibility (Optional): {@link
-     * DeliveryEligibilityExpressionRequest}. Conditions that decide where this method is offered.
-     * Omit this field to offer the method everywhere the merchant serves. A boolean expression
-     * containing exactly one operator or typed condition at each node. Expressions support at most
-     * 8 levels and 100 total nodes. estimate (Optional): {@link DeliveryEstimateRule}. The
-     * buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing
-     * promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none,
-     * a transit time, or a schedule window. minimum_option_lifetime_seconds (Optional): integer.
-     * Minimum remaining quote lifetime required before Flint offers this method. Required for
-     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
-     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin
-     * (Required): {@link DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can
-     * use a fixed location or a delivery location set; origin.type determines allocation or buyer
-     * pickup behavior. The origin you supply for a delivery method, chosen by `type`: a fixed
-     * location, or locations from a delivery location set or an inline list. pricing (Required):
-     * {@link DeliveryPricingStrategyRequest}. How Flint calculates the delivery charge. The
-     * pricing strategy you supply when updating a delivery method. Set `type` and the matching
-     * property. public_details (Optional): object. Buyer-visible structured details supplied by
-     * the merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfig}. Controls
+     * whether checkout collects buyer instructions for this method. Controls buyer instructions
+     * for a delivery option. Omit it from a method configuration to disable instruction
+     * collection. charge_tax_category (Optional): string or null. Tax category of the delivery
+     * charge, which decides its automatic tax and appears in tax records and reporting. Null
+     * inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for
+     * shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create
+     * to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequest}. Conditions that decide where this
+     * method is offered. Omit this field to offer the method everywhere the merchant serves. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRule}. The buyer-visible delivery or pickup estimate. Use type none when the
+     * merchant makes no timing promise. The timing estimate rule you supply for a delivery method,
+     * chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. pricing (Required): {@link
+     * DeliveryPricingStrategyRequest}. How Flint calculates the delivery charge. The pricing
+     * strategy you supply when updating a delivery method. Set `type` and the matching property.
+     * public_details (Optional): object. Buyer-visible structured details supplied by the
+     * merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
      * this method. minLength: 1. maxLength: 2048. public_details.pickup_mode (Optional): string.
      * Required for pickup methods and rejected for other method types. Value enum: "in_store",
      * "curbside", "locker", "other". public_details.service_level (Optional): string.
@@ -820,19 +2003,26 @@ export type CreateDeliveryMethodRequestLocalDelivery = ({
             "service_level"?: "on_demand" | "same_day" | "scheduled" | (string & {});
         });
     });
-    /** Value enum: "local_delivery". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "local_delivery".
+     */
     "type": "local_delivery" | (string & {});
 });
 /** The `local_delivery` variant of `CreateDeliveryMethodRequest`. */
 export type CreateDeliveryMethodRequestLocalDeliveryInput = ({
     /**
-     * The configuration you supply when creating a delivery method. `origin` and `pricing` are
-     * required.
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
      */
     "configuration": DeliveryMethodConfigurationCreateRequestInput;
-    /** minLength: 1. */
+    /** Buyer-visible description of the method. minLength: 1. */
     "description"?: string;
-    /** Format: int32. */
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
     "display_position"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -848,7 +2038,7 @@ export type CreateDeliveryMethodRequestLocalDeliveryInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -861,28 +2051,32 @@ export type CreateDeliveryMethodRequestLocalDeliveryInput = ({
      * "inactive". Value enum: "inactive", "active".
      */
     "status"?: "inactive" | "active";
-    /** Value enum: "local_delivery". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "local_delivery".
+     */
     "type": "local_delivery";
 })
     & ({
     /**
-     * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
-     * estimate, tax settings, and recipient requirements. buyer_instructions (Optional): {@link
-     * BuyerInstructionsConfigRequestInput}. Controls whether checkout collects buyer instructions
-     * for this method. Controls buyer instructions for a delivery option. Omit it from a method
-     * configuration to disable instruction collection. charge_tax_category (Optional): string or
-     * null. Tax category of the delivery charge, which decides its automatic tax and appears in
-     * tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if
-     * unset, Flint derives shipping for shipment methods, delivery for local delivery, or
-     * service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the
-     * current value, or send null to clear it back to inheriting. Automatic tax calculates
-     * service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge
-     * location, including the store for pickup. Value enum: "service_fee", "shipping", "delivery",
-     * "handling", "surcharge", null. eligibility (Optional): {@link
-     * DeliveryEligibilityExpressionRequestInput}. Conditions that decide where this method is
-     * offered. Omit this field to offer the method everywhere the merchant serves. A boolean
-     * expression containing exactly one operator or typed condition at each node. Expressions
-     * support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfigRequestInput}.
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection. charge_tax_category (Optional): string or null. Tax category of the
+     * delivery charge, which decides its automatic tax and appears in tax records and reporting.
+     * Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping
+     * for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on
+     * create to inherit, omit it on PATCH to preserve the current value, or send null to clear it
+     * back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequestInput}. Conditions that decide where
+     * this method is offered. Omit this field to offer the method everywhere the merchant serves.
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
      * DeliveryEstimateRuleRequestInput}. The buyer-visible delivery or pickup estimate. Use type
      * none when the merchant makes no timing promise. The timing estimate rule you supply for a
      * delivery method, chosen by `type`: none, a transit time, or a schedule window.
@@ -956,19 +2150,26 @@ export type CreateDeliveryMethodRequestLocalDeliveryInput = ({
             "pickup_mode"?: never;
         });
     });
-    /** Value enum: "local_delivery". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "local_delivery".
+     */
     "type": "local_delivery";
 });
 /** The `pickup` variant of `CreateDeliveryMethodRequest`. */
 export type CreateDeliveryMethodRequestPickup = ({
     /**
-     * The configuration you supply when creating a delivery method. `origin` and `pricing` are
-     * required.
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
      */
     "configuration": DeliveryMethodConfigurationCreateRequest;
-    /** minLength: 1. */
+    /** Buyer-visible description of the method. minLength: 1. */
     "description"?: string;
-    /** Format: int32. */
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
     "display_position"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -984,7 +2185,7 @@ export type CreateDeliveryMethodRequestPickup = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** minLength: 1. */
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -997,49 +2198,56 @@ export type CreateDeliveryMethodRequestPickup = ({
      * "inactive". Value enum: "inactive", "active".
      */
     "status"?: "inactive" | "active" | (string & {});
-    /** Value enum: "pickup". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "pickup".
+     */
     "type": "pickup" | (string & {});
 })
     & ({
     /**
-     * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
-     * estimate, tax settings, and recipient requirements. buyer_instructions (Optional): {@link
-     * BuyerInstructionsConfig}. Controls whether checkout collects buyer instructions for this
-     * method. Controls buyer instructions for a delivery option. Omit it from a method
-     * configuration to disable instruction collection. charge_tax_category (Optional): string or
-     * null. Tax category of the delivery charge, which decides its automatic tax and appears in
-     * tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if
-     * unset, Flint derives shipping for shipment methods, delivery for local delivery, or
-     * service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the
-     * current value, or send null to clear it back to inheriting. Automatic tax calculates
-     * service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge
-     * location, including the store for pickup. Value enum: "service_fee", "shipping", "delivery",
-     * "handling", "surcharge", null. eligibility (Optional): {@link
-     * DeliveryEligibilityExpressionRequest}. Conditions that decide where this method is offered.
-     * Omit this field to offer the method everywhere the merchant serves. A boolean expression
-     * containing exactly one operator or typed condition at each node. Expressions support at most
-     * 8 levels and 100 total nodes. estimate (Optional): {@link DeliveryEstimateRule}. The
-     * buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing
-     * promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none,
-     * a transit time, or a schedule window. minimum_option_lifetime_seconds (Optional): integer.
-     * Minimum remaining quote lifetime required before Flint offers this method. Required for
-     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
-     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin
-     * (Required): {@link DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can
-     * use a fixed location or a delivery location set; origin.type determines allocation or buyer
-     * pickup behavior. The origin you supply for a delivery method, chosen by `type`: a fixed
-     * location, or locations from a delivery location set or an inline list.
-     * origin.delivery_location_set_id (Optional): string. Named delivery location set to reuse.
-     * Send either delivery_location_set_id or inline location_ids, never both. The set may contain
-     * at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection.
-     * minLength: 1. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". origin.location_id (Optional):
-     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.location_ids
-     * (Optional): Array of string. Inline Location IDs for a set managed by this delivery method.
-     * Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique
-     * Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads
-     * return these Location IDs without exposing the managed set. origin.location_ids[] (Value):
-     * string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.type (Required):
-     * string. Value enum: "pickup_location_collection". origin.oneOf[1] (Value): {@link
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfig}. Controls
+     * whether checkout collects buyer instructions for this method. Controls buyer instructions
+     * for a delivery option. Omit it from a method configuration to disable instruction
+     * collection. charge_tax_category (Optional): string or null. Tax category of the delivery
+     * charge, which decides its automatic tax and appears in tax records and reporting. Null
+     * inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for
+     * shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create
+     * to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequest}. Conditions that decide where this
+     * method is offered. Omit this field to offer the method everywhere the merchant serves. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRule}. The buyer-visible delivery or pickup estimate. Use type none when the
+     * merchant makes no timing promise. The timing estimate rule you supply for a delivery method,
+     * chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. origin.delivery_location_set_id
+     * (Optional): string. Named delivery location set to reuse. Send either
+     * delivery_location_set_id or inline location_ids, never both. The set may contain at most 25
+     * Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1.
+     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". origin.location_id (Optional): string. ID of the
+     * Location delivery starts from. Required for `fixed_location` and not allowed otherwise.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.location_ids (Optional):
+     * Array of string. Inline Location IDs for a set managed by this delivery method. Send either
+     * location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for
+     * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
+     * Location IDs without exposing the managed set. origin.location_ids[] (Value): string.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.type (Required): string.
+     * Where delivery starts. Delivery type of the method. It cannot change after you create the
+     * method. Value enum: "pickup_location_collection". origin.oneOf[1] (Value): {@link
      * DeliveryMethodOriginSelectorInputFixedLocation}. The `fixed_location` variant of
      * `DeliveryMethodOriginSelectorInput`. origin.oneOf[2] (Value): {@link
      * DeliveryMethodOriginSelectorInputAllocatedOriginGroup}. The `allocated_origin_group` variant
@@ -1106,13 +2314,16 @@ export type CreateDeliveryMethodRequestPickup = ({
          * delivery_location_set_id or inline location_ids, never both. The set may contain at most
          * 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection.
          * minLength: 1. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". location_id (Optional): string.
-         * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_ids (Optional): Array
-         * of string. Inline Location IDs for a set managed by this delivery method. Send either
-         * location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for
-         * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
-         * Location IDs without exposing the managed set. location_ids[] (Value): string.
-         * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". type (Required): string. Value
-         * enum: "pickup_location_collection". oneOf[1] (Value): {@link
+         * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+         * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_ids
+         * (Optional): Array of string. Inline Location IDs for a set managed by this delivery
+         * method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25
+         * unique Locations for allocated_origin_group or 1 to 1,000 for
+         * pickup_location_collection. Reads return these Location IDs without exposing the managed
+         * set. location_ids[] (Value): string. minLength: 1. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". type (Required): string. Where delivery starts.
+         * Delivery type of the method. It cannot change after you create the method. Value enum:
+         * "pickup_location_collection". oneOf[1] (Value): {@link
          * DeliveryMethodOriginSelectorInputFixedLocation}. The `fixed_location` variant of
          * `DeliveryMethodOriginSelectorInput`. oneOf[2] (Value): {@link
          * DeliveryMethodOriginSelectorInputAllocatedOriginGroup}. The `allocated_origin_group`
@@ -1122,7 +2333,10 @@ export type CreateDeliveryMethodRequestPickup = ({
          */
         "origin": (Exclude<DeliveryMethodOriginSelectorRequest & object, readonly unknown[]>)
             & ({
-            /** Value enum: "pickup_location_collection". */
+            /**
+             * Delivery type of the method. It cannot change after you create the method. Value
+             * enum: "pickup_location_collection".
+             */
             "type"?: "pickup_location_collection" | (string & {});
         });
         /**
@@ -1133,19 +2347,26 @@ export type CreateDeliveryMethodRequestPickup = ({
             "pickup_mode": "in_store" | "curbside" | "locker" | "other" | (string & {});
         });
     });
-    /** Value enum: "pickup". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "pickup".
+     */
     "type": "pickup" | (string & {});
 });
 /** The `pickup` variant of `CreateDeliveryMethodRequest`. */
 export type CreateDeliveryMethodRequestPickupInput = ({
     /**
-     * The configuration you supply when creating a delivery method. `origin` and `pricing` are
-     * required.
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
      */
     "configuration": DeliveryMethodConfigurationCreateRequestInput;
-    /** minLength: 1. */
+    /** Buyer-visible description of the method. minLength: 1. */
     "description"?: string;
-    /** Format: int32. */
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
     "display_position"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -1161,7 +2382,7 @@ export type CreateDeliveryMethodRequestPickupInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -1174,28 +2395,32 @@ export type CreateDeliveryMethodRequestPickupInput = ({
      * "inactive". Value enum: "inactive", "active".
      */
     "status"?: "inactive" | "active";
-    /** Value enum: "pickup". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "pickup".
+     */
     "type": "pickup";
 })
     & ({
     /**
-     * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
-     * estimate, tax settings, and recipient requirements. buyer_instructions (Optional): {@link
-     * BuyerInstructionsConfigRequestInput}. Controls whether checkout collects buyer instructions
-     * for this method. Controls buyer instructions for a delivery option. Omit it from a method
-     * configuration to disable instruction collection. charge_tax_category (Optional): string or
-     * null. Tax category of the delivery charge, which decides its automatic tax and appears in
-     * tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if
-     * unset, Flint derives shipping for shipment methods, delivery for local delivery, or
-     * service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the
-     * current value, or send null to clear it back to inheriting. Automatic tax calculates
-     * service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge
-     * location, including the store for pickup. Value enum: "service_fee", "shipping", "delivery",
-     * "handling", "surcharge", null. eligibility (Optional): {@link
-     * DeliveryEligibilityExpressionRequestInput}. Conditions that decide where this method is
-     * offered. Omit this field to offer the method everywhere the merchant serves. A boolean
-     * expression containing exactly one operator or typed condition at each node. Expressions
-     * support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfigRequestInput}.
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection. charge_tax_category (Optional): string or null. Tax category of the
+     * delivery charge, which decides its automatic tax and appears in tax records and reporting.
+     * Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping
+     * for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on
+     * create to inherit, omit it on PATCH to preserve the current value, or send null to clear it
+     * back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequestInput}. Conditions that decide where
+     * this method is offered. Omit this field to offer the method everywhere the merchant serves.
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
      * DeliveryEstimateRuleRequestInput}. The buyer-visible delivery or pickup estimate. Use type
      * none when the merchant makes no timing promise. The timing estimate rule you supply for a
      * delivery method, chosen by `type`: none, a transit time, or a schedule window.
@@ -1210,14 +2435,16 @@ export type CreateDeliveryMethodRequestPickupInput = ({
      * (Optional): string. Named delivery location set to reuse. Send either
      * delivery_location_set_id or inline location_ids, never both. The set may contain at most 25
      * Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: 1.
-     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". origin.location_id (Optional): string. minLength:
-     * 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.location_ids (Optional): Array of
-     * string. Inline Location IDs for a set managed by this delivery method. Send either
+     * Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". origin.location_id (Optional): string. ID of the
+     * Location delivery starts from. Required for `fixed_location` and not allowed otherwise.
+     * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.location_ids (Optional):
+     * Array of string. Inline Location IDs for a set managed by this delivery method. Send either
      * location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for
      * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
      * Location IDs without exposing the managed set. origin.location_ids[] (Value): string.
      * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". origin.type (Required): string.
-     * Value enum: "pickup_location_collection". origin.oneOf[1] (Value): {@link
+     * Where delivery starts. Delivery type of the method. It cannot change after you create the
+     * method. Value enum: "pickup_location_collection". origin.oneOf[1] (Value): {@link
      * DeliveryMethodOriginSelectorInputFixedLocationInput}. The `fixed_location` variant of
      * `DeliveryMethodOriginSelectorInput`. origin.oneOf[2] (Value): {@link
      * DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput}. The `allocated_origin_group`
@@ -1284,13 +2511,16 @@ export type CreateDeliveryMethodRequestPickupInput = ({
          * delivery_location_set_id or inline location_ids, never both. The set may contain at most
          * 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection.
          * minLength: 1. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". location_id (Optional): string.
-         * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_ids (Optional): Array
-         * of string. Inline Location IDs for a set managed by this delivery method. Send either
-         * location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for
-         * allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these
-         * Location IDs without exposing the managed set. location_ids[] (Value): string.
-         * minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". type (Required): string. Value
-         * enum: "pickup_location_collection". oneOf[1] (Value): {@link
+         * ID of the Location delivery starts from. Required for `fixed_location` and not allowed
+         * otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". location_ids
+         * (Optional): Array of string. Inline Location IDs for a set managed by this delivery
+         * method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25
+         * unique Locations for allocated_origin_group or 1 to 1,000 for
+         * pickup_location_collection. Reads return these Location IDs without exposing the managed
+         * set. location_ids[] (Value): string. minLength: 1. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". type (Required): string. Where delivery starts.
+         * Delivery type of the method. It cannot change after you create the method. Value enum:
+         * "pickup_location_collection". oneOf[1] (Value): {@link
          * DeliveryMethodOriginSelectorInputFixedLocationInput}. The `fixed_location` variant of
          * `DeliveryMethodOriginSelectorInput`. oneOf[2] (Value): {@link
          * DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput}. The
@@ -1300,7 +2530,10 @@ export type CreateDeliveryMethodRequestPickupInput = ({
          */
         "origin": (Exclude<DeliveryMethodOriginSelectorRequestInput & object, readonly unknown[]>)
             & ({
-            /** Value enum: "pickup_location_collection". */
+            /**
+             * Delivery type of the method. It cannot change after you create the method. Value
+             * enum: "pickup_location_collection".
+             */
             "type"?: "pickup_location_collection";
         });
         /**
@@ -1314,19 +2547,26 @@ export type CreateDeliveryMethodRequestPickupInput = ({
             "service_level"?: never;
         });
     });
-    /** Value enum: "pickup". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "pickup".
+     */
     "type": "pickup";
 });
 /** The `shipment` variant of `CreateDeliveryMethodRequest`. */
 export type CreateDeliveryMethodRequestShipment = ({
     /**
-     * The configuration you supply when creating a delivery method. `origin` and `pricing` are
-     * required.
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
      */
     "configuration": DeliveryMethodConfigurationCreateRequest;
-    /** minLength: 1. */
+    /** Buyer-visible description of the method. minLength: 1. */
     "description"?: string;
-    /** Format: int32. */
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
     "display_position"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -1342,7 +2582,7 @@ export type CreateDeliveryMethodRequestShipment = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** minLength: 1. */
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -1355,42 +2595,47 @@ export type CreateDeliveryMethodRequestShipment = ({
      * "inactive". Value enum: "inactive", "active".
      */
     "status"?: "inactive" | "active" | (string & {});
-    /** Value enum: "shipment". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment".
+     */
     "type": "shipment" | (string & {});
 })
     & ({
     /**
-     * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
-     * estimate, tax settings, and recipient requirements. buyer_instructions (Optional): {@link
-     * BuyerInstructionsConfig}. Controls whether checkout collects buyer instructions for this
-     * method. Controls buyer instructions for a delivery option. Omit it from a method
-     * configuration to disable instruction collection. charge_tax_category (Optional): string or
-     * null. Tax category of the delivery charge, which decides its automatic tax and appears in
-     * tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if
-     * unset, Flint derives shipping for shipment methods, delivery for local delivery, or
-     * service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the
-     * current value, or send null to clear it back to inheriting. Automatic tax calculates
-     * service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge
-     * location, including the store for pickup. Value enum: "service_fee", "shipping", "delivery",
-     * "handling", "surcharge", null. eligibility (Optional): {@link
-     * DeliveryEligibilityExpressionRequest}. Conditions that decide where this method is offered.
-     * Omit this field to offer the method everywhere the merchant serves. A boolean expression
-     * containing exactly one operator or typed condition at each node. Expressions support at most
-     * 8 levels and 100 total nodes. estimate (Optional): {@link DeliveryEstimateRule}. The
-     * buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing
-     * promise. The timing estimate rule you supply for a delivery method, chosen by `type`: none,
-     * a transit time, or a schedule window. minimum_option_lifetime_seconds (Optional): integer.
-     * Minimum remaining quote lifetime required before Flint offers this method. Required for
-     * calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be
-     * less than Flint's 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin
-     * (Required): {@link DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can
-     * use a fixed location or a delivery location set; origin.type determines allocation or buyer
-     * pickup behavior. The origin you supply for a delivery method, chosen by `type`: a fixed
-     * location, or locations from a delivery location set or an inline list. pricing (Required):
-     * {@link DeliveryPricingStrategyRequest}. How Flint calculates the delivery charge. The
-     * pricing strategy you supply when updating a delivery method. Set `type` and the matching
-     * property. public_details (Optional): object. Buyer-visible structured details supplied by
-     * the merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfig}. Controls
+     * whether checkout collects buyer instructions for this method. Controls buyer instructions
+     * for a delivery option. Omit it from a method configuration to disable instruction
+     * collection. charge_tax_category (Optional): string or null. Tax category of the delivery
+     * charge, which decides its automatic tax and appears in tax records and reporting. Null
+     * inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping for
+     * shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on create
+     * to inherit, omit it on PATCH to preserve the current value, or send null to clear it back to
+     * inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequest}. Conditions that decide where this
+     * method is offered. Omit this field to offer the method everywhere the merchant serves. A
+     * boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * DeliveryEstimateRule}. The buyer-visible delivery or pickup estimate. Use type none when the
+     * merchant makes no timing promise. The timing estimate rule you supply for a delivery method,
+     * chosen by `type`: none, a transit time, or a schedule window.
+     * minimum_option_lifetime_seconds (Optional): integer. Minimum remaining quote lifetime
+     * required before Flint offers this method. Required for calculated, callback, and
+     * caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's
+     * 15-minute quote lifetime. Format: int64. minimum: 0. maximum: 899. origin (Required): {@link
+     * DeliveryMethodOriginSelectorRequest}. Where delivery starts. A method can use a fixed
+     * location or a delivery location set; origin.type determines allocation or buyer pickup
+     * behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location,
+     * or locations from a delivery location set or an inline list. pricing (Required): {@link
+     * DeliveryPricingStrategyRequest}. How Flint calculates the delivery charge. The pricing
+     * strategy you supply when updating a delivery method. Set `type` and the matching property.
+     * public_details (Optional): object. Buyer-visible structured details supplied by the
+     * merchant. public_details.instructions (Optional): string. Buyer-visible instructions for
      * this method. minLength: 1. maxLength: 2048. public_details.pickup_mode (Optional): string.
      * Required for pickup methods and rejected for other method types. Value enum: "in_store",
      * "curbside", "locker", "other". public_details.service_level (Optional): string.
@@ -1451,19 +2696,26 @@ export type CreateDeliveryMethodRequestShipment = ({
             "service_level"?: "economy" | "standard" | "expedited" | "express" | "overnight" | "same_day" | (string & {});
         });
     });
-    /** Value enum: "shipment". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment".
+     */
     "type": "shipment" | (string & {});
 });
 /** The `shipment` variant of `CreateDeliveryMethodRequest`. */
 export type CreateDeliveryMethodRequestShipmentInput = ({
     /**
-     * The configuration you supply when creating a delivery method. `origin` and `pricing` are
-     * required.
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply when creating a
+     * delivery method. `origin` and `pricing` are required.
      */
     "configuration": DeliveryMethodConfigurationCreateRequestInput;
-    /** minLength: 1. */
+    /** Buyer-visible description of the method. minLength: 1. */
     "description"?: string;
-    /** Format: int32. */
+    /**
+     * Position in which this method displays among the others. Lower values display first. Format:
+     * int32.
+     */
     "display_position"?: number;
     /**
      * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
@@ -1479,7 +2731,7 @@ export type CreateDeliveryMethodRequestShipmentInput = ({
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
+    /** Name of the method. Buyers see it as the option name at checkout. minLength: 1. */
     "name": string;
     /**
      * Marks this method as recommended. Within each choice group, the available method with the
@@ -1492,28 +2744,32 @@ export type CreateDeliveryMethodRequestShipmentInput = ({
      * "inactive". Value enum: "inactive", "active".
      */
     "status"?: "inactive" | "active";
-    /** Value enum: "shipment". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment".
+     */
     "type": "shipment";
 })
     & ({
     /**
-     * The configuration you supply for a delivery method: origin, pricing, eligibility, timing
-     * estimate, tax settings, and recipient requirements. buyer_instructions (Optional): {@link
-     * BuyerInstructionsConfigRequestInput}. Controls whether checkout collects buyer instructions
-     * for this method. Controls buyer instructions for a delivery option. Omit it from a method
-     * configuration to disable instruction collection. charge_tax_category (Optional): string or
-     * null. Tax category of the delivery charge, which decides its automatic tax and appears in
-     * tax records and reporting. Null inherits settings.tax.default_delivery_tax_category; if
-     * unset, Flint derives shipping for shipment methods, delivery for local delivery, or
-     * service_fee for pickup. Omit it on create to inherit, omit it on PATCH to preserve the
-     * current value, or send null to clear it back to inheriting. Automatic tax calculates
-     * service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge
-     * location, including the store for pickup. Value enum: "service_fee", "shipping", "delivery",
-     * "handling", "surcharge", null. eligibility (Optional): {@link
-     * DeliveryEligibilityExpressionRequestInput}. Conditions that decide where this method is
-     * offered. Omit this field to offer the method everywhere the merchant serves. A boolean
-     * expression containing exactly one operator or typed condition at each node. Expressions
-     * support at most 8 levels and 100 total nodes. estimate (Optional): {@link
+     * Settings that decide where this method is offered, how it is priced, and what the buyer
+     * sees. Changing them publishes a new revision. The configuration you supply for a delivery
+     * method: origin, pricing, eligibility, timing estimate, tax settings, and recipient
+     * requirements. buyer_instructions (Optional): {@link BuyerInstructionsConfigRequestInput}.
+     * Controls whether checkout collects buyer instructions for this method. Controls buyer
+     * instructions for a delivery option. Omit it from a method configuration to disable
+     * instruction collection. charge_tax_category (Optional): string or null. Tax category of the
+     * delivery charge, which decides its automatic tax and appears in tax records and reporting.
+     * Null inherits settings.tax.default_delivery_tax_category; if unset, Flint derives shipping
+     * for shipment methods, delivery for local delivery, or service_fee for pickup. Omit it on
+     * create to inherit, omit it on PATCH to preserve the current value, or send null to clear it
+     * back to inheriting. Automatic tax calculates service_fee, shipping, delivery, handling, and
+     * surcharge at the general rate at the charge location, including the store for pickup. Value
+     * enum: "service_fee", "shipping", "delivery", "handling", "surcharge", null. eligibility
+     * (Optional): {@link DeliveryEligibilityExpressionRequestInput}. Conditions that decide where
+     * this method is offered. Omit this field to offer the method everywhere the merchant serves.
+     * A boolean expression containing exactly one operator or typed condition at each node.
+     * Expressions support at most 8 levels and 100 total nodes. estimate (Optional): {@link
      * DeliveryEstimateRuleRequestInput}. The buyer-visible delivery or pickup estimate. Use type
      * none when the merchant makes no timing promise. The timing estimate rule you supply for a
      * delivery method, chosen by `type`: none, a transit time, or a schedule window.
@@ -1592,14 +2848,17 @@ export type CreateDeliveryMethodRequestShipmentInput = ({
             "pickup_mode"?: never;
         });
     });
-    /** Value enum: "shipment". */
+    /**
+     * Delivery type of the method. It cannot change after you create the method. Value enum:
+     * "shipment".
+     */
     "type": "shipment";
 });
 /** The `delivery_options` variant of `CreateDeliveryPreviewRequest`. */
 export type CreateDeliveryOptionsPreviewRequest = {
     /**
-     * The buyer's location for pickup or local delivery, supplied as an address or a coordinate,
-     * chosen by `type`.
+     * Buyer location used to evaluate pickup and local delivery availability. The buyer's location
+     * for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
      */
     "buyer_location"?: DeliveryBuyerLocationRequest;
     /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
@@ -1611,35 +2870,40 @@ export type CreateDeliveryOptionsPreviewRequest = {
      */
     "delivery_method_ids"?: Array<string>;
     /**
-     * A partial address for delivery quotes, previews, and buyer locations. Country is required
-     * when any member is present.
+     * Destination address used to evaluate shipment and local delivery options. A partial address
+     * for delivery quotes, previews, and buyer locations. Country is required when any member is
+     * present.
      */
     "destination_address"?: DeliveryAddressRequest;
     /**
-     * Chooses where a delivery options preview routes inventory from: a fixed Location, an
-     * inventory allocation policy, or one policy revision.
+     * Where the preview allocates tracked stock: a fixed Location, the current revision of an
+     * allocation policy, or one policy revision. Required when any line item tracks inventory.
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`.
      */
-    "inventory_routing_source"?: InventoryRoutingSource;
+    "inventory_routing_source"?: InventoryRoutingSourceRequest;
     /**
-     * minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItem}. A line item to add to
-     * an order: a catalog variant, a bundle, or a custom item with a name and unit price.
+     * Items to evaluate delivery for, from 1 to 100. minItems: 1. maxItems: 100. [] (Value):
+     * {@link CreateOrderLineItemRequest}. A line item to add to an order: a catalog variant, a
+     * bundle, or a custom item with a name and unit price.
      */
-    "line_items": Array<CreateOrderLineItem>;
+    "line_items": Array<CreateOrderLineItemRequest>;
     /**
      * The delivery question this preview answers. - `delivery_options`: Evaluates delivery methods
      * and prices for the supplied items and buyer location. Value enum: "delivery_options".
      */
     "mode": "delivery_options" | (string & {});
-    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    /**
+     * ID of the Location at which to price pickup methods. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
     "pickup_location_id"?: string;
-    /**  * (Value): string. minLength: 1. */
-    "pricing_context"?: Record<string, string>;
 };
 /** The `delivery_options` variant of `CreateDeliveryPreviewRequest`. */
 export type CreateDeliveryOptionsPreviewRequestInput = {
     /**
-     * The buyer's location for pickup or local delivery, supplied as an address or a coordinate,
-     * chosen by `type`.
+     * Buyer location used to evaluate pickup and local delivery availability. The buyer's location
+     * for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
      */
     "buyer_location"?: DeliveryBuyerLocationRequestInput;
     /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
@@ -1651,19 +2915,22 @@ export type CreateDeliveryOptionsPreviewRequestInput = {
      */
     "delivery_method_ids"?: Array<string>;
     /**
-     * A partial address for delivery quotes, previews, and buyer locations. Country is required
-     * when any member is present.
+     * Destination address used to evaluate shipment and local delivery options. A partial address
+     * for delivery quotes, previews, and buyer locations. Country is required when any member is
+     * present.
      */
     "destination_address"?: DeliveryAddressRequestInput;
     /**
-     * Chooses where a delivery options preview routes inventory from: a fixed Location, an
-     * inventory allocation policy, or one policy revision.
+     * Where the preview allocates tracked stock: a fixed Location, the current revision of an
+     * allocation policy, or one policy revision. Required when any line item tracks inventory.
+     * Where you want inventory routed from: a fixed Location, an inventory allocation policy, or
+     * one policy revision, selected by `type`.
      */
-    "inventory_routing_source"?: DeliveryPreviewRoutingSourceInput;
+    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
     /**
-     * minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequestInput}. A line item
-     * to add to an order: a catalog variant, a bundle, or a custom item with a name and unit
-     * price.
+     * Items to evaluate delivery for, from 1 to 100. minItems: 1. maxItems: 100. [] (Value):
+     * {@link CreateOrderLineItemRequestInput}. A line item to add to an order: a catalog variant,
+     * a bundle, or a custom item with a name and unit price.
      */
     "line_items": Array<CreateOrderLineItemRequestInput>;
     /**
@@ -1671,16 +2938,18 @@ export type CreateDeliveryOptionsPreviewRequestInput = {
      * and prices for the supplied items and buyer location. Value enum: "delivery_options".
      */
     "mode": "delivery_options";
-    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    /**
+     * ID of the Location at which to price pickup methods. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
     "pickup_location_id"?: string;
-    /**  * (Value): string. minLength: 1. */
-    "pricing_context"?: Record<string, string>;
 };
 /** The `pickup_locations` variant of `CreateDeliveryPreviewRequest`. */
 export type CreateDeliveryPickupLocationsPreviewRequest = {
     /**
-     * The buyer's location for pickup or local delivery, supplied as an address or a coordinate,
-     * chosen by `type`.
+     * Buyer location to measure pickup distance from. Locations are ordered nearest first when it
+     * is set. The buyer's location for pickup or local delivery, supplied as an address or a
+     * coordinate, chosen by `type`.
      */
     "buyer_location"?: DeliveryBuyerLocationRequest;
     /**
@@ -1689,7 +2958,8 @@ export type CreateDeliveryPickupLocationsPreviewRequest = {
      */
     "checkout_session_id": string;
     /**
-     * A maximum distance from the buyer location, as a value and unit, that limits which pickup
+     * Farthest a pickup Location can be from the buyer location. Omit it to apply no limit. A
+     * maximum distance from the buyer location, as a value and unit, that limits which pickup
      * locations a preview returns.
      */
     "maximum_distance"?: DeliveryDistance;
@@ -1703,8 +2973,9 @@ export type CreateDeliveryPickupLocationsPreviewRequest = {
 /** The `pickup_locations` variant of `CreateDeliveryPreviewRequest`. */
 export type CreateDeliveryPickupLocationsPreviewRequestInput = {
     /**
-     * The buyer's location for pickup or local delivery, supplied as an address or a coordinate,
-     * chosen by `type`.
+     * Buyer location to measure pickup distance from. Locations are ordered nearest first when it
+     * is set. The buyer's location for pickup or local delivery, supplied as an address or a
+     * coordinate, chosen by `type`.
      */
     "buyer_location"?: DeliveryBuyerLocationRequestInput;
     /**
@@ -1713,7 +2984,8 @@ export type CreateDeliveryPickupLocationsPreviewRequestInput = {
      */
     "checkout_session_id": string;
     /**
-     * A maximum distance from the buyer location, as a value and unit, that limits which pickup
+     * Farthest a pickup Location can be from the buyer location. Omit it to apply no limit. A
+     * maximum distance from the buyer location, as a value and unit, that limits which pickup
      * locations a preview returns.
      */
     "maximum_distance"?: DeliveryPickupAvailabilityMaximumDistanceRequestInput;
@@ -1733,8 +3005,9 @@ export type CreateDeliveryPreviewRequestInput = ((CreateDeliveryOptionsPreviewRe
 /** The request body for: Create delivery profile. */
 export type CreateDeliveryProfileRequest = {
     /**
-     * Delivery planning settings you supply when creating or updating a delivery profile. Which
-     * fields are allowed depends on `requirement` and `resolution_mode`.
+     * The settings that define this resource. Changing them publishes a new revision. Delivery
+     * planning settings you supply when creating or updating a delivery profile. Which fields are
+     * allowed depends on `requirement` and `resolution_mode`.
      */
     "configuration": DeliveryProfileConfigurationRequest;
     /**
@@ -1751,14 +3024,15 @@ export type CreateDeliveryProfileRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** minLength: 1. */
+    /** Merchant-facing name. minLength: 1. */
     "name": string;
 };
 /** The request body for: Create delivery profile. */
 export type CreateDeliveryProfileRequestInput = {
     /**
-     * Delivery planning settings you supply when creating or updating a delivery profile. Which
-     * fields are allowed depends on `requirement` and `resolution_mode`.
+     * The settings that define this resource. Changing them publishes a new revision. Delivery
+     * planning settings you supply when creating or updating a delivery profile. Which fields are
+     * allowed depends on `requirement` and `resolution_mode`.
      */
     "configuration": DeliveryProfileConfigurationRequestInput;
     /**
@@ -1775,14 +3049,15 @@ export type CreateDeliveryProfileRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
+    /** Merchant-facing name. minLength: 1. */
     "name": string;
 };
 /** The request body for: Create delivery rate callback. */
 export type CreateDeliveryRateCallbackRequest = {
     /**
-     * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout,
-     * request and response size limits, redirect policy, and whether previews can use it.
+     * The settings that define this resource. Changing them publishes a new revision. Settings for
+     * a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
+     * response size limits, redirect policy, and whether previews can use it.
      */
     "configuration": DeliveryRateCallbackConfiguration;
     /**
@@ -1790,21 +3065,28 @@ export type CreateDeliveryRateCallbackRequest = {
      * 255. Example: "warehouse-1842".
      */
     "external_reference_id"?: string;
-    /** minLength: 1. */
+    /** Merchant-facing name. minLength: 1. */
     "name": string;
     /**
      * Signing methods for callback requests. Defaults to JWT verification with Flint's public
-     * JWKS. A shared secret and key_id are returned only when hmac is included. minItems: 1.
-     * uniqueItems: true. Default: ["jwt"]. [] enum: "jwt", "hmac". [] (Value): {@link
-     * WebhookSigningMethod}. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
+     * JWKS. When hmac is included, the response returns the shared secret and its
+     * delivery_rate_callback_signing_key_id once. minItems: 1. uniqueItems: true. Default:
+     * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethod}. How Flint signs
+     * requests to this endpoint. Value enum: "jwt", "hmac".
      */
     "signing_methods"?: Array<WebhookSigningMethod>;
+    /**
+     * Whether active delivery methods can price with this callback. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active" | (string & {});
 };
 /** The request body for: Create delivery rate callback. */
 export type CreateDeliveryRateCallbackRequestInput = {
     /**
-     * Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout,
-     * request and response size limits, redirect policy, and whether previews can use it.
+     * The settings that define this resource. Changing them publishes a new revision. Settings for
+     * a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and
+     * response size limits, redirect policy, and whether previews can use it.
      */
     "configuration": DeliveryRateCallbackConfigurationRequestInput;
     /**
@@ -1812,16 +3094,21 @@ export type CreateDeliveryRateCallbackRequestInput = {
      * 255. Example: "warehouse-1842".
      */
     "external_reference_id"?: string;
-    /** minLength: 1. */
+    /** Merchant-facing name. minLength: 1. */
     "name": string;
     /**
      * Signing methods for callback requests. Defaults to JWT verification with Flint's public
-     * JWKS. A shared secret and key_id are returned only when hmac is included. minItems: 1.
-     * uniqueItems: true. Default: ["jwt"]. [] enum: "jwt", "hmac". [] (Value): {@link
-     * WebhookSigningMethodInput}. How Flint signs requests to this endpoint. Value enum: "jwt",
-     * "hmac".
+     * JWKS. When hmac is included, the response returns the shared secret and its
+     * delivery_rate_callback_signing_key_id once. minItems: 1. uniqueItems: true. Default:
+     * ["jwt"]. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethodInput}. How Flint
+     * signs requests to this endpoint. Value enum: "jwt", "hmac".
      */
     "signing_methods"?: Array<WebhookSigningMethodInput>;
+    /**
+     * Whether active delivery methods can price with this callback. Defaults to inactive. Default:
+     * "inactive". Value enum: "inactive", "active".
+     */
+    "status"?: "inactive" | "active";
 };
 /** Creates a permanent fence for one exact delivery dependency in this merchant and environment. */
 export type CreateDeliveryRevocationRequest = {
@@ -1997,13 +3284,20 @@ export type CreateDeliveryRevocationTargetLocationGeographyInput = {
  * optional delivery instructions.
  */
 export type CreateDeliverySelectionChoiceRequest = {
-    /** minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    /**
+     * ID of the choice group in the quote to select for. minLength: 1. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
     "delivery_choice_group_id": string;
-    /** minLength: 1. Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923". */
+    /**
+     * ID of an unexpired option in this choice group's options. minLength: 1. Example:
+     * "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
+     */
     "delivery_option_id": string;
     /**
-     * Buyer input for a selected delivery option: a `delivery_window_id` where the option uses
-     * delivery windows, and optional `instructions`.
+     * Delivery window choice and buyer instructions for this option. Buyer input for a selected
+     * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
+     * `instructions`.
      */
     "input"?: DeliverySelectionInstructionsRequest;
 };
@@ -2012,31 +3306,43 @@ export type CreateDeliverySelectionChoiceRequest = {
  * optional delivery instructions.
  */
 export type CreateDeliverySelectionChoiceRequestInput = {
-    /** minLength: 1. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    /**
+     * ID of the choice group in the quote to select for. minLength: 1. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
     "delivery_choice_group_id": string;
-    /** minLength: 1. Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923". */
+    /**
+     * ID of an unexpired option in this choice group's options. minLength: 1. Example:
+     * "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
+     */
     "delivery_option_id": string;
     /**
-     * Buyer input for a selected delivery option: a `delivery_window_id` where the option uses
-     * delivery windows, and optional `instructions`.
+     * Delivery window choice and buyer instructions for this option. Buyer input for a selected
+     * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
+     * `instructions`.
      */
     "input"?: DeliverySelectionInstructionsRequestInput;
 };
 /** The request body for: Create delivery selection. */
 export type CreateDeliverySelectionRequest = {
     /**
-     *  [] (Value): {@link CreateDeliverySelectionChoiceRequest}. The delivery option to select for
-     * one choice group when creating a delivery selection, with optional delivery instructions.
+     * One chosen option for every required choice group in the quote. Use group and option IDs
+     * from this quote, not an earlier quote. [] (Value): {@link
+     * CreateDeliverySelectionChoiceRequest}. The delivery option to select for one choice group
+     * when creating a delivery selection, with optional delivery instructions.
      */
     "choices": Array<CreateDeliverySelectionChoiceRequest>;
-    /** minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV". */
+    /**
+     * ID of the quote whose options to choose. The selection belongs to that quote's checkout
+     * session. minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+     */
     "delivery_quote_id": string;
     /**
-     * Partial is fine when quoting: send what the buyer has entered, at least country. A
-     * destination_address sent with a selection must be complete; a selection that omits it uses
-     * the quote's destination, which may be partial. A complete postal address. State and
-     * postal_code are required for US addresses and optional for other countries. Send null or
-     * omit line2, state, and postal_code when the address has none.
+     * Destination address for shipment or local delivery. When sent, it must be a complete
+     * address. When omitted, Flint keeps the quote's address, even when partial; missing members
+     * appear in input_requirements and must be supplied before payment. A complete postal address.
+     * State and postal_code are required for US addresses and optional for other countries. Send
+     * null or omit line2, state, and postal_code when the address has none.
      */
     "destination_address"?: AddressRequest;
     /**
@@ -2046,27 +3352,43 @@ export type CreateDeliverySelectionRequest = {
      */
     "expected_delivery_selection_id"?: string | null;
     /**
-     * Recipient details you supply with a delivery selection or subscription delivery: optional
-     * `name`, `email`, and `phone`.
+     * Requires a merchant credential with delivery-write scope. Merchant-created cart reservations
+     * to adopt atomically into the selection hold at the selected inventory items and locations.
+     * Only matching held units are released; unused units stay held, and any remaining demand uses
+     * available stock. At most 100 unique IDs. Explicit IDs, including an empty array, replace the
+     * session binding for this request. When omitted, both merchant and buyer requests use
+     * eligible session-bound holds; ineligible bound holds are silently skipped. First adopter
+     * wins when sessions share a hold. Ineligible explicit IDs are refused as not found. maxItems:
+     * 100. [] (Value): string. minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_ids"?: Array<string>;
+    /**
+     * Recipient details the chosen options ask for. Missing required fields are returned in
+     * input_requirements and must be supplied before payment. Recipient details you supply with a
+     * delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
      */
     "recipient"?: DeliverySelectionRecipientRequest;
 };
 /** The request body for: Create delivery selection. */
 export type CreateDeliverySelectionRequestInput = {
     /**
-     *  [] (Value): {@link CreateDeliverySelectionChoiceRequestInput}. The delivery option to
-     * select for one choice group when creating a delivery selection, with optional delivery
-     * instructions.
+     * One chosen option for every required choice group in the quote. Use group and option IDs
+     * from this quote, not an earlier quote. [] (Value): {@link
+     * CreateDeliverySelectionChoiceRequestInput}. The delivery option to select for one choice
+     * group when creating a delivery selection, with optional delivery instructions.
      */
     "choices": Array<CreateDeliverySelectionChoiceRequestInput>;
-    /** minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV". */
+    /**
+     * ID of the quote whose options to choose. The selection belongs to that quote's checkout
+     * session. minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+     */
     "delivery_quote_id": string;
     /**
-     * Partial is fine when quoting: send what the buyer has entered, at least country. A
-     * destination_address sent with a selection must be complete; a selection that omits it uses
-     * the quote's destination, which may be partial. A complete postal address. State and
-     * postal_code are required for US addresses and optional for other countries. Send null or
-     * omit line2, state, and postal_code when the address has none.
+     * Destination address for shipment or local delivery. When sent, it must be a complete
+     * address. When omitted, Flint keeps the quote's address, even when partial; missing members
+     * appear in input_requirements and must be supplied before payment. A complete postal address.
+     * State and postal_code are required for US addresses and optional for other countries. Send
+     * null or omit line2, state, and postal_code when the address has none.
      */
     "destination_address"?: AddressRequestInput;
     /**
@@ -2076,16 +3398,28 @@ export type CreateDeliverySelectionRequestInput = {
      */
     "expected_delivery_selection_id"?: string | null;
     /**
-     * Recipient details you supply with a delivery selection or subscription delivery: optional
-     * `name`, `email`, and `phone`.
+     * Requires a merchant credential with delivery-write scope. Merchant-created cart reservations
+     * to adopt atomically into the selection hold at the selected inventory items and locations.
+     * Only matching held units are released; unused units stay held, and any remaining demand uses
+     * available stock. At most 100 unique IDs. Explicit IDs, including an empty array, replace the
+     * session binding for this request. When omitted, both merchant and buyer requests use
+     * eligible session-bound holds; ineligible bound holds are silently skipped. First adopter
+     * wins when sessions share a hold. Ineligible explicit IDs are refused as not found. maxItems:
+     * 100. [] (Value): string. minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_ids"?: Array<string>;
+    /**
+     * Recipient details the chosen options ask for. Missing required fields are returned in
+     * input_requirements and must be supplied before payment. Recipient details you supply with a
+     * delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
      */
     "recipient"?: DeliverySelectionRecipientRequestInput;
 };
 /** The request body for: Create delivery zone. */
 export type CreateDeliveryZoneRequest = {
     /**
-     * A reusable geographic predicate containing only country, state, postal_code, and radius
-     * conditions.
+     * The settings that define this resource. Changing them publishes a new revision. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
      */
     "configuration": DeliveryZoneConfigurationRequest;
     /**
@@ -2102,14 +3436,14 @@ export type CreateDeliveryZoneRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** minLength: 1. */
+    /** Merchant-facing name. minLength: 1. */
     "name": string;
 };
 /** The request body for: Create delivery zone. */
 export type CreateDeliveryZoneRequestInput = {
     /**
-     * A reusable geographic predicate containing only country, state, postal_code, and radius
-     * conditions.
+     * The settings that define this resource. Changing them publishes a new revision. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
      */
     "configuration": DeliveryZoneConfigurationRequestInput;
     /**
@@ -2126,973 +3460,6 @@ export type CreateDeliveryZoneRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** minLength: 1. */
+    /** Merchant-facing name. minLength: 1. */
     "name": string;
-};
-/** The request body for: Create demo session. */
-export type CreateDemoSessionRequestInput = {
-    /**
-     * Omit to use quickstart. An explicit empty or unsupported template is invalid. Default:
-     * "quickstart". Value enum: "quickstart".
-     */
-    "template"?: "quickstart";
-};
-/**
- * The created sandbox is the primary resource, with the API key and one-time secret_key when
- * issue_test_key is true.
- */
-export type CreateDeveloperSandboxResult = {
-    /**
-     * The newly issued test API key. Present exactly when issue_test_key is true. A credential
-     * used to authenticate API requests.
-     */
-    "api_key"?: APIKey;
-    /** An isolated environment for testing an integration. */
-    "sandbox": Sandbox;
-    /** The one-time secret for api_key. Present exactly when issue_test_key is true. */
-    "secret_key"?: string;
-};
-/** The request body for: Create device. */
-export type CreateDeviceRequest = {
-    /**
-     * Stable hardware identity. Must have no leading or trailing whitespace and is compared
-     * exactly, including case and accents. Only one active device in this merchant and environment
-     * can hold it. minLength: 1. maxLength: 255.
-     */
-    "hardware_fingerprint"?: string;
-    /**
-     * An active Location to assign the device to. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Name for the device, such as Front register. minLength: 1. */
-    "name": string;
-};
-/** The request body for: Create device. */
-export type CreateDeviceRequestInput = {
-    /**
-     * Stable hardware identity. Must have no leading or trailing whitespace and is compared
-     * exactly, including case and accents. Only one active device in this merchant and environment
-     * can hold it. minLength: 1. maxLength: 255.
-     */
-    "hardware_fingerprint"?: string;
-    /**
-     * An active Location to assign the device to. minLength: 1. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Name for the device, such as Front register. minLength: 1. */
-    "name": string;
-};
-/** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-export type CreateDigitalFulfillmentDetails = {
-    /** URL where the recipient can access the delivered digital goods. minLength: 1. */
-    "delivery_url"?: string;
-};
-/** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
-export type CreateDigitalFulfillmentDetailsInput = CreateDigitalFulfillmentDetails;
-/** The request body for: Request an email change. */
-export type CreateEmailChangeRequest = {
-    /**
-     * The address to change the email to. Flint emails a six-digit code to it. Format: email.
-     * minLength: 1. maxLength: 320. Example: "buyer@example.com".
-     */
-    "new_email": string;
-};
-/** The request body for: Request an email change. */
-export type CreateEmailChangeRequestInput = CreateEmailChangeRequest;
-/**
- * The `bug` variant of `CreateFeedbackReportRequest`. The `feature_request` variant of
- * `CreateFeedbackReportRequest`. The `other` variant of `CreateFeedbackReportRequest`. The
- * `papercut` variant of `CreateFeedbackReportRequest`. The `praise` variant of
- * `CreateFeedbackReportRequest`.
- */
-export type CreateFeedbackReportNarrative = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /**
-     * Classification of the feedback. Value enum: "papercut", "bug", "feature_request", "praise",
-     * "other".
-     */
-    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other" | (string & {});
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent" | (string & {});
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClient;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment"?: "positive" | "negative" | "neutral" | (string & {});
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary": string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ({
-    /** Value enum: "papercut", "bug", "feature_request", "praise", "other". */
-    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other" | (string & {});
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary": string;
-});
-/**
- * The `bug` variant of `CreateFeedbackReportRequest`. The `feature_request` variant of
- * `CreateFeedbackReportRequest`. The `other` variant of `CreateFeedbackReportRequest`. The
- * `papercut` variant of `CreateFeedbackReportRequest`. The `praise` variant of
- * `CreateFeedbackReportRequest`.
- */
-export type CreateFeedbackReportNarrativeInput = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /**
-     * Classification of the feedback. Value enum: "papercut", "bug", "feature_request", "praise",
-     * "other".
-     */
-    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other";
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent";
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClientRequestInput;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment"?: "positive" | "negative" | "neutral";
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary": string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ({
-    /** Value enum: "papercut", "bug", "feature_request", "praise", "other". */
-    "kind": "papercut" | "bug" | "feature_request" | "praise" | "other";
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary": string;
-});
-/** The `rating` variant of `CreateFeedbackReportRequest`. */
-export type CreateFeedbackReportRating = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /** Classification of the feedback. Value enum: "rating". */
-    "kind": "rating" | (string & {});
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent" | (string & {});
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClient;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment": "positive" | "negative" | "neutral" | (string & {});
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary"?: string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ({
-    /** Value enum: "rating". */
-    "kind": "rating" | (string & {});
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment": "positive" | "negative" | "neutral" | (string & {});
-});
-/** The `rating` variant of `CreateFeedbackReportRequest`. */
-export type CreateFeedbackReportRatingInput = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /** Classification of the feedback. Value enum: "rating". */
-    "kind": "rating";
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent";
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClientRequestInput;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment": "positive" | "negative" | "neutral";
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary"?: string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ({
-    /** Value enum: "rating". */
-    "kind": "rating";
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment": "positive" | "negative" | "neutral";
-});
-/** The request body for: Create a feedback report. */
-export type CreateFeedbackReportRequest = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /**
-     * Classification of the feedback. Value enum: "papercut", "bug", "feature_request", "rating",
-     * "praise", "other".
-     */
-    "kind": "papercut" | "bug" | "feature_request" | "rating" | "praise" | "other" | (string & {});
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent" | (string & {});
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClient;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment"?: "positive" | "negative" | "neutral" | (string & {});
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary"?: string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other"
-        | (string & {});
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ((Exclude<CreateFeedbackReportRating & object, readonly unknown[]>)
-    | (Exclude<CreateFeedbackReportNarrative & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The request body for: Create a feedback report. */
-export type CreateFeedbackReportRequestInput = ({
-    /**
-     * Optional observed outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "actual_behavior"?: string;
-    /**
-     * Dotted or hyphenated canonical command name, such as payment-intents.create. Limited to 200
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 200. pattern: ^[a-z][a-z0-9]*(?:[.-][a-z0-9]+)*$.
-     */
-    "canonical_command"?: string;
-    /**
-     * One file path relative to your repository root, optionally followed by `:line` or
-     * `:line:column`, such as `src/sync/products.ts:42`. Absolute paths, `..` segments, and
-     * backslashes are rejected. Limited to 500 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 500.
-     */
-    "code_location"?: string;
-    /**
-     * Optional feature or subsystem within the product. Limited to 128 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 128.
-     */
-    "component"?: string;
-    /**
-     * Optional details about the feedback. Limited to 8000 characters (Unicode code points),
-     * counted before whitespace and line-ending normalization. minLength: 1. maxLength: 8000.
-     */
-    "description"?: string;
-    /**
-     * Optional desired outcome. Limited to 4000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 4000.
-     */
-    "expected_behavior"?: string;
-    /**
-     * Classification of the feedback. Value enum: "papercut", "bug", "feature_request", "rating",
-     * "praise", "other".
-     */
-    "kind": "papercut" | "bug" | "feature_request" | "rating" | "praise" | "other";
-    /**
-     * Flint request ID associated with this feedback. Limited to 255 characters (Unicode code
-     * points), counted before whitespace and line-ending normalization. minLength: 1. maxLength:
-     * 255. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "related_request_id"?: string;
-    /**
-     * Flint IDs of the resources this feedback is about, at most 20 and all different. Flint
-     * checks only that each ID has the format of a Flint resource ID, not that the resource exists
-     * or that you can read it. maxItems: 20. uniqueItems: true. [] (Value): string. minLength: 1.
-     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "related_resource_ids"?: Array<string>;
-    /** Whether the reporter is a human or an AI. Value enum: "human", "ai_agent". */
-    "reporter_kind"?: "human" | "ai_agent";
-    /**
-     * Tool submitting the feedback, independently of the product being discussed. Its name is
-     * required when present. The client that submits a feedback report, with its name, platform,
-     * version, and schema version.
-     */
-    "reporting_client"?: FeedbackReportingClientRequestInput;
-    /**
-     * Unique steps in reproduction order, with at most 20 entries. maxItems: 20. uniqueItems:
-     * true. [] (Value): string. Limited to 1000 characters (Unicode code points), counted before
-     * whitespace and line-ending normalization. minLength: 1. maxLength: 1000.
-     */
-    "reproduction_steps"?: Array<string>;
-    /**
-     * Positive, negative, or neutral assessment. Required for rating feedback; optional for
-     * narrative feedback. Value enum: "positive", "negative", "neutral".
-     */
-    "sentiment"?: "positive" | "negative" | "neutral";
-    /**
-     * Brief account of the feedback. Required for every kind except rating; optional for a rating.
-     * Limited to 200 characters (Unicode code points), counted before whitespace and line-ending
-     * normalization. minLength: 1. maxLength: 200.
-     */
-    "summary"?: string;
-    /**
-     * Product being discussed, independently of how the report is submitted. Value enum: "api",
-     * "cli", "mcp", "sdk", "docs", "dashboard", "checkout", "payment_links", "webhooks",
-     * "onboarding", "mobile", "other".
-     */
-    "surface": "api"
-        | "cli"
-        | "mcp"
-        | "sdk"
-        | "docs"
-        | "dashboard"
-        | "checkout"
-        | "payment_links"
-        | "webhooks"
-        | "onboarding"
-        | "mobile"
-        | "other";
-    /**
-     * A public API route template exactly as the API reference shows it, such as
-     * `/v1/orders/{order_id}`, with no host, query string, or real IDs. Omit it for feedback that
-     * isn't about an API route; any other value returns `400 INVALID_REQUEST`. Limited to 500
-     * characters (Unicode code points), counted before whitespace and line-ending normalization.
-     * minLength: 1. maxLength: 500.
-     */
-    "surface_route"?: string;
-})
-    & ((Exclude<CreateFeedbackReportRatingInput & object, readonly unknown[]>)
-    | (Exclude<CreateFeedbackReportNarrativeInput & object, readonly unknown[]>));
-/** The request body for: Create a file. */
-export type CreateFileRequest = {
-    /**
-     * Media type of the image you will upload. Value enum: "image/jpeg", "image/png",
-     * "image/webp".
-     */
-    "content_type": "image/jpeg" | "image/png" | "image/webp" | (string & {});
-    /**
-     * What the image will be used for. Creating or completing merchant_logo and merchant_icon
-     * files changes shared branding and requires a live-mode credential or a Dashboard session in
-     * any selected environment. Test credentials receive 403 FORBIDDEN with reason
-     * live_mode_required. Partner install tokens need the purpose's scope too; merchant_logo and
-     * merchant_icon need merchants.profile.write and a live install token. Value enum: "product",
-     * "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo",
-     * "merchant_icon".
-     */
-    "purpose": "product"
-        | "product_variant"
-        | "bundle"
-        | "payment_link"
-        | "subscription_plan"
-        | "merchant_logo"
-        | "merchant_icon"
-        | (string & {});
-    /**
-     * Size of the image you will upload, in bytes, from 1 to 5,242,880 (5 MiB). Format: int64.
-     * minimum: 1. maximum: 5242880.
-     */
-    "size_bytes": number;
-};
-/** The request body for: Create a file. */
-export type CreateFileRequestInput = {
-    /**
-     * Media type of the image you will upload. Value enum: "image/jpeg", "image/png",
-     * "image/webp".
-     */
-    "content_type": "image/jpeg" | "image/png" | "image/webp";
-    /**
-     * What the image will be used for. Creating or completing merchant_logo and merchant_icon
-     * files changes shared branding and requires a live-mode credential or a Dashboard session in
-     * any selected environment. Test credentials receive 403 FORBIDDEN with reason
-     * live_mode_required. Partner install tokens need the purpose's scope too; merchant_logo and
-     * merchant_icon need merchants.profile.write and a live install token. Value enum: "product",
-     * "product_variant", "bundle", "payment_link", "subscription_plan", "merchant_logo",
-     * "merchant_icon".
-     */
-    "purpose": "product"
-        | "product_variant"
-        | "bundle"
-        | "payment_link"
-        | "subscription_plan"
-        | "merchant_logo"
-        | "merchant_icon";
-    /**
-     * Size of the image you will upload, in bytes, from 1 to 5,242,880 (5 MiB). Format: int64.
-     * minimum: 1. maximum: 5242880.
-     */
-    "size_bytes": number;
-};
-/** The request body for: Create fulfillment event. */
-export type CreateFulfillmentEventRequest = {
-    /** Free-form details attached to the event. * (Value): string. minLength: 1. */
-    "custom_details"?: Record<string, string>;
-    /** What kind of event this records. Value enum: "carrier_scan", "custom". */
-    "event_type": "carrier_scan" | "custom" | (string & {});
-    /**
-     * Event identifier assigned by that integration. Flint records a repeated pair of
-     * `external_system` and `external_event_id` once. minLength: 1. Example: "warehouse-1842".
-     */
-    "external_event_id"?: string;
-    /** Status supplied by that integration. minLength: 1. */
-    "external_status"?: string;
-    /** Integration that supplied the event. minLength: 1. */
-    "external_system"?: string;
-    /** Where the event happened, such as `Louisville, KY`. minLength: 1. */
-    "location_description"?: string;
-    /** Human-readable text describing the event. minLength: 1. */
-    "message"?: string;
-    /**
-     * Provider event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Nested package associated with this observational event. Flint resolves and validates its
-     * shipment and fulfillment ownership. minLength: 1. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
-     */
-    "package_id"?: string;
-    /**
-     * Nested shipment associated with this observational event. Flint validates that it belongs to
-     * the fulfillment in the path. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_id"?: string;
-};
-/** The request body for: Create fulfillment event. */
-export type CreateFulfillmentEventRequestInput = {
-    /** Free-form details attached to the event. * (Value): string. minLength: 1. */
-    "custom_details"?: Record<string, string>;
-    /** What kind of event this records. Value enum: "carrier_scan", "custom". */
-    "event_type": "carrier_scan" | "custom";
-    /**
-     * Event identifier assigned by that integration. Flint records a repeated pair of
-     * `external_system` and `external_event_id` once. minLength: 1. Example: "warehouse-1842".
-     */
-    "external_event_id"?: string;
-    /** Status supplied by that integration. minLength: 1. */
-    "external_status"?: string;
-    /** Integration that supplied the event. minLength: 1. */
-    "external_system"?: string;
-    /** Where the event happened, such as `Louisville, KY`. minLength: 1. */
-    "location_description"?: string;
-    /** Human-readable text describing the event. minLength: 1. */
-    "message"?: string;
-    /**
-     * Provider event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Nested package associated with this observational event. Flint resolves and validates its
-     * shipment and fulfillment ownership. minLength: 1. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
-     */
-    "package_id"?: string;
-    /**
-     * Nested shipment associated with this observational event. Flint validates that it belongs to
-     * the fulfillment in the path. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
-     */
-    "shipment_id"?: string;
 };

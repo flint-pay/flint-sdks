@@ -8,71 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | [DeliveryZoneConfigurationRequestInput](../models/DeliveryZoneConfigurationRequestInput.md#deliveryzoneconfigurationrequestinput) | A reusable geographic predicate containing only country, state, postal_code, and radius conditions. `configuration`: [declared alternatives](../models/CreateDeliveryZoneRequestInput.md#createdeliveryzonerequestinputconfiguration). |
+| `configuration` | Required | [DeliveryZoneConfigurationRequestInput](../models/DeliveryZoneConfigurationRequestInput.md#deliveryzoneconfigurationrequestinput) | The settings that define this resource. Changing them publishes a new revision. A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Required | string | minLength: `1`. |
-
-### CreateDeliveryZoneRequestInput.configuration
-
-A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `all` | Conditional | Array of [DeliveryZoneConfigurationRequestInput](../models/DeliveryZoneConfigurationRequestInput.md#deliveryzoneconfigurationrequestinput) | minItems: `1`. maxItems: `100`. |
-| `any` | Conditional | Array of [DeliveryZoneConfigurationRequestInput](../models/DeliveryZoneConfigurationRequestInput.md#deliveryzoneconfigurationrequestinput) | minItems: `1`. maxItems: `100`. |
-| `country` | Conditional | [DeliveryCountryConditionRequestInput](../models/DeliveryCountryConditionRequestInput.md#deliverycountryconditionrequestinput) | A delivery eligibility condition that matches when the address country is one of `values`. |
-| `not` | Conditional | [DeliveryZoneConfigurationRequestInput](../models/DeliveryZoneConfigurationRequestInput.md#deliveryzoneconfigurationrequestinput) | A reusable geographic predicate containing only country, state, postal_code, and radius conditions. |
-| `postal_code` | Conditional | [DeliveryPostalCodeConditionRequestInput](../models/DeliveryPostalCodeConditionRequestInput.md#deliverypostalcodeconditionrequestinput) | A delivery eligibility condition that matches the address postal code against exact or prefix `values`. |
-| `radius` | Conditional | [DeliveryRadiusConditionRequestInput](../models/DeliveryRadiusConditionRequestInput.md#deliveryradiusconditionrequestinput) | Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line. |
-| `state` | Conditional | [DeliveryStateConditionRequestInput](../models/DeliveryStateConditionRequestInput.md#deliverystateconditionrequestinput) | Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes. |
-
-### CreateDeliveryZoneRequestInput.configuration variant 1
-
-oneOf variant 1.
-
-- Required: `all`.
-- Optional: `any`, `country`, `not`, `postal_code`, `radius`, `state`.
-
-### CreateDeliveryZoneRequestInput.configuration variant 2
-
-oneOf variant 2.
-
-- Required: `any`.
-- Optional: `all`, `country`, `not`, `postal_code`, `radius`, `state`.
-
-### CreateDeliveryZoneRequestInput.configuration variant 3
-
-oneOf variant 3.
-
-- Required: `not`.
-- Optional: `all`, `any`, `country`, `postal_code`, `radius`, `state`.
-
-### CreateDeliveryZoneRequestInput.configuration variant 4
-
-oneOf variant 4.
-
-- Required: `country`.
-- Optional: `all`, `any`, `not`, `postal_code`, `radius`, `state`.
-
-### CreateDeliveryZoneRequestInput.configuration variant 5
-
-oneOf variant 5.
-
-- Required: `state`.
-- Optional: `all`, `any`, `country`, `not`, `postal_code`, `radius`.
-
-### CreateDeliveryZoneRequestInput.configuration variant 6
-
-oneOf variant 6.
-
-- Required: `postal_code`.
-- Optional: `all`, `any`, `country`, `not`, `radius`, `state`.
-
-### CreateDeliveryZoneRequestInput.configuration variant 7
-
-oneOf variant 7.
-
-- Required: `radius`.
-- Optional: `all`, `any`, `country`, `not`, `postal_code`, `state`.
+| `name` | Required | string | Merchant-facing name. minLength: `1`. |
 

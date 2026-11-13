@@ -1,8 +1,8 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { BalanceListResponse, BalancesListParams } from '../declarations/types-1.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -17,15 +17,15 @@ export type {
     WorkloadIdentityOptions,
     WorkloadIdentitySource
 } from '../runtime.js';
-export type { BalancesListParams, BalanceListResponse, Balance } from '../declarations/types-1.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type { RequestOptions, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+export type { BalancesListParams, BalanceListResponse, AuthMode, Balance } from '../declarations/types-1.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions } from '../declarations/types-53.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { MoneyValue, MoneyMovementListMeta, MoneyMovementHistoryMeta, NextAction } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MoneyValue, MoneyMovementListMeta, MoneyMovementHistoryMeta, NextAction } from '../declarations/types-38.js';
+export type { ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
 export interface BalancesResource {
     /**
  * Returns the current balance snapshot grouped by currency for the authenticated merchant in the

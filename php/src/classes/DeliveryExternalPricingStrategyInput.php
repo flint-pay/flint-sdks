@@ -11,13 +11,13 @@ namespace Flint;
 final class DeliveryExternalPricingStrategyInput extends Model {
     /** @param array{'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'maximum_fee_currency_options': array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'minimum_fee_currency_options': array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'preview_enabled'?: bool}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryExternalPricingStrategyInput')); }
-    /** Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+    /** ID of the delivery rate callback that supplies the price. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+    /** ID of the rate callback revision the method uses. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
      * @return string
      * @throws SdkError When delivery_rate_callback_revision_id is omitted; use hasDeliveryRateCallbackRevisionId() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class DeliveryExternalPricingStrategyInput extends Model {
      */
     public function getMinimumFeeCurrencyOptions(): array|object { return $this->get('minimum_fee_currency_options'); }
     public function hasMinimumFeeCurrencyOptions(): bool { return $this->has('minimum_fee_currency_options'); }
-    /** preview_enabled
+    /** Whether delivery previews call the rate callback. Previews call it only when this setting and the callback's `preview_enabled` setting are both `true`.
      * @return bool
      * @throws SdkError When preview_enabled is omitted; use hasPreviewEnabled() or valueOrDefault().
      */

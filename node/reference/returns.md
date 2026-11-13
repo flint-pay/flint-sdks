@@ -697,7 +697,7 @@ Body model: [CreateReturnResolutionRequestInput](../models/CreateReturnResolutio
 | `corrects_return_resolution_id` | Optional | string | ID of the settled resolution to correct. Send only with `resolution_type: correction`. minLength: `1`. |
 | `expected_return_version` | Optional | integer | Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the Return ID and its current version. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `gift_card_refund_destination` | Optional | string | Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: `"original"`. Values: `"original"`, `"new_gift_card"`. |
+| `gift_card_refund_destination` | Optional | string | Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: `"original"`. Values: `"original"`, `"new_gift_card"`. |
 | `line_items` | Optional | Array of [ReturnResolutionLineItemRequestInput](../models/ReturnResolutionLineItemRequestInput.md#returnresolutionlineitemrequestinput) | Return lines and quantities to cover, up to 100. Not allowed on a correction. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `pricing_basis` | Optional | string | Required for merchant exchange and replacement requests. original_price preserves the selected units' net paid amounts using refund allocation; current_price uses catalog prices; merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit pricing_basis: replacements use original_price; exchanges use original_price when every replacement matches selected returned merchandise by variant, bundle, or product, otherwise current_price. Values: `"original_price"`, `"current_price"`, `"merchant_agreed_price"`. |
@@ -849,7 +849,7 @@ deleteLineItem(return_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
 | `return_line_item_id` | Required | string | Flint return line item id. |
-| `expected_version` | Optional | integer | Optional version of the parent Return. Supply exactly once. A stale value returns VERSION_CONFLICT with the current Return version. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional version of the parent Return. Supply exactly once. A stale value returns VERSION_CONFLICT with the current Return version. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -948,6 +948,7 @@ Returned payload: [ReturnResource](../models/ReturnResource.md#returnresource).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1007,6 +1008,7 @@ Returned payload: [ReturnLineItem](../models/ReturnLineItem.md#returnlineitem).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1043,20 +1045,20 @@ Signature: `list(params?: ReturnsListParams, options?: _SdkWithoutIdempotency<Re
 | --- | --- | --- | --- |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
-| `customer_id` | Optional | string | Filter by customer id. |
+| `customer_id` | Optional | string | Filter by customer id. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `decision_status` | Optional | Array of string or string | Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#returnslist-input-merchandise_status--values). Values: [10 declared values](#returnslist-input-merchandise_status-values). |
-| `order_id` | Optional | string | Filter by order id. |
+| `order_id` | Optional | string | Filter by order id. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search by return ID, return number, external reference ID, the order's number, or the buyer's email. |
-| `receiving_location_id` | Optional | string | Filter by receiving location id. |
+| `receiving_location_id` | Optional | string | Filter by receiving location id. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `resolution_status` | Optional | Array of string or string | Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
 | `resolution_type` | Optional | Array of string or string | Filter by resolution type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. Values: `"refund"`, `"exchange"`, `"replacement"`, `"store_credit"`, `"no_monetary_action"`, `"correction"`. |
 | `return_number` | Optional | string | Filter by return number. |
-| `return_reason_id` | Optional | string | Filter by return reason id. |
+| `return_reason_id` | Optional | string | Filter by return reason id. pattern: `^rrsn_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by return_id. Default: `"created_at"`. Values: `"created_at"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
@@ -1106,6 +1108,7 @@ Returned payload: [ListReturnsResponse](../models/ListReturnsResponse.md#listret
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1168,6 +1171,7 @@ Returned payload: [ListReturnActivitiesResponse](../models/ListReturnActivitiesR
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1211,13 +1215,13 @@ listLineItems(return_id: InputValue<string>,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `return_id` | Required | string | Flint return id. |
-| `fulfillment_id` | Optional | string | Filter by fulfillment id. |
+| `fulfillment_id` | Optional | string | Filter by fulfillment id. pattern: `^ful_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#returnslistlineitems-input-merchandise_status--values). Values: [10 declared values](#returnslistlineitems-input-merchandise_status-values). |
-| `order_line_item_id` | Optional | string | Filter by order line item id. |
+| `order_line_item_id` | Optional | string | Filter by order line item id. pattern: `^li_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `resolution_status` | Optional | Array of string or string | Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
-| `return_reason_id` | Optional | string | Filter by return reason id. |
+| `return_reason_id` | Optional | string | Filter by return reason id. pattern: `^rrsn_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -1261,6 +1265,7 @@ Returned payload: [ListReturnLineItemsResponse](../models/ListReturnLineItemsRes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1438,7 +1443,7 @@ Signature: `update(return_id: InputValue<string>, params: ReturnsUpdateParams, o
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateReturnRequestInput](../models/UpdateReturnRequestInput.md#updatereturnrequestinput) | The request body for: Update return. |
+| `body` | Required | [UpdateReturnRequestInput](../models/UpdateReturnRequestInput.md#updatereturnrequestinput) | The request body for: Update return. minProperties: `1`. |
 
 Body model: [UpdateReturnRequestInput](../models/UpdateReturnRequestInput.md#updatereturnrequestinput).
 

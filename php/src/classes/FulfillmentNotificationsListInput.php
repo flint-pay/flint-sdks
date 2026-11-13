@@ -17,19 +17,19 @@ namespace Flint;
 final class FulfillmentNotificationsListInput extends Model {
     /** @param array{'fulfillment_id'?: string, 'order_id'?: string, 'fulfillment_event_id'?: string, 'page_size'?: int, 'page_token'?: string, 'channel'?: list<string>|string, 'status'?: list<string>|string, 'notification_type'?: list<string>|string, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentNotificationsListInput')); }
-    /** Optional fulfillment ID filter. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+    /** Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      * @return string
      * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
      */
     public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
     public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
-    /** Optional order ID filter. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Optional fulfillment event ID filter. Example: "fev_01KEZF7C002XK9D7X3239ERT51".
+    /** Optional fulfillment event ID filter. pattern: ^fev_[0-9A-HJKMNP-TV-Z]{26}$. Example: "fev_01KEZF7C002XK9D7X3239ERT51".
      * @return string
      * @throws SdkError When fulfillment_event_id is omitted; use hasFulfillmentEventId() or valueOrDefault().
      */

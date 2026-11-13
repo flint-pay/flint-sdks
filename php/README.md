@@ -7,7 +7,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 ## Install
 
 ```sh
-composer require flintpay/flint:8.0.0-beta.2
+composer require flintpay/flint
 ```
 
 Requires PHP 8.2+ with ext-json and ext-curl. PHPDoc types target PHPStan 2.2+.
@@ -127,4 +127,4 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 
-Package 8.0.0-beta.2, generated for API 2026-09-07.
+Package 8.0.0, generated for API 2026-09-07.

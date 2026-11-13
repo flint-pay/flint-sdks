@@ -31,31 +31,31 @@ final class SubscriptionDeliveryMigrationInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Format: int64.
+    /** Subscriptions that could not be moved. See `failure_reason_counts`, or list the failures for each subscription. Format: int64.
      * @return int
      * @throws SdkError When failed_count is omitted; use hasFailedCount() or valueOrDefault().
      */
     public function getFailedCount(): int { return $this->get('failed_count'); }
     public function hasFailedCount(): bool { return $this->has('failed_count'); }
-    /**  [] (Value): {@see SubscriptionDeliveryMigrationFailureReasonCountInput}. The number of subscriptions that failed a delivery method migration for one reason.
+    /** Failed subscriptions grouped by reason. Empty when none failed. [] (Value): {@see SubscriptionDeliveryMigrationFailureReasonCountInput}. The number of subscriptions that failed a delivery method migration for one reason.
      * @return list<SubscriptionDeliveryMigrationFailureReasonCountInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When failure_reason_counts is omitted; use hasFailureReasonCounts() or valueOrDefault().
      */
     public function getFailureReasonCounts(): array { return $this->get('failure_reason_counts'); }
     public function hasFailureReasonCounts(): bool { return $this->has('failure_reason_counts'); }
-    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** ID of the delivery method the subscriptions moved away from. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When from_delivery_method_id is omitted; use hasFromDeliveryMethodId() or valueOrDefault().
      */
     public function getFromDeliveryMethodId(): string { return $this->get('from_delivery_method_id'); }
     public function hasFromDeliveryMethodId(): bool { return $this->has('from_delivery_method_id'); }
-    /** Format: int64.
+    /** Subscriptions now using the new method. Format: int64.
      * @return int
      * @throws SdkError When moved_count is omitted; use hasMovedCount() or valueOrDefault().
      */
     public function getMovedCount(): int { return $this->get('moved_count'); }
     public function hasMovedCount(): bool { return $this->has('moved_count'); }
-    /** Format: int64.
+    /** Subscriptions not yet moved or failed, including ones Flint is retrying. Format: int64.
      * @return int
      * @throws SdkError When pending_count is omitted; use hasPendingCount() or valueOrDefault().
      */
@@ -73,19 +73,19 @@ final class SubscriptionDeliveryMigrationInput extends Model {
      */
     public function getSubscriptionDeliveryMigrationId(): string { return $this->get('subscription_delivery_migration_id'); }
     public function hasSubscriptionDeliveryMigrationId(): bool { return $this->has('subscription_delivery_migration_id'); }
-    /** Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+    /** Plan the migration was limited to. Omitted when it covered every plan. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** ID of the delivery method the subscriptions move to. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When to_delivery_method_id is omitted; use hasToDeliveryMethodId() or valueOrDefault().
      */
     public function getToDeliveryMethodId(): string { return $this->get('to_delivery_method_id'); }
     public function hasToDeliveryMethodId(): bool { return $this->has('to_delivery_method_id'); }
-    /** Format: int64.
+    /** Number of active, paused, and past due subscriptions on the original method when the migration started. Format: int64.
      * @return int
      * @throws SdkError When total_count is omitted; use hasTotalCount() or valueOrDefault().
      */

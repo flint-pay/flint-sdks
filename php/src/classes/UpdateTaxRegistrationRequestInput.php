@@ -22,7 +22,7 @@ final class UpdateTaxRegistrationRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** Seller's tax registration number. Write-only; responses return only its last four characters. minLength: 1. maxLength: 255.
+    /** Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When registration_number is omitted; use hasRegistrationNumber() or valueOrDefault().
      */

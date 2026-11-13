@@ -1,1 +1,1 @@
-{"shared":"CheckoutTaxConfig","phpRepresentation":{"kind":"record","fields":{"enabled":{"kind":"value","type":"bool"}}},"dependencies":["CheckoutTaxConfig"]}
+{"shared":"CheckoutSavedPaymentDetailsSettings","phpRepresentation":{"kind":"record","fields":{"enabled":{"kind":"value","type":"bool"}}},"dependencies":["CheckoutSavedPaymentDetailsSettings"]}

@@ -17,8 +17,8 @@
 
 anyOf variant 1: Declared schema DeliveryCoordinateRequest. A latitude and longitude..
 
-- Constraints for `latitude`: minimum: `-90`. maximum: `90`.
-- Constraints for `longitude`: minimum: `-180`. maximum: `180`.
+- Constraints for `latitude`: Latitude in degrees, from -90 to 90. minimum: `-90`. maximum: `90`.
+- Constraints for `longitude`: Longitude in degrees, from -180 to 180. minimum: `-180`. maximum: `180`.
 
 ### LocationCoordinate variant 2
 

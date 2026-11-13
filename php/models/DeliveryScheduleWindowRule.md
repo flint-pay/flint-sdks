@@ -8,5 +8,5 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `availability` | Required | [DeliveryAvailability](../models/DeliveryAvailability.md#deliveryavailability) | When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book. |
+| `availability` | Required | [DeliveryAvailability](../models/DeliveryAvailability.md#deliveryavailability) | When windows can be offered. When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and how far ahead a buyer can book. |
 

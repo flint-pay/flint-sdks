@@ -23,7 +23,7 @@ final class MeUpdateSubscriptionLineItemInput extends Model {
      */
     public function getSubscriptionLineItemId(): string { return $this->get('subscription_line_item_id'); }
     public function hasSubscriptionLineItemId(): bool { return $this->has('subscription_line_item_id'); }
-    /** The request body for: Swap subscription variant. Example: {"expected_version":1,"variant_id":"var_01KEZF7C00RRMRMT530BRR5T71"}.
+    /** The request body for: Swap subscription variant. minProperties: 1. Example: {"expected_version":1,"variant_id":"var_01KEZF7C00RRMRMT530BRR5T71"}.
      * @return array{'expected_version'?: int, 'variant_id': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -6,10 +6,12 @@ import type {
     DeliveryRateCallbackConnectionCheckResponse,
     DeliveryRateCallbackListResponse,
     DeliveryRateCallbackResponse,
-    DeliveryRateCallbackSigningKeyRotation,
-    DeliveryRateCallbackSigningKeyRotationResponse,
-    DeliveryRateCallbackTestDelivery,
+    DeliveryRateCallbackTestDelivery
+} from '../declarations/types-20.js';
+import type {
     DeliveryRateCallbackTestDeliveryResponse,
+    DeliveryRateCallbackWithSecret,
+    DeliveryRateCallbackWithSecretResponse,
     DeliveryRateCallbacksCheckConnectionParams,
     DeliveryRateCallbacksCreateParams,
     DeliveryRateCallbacksCreateTestDeliveryParams,
@@ -18,9 +20,9 @@ import type {
     DeliveryRateCallbacksListParams,
     DeliveryRateCallbacksRotateSecretParams,
     DeliveryRateCallbacksUpdateParams
-} from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-21.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,42 +39,45 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryRateCallbacksCheckConnectionParams,
-    DeliveryRateCallbackConnectionCheck,
-    DeliveryRateCallbackConnectionCheckResponse,
     DeliveryRateCallbacksCreateParams,
-    DeliveryRateCallback,
-    DeliveryRateCallbackResponse,
+    DeliveryRateCallbackWithSecret,
+    DeliveryRateCallbackWithSecretResponse,
     DeliveryRateCallbacksCreateTestDeliveryParams,
-    DeliveryRateCallbackTestDelivery,
     DeliveryRateCallbackTestDeliveryResponse,
     DeliveryRateCallbacksDeleteParams,
     DeliveryRateCallbacksGetParams,
     DeliveryRateCallbacksListParams,
-    DeliveryRateCallbackListResponse,
     DeliveryRateCallbacksRotateSecretParams,
-    DeliveryRateCallbackSigningKeyRotation,
-    DeliveryRateCallbackSigningKeyRotationResponse,
-    DeliveryRateCallbacksUpdateParams,
+    DeliveryRateCallbacksUpdateParams
+} from '../declarations/types-21.js';
+export type { RequestOptions } from '../declarations/types-53.js';
+export type {
+    DeliveryRateCallbackConnectionCheck,
+    DeliveryRateCallbackConnectionCheckResponse,
+    DeliveryRateCallbackTestDelivery,
+    DeliveryRateCallback,
+    DeliveryRateCallbackResponse,
+    DeliveryRateCallbackListResponse,
     DeliveryRateCallbackConfigurationRequestInput,
     DeliveryRateCallbackConfiguration,
     DeliveryRateCallbackConfigurationPatchRequestInput
 } from '../declarations/types-20.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-66.js';
+export type { _SdkWithoutIdempotency, WebhookSigningMethodInput } from '../declarations/types-69.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { CreateDeliveryRateCallbackRequestInput } from '../declarations/types-8.js';
-export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-63.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export type { UpdateDeliveryRateCallbackRequestInput } from '../declarations/types-66.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export type { DeliveryLocationSetsDeleteParams } from '../declarations/types-17.js';
-export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-68.js';
-export { makeDeliveryRateCallbackConfigurationPatchRequest, makeDeliveryRateCallbackConfigurationRequest } from '../declarations/types-72.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-79.js';
-export { makeWebhookSigningMethod } from '../declarations/types-80.js';
+export { makeCreateDeliveryRateCallbackRequest } from '../declarations/types-72.js';
+export { makeDeliveryRateCallbackConfigurationPatchRequest, makeDeliveryRateCallbackConfigurationRequest } from '../declarations/types-75.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdateDeliveryRateCallbackRequest } from '../declarations/types-83.js';
+export { makeWebhookSigningMethod } from '../declarations/types-84.js';
 export interface DeliveryRateCallbacksResource {
     /**
  * Sends a minimal signed probe to verify endpoint reachability and callback credentials without
@@ -98,8 +103,8 @@ export interface DeliveryRateCallbacksResource {
  * JWKS and this callback's delivery_rate_callback_id as aud. Verify body_sha256 against the exact
  * request bytes. The jwt method sends Authorization: Bearer, and the hmac method sends
  * webhook-signature and Flint-Signing-Key-Ids. Every request includes webhook-id and
- * webhook-timestamp. A shared secret and key_id are issued and returned once only when hmac is
- * included. It starts inactive.
+ * webhook-timestamp. When hmac is included, the response returns the shared secret and its
+ * delivery_rate_callback_signing_key_id once; no later response returns them. It starts inactive.
  *
  * `POST /v1/delivery-rate-callbacks`
  * @see
@@ -112,7 +117,7 @@ export interface DeliveryRateCallbacksResource {
  * "https://merchant.example/delivery-rates"}, name: "Live delivery rates", signing_methods:
  * ["jwt"]}, { idempotencyKey: idempotencyKey })
  */
-    create(params: DeliveryRateCallbacksCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
+    create(params: DeliveryRateCallbacksCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackWithSecret, DeliveryRateCallbackWithSecretResponse>>;
     /**
  * Sends a signed delivery rate callback with synthetic non-PII data and returns a safe result. The
  * Idempotency-Key fingerprint includes the delivery_rate_callback_id path value and request body.
@@ -131,7 +136,9 @@ export interface DeliveryRateCallbacksResource {
  */
     createTestDelivery(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksCreateTestDeliveryParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackTestDelivery, DeliveryRateCallbackTestDeliveryResponse>>;
     /**
- * Retires the delivery rate callback after checking current dependencies. The retired resource
+ * Retires the delivery rate callback. An active delivery method whose current revision still
+ * prices with the rate callback blocks deletion: the request returns 409 RESOURCE_IN_USE with the
+ * blocking methods. Move those methods to another pricing strategy first. The retired resource
  * remains available by ID for historical records. Deleting an already archived resource returns it
  * without changing its version or repeating effects.
  *
@@ -182,14 +189,15 @@ export interface DeliveryRateCallbacksResource {
      */
     listItems(params?: DeliveryRateCallbacksListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryRateCallback>;
     /**
- * Issues a first shared secret and adds hmac when no secret exists, and increments the callback's
- * version. Otherwise rotates the shared secret and accepts both keys for one hour. Returns the new
- * secret and key_id once.
+ * Replaces the callback's shared secret and returns the callback with the new secret and its
+ * delivery_rate_callback_signing_key_id once. Flint signs with both keys for one hour. A callback
+ * without hmac returns ACTION_NOT_ALLOWED with reason secret_not_issued; PATCH signing_methods to
+ * include hmac to issue the first secret.
  *
  * `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/rotate-secret`
  * @param delivery_rate_callback_id Flint delivery rate callback ID.
  * @see
- * https://developers.withflintpay.com/docs/api/delivery-configuration#rotateDeliveryRateCallbackSigningKey
+ * https://developers.withflintpay.com/docs/api/delivery-configuration#rotateDeliveryRateCallbackSecret
  * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
@@ -197,13 +205,15 @@ export interface DeliveryRateCallbacksResource {
  * client.deliveryRateCallbacks.rotateSecret("dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1", {}, {
  * idempotencyKey: idempotencyKey })
  */
-    rotateSecret(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksRotateSecretParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackSigningKeyRotation, DeliveryRateCallbackSigningKeyRotationResponse>>;
+    rotateSecret(delivery_rate_callback_id: InputValue<string>, params?: DeliveryRateCallbacksRotateSecretParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackWithSecret, DeliveryRateCallbackWithSecretResponse>>;
     /**
- * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable
- * revision. Configuration and signing_methods changes require expected_version. signing_methods
- * replaces the set; removing hmac deletes all shared secrets. Use rotate-secret to issue a first
- * shared secret before adding hmac. Archived resources can't be changed; create a new resource
- * instead.
+ * Sparsely updates mutable fields. A request that carries configuration or signing_methods
+ * publishes a new immutable revision, even when its values are unchanged, and requires
+ * expected_version. Other fields, such as name, external_reference_id, and status, advance version
+ * and keep the current revision, so they never replace a revoked revision. signing_methods
+ * replaces the set. Adding hmac when the callback has no shared secret issues one and returns it
+ * once, with its delivery_rate_callback_signing_key_id, in this response. Removing hmac deletes
+ * all shared secrets. Archived resources can't be changed; create a new resource instead.
  *
  * `PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
  * @param delivery_rate_callback_id Flint delivery rate callback ID.
@@ -216,7 +226,7 @@ export interface DeliveryRateCallbacksResource {
  * client.deliveryRateCallbacks.update("dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV", {name: "Delivery rates"},
  * { idempotencyKey: idempotencyKey })
  */
-    update(delivery_rate_callback_id: InputValue<string>, params: DeliveryRateCallbacksUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallback, DeliveryRateCallbackResponse>>;
+    update(delivery_rate_callback_id: InputValue<string>, params: DeliveryRateCallbacksUpdateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<DeliveryRateCallbackWithSecret, DeliveryRateCallbackWithSecretResponse>>;
 }
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {

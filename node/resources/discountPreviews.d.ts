@@ -1,8 +1,8 @@
 import type { WithResponseInfo } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { DiscountPreview, DiscountPreviewResponse, DiscountPreviewsCreateParams } from '../declarations/types-22.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { DiscountPreview, DiscountPreviewResponse, DiscountPreviewsCreateParams } from '../declarations/types-23.js';
+import type { RequestOptions } from '../declarations/types-53.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -22,27 +22,29 @@ export type {
     DiscountPreview,
     DiscountPreviewResponse,
     DiscountPreviewRequestInput
-} from '../declarations/types-22.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
+} from '../declarations/types-23.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions } from '../declarations/types-53.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateOrderDiscountInput, CreateOrderDiscountPromotionInput, CreateOrderDiscountManualInput } from '../declarations/types-10.js';
-export type { ManualDiscountRequestInput } from '../declarations/types-34.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-37.js';
+export type { ManualDiscountRequestInput } from '../declarations/types-35.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-38.js';
 export type {
     PromotionRefRequestInput,
     PromotionRefInputPromotionIDInput,
     PromotionRefInputPromotionCodeInput,
-    ReadinessMerchantAccountSession
-} from '../declarations/types-49.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { PromotionCandidate, PromotionCombinesWith, PromotionExclusivity } from '../declarations/types-48.js';
-export { makeCreateOrderDiscount, makeCreateOrderDiscountManual, makeCreateOrderDiscountPromotion } from '../declarations/types-69.js';
-export { makeDiscountPreviewRequest } from '../declarations/types-72.js';
-export { makeManualDiscountRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-76.js';
+    PromotionCombinesWith,
+    PromotionExclusivity
+} from '../declarations/types-51.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { PromotionCandidate } from '../declarations/types-50.js';
+export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export { makeCreateOrderDiscount, makeCreateOrderDiscountManual, makeCreateOrderDiscountPromotion } from '../declarations/types-73.js';
+export { makeDiscountPreviewRequest } from '../declarations/types-76.js';
+export { makeManualDiscountRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID, makePromotionRefRequest } from '../declarations/types-80.js';
 export interface DiscountPreviewsResource {
     /**
  * Evaluates promotion outcomes for an order without changing it. Returns the complete result

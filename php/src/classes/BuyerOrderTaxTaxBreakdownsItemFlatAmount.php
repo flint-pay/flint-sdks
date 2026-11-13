@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read BuyerOrderTaxTaxBreakdownsItemFlatAmountJurisdiction $jurisdiction
  * @property-read ?string $location_id
  * @property-read ?string $order_charge_id
+ * @property-read string $order_id
  * @property-read ?string $order_line_item_id
  * @property-read ?float $percent
  * @property-read string $price_mode
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read BuyerOrderTaxTaxBreakdownsItemFlatAmountTaxableMoney $taxable_money
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerOrderTaxTaxBreakdownsItemFlatAmount extends Model {
-    /** @param array{'calculation_type': string, 'flat_money': mixed, 'fulfillment_choice_group_id'?: string, 'jurisdiction': mixed, 'location_id'?: string, 'order_charge_id'?: string, 'order_line_item_id'?: string, 'percent'?: float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': mixed, 'tax_type': string, 'taxability_reason': string, 'taxable_money': mixed, ...}|object $values */
+    /** @param array{'calculation_type': string, 'flat_money': mixed, 'fulfillment_choice_group_id'?: string, 'jurisdiction': mixed, 'location_id'?: string, 'order_charge_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'percent'?: float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': mixed, 'tax_type': string, 'taxability_reason': string, 'taxable_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderTaxTaxBreakdownsItemFlatAmount')); }
     /** How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum: "flat_amount".
      * @return string
@@ -50,6 +51,11 @@ final class BuyerOrderTaxTaxBreakdownsItemFlatAmount extends Model {
      */
     public function getOrderChargeId(): ?string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
+    /** ID of the order this tax row belongs to, including the parent of any order_line_item_id or order_charge_id reference.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item this row taxes. Absent on rows for a charge or a flat order tax.
      * @return ?string
      */

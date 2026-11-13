@@ -8,5 +8,5 @@ The resource snapshot, without expansions. Webhooks omit no additional fields.
 
 Response model.
 
-Fields, types, descriptions and enum values: [DeliveryLocationSetActivatedMerchantEventDataObject](../models/DeliveryLocationSetActivatedMerchantEventDataObject.md#deliverylocationsetactivatedmerchanteventdataobject).
+Fields, types, descriptions and enum values: [DeliveryLocationSetArchivedMerchantEventDataObject](../models/DeliveryLocationSetArchivedMerchantEventDataObject.md#deliverylocationsetarchivedmerchanteventdataobject).
 

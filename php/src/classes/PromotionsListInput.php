@@ -62,19 +62,19 @@ final class PromotionsListInput extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter to promotions with an explicit product target rule. Universal promotions are not included by catalog target filters. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+    /** Filter to promotions with an explicit product target rule. Universal promotions are not included by catalog target filters. pattern: ^prod_[0-9A-HJKMNP-TV-Z]{26}$. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /** Filter to promotions with an explicit variant target rule. Universal promotions are not included by catalog target filters. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** Filter to promotions with an explicit variant target rule. Universal promotions are not included by catalog target filters. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */
     public function getVariantId(): string { return $this->get('variant_id'); }
     public function hasVariantId(): bool { return $this->has('variant_id'); }
-    /** Filter to promotions with an explicit bundle target rule. Universal promotions are not included by catalog target filters. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+    /** Filter to promotions with an explicit bundle target rule. Universal promotions are not included by catalog target filters. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */

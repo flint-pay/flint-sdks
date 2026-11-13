@@ -12,8 +12,8 @@ Tiered pricing strategy you supply for a delivery method: a `basis`, a list of b
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `bands` | Required | Array of [DeliveryPricingTierBandRequestInput](../models/DeliveryPricingTierBandRequestInput.md#deliverypricingtierbandrequestinput) |  |
-| `basis` | Required | string | Quantity measured by the tier bands. Money subtotal bases use minor currency units. Values: [7 declared values](DeliveryPricingStrategy.md#deliverypricingstrategytiered-fields-1-basis-values). |
+| `bands` | Required | Array of [DeliveryPricingTierBandRequestInput](../models/DeliveryPricingTierBandRequestInput.md#deliverypricingtierbandrequestinput) | One to 25 contiguous bands in ascending order. The final band has no upper bound. minItems: `1`. maxItems: `25`. |
+| `basis` | Required | string | Value matched against the numeric tier bands. Money subtotal bases use minor currency units; caller.tier_key uses the nonnegative tier_key supplied when creating the checkout delivery quote. Values: [7 declared values](DeliveryPricingStrategy.md#deliverypricingstrategytiered-fields-1-basis-values). |
 | `unit` | Conditional | string | Required only for choice_group.total_weight and forbidden for every other basis. Values: `"gram"`, `"kilogram"`, `"ounce"`, `"pound"`. |
 
 ### DeliveryTieredPricingStrategyRequestInput variant 1: `basis` = `"choice_group.total_weight"`
@@ -25,9 +25,9 @@ oneOf with basis: "choice_group.total_weight": The `choice_group.total_weight` v
 
 ### DeliveryTieredPricingStrategyRequestInput variant 2
 
-oneOf with basis: "choice_group.fulfillment_quantity" | "choice_group.merchandise_subtotal_after_line_item_discounts" | "choice_group.merchandise_subtotal_before_discounts" | "order.merchandise_subtotal_after_line_item_discounts" | "order.merchandise_subtotal_before_discounts": The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategyInput`..
+oneOf with basis: "caller.tier_key" | "choice_group.fulfillment_quantity" | "choice_group.merchandise_subtotal_after_line_item_discounts" | "choice_group.merchandise_subtotal_before_discounts" | "order.merchandise_subtotal_after_line_item_discounts" | "order.merchandise_subtotal_before_discounts": The `caller.tier_key` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.fulfillment_quantity` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `choice_group.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_after_line_item_discounts` variant of `DeliveryTieredPricingStrategyInput`. The `order.merchandise_subtotal_before_discounts` variant of `DeliveryTieredPricingStrategyInput`..
 
 - Condition: not (present(`unit`)).
 - Optional: `unit`.
-- Constraints for `basis`: Values: `"choice_group.fulfillment_quantity"`, `"choice_group.merchandise_subtotal_before_discounts"`, `"choice_group.merchandise_subtotal_after_line_item_discounts"`, `"order.merchandise_subtotal_before_discounts"`, `"order.merchandise_subtotal_after_line_item_discounts"`.
+- Constraints for `basis`: Values: `"choice_group.fulfillment_quantity"`, `"choice_group.merchandise_subtotal_before_discounts"`, `"choice_group.merchandise_subtotal_after_line_item_discounts"`, `"order.merchandise_subtotal_before_discounts"`, `"order.merchandise_subtotal_after_line_item_discounts"`, `"caller.tier_key"`.
 

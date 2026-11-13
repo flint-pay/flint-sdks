@@ -62,13 +62,19 @@ anyOf variant 8: Declared schema GiftCardVersionRequest. Optional version fence 
 
 ### CloseGiftCardRequest variant 9
 
-anyOf variant 9: Declared schema RepriceDiscountsRequest. The request body for: Reprice discounts..
+anyOf variant 9: Declared schema MerchantSignupVersionRequest. The request body for: Cancel a merchant signup; Mint new authorization codes for a merchant signup; Send a new merchant signup code..
 
-- Constraints for `expected_version`: Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`.
+- Constraints for `expected_version`: Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with the current version. Retrieve the resource and rebuild the request before retrying. Format: `uint64`.
 
 ### CloseGiftCardRequest variant 10
 
-anyOf variant 10: Declared schema TicketVersionRequest. An optional version fence for the ticket..
+anyOf variant 10: Declared schema RepriceDiscountsRequest. The request body for: Reprice discounts..
+
+- Constraints for `expected_version`: Optional order version from the last order read. The mutation fails if the order changed. Format: `int64`.
+
+### CloseGiftCardRequest variant 11
+
+anyOf variant 11: Declared schema TicketVersionRequest. An optional version fence for the ticket..
 
 - Constraints for `expected_version`: The ticket version last read. The change applies only while the ticket is at this version; a stale value returns 409 VERSION_CONFLICT, even when the ticket's status would also refuse the change. Door scanners usually omit it. Format: `uint64`.
 

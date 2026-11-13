@@ -71,7 +71,7 @@ const result = await client.devices.create({hardware_fingerprint: "ios-device-uu
 
 ### devices.delete
 
-Archives a device and releases its hardware_fingerprint for reuse. The archived device no longer returns hardware_fingerprint.
+Archives a device and releases its hardware_fingerprint for reuse. The archived device no longer returns hardware_fingerprint. A device that an active reader names returns `409 RESOURCE_IN_USE` with those readers in `blocking_resources`: archive them or clear their `device_id` first.
 
 `DELETE /v1/devices/{device_id}`
 
@@ -82,7 +82,7 @@ Signature: `delete(device_id: InputValue<string>, params?: DevicesDeleteParams, 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `device_id` | Required | string | Flint device ID. |
-| `expected_version` | Optional | integer | Optional device version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional device version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
 
@@ -150,6 +150,7 @@ Returned payload: [Device](../models/Device.md#device).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -187,7 +188,7 @@ Signature: `list(params?: DevicesListParams, options?: _SdkWithoutIdempotency<Re
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"archived"`. Values: `"active"`, `"archived"`. |
-| `location_id` | Optional | string | Filter by assigned Flint location ID. |
+| `location_id` | Optional | string | Filter by assigned Flint location ID. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `hardware_fingerprint` | Optional | string | Exact, case-sensitive match. Archived devices release their fingerprint, so this finds at most the one active device that holds it. minLength: `1`. maxLength: `255`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by device_id. Default: `"created_at"`. Values: `"name"`, `"created_at"`, `"updated_at"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
@@ -203,6 +204,7 @@ Returned payload: [DeviceListResponse](../models/DeviceListResponse.md#devicelis
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -240,7 +242,7 @@ Signature: `update(device_id: InputValue<string>, params: DevicesUpdateParams, o
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `device_id` | Required | string | Flint device ID. |
-| `body` | Required | [UpdateDeviceRequestInput](../models/UpdateDeviceRequest.md#updatedevicerequest) | The request body for: Update device. |
+| `body` | Required | [UpdateDeviceRequestInput](../models/UpdateDeviceRequest.md#updatedevicerequest) | The request body for: Update device. minProperties: `1`. |
 
 Body model: [UpdateDeviceRequestInput](../models/UpdateDeviceRequest.md#updatedevicerequest).
 

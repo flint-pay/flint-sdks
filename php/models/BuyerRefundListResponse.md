@@ -37,7 +37,7 @@ Declared alternatives: [BuyerRefundResponse.data.payment_intent](../models/Buyer
 
 ### BuyerRefundListResponse.data[].payment_refunds[]
 
-Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].payment_refunds[]](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundspayment_refunds).
+Field definitions: [BuyerRefundResponse.data.payment_refunds[]](../models/BuyerRefundResponse.md#buyerrefundresponsedatapayment_refunds).
 
 ### BuyerRefundListResponse.data[].tax_breakdown_refunds[]
 

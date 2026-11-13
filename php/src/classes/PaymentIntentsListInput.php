@@ -34,7 +34,7 @@ namespace Flint;
 final class PaymentIntentsListInput extends Model {
     /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'customer_id'?: string, 'invoice_id'?: string, 'is_action_required'?: bool, 'status'?: list<string>|string, 'risk_level'?: list<string>|string, 'payment_flow'?: list<string>|string, 'external_reference_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'refund_status'?: list<string>|string, 'dispute_status'?: list<string>|string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsListInput')); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -52,19 +52,19 @@ final class PaymentIntentsListInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Filter by customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Filter by customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Filter by invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+    /** Filter by invoice ID. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      * @return string
      * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
      */
@@ -100,13 +100,13 @@ final class PaymentIntentsListInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by linked Return ID. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Filter by linked Return ID. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by linked ReturnResolution ID. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+    /** Filter by linked ReturnResolution ID. pattern: ^retres_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */

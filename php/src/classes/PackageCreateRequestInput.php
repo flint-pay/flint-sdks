@@ -59,7 +59,7 @@ final class PackageCreateRequestInput extends Model {
      */
     public function getExternalSystem(): string { return $this->get('external_system'); }
     public function hasExternalSystem(): bool { return $this->has('external_system'); }
-    /** Independent package-item collection. Inline creation uses the child-create shape and commits atomically; edit items through the package item routes after creation. Each order line may appear once. minItems: 1. maxItems: 100. [] (Value): {@see CreatePackageItemRequestInput}. The request body for: Create package item.
+    /** Independent package-item collection. Inline creation uses the child-create shape and commits atomically; edit items through the package item routes after creation. Each order line and bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@see CreatePackageItemRequestInput}. The request body for: Create package item.
      * @return list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When items is omitted; use hasItems() or valueOrDefault().
      */

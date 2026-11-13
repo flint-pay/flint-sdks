@@ -19,8 +19,9 @@ Request input.
 | `modifier_total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Total of the line's modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `modifiers` | Optional | Array of [OrderLineItemModifierInput](../models/OrderLineItemModifierInput.md#orderlineitemmodifierinput) | The line's modifiers, as billed. |
 | `name` | Required | string | Line item name as billed. |
+| `order_id` | Required | string | Order that owns the backing order_line_item_id. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_line_item_id` | Optional | string | The backing order's line item. Tax rows in snapshot.tax_breakdowns reference the line by this ID. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
-| `product_id` | Optional | string | Parent product of the line's variant. Absent on bundle and custom lines. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
+| `product_id` | Optional | string | Parent product of the line's variant. Required whenever variant_id is present. Absent on bundle and custom lines, which have no parent product. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `selected_options` | Optional | Array of [SelectedProductOptionInput](../models/SelectedProductOptionInput.md#selectedproductoptioninput) | The product options chosen for the line, as billed. |
 | `sku` | Optional | string | Stock keeping unit as billed. |

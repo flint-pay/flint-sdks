@@ -132,8 +132,8 @@ Signature: `list(params?: TicketsListParams, options?: _SdkWithoutIdempotency<Re
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `payment_link_id` | Optional | string | Only tickets for this event payment link. |
-| `order_id` | Optional | string | Only tickets belonging to this order. |
+| `payment_link_id` | Optional | string | Only tickets for this event payment link. pattern: `^pl_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `order_id` | Optional | string | Only tickets belonging to this order. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by ticket status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"issued"`, `"checked_in"`, `"voided"`. Values: `"issued"`, `"checked_in"`, `"voided"`. |
 | `query` | Optional | string | Case-insensitive text search across ticket number, attendee name, buyer name and buyer email. For Dashboard check-in staff it matches ticket number and attendee name only. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by ticket_id. Default: `"created_at"`. Values: `"created_at"`, `"attendee_name"`. |
@@ -368,7 +368,7 @@ Signature: `update(ticket_id: InputValue<string>, params: TicketsUpdateParams, o
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `ticket_id` | Required | string | The ticket ID. |
-| `body` | Required | [UpdateTicketRequestInput](../models/UpdateTicketRequest.md#updateticketrequest) | The attendee name to set or clear. |
+| `body` | Required | [UpdateTicketRequestInput](../models/UpdateTicketRequest.md#updateticketrequest) | The attendee name to set or clear. minProperties: `1`. |
 
 Body model: [UpdateTicketRequestInput](../models/UpdateTicketRequest.md#updateticketrequest).
 

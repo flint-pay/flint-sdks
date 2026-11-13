@@ -8,7 +8,7 @@ final class DevicesResource {
      * @return Device
      */
     public function create(array|Model $params, ?RequestOptions $options = null): Device { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw SdkError::create('validation', 'body must be an object', 'not_sent', errorCode: 'INVALID_REQUEST', details: [['code' => 'INVALID_VALUE', 'param' => 'body']]); foreach (array_keys($rest) as $name) { foreach (['Idempotency-Key', 'Flint-Version', 'X-Request-Id'] as $header) { if (strtolower((string)$name) === strtolower($header)) throw SdkError::create('validation', $header . " can't be sent: supply this header through request options", errorCode: 'INVALID_REQUEST', details: [['code' => 'NOT_ALLOWED', 'param' => $header]]); } } if (true) $input['body'] = (object) $rest; return Runtime::responsePayload($this->runtime->request('createDevice', $input, $options), ['data']); }
-    /** Archives a device and releases its hardware_fingerprint for reuse. The archived device no longer returns hardware_fingerprint.
+    /** Archives a device and releases its hardware_fingerprint for reuse. The archived device no longer returns hardware_fingerprint. A device that an active reader names returns `409 RESOURCE_IN_USE` with those readers in `blocking_resources`: archive them or clear their `device_id` first.
      * @param string|Model $device_id Flint device ID.
      * @param DevicesDeleteParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.
      * @return Device

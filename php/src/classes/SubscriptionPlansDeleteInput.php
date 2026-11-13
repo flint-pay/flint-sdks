@@ -16,7 +16,7 @@ final class SubscriptionPlansDeleteInput extends Model {
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Optional subscription plan version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional subscription plan version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

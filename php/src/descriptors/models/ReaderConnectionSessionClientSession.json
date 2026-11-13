@@ -1,0 +1,1 @@
+{"shared":"ReaderConnectionSessionClientSession","phpRepresentation":{"kind":"record","fields":{"stripe":{"kind":"entity","name":"ReaderConnectionSessionStripe"}}},"dependencies":["ReaderConnectionSessionClientSession","ReaderConnectionSessionStripe"]}

@@ -2,7 +2,7 @@
 
 ## UpdateModifierGroupRequest
 
-The request body for: Update modifier group.
+The request body for: Update modifier group. minProperties: `1`.
 
 
 

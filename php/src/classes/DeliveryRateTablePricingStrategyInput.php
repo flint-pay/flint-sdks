@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryRateTablePricingStrategyInput extends Model {
     /** @param array{'rates': list<DeliveryPricingRateInput|array<array-key, mixed>|\stdClass>, 'unmatched_behavior': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateTablePricingStrategyInput')); }
-    /**  [] (Value): {@see DeliveryPricingRateInput}. One rate in a rate table pricing strategy: a `when` condition, a `priority`, and a price per currency. The first matching rate by priority sets the price.
+    /** One to 100 rates. Flint checks them from the highest priority to the lowest and uses the first match. minItems: 1. maxItems: 100. [] (Value): {@see DeliveryPricingRateInput}. One rate in a rate table pricing strategy: a `when` condition, a `priority`, and a price per currency. The first matching rate by priority sets the price.
      * @return list<DeliveryPricingRateInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When rates is omitted; use hasRates() or valueOrDefault().
      */
     public function getRates(): array { return $this->get('rates'); }
     public function hasRates(): bool { return $this->has('rates'); }
-    /** Value enum: "unavailable".
+    /** What happens when no rate matches. Value enum: "unavailable".
      * @return string
      * @throws SdkError When unmatched_behavior is omitted; use hasUnmatchedBehavior() or valueOrDefault().
      */

@@ -34,5 +34,5 @@ oneOf with capture_mode: "manual": The `manual` variant of `CreateGiftCardRedemp
 
 The amount to redeem from the card. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](CreateGiftCardLoadRequest.md#creategiftcardloadrequestvalue_money).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestsplitsamount_money).
 

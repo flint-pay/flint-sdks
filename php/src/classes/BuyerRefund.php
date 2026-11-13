@@ -16,9 +16,10 @@ namespace Flint;
  * @property-read ?string $order_id
  * @property-read ExpandedPaymentIntentSummary|null $payment_intent
  * @property-read ?string $payment_intent_id
- * @property-read ?list<PaymentRefund> $payment_refunds
+ * @property-read ?list<BuyerPaymentRefund> $payment_refunds
+ * @property-read string|null $pending_reason
  * @property-read string $processed_by
- * @property-read null $reason
+ * @property-read string|null $reason
  * @property-read ?string $reason_message
  * @property-read string $refund_id
  * @property-read ?string $refund_reference
@@ -34,7 +35,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerRefund extends Model {
-    /** @param array{'amount_money': mixed, 'created_at': string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'processed_by': string, 'reason': null, 'reason_message'?: string, 'refund_id': string, 'refund_reference'?: string, 'refunded_at'?: string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'succeeded_at'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'created_at': string, 'credit_note_id'?: string, 'customer'?: mixed, 'customer_id'?: string, 'failure_reason'?: string, 'idempotency_key'?: string, 'invoice_id'?: string, 'line_item_allocations'?: list<mixed>, 'order'?: mixed, 'order_edit_id'?: string, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_refunds'?: list<mixed>, 'pending_reason': string|null, 'processed_by': string, 'reason': string|null, 'reason_message'?: string, 'refund_id': string, 'refund_reference'?: string, 'refunded_at'?: string, 'refunded_tip_money': mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'status': string, 'succeeded_at'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tender_allocations'?: list<mixed>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerRefund')); }
     /** Total refunded across all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -61,7 +62,7 @@ final class BuyerRefund extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request", "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+    /** Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again, except a refund with reason payment_returned that failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request", "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
      * @return ?string
      */
     public function getFailureReason(): ?string { return $this->get('failure_reason'); }
@@ -91,7 +92,7 @@ final class BuyerRefund extends Model {
      */
     public function getOrderEditId(): ?string { return $this->get('order_edit_id'); }
     public function hasOrderEditId(): bool { return $this->has('order_edit_id'); }
-    /** ID of the order the refund was issued against. Absent for a refund of a payment that has no order, and for a standalone gift card refund.
+    /** ID of the order the refund was issued against. For a refund with `reason` `payment_returned`, the order the returned payment was for; the order never received this money. Absent for a refund of a payment that has no order, and for a standalone gift card refund.
      * @return ?string
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
@@ -106,20 +107,25 @@ final class BuyerRefund extends Model {
      */
     public function getPaymentIntentId(): ?string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. [] (Value): {@see PaymentRefund}. The part of a refund returned through one payment, with the amount, tip, status, and any failure reason.
-     * @return ?list<PaymentRefund>
+    /** The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. [] (Value): {@see BuyerPaymentRefund}. The part of a refund returned through one payment, with the amount, tip, status, and any failure reason.
+     * @return ?list<BuyerPaymentRefund>
      */
     public function getPaymentRefunds(): ?array { return $this->get('payment_refunds'); }
     public function hasPaymentRefunds(): bool { return $this->has('payment_refunds'); }
+    /** Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Value enum: "manual_review", null.
+     * @return string|null
+     */
+    public function getPendingReason(): string|null { return $this->get('pending_reason'); }
+    public function hasPendingReason(): bool { return $this->has('pending_reason'); }
     /** Who moved or is moving the money for this refund. Flint processes refunds through a processor or a gift card; merchant means the merchant returned the money outside Flint and recorded it here. Existing refunds are processed by Flint. Value enum: "flint", "merchant".
      * @return string
      */
     public function getProcessedBy(): string { return $this->get('processed_by'); }
     public function hasProcessedBy(): bool { return $this->has('processed_by'); }
-    /** The merchant's reason for the refund, which buyers never see. `null` when read with buyer credentials, so it is always `null` here.
-     * @return null
+    /** `payment_returned` when Flint refunded a payment it couldn't apply to the order. `null` when the store made the refund, because a store's reasons aren't shared with buyers. Value enum: "payment_returned", null.
+     * @return string|null
      */
-    public function getReason(): null { return $this->get('reason'); }
+    public function getReason(): string|null { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
     /** Note explaining the refund, up to 1,024 characters.
      * @return ?string
@@ -156,7 +162,7 @@ final class BuyerRefund extends Model {
      */
     public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and partially_succeeded can still change when a bank rejects a refund after accepting it. Follow refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
+    /** Summary of payment_refunds and tender_allocations. Only failed is final: succeeded and partially_succeeded can still change when a bank rejects a refund after accepting it. A refund Flint made to return a payment it couldn't accept goes from succeeded back to pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded", "partially_succeeded", "failed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

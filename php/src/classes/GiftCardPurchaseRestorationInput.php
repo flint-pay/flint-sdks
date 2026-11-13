@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read string $original_gift_card_id
  * @property-read string $original_gift_card_load_id
@@ -9,8 +10,14 @@ namespace Flint;
  * @property-read int $unit_ordinal
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardPurchaseRestorationInput extends Model {
-    /** @param array{'order_line_item_id': string, 'original_gift_card_id': string, 'original_gift_card_load_id': string, 'purchase_refund_allocation_id': string, 'unit_ordinal': int, ...}|object $values */
+    /** @param array{'order_id': string, 'order_line_item_id': string, 'original_gift_card_id': string, 'original_gift_card_load_id': string, 'purchase_refund_allocation_id': string, 'unit_ordinal': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseRestorationInput')); }
+    /** ID of the original purchase order whose line item sold the gift card. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item that sold the gift card. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().

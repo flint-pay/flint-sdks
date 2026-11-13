@@ -9,11 +9,12 @@ namespace Flint;
  * @property-read string $payment_method_creation
  * @property-read array<array-key, mixed>|\stdClass $payment_method_options
  * @property-read list<string> $payment_method_types
+ * @property-read list<string> $payment_options
  * @property-read list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object> $selectable_payment_intents
  * @property-read string $submit_to
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentCollectionStripeElementsInput extends Model {
-    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: array<array-key, mixed>|\stdClass, 'payment_method_types': list<string>, 'selectable_payment_intents'?: list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>, 'submit_to': string, ...}|object $values */
+    /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'digital_wallets'?: list<string>, 'mode': string, 'next_step': string, 'payment_method_creation': string, 'payment_method_options'?: array<array-key, mixed>|\stdClass, 'payment_method_types': list<string>, 'payment_options': list<string>, 'selectable_payment_intents'?: list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>, 'submit_to': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentCollectionStripeElementsInput')); }
     /** Amount and currency used to initialize the payment form. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -21,7 +22,7 @@ final class PaymentCollectionStripeElementsInput extends Model {
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Digital wallets that the payment form can offer. [] (Value): string.
+    /** Deprecated: use payment_options. Digital wallets that the payment form can offer. Removed in a later release. [] (Value): string.
      * @return list<string>
      * @throws SdkError When digital_wallets is omitted; use hasDigitalWallets() or valueOrDefault().
      */
@@ -51,12 +52,18 @@ final class PaymentCollectionStripeElementsInput extends Model {
      */
     public function getPaymentMethodOptions(): array|object { return $this->get('payment_method_options'); }
     public function hasPaymentMethodOptions(): bool { return $this->has('payment_method_options'); }
-    /** Payment method types that the payment form can offer. [] (Value): string.
+    /** Deprecated: use payment_options. Processor payment method types that the payment form can offer. Removed in a later release. [] (Value): string.
      * @return list<string>
      * @throws SdkError When payment_method_types is omitted; use hasPaymentMethodTypes() or valueOrDefault().
      */
     public function getPaymentMethodTypes(): array { return $this->get('payment_method_types'); }
     public function hasPaymentMethodTypes(): bool { return $this->has('payment_method_types'); }
+    /** Payment options the payment form can offer, in display order. Skip values you don't recognize. Stripe Elements takes processor payment method types: pass card for card, apple_pay, and google_pay; us_bank_account for ach_debit; and affirm for affirm. Set the Payment Element's wallets option so it shows only the wallets listed. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+     * @return list<string>
+     * @throws SdkError When payment_options is omitted; use hasPaymentOptions() or valueOrDefault().
+     */
+    public function getPaymentOptions(): array { return $this->get('payment_options'); }
+    public function hasPaymentOptions(): bool { return $this->has('payment_options'); }
     /** Order payment intents that the buyer can select for collection. [] (Value): {@see SelectableOrderPaymentIntentInput}. A payment intent on an order the caller can pick, with its amount, status, and last payment error.
      * @return list<array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_collection'?: PaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_id': string, 'status': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>
      * @throws SdkError When selectable_payment_intents is omitted; use hasSelectablePaymentIntents() or valueOrDefault().

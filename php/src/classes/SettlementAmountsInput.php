@@ -11,7 +11,7 @@ namespace Flint;
 final class SettlementAmountsInput extends Model {
     /** @param array{'net_collected_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SettlementAmountsInput')); }
-    /** paid_money minus refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** paid_money minus refunded_money and, on orders, dispute_lost_money, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When net_collected_money is omitted; use hasNetCollectedMoney() or valueOrDefault().
      */
@@ -23,7 +23,7 @@ final class SettlementAmountsInput extends Model {
      */
     public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
     public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
-    /** Money collected toward the bill, net of reversed payments. Excludes written-off debt. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Money collected toward the bill, net of reversed payments. Excludes written-off debt. On orders, dispute losses do not reduce this amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When paid_money is omitted; use hasPaidMoney() or valueOrDefault().
      */

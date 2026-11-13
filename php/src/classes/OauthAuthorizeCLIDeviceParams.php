@@ -50,7 +50,7 @@ final class OauthAuthorizeCLIDeviceParams extends Model {
      */
     public function getSandboxId(): string { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
-    /** Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+    /** Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
      * @return string
      * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
      */

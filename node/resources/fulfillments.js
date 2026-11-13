@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fulfillments.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import r0 from '../descriptors/resources/fulfillments.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["acceptFulfillment"]:r0,["cancelFulfillment"]:r0,["completeFulfillment"]:r0,["createFulfillmentEvent"]:r0,["createShipment"]:r0,["dispatchFulfillment"]:r0,["failFulfillment"]:r0,["getFulfillment"]:r0,["holdFulfillment"]:r0,["listFulfillments"]:r0,["markFulfillmentNoShow"]:r0,["markFulfillmentPacked"]:r0,["markFulfillmentPicked"]:r0,["markFulfillmentPreparing"]:r0,["markFulfillmentReady"]:r0,["releaseFulfillmentHold"]:r0,["scheduleFulfillment"]:r0,["startFulfillment"]:r0,["updateFulfillment"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["acceptFulfillment"]:r0,["cancelFulfillment"]:r0,["completeFulfillment"]:r0,["createFulfillment"]:r0,["dispatchFulfillment"]:r0,["failFulfillment"]:r0,["getFulfillment"]:r0,["holdFulfillment"]:r0,["listFulfillments"]:r0,["markFulfillmentNoShow"]:r0,["markFulfillmentPacked"]:r0,["markFulfillmentPicked"]:r0,["markFulfillmentPreparing"]:r0,["markFulfillmentReady"]:r0,["releaseFulfillmentHold"]:r0,["scheduleFulfillment"]:r0,["startFulfillment"]:r0,["updateFulfillment"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -48,9 +48,7 @@ this.fulfillments = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("completeFulfillment", result, path))),
-      createEvent: async (fulfillment_id, params, options) => this.#runtime.request("createFulfillmentEvent", _sdkRequestInput([
-  "fulfillment_id"
-], [fulfillment_id], [
+      create: async (params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
@@ -58,18 +56,7 @@ this.fulfillments = Object.freeze({
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillmentEvent", result, path))),
-      createShipment: async (fulfillment_id, params, options) => this.#runtime.request("createShipment", _sdkRequestInput([
-  "fulfillment_id"
-], [fulfillment_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createShipment", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillment", result, path))),
       dispatch: async (fulfillment_id, params, options) => this.#runtime.request("dispatchFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
@@ -121,6 +108,7 @@ this.fulfillments = Object.freeze({
   "order_id",
   "customer_id",
   "external_reference_id",
+  "idempotency_key",
   "query",
   "status",
   "type",
@@ -145,6 +133,7 @@ this.fulfillments = Object.freeze({
   "order_id",
   "customer_id",
   "external_reference_id",
+  "idempotency_key",
   "query",
   "status",
   "type",
@@ -169,6 +158,7 @@ this.fulfillments = Object.freeze({
   "order_id",
   "customer_id",
   "external_reference_id",
+  "idempotency_key",
   "query",
   "status",
   "type",
@@ -277,7 +267,6 @@ this.fulfillments = Object.freeze({
       update: async (fulfillment_id, params, options) => this.#runtime.request("updateFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "expand",
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
@@ -295,15 +284,25 @@ export { makeAcceptFulfillmentRequest } from '../models/AcceptFulfillmentRequest
 export { makeAddressRequest } from '../models/AddressRequest.js';
 export { makeCancelFulfillmentRequest } from '../models/CancelFulfillmentRequest.js';
 export { makeCompleteFulfillmentRequest } from '../models/CompleteFulfillmentRequest.js';
-export { makeCreateFulfillmentEventRequest } from '../models/CreateFulfillmentEventRequest.js';
+export { makeCreateDeliveryFulfillmentDetails } from '../models/CreateDeliveryFulfillmentDetails.js';
+export { makeCreateDigitalFulfillmentDetails } from '../models/CreateDigitalFulfillmentDetails.js';
+export { makeCreateFulfillmentRequest } from '../models/CreateFulfillmentRequest.js';
+export { makeCreateFulfillmentRequestDigital } from '../models/CreateFulfillmentRequestDigital.js';
+export { makeCreateFulfillmentRequestLocalDelivery } from '../models/CreateFulfillmentRequestLocalDelivery.js';
+export { makeCreateFulfillmentRequestPickup } from '../models/CreateFulfillmentRequestPickup.js';
+export { makeCreateFulfillmentRequestService } from '../models/CreateFulfillmentRequestService.js';
+export { makeCreateFulfillmentRequestShipment } from '../models/CreateFulfillmentRequestShipment.js';
 export { makeCreatePackageItemRequest } from '../models/CreatePackageItemRequest.js';
-export { makeCreateShipmentRequest } from '../models/CreateShipmentRequest.js';
-export { makeCreateShipmentRequestOutbound } from '../models/CreateShipmentRequestOutbound.js';
-export { makeCreateShipmentRequestReturn } from '../models/CreateShipmentRequestReturn.js';
+export { makeCreatePickupFulfillmentDetails } from '../models/CreatePickupFulfillmentDetails.js';
+export { makeCreateServiceFulfillmentDetails } from '../models/CreateServiceFulfillmentDetails.js';
 export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
 export { makeDispatchFulfillmentRequest } from '../models/DispatchFulfillmentRequest.js';
 export { makeFailFulfillmentRequest } from '../models/FailFulfillmentRequest.js';
+export { makeFulfillmentItemizedPackagesRequest } from '../models/FulfillmentItemizedPackagesRequest.js';
+export { makeFulfillmentLineItemRequest } from '../models/FulfillmentLineItemRequest.js';
+export { makeFulfillmentPackagingRequest } from '../models/FulfillmentPackagingRequest.js';
 export { makeFulfillmentRecipientRequest } from '../models/FulfillmentRecipientRequest.js';
+export { makeFulfillmentSinglePackageRequest } from '../models/FulfillmentSinglePackageRequest.js';
 export { makeHoldFulfillmentRequest } from '../models/HoldFulfillmentRequest.js';
 export { makeMarkFulfillmentNoShowRequest } from '../models/MarkFulfillmentNoShowRequest.js';
 export { makeMarkFulfillmentPackedRequest } from '../models/MarkFulfillmentPackedRequest.js';
@@ -317,9 +316,11 @@ export { makePackageCreateInputCreated } from '../models/PackageCreateInputCreat
 export { makePackageCreateInputShipped } from '../models/PackageCreateInputShipped.js';
 export { makePackageCreateRequest } from '../models/PackageCreateRequest.js';
 export { makeReleaseFulfillmentHoldRequest } from '../models/ReleaseFulfillmentHoldRequest.js';
-export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
 export { makeReturnShipmentLineItemAllocationRequest } from '../models/ReturnShipmentLineItemAllocationRequest.js';
 export { makeScheduleFulfillmentRequest } from '../models/ScheduleFulfillmentRequest.js';
+export { makeSinglePackageCreateInputCreated } from '../models/SinglePackageCreateInputCreated.js';
+export { makeSinglePackageCreateInputShipped } from '../models/SinglePackageCreateInputShipped.js';
+export { makeSinglePackageCreateRequest } from '../models/SinglePackageCreateRequest.js';
 export { makeStartFulfillmentRequest } from '../models/StartFulfillmentRequest.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeUpdateDeliveryFulfillmentDetails } from '../models/UpdateDeliveryFulfillmentDetails.js';

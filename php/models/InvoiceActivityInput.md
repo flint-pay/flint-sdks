@@ -24,6 +24,7 @@ Request input.
 | `expected_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amount the processing payment is expected to settle. Present on payment_processing. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `invoice_activity_id` | Required | string | Flint invoice activity ID. IDs begin with inevt_. Example: `"inevt_01KEZF7C00RQVKGDVE88YNX9FQ"`. |
 | `invoice_delivery_attempt_id` | Optional | string | The delivery attempt that sent the email. Present on delivery_sent and reminder_sent. Example: `"indel_01KEZF7C001BBS41T0ZVY8VMEQ"`. |
+| `invoice_id` | Required | string | Invoice whose history contains this activity and owns its referenced delivery attempt, late fee, or manual payment. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. |
 | `invoice_late_fee_id` | Optional | string | The late fee. Present on late_fee_assessed and late_fee_waived. Example: `"inlf_01KEZF7C00NVR97MBH5AHR4W1X"`. |
 | `invoice_manual_payment_id` | Optional | string | The manual payment. Present on manual_payment_recorded and manual_payment_reversed. Example: `"omp_01KEZF7C007J18203RBJKB9TYE"`. |
 | `invoice_payment_attempt_id` | Optional | string | The payment attempt. Present on payment_attempt_started and payment_processing. Example: `"invpa_01KEZF7C00PMWEDPAYYEKDTPBX"`. |

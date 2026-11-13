@@ -2,7 +2,7 @@
 
 ## UpdateMeSubscriptionRequest
 
-The request body for: Update subscription.
+The request body for: Update subscription. minProperties: `1`.
 
 
 

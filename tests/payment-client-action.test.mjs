@@ -29,6 +29,15 @@ const pendingAction = (client_action) => ({
 });
 
 for (const clientAction of actions) {
+  test(`PHP preserves the ${clientAction.type} client action and containing expiry`, async () => {
+    const result = await promisify(execFile)("php", ["-r", String.raw`
+require 'php/src/autoload.php';
+$pending = new \Flint\PendingPaymentAction(json_decode($argv[1], false, 512, JSON_THROW_ON_ERROR));
+echo json_encode(['action' => $pending->getClientAction(), 'expires_at' => $pending->getExpiresAt()], JSON_THROW_ON_ERROR);
+`, JSON.stringify(pendingAction(clientAction))], { cwd: root, timeout: 30000 });
+    assert.deepEqual(JSON.parse(result.stdout), { action: clientAction, expires_at: expiresAt });
+  });
+
   for (const operation of ["getOrderPaymentAttempt", "payOrder", "confirmPaymentIntent"]) {
     test(`${operation} decodes the ${clientAction.type} client action`, async (t) => {
       const body = example(operation);

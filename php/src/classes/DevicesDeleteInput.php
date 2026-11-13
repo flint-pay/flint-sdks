@@ -16,7 +16,7 @@ final class DevicesDeleteInput extends Model {
      */
     public function getDeviceId(): string { return $this->get('device_id'); }
     public function hasDeviceId(): bool { return $this->has('device_id'); }
-    /** Optional device version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional device version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

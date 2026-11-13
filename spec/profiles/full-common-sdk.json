@@ -8133,6 +8133,33 @@
         "maxAttempts": 3
       },
       "pagination": false
+    },
+    "listOrderCharges": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "listOrderLineItems": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "signWebhookEndpointDelivery": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      },
+      "pagination": false
     }
   },
   "requests": {

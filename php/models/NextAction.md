@@ -14,7 +14,7 @@ Response model.
 | `reason_code` | Optional | string | Machine-readable reason this action is suggested. |
 | `reason_message` | Optional | string | Explanation of why this action is suggested. |
 | `required_fields` | Optional | Array of string | Field names that must be supplied to perform this action. |
-| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [96 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
+| `required_scope` | Optional | string | API key scope required to call the public endpoint in url, when the action points at another Flint API endpoint. Values: [102 declared values](APIKeyInput.md#apikeyinput-scopes--values). |
 | `requires_human_confirmation` | Optional | boolean | Whether a person must approve the action before it is performed. |
 | `suggested_delay_milliseconds` | Optional | integer | Suggested wait before performing the action, in milliseconds. Format: `int32`. |
 | `target_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Resource whose ID to send in the target request field named {resource_type}_id when url cannot carry the target. A reference to another resource by `resource_type` and `resource_id`. `target_resource`: [field definitions](../models/DisputeResponse.md#disputeresponsemetawarningsnext_actionstarget_resource). |

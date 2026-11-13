@@ -4,7 +4,7 @@
 
 ### me.cancelReturn
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancel a Return before any merchandise or value work commits. Cancellation is refused once a receipt, inspection, disposition, or resolution exists.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancel a Return before any merchandise or value work commits. Cancellation is refused once a receipt, inspection, disposition, or resolution exists. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/returns/{return_id}/cancel`
 
@@ -67,7 +67,7 @@ const result = await client.me.cancelReturn("ret_01KEZF7C00PG93650ZKVQNGF7X", un
 
 ### me.cancelSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancels a subscription and records who asked, why, and when in cancellation_details. With cancel_immediately: true it ends now. Otherwise, trialing ends at trial_end_at, active at current_period_end_at (or now when a renewal delivery hold has expired), and past_due at next_retry_at instead of that retry. Scheduled, incomplete, paused, and past_due without next_retry_at require cancel_immediately: true or fail with `ACTION_NOT_ALLOWED` and reason `period_end_unavailable`. Read scheduled_cancel_at for the scheduled end time. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Send expected_version to reject a concurrent change.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Cancels a subscription and records who asked, why, and when in cancellation_details. With cancel_immediately: true it ends now. Otherwise, trialing ends at trial_end_at, active at current_period_end_at (or now when a renewal delivery hold has expired), and past_due at next_retry_at instead of that retry. Scheduled, incomplete, paused, and past_due without next_retry_at require cancel_immediately: true or fail with `ACTION_NOT_ALLOWED` and reason `period_end_unavailable`. Paid deliveries extend a scheduled cancellation to the last paid delivery when it is later. A merchant can cancel immediately without an automatic refund. A buyer cannot cancel immediately while prepaid deliveries remain and period-end cancellation is available; the refusal reason is `prepaid_deliveries_remaining`. Read scheduled_cancel_at for the scheduled end time. A buyer's cancellation follows the store's customer_account.buyer_capabilities. Send expected_version to reject a concurrent change. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/cancel`
 
@@ -131,7 +131,7 @@ const result = await client.me.cancelSubscription("sub_01KEZF7C00BVRE8YDBXQB74BB
 
 ### me.changeSubscriptionPlan
 
-Changes to a plan in the subscription's plan_change_options. Flint uses that option's billing_starts: now charges a new period with credit for unused paid item time and changes the plan only when payment succeeds; prorated_now charges the difference for the rest of the current period, keeps the period and anchor, and requires an unchanged interval; next_renewal changes the plan immediately without charging and keeps the current period and next billing date. Omit interval and quantity to keep their current values; the target plan must offer them. Requires a full buyer session and Idempotency-Key. Send expected_version to reject a concurrent change. Retry with the same key to recover the same result. Returns 200 including on decline, with the unchanged subscription, a closed unpaid order, and a failed order_payment_attempt. Inspect order_payment_attempt.last_payment_error before trying again. The order and order_payment_attempt are null when billing starts at the next renewal.
+Changes to a plan in the subscription's plan_change_options. Flint uses that option's billing_starts: now charges a new period with credit for unused paid item time and changes the plan only when payment succeeds; prorated_now charges the difference for the rest of the current period, keeps the period and anchor, and requires an unchanged interval; next_renewal changes the plan immediately without charging and keeps the current period and next billing date. Omit interval and quantity to keep their current values; the target plan must offer them. Requires a full buyer session and Idempotency-Key. Send expected_version to reject a concurrent change. Retry with the same key to recover the same result. Returns 200 including on decline, with the unchanged subscription, a closed unpaid order, and a failed order_payment_attempt. Inspect order_payment_attempt.last_payment_error before trying again. The order and order_payment_attempt are null when billing starts at the next renewal. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/change-plan`
 
@@ -208,7 +208,7 @@ const result = await client.me.changeSubscriptionPlan("sub_01KEZF7C00BVRE8YDBXQB
 
 ### me.changeSubscriptionQuantity
 
-Changes the frozen adjustable subscription line within its min_quantity and max_quantity. Requires a full buyer session and Idempotency-Key. period_end schedules quantities for the next billing boundary using scheduled_plan_change; PATCH scheduled_plan_change to null to cancel. prorated_now charges the difference now for an eligible digital line and keeps the period and billing anchor. Physical quantities require period_end. Refuses with plan_change_scheduled while another change is pending. Retry with the same key to recover the original result. Returns 200 on decline with unchanged subscription; inspect order_payment_attempt.last_payment_error. The order and order_payment_attempt are null for period_end or zero net charge. Send expected_version to reject concurrent changes.
+Changes the frozen adjustable subscription line within its min_quantity and max_quantity. Requires a full buyer session and Idempotency-Key. period_end schedules quantities for the next billing boundary using scheduled_plan_change; PATCH scheduled_plan_change to null to cancel. prorated_now charges the difference now for an eligible digital line and keeps the period and billing anchor. Physical quantities require period_end. Refuses with plan_change_scheduled while another change is pending. Retry with the same key to recover the original result. Returns 200 on decline with unchanged subscription; inspect order_payment_attempt.last_payment_error. The order and order_payment_attempt are null for period_end or zero net charge. Send expected_version to reject concurrent changes. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/change-quantity`
 
@@ -283,7 +283,7 @@ const result = await client.me.changeSubscriptionQuantity("sub_01KEZF7C00BVRE8YD
 
 ### me.confirmEmailChangeRequest
 
-Confirms possession of the current and new email addresses, then atomically updates the customer account in the selected merchant environment. Omit current_email_code only when current_email_confirmation_required is false. A successful confirmation signs the buyer out everywhere at this store: it revokes every customer session, buyer access grant, and Flint-hosted account session for the customer, including the session that made this request. Sign the buyer in again with the new email.
+Confirms possession of the current and new email addresses, then atomically updates the customer account in the selected merchant environment. Omit current_email_code only when current_email_confirmation_required is false. A successful confirmation signs the buyer out everywhere at this store: it revokes every customer session, buyer access grant, and Flint-hosted account session for the customer, including the session that made this request. Cards saved with Flint stay at the previous email unless a customer session that can access them sends move_flint_wallet: true. Those sessions receive flint_wallet_outcome when the previous email had saved cards. Sign the buyer in again with the new email.
 
 `POST /v1/me/email-change-requests/{email_change_request_id}/confirm`
 
@@ -352,7 +352,7 @@ const result = await client.me.confirmEmailChangeRequest("cecr_01ARZ3NDEKTSV4RRF
 
 ### me.createAddress
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Saves an address for the buyer. The address becomes a default only when the request sets is_default_billing or is_default_shipping, or later by setting those flags with PATCH, including the buyer's first address. A default address is also the billing or shipping address on the buyer's customer profile.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Saves an address for the buyer. The address becomes a default only when the request sets is_default_billing or is_default_shipping, or later by setting those flags with PATCH, including the buyer's first address. A default address is also the billing or shipping address on the buyer's customer profile. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/addresses`
 
@@ -405,6 +405,91 @@ const result = await client.me.createAddress({address: {city: "Springfield", cou
 ```
 
 [Complete runnable example](../examples/me-createAddress.mjs)
+
+### me.createCheckoutSession
+
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Creates or reuses a hosted or headless checkout session for something the buyer owes. With type return_resolution, it collects the buyer's balance on one of their return resolutions' replacement order. With type invoice, it collects what is due now on one of the buyer's invoices; an invoice access token works for its own invoice only. The response is 200 when it reuses the open session with the same surface and 201 when it creates one. Omit surface to use hosted; changing surface replaces an idle session and is refused while a payment is in progress. Use redirects to set where the buyer goes after paying or canceling. The return_url field is an alias for redirects.success_url on hosted checkout or payment_return_url on headless checkout and must be an address of the merchant's customer account. A reused session takes a new success destination only until a payment starts, then keeps its existing destination. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
+
+`POST /v1/me/checkout-sessions`
+
+Signature: `createCheckoutSession(params: MeCreateCheckoutSessionParams, options?: RequestOptions<"customer" | "invoice">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `body` | Required | [CreateMeCheckoutSessionRequestInput](../models/CreateMeCheckoutSessionRequest.md#createmecheckoutsessionrequest) | The request body for: Create a checkout session for the current buyer. |
+
+Body model: [CreateMeCheckoutSessionRequestInput](../models/CreateMeCheckoutSessionRequest.md#createmecheckoutsessionrequest).
+
+#### me.createCheckoutSession body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `invoice_id` | Optional | string | The open invoice whose balance due now this checkout collects. An open session for the invoice's current collection is reused and returned with 200. With an invoice access token, it must be the token's invoice; another invoice returns 404 RESOURCE_NOT_FOUND, and an invalid, expired or revoked token returns 401 INVALID_CREDENTIAL. With a customer session, it must be one of the buyer's invoices. minLength: `1`. |
+| `invoice_schedule_entry_id` | Optional | string | Optional. The schedule entry to collect. Only the earliest entry that is due and still has an outstanding balance can be collected; omit it to collect that entry. Not allowed on an invoice without a schedule. minLength: `1`. |
+| `page_origin` | Optional | string | Origin of the page where you render this headless checkout, such as https://shop.example.com. Only this origin can show the checkout's gift card challenge and receive its result. It does not let the browser call the Flint API. Accepted only when surface is headless. Use HTTPS and a lowercase DNS hostname. Do not include a path, query, fragment, or default port. In test mode, localhost, names ending in .localhost, and 127.0.0.1 also work over HTTP or HTTPS. minLength: `1`. maxLength: `255`. |
+| `payment_return_url` | Optional | string | Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: `uri`. minLength: `1`. maxLength: `2048`. |
+| `redirects` | Optional | [CheckoutRedirectsRequestInput](../models/CheckoutRedirectsRequestInput.md#checkoutredirectsrequestinput) | Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url. |
+| `return_resolution_id` | Optional | string | One of the buyer's return resolutions with a buyer payment pending on its replacement order. Another buyer's resolution, or an unknown one, returns 404 RESOURCE_NOT_FOUND. An open session with the same surface is reused and returned with 200. minLength: `1`. |
+| `return_url` | Optional | string | Where the checkout sends the buyer after paying, such as the invoice's or Return's page in the customer account. Limited to 2048 characters (Unicode code points) before trimming surrounding whitespace. It must be an HTTPS address of the merchant's customer account: /{merchant_id} on Flint's account host, the merchant's active custom account domain, or the host of customer_account.merchant_account_url when the merchant hosts the account. In test mode, any URL on localhost or a loopback IP address (such as 127.0.0.1 or [::1]) is also accepted, over HTTP or HTTPS and on any port. Anything else returns 400 INVALID_REQUEST with an INVALID_VALUE detail on return_url. An alias for redirects.success_url on hosted checkout or payment_return_url on headless checkout; keep them consistent when sending both. Format: `uri`. minLength: `1`. maxLength: `2048`. |
+| `surface` | Optional | string | Defaults to hosted. The same surface reuses the open checkout. A different surface replaces it only while no payment is in progress; otherwise the request returns 409 ACTION_NOT_ALLOWED with reason in_progress. Default: `"hosted"`. Values: `"hosted"`, `"headless"`. |
+| `type` | Required | string | What the checkout collects payment for. return_resolution: the buyer's balance on one of their return resolutions; send return_resolution_id. invoice: what is due now on one of the buyer's invoices; send invoice_id. Values: `"return_resolution"`, `"invoice"`. |
+
+#### me.createCheckoutSession with `type: "return_resolution"`
+
+The `return_resolution` variant of `CreateMeCheckoutSessionRequest`.
+
+Body model: [CreateMeCheckoutSessionReturnResolutionInput](../models/CreateMeCheckoutSessionReturnResolution.md#createmecheckoutsessionreturnresolution).
+
+#### me.createCheckoutSession with `type: "invoice"`
+
+The `invoice` variant of `CreateMeCheckoutSessionRequest`.
+
+Body model: [CreateMeCheckoutSessionInvoiceInput](../models/CreateMeCheckoutSessionInvoice.md#createmecheckoutsessioninvoice).
+
+#### Response
+
+Returned payload: [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret) | [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+| 504 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.me.createCheckoutSession({return_resolution_id: "retres_01KEZF7C00VBZRA9H0NN82A4S9", surface: "hosted", type: "return_resolution"}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/me-createCheckoutSession.mjs)
 
 ### me.createDeletionRequest
 
@@ -525,7 +610,7 @@ const result = await client.me.createEmailChangeRequest({new_email: "alex.new@ex
 
 ### me.createFlintWalletStoreSetup
 
-Records the buyer's consent to save an independent store copy for off-session payments, including subscriptions. Call only after the buyer agrees. Requires a live email-code buyer login and an enabled Flint wallet at a Flint-hosted store account. Supply a flint_wallet_card_id from listMeFlintWalletCards. Confirm client_setup with Stripe.js confirmSetup, then poll GET /v1/me/payment-methods/{payment_method_id} until active before changing a subscription through PATCH /v1/me/subscriptions/{subscription_id} with payment_method_id. Setup may request authentication. Removing the platform card or revoking store consent blocks the copy immediately. An idempotency key is optional and scoped to the store, customer, card handle, and key. Responses are retained for 24 hours. After a copy is revoked, retries with any key bound to that copy are refused. Get new consent and use a new key to create another copy. Retry a lost response with the same key. Concurrent requests for the same card at this store share one copy and setup. A failed off-session charge can still require the buyer to return through the existing card-update link. Accept an empty body or {}.
+Records the buyer's consent to save an independent store copy for off-session payments, including subscriptions. Call only after the buyer agrees. Requires a live email-code buyer login and an enabled Flint wallet at a Flint-hosted store account. Supply a flint_wallet_card_id from listMeFlintWalletCards. Confirm client_setup with Stripe.js confirmSetup, then poll GET /v1/me/payment-methods/{payment_method_id} until active before changing a subscription through PATCH /v1/me/subscriptions/{subscription_id} with payment_method_id. Setup may request authentication. Removing the platform card or revoking store consent blocks the copy immediately. An idempotency key is optional and scoped to the store, customer, card handle, and key. Responses are retained for 24 hours. After a copy is revoked, retries with any key bound to that copy are refused. Get new consent and use a new key to create another copy. Retry a lost response with the same key. Concurrent requests for the same card at this store share one copy and setup. A failed off-session charge can still require the buyer to return through the existing card-update link. Accept an empty body or {}. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/flint-wallet/cards/{flint_wallet_card_id}/store-setups`
 
@@ -585,74 +670,9 @@ const result = await client.me.createFlintWalletStoreSetup("fwc_EKAB7CMBXELKYMJU
 
 [Complete runnable example](../examples/me-createFlintWalletStoreSetup.mjs)
 
-### me.createInvoiceCheckoutSession
-
-Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with `ACTION_NOT_ALLOWED` and reason `configuration_required` when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
-
-`POST /v1/me/invoices/{invoice_id}/checkout-sessions`
-
-Signature:
-
-```typescript
-createInvoiceCheckoutSession(invoice_id: InputValue<string>,
- params?: MeCreateInvoiceCheckoutSessionParams,
- options?: RequestOptions<"customer" |
-  "invoice">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
-| `body` | Optional | [InvoiceCheckoutSessionRequestInput](../models/InvoiceCheckoutSessionRequest.md#invoicecheckoutsessionrequest) | The request body for: Create an invoice checkout session for the current buyer; Get or create invoice checkout collection. |
-
-#### Response
-
-Returned payload: [BuyerInvoiceCheckoutSessionResult](../models/BuyerInvoiceCheckoutSessionResult.md#buyerinvoicecheckoutsessionresult) | [BuyerInvoiceCheckoutSessionResult](../models/BuyerInvoiceCheckoutSessionResult.md#buyerinvoicecheckoutsessionresult).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-| 504 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.me.createInvoiceCheckoutSession("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/me-createInvoiceCheckoutSession.mjs)
-
 ### me.createPaymentMethod
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Starts saving a payment method for the buyer and returns the client setup to confirm in the browser. The payment method is pending until setup succeeds.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Starts saving a payment method for the buyer and returns the client setup to confirm in the browser. The payment method is pending until setup succeeds. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/payment-methods`
 
@@ -718,7 +738,7 @@ const result = await client.me.createPaymentMethod(undefined, { idempotencyKey: 
 
 ### me.createReturn
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Requests a Return for one of the buyer's orders. An active return policy must cover each line and leave the requested quantity eligible, or the request fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Check can_buyer_request with POST /v1/me/return-previews first. The buyer's reason must be active and apply to the line, and a policy that sends the request to review leaves the Return waiting for the store's decision.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Requests a Return for one of the buyer's orders. An active return policy must cover each line and leave the requested quantity eligible, or the request fails with `ACTION_NOT_ALLOWED` and reason `not_offered`. Check can_buyer_request with POST /v1/me/return-previews first. The buyer's reason must be active and apply to the line, and a policy that sends the request to review leaves the Return waiting for the store's decision. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/returns`
 
@@ -854,73 +874,9 @@ const result = await client.me.createReturnPreview({eligibility: {order_id: "ord
 
 [Complete runnable example](../examples/me-createReturnPreview.mjs)
 
-### me.createReturnResolutionCheckoutSession
-
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Create or reuse a hosted or embedded checkout session for the buyer's balance on a replacement order linked to this return resolution. The response is `200` when it reuses an existing session and `201` when it creates one. Omit surface to use hosted. The same surface reuses the open session; changing surface replaces an idle session and is refused while a payment is in progress. Use redirects to set where the buyer goes after paying or canceling. The return_url field is an alias for redirects.success_url on hosted checkout or payment_return_url on embedded checkout and must be an address of the merchant's customer account. A reused session takes a new success destination only until a payment starts, then keeps its existing destination.
-
-`POST /v1/me/return-resolutions/{return_resolution_id}/checkout-sessions`
-
-Signature:
-
-```typescript
-createReturnResolutionCheckoutSession(return_resolution_id: InputValue<string>,
- params?: MeCreateReturnResolutionCheckoutSessionParams,
- options?: RequestOptions<"customer">)
-```
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `return_resolution_id` | Required | string | Flint return resolution id. |
-| `body` | Optional | [GetOrCreateReturnResolutionCheckoutSessionRequestInput](../models/GetOrCreateReturnResolutionCheckoutSessionRequest.md#getorcreatereturnresolutioncheckoutsessionrequest) | The request body for: Create a Return resolution checkout session for the current buyer; Get or create return resolution checkout session. |
-
-#### Response
-
-Returned payload: [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret) | [BuyerCheckoutSessionWithSecret](../models/BuyerCheckoutSessionWithSecret.md#buyercheckoutsessionwithsecret).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-| 504 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.me.createReturnResolutionCheckoutSession("retres_01KEZF7C00C7RZJN31W9SGMEQ3", undefined, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/me-createReturnResolutionCheckoutSession.mjs)
-
 ### me.createSubscriptionPaymentRetry
 
-Uses the customer identity fixed by the customer session. Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome. While cancellation is scheduled, a new buyer retry fails with `ACTION_NOT_ALLOWED` and reason `cancellation_scheduled`, with `current_status` `past_due`. First use PATCH /v1/me/subscriptions/{subscription_id} with cancel_at_period_end false to keep the subscription; retry_payment becomes available again if the other retry conditions allow it. Only one retry may be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created for the current billing period, counting the store's retries too. subscription_card_update email-link sessions can start retries.
+Uses the customer identity fixed by the customer session. Starts one manual collection attempt on a past-due subscription. Send no body, or an empty object. Poll the returned retry for the outcome. While cancellation is scheduled, a new buyer retry fails with `ACTION_NOT_ALLOWED` and reason `cancellation_scheduled`, with `current_status` `past_due`. First use PATCH /v1/me/subscriptions/{subscription_id} with cancel_at_period_end false to keep the subscription; retry_payment becomes available again if the other retry conditions allow it. Only one retry may be in progress at a time. Buyers can start a retry while fewer than 3 retries have been created for the current billing period, counting the store's retries too. subscription_card_update email-link sessions can start retries. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/payment-retries`
 
@@ -1010,7 +966,7 @@ Body model: [CreateMeSubscriptionPreviewRequestDeliveryOptionsInput](../models/C
 
 The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`.
 
-Body model: [CreateMeSubscriptionPreviewRequestNextRenewalInput](../models/CreateSubscriptionPreviewRequestNextRenewal.md#createsubscriptionpreviewrequestnextrenewal).
+Body model: [CreateMeSubscriptionPreviewRequestNextRenewalInput](../models/CreateMeSubscriptionPreviewRequestNextRenewalInput.md#createmesubscriptionpreviewrequestnextrenewalinput).
 
 #### me.createSubscriptionPreview with `mode: "plan_change"`
 
@@ -1061,6 +1017,9 @@ Estimated pricing for a subscription plan change, including the recurring item s
 | `billing_interval_count` | Required | integer | Format: `int32`. |
 | `billing_starts` | Required | string | Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`. |
 | `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Unused paid item time credited when billing_starts is now or prorated_now; null for next_renewal and period_end. |
+| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `delivery_interval` | Required | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Required | string or null | When the plan is expected to take effect. Null when no billing time is scheduled. Format: `date-time`. |
 | `mode` | Required | string | Values: `"plan_change"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
@@ -1077,6 +1036,9 @@ Estimated pricing for a quantity change that keeps the billing period and anchor
 | --- | --- | --- | --- |
 | `billing_starts` | Required | string | When this quantity change is billed. Values: `"prorated_now"`. |
 | `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credit for unused paid subscription time. Null when there is no paid period to credit. |
+| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `delivery_interval` | Required | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Required | string or null | When the quantities are expected to take effect. Null when no billing time is available. Format: `date-time`. |
 | `interval` | Required | string | The subscription billing interval after the quantity change. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `interval_count` | Required | integer | The number of interval units in each billing period. Format: `int32`. |
@@ -1122,7 +1084,7 @@ const result = await client.me.createSubscriptionPreview({mode: "next_renewal", 
 
 ### me.deleteAddress
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes one of the buyer's saved addresses. Deleting the billing or shipping default leaves the customer with none; Flint doesn't pick another address.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes one of the buyer's saved addresses. Deleting the billing or shipping default leaves the customer with none; Flint doesn't pick another address. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `DELETE /v1/me/addresses/{customer_address_id}`
 
@@ -1133,7 +1095,7 @@ Signature: `deleteAddress(customer_address_id: InputValue<string>, params?: MeDe
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `customer_address_id` | Required | string | Flint customer address ID. |
-| `expected_version` | Optional | integer | Optional address version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional address version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
 
@@ -1177,7 +1139,7 @@ const result = await client.me.deleteAddress("caddr_01KEZF7C00K2Q127FBJAXWB0FP",
 
 ### me.deletePaymentMethod
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved payment method so it can no longer be used for future payments. Returns the payment method with status archived, including when it was already archived.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Deletes a saved payment method so it can no longer be used for future payments. Returns the payment method with status archived, including when it was already archived. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `DELETE /v1/me/payment-methods/{payment_method_id}`
 
@@ -2564,10 +2526,10 @@ Signature: `listFulfillmentEvents(params: MeListFulfillmentEventsParams, options
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Required | string | Required buyer-owned order ID. |
-| `fulfillment_id` | Optional | string | Filter by fulfillment ID. |
-| `shipment_id` | Optional | string | Filter by shipment ID. |
-| `package_id` | Optional | string | Filter by package ID. |
+| `order_id` | Required | string | Required buyer-owned order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `fulfillment_id` | Optional | string | Filter by fulfillment ID. pattern: `^ful_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `shipment_id` | Optional | string | Filter by shipment ID. pattern: `^shp_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `package_id` | Optional | string | Filter by package ID. pattern: `^pkg_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
@@ -2622,9 +2584,9 @@ Signature: `listFulfillments(params?: MeListFulfillmentsParams, options?: _SdkWi
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `order_id` | Optional | string | Filter by order ID. |
+| `order_id` | Optional | string | Filter by order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by buyer-visible status. Held fulfillments match their pre-hold status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [13 declared values](#melistfulfillments-input-status--values). Values: [13 declared values](#melistfulfillments-input-status-values). |
-| `type` | Optional | Array of string or string | Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
+| `type` | Optional | Array of string or string | Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`, `"handover"`. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`, `"handover"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
@@ -2765,7 +2727,7 @@ Signature: `listGiftCardTransactions(params: MeListGiftCardTransactionsParams, o
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `gift_card_id` | Required | string | Exact gift card ID. Requires current saved access to this card. |
+| `gift_card_id` | Required | string | Exact gift card ID. Requires current saved access to this card. pattern: `^gc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
@@ -2821,7 +2783,7 @@ Signature: `listInvoices(params?: MeListInvoicesParams, options?: _SdkWithoutIde
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Filter by invoice status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"partially_paid"`, `"paid"`, `"voided"`, `"uncollectible"`, `"credited"`. Values: `"open"`, `"partially_paid"`, `"paid"`, `"voided"`, `"uncollectible"`, `"credited"`. |
-| `order_id` | Optional | string | Filter by Flint order ID. |
+| `order_id` | Optional | string | Filter by Flint order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `due_date_from` | Optional | string | Inclusive lower bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date in its timezone (UTC when absent). Format: `date`. |
@@ -2890,7 +2852,7 @@ listOrderActivities(order_id: InputValue<string>,
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
-| `activity_type` | Optional | Array of string or string | Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [28 declared values](../models/OrderActivity.md#orderactivity-activity_type-values). Values: [28 declared values](../models/OrderActivity.md#orderactivity-activity_type-values). |
+| `activity_type` | Optional | Array of string or string | Filter by activity type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [32 declared values](../models/OrderActivity.md#orderactivity-activity_type-values). Values: [32 declared values](../models/OrderActivity.md#orderactivity-activity_type-values). |
 
 #### Response
 
@@ -2943,15 +2905,16 @@ Signature: `listOrders(params?: MeListOrdersParams, options?: _SdkWithoutIdempot
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `closed_reason` | Optional | Array of string or string | Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. Values: `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
+| `closed_reason` | Optional | Array of string or string | Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. Values: `"invoice_voided"`, `"paid"`, `"closed_by_merchant"`, `"checkout_expired"`, `"written_off"`, `"superseded"`, `"return_resolution_canceled"`, `"other"`. |
 | `status` | Optional | Array of string or string | Order status: open or closed. Selecting open and closed includes both statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"closed"`. Values: `"open"`, `"closed"`. |
 | `payment_status` | Optional | Array of string or string | Filter by settled collection status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"unpaid"`, `"partially_paid"`, `"paid"`. Values: `"unpaid"`, `"partially_paid"`, `"paid"`. |
 | `refund_status` | Optional | Array of string or string | Filter by refund progress. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"none"`, `"partially_refunded"`, `"refunded"`. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
 | `fulfillment_status` | Optional | Array of string or string | Filter by aggregate order fulfillment status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. Values: `"not_fulfilled"`, `"partially_fulfilled"`, `"fulfilled"`, `"canceled"`, `"not_applicable"`, `"closed"`. |
 | `order_number` | Optional | string | Filter by merchant-visible order number. |
-| `origin` | Optional | Array of string or string | Separate subscription renewal purchases (subscription) from orders placed through other channels. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`. |
+| `has_invoice` | Optional | boolean | Filter by whether invoice_id is set, including a voided invoice. False includes orders with no invoice. |
+| `origin` | Optional | Array of string or string | Separate subscription renewal purchases (subscription) from orders placed through other channels. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`, `"invoice"`. Values: `"virtual_terminal"`, `"payment_link"`, `"checkout"`, `"api"`, `"subscription"`, `"invoice"`. |
 | `query` | Optional | string | Search across order_id, order number, buyer note, and line item names. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ord_01. |
-| `subscription_id` | Optional | string | Filter by subscription ID. |
+| `subscription_id` | Optional | string | Filter by subscription ID. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `subscription_delivery_changed` | Optional | boolean | Filter by whether the subscriber changed delivery after this order was paid. |
 | `min_amount` | Optional | integer | Inclusive lower bound on pricing_amounts.total_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `max_amount` | Optional | integer | Inclusive upper bound on pricing_amounts.total_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
@@ -3012,9 +2975,9 @@ Signature: `listPackages(params?: MeListPackagesParams, options?: _SdkWithoutIde
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `shipment_id` | Optional | string | Optional shipment ID filter. |
-| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. |
-| `order_id` | Optional | string | Optional order ID filter. |
+| `shipment_id` | Optional | string | Optional shipment ID filter. pattern: `^shp_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. pattern: `^ful_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `order_id` | Optional | string | Optional order ID filter. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
@@ -3072,8 +3035,8 @@ Signature: `listPaymentIntents(params?: MeListPaymentIntentsParams, options?: _S
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `order_id` | Optional | string | Filter by order ID. |
-| `invoice_id` | Optional | string | Filter by invoice ID. |
+| `order_id` | Optional | string | Filter by order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `invoice_id` | Optional | string | Filter by invoice ID. pattern: `^inv_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by payment intent status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
 | `payment_flow` | Optional | Array of string or string | Filter by immutable payment flow. Repeat or comma-separate values. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
 | `min_amount` | Optional | integer | Inclusive lower bound on amount_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
@@ -3195,12 +3158,12 @@ Signature: `listRefunds(params?: MeListRefundsParams, options?: _SdkWithoutIdemp
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `order_id` | Optional | string | Filter by order ID. |
+| `order_id` | Optional | string | Filter by order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by refund status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. Values: `"pending"`, `"succeeded"`, `"partially_succeeded"`, `"failed"`. |
 | `min_amount` | Optional | integer | Inclusive lower bound on amount_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `max_amount` | Optional | integer | Inclusive upper bound on amount_money.amount. Requires currency. Format: `int64`. minimum: `1`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. |
-| `return_id` | Optional | string | Filter by linked Return ID. |
+| `return_id` | Optional | string | Filter by linked Return ID. pattern: `^ret_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by refund_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"amount_money"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
@@ -3260,14 +3223,14 @@ Signature: `listReturns(params?: MeListReturnsParams, options?: _SdkWithoutIdemp
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `decision_status` | Optional | Array of string or string | Filter by decision status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. Values: `"pending"`, `"approved"`, `"partially_approved"`, `"declined"`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `merchandise_status` | Optional | Array of string or string | Filter by merchandise status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [10 declared values](#melistreturns-input-merchandise_status--values). Values: [10 declared values](#melistreturns-input-merchandise_status-values). |
-| `order_id` | Optional | string | Filter by order id. |
+| `order_id` | Optional | string | Filter by order id. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `resolution_status` | Optional | Array of string or string | Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
 | `return_number` | Optional | string | Filter by return number. |
-| `return_reason_id` | Optional | string | Filter by return reason id. |
+| `return_reason_id` | Optional | string | Filter by return reason id. pattern: `^rrsn_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
@@ -3347,11 +3310,11 @@ Signature: `listShipments(params?: MeListShipmentsParams, options?: _SdkWithoutI
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Optional | string | Optional order ID filter. |
-| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. |
+| `order_id` | Optional | string | Optional order ID filter. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. pattern: `^ful_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `return_id` | Optional | string | Filter by linked Return ID. |
+| `return_id` | Optional | string | Filter by linked Return ID. pattern: `^ret_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `handed_off_after` | Optional | string | Inclusive lower bound on handed_off_at. Format: `date-time`. |
 | `handed_off_before` | Optional | string | Exclusive upper bound on handed_off_at. Format: `date-time`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
@@ -3416,7 +3379,7 @@ listSubscriptionPaymentRetries(subscription_id: InputValue<string>,
 | `subscription_id` | Required | string | Flint subscription ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 
 #### Response
 
@@ -3472,9 +3435,9 @@ Signature: `listSubscriptions(params?: MeListSubscriptionsParams, options?: _Sdk
 | `status` | Optional | Array of string or string | Filter by subscription status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. |
 | `billing_schedule_owner` | Optional | Array of string or string | Separate subscriptions scheduled by Flint (flint) from those whose billing dates the store supplies (external). Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"flint"`, `"external"`. Values: `"flint"`, `"external"`. |
 | `cancel_at_period_end` | Optional | boolean | When true, returns subscriptions scheduled to cancel at the end of the current period that are not yet canceled. When false, returns every other subscription. |
-| `delivery_method_id` | Optional | string | Filter by the subscription's selected delivery method. |
+| `delivery_method_id` | Optional | string | Filter by the subscription's selected delivery method. pattern: `^dmet_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `hold_reason` | Optional | Array of string or string | Find subscriptions needing a new delivery method, address, or rate by the current delivery_hold reason. Does not match upcoming delivery issues. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. Values: `"method_unavailable"`, `"destination_not_served"`, `"rate_unavailable"`. |
-| `subscription_plan_id` | Optional | string | Filter by Flint subscription plan ID. |
+| `subscription_plan_id` | Optional | string | Filter by Flint subscription plan ID. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by subscription_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"next_billing_at"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
@@ -3535,7 +3498,7 @@ Signature: `listTickets(params?: MeListTicketsParams, options?: _SdkWithoutIdemp
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_id` | Optional | string | Only tickets belonging to this order. Another buyer's order returns no tickets. |
+| `order_id` | Optional | string | Only tickets belonging to this order. Another buyer's order returns no tickets. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
@@ -3578,7 +3541,7 @@ const result = await client.me.listTickets({}, {  });
 
 ### me.pauseSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Pauses a subscription immediately, optionally for at least one billing cycle. A pause with a duration resumes automatically at scheduled_resume_at. Repeating the stored pause length returns the paused subscription; a different length returns ACTION_NOT_ALLOWED with reason field_locked and param pause_duration_cycles and requires resuming first. A buyer's pause follows the store's customer_account.buyer_capabilities. Send expected_version to reject a concurrent change.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Pauses a subscription immediately. pause_duration_cycles counts delivery intervals on prepaid subscriptions and billing intervals otherwise; omit it for an indefinite pause. A pause with a duration resumes automatically at scheduled_resume_at. Repeating the stored pause length returns the paused subscription; a different length returns ACTION_NOT_ALLOWED with reason field_locked and param pause_duration_cycles and requires resuming first. A buyer's pause follows the store's customer_account.buyer_capabilities. Send expected_version to reject a concurrent change. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/pause`
 
@@ -3636,7 +3599,7 @@ const result = await client.me.pauseSubscription("sub_01KEZF7C00BVRE8YDBXQB74BBM
 
 ### me.removeGiftCard
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Removes only this buyer's saved access without changing funds or other holders' access. A repeated removal without an idempotency key fails with `RESOURCE_NOT_FOUND` because saved access is already absent. Reusing the same idempotency key replays the original removal snapshot without restoring saved access. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or revoked saved access.
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Removes only this buyer's saved access without changing funds or other holders' access. A repeated removal without an idempotency key fails with `RESOURCE_NOT_FOUND` because saved access is already absent. Reusing the same idempotency key replays the original removal snapshot without restoring saved access. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or revoked saved access. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `DELETE /v1/me/gift-cards/{gift_card_id}`
 
@@ -3691,7 +3654,7 @@ const result = await client.me.removeGiftCard("gc_01KEZF7C00RT1618WYBM1Y94CG", {
 
 ### me.renewSubscription
 
-Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires a full buyer session and an idempotency key. Send expected_version to reject concurrent changes. Retry with the same key to recover the same attempt. Returns the subscription, renewal order, and payment attempt, including when the payment is declined. Inspect order_payment_attempt.last_payment_error for a failed payment.
+Charges the next renewal now, ships it when the subscription has delivery, and moves the next billing date forward by one interval. Available while the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, is not in a trial, and has no delivery hold or renewal in progress. The subscription's payment method must be active and allow off-session charges. Requires a full buyer session and an idempotency key. Send expected_version to reject concurrent changes. Retry with the same key to recover the same attempt. Returns the subscription, renewal order, and payment attempt, including when the payment is declined. Inspect order_payment_attempt.last_payment_error for a failed payment. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/renew`
 
@@ -3757,7 +3720,7 @@ const result = await client.me.renewSubscription("sub_01KEZF7C00BVRE8YDBXQB74BBM
 
 ### me.resumeSubscription
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Asks Flint to resume a paused subscription. The request is accepted while the subscription is still paused, with `resume_requested_at` set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with `ACTION_NOT_ALLOWED`. To undo a scheduled cancellation, PATCH the subscription with cancel_at_period_end set to false.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Asks Flint to resume a paused subscription. The request is accepted while the subscription is still paused, with `resume_requested_at` set. Flint then makes it active, or past_due while an overdue period is collected, and sends subscription.resumed. While prepaid deliveries remain, resuming makes no charge and shifts later deliveries and the next charge by the length of the pause. If Flint can't resume it, it stays paused, resume_requested_at clears, and Flint sends subscription.updated. Any other status fails with `ACTION_NOT_ALLOWED`. To undo a scheduled cancellation, PATCH the subscription with cancel_at_period_end set to false. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/resume`
 
@@ -3868,7 +3831,7 @@ const result = await client.me.revokeSession({}, { idempotencyKey: idempotencyKe
 
 ### me.saveGiftCard
 
-Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or revoked saved access.
+Requires a full customer session. Saved access requires possession of a current code or recipient link. Customer associations and purchase history do not authorize access. Replacing a code invalidates saved access; save again with fresh proof. Saved access does not permit spending or reveal a full code. Idempotency keys are scoped to the buyer, merchant, environment, and operation. A replay cannot restore removed or revoked saved access. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/gift-cards`
 
@@ -4002,7 +3965,7 @@ const result = await client.me.sendOrderReceipt("ord_01KEZF7C0054GQKJ142A8X367A"
 
 ### me.skipSubscriptionCycle
 
-Skips the next renewal: nothing is charged or shipped for it, and the next billing date moves forward by one of the subscription's billing intervals while preserving billing_anchor_day, including in shorter months. Available when buyer skipping is enabled and the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, and is under the store's consecutive skip limit. Requires a full buyer session. Send expected_version to reject concurrent changes.
+While prepaid deliveries remain, defers the next delivery and next charge by one delivery interval without consuming a delivery. Otherwise skips the next renewal without charging or shipping and moves the next billing date forward by one billing interval while preserving billing_anchor_day, including in shorter months. Available when buyer skipping is enabled and the subscription is active on a Flint-owned billing schedule (billing_schedule_owner is flint), is not set to cancel at the end of its period, and is under the store's consecutive skip limit. Requires a full buyer session. Send expected_version to reject concurrent changes. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/skip-cycle`
 
@@ -4065,7 +4028,7 @@ const result = await client.me.skipSubscriptionCycle("sub_01KEZF7C00BVRE8YDBXQB7
 
 ### me.update
 
-Uses the customer identity fixed by the customer session. Updates the current buyer's name or phone. Manage billing and shipping addresses through /v1/me/addresses.
+Uses the customer identity fixed by the customer session. Updates the current buyer's name or phone. Manage billing and shipping addresses through /v1/me/addresses. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `PATCH /v1/me`
 
@@ -4132,7 +4095,7 @@ const result = await client.me.update({name: "Jordan Example"}, { idempotencyKey
 
 ### me.updateAddress
 
-Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the fields you send on one of the buyer's saved addresses. The address field replaces the whole postal address. Send null for phone or label to remove it. Set is_default_billing or is_default_shipping to true to make this address the default, or false to clear a default it holds. Changing a default address also changes the matching address on the buyer's customer profile.
+Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Changes the fields you send on one of the buyer's saved addresses. The address field replaces the whole postal address. Send null for phone or label to remove it. Set is_default_billing or is_default_shipping to true to make this address the default, or false to clear a default it holds. Changing a default address also changes the matching address on the buyer's customer profile. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `PATCH /v1/me/addresses/{customer_address_id}`
 
@@ -4251,7 +4214,7 @@ const result = await client.me.updateEmailPreferences({checkout_reminders: false
 
 ### me.updateSubscription
 
-Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery, billing interval and quantity when the matching buyer action is available. Send billing_interval and billing_interval_count together. Mixed changes commit atomically. A scoped card-update session may send only payment_method_id and expected_version. Send expected_version to reject concurrent changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key.
+Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery, billing interval and quantity when the matching buyer action is available. Send billing_interval and billing_interval_count together. Mixed changes commit atomically. A scoped card-update session may send only payment_method_id and expected_version. Send expected_version to reject concurrent changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `PATCH /v1/me/subscriptions/{subscription_id}`
 
@@ -4262,7 +4225,7 @@ Signature: `updateSubscription(subscription_id: InputValue<string>, params: MeUp
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `subscription_id` | Required | string | Flint subscription ID. |
-| `body` | Required | [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionRequest.md#updatemesubscriptionrequest) | The request body for: Update subscription. |
+| `body` | Required | [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionRequest.md#updatemesubscriptionrequest) | The request body for: Update subscription. minProperties: `1`. |
 
 Body model: [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionRequest.md#updatemesubscriptionrequest).
 
@@ -4324,7 +4287,7 @@ const result = await client.me.updateSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FA
 
 ### me.updateSubscriptionLineItem
 
-Swaps a subscription line to an offered variant for future renewals. Requires a full buyer session. Send expected_version to reject concurrent changes. The replacement must remain deliverable to the subscription destination.
+Swaps a subscription line to an offered variant for future renewals. Requires a full buyer session. Send expected_version to reject concurrent changes. The replacement must remain deliverable to the subscription destination. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `PATCH /v1/me/subscriptions/{subscription_id}/line-items/{subscription_line_item_id}`
 
@@ -4343,7 +4306,7 @@ updateSubscriptionLineItem(subscription_id: InputValue<string>,
 | --- | --- | --- | --- |
 | `subscription_id` | Required | string | Subscription ID. |
 | `subscription_line_item_id` | Required | string | Subscription line item ID. |
-| `body` | Required | [UpdateMeSubscriptionLineItemRequestInput](../models/UpdateMeSubscriptionLineItemRequest.md#updatemesubscriptionlineitemrequest) | The request body for: Swap subscription variant. |
+| `body` | Required | [UpdateMeSubscriptionLineItemRequestInput](../models/UpdateMeSubscriptionLineItemRequest.md#updatemesubscriptionlineitemrequest) | The request body for: Swap subscription variant. minProperties: `1`. |
 
 Body model: [UpdateMeSubscriptionLineItemRequestInput](../models/UpdateMeSubscriptionLineItemRequest.md#updatemesubscriptionlineitemrequest).
 

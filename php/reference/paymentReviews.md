@@ -157,6 +157,7 @@ Returned payload: [PaymentReview](../models/PaymentReview.md#paymentreview).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -194,9 +195,9 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `status` | Optional | Array of string or string | Filter by review status. Repeat or comma-separate values. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"open"`, `"resolving"`, `"closed"`. Values: `"open"`, `"resolving"`, `"closed"`. |
 | `risk_level` | Optional | Array of string or string | Filter by immutable review risk level. Repeat or comma-separate values. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"normal"`, `"elevated"`, `"highest"`, `"not_assessed"`. Values: `"normal"`, `"elevated"`, `"highest"`, `"not_assessed"`. |
 | `payment_flow` | Optional | Array of string or string | Filter by immutable payment flow. Repeat or comma-separate values. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. Values: `"checkout"`, `"payment_link"`, `"invoice"`, `"subscription_initial"`, `"subscription_renewal"`, `"virtual_terminal"`, `"api"`. |
-| `payment_intent_id` | Optional | string | Filter by Flint payment intent ID. |
-| `order_id` | Optional | string | Filter by Flint order ID. |
-| `customer_id` | Optional | string | Filter by Flint customer ID. |
+| `payment_intent_id` | Optional | string | Filter by Flint payment intent ID. pattern: `^pi_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `order_id` | Optional | string | Filter by Flint order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `customer_id` | Optional | string | Filter by Flint customer ID. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `opened_after` | Optional | string | Inclusive lower bound on opened_at. Format: `date-time`. |
 | `opened_before` | Optional | string | Exclusive upper bound on opened_at. Format: `date-time`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
@@ -218,6 +219,7 @@ Returned payload: [PaymentReviewListResponse](../models/PaymentReviewListRespons
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

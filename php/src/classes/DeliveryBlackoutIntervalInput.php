@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryBlackoutIntervalInput extends Model {
     /** @param array{'end_local': string, 'start_local': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryBlackoutIntervalInput')); }
-    /** minLength: 1.
+    /** Local date and time the blackout ends, as `YYYY-MM-DDTHH:MM:SS` in the schedule's timezone. minLength: 1.
      * @return string
      * @throws SdkError When end_local is omitted; use hasEndLocal() or valueOrDefault().
      */
     public function getEndLocal(): string { return $this->get('end_local'); }
     public function hasEndLocal(): bool { return $this->has('end_local'); }
-    /** minLength: 1.
+    /** Local date and time the blackout starts, as `YYYY-MM-DDTHH:MM:SS` in the schedule's timezone. minLength: 1.
      * @return string
      * @throws SdkError When start_local is omitted; use hasStartLocal() or valueOrDefault().
      */

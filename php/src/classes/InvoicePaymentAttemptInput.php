@@ -33,7 +33,7 @@ final class InvoicePaymentAttemptInput extends Model {
      */
     public function getCancellationRequestedAt(): string|\DateTimeInterface { return $this->get('cancellation_requested_at'); }
     public function hasCancellationRequestedAt(): bool { return $this->has('cancellation_requested_at'); }
-    /** The hosted or embedded checkout session the buyer pays through. Absent for automatic charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+    /** The hosted or headless checkout session the buyer pays through. Absent for automatic charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */

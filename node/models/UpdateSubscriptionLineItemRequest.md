@@ -2,7 +2,7 @@
 
 ## UpdateSubscriptionLineItemRequest
 
-The request body for: Update subscription line item.
+The request body for: Update subscription line item. minProperties: `1`.
 
 
 

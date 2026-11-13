@@ -14,6 +14,7 @@ Response model.
 | `environment_grants` | Optional | Array of [PartnerEnvironmentGrant](../models/PartnerEnvironmentGrant.md#partnerenvironmentgrant) | `environment_grants[]`: [field definitions](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataenvironment_grants). |
 | `installed_by_user_id` | Optional | string |  |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. |
+| `merchant_signup_id` | Optional | string | The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke. |
 | `partner_app_id` | Required | string |  |
 | `partner_app_install_id` | Required | string | Unique identifier for this partner app install, prefixed `pinst_`. |
 | `partner_app_name` | Required | string | The app’s current name. |

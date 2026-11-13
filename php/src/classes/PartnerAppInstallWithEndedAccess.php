@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read ?list<PartnerEnvironmentGrant> $environment_grants
  * @property-read ?string $installed_by_user_id
  * @property-read string $merchant_id
+ * @property-read ?string $merchant_signup_id
  * @property-read string $partner_app_id
  * @property-read string $partner_app_install_id
  * @property-read string $partner_app_name
@@ -19,7 +20,7 @@ namespace Flint;
  * @property-read list<string> $revoked_api_key_ids
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppInstallWithEndedAccess extends Model {
-    /** @param array{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'deleted_webhook_endpoint_ids': list<string>, 'revoked_api_key_ids': list<string>, ...}|object $values */
+    /** @param array{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'merchant_signup_id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'deleted_webhook_endpoint_ids': list<string>, 'revoked_api_key_ids': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstallWithEndedAccess')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
@@ -41,6 +42,11 @@ final class PartnerAppInstallWithEndedAccess extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke.
+     * @return ?string
+     */
+    public function getMerchantSignupId(): ?string { return $this->get('merchant_signup_id'); }
+    public function hasMerchantSignupId(): bool { return $this->has('merchant_signup_id'); }
     /** partner_app_id
      * @return string
      */

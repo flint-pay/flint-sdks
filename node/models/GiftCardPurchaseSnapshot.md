@@ -13,7 +13,7 @@ The gift card purchase details saved on an order line item: configuration, face 
 | `configuration` | Required | [GiftCardProductConfiguration](../models/GiftCardProductConfiguration.md#giftcardproductconfiguration) or null | The gift card offer's terms as they were when the line was added: price mode, face value, and any custom amount bounds. `configuration`: [declared alternatives](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotconfiguration). |
 | `consideration_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price paid per unit for this gift card purchase. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `consideration_money`: [field definitions](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotconsideration_money). |
 | `face_value_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Gift card value issued per unit for this purchase. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `face_value_money`: [field definitions](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotface_value_money). |
-| `recipient` | Optional | [GiftCardPurchaseRecipient](../models/GiftCardPurchaseRecipient.md#giftcardpurchaserecipient) | Who receives the gift card. `null` when no recipient was set. The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional `send_at` time. `recipient`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1gift_card_purchaserecipient). |
+| `recipient` | Optional | [GiftCardPurchaseRecipient](../models/GiftCardPurchaseRecipient.md#giftcardpurchaserecipient) | Who receives the gift card. `null` when no recipient was set. The recipient of a purchased gift card: `email`, optional `name` and `message`, and an optional `send_at` time. `recipient`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitemgift_card_purchaserecipient). |
 | `reference_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Reference price per unit from the frozen gift card offer. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `reference_price_money`: [field definitions](../models/GiftCardPurchaseSnapshot.md#giftcardpurchasesnapshotreference_price_money). |
 
 ### GiftCardPurchaseSnapshot.configuration
@@ -62,7 +62,7 @@ Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 
 ### GiftCardPurchaseSnapshot.recipient
 
-Field definitions: [CreateOrderLineItem variant 1.gift_card_purchase.recipient](../models/CreateOrderLineItem.md#createorderlineitem-variant-1gift_card_purchaserecipient).
+Field definitions: [CreateOrderLineItem.gift_card_purchase.recipient](../models/CreateOrderLineItem.md#createorderlineitemgift_card_purchaserecipient).
 
 ### GiftCardPurchaseSnapshot.reference_price_money
 

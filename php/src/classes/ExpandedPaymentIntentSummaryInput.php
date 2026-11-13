@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read string $capture_method
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $customer_id
+ * @property-read string $dispute_status
  * @property-read string $order_id
  * @property-read string $payment_intent_id
  * @property-read PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass $payment_source
@@ -15,9 +16,9 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedPaymentIntentSummaryInput extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'order_id'?: string, 'payment_intent_id': string, 'payment_source'?: PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'dispute_status': string, 'order_id'?: string, 'payment_intent_id': string, 'payment_source'?: PaymentSourceSummaryInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'status': string, 'updated_at'?: string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentIntentSummaryInput')); }
-    /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -41,6 +42,12 @@ final class ExpandedPaymentIntentSummaryInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** Dispute state of this payment. none means no dispute or inquiry is open or recorded. The inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none", "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
+     * @return string
+     * @throws SdkError When dispute_status is omitted; use hasDisputeStatus() or valueOrDefault().
+     */
+    public function getDisputeStatus(): string { return $this->get('dispute_status'); }
+    public function hasDisputeStatus(): bool { return $this->has('dispute_status'); }
     /** Order this payment intent belongs to. Create it through the order and confirm it with POST /v1/orders/{order_id}/pay. Capture and cancel use POST /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent. Order-owned intents accept PATCH for metadata and external_reference_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().

@@ -34,7 +34,7 @@ final class ModifierGroupsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update modifier group.
+    /** The request body for: Update modifier group. minProperties: 1.
      * @return array{'allow_quantities'?: bool, 'expected_version'?: int, 'external_reference_id'?: string|null, 'max_quantity'?: int|null, 'max_selected'?: int|null, 'max_total_quantity'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'min_quantity'?: int|null, 'min_selected'?: int|null, 'modifiers'?: list<mixed>, 'name'?: string, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'status'?: string, 'text'?: array{'max_length'?: int|null, 'min_length'?: int|null, 'multiline'?: bool, 'required'?: bool}|object|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -29,7 +29,7 @@ namespace Flint;
 final class RefundsListParams extends Model {
     /** @param array{'idempotency_key'?: string, 'page_size'?: int, 'page_token'?: string, 'order_id'?: string, 'payment_intent_id'?: string, 'customer_id'?: string, 'status'?: list<string>|string, 'reason'?: list<string>|string, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'external_reference_id'?: string, 'credit_note_id'?: string, 'return_id'?: string, 'return_resolution_id'?: string, 'query'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundsListParams')); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -47,19 +47,19 @@ final class RefundsListParams extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Filter by payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+    /** Filter by payment intent ID. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Filter by customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Filter by customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -71,7 +71,7 @@ final class RefundsListParams extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by refund reasons. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock". Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[1][] (Value): string.  Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock". anyOf[2] (Value): string.  Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock".
+    /** Filter by refund reasons. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned". Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned". anyOf[1][] (Value): string.  Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned". anyOf[2] (Value): string.  Value enum: "duplicate", "fraudulent", "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order", "other", "out_of_stock", "payment_returned".
      * @return list<string>|string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
@@ -101,19 +101,19 @@ final class RefundsListParams extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Exact match on the credit note whose credit was refunded. Unknown or other-merchant IDs return an empty page. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
+    /** Exact match on the credit note whose credit was refunded. Unknown or other-merchant IDs return an empty page. pattern: ^cn_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
      */
     public function getCreditNoteId(): string { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
-    /** Filter by linked Return ID. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Filter by linked Return ID. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by linked ReturnResolution ID. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+    /** Filter by linked ReturnResolution ID. pattern: ^retres_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */

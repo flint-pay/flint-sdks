@@ -1,2990 +1,437 @@
-import type { MoneyValueInput, MoneyValue } from './types-37.js';
-import type { MetadataPatchRequest, MetadataPatchRequestInput } from './types-36.js';
-import type {
-    UpdateReturnReplacementLineItemRequest,
-    UpdateReturnResolutionAdjustmentRequest,
-    UpdateReturnReplacementLineItemRequestInput
-} from './types-64.js';
-import type { GetReturnResolutionResponse, GetReturnResponse, GetReturnReceiptResponse } from './types-25.js';
-import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-55.js';
-import type { BrandingSettingsRequest, BrandingSettingsRequestInput } from './types-1.js';
-import type { CheckoutSettings, CheckoutSettingsRequestInput, CheckoutSessionsListDeliverySelectionsParams } from './types-6.js';
-import type { CustomerAccountSettings, CustomerAccountSettingsRequestInput } from './types-14.js';
-import type { CustomerEmailDeliverySettings, CustomerEmailDeliverySettingsRequestInput } from './types-15.js';
-import type { FulfillmentSettings, FulfillmentSettingsRequestInput } from './types-24.js';
-import type {
-    InventorySettingsRequest,
-    InventorySettingsRequestInput,
-    InventoryRoutingSourceRequest,
-    InventoryRoutingSourceRequestInput
-} from './types-29.js';
-import type { InvoiceSettingsPatch, InvoiceSettingsPatchInput } from './types-33.js';
-import type { LegalSettingsRequest, LegalSettingsRequestInput, KnownWebhookEvent } from './types-34.js';
-import type { PaymentLimitSettingsPatch, PaymentLimitSettingsPatchInput } from './types-44.js';
-import type { PaymentSettingsPatch, PaymentSettingsPatchInput } from './types-45.js';
-import type { PromotionSettings, PromotionSettingsRequestInput } from './types-49.js';
-import type { SubscriptionSettings, SubscriptionSettingsRequestInput } from './types-60.js';
-import type {
-    TaxIdentityPatch,
-    TaxIdentityPatchInput,
-    TaxCalculationCallbackConfigurationPatchRequest,
-    TaxCalculationCallbackConfigurationPatchRequestInput
-} from './types-61.js';
-import type { TaxSettingsRequest, TippingSettingsPatch, TaxSettingsRequestInput, TippingSettingsPatchInput } from './types-62.js';
-import type {
-    SubscriptionIntervalOption,
-    SubscriptionIntervalOptionRequestInput,
-    SubscriptionEndAfterCycles,
-    SubscriptionEndAfterCyclesRequestInput,
-    SubscriptionDeliveryRequest,
-    SubscriptionEndAfterRequest,
-    SubscriptionDeliveryRequestInput,
-    SubscriptionEndAfterRequestInput
-} from './types-58.js';
-import type {
-    OrderLineItemModifierRequest,
-    OrderLineItemTax,
-    OrderLineItemModifierRequestModelInput,
-    OrderLineItemTaxRequestInput
-} from './types-39.js';
-import type { ImageRequest, ImageRequestInput } from './types-27.js';
-import type { SubscriptionPlanChangeOption, SubscriptionPlanChangeOptionRequestInput } from './types-59.js';
-import type { SubscriptionBillingScheduleUpdateRequest, SubscriptionBillingScheduleUpdateRequestInput } from './types-57.js';
-import type {
-    WebhookSigningMethod,
-    WebhookSigningMethodInput,
-    WorkloadIdentityClaimConditionRequest,
-    WorkloadIdentityClaimConditionRequestInput
-} from './types-66.js';
-import type { ResponseMeta, ResendWebhookDeliveryRequestInput } from './types-51.js';
-import type { Package } from './types-41.js';
-import type { Shipment } from './types-56.js';
+import type { CustomerTaxID } from './types-16.js';
+import type { TaxDefaultCalculation, TaxDefaultCalculationRequestInput } from './types-64.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { ResponseMeta } from './types-54.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateWebhookDeliveryRequestInput } from './types-13.js';
-import type { DisputesAcceptParams } from './types-22.js';
+import type { AdvanceTestClockRequestInput } from './types-0.js';
+import type { CreateTestClockRequestInput } from './types-14.js';
+import type { ExpandedOrderSummary } from './types-24.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { CheckInTicketRequestInput } from './types-5.js';
+import type { LookupTicketRequestInput } from './types-35.js';
+import type { UpdateTicketRequestInput } from './types-68.js';
+import type { MoneyValue, MoneyValueInput } from './types-38.js';
+import type { CloseGiftCardRequest } from './types-6.js';
 /**
- * A fee or credit to keep or add when updating a return resolution. Include
- * `return_resolution_adjustment_id` to update an existing one.
+ * The buyer accounts for the tax under the reverse charge. Rows that carry it have
+ * `taxability_reason` `reverse_charge` and no tax.
  */
-export type UpdateReturnResolutionAdjustmentRequestInput = {
+export type TaxReverseCharge = {
     /**
-     * What the fee or credit is for. Value enum: "return_shipping_fee", "restocking_fee",
-     * "other_fee", "goodwill_credit", "price_correction", "other".
-     */
-    "adjustment_type": "return_shipping_fee"
-        | "restocking_fee"
-        | "other_fee"
-        | "goodwill_credit"
-        | "price_correction"
-        | "other";
-    /**
-     * Amount that counts toward the resolution. It can't exceed `assessed_amount_money`, and is
-     * zero when the adjustment is waived. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "applied_amount_money": MoneyValueInput;
-    /**
-     * Amount the fee or credit comes to before any waiver. Same currency as
-     * `applied_amount_money`. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "assessed_amount_money": MoneyValueInput;
-    /**
-     * Why the adjustment was made. Value enum: "return_policy", "inspection_result",
-     * "return_shipping_cost", "customer_service", "manual_correction", "other".
-     */
-    "reason": "return_policy"
-        | "inspection_result"
-        | "return_shipping_cost"
-        | "customer_service"
-        | "manual_correction"
-        | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-    /**
-     * ID of the Return line a deduction applies to. Absent when it applies to the resolution as a
-     * whole. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id"?: string;
-    /**
-     * Keep this member ID when updating an existing adjustment. Omit it to create a new
-     * adjustment. minLength: 1. Example: "retadj_01KEZF7C00EX1XSCX7WSCDKSZZ".
-     */
-    "return_resolution_adjustment_id"?: string;
-    /**
-     * Whether the adjustment counts toward the buyer's value. A waived adjustment applies zero.
-     * Value enum: "applied", "waived".
-     */
-    "status"?: "applied" | "waived";
-    /**
-     * Whether the adjustment reduces or increases what the buyer receives. Value enum:
-     * "deduction", "credit".
-     */
-    "value_effect": "deduction" | "credit";
-    /**
-     * Why the adjustment was waived. Value enum: "policy_override", "merchant_review",
-     * "customer_service", "other".
-     */
-    "waiver_reason"?: "policy_override" | "merchant_review" | "customer_service" | "other";
-    /** Detail about `waiver_reason`. minLength: 1. */
-    "waiver_reason_message"?: string;
-};
-/** A return line and quantity to keep or add when updating a return resolution. */
-export type UpdateReturnResolutionLineItemRequest = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity": number;
-    /**
-     * ID of the Return line the resolution covers. minLength: 1. Example:
-     * "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * ID of an existing resolution line to keep. Leave out to add a new line. minLength: 1.
-     * Example: "retresli_01KEZF7C00CR5NCDXRBP9W14CB".
-     */
-    "return_resolution_line_item_id"?: string;
-};
-/** A return line and quantity to keep or add when updating a return resolution. */
-export type UpdateReturnResolutionLineItemRequestInput = UpdateReturnResolutionLineItemRequest;
-/** The request body for: Update return resolution. */
-export type UpdateReturnResolutionRequest = ({
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionAdjustmentRequest}. A
-     * fee or credit to keep or add when updating a return resolution. Include
-     * `return_resolution_adjustment_id` to update an existing one.
-     */
-    "adjustments"?: Array<UpdateReturnResolutionAdjustmentRequest>;
-    /**
-     * Required when any of these fields is present: line_items, replacement_line_items,
-     * adjustments. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming
-     * resolution_type and gift_card_refund_destination. Store credit and its corrections always
-     * issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card" | (string & {});
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionLineItemRequest}. A
-     * return line and quantity to keep or add when updating a return resolution.
-     */
-    "line_items"?: Array<UpdateReturnResolutionLineItemRequest>;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
-     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
-     * key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequest) | (null));
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnReplacementLineItemRequest}. A
-     * replacement item to keep or add when updating a return resolution. Include
-     * `return_replacement_line_item_id` to keep an existing one.
-     */
-    "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequest>;
-});
-/** The request body for: Update return resolution. */
-export type UpdateReturnResolutionRequestInput = ({
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionAdjustmentRequestInput}.
-     * A fee or credit to keep or add when updating a return resolution. Include
-     * `return_resolution_adjustment_id` to update an existing one.
-     */
-    "adjustments"?: Array<UpdateReturnResolutionAdjustmentRequestInput>;
-    /**
-     * Required when any of these fields is present: line_items, replacement_line_items,
-     * adjustments. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Where the gift-card-paid portion is refunded. original credits the original gift card;
-     * new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a
-     * correction of store_credit. Omit for store_credit, replacement, and no_monetary_action;
-     * sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming
-     * resolution_type and gift_card_refund_destination. Store credit and its corrections always
-     * issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen
-     * destination before starting the new attempt. Default: "original". Value enum: "original",
-     * "new_gift_card".
-     */
-    "gift_card_refund_destination"?: "original" | "new_gift_card";
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnResolutionLineItemRequestInput}. A
-     * return line and quantity to keep or add when updating a return resolution.
-     */
-    "line_items"?: Array<UpdateReturnResolutionLineItemRequestInput>;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Requires expected_version. [] (Value): {@link UpdateReturnReplacementLineItemRequestInput}.
-     * A replacement item to keep or add when updating a return resolution. Include
-     * `return_replacement_line_item_id` to keep an existing one.
-     */
-    "replacement_line_items"?: Array<UpdateReturnReplacementLineItemRequestInput>;
-});
-export type UpdateReturnResolutionResponse = GetReturnResolutionResponse;
-export type UpdateReturnResponse = GetReturnResponse;
-/** The request body for: Update a risk list. */
-export type UpdateRiskListRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** Name of a merchant-created risk list. It can't be cleared. minLength: 1. */
-    "name": string;
-};
-/** The request body for: Update a risk list. */
-export type UpdateRiskListRequestInput = UpdateRiskListRequest;
-/** The request body for: Update a risk rule. */
-export type UpdateRiskRuleRequest = ({
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action"?: "allow" | "block" | "review" | "require_3ds" | (string & {});
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description"?: string;
-    /** Optional risk rule version last read by the caller. Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate"?: RiskPredicateNodeRequest;
-    /** Whether the rule runs. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-})
-    & (({
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action": "allow" | "block" | "review" | "require_3ds" | (string & {});
-})
-    | ({
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeRequest;
-})
-    | ({
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description": string;
-})
-    | ({
-    /** Whether the rule runs. Value enum: "active", "inactive". */
-    "status": "active" | "inactive" | (string & {});
-})
-    | (Record<string, unknown>));
-/** The request body for: Update a risk rule. */
-export type UpdateRiskRuleRequestInput = ({
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action"?: "allow" | "block" | "review" | "require_3ds";
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description"?: string;
-    /** Optional risk rule version last read by the caller. Format: int64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate"?: RiskPredicateNodeRequestInput;
-    /** Whether the rule runs. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-})
-    & (({
-    /**
-     * What Flint does with a payment the rule matches. Value enum: "allow", "block", "review",
-     * "require_3ds".
-     */
-    "action": "allow" | "block" | "review" | "require_3ds";
-})
-    | ({
-    /**
-     * The condition a payment must meet for the rule to match. A node in a risk rule condition: a
-     * comparison of an attribute, or an `all`, `any`, or `not` group of other nodes.
-     */
-    "predicate": RiskPredicateNodeRequestInput;
-})
-    | ({
-    /**
-     * Your note on what the rule is for. Limited to 512 characters (Unicode code points). Leading
-     * and trailing whitespace is trimmed. minLength: 1. maxLength: 512.
-     */
-    "description": string;
-})
-    | ({
-    /** Whether the rule runs. Value enum: "active", "inactive". */
-    "status": "active" | "inactive";
-}));
-/**
- * Service fulfillment fields to change when updating a fulfillment: scheduled times, completion
- * time, and notes. Send null to clear a field.
- */
-export type UpdateServiceFulfillmentDetails = {
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "completed_at"?: string | null;
-    /** Send null to clear it. minLength: 1. */
-    "notes"?: string | null;
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_end_at"?: string | null;
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_start_at"?: string | null;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone"?: string;
-};
-/**
- * Service fulfillment fields to change when updating a fulfillment: scheduled times, completion
- * time, and notes. Send null to clear a field.
- */
-export type UpdateServiceFulfillmentDetailsInput = {
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "completed_at"?: string | globalThis.Date | null;
-    /** Send null to clear it. minLength: 1. */
-    "notes"?: string | null;
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_end_at"?: string | globalThis.Date | null;
-    /**
-     * RFC3339 timestamp. Send null to clear it. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "scheduled_start_at"?: string | globalThis.Date | null;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone"?: string;
-};
-/** The request body for: Update merchant settings. */
-export type UpdateSettingsRequest = ({
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * BrandingSettingsRequest}. Branding values to change when updating settings. Send null for a
-     * color or `font_family` to clear it. anyOf[2] (Value): null.
-     */
-    "branding"?: ((BrandingSettingsRequest) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link CheckoutSettings}.
-     * Merchant defaults for checkout: delivery methods, expiration, payment options, required
-     * contact fields, promotion codes, recovery email, and saved payment details. anyOf[2]
-     * (Value): null.
-     */
-    "checkout"?: ((CheckoutSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Flint then serves the default Flint-hosted
-     * account, and GET /v1/settings omits customer_account. anyOf[1] (Value): {@link
-     * CustomerAccountSettings}. Customer account settings: hosted mode, merchant account URL,
-     * presentation, route templates, and what buyers may do to their own subscriptions. anyOf[2]
-     * (Value): null.
-     */
-    "customer_account"?: ((CustomerAccountSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * CustomerEmailDeliverySettings}. For each kind of customer email, whether Flint sends it or
-     * the merchant sends it. anyOf[2] (Value): null.
-     */
-    "customer_email_delivery"?: ((CustomerEmailDeliverySettings) | (null));
-    /**
-     * The Settings.version last read by the caller. Required when tax_identity is present,
-     * including null. Stale versions return VERSION_CONFLICT. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link FulfillmentSettings}.
-     * Merchant fulfillment settings, including whether fulfillments require approval
-     * (`approval_required`). anyOf[2] (Value): null.
-     */
-    "fulfillment"?: ((FulfillmentSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * InventorySettingsRequest}. Inventory settings to change: the `low_stock_threshold`, how
-     * inventory failures are handled for each order source, and the `default_routing_source` for
-     * requests that omit one. anyOf[2] (Value): null.
-     */
-    "inventory"?: ((InventorySettingsRequest) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link InvoiceSettingsPatch}.
-     * Changes to a merchant's invoice settings. Send only the fields to change, and send null on a
-     * nullable field to clear it. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "invoices"?: ((InvoiceSettingsPatch) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link LegalSettingsRequest}.
-     * Changes to a merchant's legal settings. Send null on a URL to clear it. anyOf[2] (Value):
-     * null.
-     */
-    "legal"?: ((LegalSettingsRequest) | (null));
-    /**
-     * Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an
-     * object to merge by key, set a key to null to remove it, or set metadata to null to clear all
-     * caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned
-     * metadata map. Omit the field to leave metadata unchanged. Each key sets a value, a null
-     * value deletes the key, and an empty object makes no change; send null for the whole field to
-     * clear all caller-owned metadata. The resulting map is limited the same way as MetadataInput:
-     * Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096
-     * Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
-     * that does not exist is allowed, so the number of operations is not itself the stored-map
-     * limit. Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+     * The customer's tax ID the reverse charge relied on. Frozen once the order is paid;
+     * recalculating tax before payment reads the customer's current tax IDs again. `null` when
+     * external tax sent a reverse charge and the customer has no tax ID for that country. anyOf[1]
+     * (Value): {@link CustomerTaxID}. A copy of one of the customer's `tax_identity.tax_ids`.
+     * Frozen once the order is paid; recalculating tax before payment reads the customer again.
      * anyOf[2] (Value): null.
      */
-    "metadata"?: ((MetadataPatchRequest) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Clearing merchant limits preserves Flint support
-     * approvals. Cleared maps are omitted from reads. anyOf[1] (Value): {@link
-     * PaymentLimitSettingsPatch}. Changes to a merchant's payment amount limits. Each map replaces
-     * the existing one, and null clears it. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "payment_limits"?: ((PaymentLimitSettingsPatch) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Changes the
-     * statement text for new payments. Changes to the statement text for new payments.
-     */
-    "payments"?: PaymentSettingsPatch;
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link PromotionSettings}.
-     * Merchant promotion settings: whether automatic promotions and codes are enabled, and how
-     * many promotions can apply to one order. anyOf[2] (Value): null.
-     */
-    "promotions"?: ((PromotionSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link SubscriptionSettings}.
-     * Subscription settings: the default billing schedule owner, dunning retry days and end
-     * action, and the backorder email. anyOf[2] (Value): null.
-     */
-    "subscriptions"?: ((SubscriptionSettings) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link TaxSettingsRequest}.
-     * Tax settings to change when updating settings. Send null for a category to clear it.
-     * anyOf[2] (Value): null.
-     */
-    "tax"?: ((TaxSettingsRequest) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Legal identity displayed on invoices and credit
-     * notes. Requires expected_version whenever present. anyOf[1] (Value): {@link
-     * TaxIdentityPatch}. Merchant-provided legal identity displayed on invoices and credit notes.
-     * Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display
-     * order; replacing the array requires the parent's expected_version. Existing entries retain
-     * their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2]
-     * (Value): null.
-     */
-    "tax_identity"?: ((TaxIdentityPatch) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link TippingSettingsPatch}.
-     * Tipping settings to change when updating settings. Omit a field to keep it; send null to
-     * clear a preselected tip. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "tipping"?: ((TippingSettingsPatch) | (null));
-});
-/** The request body for: Update merchant settings. */
-export type UpdateSettingsRequestInput = ({
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * BrandingSettingsRequestInput}. Branding values to change when updating settings. Send null
-     * for a color or `font_family` to clear it. anyOf[2] (Value): null.
-     */
-    "branding"?: ((BrandingSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * CheckoutSettingsRequestInput}. Merchant defaults for checkout: delivery methods, expiration,
-     * payment options, required contact fields, promotion codes, recovery email, and saved payment
-     * details. anyOf[2] (Value): null.
-     */
-    "checkout"?: ((CheckoutSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Flint then serves the default Flint-hosted
-     * account, and GET /v1/settings omits customer_account. anyOf[1] (Value): {@link
-     * CustomerAccountSettingsRequestInput}. Customer account settings: hosted mode, merchant
-     * account URL, presentation, route templates, and what buyers may do to their own
-     * subscriptions. anyOf[2] (Value): null.
-     */
-    "customer_account"?: ((CustomerAccountSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * CustomerEmailDeliverySettingsRequestInput}. For each kind of customer email, whether Flint
-     * sends it or the merchant sends it. anyOf[2] (Value): null.
-     */
-    "customer_email_delivery"?: ((CustomerEmailDeliverySettingsRequestInput) | (null));
-    /**
-     * The Settings.version last read by the caller. Required when tax_identity is present,
-     * including null. Stale versions return VERSION_CONFLICT. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * FulfillmentSettingsRequestInput}. Merchant fulfillment settings, including whether
-     * fulfillments require approval (`approval_required`). anyOf[2] (Value): null.
-     */
-    "fulfillment"?: ((FulfillmentSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * InventorySettingsRequestInput}. Inventory settings to change: the `low_stock_threshold`, how
-     * inventory failures are handled for each order source, and the `default_routing_source` for
-     * requests that omit one. anyOf[2] (Value): null.
-     */
-    "inventory"?: ((InventorySettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * InvoiceSettingsPatchInput}. Changes to a merchant's invoice settings. Send only the fields
-     * to change, and send null on a nullable field to clear it. minProperties: 1. anyOf[2]
-     * (Value): null.
-     */
-    "invoices"?: ((InvoiceSettingsPatchInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * LegalSettingsRequestInput}. Changes to a merchant's legal settings. Send null on a URL to
-     * clear it. anyOf[2] (Value): null.
-     */
-    "legal"?: ((LegalSettingsRequestInput) | (null));
-    /**
-     * Merged by key. Caller-owned metadata. Omit this field to leave metadata unchanged. Send an
-     * object to merge by key, set a key to null to remove it, or set metadata to null to clear all
-     * caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys
-     * starting with flint_ are reserved for Flint, are not returned, and cannot be written through
-     * the public API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a
-     * caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
-     * value, a null value deletes the key, and an empty object makes no change; send null for the
-     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
-     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
-     * a key that does not exist is allowed, so the number of operations is not itself the
-     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. anyOf[2] (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Clearing merchant limits preserves Flint support
-     * approvals. Cleared maps are omitted from reads. anyOf[1] (Value): {@link
-     * PaymentLimitSettingsPatchInput}. Changes to a merchant's payment amount limits. Each map
-     * replaces the existing one, and null clears it. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "payment_limits"?: ((PaymentLimitSettingsPatchInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Changes the
-     * statement text for new payments. Changes to the statement text for new payments.
-     */
-    "payments"?: PaymentSettingsPatchInput;
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * PromotionSettingsRequestInput}. Merchant promotion settings: whether automatic promotions
-     * and codes are enabled, and how many promotions can apply to one order. anyOf[2] (Value):
-     * null.
-     */
-    "promotions"?: ((PromotionSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * SubscriptionSettingsRequestInput}. Subscription settings: the default billing schedule
-     * owner, dunning retry days and end action, and the backorder email. anyOf[2] (Value): null.
-     */
-    "subscriptions"?: ((SubscriptionSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * TaxSettingsRequestInput}. Tax settings to change when updating settings. Send null for a
-     * category to clear it. anyOf[2] (Value): null.
-     */
-    "tax"?: ((TaxSettingsRequestInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. Legal identity displayed on invoices and credit
-     * notes. Requires expected_version whenever present. anyOf[1] (Value): {@link
-     * TaxIdentityPatchInput}. Merchant-provided legal identity displayed on invoices and credit
-     * notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in
-     * display order; replacing the array requires the parent's expected_version. Existing entries
-     * retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
-     * anyOf[2] (Value): null.
-     */
-    "tax_identity"?: ((TaxIdentityPatchInput) | (null));
-    /**
-     * Patch object: fields you send are applied, fields you omit are unchanged. Send null to
-     * remove every value you set in this section. anyOf[1] (Value): {@link
-     * TippingSettingsPatchInput}. Tipping settings to change when updating settings. Omit a field
-     * to keep it; send null to clear a preselected tip. minProperties: 1. anyOf[2] (Value): null.
-     */
-    "tipping"?: ((TippingSettingsPatchInput) | (null));
-});
-/** The request body for: Update shipment. */
-export type UpdateShipmentRequest = {
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
-     */
-    "external_system"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
-     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
-     * key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequest) | (null));
+    "customer_tax_id": ((CustomerTaxID) | (null));
 };
-/** The request body for: Update shipment. */
-export type UpdateShipmentRequestInput = {
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. Send null to clear it. minLength: 1.
-     */
-    "external_system"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-};
-/** The request body for: Update subscription line item. */
-export type UpdateSubscriptionLineItemRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
-     */
-    "quantity"?: number;
-    /**
-     * minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_id"?: string;
-};
-/** The request body for: Update subscription line item. */
-export type UpdateSubscriptionLineItemRequestInput = UpdateSubscriptionLineItemRequest;
-/** The request body for: Update subscription offer. minProperties: 1. */
-export type UpdateSubscriptionOfferRequest = {
-    /**
-     * Offered billing interval and count pairs. Every option bills the same catalog line prices
-     * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
-     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing cadence offered
-     * by a subscription plan or offer. Every option bills the same line prices once per period;
-     * prices are not scaled by the interval. For a different price per interval, create separate
-     * plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * The version read before editing. A mismatch returns VERSION_CONFLICT. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Omission leaves this field
-     * unchanged. Null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
-     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
-     * key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequest) | (null));
-    /** minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Products whose active variants the offer covers, including variants added later. At most
-     * 100. Send at least one product or variant. Each product must be active and physical,
-     * digital, or a service. A variant can be in only one active offer; an overlap returns `409
-     * ALREADY_EXISTS` naming the other offer. maxItems: 100. uniqueItems: true. [] (Value):
-     * string. minLength: 1. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_ids"?: Array<string>;
-    /**
-     * An active promotion with forever recurrence. On PATCH, null removes the discount for new
-     * signups; omission keeps it. minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string | null;
-    /** Use active or inactive. Archive the offer with DELETE. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Delivery methods offered at signup. An empty array uses the store's checkout defaults.
-     * Existing subscriptions keep their selected method. maxItems: 25. uniqueItems: true. []
-     * (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Individual variants the offer covers. At most 100. Send at least one product or variant. A
-     * variant can be in only one active offer; an overlap returns `409 ALREADY_EXISTS` naming the
-     * other offer. maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_ids"?: Array<string>;
-};
-/** The request body for: Update subscription offer. minProperties: 1. */
-export type UpdateSubscriptionOfferRequestInput = {
-    /**
-     * Offered billing interval and count pairs. Every option bills the same catalog line prices
-     * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
-     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOptionRequestInput}. A billing
-     * cadence offered by a subscription plan or offer. Every option bills the same line prices
-     * once per period; prices are not scaled by the interval. For a different price per interval,
-     * create separate plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOptionRequestInput>;
-    /**
-     * The version read before editing. A mismatch returns VERSION_CONFLICT. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Omission leaves this field
-     * unchanged. Null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
-     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
-     * the key, and an empty object makes no change; send null for the whole field to clear all
-     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
-     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
-     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
-     * (Value): null.
-     */
-    "metadata"?: ((MetadataPatchRequestInput) | (null));
-    /** minLength: 1. maxLength: 255. */
-    "name"?: string;
-    /**
-     * Products whose active variants the offer covers, including variants added later. At most
-     * 100. Send at least one product or variant. Each product must be active and physical,
-     * digital, or a service. A variant can be in only one active offer; an overlap returns `409
-     * ALREADY_EXISTS` naming the other offer. maxItems: 100. uniqueItems: true. [] (Value):
-     * string. minLength: 1. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_ids"?: Array<string>;
-    /**
-     * An active promotion with forever recurrence. On PATCH, null removes the discount for new
-     * signups; omission keeps it. minLength: 1. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     */
-    "promotion_id"?: string | null;
-    /** Use active or inactive. Archive the offer with DELETE. Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /**
-     * Delivery methods offered at signup. An empty array uses the store's checkout defaults.
-     * Existing subscriptions keep their selected method. maxItems: 25. uniqueItems: true. []
-     * (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Individual variants the offer covers. At most 100. Send at least one product or variant. A
-     * variant can be in only one active offer; an overlap returns `409 ALREADY_EXISTS` naming the
-     * other offer. maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "variant_ids"?: Array<string>;
-};
-/** The `bundle` variant of `UpdateSubscriptionPlanLineItemInput`. */
-export type UpdateSubscriptionPlanLineItemInputBundle = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id": string;
-    /** minLength: 1. */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     *  [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
-     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
-     * {@link MetadataMap}. Caller-owned metadata for this selection, returned on the order line
-     * item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for
-     * Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional):
-     * string. ID of the existing modifier. Treated as an opaque resource reference; accepted
-     * spellings follow resource ID validation. Its resolved price and the resulting line subtotal
-     * must satisfy the order money ceiling. The amount and every computed order amount must not
-     * exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above
-     * this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field.
-     * Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequest}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link OrderLineItemModifierInputText}.
-     * The `text` variant of `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-})
-    & (({
-    /** Value enum: "bundle". */
-    "type": "bundle" | (string & {});
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id": string;
-}));
-/** The `bundle` variant of `UpdateSubscriptionPlanLineItemInput`. */
-export type UpdateSubscriptionPlanLineItemInputBundleInput = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id": string;
-    /** minLength: 1. */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     *  [] (Value): {@link OrderLineItemModifierRequestModelInput}. A modifier selection you supply
-     * on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata
-     * (Optional): {@link MetadataRequestInput}. Caller-owned metadata for this selection, returned
-     * on the order line item's modifier. Values can't be empty strings. Keys starting with flint_
-     * are reserved for Flint, are not returned, and cannot be written through the public API.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id
-     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
-     * accepted spellings follow resource ID validation. Its resolved price and the resulting line
-     * subtotal must satisfy the order money ceiling. The amount and every computed order amount
-     * must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
-     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
-     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
-     * `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxRequestInput;
-    /** Value enum: "bundle". */
-    "type": "bundle";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-})
-    & (({
-    /** Value enum: "bundle". */
-    "type": ("bundle") & ("bundle");
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id": string;
-})
-    & (({
-    "variant_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})));
-/** The `custom` variant of `UpdateSubscriptionPlanLineItemInput`. */
-export type UpdateSubscriptionPlanLineItemInputCustom = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /** minLength: 1. */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     *  [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
-     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
-     * {@link MetadataMap}. Caller-owned metadata for this selection, returned on the order line
-     * item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for
-     * Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional):
-     * string. ID of the existing modifier. Treated as an opaque resource reference; accepted
-     * spellings follow resource ID validation. Its resolved price and the resulting line subtotal
-     * must satisfy the order money ceiling. The amount and every computed order amount must not
-     * exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above
-     * this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field.
-     * Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequest}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link OrderLineItemModifierInputText}.
-     * The `text` variant of `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** minLength: 1. */
-    "name": string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "custom". */
-    "type": "custom" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-})
-    & (({
-    /** Value enum: "custom". */
-    "type": "custom" | (string & {});
-    /** minLength: 1. */
-    "name": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValue;
-}));
-/** The `custom` variant of `UpdateSubscriptionPlanLineItemInput`. */
-export type UpdateSubscriptionPlanLineItemInputCustomInput = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /** minLength: 1. */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     *  [] (Value): {@link OrderLineItemModifierRequestModelInput}. A modifier selection you supply
-     * on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata
-     * (Optional): {@link MetadataRequestInput}. Caller-owned metadata for this selection, returned
-     * on the order line item's modifier. Values can't be empty strings. Keys starting with flint_
-     * are reserved for Flint, are not returned, and cannot be written through the public API.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id
-     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
-     * accepted spellings follow resource ID validation. Its resolved price and the resulting line
-     * subtotal must satisfy the order money ceiling. The amount and every computed order amount
-     * must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
-     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
-     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
-     * `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** minLength: 1. */
-    "name": string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxRequestInput;
-    /** Value enum: "custom". */
-    "type": "custom";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValueInput;
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-})
-    & (({
-    /** Value enum: "custom". */
-    "type": ("custom") & ("custom");
-    /** minLength: 1. */
-    "name": string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money": MoneyValueInput;
-})
-    & (({
-    "variant_id"?: never;
-}) & ({
-    "bundle_id"?: never;
-})));
-/** The `variant` variant of `UpdateSubscriptionPlanLineItemInput`. */
-export type UpdateSubscriptionPlanLineItemInputVariant = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /** minLength: 1. */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     *  [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
-     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
-     * {@link MetadataMap}. Caller-owned metadata for this selection, returned on the order line
-     * item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for
-     * Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional):
-     * string. ID of the existing modifier. Treated as an opaque resource reference; accepted
-     * spellings follow resource ID validation. Its resolved price and the resulting line subtotal
-     * must satisfy the order money ceiling. The amount and every computed order amount must not
-     * exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above
-     * this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field.
-     * Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequest}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link OrderLineItemModifierInputText}.
-     * The `text` variant of `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "variant". */
-    "type": "variant" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id": string;
-})
-    & (({
-    /** Value enum: "variant". */
-    "type": "variant" | (string & {});
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id": string;
-}));
-/** The `variant` variant of `UpdateSubscriptionPlanLineItemInput`. */
-export type UpdateSubscriptionPlanLineItemInputVariantInput = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /** minLength: 1. */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     *  [] (Value): {@link OrderLineItemModifierRequestModelInput}. A modifier selection you supply
-     * on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata
-     * (Optional): {@link MetadataRequestInput}. Caller-owned metadata for this selection, returned
-     * on the order line item's modifier. Values can't be empty strings. Keys starting with flint_
-     * are reserved for Flint, are not returned, and cannot be written through the public API.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id
-     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
-     * accepted spellings follow resource ID validation. Its resolved price and the resulting line
-     * subtotal must satisfy the order money ceiling. The amount and every computed order amount
-     * must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
-     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
-     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
-     * `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxRequestInput;
-    /** Value enum: "variant". */
-    "type": "variant";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id": string;
-})
-    & (({
-    /** Value enum: "variant". */
-    "type": ("variant") & ("variant");
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id": string;
-})
-    & (({
-    "bundle_id"?: never;
-})
-    & ({
-    "name"?: never;
-})
-    & ({
-    "unit_price_money"?: never;
-})
-    & ({
-    "description"?: never;
-})
-    & ({
-    "tax"?: never;
-})));
 /**
- * A line item to keep or add when updating a subscription plan. Include
- * `subscription_plan_line_item_id` to keep an existing one.
+ * Tax settings: whether tax is calculated by default and the default tax categories for line items
+ * and delivery charges.
  */
-export type UpdateSubscriptionPlanLineItemRequest = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /** minLength: 1. */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     *  [] (Value): {@link OrderLineItemModifierRequest}. A modifier selection you supply on a line
-     * item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional):
-     * {@link MetadataMap}. Caller-owned metadata for this selection, returned on the order line
-     * item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for
-     * Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional):
-     * string. ID of the existing modifier. Treated as an opaque resource reference; accepted
-     * spellings follow resource ID validation. Its resolved price and the resulting line subtotal
-     * must satisfy the order money ceiling. The amount and every computed order amount must not
-     * exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above
-     * this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field.
-     * Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequest}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalog}. The `catalog` variant of
-     * `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link OrderLineItemModifierInputText}.
-     * The `text` variant of `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "variant", "bundle", "custom". */
-    "type": "variant" | "bundle" | "custom" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-})
-    & ((Exclude<UpdateSubscriptionPlanLineItemInputVariant & object, readonly unknown[]>)
-    | (Exclude<UpdateSubscriptionPlanLineItemInputBundle & object, readonly unknown[]>)
-    | (Exclude<UpdateSubscriptionPlanLineItemInputCustom & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A line item to keep or add when updating a subscription plan. Include
- * `subscription_plan_line_item_id` to keep an existing one.
- */
-export type UpdateSubscriptionPlanLineItemRequestInput = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /** minLength: 1. */
-    "description"?: string;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    /**
-     *  [] (Value): {@link OrderLineItemModifierRequestModelInput}. A modifier selection you supply
-     * on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata
-     * (Optional): {@link MetadataRequestInput}. Caller-owned metadata for this selection, returned
-     * on the order line item's modifier. Values can't be empty strings. Keys starting with flint_
-     * are reserved for Flint, are not returned, and cannot be written through the public API.
-     * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
-     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
-     * points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id
-     * (Optional): string. ID of the existing modifier. Treated as an opaque resource reference;
-     * accepted spellings follow resource ID validation. Its resolved price and the resulting line
-     * subtotal must satisfy the order money ceiling. The amount and every computed order amount
-     * must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or
-     * calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string.
-     * Existing selection ID to retain during replacement. minLength: 1. pattern:
-     * ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity
-     * (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format:
-     * int64. [].text (Optional): {@link TextModifierRequestInput}. The text to use. Send it with a
-     * `text` modifier. Text a buyer entered for a text modifier group on an order line item.
-     * [].type (Required): string. Selects the type branch. Value enum: "catalog", "text".
-     * [].oneOf[1] (Value): {@link OrderLineItemModifierInputCatalogRequestInput}. The `catalog`
-     * variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@link
-     * OrderLineItemModifierInputTextRequestInput}. The `text` variant of
-     * `OrderLineItemModifierInput`.
-     */
-    "modifiers"?: Array<(Exclude<OrderLineItemModifierRequestModelInput & object, readonly unknown[]>)
-        & (({
-        "order_line_item_modifier_id"?: never;
-    }))>;
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Omission uses 1. Format:
-     * int32. minimum: 1. maximum: 9999. Default: 1.
-     */
-    "quantity"?: number;
-    /**
-     * ID of an existing item on this plan to retain. Omit for a new item. Duplicate IDs and IDs
-     * from other plans are rejected. minLength: 1. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id"?: string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
-     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids"?: Array<string>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTaxRequestInput;
-    /** Value enum: "variant", "bundle", "custom". */
-    "type": "variant" | "bundle" | "custom";
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValueInput;
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-})
-    & ((Exclude<UpdateSubscriptionPlanLineItemInputVariantInput & object, readonly unknown[]>)
-    | (Exclude<UpdateSubscriptionPlanLineItemInputBundleInput & object, readonly unknown[]>)
-    | (Exclude<UpdateSubscriptionPlanLineItemInputCustomInput & object, readonly unknown[]>));
-/** The request body for: Update subscription plan. */
-export type UpdateSubscriptionPlanRequest = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Format: int32. */
-    "billing_interval_count"?: number;
-    /**
-     * Omission leaves the choices unchanged. Send [] to reset to the plan's default billing
-     * interval and count. Null is invalid. Every option bills the same line prices once per
-     * period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems:
-     * true. [] (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-     * subscription plan or offer. Every option bills the same line prices once per period; prices
-     * are not scaled by the interval. For a different price per interval, create separate plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
-     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
-     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /** Omission leaves this field unchanged. Null clears it. minLength: 1. */
-    "description"?: string | null;
-    /**
-     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
-     * at checkout and records it on each new subscription, but never charges it. To collect it,
-     * charge the buyer yourself, for example with an order on their saved payment method. Requires
-     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200.
-     * Send null for no automatic end. Existing subscriptions keep their recorded condition. Null
-     * when no default automatic end is set. anyOf[1] (Value): {@link SubscriptionEndAfterCycles}.
-     * A subscription automatic end measured by the total number of charged billing cycles.
-     * anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterCycles) | (null));
-    /**
-     * Resource version last read by the caller. Required when replacing an owned collection.
-     * Required when any of these fields is present: images, line_items, plan_change_options.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Omission leaves this field
-     * unchanged. Null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
-     * by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Replaces the plan's routing source. Subscriptions and payment links that already exist keep
-     * the source they copied. It can't be cleared. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequest;
-    /**
-     * Replaces all owned plan line items atomically. Requires expected_version. Omission leaves
-     * items unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id
-     * to retain an item; omit it for a new server-generated ID. Omitted members are removed.
-     * Existing subscriptions keep their snapshots. Retained catalog items with the same source
-     * keep their catalog snapshot; omitted modifiers keep their recorded choices. minItems: 1. []
-     * (Value): {@link UpdateSubscriptionPlanLineItemRequest}. A line item to keep or add when
-     * updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing
-     * one.
-     */
-    "line_items"?: Array<UpdateSubscriptionPlanLineItemRequest>;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
-     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
-     * value, a null value deletes the key, and an empty object makes no change; send null for the
-     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
-     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
-     * a key that does not exist is allowed, so the number of operations is not itself the
-     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
-     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
-     * object makes no change; send null for the whole field to clear all caller-owned metadata.
-     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
-     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
-     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
-     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
-     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Plans subscribers may switch to, in display order, with the billing timing for each target.
-     * Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces
-     * them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. []
-     * (Value): {@link SubscriptionPlanChangeOption}. A target plan subscribers may switch to and
-     * the billing timing for that change.
-     */
-    "plan_change_options"?: Array<SubscriptionPlanChangeOption>;
-    /**
-     * Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems:
-     * 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "setup_fee_money"?: MoneyValue;
-    /**
-     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
-     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
-     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Omission leaves the delivery methods unchanged. Send [] to remove all delivery methods. Null
-     * is invalid. [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Days of free trial before the first charge, from 0 to 365; 0 means no trial. Send 0 to
-     * remove the trial. Not allowed on plans with lines that ship. Format: int32. minimum: 0.
-     * maximum: 365.
-     */
-    "trial_period_days"?: number;
-});
-/** The request body for: Update subscription plan. */
-export type UpdateSubscriptionPlanRequestInput = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** Format: int32. */
-    "billing_interval_count"?: number;
-    /**
-     * Omission leaves the choices unchanged. Send [] to reset to the plan's default billing
-     * interval and count. Null is invalid. Every option bills the same line prices once per
-     * period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems:
-     * true. [] (Value): {@link SubscriptionIntervalOptionRequestInput}. A billing cadence offered
-     * by a subscription plan or offer. Every option bills the same line prices once per period;
-     * prices are not scaled by the interval. For a different price per interval, create separate
-     * plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOptionRequestInput>;
-    /**
-     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
-     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
-     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /** Omission leaves this field unchanged. Null clears it. minLength: 1. */
-    "description"?: string | null;
-    /**
-     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
-     * at checkout and records it on each new subscription, but never charges it. To collect it,
-     * charge the buyer yourself, for example with an order on their saved payment method. Requires
-     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "early_termination_fee_money"?: MoneyValueInput;
-    /**
-     * Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200.
-     * Send null for no automatic end. Existing subscriptions keep their recorded condition. Null
-     * when no default automatic end is set. anyOf[1] (Value): {@link
-     * SubscriptionEndAfterCyclesRequestInput}. A subscription automatic end measured by the total
-     * number of charged billing cycles. anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterCyclesRequestInput) | (null));
-    /**
-     * Resource version last read by the caller. Required when replacing an owned collection.
-     * Required when any of these fields is present: images, line_items, plan_change_options.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Omission leaves this field
-     * unchanged. Null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
-     * supply by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Replaces the plan's routing source. Subscriptions and payment links that already exist keep
-     * the source they copied. It can't be cleared. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
-    /**
-     * Replaces all owned plan line items atomically. Requires expected_version. Omission leaves
-     * items unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id
-     * to retain an item; omit it for a new server-generated ID. Omitted members are removed.
-     * Existing subscriptions keep their snapshots. Retained catalog items with the same source
-     * keep their catalog snapshot; omitted modifiers keep their recorded choices. minItems: 1. []
-     * (Value): {@link UpdateSubscriptionPlanLineItemRequestInput}. A line item to keep or add when
-     * updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing
-     * one.
-     */
-    "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
-     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
-     * sets a value, a null value deletes the key, and an empty object makes no change; send null
-     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
-     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
-     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
-     * are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the
-     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
-     * an empty object makes no change; send null for the whole field to clear all caller-owned
-     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
-     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
-     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
-     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
-     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value):
-     * string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Plans subscribers may switch to, in display order, with the billing timing for each target.
-     * Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces
-     * them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. []
-     * (Value): {@link SubscriptionPlanChangeOptionRequestInput}. A target plan subscribers may
-     * switch to and the billing timing for that change.
-     */
-    "plan_change_options"?: Array<SubscriptionPlanChangeOptionRequestInput>;
-    /**
-     * Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems:
-     * 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "setup_fee_money"?: MoneyValueInput;
-    /**
-     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
-     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
-     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Omission leaves the delivery methods unchanged. Send [] to remove all delivery methods. Null
-     * is invalid. [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Days of free trial before the first charge, from 0 to 365; 0 means no trial. Send 0 to
-     * remove the trial. Not allowed on plans with lines that ship. Format: int32. minimum: 0.
-     * maximum: 365.
-     */
-    "trial_period_days"?: number;
-});
-/** The request body for: Update subscription. */
-export type UpdateSubscriptionRequest = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /** A closed owner-specific billing schedule update. */
-    "billing_schedule"?: SubscriptionBillingScheduleUpdateRequest;
-    /** Value enum: false. */
-    "cancel_at_period_end"?: boolean;
-    /**
-     * The delivery preference to set on a subscription: delivery method, type, destination, and
-     * recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequest;
-    /**
-     * Replace the complete automatic end condition, or send null to clear it. Requires
-     * expected_version. Buyers cannot change this field. anyOf[1] (Value): {@link
-     * SubscriptionEndAfterRequest}. An automatic end condition to assign to a subscription,
-     * measured by charged billing cycles or a local calendar date. anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterRequest) | (null) | (unknown));
-    /**
-     * The current subscription version. Required when end_after is present. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
-     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
-     * value, a null value deletes the key, and an empty object makes no change; send null for the
-     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
-     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
-     * a key that does not exist is allowed, so the number of operations is not itself the
-     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
-     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
-     * object makes no change; send null for the whole field to clear all caller-owned metadata.
-     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
-     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
-     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
-     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
-     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
-    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". */
-    "payment_method_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100. */
-    "quantity"?: number;
-    /**
-     * Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it
-     * unchanged. Schedule or replace through change-plan.
-     */
-    "scheduled_plan_change"?: null;
-});
-/** The request body for: Update subscription. */
-export type UpdateSubscriptionRequestInput = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /** A closed owner-specific billing schedule update. */
-    "billing_schedule"?: SubscriptionBillingScheduleUpdateRequestInput;
-    /** Value enum: false. */
-    "cancel_at_period_end"?: false;
-    /**
-     * The delivery preference to set on a subscription: delivery method, type, destination, and
-     * recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequestInput;
-    /**
-     * Replace the complete automatic end condition, or send null to clear it. Requires
-     * expected_version. Buyers cannot change this field. anyOf[1] (Value): {@link
-     * SubscriptionEndAfterRequestInput}. An automatic end condition to assign to a subscription,
-     * measured by charged billing cycles or a local calendar date. anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterRequestInput) | (null));
-    /**
-     * The current subscription version. Required when end_after is present. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
-     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
-     * sets a value, a null value deletes the key, and an empty object makes no change; send null
-     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
-     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
-     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
-     * are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the
-     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
-     * an empty object makes no change; send null for the whole field to clear all caller-owned
-     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
-     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
-     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
-     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
-     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value):
-     * string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". */
-    "payment_method_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100. */
-    "quantity"?: number;
-    /**
-     * Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it
-     * unchanged. Schedule or replace through change-plan.
-     */
-    "scheduled_plan_change"?: null;
-});
-/** The request body for: Update a tax calculation callback. */
-export type UpdateTaxCalculationCallbackRequest = ({
-    /**
-     * Changes to the callback's configuration. Requires expected_version. Changes to a tax
-     * calculation callback's configuration. Only the keys you send change; keys you leave out keep
-     * their current values. Null restores an optional key's default. Requires expected_version.
-     * minProperties: 1.
-     */
-    "configuration"?: TaxCalculationCallbackConfigurationPatchRequest;
-    /**
-     * The `version` you last read. A stale value is refused with a version conflict. Required with
-     * `configuration` and `signing_methods`. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /** New label for the callback. minLength: 1. */
-    "name"?: string;
-    /**
-     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
-     * public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires
-     * expected_version. Removing hmac deletes the current and previous secrets. minItems: 1.
-     * uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethod}. How
-     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethod>;
-    /**
-     * Activates or deactivates the callback. Send it alone, with at most `expected_version`. -
-     * `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`:
-     * Stops the callback from being selected. Refused while your settings select it. Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-})
-    & (({
-    /** New label for the callback. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Changes to the callback's configuration. Requires expected_version. Changes to a tax
-     * calculation callback's configuration. Only the keys you send change; keys you leave out keep
-     * their current values. Null restores an optional key's default. Requires expected_version.
-     * minProperties: 1.
-     */
-    "configuration": TaxCalculationCallbackConfigurationPatchRequest;
-})
-    | ({
-    /**
-     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
-     * public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires
-     * expected_version. Removing hmac deletes the current and previous secrets. minItems: 1.
-     * uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethod}. How
-     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods": Array<WebhookSigningMethod>;
-})
-    | ({
-    /**
-     * Activates or deactivates the callback. Send it alone, with at most `expected_version`. -
-     * `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`:
-     * Stops the callback from being selected. Refused while your settings select it. Value enum:
-     * "active", "inactive".
-     */
-    "status": "active" | "inactive" | (string & {});
-})
-    | (Record<string, unknown>));
-/** The request body for: Update a tax calculation callback. */
-export type UpdateTaxCalculationCallbackRequestInput = ({
-    /**
-     * Changes to the callback's configuration. Requires expected_version. Changes to a tax
-     * calculation callback's configuration. Only the keys you send change; keys you leave out keep
-     * their current values. Null restores an optional key's default. Requires expected_version.
-     * minProperties: 1.
-     */
-    "configuration"?: TaxCalculationCallbackConfigurationPatchRequestInput;
-    /**
-     * The `version` you last read. A stale value is refused with a version conflict. Required with
-     * `configuration` and `signing_methods`. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /** New label for the callback. minLength: 1. */
-    "name"?: string;
-    /**
-     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
-     * public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires
-     * expected_version. Removing hmac deletes the current and previous secrets. minItems: 1.
-     * uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethodInput}.
-     * How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethodInput>;
-    /**
-     * Activates or deactivates the callback. Send it alone, with at most `expected_version`. -
-     * `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`:
-     * Stops the callback from being selected. Refused while your settings select it. Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-})
-    & (({
-    /** New label for the callback. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Changes to the callback's configuration. Requires expected_version. Changes to a tax
-     * calculation callback's configuration. Only the keys you send change; keys you leave out keep
-     * their current values. Null restores an optional key's default. Requires expected_version.
-     * minProperties: 1.
-     */
-    "configuration": TaxCalculationCallbackConfigurationPatchRequestInput;
-})
-    | ({
-    /**
-     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
-     * public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires
-     * expected_version. Removing hmac deletes the current and previous secrets. minItems: 1.
-     * uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethodInput}.
-     * How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods": Array<WebhookSigningMethodInput>;
-})
-    | ({
-    /**
-     * Activates or deactivates the callback. Send it alone, with at most `expected_version`. -
-     * `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`:
-     * Stops the callback from being selected. Refused while your settings select it. Value enum:
-     * "active", "inactive".
-     */
-    "status": "active" | "inactive";
-}));
-/**
- * Update at least one of registration_number, start_date or end_date. Pending and rejected
- * registrations allow all three fields; registration_number and start_date require a connection
- * that is not active. Scheduled and active registrations allow only end_date. A pending or
- * rejected registration whose tax-account copy exists or may have been created cannot change
- * start_date; delete it and create it again. Ended registrations cannot be changed. A version
- * fence by itself is not a change.
- */
-export type UpdateTaxRegistrationRequest = ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1. Example: "2026-08-02".
-     */
-    "end_date"?: string | null;
-    /**
-     * Resource version last read by the caller. Omit to apply the change to the current resource.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date"?: string;
-})
-    & ((unknown)
-    | ({
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date": string;
-})
-    | ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1. Example: "2026-08-02".
-     */
-    "end_date": string | null;
-})
-    | (Record<string, unknown>));
-/**
- * Update at least one of registration_number, start_date or end_date. Pending and rejected
- * registrations allow all three fields; registration_number and start_date require a connection
- * that is not active. Scheduled and active registrations allow only end_date. A pending or
- * rejected registration whose tax-account copy exists or may have been created cannot change
- * start_date; delete it and create it again. Ended registrations cannot be changed. A version
- * fence by itself is not a change.
- */
-export type UpdateTaxRegistrationRequestInput = ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1. Example: "2026-08-02".
-     */
-    "end_date"?: string | null;
-    /**
-     * Resource version last read by the caller. Omit to apply the change to the current resource.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Seller's tax registration number. Write-only; responses return only its last four
-     * characters. minLength: 1. maxLength: 255.
-     */
-    "registration_number"?: string;
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date"?: string;
-})
-    & (({
-    /**
-     * Seller's tax registration number. Write-only; responses return only its last four
-     * characters. minLength: 1. maxLength: 255.
-     */
-    "registration_number": string;
-})
-    | ({
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date": string;
-})
-    | ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1. Example: "2026-08-02".
-     */
-    "end_date": string | null;
-}));
-/** The attendee name to set or clear. */
-export type UpdateTicketRequest = {
-    /**
-     * The attendee name, 1 to 200 characters after surrounding whitespace is trimmed. Send null to
-     * clear it. minLength: 1. maxLength: 200.
-     */
-    "attendee_name": string | null;
-    /**
-     * The ticket version last read. The change applies only while the ticket is at this version; a
-     * stale value returns 409 VERSION_CONFLICT, even when the ticket's status would also refuse
-     * the change. Door scanners usually omit it. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
+export type TaxSettings = {
+    /**
+     * The active tax calculation callback selected for this merchant and environment. Switching
+     * IDs is atomic. Omitted when no callback is selected. minLength: 1. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
+     */
+    "calculation_callback_id"?: string | null;
+    /**
+     * Replaced as a whole: send every field you want to keep. The calculation an order uses when
+     * nothing sets its own: an order created with `POST /v1/orders` without `tax.calculation`, and
+     * the orders of checkout sessions, payment links, and subscriptions that set none. A
+     * `provided` default applies only to orders you create; the orders Flint creates use automatic
+     * tax under it. Omitted when unset, which means automatic. The calculation an order uses when
+     * its request leaves `tax.calculation` unset.
+     */
+    "default_calculation"?: TaxDefaultCalculation;
+    /**
+     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
+     * default is set; the category then follows the method type: shipping for shipments, delivery
+     * for local delivery, and service_fee for pickup. Value enum: "service_fee", "shipping",
+     * "delivery", "handling", "surcharge", null.
+     */
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
+    /**
+     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
+     * true.
+     */
+    "default_delivery_taxable"?: boolean;
+    /**
+     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
+     * individual line item or delivery charge is taxable. Turning it on, or changing the default
+     * calculation while it is on, needs what the default calculation uses: a selected tax
+     * calculation callback for an external `callback` default, and an active tax connection for
+     * any other, because the orders Flint creates use automatic tax under an automatic or
+     * `provided` default.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
+     * "software", "saas", "services", "professional_services", "food", "prepared_food",
+     * "clothing", "medical_goods", "admission".
+     */
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | (string & {});
+    /**
+     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
+     * when it is created, from a checkout session or payment link, or when tax is turned on later.
+     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
+     * price as including its tax. Subscription orders, including renewals, stay additive, and
+     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
+     */
+    "default_price_mode"?: "additive" | "inclusive" | (string & {});
+    /**
+     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
+     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
+     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
+     * and external tax are unchanged. Saved values take effect only when Flint enables this
+     * capability; until then the full charge is used. Open orders use the setting at their next
+     * calculation; committed tax keeps its basis. Value enum: "full_charge",
+     * "taxable_items_share".
+     */
+    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share" | (string & {});
 };
-/** The attendee name to set or clear. */
-export type UpdateTicketRequestInput = UpdateTicketRequest;
-/** The request body for: Update webhook endpoint. */
-export type UpdateWebhookEndpointRequest = ({
+/** Tax settings to change when updating settings. Send null for a category to clear it. */
+export type TaxSettingsRequest = {
     /**
-     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
-     * endpoint. Omit to leave unchanged. Null is not accepted. Switching between a pin and default
-     * clears the rollback offer. minLength: 1.
+     * The active tax calculation callback selected for this merchant and environment. Switching
+     * IDs is atomic. Omit to preserve the selection; send null to clear it. minLength: 1. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
      */
-    "api_version"?: string;
+    "calculation_callback_id"?: string | null;
     /**
-     * Endpoint description. Omit to leave unchanged; null clears it. Send null to clear it.
-     * minLength: 1. maxLength: 500.
+     * Replaced as a whole: send every field you want to keep. The calculation an order uses when
+     * nothing sets its own: an order created with `POST /v1/orders` without `tax.calculation`, and
+     * the orders of checkout sessions, payment links, and subscriptions that set none. A
+     * `provided` default applies only to orders you create; the orders Flint creates use automatic
+     * tax under it. Send null to clear it, which means automatic. While `default_enabled` is on, a
+     * `callback` default needs a selected tax calculation callback, and clearing
+     * `calculation_callback_id` is refused; any other default needs an active tax connection.
+     * anyOf[1] (Value): {@link TaxDefaultCalculation}. The calculation an order uses when its
+     * request leaves `tax.calculation` unset. anyOf[2] (Value): null.
      */
-    "description"?: string | null;
+    "default_calculation"?: ((TaxDefaultCalculation) | (null));
     /**
-     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
-     * including types added later; * must be the only entry and is not available with
-     * installed_merchants. At least one entry is required. Use only current event type names;
-     * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
+     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
+     * default is set; the category then follows the method type: shipping for shipments, delivery
+     * for local delivery, and service_fee for pickup. Send null to clear it. Value enum:
+     * "service_fee", "shipping", "delivery", "handling", "surcharge", null.
      */
-    "enabled_events"?: Array<string>;
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null | (string & {}) | null;
     /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
+     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
+     * true.
      */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
+    "default_delivery_taxable"?: boolean;
     /**
-     * Apply api_version only if this matches the resource's current api_version. A mismatch
-     * returns HTTP 409. Requires api_version; null is not accepted. minLength: 1.
+     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
+     * individual line item or delivery charge is taxable. Turning it on, or changing the default
+     * calculation while it is on, needs what the default calculation uses: a selected tax
+     * calculation callback for an external `callback` default, and an active tax connection for
+     * any other, because the orders Flint creates use automatic tax under an automatic or
+     * `provided` default.
      */
-    "expected_api_version"?: string;
+    "default_enabled"?: boolean;
     /**
-     * Resource version last read by the caller. Required when enabled_events, event_sources,
-     * installed_merchant_modes, or signing_methods is present, including an empty array. Optional
-     * for scalar updates. Format: uint64. minimum: 1.
+     * Flint line-item tax category. Send null to clear it. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission", null.
      */
-    "expected_version"?: number;
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | null
+        | (string & {})
+        | null;
     /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
+     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
+     * when it is created, from a checkout session or payment link, or when tax is turned on later.
+     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
+     * price as including its tax. Subscription orders, including renewals, stay additive, and
+     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
      */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
+    "default_price_mode"?: "additive" | "inclusive" | (string & {});
     /**
-     * Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
-     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
+     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
+     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
+     * and external tax are unchanged. Saved values take effect only when Flint enables this
+     * capability; until then the full charge is used. Open orders use the setting at their next
+     * calculation; committed tax keeps its basis. Value enum: "full_charge",
+     * "taxable_items_share".
      */
-    "partner_app_id"?: string;
+    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share" | (string & {});
+};
+/** Tax settings to change when updating settings. Send null for a category to clear it. */
+export type TaxSettingsRequestInput = {
     /**
-     * Replaces the signing methods. Removing hmac deletes all shared secrets. Adding hmac when no
-     * secret exists issues the first secret and returns it once in this response. Omit to leave
-     * unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link
-     * WebhookSigningMethod}. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
+     * The active tax calculation callback selected for this merchant and environment. Switching
+     * IDs is atomic. Omit to preserve the selection; send null to clear it. minLength: 1. Example:
+     * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".
      */
-    "signing_methods"?: Array<WebhookSigningMethod>;
+    "calculation_callback_id"?: string | null;
     /**
-     * Whether this endpoint receives events. Setting inactive suppresses pending deliveries. Omit
-     * to leave unchanged. Value enum: "active", "inactive".
+     * Replaced as a whole: send every field you want to keep. The calculation an order uses when
+     * nothing sets its own: an order created with `POST /v1/orders` without `tax.calculation`, and
+     * the orders of checkout sessions, payment links, and subscriptions that set none. A
+     * `provided` default applies only to orders you create; the orders Flint creates use automatic
+     * tax under it. Send null to clear it, which means automatic. While `default_enabled` is on, a
+     * `callback` default needs a selected tax calculation callback, and clearing
+     * `calculation_callback_id` is refused; any other default needs an active tax connection.
+     * anyOf[1] (Value): {@link TaxDefaultCalculationRequestInput}. The calculation an order uses
+     * when its request leaves `tax.calculation` unset. anyOf[2] (Value): null.
      */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: 1. */
-    "url"?: string;
-});
-/** The request body for: Update webhook endpoint. */
-export type UpdateWebhookEndpointRequestInput = ({
+    "default_calculation"?: ((TaxDefaultCalculationRequestInput) | (null));
     /**
-     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
-     * endpoint. Omit to leave unchanged. Null is not accepted. Switching between a pin and default
-     * clears the rollback offer. minLength: 1.
+     * Charge category inherited by delivery methods that omit charge_tax_category. `null` when no
+     * default is set; the category then follows the method type: shipping for shipments, delivery
+     * for local delivery, and service_fee for pickup. Send null to clear it. Value enum:
+     * "service_fee", "shipping", "delivery", "handling", "surcharge", null.
      */
-    "api_version"?: string;
+    "default_delivery_tax_category"?: "service_fee" | "shipping" | "delivery" | "handling" | "surcharge" | null;
     /**
-     * Endpoint description. Omit to leave unchanged; null clears it. Send null to clear it.
-     * minLength: 1. maxLength: 500.
+     * Taxability of delivery charges for delivery methods that don't set `taxable`. Defaults to
+     * true.
      */
-    "description"?: string | null;
+    "default_delivery_taxable"?: boolean;
     /**
-     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
-     * including types added later; * must be the only entry and is not available with
-     * installed_merchants. At least one entry is required. Use only current event type names;
-     * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
+     * Whether new checkouts and orders calculate tax by default. This does not decide whether an
+     * individual line item or delivery charge is taxable. Turning it on, or changing the default
+     * calculation while it is on, needs what the default calculation uses: a selected tax
+     * calculation callback for an external `callback` default, and an active tax connection for
+     * any other, because the orders Flint creates use automatic tax under an automatic or
+     * `provided` default.
      */
-    "enabled_events"?: Array<string>;
+    "default_enabled"?: boolean;
     /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
+     * Flint line-item tax category. Send null to clear it. Value enum: "general",
+     * "physical_goods", "digital_goods", "software", "saas", "services", "professional_services",
+     * "food", "prepared_food", "clothing", "medical_goods", "admission", null.
      */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants">;
+    "default_line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | null;
     /**
-     * Apply api_version only if this matches the resource's current api_version. A mismatch
-     * returns HTTP 409. Requires api_version; null is not accepted. minLength: 1.
+     * Price mode an order takes when it starts calculating tax without its own tax.calculation:
+     * when it is created, from a checkout session or payment link, or when tax is turned on later.
+     * additive (the default) adds tax to prices, and inclusive treats every line item and charge
+     * price as including its tax. Subscription orders, including renewals, stay additive, and
+     * orders that already calculate tax keep their mode. Value enum: "additive", "inclusive".
      */
-    "expected_api_version"?: string;
+    "default_price_mode"?: "additive" | "inclusive";
     /**
-     * Resource version last read by the caller. Required when enabled_events, event_sources,
-     * installed_merchant_modes, or signing_methods is present, including an empty array. Optional
-     * for scalar updates. Format: uint64. minimum: 1.
+     * Automatic tax basis for delivery-method charges. Defaults to full_charge.
+     * taxable_items_share taxes the charge in proportion to discounted gross taxable merchandise
+     * in its fulfillment group, rounded half up. Explicit taxable:false wins. Direct order charges
+     * and external tax are unchanged. Saved values take effect only when Flint enables this
+     * capability; until then the full charge is used. Open orders use the setting at their next
+     * calculation; committed tax keeps its basis. Value enum: "full_charge",
+     * "taxable_items_share".
      */
-    "expected_version"?: number;
+    "delivery_charge_tax_basis"?: "full_charge" | "taxable_items_share";
+};
+/**
+ * A sandbox clock that customers created on it, and their subscriptions, read as the current time.
+ */
+export type TestClock = {
     /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
+     * When the test clock was created, in real time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "installed_merchant_modes"?: Array<"test" | "live">;
-    /**
-     * Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
-     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: string;
-    /**
-     * Replaces the signing methods. Removing hmac deletes all shared secrets. Adding hmac when no
-     * secret exists issues the first secret and returns it once in this response. Omit to leave
-     * unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link
-     * WebhookSigningMethodInput}. How Flint signs requests to this endpoint. Value enum: "jwt",
-     * "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethodInput>;
-    /**
-     * Whether this endpoint receives events. Setting inactive suppresses pending deliveries. Omit
-     * to leave unchanged. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: 1. */
-    "url"?: string;
-});
-/** The request body for: Update a workload identity. */
-export type UpdateWorkloadIdentityRequest = ({
-    /**
-     * Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition;
-     * shared issuers require tenant pinning. maxItems: 10. uniqueItems: true. [] (Value): {@link
-     * WorkloadIdentityClaimConditionRequest}. A condition to match one top-level scalar claim in
-     * the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequest>;
-    /**
-     * Version most recently read. Required when claim_conditions or scopes is supplied; optional
-     * for scalar updates. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** minLength: 1. maxLength: 100. */
-    "name"?: string;
-    /**
-     * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
-     * scopes they hold in the same environment. Only a full-access key or a freshly verified user
-     * session can grant accounts.api_keys.write, accounts.workload_identities.write or
-     * commerce.gift_cards.secrets.write, in every mode. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    /** Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /** minLength: 1. maxLength: 1024. */
-    "subject"?: string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob" | (string & {});
-});
-/** The request body for: Update a workload identity. */
-export type UpdateWorkloadIdentityRequestInput = ({
-    /**
-     * Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition;
-     * shared issuers require tenant pinning. maxItems: 10. uniqueItems: true. [] (Value): {@link
-     * WorkloadIdentityClaimConditionRequestInput}. A condition to match one top-level scalar claim
-     * in the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequestInput>;
-    /**
-     * Version most recently read. Required when claim_conditions or scopes is supplied; optional
-     * for scalar updates. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** minLength: 1. maxLength: 100. */
-    "name"?: string;
-    /**
-     * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
-     * scopes they hold in the same environment. Only a full-access key or a freshly verified user
-     * session can grant accounts.api_keys.write, accounts.workload_identities.write or
-     * commerce.gift_cards.secrets.write, in every mode. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write". [] (Value): string. Value enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-    /** Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /** minLength: 1. maxLength: 1024. */
-    "subject"?: string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob";
-});
-/** A user with access to merchant accounts. */
-export type User = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
-    /** Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "default_merchant_id"?: string;
-    /** Email address the user signs in with. */
-    "email": string;
-    /** The user's first name. */
-    "first_name": string;
-    /** The user's last name. */
-    "last_name": string;
-    /** Value enum: "active", "deactivated". */
-    "status": "active" | "deactivated" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * The time the test clock shows. Customers created on the clock, and their subscriptions,
+     * treat it as the current time. After you advance the clock, `frozen_at` is the time you
+     * advanced it to, while `status` is `advancing` and after. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "frozen_at": string;
+    /**
+     * Your label for the test clock. Omitted when you didn't set one. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Where the test clock is in its lifecycle. Read it before advancing, and after an advance
+     * until it's `ready` or `failed`. Value enum: "ready", "advancing", "failed", "archived".
+     */
+    "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+    /** Unique identifier for the test clock. Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ". */
+    "test_clock_id": string;
+    /**
+     * When the test clock last changed, in real time. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "updated_at": string;
     /**
-     * Unique identifier for this user, prefixed `usr_`. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
      */
-    "user_id": string;
+    "version": number;
 };
-export type VerifiedWebhook = {
-    known: true;
-    event: KnownWebhookEvent;
-}
-    | {
-    known: false;
-    event: unknown;
-    reason: "unknown_event" | "unmatched_envelope";
+export type TestClockAdvancingEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TestClock>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.advancing";
+})
+    & {
+    "event_type": "test_clock.advancing";
+});
+export type TestClockArchivedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TestClock>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.archived";
+})
+    & {
+    "event_type": "test_clock.archived";
+});
+export type TestClockCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.created";
+})
+    & {
+    "event_type": "test_clock.created";
+});
+export type TestClockFailedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TestClock>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.failed";
+})
+    & {
+    "event_type": "test_clock.failed";
+});
+/** A page of `TestClock` objects. */
+export type TestClockListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * TestClock}. A sandbox clock that customers created on it, and their subscriptions, read as
+     * the current time.
+     */
+    "data": Array<TestClock>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
-/** The request body for: Verify return receipt line item. */
-export type VerifyReturnReceiptLineItemRequest = {
+export type TestClockReadyEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "frozen_at": string;
+            "name"?: string;
+            "status": "ready" | "advancing" | "failed" | "archived" | (string & {});
+            "test_clock_id": string;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<TestClock>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "test_clock.ready";
+})
+    & {
+    "event_type": "test_clock.ready";
+});
+/** A response containing `TestClock` data. */
+export type TestClockResponse = {
     /**
-     * Optional version of the return receipt. A stale value returns VERSION_CONFLICT with the
-     * receipt ID and its current version. Format: int64. minimum: 1.
+     * Resource, collection, or operation result returned by this request. A sandbox clock that
+     * customers created on it, and their subscriptions, read as the current time.
      */
-    "expected_version"?: number;
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason": "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
-        | (string & {});
-    /** Detail about `verification_reason`. minLength: 1. */
-    "verification_reason_message"?: string;
-};
-/** The request body for: Verify return receipt line item. */
-export type VerifyReturnReceiptLineItemRequestInput = {
-    /**
-     * Optional version of the return receipt. A stale value returns VERSION_CONFLICT with the
-     * receipt ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason": "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other";
-    /** Detail about `verification_reason`. minLength: 1. */
-    "verification_reason_message"?: string;
-};
-export type VerifyReturnReceiptLineItemResponse = GetReturnReceiptResponse;
-/** The request body for: Void package. */
-export type VoidPackageRequest = {
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** Void event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at"?: string;
-    /** Your note explaining this action. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Void package. */
-export type VoidPackageRequestInput = {
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** Void event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this action. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Void shipment. */
-export type VoidShipmentRequestInput = VoidPackageRequestInput;
-/** A response containing `VoidShipmentResult` data. */
-export type VoidShipmentResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The voided shipment and
-     * its affected packages. The shipment is the primary resource and expected_version target.
-     */
-    "data": VoidShipmentResult;
+    "data": TestClock;
     /**
      * Additional information about this response. Metadata returned with a response: the
      * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
@@ -2996,83 +443,29 @@ export type VoidShipmentResponse = {
      */
     "request_id": string;
 };
-/**
- * The voided shipment and its affected packages. The shipment is the primary resource and
- * expected_version target.
- */
-export type VoidShipmentResult = {
-    /**  [] (Value): {@link Package}. A package within a shipment. */
-    "packages": Array<Package>;
-    /** A shipment carrying fulfilled order items. */
-    "shipment": Shipment;
+export type TestClocksAdvanceParams = (InputValue<AdvanceTestClockRequestInput>);
+export type TestClocksCreateParams = (InputValue<CreateTestClockRequestInput>);
+export type TestClocksDeleteParams = {
+    /**
+     * Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the
+     * current version. Format: int64. minimum: 1. maximum: 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
 };
-/** The request body for: Waive an unpaid invoice late fee. */
-export type WaiveInvoiceLateFeeRequest = {
-    /** Your note explaining this action. minLength: 1. maxLength: 4096. */
-    "reason_message": string;
-};
-/** The request body for: Waive an unpaid invoice late fee. */
-export type WaiveInvoiceLateFeeRequestInput = WaiveInvoiceLateFeeRequest;
-/** The request body for: Waive return line inspection. */
-export type WaiveReturnLineInspectionRequest = {
+export type TestClocksGetParams = {};
+export type TestClocksListParams = {
     /**
-     * Optional. The Return's current version, not the line's; a stale value returns 409
-     * VERSION_CONFLICT. Format: int64. minimum: 1.
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "ready",
+     * "advancing", "failed", "archived". Value enum: "ready", "advancing", "failed", "archived".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "ready", "advancing", "failed",
+     * "archived". anyOf[1][] (Value): string. Value enum: "ready", "advancing", "failed",
+     * "archived". anyOf[2] (Value): string. Value enum: "ready", "advancing", "failed",
+     * "archived".
      */
-    "expected_version"?: number;
-    /**
-     * Why inspection is being waived. Value enum: "policy_override", "trusted_in_store_handoff",
-     * "merchant_review", "other".
-     */
-    "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other" | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Waive return line inspection. */
-export type WaiveReturnLineInspectionRequestInput = {
-    /**
-     * Optional. The Return's current version, not the line's; a stale value returns 409
-     * VERSION_CONFLICT. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Why inspection is being waived. Value enum: "policy_override", "trusted_in_store_handoff",
-     * "merchant_review", "other".
-     */
-    "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-export type WaiveReturnLineInspectionResponse = GetReturnResponse;
-export type WebhookDeliveriesCreateParams = (InputValue<CreateWebhookDeliveryRequestInput>);
-export type WebhookDeliveriesGetParams = DisputesAcceptParams;
-export type WebhookDeliveriesListAttemptsParams = CheckoutSessionsListDeliverySelectionsParams;
-export type WebhookDeliveriesListParams = {
-    /**
-     * Filter by an exact webhook event ID. Returns an empty page when no visible deliveries match.
-     * Example: "whev_01KEZF7C00362MS3HV970TRZGS".
-     */
-    "webhook_event_id"?: InputValue<string>;
-    /**
-     * Filter by an exact webhook endpoint ID, including deleted endpoints. Returns an empty page
-     * when no visible deliveries match. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
-     */
-    "webhook_endpoint_id"?: InputValue<string>;
-    /**
-     * Filter by delivery status. Values are trimmed and deduplicated in first-seen order; empty or
-     * unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "pending", "delivered", "failed", "suppressed". Value enum: "pending",
-     * "delivered", "failed", "suppressed". anyOf[1] (Value): Array of string. minItems: 1. []
-     * enum: "pending", "delivered", "failed", "suppressed". anyOf[1][] (Value): string. Value
-     * enum: "pending", "delivered", "failed", "suppressed". anyOf[2] (Value): string. Value enum:
-     * "pending", "delivered", "failed", "suppressed".
-     */
-    "status"?: InputValue<("pending" | "delivered" | "failed" | "suppressed")
-        | readonly ("pending" | "delivered" | "failed" | "suppressed")[]>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
+    "status"?: InputValue<("ready" | "advancing" | "failed" | "archived")
+        | readonly ("ready" | "advancing" | "failed" | "archived")[]>;
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -3085,6 +478,2007 @@ export type WebhookDeliveriesListParams = {
      * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
+};
+/**
+ * Settings for a text modifier group: whether input is required or multiline, and its length
+ * limits.
+ */
+export type TextModifierConfig = {
+    /**
+     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Format: int32.
+     */
+    "max_length"?: number;
+    /**
+     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Format: int32.
+     */
+    "min_length"?: number;
+    /** Whether the buyer's text can include line breaks. */
+    "multiline": boolean;
+    /**
+     * Whether buyers must enter text for this group. A modifier set's required override takes
+     * precedence.
+     */
+    "required": boolean;
+};
+/**
+ * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
+ * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
+ * 1.
+ */
+export type TextModifierConfigPatchRequest = {
+    /**
+     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Omit it to keep the current limit; send null to clear it. Format: int32. minimum: 1.
+     * maximum: 500.
+     */
+    "max_length"?: number | null;
+    /**
+     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Omit it to keep the current minimum; send null to clear it. Format: int32. minimum: 0.
+     */
+    "min_length"?: number | null;
+    /** Whether the buyer's text can include line breaks. */
+    "multiline"?: boolean;
+    /**
+     * Whether buyers must enter text for this group. A modifier set's required override takes
+     * precedence.
+     */
+    "required"?: boolean;
+};
+/**
+ * Send only text fields to change. Omitted fields keep their stored values. null clears min_length
+ * or max_length. An empty object is invalid. The merged configuration is validated. minProperties:
+ * 1.
+ */
+export type TextModifierConfigPatchRequestInput = TextModifierConfigPatchRequest;
+/**
+ * Settings for a text modifier group when creating or updating one: required, multiline, and
+ * length limits.
+ */
+export type TextModifierConfigRequest = {
+    /**
+     * Maximum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace,
+     * from 1 to 500. Format: int32. minimum: 1. maximum: 500.
+     */
+    "max_length"?: number;
+    /**
+     * Minimum length of the buyer's text in UTF-8 bytes after trimming surrounding whitespace.
+     * Must be 0 or more, and no more than `max_length`. Format: int32. minimum: 0.
+     */
+    "min_length"?: number;
+    /** Whether the buyer's text can include line breaks. Default: false. */
+    "multiline"?: boolean;
+    /**
+     * Whether buyers must enter text for this group. A modifier set's required override takes
+     * precedence. Default: false.
+     */
+    "required"?: boolean;
+};
+/**
+ * Settings for a text modifier group when creating or updating one: required, multiline, and
+ * length limits.
+ */
+export type TextModifierConfigRequestInput = TextModifierConfigRequest;
+/** Text a buyer entered for a text modifier group on an order line item. */
+export type TextModifierRequest = {
+    /**
+     * Identifier of the text modifier group. For a group a modifier set owns (source: inline),
+     * read it through GET /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return
+     * it. minLength: 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id": string;
+    /**
+     * Text the buyer entered. Flint trims surrounding whitespace, then checks the length in UTF-8
+     * bytes against the group's `text.min_length` and `text.max_length`. Line breaks are allowed
+     * only when the group's `text.multiline` is true. minLength: 1.
+     */
+    "value": string;
+};
+/** Text a buyer entered for a text modifier group on an order line item. */
+export type TextModifierRequestInput = TextModifierRequest;
+/** Colors and title applied to a payment link's checkout page. */
+export type ThemeConfig = {
+    /** Accent color of the checkout, such as #1A73E8. */
+    "accent_color"?: string;
+    /** Primary color of the checkout, such as #1A73E8. */
+    "primary_color"?: string;
+    /** Title shown in place of the merchant's business name. */
+    "title"?: string;
+};
+/** Colors and title to apply to a checkout session's page. */
+export type ThemeConfigRequestInput = {
+    /** Accent color of the checkout, such as #1A73E8. minLength: 1. */
+    "accent_color"?: string;
+    /** Primary color of the checkout, such as #1A73E8. minLength: 1. */
+    "primary_color"?: string;
+    /** Title shown in place of the merchant's business name. minLength: 1. */
+    "title"?: string;
+};
+/**
+ * An individual admission, a top-level child of an order. Merchant reads and webhooks never
+ * include the bearer admission code.
+ */
+export type Ticket = {
+    /**
+     * The ticket's 16-character Crockford base32 admission code, the value its QR code holds. A
+     * bearer secret: only the paid checkout session's own paying credential receives it, on its
+     * own order's tickets that aren't voided. A checkout credential from a launch URL a merchant
+     * reads or requests after payment never does. Returned only to the checkout credential; never
+     * in webhook payloads. minLength: 16.
+     */
+    "admission_code"?: string;
+    /** Last four characters of the current admission code. */
+    "admission_code_last4": string;
+    /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+    "attendee_name": string | null;
+    /**
+     * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+     * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+     * "manual". anyOf[2] (Value): null.
+     */
+    "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+    /**
+     * When the ticket was admitted. Null when the ticket is not checked in. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "checked_in_at": string | null;
+    /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded.
+     */
+    "order"?: ExpandedOrderSummary;
+    /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+    "order_line_item_id": string;
+    /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+    "payment_link_id": string;
+    /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+    "status": "issued" | "checked_in" | "voided" | (string & {});
+    /**
+     * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in", "void". []
+     * (Value): string. Value enum: "check_in", "undo_check_in", "void".
+     */
+    "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+    /** Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". */
+    "ticket_id": string;
+    /**
+     * The event prefix and sequence, such as GAL001. Numbers are never reused and do not authorize
+     * entry.
+     */
+    "ticket_number": string;
+    /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+    /**
+     * When the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "voided_at": string | null;
+};
+export type TicketCheckedInEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.checked_in";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.checked_in";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.checked_in";
+});
+/**
+ * The `ticket.checked_in` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type TicketCheckedInInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.checked_in". */
+    "event_type"?: "ticket.checked_in";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.checked_in` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type TicketCheckedInMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.checked_in". */
+    "event_type"?: "ticket.checked_in";
+});
+export type TicketCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.created";
+});
+/**
+ * The `ticket.created` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type TicketCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.created". */
+    "event_type"?: "ticket.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.created` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type TicketCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.created". */
+    "event_type"?: "ticket.created";
+});
+/** A page of `Ticket` objects. */
+export type TicketListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * Ticket}. An individual admission, a top-level child of an order. Merchant reads and webhooks
+     * never include the bearer admission code.
+     */
+    "data": Array<Ticket>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Ticket` data. */
+export type TicketResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An individual admission,
+     * a top-level child of an order. Merchant reads and webhooks never include the bearer
+     * admission code.
+     */
+    "data": Ticket;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type TicketUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.updated";
+});
+/**
+ * The `ticket.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type TicketUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.updated". */
+    "event_type"?: "ticket.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.updated` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type TicketUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.updated". */
+    "event_type"?: "ticket.updated";
+});
+/** An optional version fence for the ticket. */
+export type TicketVersionRequestInput = {
+    /**
+     * The ticket version last read. The change applies only while the ticket is at this version; a
+     * stale value returns 409 VERSION_CONFLICT, even when the ticket's status would also refuse
+     * the change. Door scanners usually omit it. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+export type TicketVoidedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "ticket.voided";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "admission_code"?: string;
+            "admission_code_last4": string;
+            "attendee_name": string | null;
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            "checked_in_at": string | null;
+            "created_at": string;
+            "order"?: ExpandedOrderSummary;
+            "order_id": string;
+            "order_line_item_id": string;
+            "payment_link_id": string;
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            "ticket_id": string;
+            "ticket_number": string;
+            "updated_at": string;
+            "version": number;
+            "voided_at": string | null;
+        };
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "ticket.voided";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "ticket.voided";
+});
+/**
+ * The `ticket.voided` webhook payload for the `installed_merchants` event source. Fields shared by
+ * partner webhook payloads.
+ */
+export type TicketVoidedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "ticket.voided". */
+    "event_type"?: "ticket.voided";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `ticket.voided` webhook payload for the `merchant` event source. Fields shared by merchant
+ * webhook payloads.
+ */
+export type TicketVoidedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.admission_code (Optional): string. The ticket's 16-character
+     * Crockford base32 admission code, the value its QR code holds. A bearer secret: only the paid
+     * checkout session's own paying credential receives it, on its own order's tickets that aren't
+     * voided. A checkout credential from a launch URL a merchant reads or requests after payment
+     * never does. Returned only to the checkout credential; never in webhook payloads. minLength:
+     * 16. object.admission_code_last4 (Required): string. Last four characters of the current
+     * admission code. object.attendee_name (Required): string or null. Optional attendee name.
+     * Null when not supplied. minLength: 1. maxLength: 200. object.check_in_method (Required):
+     * string or null. How the ticket was admitted. Null when the ticket is not checked in. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[1] (Value): string. Value
+     * enum: "admission_code", "manual". object.check_in_method.anyOf[2] (Value): null.
+     * object.checked_in_at (Required): string or null. When the ticket was admitted. Null when the
+     * ticket is not checked in. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.created_at (Required): string. When the ticket was issued. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.order (Optional): {@link ExpandedOrderSummary}.
+     * Order summary, present only with expand=order. Requires commerce.orders.read. An order's
+     * summary fields, including status, payment and refund status, and pricing and settlement
+     * amounts, returned when the order is expanded. object.order_id (Required): string. The order
+     * that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.order_line_item_id (Required): string. The purchased ticket tier. Example:
+     * "li_01KEZF7C008YPRCK7VDKTGWR31". object.payment_link_id (Required): string. The event
+     * payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.status (Required): string.
+     * The admission lifecycle. Value enum: "issued", "checked_in", "voided".
+     * object.supported_actions (Required): Array of string. Actions currently offered for this
+     * ticket. [] enum: "check_in", "undo_check_in", "void". object.supported_actions[] (Value):
+     * string. Value enum: "check_in", "undo_check_in", "void". object.ticket_id (Required):
+     * string. Unique ticket identity with the tkt_ prefix. Example:
+     * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8". object.ticket_number (Required): string. The event prefix
+     * and sequence, such as GAL001. Numbers are never reused and do not authorize entry.
+     * object.updated_at (Required): string. When the ticket last changed. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
+     * this resource's owned state. Expanded resources and external observations can change
+     * independently. Format: uint64. minimum: 1. object.voided_at (Required): string or null. When
+     * the ticket was permanently voided. Null when the ticket has not been voided. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * admission_code (Optional): string. The ticket's 16-character Crockford base32 admission
+         * code, the value its QR code holds. A bearer secret: only the paid checkout session's own
+         * paying credential receives it, on its own order's tickets that aren't voided. A checkout
+         * credential from a launch URL a merchant reads or requests after payment never does.
+         * Returned only to the checkout credential; never in webhook payloads. minLength: 16.
+         * admission_code_last4 (Required): string. Last four characters of the current admission
+         * code. attendee_name (Required): string or null. Optional attendee name. Null when not
+         * supplied. minLength: 1. maxLength: 200. check_in_method (Required): string or null. How
+         * the ticket was admitted. Null when the ticket is not checked in. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[1] (Value): string. Value enum:
+         * "admission_code", "manual". check_in_method.anyOf[2] (Value): null. checked_in_at
+         * (Required): string or null. When the ticket was admitted. Null when the ticket is not
+         * checked in. Format: date-time. Example: "2026-08-02T16:00:00Z". created_at (Required):
+         * string. When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * order (Optional): {@link ExpandedOrderSummary}. Order summary, present only with
+         * expand=order. Requires commerce.orders.read. An order's summary fields, including
+         * status, payment and refund status, and pricing and settlement amounts, returned when the
+         * order is expanded. order_id (Required): string. The order that purchased this ticket.
+         * Example: "ord_01KEZF7C0054GQKJ142A8X367A". order_line_item_id (Required): string. The
+         * purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". payment_link_id
+         * (Required): string. The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * status (Required): string. The admission lifecycle. Value enum: "issued", "checked_in",
+         * "voided". supported_actions (Required): Array of string. Actions currently offered for
+         * this ticket. [] enum: "check_in", "undo_check_in", "void". supported_actions[] (Value):
+         * string. Value enum: "check_in", "undo_check_in", "void". ticket_id (Required): string.
+         * Unique ticket identity with the tkt_ prefix. Example: "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+         * ticket_number (Required): string. The event prefix and sequence, such as GAL001. Numbers
+         * are never reused and do not authorize entry. updated_at (Required): string. When the
+         * ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. Persisted version of this resource's owned state. Expanded
+         * resources and external observations can change independently. Format: uint64. minimum:
+         * 1. voided_at (Required): string or null. When the ticket was permanently voided. Null
+         * when the ticket has not been voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /**
+             * The ticket's 16-character Crockford base32 admission code, the value its QR code
+             * holds. A bearer secret: only the paid checkout session's own paying credential
+             * receives it, on its own order's tickets that aren't voided. A checkout credential
+             * from a launch URL a merchant reads or requests after payment never does. Returned
+             * only to the checkout credential; never in webhook payloads. minLength: 16.
+             */
+            "admission_code"?: string;
+            /** Last four characters of the current admission code. */
+            "admission_code_last4": string;
+            /** Optional attendee name. Null when not supplied. minLength: 1. maxLength: 200. */
+            "attendee_name": string | null;
+            /**
+             * How the ticket was admitted. Null when the ticket is not checked in. Value enum:
+             * "admission_code", "manual". anyOf[1] (Value): string. Value enum: "admission_code",
+             * "manual". anyOf[2] (Value): null.
+             */
+            "check_in_method": (("admission_code" | "manual" | (string & {})) | (null));
+            /**
+             * When the ticket was admitted. Null when the ticket is not checked in. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "checked_in_at": string | null;
+            /** When the ticket was issued. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Order summary, present only with expand=order. Requires commerce.orders.read. An
+             * order's summary fields, including status, payment and refund status, and pricing and
+             * settlement amounts, returned when the order is expanded.
+             */
+            "order"?: ExpandedOrderSummary;
+            /** The order that purchased this ticket. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            "order_id": string;
+            /** The purchased ticket tier. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
+            "order_line_item_id": string;
+            /** The event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+            "payment_link_id": string;
+            /** The admission lifecycle. Value enum: "issued", "checked_in", "voided". */
+            "status": "issued" | "checked_in" | "voided" | (string & {});
+            /**
+             * Actions currently offered for this ticket. [] enum: "check_in", "undo_check_in",
+             * "void". [] (Value): string. Value enum: "check_in", "undo_check_in", "void".
+             */
+            "supported_actions": Array<"check_in" | "undo_check_in" | "void" | (string & {})>;
+            /**
+             * Unique ticket identity with the tkt_ prefix. Example:
+             * "tkt_01KEZF7C00AWVKS6GAX8RMEBZ8".
+             */
+            "ticket_id": string;
+            /**
+             * The event prefix and sequence, such as GAL001. Numbers are never reused and do not
+             * authorize entry.
+             */
+            "ticket_number": string;
+            /** When the ticket last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * Persisted version of this resource's owned state. Expanded resources and external
+             * observations can change independently. Format: uint64. minimum: 1.
+             */
+            "version": number;
+            /**
+             * When the ticket was permanently voided. Null when the ticket has not been voided.
+             * Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "voided_at": string | null;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Ticket>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "ticket.voided". */
+    "event_type"?: "ticket.voided";
+});
+/**
+ * A ticket with the admission code a rotation just minted. An individual admission, a top-level
+ * child of an order. Merchant reads and webhooks never include the bearer admission code.
+ */
+export type TicketWithAdmissionCode = (Exclude<Ticket & object, readonly unknown[]>)
+    & ({
+    /**
+     * The new bearer admission code, formatted as XXXX-XXXX-XXXX-XXXX. Returned only by the
+     * rotation that minted it, and by a retry of that rotation within 24 hours while the ticket is
+     * unchanged; omitted otherwise. Encode it in a QR code without hyphens, and treat it like a
+     * password. minLength: 19. maxLength: 19.
+     */
+    "admission_code"?: string;
+});
+/** A response containing `TicketWithAdmissionCode` data. */
+export type TicketWithAdmissionCodeResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A ticket with the
+     * admission code a rotation just minted. An individual admission, a top-level child of an
+     * order. Merchant reads and webhooks never include the bearer admission code.
+     */
+    "data": TicketWithAdmissionCode;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Event details for a ticketed order: name, location, start time, time zone, and the tickets
+ * issued.
+ */
+export type TicketedEvent = {
+    /** Where the event takes place. */
+    "location"?: string;
+    /** Event name when the order was placed. */
+    "name": string;
+    /**
+     * When the event starts. RFC 3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "starts_at"?: string;
+    /**
+     * Ticket numbers issued for this order. Empty while ticket_status is pending. [] (Value):
+     * string.
+     */
+    "ticket_numbers": Array<string>;
+    /** Whether the order's tickets are issued. Value enum: "pending", "issued", "voided". */
+    "ticket_status": "pending" | "issued" | "voided" | (string & {});
+    /** IANA time zone Flint shows the event in. */
+    "timezone"?: string;
+};
+export type TicketsCheckInParams = (InputValue<CheckInTicketRequestInput>);
+export type TicketsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: order. Include the order
+     * summary. Limits: at most 10 unique expand paths per request. [] enum: "order". Value enum:
+     * "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][] (Value): string.
+     * Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
+     */
+    "expand"?: InputValue<("order") | readonly ("order")[]>;
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
      * a merchant-bound one, which it must match. Other credentials may send it only with their own
@@ -3104,90 +2498,1246 @@ export type WebhookDeliveriesListParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type WebhookDeliveriesResendParams = (InputValue<ResendWebhookDeliveryRequestInput>);
-/** An attempt to deliver an event to a webhook endpoint. */
-export type WebhookDelivery = {
+export type TicketsListParams = {
     /**
-     * Attempts made by Flint's automatic schedule. Manual resends and the first attempt of a
-     * delivery you create don't count. Format: int32.
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "automatic_attempt_count": number;
+    "page_size"?: InputValue<number>;
     /**
-     * When the delivery was created: when Flint prepared the event, or when you created it.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
+    "page_token"?: InputValue<string>;
+    /**
+     * Only tickets for this event payment link. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+     */
+    "payment_link_id"?: InputValue<string>;
+    /**
+     * Only tickets belonging to this order. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: InputValue<string>;
+    /**
+     * Filter by ticket status. Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "issued", "checked_in", "voided". Value enum: "issued", "checked_in",
+     * "voided". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "issued", "checked_in",
+     * "voided". anyOf[1][] (Value): string. Value enum: "issued", "checked_in", "voided". anyOf[2]
+     * (Value): string. Value enum: "issued", "checked_in", "voided".
+     */
+    "status"?: InputValue<("issued" | "checked_in" | "voided") | readonly ("issued" | "checked_in" | "voided")[]>;
+    /**
+     * Case-insensitive text search across ticket number, attendee name, buyer name and buyer
+     * email. For Dashboard check-in staff it matches ticket number and attendee name only.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by ticket_id. Default:
+     * "created_at". Value enum: "created_at", "attendee_name".
+     */
+    "sort_by"?: InputValue<"created_at" | "attendee_name">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /**
+     * Inclusive lower bound on checked_in_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "checked_in_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on checked_in_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "checked_in_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Include related objects in the response. Supported expansions: order. Include the requested
+     * related resources using scoped batch reads for this page. Each relationship requires its
+     * existing target read scopes. Expansion changes the representation without changing
+     * pagination tokens. Limits: at most 10 unique expand paths per request. [] enum: "order".
+     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
+     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
+     */
+    "expand"?: InputValue<("order") | readonly ("order")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type TicketsLookupParams = (InputValue<LookupTicketRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type TicketsRotateCodeParams = (InputValue<TicketVersionRequestInput>);
+export type TicketsUndoCheckInParams = TicketsRotateCodeParams;
+export type TicketsUpdateParams = (InputValue<UpdateTicketRequestInput>);
+export type TicketsVoidParams = TicketsRotateCodeParams;
+/**
+ * A tip on an order, with its requested, settled, and refunded amounts, status, and how it was
+ * paid.
+ */
+export type Tip = {
+    /**
+     * Fixed tip amount, when the tip is set as an amount. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "delivered_at"?: string;
+    /** Optional description that stays on the tip for your reporting. */
+    "description"?: string;
     /**
-     * The kind of failure on the most recent failed attempt. Absent before any attempt, and when
-     * delivered or suppressed. Value enum: "webhook_timeout", "webhook_dns", "webhook_tls",
-     * "webhook_connection", "webhook_blocked_target", "webhook_request", "webhook_redirect",
-     * "webhook_http_4xx", "webhook_http_5xx", "webhook_payload_render", "webhook_delivery".
+     * The tip amount the order collects. For a percent tip, the resolved amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "error_category"?: "webhook_timeout"
-        | "webhook_dns"
-        | "webhook_tls"
-        | "webhook_connection"
-        | "webhook_blocked_target"
-        | "webhook_request"
-        | "webhook_redirect"
-        | "webhook_http_4xx"
-        | "webhook_http_5xx"
-        | "webhook_payload_render"
-        | "webhook_delivery"
-        | (string & {});
+    "effective_amount_money": MoneyValue;
     /**
-     * A concise explanation of the failed attempt. Absent before any attempt, and when delivered
-     * or suppressed.
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
      */
-    "error_summary"?: string;
+    "metadata"?: MetadataMap;
+    /** Optional name that stays on the tip for your reporting. */
+    "name"?: string;
+    /** Example: "tip_01KEZF7C00JRPYP11RTMB97MYH". */
+    "order_tip_id": string;
     /**
-     * HTTP status returned by the receiver on the latest recorded attempt. Omitted when no HTTP
-     * response was received. Format: int32.
+     *  [] (Value): {@link TipPaymentIntentAllocation}. The part of a tip paid through one payment
+     * intent.
      */
-    "last_response_code"?: number;
-    /** Maximum automatic attempts. Format: int32. */
-    "max_attempts": number;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "next_retry_at"?: string;
-    /** The next step to resolve the failed delivery attempt. */
-    "recommended_action"?: string;
+    "payment_intent_allocations": Array<TipPaymentIntentAllocation>;
     /**
-     * Whether sending this delivery again without changing your endpoint is likely to succeed.
-     * While the delivery is pending, Flint retries automatically either way.
+     * Tip percentage in percentage points, such as `18` for 18%, when the tip is set as a percent.
+     * multipleOf: 0.0001.
      */
-    "retryable"?: boolean;
+    "percent"?: number;
     /**
-     * Current state of this endpoint delivery and its automatic retry schedule. Value enum:
-     * "pending", "delivered", "failed", "suppressed".
+     * How much of the tip has been refunded. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
      */
-    "status": "pending" | "delivered" | "failed" | "suppressed" | (string & {});
+    "refunded_money": MoneyValue;
     /**
-     * Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed
-     * deliveries have no failure explanation. Value enum: "endpoint_inactive", "endpoint_deleted",
-     * "authorization_revoked", "scope_missing", "event_not_allowed",
-     * "partner_app_install_revoked".
+     * How much of the tip has been paid. Monetary amount represented as integer minor units plus
+     * an ISO 4217 currency code.
      */
-    "suppression_reason"?: "endpoint_inactive"
-        | "endpoint_deleted"
-        | "authorization_revoked"
-        | "scope_missing"
-        | "event_not_allowed"
-        | "partner_app_install_revoked"
-        | (string & {});
+    "settled_amount_money": MoneyValue;
+    /**
+     * Whether the tip is awaiting payment, paid in full, refunded in part or in full, or canceled
+     * before collection. Value enum: "requested", "paid", "partially_refunded", "refunded",
+     * "canceled".
+     */
+    "status": "requested" | "paid" | "partially_refunded" | "refunded" | "canceled" | (string & {});
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
-     * Unique identifier for this webhook delivery, prefixed `wdel_`. Example:
-     * "wdel_01KEZF7C001DWSNDCDZHCTBN0A".
+     *  [] (Value): {@link TipValueSettlementAllocation}. The part of a tip paid through one value
+     * settlement.
      */
-    "webhook_delivery_id": string;
-    /**
-     * ID of the receiving endpoint, retained even after the endpoint is deleted. Example:
-     * "whep_01KEZF7C006FXYTAJRZCGCBJTN".
-     */
-    "webhook_endpoint_id": string;
-    /** ID of the event this delivery sends. Example: "whev_01KEZF7C00362MS3HV970TRZGS". */
-    "webhook_event_id": string;
+    "value_settlement_allocations": Array<TipValueSettlementAllocation>;
 };
+/** The part of a tip paid through one payment intent. */
+export type TipPaymentIntentAllocation = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id": string;
+};
+/** The part of a tip paid through one value settlement. */
+export type TipValueSettlementAllocation = {
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "amount_money": MoneyValue;
+    /** Example: "ovst_01KEZF7C00EMVZ016PM34KKFGY". */
+    "value_settlement_id": string;
+};
+/**
+ * Tipping settings: percent and fixed tip options, the preselected tip, and whether custom tips
+ * are allowed.
+ */
+export type TippingSettings = {
+    /** Whether buyers can enter a custom tip amount. */
+    "custom_tip_enabled"?: boolean;
+    /**
+     * Whether hosted checkout offers tips when a checkout session or payment link doesn't set its
+     * own `tip`. Defaults to false.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Replaced as a whole: send every field you want to keep. The preselected fixed tip. Its
+     * amount and currency must match one of the effective smart_tip_money_options. `null` when no
+     * preselection is set; effective settings use Flint's default. anyOf[1] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. anyOf[1].amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO 4217 currency code for
+     * this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. anyOf[2] (Value): null.
+     */
+    "default_smart_tip_money": ((({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>))
+        | (null)
+        | (unknown));
+    /**
+     * The preselected tip percent, from 1 through 100 with at most four decimal places. It must
+     * match one of the effective tip_percent_options. `null` when no preselection is set;
+     * effective settings use Flint's default. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "default_tip_percent": number | null;
+    /**
+     * Three fixed tip amounts to offer. minItems: 3. maxItems: 3. [] (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. [].amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. [].currency (Required): string. ISO 4217 currency code for this amount.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "smart_tip_money_options"?: Array<({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>)>;
+    /** Whether checkout offers fixed tip amounts instead of tip percentages. */
+    "smart_tips_enabled"?: boolean;
+    /**
+     * Three tip percents to offer, each from 1 through 100 with at most four decimal places.
+     * minItems: 3. maxItems: 3. [] (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "tip_percent_options"?: Array<number>;
+};
+/**
+ * Tipping settings to change when updating settings. Omit a field to keep it; send null to clear a
+ * preselected tip. minProperties: 1.
+ */
+export type TippingSettingsPatch = {
+    /** Whether buyers can enter a custom tip amount. */
+    "custom_tip_enabled"?: boolean;
+    /**
+     * Whether hosted checkout offers tips when a checkout session or payment link doesn't set its
+     * own `tip`. Defaults to false.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Replaced as a whole: send every field you want to keep. Omit to preserve the current value.
+     * Send null to clear the preselection and use Flint's default. When replacing presets,
+     * explicitly replace or clear a preselection that is no longer offered. anyOf[1] (Value):
+     * {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. anyOf[1].amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO
+     * 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * anyOf[2] (Value): null.
+     */
+    "default_smart_tip_money"?: ((({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>))
+        | (null)
+        | (unknown));
+    /**
+     * Omit to preserve the current value. Send null to clear the preselection and use Flint's
+     * default. When replacing presets, explicitly replace or clear a preselection that is no
+     * longer offered. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "default_tip_percent"?: number | null;
+    /**
+     * Three fixed tip amounts to offer. minItems: 3. maxItems: 3. [] (Value): {@link MoneyValue}.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code. [].amount
+     * (Required): integer string. Use an integer string (decimal digits), not a floating-point
+     * number. Format: int64. minimum: 1. Amount in the currency's minor unit, such as cents for
+     * USD. Use an integer string (decimal digits), not a floating-point number. Format: int64.
+     * minimum: 0. [].currency (Required): string. ISO 4217 currency code for this amount.
+     * minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "smart_tip_money_options"?: Array<({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}`;
+    })
+        & (Exclude<MoneyValue & object, readonly unknown[]>)>;
+    /** Whether checkout offers fixed tip amounts instead of tip percentages. */
+    "smart_tips_enabled"?: boolean;
+    /**
+     * Three tip percents to offer, each from 1 through 100 with at most four decimal places.
+     * minItems: 3. maxItems: 3. [] (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "tip_percent_options"?: Array<number>;
+};
+/**
+ * Tipping settings to change when updating settings. Omit a field to keep it; send null to clear a
+ * preselected tip. minProperties: 1.
+ */
+export type TippingSettingsPatchInput = {
+    /** Whether buyers can enter a custom tip amount. */
+    "custom_tip_enabled"?: boolean;
+    /**
+     * Whether hosted checkout offers tips when a checkout session or payment link doesn't set its
+     * own `tip`. Defaults to false.
+     */
+    "default_enabled"?: boolean;
+    /**
+     * Replaced as a whole: send every field you want to keep. Omit to preserve the current value.
+     * Send null to clear the preselection and use Flint's default. When replacing presets,
+     * explicitly replace or clear a preselection that is no longer offered. anyOf[1] (Value):
+     * {@link MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. anyOf[1].amount (Required): integer string. Use an integer string (decimal
+     * digits), not a floating-point number. Format: int64. minimum: 1. Amount in the currency's
+     * minor unit, such as cents for USD. Use an integer string (decimal digits), not a
+     * floating-point number. Format: int64. minimum: 0. anyOf[1].currency (Required): string. ISO
+     * 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     * anyOf[2] (Value): null.
+     */
+    "default_smart_tip_money"?: ((({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>))
+        | (null));
+    /**
+     * Omit to preserve the current value. Send null to clear the preselection and use Flint's
+     * default. When replacing presets, explicitly replace or clear a preselection that is no
+     * longer offered. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "default_tip_percent"?: number | null;
+    /**
+     * Three fixed tip amounts to offer. minItems: 3. maxItems: 3. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code. [].amount (Required): integer string. Use an integer string (decimal digits),
+     * not a floating-point number. Format: int64. minimum: 1. Amount in the currency's minor unit,
+     * such as cents for USD. Use an integer string (decimal digits), not a floating-point number.
+     * Format: int64. minimum: 0. [].currency (Required): string. ISO 4217 currency code for this
+     * amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
+     */
+    "smart_tip_money_options"?: Array<({
+        /**
+         * Use an integer string (decimal digits), not a floating-point number. Format: int64.
+         * minimum: 1.
+         */
+        "amount"?: `${bigint}` | bigint;
+    })
+        & (Exclude<MoneyValueInput & object, readonly unknown[]>)>;
+    /** Whether checkout offers fixed tip amounts instead of tip percentages. */
+    "smart_tips_enabled"?: boolean;
+    /**
+     * Three tip percents to offer, each from 1 through 100 with at most four decimal places.
+     * minItems: 3. maxItems: 3. [] (Value): number. minimum: 1. maximum: 100. multipleOf: 0.0001.
+     */
+    "tip_percent_options"?: Array<number>;
+};
+/** An optional version fence for removing the merchant freeze. */
+export type UnfreezeGiftCardRequestInput = CloseGiftCardRequest;
+/** The request body for: Update an API key. minProperties: 1. */
+export type UpdateAPIKeyRequest = ({
+    /**
+     * Key access. Full and read_only resolve from the current scope catalog for the key's mode;
+     * restricted holds only its listed scopes. Granting full or read_only requires a freshly
+     * verified authorized user session, or a full-access API key in the key's mode or a live
+     * full-access key granting a test key. Value enum: "full", "read_only", "restricted".
+     */
+    "access"?: "full" | "read_only" | "restricted" | (string & {});
+    /**
+     * Resource version last read by the caller. Required when access or scopes is present.
+     * Optional for scalar updates. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | null;
+    /** minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * minItems: 1. uniqueItems: true. [] enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes"?: Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {})>;
+})
+    & ((({
+    /** Value enum: "full". */
+    "access": unknown;
+}))
+    | (({
+    /** Value enum: "read_only". */
+    "access": unknown;
+}))
+    | ({
+    /** Value enum: "restricted". */
+    "access": unknown;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * minItems: 1. uniqueItems: true. [] enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes": Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {})>;
+})
+    | (unknown)
+    | (Record<string, unknown>));
+/** The request body for: Update an API key. minProperties: 1. */
+export type UpdateAPIKeyRequestInput = ({
+    /**
+     * Key access. Full and read_only resolve from the current scope catalog for the key's mode;
+     * restricted holds only its listed scopes. Granting full or read_only requires a freshly
+     * verified authorized user session, or a full-access API key in the key's mode or a live
+     * full-access key granting a test key. Value enum: "full", "read_only", "restricted".
+     */
+    "access"?: "full" | "read_only" | "restricted";
+    /**
+     * Resource version last read by the caller. Required when access or scopes is present.
+     * Optional for scalar updates. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Future RFC3339 timestamp. Send null to clear an existing API-key expiration. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | globalThis.Date | null;
+    /** minLength: 1. maxLength: 100. */
+    "name"?: string;
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * minItems: 1. uniqueItems: true. [] enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes"?: Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write">;
+})
+    & ((({
+    /** Value enum: "full". */
+    "access": ("full") & ("full");
+})
+    & ({
+    "scopes"?: never;
+}))
+    | (({
+    /** Value enum: "read_only". */
+    "access": ("read_only") & ("read_only");
+})
+    & ({
+    "scopes"?: never;
+}))
+    | ({
+    /** Value enum: "restricted". */
+    "access": ("restricted") & ("restricted");
+    /**
+     * The scopes to grant. Required only with access restricted; forbidden with full or read_only.
+     * minItems: 1. uniqueItems: true. [] enum: "accounts.api_keys.read",
+     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
+     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
+     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
+     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
+     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
+     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
+     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
+     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
+     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
+     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
+     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
+     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
+     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
+     * "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes": Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write">;
+})
+    | (({
+    "access"?: never;
+})));
+/**
+ * A component to keep or add when updating a bundle, with its variant, quantity, position, and
+ * delivery profile.
+ */
+export type UpdateBundleComponentRequest = {
+    /**
+     * Identifier of an existing component to retain. Omit it to add a new component. minLength: 1.
+     * pattern: ^bunc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
+    "bundle_component_id"?: string;
+    /**
+     * Delivery profile for this component. Omit it to copy the variant's current profile when the
+     * component is saved; later changes to the variant's profile don't follow. On update, omitting
+     * it on a retained component replaces any override with the variant's current profile, so
+     * resend it to keep it. Send null to leave the component without a profile, which makes a
+     * physical component `action_required` and a digital or service component `not_applicable`
+     * with no delivery requirement. Digital and service components never use defaults; explicit
+     * and inherited profiles must be required/manual with allowed_types exactly [digital] or
+     * [service], matching the component product type. Existing order delivery snapshots do not
+     * change. minLength: 1. Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+     */
+    "delivery_profile_id"?: string | null;
+    /** Display order among the bundle's components, starting at zero. Format: int32. minimum: 0. */
+    "position"?: number;
+    /**
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     * maximum: 9999. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Identifier of the product variant included in the bundle. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+};
+/**
+ * A component to keep or add when updating a bundle, with its variant, quantity, position, and
+ * delivery profile.
+ */
+export type UpdateBundleComponentRequestInput = UpdateBundleComponentRequest;

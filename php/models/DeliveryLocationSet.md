@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | [DeliveryLocationSetConfiguration](../models/DeliveryLocationSetConfiguration.md#deliverylocationsetconfiguration) | Current member Locations and selection rules. The location IDs in a delivery location set. `configuration`: [field definitions](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedataconfiguration). |
+| `configuration` | Required | [DeliveryLocationSetConfiguration](../models/DeliveryLocationSetConfiguration.md#deliverylocationsetconfiguration) | Current member Locations. The location IDs in a delivery location set. `configuration`: [field definitions](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedataconfiguration). |
 | `created_at` | Required | string | Time the location set was created. Format: `date-time`. |
 | `current_delivery_location_set_revision_id` | Required | string | Immutable revision used for new quotes. |
 | `delivery_location_set_id` | Required | string | Stable delivery location set ID. |

@@ -29,13 +29,13 @@ final class TicketsListParams extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Only tickets for this event payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+    /** Only tickets for this event payment link. pattern: ^pl_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
      * @return string
      * @throws SdkError When payment_link_id is omitted; use hasPaymentLinkId() or valueOrDefault().
      */
     public function getPaymentLinkId(): string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** Only tickets belonging to this order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Only tickets belonging to this order. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

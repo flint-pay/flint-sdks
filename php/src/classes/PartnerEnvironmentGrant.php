@@ -9,6 +9,8 @@ namespace Flint;
  * @property-read ?PartnerAppMerchantReadiness $merchant_readiness
  * @property-read string $mode
  * @property-read string $partner_app_install_id
+ * @property-read ?PartnerEnvironmentGrantPaymentSplits $payment_splits
+ * @property-read ?PlatformFeeCap $platform_fee_cap
  * @property-read ?string $revoked_at
  * @property-read ?string $revoked_by_user_id
  * @property-read ?string $sandbox_id
@@ -17,7 +19,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerEnvironmentGrant extends Model {
-    /** @param array{'created_at': string, 'environment_grant_id': string, 'granted_permissions': list<mixed>, 'granted_scopes': list<string>, 'merchant_readiness'?: mixed, 'mode': string, 'partner_app_install_id': string, 'revoked_at'?: string, 'revoked_by_user_id'?: string, 'sandbox_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
+    /** @param array{'created_at': string, 'environment_grant_id': string, 'granted_permissions': list<mixed>, 'granted_scopes': list<string>, 'merchant_readiness'?: mixed, 'mode': string, 'partner_app_install_id': string, 'payment_splits'?: mixed, 'platform_fee_cap'?: mixed, 'revoked_at'?: string, 'revoked_by_user_id'?: string, 'sandbox_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerEnvironmentGrant')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
@@ -54,6 +56,16 @@ final class PartnerEnvironmentGrant extends Model {
      */
     public function getPartnerAppInstallId(): string { return $this->get('partner_app_install_id'); }
     public function hasPartnerAppInstallId(): bool { return $this->has('partner_app_install_id'); }
+    /** The merchant's approval to receive split funds from the app in this mode, present while it lasts. A merchant approves by authorizing an app that declares payment_splits. The approval ends when the app removes payment_splits, or when the merchant or you revoke this grant or the install; authorizing again approves again. A payment's splits to this seller need the approval in the payment's mode. The merchant's approval to receive split funds from the app in this grant's mode.
+     * @return ?PartnerEnvironmentGrantPaymentSplits
+     */
+    public function getPaymentSplits(): ?PartnerEnvironmentGrantPaymentSplits { return $this->get('payment_splits'); }
+    public function hasPaymentSplits(): bool { return $this->has('payment_splits'); }
+    /** The platform fee cap the merchant approved for this mode: what the app's cap was when the merchant approved it, lowered at once whenever the app lowers its cap. Absent when the merchant approved none. A higher app cap applies only after the merchant authorizes again. No request accepts a platform fee yet. The most a platform fee can take from one payment. The largest platform fee on a payment is percent of the amount it collects, rounded half up to the minor unit, plus the currency's fixed part if it has one, and never more than the currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on a 100.00 USD payment. A currency without a maximum can't carry a platform fee.
+     * @return ?PlatformFeeCap
+     */
+    public function getPlatformFeeCap(): ?PlatformFeeCap { return $this->get('platform_fee_cap'); }
+    public function hasPlatformFeeCap(): bool { return $this->has('platform_fee_cap'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */

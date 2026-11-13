@@ -31,6 +31,9 @@ Resource, collection, or operation result returned by this request.
 | `billing_interval_count` | Conditional | integer | Format: `int32`. |
 | `billing_starts` | Conditional | string |  |
 | `credit_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | `credit_money`: [declared alternatives](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-3credit_money), [declared alternatives](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-4credit_money). |
+| `deliveries_per_period` | Conditional | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `delivery_interval` | Conditional | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Conditional | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Conditional | string or null | Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `quantity` | Conditional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `recurring_subtotal_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options), [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-4recurring_subtotal_money). |
@@ -44,7 +47,7 @@ oneOf with mode: "delivery_options": Available subscription delivery methods sho
 
 - Required: `delivery_methods`.
 - Optional: `address_verification`, `currency`, `destination_address`, `subscription_id`.
-- Undeclared: `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
+- Undeclared: `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
 - Constraints for `mode`: Always delivery_options for buyer previews. Values: `"delivery_options"`.
 
 ### BuyerSubscriptionPreviewResponse.data variant 2: `mode` = `"next_renewal"`
@@ -52,14 +55,14 @@ oneOf with mode: "delivery_options": Available subscription delivery methods sho
 oneOf with mode: "next_renewal": A preview of a subscription's next renewal and its estimated pricing..
 
 - Required: `renewal`, `subscription_id`.
-- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
+- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
 - Constraints for `mode`: Values: `"next_renewal"`.
 
 ### BuyerSubscriptionPreviewResponse.data variant 3: `mode` = `"plan_change"`
 
 oneOf with mode: "plan_change": Estimated pricing for a subscription plan change, including the recurring item subtotal and renewal amounts..
 
-- Required: `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `effective_at`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`, `subscription_plan_id`.
+- Required: `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`, `subscription_plan_id`.
 - Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `interval`, `interval_count`.
 - Constraints for `billing_starts`: Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`.
 - Constraints for `credit_money`: Unused paid item time credited when billing_starts is now or prorated_now; null for next_renewal and period_end.
@@ -70,7 +73,7 @@ oneOf with mode: "plan_change": Estimated pricing for a subscription plan change
 
 oneOf with mode: "quantity_change": Estimated pricing for a quantity change that keeps the billing period and anchor..
 
-- Required: `billing_starts`, `credit_money`, `effective_at`, `interval`, `interval_count`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`.
+- Required: `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `interval`, `interval_count`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`.
 - Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`.
 - Constraints for `billing_starts`: When this quantity change is billed. Values: `"prorated_now"`.
 - Constraints for `credit_money`: Credit for unused paid subscription time. Null when there is no paid period to credit.
@@ -88,6 +91,9 @@ Estimated pricing and billing time for a subscription renewal, including items, 
 | --- | --- | --- | --- |
 | `billing_at` | Required | string or null | Expected billing time, or null when billing is not scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
+| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `delivery_interval` | Required | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `discount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. `discount_money`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `discounts` | Required | Array of [SubscriptionRenewalEstimateDiscount](../models/SubscriptionRenewalEstimateDiscount.md#subscriptionrenewalestimatediscount) |  |
 | `line_items` | Required | Array of [SubscriptionRenewalEstimateLineItem](../models/SubscriptionRenewalEstimateLineItem.md#subscriptionrenewalestimatelineitem) |  |

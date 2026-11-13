@@ -2,7 +2,7 @@
 
 ## UpdatePayoutDestinationRequest
 
-The request body for: Update payout destination metadata.
+The request body for: Update payout destination metadata. minProperties: `1`.
 
 
 

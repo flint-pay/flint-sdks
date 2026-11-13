@@ -18,6 +18,7 @@ Resource, collection, or operation result returned by this request. An order ite
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `bundle_component_id` | Required | string or null | Bundle component this item counts, in component units. `null` when the line isn't a bundle component or a legacy allocation has no component recorded. Look the component up in the order line's bundle_components. Example: `"bunc_01KEZF7C00CQASEZGAPEANTGD1"`. |
 | `created_at` | Required | string | Creation timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `fulfillment_id` | Required | string | Fulfillment containing this package item. Example: `"ful_01KEZF7C00F24WVSTTWR1FQX5T"`. |
 | `metadata` | Optional | Map of string | Caller-owned metadata for this package item. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/PackageItemResponse.md#packageitemresponsedatametadata). |
@@ -26,7 +27,7 @@ Resource, collection, or operation result returned by this request. An order ite
 | `order_line_item_id` | Required | string | Order line whose quantity this package item allocates. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `package_id` | Required | string | Package containing this item. Example: `"pkg_01KEZF7C00ZZA16BJCEJBWKJ5R"`. |
 | `package_item_id` | Required | string | Unique identifier for this package allocation. Example: `"pki_01KEZF7C00CEFTYV5RD7XVYQ7B"`. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity in component units for a bundle component, or line units otherwise; fractional quantities are not supported. Format: `int64`. |
 | `shipment_id` | Required | string | Shipment containing the package. Example: `"shp_01KEZF7C00Q2AFXWXHMCDR3F68"`. |
 | `updated_at` | Required | string | Last update timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Persisted item version, independent of package shipment and capacity guards. Format: `uint64`. minimum: `1`. |

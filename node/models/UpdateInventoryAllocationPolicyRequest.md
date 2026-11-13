@@ -2,7 +2,7 @@
 
 ## UpdateInventoryAllocationPolicyRequest
 
-The request body for: Update inventory allocation policy.
+The request body for: Update inventory allocation policy. minProperties: `1`.
 
 
 

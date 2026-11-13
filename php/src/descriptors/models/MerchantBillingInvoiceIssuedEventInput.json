@@ -1,1 +1,1 @@
-{"shared":"MerchantBillingInvoiceIssuedEvent","dependencies":["MerchantBillingInvoice","MerchantBillingInvoiceIssuedEvent","MerchantBillingInvoiceLineItem","MoneyValue","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec946","SharedCodec947"]}
+{"shared":"MerchantBillingInvoiceIssuedEvent","dependencies":["MerchantBillingInvoice","MerchantBillingInvoiceIssuedEvent","MerchantBillingInvoiceLineItem","MoneyValue","SharedCodec10","SharedCodec1007","SharedCodec1008","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

@@ -6,24 +6,25 @@ namespace Flint;
  * @property-read string $delivery_quote_id
  * @property-read AddressRequestInput|array<array-key, mixed>|\stdClass $destination_address
  * @property-read string|null $expected_delivery_selection_id
+ * @property-read list<string> $inventory_reservation_ids
  * @property-read DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass $recipient
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateDeliverySelectionRequestInput extends Model {
-    /** @param array{'choices': list<CreateDeliverySelectionChoiceRequestInput|array<array-key, mixed>|\stdClass>, 'delivery_quote_id': string, 'destination_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_selection_id'?: string|null, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'choices': list<CreateDeliverySelectionChoiceRequestInput|array<array-key, mixed>|\stdClass>, 'delivery_quote_id': string, 'destination_address'?: AddressRequestInput|array<array-key, mixed>|\stdClass, 'expected_delivery_selection_id'?: string|null, 'inventory_reservation_ids'?: list<string>, 'recipient'?: DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDeliverySelectionRequestInput')); }
-    /**  [] (Value): {@see CreateDeliverySelectionChoiceRequestInput}. The delivery option to select for one choice group when creating a delivery selection, with optional delivery instructions.
+    /** One chosen option for every required choice group in the quote. Use group and option IDs from this quote, not an earlier quote. [] (Value): {@see CreateDeliverySelectionChoiceRequestInput}. The delivery option to select for one choice group when creating a delivery selection, with optional delivery instructions.
      * @return list<CreateDeliverySelectionChoiceRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When choices is omitted; use hasChoices() or valueOrDefault().
      */
     public function getChoices(): array { return $this->get('choices'); }
     public function hasChoices(): bool { return $this->has('choices'); }
-    /** minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+    /** ID of the quote whose options to choose. The selection belongs to that quote's checkout session. minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
      * @return string
      * @throws SdkError When delivery_quote_id is omitted; use hasDeliveryQuoteId() or valueOrDefault().
      */
     public function getDeliveryQuoteId(): string { return $this->get('delivery_quote_id'); }
     public function hasDeliveryQuoteId(): bool { return $this->has('delivery_quote_id'); }
-    /** Partial is fine when quoting: send what the buyer has entered, at least country. A destination_address sent with a selection must be complete; a selection that omits it uses the quote's destination, which may be partial. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
+    /** Destination address for shipment or local delivery. When sent, it must be a complete address. When omitted, Flint keeps the quote's address, even when partial; missing members appear in input_requirements and must be supplied before payment. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none.
      * @return AddressRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */
@@ -35,7 +36,13 @@ final class CreateDeliverySelectionRequestInput extends Model {
      */
     public function getExpectedDeliverySelectionId(): string|null { return $this->get('expected_delivery_selection_id'); }
     public function hasExpectedDeliverySelectionId(): bool { return $this->has('expected_delivery_selection_id'); }
-    /** Recipient details you supply with a delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
+    /** Requires a merchant credential with delivery-write scope. Merchant-created cart reservations to adopt atomically into the selection hold at the selected inventory items and locations. Only matching held units are released; unused units stay held, and any remaining demand uses available stock. At most 100 unique IDs. Explicit IDs, including an empty array, replace the session binding for this request. When omitted, both merchant and buyer requests use eligible session-bound holds; ineligible bound holds are silently skipped. First adopter wins when sessions share a hold. Ineligible explicit IDs are refused as not found. maxItems: 100. [] (Value): string. minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     * @return list<string>
+     * @throws SdkError When inventory_reservation_ids is omitted; use hasInventoryReservationIds() or valueOrDefault().
+     */
+    public function getInventoryReservationIds(): array { return $this->get('inventory_reservation_ids'); }
+    public function hasInventoryReservationIds(): bool { return $this->has('inventory_reservation_ids'); }
+    /** Recipient details the chosen options ask for. Missing required fields are returned in input_requirements and must be supplied before payment. Recipient details you supply with a delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
      * @return DeliverySelectionRecipientRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */

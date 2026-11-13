@@ -3,9 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read AddressInput|array<array-key, mixed>|\stdClass $address
+ * @property-read string|null $customer_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerSubscriptionServiceLocationInput extends Model {
-    /** @param array{'address'?: AddressInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'address'?: AddressInput|array<array-key, mixed>|\stdClass, 'customer_id': string|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerSubscriptionServiceLocationInput')); }
     /** A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return AddressInput|array<array-key, mixed>|\stdClass
@@ -13,4 +14,10 @@ final class BuyerSubscriptionServiceLocationInput extends Model {
      */
     public function getAddress(): mixed { return $this->get('address'); }
     public function hasAddress(): bool { return $this->has('address'); }
+    /** Customer that owns customer_address_id. Null when customer_address_id is absent or withheld from the buyer projection. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * @return string|null
+     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+     */
+    public function getCustomerId(): string|null { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
 }

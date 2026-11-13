@@ -15,9 +15,26 @@ Response model.
 | `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [20 declared values](BuyerActionInput.md#buyeractioninput-kind-values). |
 | `pause` | Optional | [BuyerPauseActionOptions](../models/BuyerPauseActionOptions.md#buyerpauseactionoptions) | Present only on an available pause action. The pause lengths this subscription accepts from its buyer. |
 | `pay_balance` | Optional | [BuyerPayBalanceActionOptions](../models/BuyerPayBalanceActionOptions.md#buyerpaybalanceactionoptions) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. `pay_balance`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actionspay_balance). |
-| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: `"sign_in_required"`, `"store_policy"`, `"not_in_state"`, `"window_closed"`, `"nothing_to_return"`, `"collection_unavailable"`, `"limit_reached"`. |
+| `retry_payment` | Optional | [BuyerRetryPaymentActionOptions](../models/BuyerRetryPaymentActionOptions.md#buyerretrypaymentactionoptions) | How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running. `retry_payment`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actionsretry_payment). |
+| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: [9 declared values](#buyeraction-unavailable_reason-values). |
+
+#### BuyerAction unavailable_reason values
+
+- `"sign_in_required"`
+- `"store_policy"`
+- `"not_in_state"`
+- `"window_closed"`
+- `"nothing_to_return"`
+- `"collection_unavailable"`
+- `"limit_reached"`
+- `"delivery_hold"`
+- `"in_progress"`
 
 ### BuyerAction.pay_balance
 
 Field definitions: [SubscriptionResponse.data.buyer_actions[].pay_balance](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actionspay_balance).
+
+### BuyerAction.retry_payment
+
+Field definitions: [SubscriptionResponse.data.buyer_actions[].retry_payment](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actionsretry_payment).
 

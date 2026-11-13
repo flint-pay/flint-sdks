@@ -10,22 +10,22 @@ namespace Flint;
 final class DeliveryWeeklyInterval extends Model {
     /** @param array{'end_minute': int, 'end_weekday': int, 'start_minute': int, 'start_weekday': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryWeeklyInterval')); }
-    /** end_minute
+    /** Minute of the day the span ends, from 0 to 1439, in the schedule's timezone.
      * @return int
      */
     public function getEndMinute(): int { return $this->get('end_minute'); }
     public function hasEndMinute(): bool { return $this->has('end_minute'); }
-    /** end_weekday
+    /** Weekday the span ends, from 0 for Sunday to 6 for Saturday.
      * @return int
      */
     public function getEndWeekday(): int { return $this->get('end_weekday'); }
     public function hasEndWeekday(): bool { return $this->has('end_weekday'); }
-    /** start_minute
+    /** Minute of the day the span starts, from 0 to 1439, in the schedule's timezone.
      * @return int
      */
     public function getStartMinute(): int { return $this->get('start_minute'); }
     public function hasStartMinute(): bool { return $this->has('start_minute'); }
-    /** start_weekday
+    /** Weekday the span starts, from 0 for Sunday to 6 for Saturday.
      * @return int
      */
     public function getStartWeekday(): int { return $this->get('start_weekday'); }

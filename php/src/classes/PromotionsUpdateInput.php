@@ -34,7 +34,7 @@ final class PromotionsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update promotion.
+    /** The request body for: Update promotion. minProperties: 1.
      * @return array{'application_method'?: mixed, 'combines_with'?: mixed, 'description'?: string|null, 'discount_class'?: string, 'display_name'?: string, 'eligibility_rules'?: array{'all': list<mixed>}|object|array{'any': list<mixed>}|object|null, 'exclusivity'?: array{'group'?: string, 'priority'?: int}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'max_uses'?: int|null, 'max_uses_per_customer'?: int|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'schedule'?: array{'ends_at'?: string|\DateTimeInterface|null, 'starts_at'?: string|\DateTimeInterface|null, 'timezone'?: string|null}|object|null, 'status'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -26,7 +26,7 @@ Body model: [CreateWorkloadIdentityRequestInput](../models/CreateWorkloadIdentit
 | `claim_conditions` | Optional | Array of [WorkloadIdentityClaimConditionRequestInput](../models/WorkloadIdentityClaimConditionRequest.md#workloadidentityclaimconditionrequest) | Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared issuers require tenant pinning. maxItems: `10`. uniqueItems: `true`. |
 | `issuer` | Required | string | Immutable public HTTPS issuer with a DNS host, optional port 443, and no userinfo, query, or fragment. Compared exactly. minLength: `1`. maxLength: `255`. |
 | `name` | Required | string | minLength: `1`. maxLength: `100`. |
-| `scopes` | Required | Array of string | Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only scopes they hold in the same environment. Only a full-access key or a freshly verified user session can grant accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write, in every mode. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Required | Array of string | Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only scopes they hold in the same environment. Only a full-access key or a freshly verified user session can grant accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write, in every mode. Items values: [102 declared values](../models/APIKey.md#apikey-scopes--values). |
 | `subject` | Required | string | minLength: `1`. maxLength: `1024`. |
 | `subject_match` | Optional | string | Default: `"exact"`. Values: `"exact"`, `"glob"`. |
 
@@ -85,7 +85,7 @@ Signature: `delete(workload_identity_id: InputValue<string>, params?: WorkloadId
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `workload_identity_id` | Required | string | Flint workload identity ID. |
-| `expected_version` | Optional | integer | Optional version most recently read. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional version most recently read. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
 
@@ -159,6 +159,7 @@ Returned payload: [WorkloadIdentity](../models/WorkloadIdentity.md#workloadident
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -214,6 +215,7 @@ Returned payload: [WorkloadIdentityListResponse](../models/WorkloadIdentityListR
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -251,7 +253,7 @@ Signature: `update(workload_identity_id: InputValue<string>, params: WorkloadIde
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `workload_identity_id` | Required | string | Flint workload identity ID. |
-| `body` | Required | [UpdateWorkloadIdentityRequestInput](../models/UpdateWorkloadIdentityRequest.md#updateworkloadidentityrequest) | The request body for: Update a workload identity. |
+| `body` | Required | [UpdateWorkloadIdentityRequestInput](../models/UpdateWorkloadIdentityRequest.md#updateworkloadidentityrequest) | The request body for: Update a workload identity. minProperties: `1`. |
 
 Body model: [UpdateWorkloadIdentityRequestInput](../models/UpdateWorkloadIdentityRequest.md#updateworkloadidentityrequest).
 
@@ -262,7 +264,7 @@ Body model: [UpdateWorkloadIdentityRequestInput](../models/UpdateWorkloadIdentit
 | `claim_conditions` | Optional | Array of [WorkloadIdentityClaimConditionRequestInput](../models/WorkloadIdentityClaimConditionRequest.md#workloadidentityclaimconditionrequest) | Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition; shared issuers require tenant pinning. maxItems: `10`. uniqueItems: `true`. |
 | `expected_version` | Optional | integer | Version most recently read. Required when claim_conditions or scopes is supplied; optional for scalar updates. Format: `int64`. minimum: `1`. |
 | `name` | Optional | string | minLength: `1`. maxLength: `100`. |
-| `scopes` | Optional | Array of string | Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only scopes they hold in the same environment. Only a full-access key or a freshly verified user session can grant accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write, in every mode. Items values: [96 declared values](../models/APIKey.md#apikey-scopes--values). |
+| `scopes` | Optional | Array of string | Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only scopes they hold in the same environment. Only a full-access key or a freshly verified user session can grant accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write, in every mode. Items values: [102 declared values](../models/APIKey.md#apikey-scopes--values). |
 | `status` | Optional | string | Values: `"active"`, `"inactive"`. |
 | `subject` | Optional | string | minLength: `1`. maxLength: `1024`. |
 | `subject_match` | Optional | string | Default: `"exact"`. Values: `"exact"`, `"glob"`. |

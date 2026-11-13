@@ -23,13 +23,13 @@ oneOf with purpose: "gift_card_purchase": The buyer confirms their email before 
 - Constraints for `channel`: Default: `"email"`. Values: `"email"`.
 - Constraints for `purpose`: Values: `"gift_card_purchase"`.
 
-### CreateCheckoutSessionCustomerVerificationRequest variant 2: `channel` = `"email"`, `purpose` = `"save_payment_method"`
+### CreateCheckoutSessionCustomerVerificationRequest variant 2: `purpose` = `"save_payment_method"`
 
-oneOf with purpose: "save_payment_method": The buyer asked to save the card they are paying with. Flint emails a code to any valid address while the session is open and save_payment_method_requires_verification is true..
+oneOf with purpose: "save_payment_method": By email, the default, Flint emails a code to any valid address while the session is open and save_payment_method_requires_verification is true. By auto, accepted only on a checkout whose order starts a subscription, Flint emails a code only when saving the renewal card would require email verification at payment. Otherwise, or past a recognition limit or when no code can be sent, it returns 409 ACTION_NOT_ALLOWED with reason not_offered. Auto reveals whether the email belongs to an existing customer of this merchant, as the payment refusal does. Requests count against the same limits as saved-details recognition; while a code for this purpose still works, a repeat returns it without sending another email. Confirming opens the same access as an explicit email request..
 
 - Required: `email`.
 - Optional: `channel`.
-- Constraints for `channel`: Default: `"email"`. Values: `"email"`.
+- Constraints for `channel`: Default: `"email"`. Values: `"email"`, `"auto"`.
 - Constraints for `purpose`: Values: `"save_payment_method"`.
 
 ### CreateCheckoutSessionCustomerVerificationRequest variant 3: `purpose` = `"use_saved_payment_methods"`
@@ -43,7 +43,7 @@ oneOf with purpose: "use_saved_payment_methods": The buyer asked to use details 
 
 ### CreateCheckoutSessionCustomerVerificationRequest variant 4: `purpose` = `"confirm_saved_payment_method"`
 
-oneOf with purpose: "confirm_saved_payment_method": After a payment that sent save_payment_method_phone, the buyer confirms the card it saved. Channel sms texts the number given with the payment; channel email emails the customer's email only when it matches the payment's email, otherwise returning 409. The response masks the email. Send no email. Available on the paid session, or an open session whose payment is approved for later capture, while payment_method_save.status is pending. A texted code saves the card with the number when the payment created the customer, the buyer confirmed their email in this checkout, or the number already opens their saved details; otherwise payment_method_save.email_confirmation_required becomes true and an emailed code finishes the save. An emailed code alone saves the card by email..
+oneOf with purpose: "confirm_saved_payment_method": After a payment that saved a card pending, the buyer confirms it. Without a number, only channel email can finish the save. Channel sms texts the number given with the payment; channel email emails the customer's email only when it matches the payment's email, otherwise returning 409. The response masks the email. Send no email. Available on the paid session, or an open session whose payment is approved for later capture, while payment_method_save.status is pending. A texted code saves the card with the number when the payment created the customer, the buyer confirmed their email in this checkout, or the number already opens their saved details; otherwise payment_method_save.email_confirmation_required becomes true and an emailed code finishes the save. An emailed code alone saves the card by email..
 
 - Required: `channel`.
 - Undeclared: `email`.

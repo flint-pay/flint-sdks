@@ -10,13 +10,12 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.customers.createTaxExemption(
   "cus_01KEZF7C006X9JK6NZNA2SM9XD",
   {
+    reason: "federal_government",
     coverage: {
+      type: "all_states",
       country: "US",
-      states: ["TX"],
-      type: "states",
     },
-    reason: "resale",
-    start_date: "2026-01-01",
+    start_date: "2026-08-02",
   },
   { idempotencyKey: idempotencyKey },
 );

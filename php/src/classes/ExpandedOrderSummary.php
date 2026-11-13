@@ -35,7 +35,7 @@ final class ExpandedOrderSummary extends Model {
      */
     public function getClosedAt(): ?string { return $this->get('closed_at'); }
     public function hasClosedAt(): bool { return $this->has('closed_at'); }
-    /** Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+    /** Why the order closed. Present exactly when status is closed. Set once at closure. Unrecognized reasons are returned as other; new values may be added. Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
      * @return ?string
      */
     public function getClosedReason(): ?string { return $this->get('closed_reason'); }
@@ -95,12 +95,12 @@ final class ExpandedOrderSummary extends Model {
      */
     public function getPricingAmounts(): PricingAmounts { return $this->get('pricing_amounts'); }
     public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
-    /** Refund progress for collected money. Value enum: "none", "partially_refunded", "refunded".
+    /** Refund progress for collected money. Refunds with `reason` `payment_returned` return money the order never received and don't count. Value enum: "none", "partially_refunded", "refunded".
      * @return string
      */
     public function getRefundStatus(): string { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** Payments, refunds, credits, and amounts still owed for the order. The bill settlement amounts plus order overpayments, settled tips, and debt discharged by final capture. Money collected, returned, waived, and still owed on a bill.
+    /** Payments, refunds, credits, and amounts still owed for the order. The bill settlement amounts plus order overpayments, settled tips, debt discharged by final capture, and value order edits removed. Money collected, returned, waived, and still owed on a bill.
      * @return OrderSettlementAmounts
      */
     public function getSettlementAmounts(): OrderSettlementAmounts { return $this->get('settlement_amounts'); }

@@ -16,7 +16,7 @@ namespace Flint;
 final class DeliveryLocationSetInput extends Model {
     /** @param array{'configuration': DeliveryLocationSetConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_location_set_revision_id': string, 'delivery_location_set_id': string, 'external_reference_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryLocationSetInput')); }
-    /** Current member Locations and selection rules. The location IDs in a delivery location set.
+    /** Current member Locations. The location IDs in a delivery location set.
      * @return DeliveryLocationSetConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */

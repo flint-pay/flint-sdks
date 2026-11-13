@@ -1,12 +1,12 @@
-import { d8168 as c0 } from '../descriptors/data/392.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d763 as c1 } from '../descriptors/data/37.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6779 as c2, d6780 as c3, d6781 as c4 } from '../descriptors/data/308.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d8200 as c5, d8201 as c6 } from '../descriptors/data/393.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d763 as d763 } from '../descriptors/data/37.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d8552 as c0 } from '../descriptors/data/417.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d786 as c1 } from '../descriptors/data/41.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6512 as c2, d6513 as c3, d6514 as c4 } from '../descriptors/data/297.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8586 as c5, d8587 as c6 } from '../descriptors/data/418.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d786 as d786 } from '../descriptors/data/41.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d763;
+const read = d786;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InventoryOriginPolicyRequest"]:c0(),["InventorySettingsRequest"]:c1(),["SharedCodec772"]:c2(),["SharedCodec773"]:c3(),["SharedCodec774"]:c4(),["SharedCodec777"]:c5(),["SharedCodec778"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InventoryOriginPolicyRequest"]:c0(),["InventorySettingsRequest"]:c1(),["SharedCodec831"]:c2(),["SharedCodec832"]:c3(),["SharedCodec833"]:c4(),["SharedCodec836"]:c5(),["SharedCodec837"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInventorySettingsRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

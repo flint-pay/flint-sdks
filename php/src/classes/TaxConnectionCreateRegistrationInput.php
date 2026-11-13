@@ -9,7 +9,7 @@ namespace Flint;
 final class TaxConnectionCreateRegistrationInput extends Model {
     /** @param array{'body': array{'country'?: string, 'end_date'?: string|null, 'registration_number': string, 'start_date': string, 'state'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionCreateRegistrationInput')); }
-    /** Register a US state, Canadian federal GST/HST, or Canadian provincial tax.
+    /** Register a US state, Canadian federal GST/HST, Canadian provincial tax, EU non-Union OSS, or GB, AU or NZ VAT or GST.
      * @return array{'country'?: string, 'end_date'?: string|null, 'registration_number': string, 'start_date': string, 'state'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

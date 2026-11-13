@@ -7,7 +7,7 @@ namespace Flint;
 final class TaxCalculationCallbacksDeleteParams extends Model {
     /** @param array{'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxCalculationCallbacksDeleteParams')); }
-    /** Current callback version. Format: uint64. minimum: 1.
+    /** Current callback version. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

@@ -9,9 +9,9 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `base_fee_currency_options` | Optional | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Base delivery fee by ISO currency code. Each key must equal the Money object's currency. |
-| `distance` | Optional | [DeliveryDistanceUnitPriceInput](../models/DeliveryDistanceUnitPriceInput.md#deliverydistanceunitpriceinput) | A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`. |
+| `distance` | Optional | [DeliveryDistanceUnitPriceInput](../models/DeliveryDistanceUnitPriceInput.md#deliverydistanceunitpriceinput) | Charge per unit of distance between the origin and the destination. A distance rate for calculated delivery pricing: a price by currency for each `unit_quantity` of `unit`. |
 | `maximum_fee_currency_options` | Optional | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Maximum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
 | `minimum_fee_currency_options` | Optional | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Minimum delivery fee by ISO currency code. Each key must equal the Money object's currency. |
 | `per_item_handling_fee_currency_options` | Optional | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Handling fee per item by ISO currency code. Each key must equal the Money object's currency. |
-| `weight` | Optional | [DeliveryWeightUnitPriceInput](../models/DeliveryWeightUnitPriceInput.md#deliveryweightunitpriceinput) | Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`. |
+| `weight` | Optional | [DeliveryWeightUnitPriceInput](../models/DeliveryWeightUnitPriceInput.md#deliveryweightunitpriceinput) | Charge per unit of weight of the items. Price per unit of weight for calculated pricing: a price per currency for each `unit_quantity` of the chosen weight `unit`. |
 

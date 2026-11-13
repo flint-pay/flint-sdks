@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location` | Optional | [DeliveryLocationSummaryResourceInput](../models/DeliveryLocationSummaryResourceInput.md#deliverylocationsummaryresourceinput) | A pickup location shown on a delivery option: its name, address, instructions, and timezone. |
-| `pickup_mode` | Required | string | Values: `"in_store"`, `"curbside"`, `"locker"`, `"other"`. |
+| `location` | Optional | [DeliveryLocationSummaryResourceInput](../models/DeliveryLocationSummaryResourceInput.md#deliverylocationsummaryresourceinput) | Location where the buyer collects the items. A pickup location shown on a delivery option: its name, address, instructions, and timezone. |
+| `pickup_mode` | Required | string | How the buyer collects the items at this Location. Values: `"in_store"`, `"curbside"`, `"locker"`, `"other"`. |
 

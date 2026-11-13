@@ -1,7 +1,7 @@
-import { d5496 as c0 } from '../descriptors/data/238.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5496 as d5496 } from '../descriptors/data/238.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d5702 as c0 } from '../descriptors/data/252.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d5702 as d5702 } from '../descriptors/data/252.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5496;
+const read = d5702;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["UpdateTicketRequest"]:c0()}); }
 export { codec as _validate };

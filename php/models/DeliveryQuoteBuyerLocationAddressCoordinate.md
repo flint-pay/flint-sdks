@@ -2,12 +2,11 @@
 
 ## DeliveryQuoteBuyerLocationAddressCoordinate
 
+The buyer location as a coordinate. Set only when `type` is `coordinate`.
+
 A latitude and longitude.
 
 Response model.
 
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `latitude` | Required | number | minimum: `-90`. maximum: `90`. |
-| `longitude` | Required | number | minimum: `-180`. maximum: `180`. |
+Fields, types, descriptions and enum values: [DeliveryPreviewResponseDataDeliveryOptionsBuyerLocationAddressCoordinate](../models/DeliveryPreviewResponseDataDeliveryOptionsBuyerLocationAddressCoordinate.md#deliverypreviewresponsedatadeliveryoptionsbuyerlocationaddresscoordinate).
 

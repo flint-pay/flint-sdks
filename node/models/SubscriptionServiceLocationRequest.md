@@ -20,8 +20,8 @@ anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where t
 
 - Required: `customer_address_id`.
 - Undeclared: `address`.
-- Constraints for `customer_address_id`: minLength: `1`. pattern: `^caddr_[0-9A-HJKMNP-TV-Z]{26}$`.
-- Constraints for `type`: Values: `"customer_address"`.
+- Constraints for `customer_address_id`: ID of the customer's saved address. Flint copies it, so later edits to the saved address don't change the subscription. minLength: `1`. pattern: `^caddr_[0-9A-HJKMNP-TV-Z]{26}$`.
+- Constraints for `type`: Selects one of the customer's saved addresses as the destination. Values: `"customer_address"`.
 
 ### SubscriptionServiceLocationRequest variant 2: `type` = `"address"`
 
@@ -29,7 +29,8 @@ anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where t
 
 - Required: `address`.
 - Undeclared: `customer_address_id`.
-- Constraints for `type`: Values: `"address"`.
+- Constraints for `address`: Delivery address. Flint saves a copy with the subscription.
+- Constraints for `type`: Selects a new address as the destination. Values: `"address"`.
 
 ### SubscriptionServiceLocationRequest variant 3: `type` = `"customer_address"`
 

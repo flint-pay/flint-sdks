@@ -205,142 +205,77 @@ $result = $client->fulfillments->complete('ful_01KEZF7C00F24WVSTTWR1FQX5T', null
 
 [Complete runnable example](../examples/fulfillments-complete.php)
 
-### fulfillments.createEvent
+### fulfillments.create
 
-Records an observational event for a fulfillment or one of its shipments or packages. Read timeline events with GET /v1/fulfillment-events filtered by package_id, shipment_id, or fulfillment_id, and notifications with GET /v1/fulfillment-notifications filtered by fulfillment_event_id or fulfillment_id.
+Creates a fulfillment for the specified quantities on a paid order. Idempotency-Key is required for every request because an inline shipped package can consume inventory. Save the key before sending and retry the same key and body after a lost response. GET /v1/fulfillments supports order_id and external_reference_id filters, but not idempotency_key; an empty list does not prove creation failed. If replay cannot recover the result, contact support with the original key and request ID instead of creating another fulfillment. A line that does not require fulfillment returns 400 INVALID_REQUEST with detail code NOT_ALLOWED at line_items[i].order_line_item_id; an unknown line ID returns 404 RESOURCE_NOT_FOUND. Use this when you manage fulfillment outside checkout; checkout creates fulfillments for the buyer's delivery selections. While Flint is creating those fulfillments, requests for their quantities return OPERATION_IN_PROGRESS with reason delivery_selection_materializing. Retrieve the order and use its fulfillments. Fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached` when the order is not paid. See the fulfillment guide.
 
-`POST /v1/fulfillments/{fulfillment_id}/events`
+`POST /v1/fulfillments`
 
-Signature: `createEvent(string|Model $fulfillment_id, array|Model $params, ?RequestOptions $options = null)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint fulfillment ID. |
-| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
-| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [CreateFulfillmentEventRequestInput](../models/CreateFulfillmentEventRequestInput.md#createfulfillmenteventrequestinput) | The request body for: Create fulfillment event. |
-
-Body model: [CreateFulfillmentEventRequestInput](../models/CreateFulfillmentEventRequestInput.md#createfulfillmenteventrequestinput).
-
-#### fulfillments.createEvent body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `custom_details` | Optional | Map of string | Free-form details attached to the event. Map values: minLength: `1`. |
-| `event_type` | Required | string | What kind of event this records. Values: `"carrier_scan"`, `"custom"`. |
-| `external_event_id` | Optional | string | Event identifier assigned by that integration. Flint records a repeated pair of `external_system` and `external_event_id` once. minLength: `1`. |
-| `external_status` | Optional | string | Status supplied by that integration. minLength: `1`. |
-| `external_system` | Optional | string | Integration that supplied the event. minLength: `1`. |
-| `location_description` | Optional | string | Where the event happened, such as `Louisville, KY`. minLength: `1`. |
-| `message` | Optional | string | Human-readable text describing the event. minLength: `1`. |
-| `occurred_at` | Optional | string | Provider event timestamp. Format: `date-time`. minLength: `1`. |
-| `package_id` | Optional | string | Nested package associated with this observational event. Flint resolves and validates its shipment and fulfillment ownership. minLength: `1`. |
-| `shipment_id` | Optional | string | Nested shipment associated with this observational event. Flint validates that it belongs to the fulfillment in the path. minLength: `1`. |
-
-#### Response
-
-Returned payload: [FulfillmentEvent](../models/FulfillmentEvent.md#fulfillmentevent).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```php
-// Persist this key with the action before sending; reuse it for every resubmission.
-$idempotencyKey = bin2hex(random_bytes(16));
-
-$result = $client->fulfillments->createEvent('ful_01KEZF7C00F24WVSTTWR1FQX5T', [
-  'custom_details' => (object) [
-    'facility' => 'east',
-  ],
-  'event_type' => 'custom',
-  'external_event_id' => 'evt_7f3df2',
-  'external_status' => 'work_started',
-  'external_system' => 'shippo',
-  'message' => 'The fulfillment partner started work.',
-  'occurred_at' => '2026-05-13T16:05:00Z',
-  'package_id' => 'pkg_01KEZF7C008VJBE6BT0CWZT296',
-  'shipment_id' => 'shp_01KEZF7C006DZPA7FGH42HTBY8',
-], new RequestOptions(idempotencyKey: $idempotencyKey));
-```
-
-[Complete runnable example](../examples/fulfillments-createEvent.php)
-
-### fulfillments.createShipment
-
-Creates a shipment under a shipment fulfillment. For outbound shipments, include 1 to 20 packages to create the parcels atomically and return their IDs. Set each package's status to shipped to report handoff in the same call. Return shipments cannot include packages.
-
-`POST /v1/fulfillments/{fulfillment_id}/shipments`
-
-Signature: `createShipment(string|Model $fulfillment_id, array|Model $params, ?RequestOptions $options = null)`
+Signature: `create(array|Model $params, ?RequestOptions $options = null)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Required | string | Flint shipment fulfillment ID. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [CreateShipmentRequestInput](../models/CreateShipmentRequestInput.md#createshipmentrequestinput) | The request body for: Create shipment. |
+| `body` | Required | [CreateFulfillmentRequestInput](../models/CreateFulfillmentRequestInput.md#createfulfillmentrequestinput) | Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages. |
 
-Body model: [CreateShipmentRequestInput](../models/CreateShipmentRequestInput.md#createshipmentrequestinput).
+Body model: [CreateFulfillmentRequestInput](../models/CreateFulfillmentRequestInput.md#createfulfillmentrequestinput).
 
-#### fulfillments.createShipment body fields
+#### fulfillments.create body fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `direction` | Required | string | Whether the shipment sends items to the buyer or returns items to the merchant. Values: `"outbound"`, `"return"`. |
-| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. Requires external_system. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. maxLength: `255`. |
-| `external_system` | Optional | string | Name of the external system that external_reference_id belongs to. External references are not unique. Use Idempotency-Key for retries. minLength: `1`. |
+| `customer_id` | Optional | string | Customer receiving this fulfillment, when one is set. minLength: `1`. |
+| `device_id` | Optional | string | Device used for this fulfillment. It must be active. When location_id is also set, the device must belong to that Location. minLength: `1`. |
+| `digital_details` | Optional | [CreateDigitalFulfillmentDetailsInput](../models/CreateDigitalFulfillmentDetailsInput.md#createdigitalfulfillmentdetailsinput) | Details of a `digital` fulfillment, such as the download link. Digital fulfillment details you supply when creating a fulfillment: the delivery URL. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `line_items` | Required | Array of [FulfillmentLineItemRequestInput](../models/FulfillmentLineItemRequestInput.md#fulfillmentlineitemrequestinput) | Order line items, with the quantity of each, that this fulfillment covers. minItems: `1`. |
+| `local_delivery_details` | Optional | [CreateDeliveryFulfillmentDetailsInput](../models/CreateDeliveryFulfillmentDetailsInput.md#createdeliveryfulfillmentdetailsinput) | Details of a `local_delivery` fulfillment, such as the courier's tracking link. Local delivery details you supply when creating a fulfillment: courier, timing window, instructions, and tracking. |
+| `location_id` | Optional | string | Merchant location responsible for this fulfillment. minLength: `1`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `packages` | Optional | Array of [PackageCreateRequestInput](../models/PackageCreateRequestInput.md#packagecreaterequestinput) | Creates packages atomically with an outbound shipment. Items are optional per package. Created packages are included in the response. minItems: `1`. maxItems: `20`. |
-| `return_id` | Optional | string | Return associated with this shipment, when its direction is return. minLength: `1`. |
-| `return_line_items` | Optional | Array of [ReturnShipmentLineItemAllocationRequestInput](../models/ReturnShipmentLineItemAllocationRequestInput.md#returnshipmentlineitemallocationrequestinput) | Return lines and quantities the shipment carries. minItems: `1`. |
+| `order_id` | Required | string | Paid order whose quantities this fulfillment delivers. minLength: `1`. |
+| `pickup_details` | Optional | [CreatePickupFulfillmentDetailsInput](../models/CreatePickupFulfillmentDetailsInput.md#createpickupfulfillmentdetailsinput) | Details of a `pickup` fulfillment. Pickup details you supply when creating a fulfillment: the pickup address, location, window, instructions, and curbside details. |
+| `recipient` | Optional | [FulfillmentRecipientRequestInput](../models/FulfillmentRecipientRequestInput.md#fulfillmentrecipientrequestinput) | Who receives the fulfillment. Recipient details you supply when creating or updating a fulfillment: name, email, phone, address, and handling instructions. |
+| `service_details` | Optional | [CreateServiceFulfillmentDetailsInput](../models/CreateServiceFulfillmentDetailsInput.md#createservicefulfillmentdetailsinput) | Details of a `service` fulfillment. Service details you supply when creating a fulfillment: the scheduled start and end, timezone, and notes. |
+| `shipment` | Optional | [FulfillmentPackagingRequestInput](../models/FulfillmentPackagingRequestInput.md#fulfillmentpackagingrequestinput) | Creates an outbound shipment and packages atomically with a shipment fulfillment. single_package assigns every submitted line quantity to package; itemized requires explicit items in each of 1 to 20 packages. Set a package's status to shipped to report handoff in the same call. Creates an outbound shipment with one package using `packaging: single_package`, or 1 to 20 packages with explicit items using `packaging: itemized`. External reference and metadata are optional. |
+| `type` | Required | string | The kind of fulfillment. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
 
-#### fulfillments.createShipment with `direction: "outbound"`
+#### fulfillments.create with `type: "shipment"`
 
-The `outbound` variant of `CreateShipmentRequest`.
+Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
 
-Body model: [CreateShipmentRequestOutboundInput](../models/CreateShipmentRequestOutboundInput.md#createshipmentrequestoutboundinput).
+Body model: [CreateFulfillmentRequestShipmentInput](../models/CreateFulfillmentRequestShipmentInput.md#createfulfillmentrequestshipmentinput).
 
-#### fulfillments.createShipment with `direction: "return"`
+#### fulfillments.create with `type: "pickup"`
 
-The `return` variant of `CreateShipmentRequest`.
+Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
 
-Body model: [CreateShipmentRequestReturnInput](../models/CreateShipmentRequestReturnInput.md#createshipmentrequestreturninput).
+Body model: [CreateFulfillmentRequestPickupInput](../models/CreateFulfillmentRequestPickupInput.md#createfulfillmentrequestpickupinput).
+
+#### fulfillments.create with `type: "local_delivery"`
+
+Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
+
+Body model: [CreateFulfillmentRequestLocalDeliveryInput](../models/CreateFulfillmentRequestLocalDeliveryInput.md#createfulfillmentrequestlocaldeliveryinput).
+
+#### fulfillments.create with `type: "digital"`
+
+Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
+
+Body model: [CreateFulfillmentRequestDigitalInput](../models/CreateFulfillmentRequestDigitalInput.md#createfulfillmentrequestdigitalinput).
+
+#### fulfillments.create with `type: "service"`
+
+Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages.
+
+Body model: [CreateFulfillmentRequestServiceInput](../models/CreateFulfillmentRequestServiceInput.md#createfulfillmentrequestserviceinput).
 
 #### Response
 
-Returned payload: [Shipment](../models/Shipment.md#shipment).
+Returned payload: [Fulfillment](../models/Fulfillment.md#fulfillment).
 
 #### Errors
 
@@ -365,7 +300,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
 
 Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
 
@@ -375,17 +310,31 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 $idempotencyKey = bin2hex(random_bytes(16));
 
-$result = $client->fulfillments->createShipment('ful_01KEZF7C00F24WVSTTWR1FQX5T', [
-  'direction' => 'outbound',
-  'external_reference_id' => 'ship_789',
-  'external_system' => 'merchant_wms',
-  'metadata' => (object) [
-    'warehouse' => 'east',
+$result = $client->fulfillments->create([
+  'line_items' => [
+    (object) [
+      'bundle_component_id' => null,
+      'order_line_item_id' => 'li_01KEZF7C004XP0V220YVMGQ354',
+      'quantity' => 1,
+    ],
   ],
+  'metadata' => (object) [
+    'source' => 'dispatch',
+  ],
+  'order_id' => 'ord_01KEZF7C006M16GC2D8HRRC30T',
+  'shipment' => (object) [
+    'package' => (object) [
+      'carrier' => 'ups',
+      'status' => 'created',
+      'tracking_number' => '1Z999AA10123456784',
+    ],
+    'packaging' => 'single_package',
+  ],
+  'type' => 'shipment',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
-[Complete runnable example](../examples/fulfillments-createShipment.php)
+[Complete runnable example](../examples/fulfillments-create.php)
 
 ### fulfillments.dispatch
 
@@ -673,13 +622,14 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. Items values: `"order"`. Values: `"order"`. |
-| `order_id` | Optional | string | Filter by order ID. |
-| `customer_id` | Optional | string | Exact match on customer_id. |
+| `order_id` | Optional | string | Filter by order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `customer_id` | Optional | string | Exact match on customer_id. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `query` | Optional | string | Search across fulfillment_id and external_reference_id. Also matches an exact order number. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ful_01. |
 | `status` | Optional | Array of string or string | Filter by exact fulfillment status. Values within this filter are ORed; combined with other filters using AND. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [14 declared values](#fulfillmentslist-input-status--values). Values: [14 declared values](#fulfillmentslist-input-status-values). |
-| `type` | Optional | Array of string or string | Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`. |
-| `location_id` | Optional | string | Filter by assigned Location ID. |
+| `type` | Optional | Array of string or string | Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`, `"handover"`. Values: `"shipment"`, `"pickup"`, `"local_delivery"`, `"digital"`, `"service"`, `"handover"`. |
+| `location_id` | Optional | string | Filter by assigned Location ID. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
@@ -1329,11 +1279,10 @@ Signature: `update(string|Model $fulfillment_id, array|Model $params, ?RequestOp
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `fulfillment_id` | Required | string | Flint fulfillment ID. |
-| `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: order, packages, shipments. Expansion requires commerce.orders.read. Limits: at most 10 unique expand paths per request. To-many expansions are capped at 20 related objects per path. Items values: `"order"`, `"packages"`, `"shipments"`. Values: `"order"`, `"packages"`, `"shipments"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateFulfillmentRequestInput](../models/UpdateFulfillmentRequestInput.md#updatefulfillmentrequestinput) | Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages. A supplied detail field must match the stored fulfillment type. Omit details for metadata-only updates. Even null detail fields count toward exclusivity. |
+| `body` | Required | [UpdateFulfillmentRequestInput](../models/UpdateFulfillmentRequestInput.md#updatefulfillmentrequestinput) | Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages. A supplied detail field must match the stored fulfillment type. Omit details for metadata-only updates. Even null detail fields count toward exclusivity. minProperties: `1`. |
 
 Body model: [UpdateFulfillmentRequestInput](../models/UpdateFulfillmentRequestInput.md#updatefulfillmentrequestinput).
 

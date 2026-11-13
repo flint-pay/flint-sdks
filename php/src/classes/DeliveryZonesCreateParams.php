@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read mixed $configuration
+ * @property-read DeliveryZoneConfigurationRequestInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read string $external_reference_id
  * @property-read MetadataRequestInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryZonesCreateParams extends Model {
-    /** @param array{'configuration': mixed, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'configuration': DeliveryZoneConfigurationRequestInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZonesCreateParams')); }
-    /** A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
-     * @return mixed
+    /** The settings that define this resource. Changing them publishes a new revision. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
+     * @return DeliveryZoneConfigurationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }
@@ -28,7 +28,7 @@ final class DeliveryZonesCreateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Merchant-facing name. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

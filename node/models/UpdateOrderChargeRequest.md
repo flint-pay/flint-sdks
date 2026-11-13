@@ -2,7 +2,7 @@
 
 ## UpdateOrderChargeRequest
 
-The request body for: Update order charge.
+The request body for: Update order charge. minProperties: `1`.
 
 
 

@@ -2,11 +2,29 @@
 
 ## PaymentClientActionInput
 
-Typed provider-specific browser action payload. Execute the selected provider action before continuing the owning payment through Flint.
+How to finish a payment step. Flint's API returns a Stripe client secret only for client_action_type stripe. With url, Stripe's authentication page receives what it needs to run the challenge, including the client secret for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with cancellation_reason payment_returned.
 
 Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `stripe` | Required | [StripePaymentClientActionInput](../models/StripePaymentClientActionInput.md#stripepaymentclientactioninput) | Stripe.js initialization context plus one flow-specific authority object. Exactly one of payment_intent or setup_intent is present. |
+| `type` | Required | string | Selects how to complete the step. The url type opens the authentication page; the stripe type returns a Stripe client secret for Stripe.js handleNextAction. |
+| `url` | Conditional | string | Bearer URL on Flint's payment-return host. Open it as a redirect, popup, or iframe before expires_at. The Flint API response contains no Stripe client secret; Stripe's authentication page receives what it needs to run the challenge, including the client secret for hosted 3DS2. minLength: `1`. |
+| `stripe` | Conditional | [StripePaymentClientActionInput](../models/StripePaymentClientActionInput.md#stripepaymentclientactioninput) | Stripe.js initialization and a Stripe client secret returned by Flint's API for client_action_type stripe. Use the client secret only with handleNextAction; it can also confirm the underlying payment with another card. Stripe initialization context plus one flow-specific authority object. Exactly one of payment_intent, setup_intent, or terminal_payment_intent is present. |
+
+### PaymentClientActionInput variant 1: `type` = `"url"`
+
+oneOf with type: "url": The `url` variant of `PaymentClientAction`..
+
+- Required: `url`.
+- Undeclared: `stripe`.
+- Constraints for `type`: Values: `"url"`.
+
+### PaymentClientActionInput variant 2: `type` = `"stripe"`
+
+oneOf with type: "stripe": The `stripe` variant of `PaymentClientAction`..
+
+- Required: `stripe`.
+- Undeclared: `url`.
+- Constraints for `type`: Values: `"stripe"`.
 

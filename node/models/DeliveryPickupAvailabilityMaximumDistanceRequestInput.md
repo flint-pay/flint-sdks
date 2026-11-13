@@ -12,6 +12,6 @@ A maximum distance from the buyer location, as a value and unit, that limits whi
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `unit` | Required | string | Values: `"meter"`, `"kilometer"`, `"mile"`. |
+| `unit` | Required | string | Unit of `value`. Values: `"meter"`, `"kilometer"`, `"mile"`. |
 | `value` | Required | number | Maximum distance from the buyer location, greater than zero, in the selected unit. exclusiveMinimum: `0`. |
 

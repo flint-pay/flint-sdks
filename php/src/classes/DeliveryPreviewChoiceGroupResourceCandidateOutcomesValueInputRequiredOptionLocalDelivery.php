@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionLocalDelivery extends Model {
     /** @param array{'instructions'?: string, 'service_level'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionLocalDelivery')); }
-    /** instructions
+    /** Buyer-facing instructions for this delivery service.
      * @return ?string
      */
     public function getInstructions(): ?string { return $this->get('instructions'); }
     public function hasInstructions(): bool { return $this->has('instructions'); }
-    /** service_level
+    /** Merchant's service-level label. Flint does not enforce the timing implied by the label.
      * @return ?string
      */
     public function getServiceLevel(): ?string { return $this->get('service_level'); }

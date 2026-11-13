@@ -1,1 +1,1 @@
-{"shared":"CreateRefundRequestFull","dependencies":["CreateRefundRequestFull","MetadataRequest","RefundDestinations","SharedCodec337","SharedCodec338","SharedCodec340"]}
+{"shared":"CreateRefundRequestFull","dependencies":["CreateRefundRequestFull","MetadataRequest","MoneyValue","RefundDestinations","SharedCodec141","SharedCodec385","SharedCodec386","SharedCodec388","SplitReversalRequest"]}

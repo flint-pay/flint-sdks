@@ -38,6 +38,10 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](OrderEdit.md#orderedit).
 
+### OrderEditCreatedMerchantEvent.data fields 1.object.add_line_items[]
+
+Field definitions: [OrderEditResponse.data.add_line_items[]](../models/OrderEditResponse.md#ordereditresponsedataadd_line_items).
+
 ### OrderEditCreatedMerchantEvent.data fields 1.object.charge_refunds[]
 
 Field definitions: [OrderEditPreviewResponse.data.charge_refunds[]](../models/OrderEditPreviewResponse.md#ordereditpreviewresponsedatacharge_refunds).

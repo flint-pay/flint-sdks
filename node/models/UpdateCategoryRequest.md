@@ -2,7 +2,7 @@
 
 ## UpdateCategoryRequest
 
-The request body for: Update category.
+The request body for: Update category. minProperties: `1`.
 
 
 

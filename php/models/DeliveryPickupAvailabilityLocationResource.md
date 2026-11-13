@@ -8,11 +8,11 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `applicable_quantities` | Required | Array of [DeliveryPickupAvailabilityQuantityResource](../models/DeliveryPickupAvailabilityQuantityResource.md#deliverypickupavailabilityquantityresource) | `applicable_quantities[]`: [field definitions](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresourceapplicable_quantities). |
-| `candidate_outcome` | Required | [DeliveryPickupAvailabilityCandidateOutcome](../models/DeliveryPickupAvailabilityCandidateOutcome.md#deliverypickupavailabilitycandidateoutcome) | Whether pickup is available at one location, chosen by `type`, with the reason when it is unavailable or cannot be calculated. |
-| `compatible_methods` | Required | Array of [DeliveryPickupAvailabilityMethodResource](../models/DeliveryPickupAvailabilityMethodResource.md#deliverypickupavailabilitymethodresource) | `compatible_methods[]`: [field definitions](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresourcecompatible_methods). |
+| `applicable_quantities` | Required | Array of [DeliveryPickupAvailabilityQuantityResource](../models/DeliveryPickupAvailabilityQuantityResource.md#deliverypickupavailabilityquantityresource) | Quantities of the order's items this Location can supply. `applicable_quantities[]`: [field definitions](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresourceapplicable_quantities). |
+| `candidate_outcome` | Required | [DeliveryPickupAvailabilityCandidateOutcome](../models/DeliveryPickupAvailabilityCandidateOutcome.md#deliverypickupavailabilitycandidateoutcome) | Result of evaluating this Location for pickup. Whether pickup is available at one location, chosen by `type`, with the reason when it is unavailable or cannot be calculated. |
+| `compatible_methods` | Required | Array of [DeliveryPickupAvailabilityMethodResource](../models/DeliveryPickupAvailabilityMethodResource.md#deliverypickupavailabilitymethodresource) | Pickup methods that can serve this Location. `compatible_methods[]`: [field definitions](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresourcecompatible_methods). |
 | `distance_meters` | Optional | number | Straight-line distance in meters from the buyer location. A buyer location with only a postal code is measured from the postal code's center. Omitted when Flint cannot place the buyer location or the store. |
-| `location` | Required | [DeliveryPickupAvailabilityLocationSummary](../models/DeliveryPickupAvailabilityLocationSummary.md#deliverypickupavailabilitylocationsummary) | The ID, name, and address of a pickup location in a pickup locations preview. `location`: [field definitions](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresourcelocation). |
+| `location` | Required | [DeliveryPickupAvailabilityLocationSummary](../models/DeliveryPickupAvailabilityLocationSummary.md#deliverypickupavailabilitylocationsummary) | The pickup Location. The ID, name, and address of a pickup location in a pickup locations preview. `location`: [field definitions](../models/DeliveryPickupAvailabilityLocationResource.md#deliverypickupavailabilitylocationresourcelocation). |
 
 ### DeliveryPickupAvailabilityLocationResource.applicable_quantities[]
 
@@ -28,15 +28,15 @@ Field definitions: [shared fields](DeliveryPickupAvailabilityMethodResourceInput
 
 ### DeliveryPickupAvailabilityLocationResource.location
 
-The ID, name, and address of a pickup location in a pickup locations preview.
+The pickup Location. The ID, name, and address of a pickup location in a pickup locations preview.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/OrderResponse.md#orderresponsedatadelivery_destinationaddress). |
-| `location_id` | Required | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-| `name` | Required | string |  |
+| `address` | Optional | [Address](../models/Address.md#address) | Street address of the Location. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionPickup.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoptionpickuplocation-fields-1address). |
+| `location_id` | Required | string | ID of the Location buyers can collect from. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `name` | Required | string | Name of the Location, as buyers see it when choosing pickup. |
 
 ### DeliveryPickupAvailabilityLocationResource.location.address
 
-Field definitions: [OrderResponse.data.delivery_destination.address](../models/OrderResponse.md#orderresponsedatadelivery_destinationaddress).
+Field definitions: [DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionPickup.location fields 1.address](../models/DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueAvailableOptionPickup.md#deliveryquotechoicegroupresourcecandidateoutcomesvalueavailableoptionpickuplocation-fields-1address).
 

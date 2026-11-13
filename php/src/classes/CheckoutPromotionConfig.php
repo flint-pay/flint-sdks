@@ -13,7 +13,7 @@ final class CheckoutPromotionConfig extends Model {
      */
     public function getAutomaticEnabled(): ?bool { return $this->get('automatic_enabled'); }
     public function hasAutomaticEnabled(): bool { return $this->has('automatic_enabled'); }
-    /** Object-level override for whether this checkout's buyer can apply promotion codes, hosted or headless. Hosted checkout shows or hides code entry to match. Omit to inherit checkout.promotion_codes_enabled. True allows codes when the merchant's promotion settings allow them; false blocks them for this checkout. `null` when this checkout inherits checkout.promotion_codes_enabled.
+    /** Object-level override for whether this checkout's buyer can apply promotion codes, hosted or headless. Omit to inherit the payment link and checkout.promotion_codes_enabled. When all are unset, hosted checkout offers code entry only while an active code promotion exists in this environment; read can_apply_promotion_code on the session. True allows codes when the merchant's promotion settings allow them; false blocks them for this checkout. `null` when this checkout inherits checkout.promotion_codes_enabled.
      * @return bool|null
      */
     public function getCodesEnabled(): bool|null { return $this->get('codes_enabled'); }

@@ -2,19 +2,19 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read string $account_id
+ * @property-read string|null $account_id
  * @property-read BuyerPaymentCollectionStripeElementsInput|array<array-key, mixed>|\stdClass $elements
  * @property-read string $publishable_key
  * @property-read string $return_url
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerPaymentCollectionStripeInput extends Model {
-    /** @param array{'account_id'?: string, 'elements'?: BuyerPaymentCollectionStripeElementsInput|array<array-key, mixed>|\stdClass, 'publishable_key'?: string, 'return_url'?: string, ...}|object $values */
+    /** @param array{'account_id': string|null, 'elements'?: BuyerPaymentCollectionStripeElementsInput|array<array-key, mixed>|\stdClass, 'publishable_key'?: string, 'return_url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentCollectionStripeInput')); }
-    /** Stripe account to use when initializing the payment client. Example: "acct_1234567890".
-     * @return string
+    /** Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when the payment has splits: initialize Stripe.js with publishable_key alone and omit stripeAccount. Example: "acct_1234567890".
+     * @return string|null
      * @throws SdkError When account_id is omitted; use hasAccountId() or valueOrDefault().
      */
-    public function getAccountId(): string { return $this->get('account_id'); }
+    public function getAccountId(): string|null { return $this->get('account_id'); }
     public function hasAccountId(): bool { return $this->has('account_id'); }
     /** Stripe Elements configuration for the available payment methods and amounts. Stripe Elements collection guidance. Follow next_step in the browser, then submit the result to submit_to through Flint.
      * @return BuyerPaymentCollectionStripeElementsInput|array<array-key, mixed>|\stdClass

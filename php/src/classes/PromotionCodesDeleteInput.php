@@ -10,7 +10,7 @@ namespace Flint;
 final class PromotionCodesDeleteInput extends Model {
     /** @param array{'expected_version'?: int, 'promotion_code_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodesDeleteInput')); }
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

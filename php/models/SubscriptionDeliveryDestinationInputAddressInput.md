@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Required | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
-| `type` | Required | string | Values: `"address"`. |
+| `address` | Required | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) | Delivery address. Flint saves a copy with the subscription. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
+| `type` | Required | string | Selects a new address as the destination. Values: `"address"`. |
 
