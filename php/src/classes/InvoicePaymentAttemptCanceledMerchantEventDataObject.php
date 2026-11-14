@@ -86,7 +86,7 @@ final class InvoicePaymentAttemptCanceledMerchantEventDataObject extends Model {
      */
     public function getStartedAt(): ?string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** Current payment attempt status. settled means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.settled reports that completion. Value enum: "open", "settled", "failed", "canceled", "expired", "processing".
+    /** Current payment attempt status. succeeded means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.succeeded reports that completion. Value enum: "open", "succeeded", "failed", "canceled", "expired", "processing".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

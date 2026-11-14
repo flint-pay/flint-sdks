@@ -46,6 +46,10 @@ Field definitions: [CheckoutSessionResponse.data.payment_method_save](../models/
 
 Field definitions: [CheckoutSessionResponse.data.redirects](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataredirects).
 
+### ResolvePaymentLinkResponse.data.refunds[]
+
+Field definitions: [CheckoutSessionResponse.data.refunds[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatarefunds).
+
 ### ResolvePaymentLinkResponse.data.subscription_terms
 
 Field definitions: [CheckoutSessionResponse.data.subscription_terms](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatasubscription_terms).

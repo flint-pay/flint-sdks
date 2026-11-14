@@ -1,7 +1,7 @@
-import { d127 as c0 } from '../descriptors/data/6.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d127 as d127 } from '../descriptors/data/6.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d130 as c0 } from '../descriptors/data/6.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d130 as d130 } from '../descriptors/data/6.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d127;
+const read = d130;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CancelReturnLineItemRequest"]:c0()}); }
 export { codec as _validate };

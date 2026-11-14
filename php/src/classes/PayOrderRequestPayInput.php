@@ -67,7 +67,7 @@ final class PayOrderRequestPayInput extends Model {
      */
     public function getPaymentReturnUrl(): string { return $this->get('payment_return_url'); }
     public function hasPaymentReturnUrl(): bool { return $this->has('payment_return_url'); }
-    /** The credential you provide to pay an order: a payment source token, a saved payment method ID, or a Stripe confirmation token.
+    /** A saved card on a checkout whose customer came from a code requires a code confirmed with this credential in the last 15 minutes when the order ships to a new address. Otherwise pay returns 409 ACTION_NOT_ALLOWED with reason verification_required and a next action to request purpose pay_to_new_address. Known addresses are saved addresses or destinations of earlier paid orders for this customer at this business; for a Flint wallet card, wallet addresses count too. Pickup and orders that ship nothing never require it. A merchant-named customer, typed card, Apple Pay, and Google Pay are unaffected. The credential you provide to pay an order: a payment source token, a saved payment method ID, or a Stripe confirmation token.
      * @return PaymentSourceCredentialInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_source is omitted; use hasPaymentSource() or valueOrDefault().
      */

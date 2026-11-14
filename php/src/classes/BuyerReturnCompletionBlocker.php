@@ -4,11 +4,12 @@ namespace Flint;
 /**
  * @property-read string $code
  * @property-read string $message
+ * @property-read string|null $return_id
  * @property-read ?string $return_line_item_id
  * @property-read ?string $return_resolution_id
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturnCompletionBlocker extends Model {
-    /** @param array{'code': string, 'message': string, 'return_line_item_id'?: string, 'return_resolution_id'?: string, ...}|object $values */
+    /** @param array{'code': string, 'message': string, 'return_id': string|null, 'return_line_item_id'?: string, 'return_resolution_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnCompletionBlocker')); }
     /** A blocker the buyer can resolve. resolution_pending is included only for a payable resolution. Value enum: "resolution_pending", "handoff_pending", "resolution_not_selected", "resolution_requires_action", "resolution_failed".
      * @return string
@@ -20,6 +21,11 @@ final class BuyerReturnCompletionBlocker extends Model {
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null.
+     * @return string|null
+     */
+    public function getReturnId(): string|null { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the entry is about.
      * @return ?string
      */

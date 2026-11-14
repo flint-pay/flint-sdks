@@ -1,1 +1,1 @@
-{"shared":"GiftCardRedemptionUpdatedMerchantEvent","dependencies":["GiftCardRedemption","GiftCardRedemptionUpdatedMerchantEvent","MoneyValue","SharedCodec10","SharedCodec6","SharedCodec7","SharedCodec773","SharedCodec774","SharedCodec8","SharedCodec9"]}
+{"shared":"GiftCardRedemptionUpdatedMerchantEvent","dependencies":["GiftCardRedemption","GiftCardRedemptionUpdatedMerchantEvent","MoneyValue","SharedCodec10","SharedCodec6","SharedCodec7","SharedCodec775","SharedCodec776","SharedCodec8","SharedCodec9"]}

@@ -14,6 +14,7 @@ Response model.
 | `bundle_id` | Optional | string | ID of the bundle the line was sold from. |
 | `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) | Catalog categories of the item. `categories[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemscategories). |
 | `modifiers` | Optional | Array of [RefundLineItemModifierAllocation](../models/RefundLineItemModifierAllocation.md#refundlineitemmodifierallocation) | The part of the refund that applies to each modifier on the line. `modifiers[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundsline_item_allocationsmodifiers). |
+| `order_id` | Required | string | ID of the order that owns the refunded line item. |
 | `order_line_item_id` | Required | string | ID of the order line item this allocation refunded. |
 | `product_id` | Optional | string | ID of the catalog product the line was sold from. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |

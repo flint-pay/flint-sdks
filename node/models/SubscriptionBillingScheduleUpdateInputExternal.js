@@ -1,7 +1,7 @@
-import { d5478 as c0 } from '../descriptors/data/239.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5478 as d5478 } from '../descriptors/data/239.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d5502 as c0 } from '../descriptors/data/240.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d5502 as d5502 } from '../descriptors/data/240.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5478;
+const read = d5502;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SubscriptionBillingScheduleUpdateInputExternal"]:c0()}); }
 export { codec as _validate };

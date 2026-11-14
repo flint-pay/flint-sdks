@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# PaymentReviewOpenedInstalledMerchantsEventInput to PriceListArchivedMerchantEventInput
+# PaymentMethodListResponseInput to PlatformFeePayoutFailedEventInput
 
+- [PaymentMethodListResponseInput](PaymentMethodListResponseInput.md)
+- [PaymentMethodResponseInput](PaymentMethodResponseInput.md)
+- [PaymentMethodUpdatedInstalledMerchantsEventInput](PaymentMethodUpdatedInstalledMerchantsEventInput.md)
+- [PaymentMethodUpdatedMerchantEventInput](PaymentMethodUpdatedMerchantEventInput.md)
+- [PaymentMethodWithSetupInput](PaymentMethodWithSetupInput.md)
+- [PaymentRefundInput](PaymentRefundInput.md)
+- [PaymentReviewInput](PaymentReviewInput.md)
+- [PaymentReviewClosedInstalledMerchantsEventInput](PaymentReviewClosedInstalledMerchantsEventInput.md)
+- [PaymentReviewClosedMerchantEventInput](PaymentReviewClosedMerchantEventInput.md)
+- [PaymentReviewListResponseInput](PaymentReviewListResponseInput.md)
 - [PaymentReviewOpenedInstalledMerchantsEventInput](PaymentReviewOpenedInstalledMerchantsEventInput.md)
 - [PaymentReviewOpenedMerchantEventInput](PaymentReviewOpenedMerchantEventInput.md)
 - [PaymentReviewPaymentSummaryInput](PaymentReviewPaymentSummaryInput.md)
@@ -92,14 +102,4 @@
 - [PlatformFeePayoutInput](PlatformFeePayoutInput.md)
 - [PlatformFeePayoutCreatedEventInput](PlatformFeePayoutCreatedEventInput.md)
 - [PlatformFeePayoutFailedEventInput](PlatformFeePayoutFailedEventInput.md)
-- [PlatformFeePayoutListResponseInput](PlatformFeePayoutListResponseInput.md)
-- [PlatformFeePayoutResponseInput](PlatformFeePayoutResponseInput.md)
-- [PlatformFeePayoutSucceededEventInput](PlatformFeePayoutSucceededEventInput.md)
-- [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
-- [PlatformFeeResponseInput](PlatformFeeResponseInput.md)
-- [PlatformFeeSucceededEventInput](PlatformFeeSucceededEventInput.md)
-- [PlatformFeeUpdatedEventInput](PlatformFeeUpdatedEventInput.md)
-- [PriceListInput](PriceListInput.md)
-- [PriceListArchivedInstalledMerchantsEventInput](PriceListArchivedInstalledMerchantsEventInput.md)
-- [PriceListArchivedMerchantEventInput](PriceListArchivedMerchantEventInput.md)
 

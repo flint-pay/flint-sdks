@@ -5,16 +5,28 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/customers.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/customers.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createCustomer"]:r0,["createCustomerAccessLink"]:r0,["createCustomerAddress"]:r0,["createCustomerTaxExemption"]:r0,["deleteCustomerAddress"]:r0,["deleteCustomerTaxExemption"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerEmailPreferences"]:r0,["getCustomerTaxExemption"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomers"]:r0,["listCustomerTaxExemptions"]:r0,["revokeCustomerSessions"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0,["updateCustomerTaxExemption"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelCustomerEmailChangeRequest"]:r0,["createCustomer"]:r0,["createCustomerAccessLink"]:r0,["createCustomerAddress"]:r0,["createCustomerEmailChangeRequest"]:r0,["createCustomerTaxExemption"]:r0,["deleteCustomerAddress"]:r0,["deleteCustomerTaxExemption"]:r0,["getCustomer"]:r0,["getCustomerAddress"]:r0,["getCustomerEmailChangeRequest"]:r0,["getCustomerEmailPreferences"]:r0,["getCustomerTaxExemption"]:r0,["linkCustomerGuestPurchases"]:r0,["listCustomerAddresses"]:r0,["listCustomerEmailChangeRequests"]:r0,["listCustomers"]:r0,["listCustomerTaxExemptions"]:r0,["revokeCustomerSessions"]:r0,["updateCustomer"]:r0,["updateCustomerAddress"]:r0,["updateCustomerTaxExemption"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.customers = Object.freeze({
+      cancelEmailChangeRequest: async (customer_id, email_change_request_id, params, options) => this.#runtime.request("cancelCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id",
+  "email_change_request_id"
+], [customer_id, email_change_request_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelCustomerEmailChangeRequest", result, path))),
       create: async (params, options) => this.#runtime.request("createCustomer", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
@@ -42,6 +54,17 @@ this.customers = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerAddress", result, path))),
+      createEmailChangeRequest: async (customer_id, params, options) => this.#runtime.request("createCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerEmailChangeRequest", result, path))),
       createTaxExemption: async (customer_id, params, options) => this.#runtime.request("createCustomerTaxExemption", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [], true, true, params, [
@@ -94,6 +117,17 @@ this.customers = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerAddress", result, path))),
+      getEmailChangeRequest: async (customer_id, email_change_request_id, params, options) => this.#runtime.request("getCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id",
+  "email_change_request_id"
+], [customer_id, email_change_request_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerEmailChangeRequest", result, path))),
       getEmailPreferences: async (customer_id, params, options) => this.#runtime.request("getCustomerEmailPreferences", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
@@ -145,6 +179,45 @@ this.customers = Object.freeze({
       listAddressesItems: (customer_id, params, options) => this.#runtime.items("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listEmailChangeRequests: async (customer_id, params, options) => this.#runtime.request("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listCustomerEmailChangeRequests", result, path))),
+      listEmailChangeRequestsPages: (customer_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listCustomerEmailChangeRequests", result, path)),
+      listEmailChangeRequestsItems: (customer_id, params, options) => this.#runtime.items("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
   "page_size",
   "page_token",
   "Flint-Merchant-Id",
@@ -310,6 +383,7 @@ export { makeCreateCustomerAccessLinkRequest } from '../models/CreateCustomerAcc
 export { makeCreateCustomerAddressRequest } from '../models/CreateCustomerAddressRequest.js';
 export { makeCreateCustomerRequest } from '../models/CreateCustomerRequest.js';
 export { makeCreateCustomerTaxExemptionRequest } from '../models/CreateCustomerTaxExemptionRequest.js';
+export { makeCreateEmailChangeRequest } from '../models/CreateEmailChangeRequest.js';
 export { makeCustomerTaxExemptionCoverageAllStatesRequest } from '../models/CustomerTaxExemptionCoverageAllStatesRequest.js';
 export { makeCustomerTaxExemptionCoverageRequest } from '../models/CustomerTaxExemptionCoverageRequest.js';
 export { makeCustomerTaxExemptionCoverageStatesRequest } from '../models/CustomerTaxExemptionCoverageStatesRequest.js';

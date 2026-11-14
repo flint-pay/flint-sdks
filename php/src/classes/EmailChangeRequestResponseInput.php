@@ -9,7 +9,7 @@ namespace Flint;
 final class EmailChangeRequestResponseInput extends Model {
     /** @param array{'data': EmailChangeRequestInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailChangeRequestResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. A request to change a customer's email address.
+    /** Resource, collection, or operation result returned by this request. Nested child of Customer. A request to change this customer's sign-in email. Only one request can be pending per customer.
      * @return EmailChangeRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

@@ -1,4 +1,5 @@
 import type {
+    CheckoutRecoveryEmailSettings,
     CheckoutBuyerContact,
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
@@ -10,13 +11,9 @@ import type {
     CheckoutPaymentMethodSave,
     CheckoutPrefill,
     CheckoutProblemResource,
-    CheckoutPromotionConfig,
-    CheckoutRedirects,
-    CheckoutRecoveryEmailSettings,
-    CheckoutSavedPaymentDetailsSettings,
-    CheckoutRecoveryEmailSettingsRequestInput,
-    CheckoutSavedPaymentDetailsSettingsRequestInput
+    CheckoutPromotionConfig
 } from './types-5.js';
+import type { BuyerRefund } from './types-3.js';
 import type { CustomFieldAnswer } from './types-15.js';
 import type {
     ExpandedCustomerSummary,
@@ -25,20 +22,19 @@ import type {
     ExpandedPaymentIntentSummary,
     ExpandedPaymentLinkSummary
 } from './types-24.js';
-import type { Image } from './types-27.js';
-import type { LegalSettings } from './types-34.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-37.js';
+import type { Image } from './types-28.js';
+import type { LegalSettings } from './types-35.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
 import type { OrderPaymentAttempt } from './types-41.js';
 import type { PaymentCollection, PartnerWebhookEnvelope } from './types-44.js';
 import type { SetupCollection } from './types-59.js';
 import type { ResponseMeta } from './types-54.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { Address } from './types-0.js';
 import type { InputValue, ClientOptions as RuntimeClientOptions, CredentialProvider } from '../runtime.js';
 import type {
     ConfirmCheckoutSessionCustomerVerificationRequestInput,
-    CreateCheckoutSessionCustomerVerificationRequestInput,
-    CollectInvoiceResult
+    CreateCheckoutSessionCustomerVerificationRequestInput
 } from './types-7.js';
 import type { CreateCheckoutSessionRequestInput } from './types-8.js';
 import type { UpdateCheckoutSessionRequestInput } from './types-66.js';
@@ -47,12 +43,91 @@ import type {
     SubscriptionIntervalOption,
     SubscriptionGiftRecipientRequest,
     SubscriptionGiftRecipientRequestInput
-} from './types-61.js';
+} from './types-62.js';
 import type { AuthMode } from './types-1.js';
 import type { Credentials } from './types-14.js';
+/** Checkout reminder email settings. On update, an omitted field keeps its value. */
+export type CheckoutRecoveryEmailSettingsRequestInput = CheckoutRecoveryEmailSettings;
+/**
+ * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+ * payment_return_url.
+ */
+export type CheckoutRedirects = {
+    /**
+     * Where the buyer goes when they leave checkout without paying. The session stays open until
+     * it expires. Absolute HTTPS URL; test mode also accepts HTTP loopback URLs. Up to 2,048
+     * characters. Format: uri. maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "cancel_url"?: string;
+    /**
+     * Where Flint sends a buyer who opens the session after it expires. Without it, the buyer sees
+     * Flint's expired-checkout page. Absolute HTTPS URL; test mode also accepts HTTP loopback
+     * URLs. Up to 2,048 characters. Format: uri. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "expired_url"?: string;
+    /**
+     * Where the buyer goes after paying. Flint adds checkout_session_id and order_id query
+     * parameters, replacing any with those names. The redirect doesn't prove payment: confirm with
+     * the order.paid webhook or by reading the session. Absolute HTTPS URL; test mode also accepts
+     * HTTP loopback URLs. Up to 2,048 characters. Format: uri. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "success_url"?: string;
+};
+/**
+ * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
+ * payment_return_url.
+ */
+export type CheckoutRedirectsRequestInput = {
+    /**
+     * Where the buyer goes when they leave checkout without paying. The session stays open until
+     * it expires. Absolute HTTPS URL; test mode also accepts HTTP loopback URLs. Up to 2,048
+     * characters. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "cancel_url"?: string;
+    /**
+     * Where Flint sends a buyer who opens the session after it expires. Without it, the buyer sees
+     * Flint's expired-checkout page. Absolute HTTPS URL; test mode also accepts HTTP loopback
+     * URLs. Up to 2,048 characters. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "expired_url"?: string;
+    /**
+     * Where the buyer goes after paying. Flint adds checkout_session_id and order_id query
+     * parameters, replacing any with those names. The redirect doesn't prove payment: confirm with
+     * the order.paid webhook or by reading the session. Absolute HTTPS URL; test mode also accepts
+     * HTTP loopback URLs. Up to 2,048 characters. Format: uri. minLength: 1. maxLength: 2048.
+     * Example: "https://example.com/receipt".
+     */
+    "success_url"?: string;
+};
+/**
+ * Saved payment details settings for hosted checkout. On update, an omitted field keeps its value.
+ */
+export type CheckoutSavedPaymentDetailsSettings = {
+    /**
+     * Whether hosted checkout shows buyers an unchecked option to save the card they type. A card
+     * is saved only when the buyer checks it and the payment succeeds, with usage on_session:
+     * Flint charges it only in checkouts the buyer completes, never for subscriptions, automatic
+     * invoices, or other charges without the buyer. Checkout never shows the option when customer
+     * accounts are merchant hosted, or for invoice, subscription, and return checkouts.
+     */
+    "enabled"?: boolean;
+};
+/**
+ * Saved payment details settings for hosted checkout. On update, an omitted field keeps its value.
+ */
+export type CheckoutSavedPaymentDetailsSettingsRequestInput = CheckoutSavedPaymentDetailsSettings;
 /** A session in which a buyer completes an order's payment. */
 export type CheckoutSession = {
-    /** An attempt to pay an order. */
+    /**
+     * The payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them. An attempt to pay an order.
+     */
     "active_payment_attempt"?: OrderPaymentAttempt;
     /**
      * Contact the buyer entered in checkout before paying, saved with the session's checkout
@@ -268,6 +343,16 @@ export type CheckoutSession = {
     /** Origin of the page that renders this headless checkout. Omitted when not set. */
     "page_origin"?: string;
     /**
+     * Whether at least one saved card this checkout lists would be refused for the current
+     * delivery destination because the paying credential last confirmed a code more than 15
+     * minutes ago. Request a code with purpose pay_to_new_address, without email or channel, and
+     * confirm it with this credential before paying. A Flint wallet card can still pay to an
+     * address in that wallet while this is true for a store saved card. Pickup and orders that
+     * ship nothing never require this verification. Returned only to the checkout credential.
+     * Returned only to the checkout credential; never in webhook payloads.
+     */
+    "pay_to_new_address_requires_verification"?: boolean;
+    /**
      * Guidance for collecting a payment source. Checkout-credential reads include it only while
      * the session is open. Returned only to the checkout credential; never in webhook payloads.
      * Client-side details for collecting payment from the buyer, such as the Stripe settings to
@@ -378,6 +463,15 @@ export type CheckoutSession = {
      * payment_return_url.
      */
     "redirects"?: CheckoutRedirects;
+    /**
+     * All buyer-visible refunds on this session’s order, including refunds made by the store. Uses
+     * the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an
+     * array, with [] when there are none, and omitted from other responses and webhooks. A failed
+     * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+     * contact the store to get their money back. [] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment.
+     */
+    "refunds"?: Array<BuyerRefund>;
     /**
      * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
      * code. A new card can be saved pending with the payment and confirmed on the receipt; using
@@ -550,6 +644,7 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -566,6 +661,7 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -641,6 +737,7 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -657,6 +754,7 @@ export type CheckoutSessionClosedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -712,35 +810,39 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -847,37 +949,45 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -914,15 +1024,21 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -998,39 +1114,44 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -1133,24 +1254,32 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -1202,11 +1331,17 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -1280,7 +1415,13 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -1511,6 +1652,17 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -1625,6 +1777,15 @@ export type CheckoutSessionClosedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -1820,35 +1981,39 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -1955,37 +2120,45 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -2022,15 +2195,21 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -2106,39 +2285,44 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -2241,24 +2425,32 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -2310,11 +2502,17 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -2388,7 +2586,13 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -2619,6 +2823,17 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -2733,6 +2948,15 @@ export type CheckoutSessionClosedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -2924,6 +3148,7 @@ export type CheckoutSessionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -2940,6 +3165,7 @@ export type CheckoutSessionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -3014,6 +3240,7 @@ export type CheckoutSessionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -3030,6 +3257,7 @@ export type CheckoutSessionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -3084,35 +3312,39 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -3219,37 +3451,45 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -3286,15 +3526,21 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -3366,39 +3612,44 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -3501,24 +3752,32 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -3570,11 +3829,17 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -3648,7 +3913,13 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -3879,6 +4150,17 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -3993,6 +4275,15 @@ export type CheckoutSessionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -4181,35 +4472,39 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -4316,37 +4611,45 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -4383,15 +4686,21 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -4463,39 +4772,44 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -4598,24 +4912,32 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -4667,11 +4989,17 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -4745,7 +5073,13 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -4976,6 +5310,17 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -5090,6 +5435,15 @@ export type CheckoutSessionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -5252,13 +5606,22 @@ export type CheckoutSessionCustomerVerification = {
     "checkout_session_customer_verification_id": string;
     /** The checkout session the code belongs to. Example: "cs_01KEZF7C004JRWFW43H037MQRN". */
     "checkout_session_id": string;
+    /**
+     * Whose saved number the text used. Present only for channel sms. flint_wallet means the
+     * request used the buyer's enrolled Flint wallet number, including when the store has the same
+     * number; store means it used a number saved at this business. Describes the request, not a
+     * guarantee of access after confirmation. Clients must tolerate unrecognized values. Value
+     * enum: "store", "flint_wallet".
+     */
+    "code_route"?: "store" | "flint_wallet" | (string & {});
     /** When the code was requested. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * The address the code is for, lowercased: the email the buyer typed, or for an emailed
-     * confirm_saved_payment_method code, the customer's email masked to its first character and
-     * domain, such as a•••@example.com. Omitted for a texted confirm_saved_payment_method code.
-     * Only the create response carries the email as typed. Reads mask every email this way.
+     * The address the code is for, lowercased: the email the buyer typed, or for
+     * pay_to_new_address and emailed confirm_saved_payment_method codes, the customer's email
+     * masked to its first character and domain, such as a•••@example.com. Omitted for a texted
+     * confirm_saved_payment_method code. Only the create response carries the email as typed.
+     * Reads mask every email this way.
      */
     "email"?: string;
     /**
@@ -5274,12 +5637,14 @@ export type CheckoutSessionCustomerVerification = {
     "phone_last_digits"?: string;
     /**
      * Why the buyer asked for the code, as sent in the request. Value enum: "gift_card_purchase",
-     * "save_payment_method", "use_saved_payment_methods", "confirm_saved_payment_method".
+     * "save_payment_method", "use_saved_payment_methods", "confirm_saved_payment_method",
+     * "pay_to_new_address".
      */
     "purpose": "gift_card_purchase"
         | "save_payment_method"
         | "use_saved_payment_methods"
         | "confirm_saved_payment_method"
+        | "pay_to_new_address"
         | (string & {});
     /**
      * Lifecycle actions available on this code request. Contains confirm before expires_at; empty
@@ -5373,6 +5738,7 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -5389,6 +5755,7 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -5464,6 +5831,7 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -5480,6 +5848,7 @@ export type CheckoutSessionExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -5535,35 +5904,39 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -5670,37 +6043,45 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -5737,15 +6118,21 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -5821,39 +6208,44 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -5956,24 +6348,32 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -6025,11 +6425,17 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -6103,7 +6509,13 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -6334,6 +6746,17 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -6448,6 +6871,15 @@ export type CheckoutSessionExpiredInstalledMerchantsEvent = (Exclude<PartnerWebh
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -6643,35 +7075,39 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -6778,37 +7214,45 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -6845,15 +7289,21 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -6929,39 +7379,44 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -7064,24 +7519,32 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -7133,11 +7596,17 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -7211,7 +7680,13 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -7442,6 +7917,17 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -7556,6 +8042,15 @@ export type CheckoutSessionExpiredMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -7747,6 +8242,7 @@ export type CheckoutSessionInvalidatedEvent = ((((Exclude<MerchantWebhookEnvelop
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -7763,6 +8259,7 @@ export type CheckoutSessionInvalidatedEvent = ((((Exclude<MerchantWebhookEnvelop
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -7838,6 +8335,7 @@ export type CheckoutSessionInvalidatedEvent = ((((Exclude<MerchantWebhookEnvelop
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -7854,6 +8352,7 @@ export type CheckoutSessionInvalidatedEvent = ((((Exclude<MerchantWebhookEnvelop
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -7909,35 +8408,39 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -8044,37 +8547,45 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -8111,15 +8622,21 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -8195,39 +8712,44 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -8330,24 +8852,32 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -8399,11 +8929,17 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -8477,7 +9013,13 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -8708,6 +9250,17 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -8822,6 +9375,15 @@ export type CheckoutSessionInvalidatedInstalledMerchantsEvent = (Exclude<Partner
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -9017,35 +9579,39 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -9152,37 +9718,45 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -9219,15 +9793,21 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -9303,39 +9883,44 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -9438,24 +10023,32 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -9507,11 +10100,17 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -9585,7 +10184,13 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -9816,6 +10421,17 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -9930,6 +10546,15 @@ export type CheckoutSessionInvalidatedMerchantEvent = (Exclude<MerchantWebhookEn
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -10165,6 +10790,7 @@ export type CheckoutSessionPaidEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -10181,6 +10807,7 @@ export type CheckoutSessionPaidEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -10256,6 +10883,7 @@ export type CheckoutSessionPaidEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -10272,6 +10900,7 @@ export type CheckoutSessionPaidEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -10327,35 +10956,39 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -10462,37 +11095,45 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -10529,15 +11170,21 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -10613,39 +11260,44 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -10748,24 +11400,32 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -10817,11 +11477,17 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -10895,7 +11561,13 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -11126,6 +11798,17 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -11240,6 +11923,15 @@ export type CheckoutSessionPaidInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -11435,35 +12127,39 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -11570,37 +12266,45 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -11637,15 +12341,21 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -11721,39 +12431,44 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -11856,24 +12571,32 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -11925,11 +12648,17 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -12003,7 +12732,13 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -12234,6 +12969,17 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -12348,6 +13094,15 @@ export type CheckoutSessionPaidMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -12539,6 +13294,7 @@ export type CheckoutSessionPartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvel
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -12555,6 +13311,7 @@ export type CheckoutSessionPartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvel
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -12630,6 +13387,7 @@ export type CheckoutSessionPartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvel
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -12646,6 +13404,7 @@ export type CheckoutSessionPartiallyPaidEvent = ((((Exclude<MerchantWebhookEnvel
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -12701,35 +13460,39 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -12836,37 +13599,45 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -12903,15 +13674,21 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -12987,39 +13764,44 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -13122,24 +13904,32 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -13191,11 +13981,17 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -13269,7 +14065,13 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -13500,6 +14302,17 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -13614,6 +14427,15 @@ export type CheckoutSessionPartiallyPaidInstalledMerchantsEvent = (Exclude<Partn
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -13809,35 +14631,39 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -13944,37 +14770,45 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -14011,15 +14845,21 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -14095,39 +14935,44 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -14230,24 +15075,32 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -14299,11 +15152,17 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -14377,7 +15236,13 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -14608,6 +15473,17 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -14722,6 +15598,15 @@ export type CheckoutSessionPartiallyPaidMerchantEvent = (Exclude<MerchantWebhook
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -14972,6 +15857,7 @@ export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -14988,6 +15874,7 @@ export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -15063,6 +15950,7 @@ export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "order"?: ((ExpandedOrderSummary) | (null));
             "order_id"?: string;
             "page_origin"?: string;
+            "pay_to_new_address_requires_verification"?: boolean;
             "payment_collection"?: PaymentCollection;
             "payment_intent_ids"?: Array<string>;
             "payment_intents"?: Array<ExpandedPaymentIntentSummary>;
@@ -15079,6 +15967,7 @@ export type CheckoutSessionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & 
             "recovery_expires_at"?: string | null;
             "recovery_payment_attempt_id"?: string;
             "redirects"?: CheckoutRedirects;
+            "refunds"?: Array<BuyerRefund>;
             "save_payment_method_requires_verification"?: boolean;
             "save_payment_method_types"?: Array<"card" | (string & {})>;
             "setup_collection"?: SetupCollection;
@@ -15134,35 +16023,39 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -15269,37 +16162,45 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -15336,15 +16237,21 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -15420,39 +16327,44 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -15555,24 +16467,32 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -15624,11 +16544,17 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -15702,7 +16628,13 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -15933,6 +16865,17 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -16047,6 +16990,15 @@ export type CheckoutSessionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebh
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -16242,35 +17194,39 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
      * fields: `url`, `recovery_payment_attempt_id`, `recovery_expires_at`,
      * `can_save_payment_method`, `save_payment_method_types`,
-     * `save_payment_method_requires_verification`, `can_save_payment_method_with_phone`,
-     * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
-     * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`, `platform_fee`.
-     * object.active_payment_attempt (Optional): {@link OrderPaymentAttempt}. An attempt to pay an
-     * order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer
-     * entered in checkout before paying, saved with the session's checkout credential. Separate
-     * from merchant-supplied prefill and customer_prefill from the customer record. Omitted until
-     * the buyer saves or clears a field. When a checkout session payment omits buyer_contact.email
-     * or buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-     * session ends, and when a customer linked to the session is deleted. Buyer contact supplied
-     * with payment or saved during checkout. object.buyer_fields (Optional): {@link
-     * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses your
-     * checkout settings. object.can_apply_promotion_code (Required): boolean. Whether to offer
-     * promotion-code entry now. True only while the session is open, is not in recovery, and
-     * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-     * null offers entry only when this merchant has an active code promotion whose schedule
-     * includes now, in the session's environment. Recomputed on each read. This hint does not
-     * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-     * apply. object.can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-     * the option to save the card they type for faster checkout at this merchant. When true,
-     * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-     * merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted,
-     * card is not an available payment option, the checkout collects an invoice, a subscription,
-     * or a return, or the checkout acts for no customer and Flint cannot email the buyer a
-     * verification code. Returned only to the checkout credential; never in webhook payloads.
-     * object.can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save
-     * the card they type by giving a US or Canadian mobile phone number with the payment, in
-     * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted
-     * code after paying. True while Flint can send texts and either
+     * `save_payment_method_requires_verification`, `pay_to_new_address_requires_verification`,
+     * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
+     * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`, `merchant_icon`,
+     * `payment_link_image`, `platform_fee`. object.active_payment_attempt (Optional): {@link
+     * OrderPaymentAttempt}. The payment attempt now collecting this checkout's order, the same
+     * attempt as the order's active_payment_attempt. Read it to recover after losing a pay
+     * response, and resume it only when is_resumable is true. Omitted when no attempt is active.
+     * Pending actions that open a URL are left out; the pay response carries them. An attempt to
+     * pay an order. object.buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the
+     * buyer entered in checkout before paying, saved with the session's checkout credential.
+     * Separate from merchant-supplied prefill and customer_prefill from the customer record.
+     * Omitted until the buyer saves or clears a field. When a checkout session payment omits
+     * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+     * contact 30 days after the session ends, and when a customer linked to the session is
+     * deleted. Buyer contact supplied with payment or saved during checkout. object.buyer_fields
+     * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field you
+     * leave out uses your checkout settings. object.can_apply_promotion_code (Required): boolean.
+     * Whether to offer promotion-code entry now. True only while the session is open, is not in
+     * recovery, and merchant promotion policy allows codes. An explicit
+     * promotion_config.codes_enabled wins; null offers entry only when this merchant has an active
+     * code promotion whose schedule includes now, in the session's environment. Recomputed on each
+     * read. This hint does not change code admission: checkout lifecycle, promotion_config, and
+     * merchant policy still apply. object.can_save_payment_method (Optional): boolean. Whether
+     * checkout offers the buyer the option to save the card they type for faster checkout at this
+     * merchant. When true, PayOrder accepts save_payment_method: true for one newly collected
+     * card. False when the merchant turned checkout.saved_payment_details off, customer accounts
+     * are merchant hosted, card is not an available payment option, the checkout collects an
+     * invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot
+     * email the buyer a verification code. Returned only to the checkout credential; never in
+     * webhook payloads. object.can_save_payment_method_with_phone (Optional): boolean. Whether the
+     * buyer can save the card they type by giving a US or Canadian mobile phone number with the
+     * payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it
+     * with a texted code after paying. True while Flint can send texts and either
      * save_payment_method_requires_verification is true, so the number replaces confirming an
      * email before paying, or the checkout acts for the customer whose email the buyer confirmed
      * with this credential, so the number joins that customer's saved details once the buyer
@@ -16377,37 +17333,45 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * session collects payment for, fixed at creation. Absent when the session has no order.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.page_origin (Optional): string. Origin of
      * the page that renders this headless checkout. Omitted when not set.
-     * object.payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-     * payment source. Checkout-credential reads include it only while the session is open.
-     * Returned only to the checkout credential; never in webhook payloads. Client-side details for
-     * collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js.
-     * object.payment_intent_ids (Optional): Array of string. IDs of the payment intents for the
-     * session's order. Absent when the order has none. object.payment_intent_ids[] (Value):
-     * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_intents (Optional): Array
-     * of {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-     * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-     * object.payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-     * summary fields, including amount, status, and capture method, returned when the payment
-     * intent is expanded. object.payment_link (Optional): {@link ExpandedPaymentLinkSummary} or
-     * null. Present only when `expand` includes `payment_link`; `null` when expanded and there is
-     * no related payment link. object.payment_link.anyOf[1] (Value): {@link
-     * ExpandedPaymentLinkSummary}. A payment link's summary fields, including name, type, status,
-     * and URL, returned when the payment link is expanded. object.payment_link.anyOf[2] (Value):
-     * null. object.payment_link_id (Optional): string. ID of the payment link the session was
-     * started from. Absent when it was not started from a payment link. Example:
-     * "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image (Optional): {@link Image}. The
-     * current image of the payment link that opened this session. Returned by `GET
-     * /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses
-     * and webhooks omit it. An image with its URL, size, and alt text. object.payment_method_save
-     * (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer saved pending with this
-     * checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after
-     * a payment that paid the order in full, or that was approved for the merchant to capture
-     * later, and saved a card this way. Without a number, confirmation requires an emailed code. A
-     * checkout whose payment is approved stays open until the capture. Returned only to the
-     * checkout credential; never in webhook payloads. A card the buyer saved with this checkout's
-     * payment that waits for a code. It works for nothing until the buyer confirms it with a code:
-     * request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and
-     * purpose confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
+     * object.pay_to_new_address_requires_verification (Optional): boolean. Whether at least one
+     * saved card this checkout lists would be refused for the current delivery destination because
+     * the paying credential last confirmed a code more than 15 minutes ago. Request a code with
+     * purpose pay_to_new_address, without email or channel, and confirm it with this credential
+     * before paying. A Flint wallet card can still pay to an address in that wallet while this is
+     * true for a store saved card. Pickup and orders that ship nothing never require this
+     * verification. Returned only to the checkout credential. Returned only to the checkout
+     * credential; never in webhook payloads. object.payment_collection (Optional): {@link
+     * PaymentCollection}. Guidance for collecting a payment source. Checkout-credential reads
+     * include it only while the session is open. Returned only to the checkout credential; never
+     * in webhook payloads. Client-side details for collecting payment from the buyer, such as the
+     * Stripe settings to initialize Stripe.js. object.payment_intent_ids (Optional): Array of
+     * string. IDs of the payment intents for the session's order. Absent when the order has none.
+     * object.payment_intent_ids[] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_intents (Optional): Array of {@link ExpandedPaymentIntentSummary}. Present
+     * only when `expand` includes `payment_intents`: summaries of the payment intents in
+     * `payment_intent_ids`. object.payment_intents[] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded. object.payment_link
+     * (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when `expand` includes
+     * `payment_link`; `null` when expanded and there is no related payment link.
+     * object.payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment link's
+     * summary fields, including name, type, status, and URL, returned when the payment link is
+     * expanded. object.payment_link.anyOf[2] (Value): null. object.payment_link_id (Optional):
+     * string. ID of the payment link the session was started from. Absent when it was not started
+     * from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". object.payment_link_image
+     * (Optional): {@link Image}. The current image of the payment link that opened this session.
+     * Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image;
+     * other responses and webhooks omit it. An image with its URL, size, and alt text.
+     * object.payment_method_save (Optional): {@link CheckoutPaymentMethodSave}. The card the buyer
+     * saved pending with this checkout's payment, and whether they confirmed it. Present on GET
+     * and PATCH responses after a payment that paid the order in full, or that was approved for
+     * the merchant to capture later, and saved a card this way. Without a number, confirmation
+     * requires an emailed code. A checkout whose payment is approved stays open until the capture.
+     * Returned only to the checkout credential; never in webhook payloads. A card the buyer saved
+     * with this checkout's payment that waits for a code. It works for nothing until the buyer
+     * confirms it with a code: request one with POST
+     * /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose
+     * confirm_saved_payment_method. object.payment_return_url (Optional): string. Headless
      * sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect
      * payment such as Affirm, whatever the outcome; read the session there to show the result.
      * Required when the session offers affirm. It can't contain credentials, a query string, or a
@@ -16444,15 +17408,21 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
      * credential may recover while is_in_recovery is true. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". object.redirects (Optional): {@link CheckoutRedirects}.
      * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-     * payment_return_url. object.save_payment_method_requires_verification (Optional): boolean.
-     * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
-     * code. A new card can be saved pending with the payment and confirmed on the receipt; using
-     * saved cards still needs the code before paying. True when can_save_payment_method is true
-     * and the checkout acts for no customer for this credential: the merchant created it without
-     * one, and either the buyer has not confirmed an email with this credential, or the customer
-     * whose email they confirmed has since changed that email or been deleted. A credential other
-     * than the one a confirmation returned, such as the hosted checkout link opened on another
-     * device, reads true. Send the code with POST
+     * payment_return_url. object.refunds (Optional): Array of {@link BuyerRefund}. All
+     * buyer-visible refunds on this session’s order, including refunds made by the store. Uses the
+     * same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+     * with [] when there are none, and omitted from other responses and webhooks. A failed refund
+     * with failure_reason refund_abandoned could not be completed: tell the buyer to contact the
+     * store to get their money back. object.refunds[] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment. object.save_payment_method_requires_verification (Optional):
+     * boolean. Whether saving a new card or using saved cards needs the buyer to confirm their
+     * email with a code. A new card can be saved pending with the payment and confirmed on the
+     * receipt; using saved cards still needs the code before paying. True when
+     * can_save_payment_method is true and the checkout acts for no customer for this credential:
+     * the merchant created it without one, and either the buyer has not confirmed an email with
+     * this credential, or the customer whose email they confirmed has since changed that email or
+     * been deleted. A credential other than the one a confirmation returned, such as the hosted
+     * checkout link opened on another device, reads true. Send the code with POST
      * /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout
      * acts for a customer, and whenever can_save_payment_method is false. Returned only to the
      * checkout credential; never in webhook payloads. object.save_payment_method_types (Optional):
@@ -16528,39 +17498,44 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * The resource snapshot, without expansions. Webhooks omit these fields: `url`,
          * `recovery_payment_attempt_id`, `recovery_expires_at`, `can_save_payment_method`,
          * `save_payment_method_types`, `save_payment_method_requires_verification`,
-         * `can_save_payment_method_with_phone`, `payment_method_save`, `customer_prefill`,
-         * `merchant_support`, `merchant_name`, `show_flint_mark`, `merchant_logo`,
-         * `merchant_icon`, `payment_link_image`, `platform_fee`. active_payment_attempt
-         * (Optional): {@link OrderPaymentAttempt}. An attempt to pay an order. buyer_contact
-         * (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in checkout before
-         * paying, saved with the session's checkout credential. Separate from merchant-supplied
-         * prefill and customer_prefill from the customer record. Omitted until the buyer saves or
-         * clears a field. When a checkout session payment omits buyer_contact.email or
-         * buyer_contact.phone, Flint uses these values. Flint clears the contact 30 days after the
-         * session ends, and when a customer linked to the session is deleted. Buyer contact
-         * supplied with payment or saved during checkout. buyer_fields (Optional): {@link
-         * CheckoutBuyerFields}. What checkout asks the buyer for. Each field you leave out uses
-         * your checkout settings. can_apply_promotion_code (Required): boolean. Whether to offer
-         * promotion-code entry now. True only while the session is open, is not in recovery, and
-         * merchant promotion policy allows codes. An explicit promotion_config.codes_enabled wins;
-         * null offers entry only when this merchant has an active code promotion whose schedule
-         * includes now, in the session's environment. Recomputed on each read. This hint does not
-         * change code admission: checkout lifecycle, promotion_config, and merchant policy still
-         * apply. can_save_payment_method (Optional): boolean. Whether checkout offers the buyer
-         * the option to save the card they type for faster checkout at this merchant. When true,
-         * PayOrder accepts save_payment_method: true for one newly collected card. False when the
-         * merchant turned checkout.saved_payment_details off, customer accounts are merchant
-         * hosted, card is not an available payment option, the checkout collects an invoice, a
-         * subscription, or a return, or the checkout acts for no customer and Flint cannot email
-         * the buyer a verification code. Returned only to the checkout credential; never in
-         * webhook payloads. can_save_payment_method_with_phone (Optional): boolean. Whether the
-         * buyer can save the card they type by giving a US or Canadian mobile phone number with
-         * the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and
-         * confirming it with a texted code after paying. True while Flint can send texts and
-         * either save_payment_method_requires_verification is true, so the number replaces
-         * confirming an email before paying, or the checkout acts for the customer whose email the
-         * buyer confirmed with this credential, so the number joins that customer's saved details
-         * once the buyer confirms it. Returned only to the checkout credential; never in webhook
+         * `pay_to_new_address_requires_verification`, `can_save_payment_method_with_phone`,
+         * `payment_method_save`, `customer_prefill`, `merchant_support`, `merchant_name`,
+         * `show_flint_mark`, `merchant_logo`, `merchant_icon`, `payment_link_image`,
+         * `platform_fee`. active_payment_attempt (Optional): {@link OrderPaymentAttempt}. The
+         * payment attempt now collecting this checkout's order, the same attempt as the order's
+         * active_payment_attempt. Read it to recover after losing a pay response, and resume it
+         * only when is_resumable is true. Omitted when no attempt is active. Pending actions that
+         * open a URL are left out; the pay response carries them. An attempt to pay an order.
+         * buyer_contact (Optional): {@link CheckoutBuyerContact}. Contact the buyer entered in
+         * checkout before paying, saved with the session's checkout credential. Separate from
+         * merchant-supplied prefill and customer_prefill from the customer record. Omitted until
+         * the buyer saves or clears a field. When a checkout session payment omits
+         * buyer_contact.email or buyer_contact.phone, Flint uses these values. Flint clears the
+         * contact 30 days after the session ends, and when a customer linked to the session is
+         * deleted. Buyer contact supplied with payment or saved during checkout. buyer_fields
+         * (Optional): {@link CheckoutBuyerFields}. What checkout asks the buyer for. Each field
+         * you leave out uses your checkout settings. can_apply_promotion_code (Required): boolean.
+         * Whether to offer promotion-code entry now. True only while the session is open, is not
+         * in recovery, and merchant promotion policy allows codes. An explicit
+         * promotion_config.codes_enabled wins; null offers entry only when this merchant has an
+         * active code promotion whose schedule includes now, in the session's environment.
+         * Recomputed on each read. This hint does not change code admission: checkout lifecycle,
+         * promotion_config, and merchant policy still apply. can_save_payment_method (Optional):
+         * boolean. Whether checkout offers the buyer the option to save the card they type for
+         * faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true
+         * for one newly collected card. False when the merchant turned
+         * checkout.saved_payment_details off, customer accounts are merchant hosted, card is not
+         * an available payment option, the checkout collects an invoice, a subscription, or a
+         * return, or the checkout acts for no customer and Flint cannot email the buyer a
+         * verification code. Returned only to the checkout credential; never in webhook payloads.
+         * can_save_payment_method_with_phone (Optional): boolean. Whether the buyer can save the
+         * card they type by giving a US or Canadian mobile phone number with the payment, in
+         * save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a
+         * texted code after paying. True while Flint can send texts and either
+         * save_payment_method_requires_verification is true, so the number replaces confirming an
+         * email before paying, or the checkout acts for the customer whose email the buyer
+         * confirmed with this credential, so the number joins that customer's saved details once
+         * the buyer confirms it. Returned only to the checkout credential; never in webhook
          * payloads. checkout_session_id (Required): string. Unique identifier for this checkout
          * session, prefixed `cs_`. Example: "cs_01KEZF7C004JRWFW43H037MQRN". client_reference
          * (Required): string or null. The reference the payment link URL or resolve request
@@ -16663,24 +17638,32 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * the session collects payment for, fixed at creation. Absent when the session has no
          * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". page_origin (Optional): string. Origin
          * of the page that renders this headless checkout. Omitted when not set.
-         * payment_collection (Optional): {@link PaymentCollection}. Guidance for collecting a
-         * payment source. Checkout-credential reads include it only while the session is open.
-         * Returned only to the checkout credential; never in webhook payloads. Client-side details
-         * for collecting payment from the buyer, such as the Stripe settings to initialize
-         * Stripe.js. payment_intent_ids (Optional): Array of string. IDs of the payment intents
-         * for the session's order. Absent when the order has none. payment_intent_ids[] (Value):
-         * string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of
-         * {@link ExpandedPaymentIntentSummary}. Present only when `expand` includes
-         * `payment_intents`: summaries of the payment intents in `payment_intent_ids`.
-         * payment_intents[] (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's
-         * summary fields, including amount, status, and capture method, returned when the payment
-         * intent is expanded. payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null.
-         * Present only when `expand` includes `payment_link`; `null` when expanded and there is no
-         * related payment link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}.
-         * A payment link's summary fields, including name, type, status, and URL, returned when
-         * the payment link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id
-         * (Optional): string. ID of the payment link the session was started from. Absent when it
-         * was not started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
+         * pay_to_new_address_requires_verification (Optional): boolean. Whether at least one saved
+         * card this checkout lists would be refused for the current delivery destination because
+         * the paying credential last confirmed a code more than 15 minutes ago. Request a code
+         * with purpose pay_to_new_address, without email or channel, and confirm it with this
+         * credential before paying. A Flint wallet card can still pay to an address in that wallet
+         * while this is true for a store saved card. Pickup and orders that ship nothing never
+         * require this verification. Returned only to the checkout credential. Returned only to
+         * the checkout credential; never in webhook payloads. payment_collection (Optional):
+         * {@link PaymentCollection}. Guidance for collecting a payment source. Checkout-credential
+         * reads include it only while the session is open. Returned only to the checkout
+         * credential; never in webhook payloads. Client-side details for collecting payment from
+         * the buyer, such as the Stripe settings to initialize Stripe.js. payment_intent_ids
+         * (Optional): Array of string. IDs of the payment intents for the session's order. Absent
+         * when the order has none. payment_intent_ids[] (Value): string. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_intents (Optional): Array of {@link
+         * ExpandedPaymentIntentSummary}. Present only when `expand` includes `payment_intents`:
+         * summaries of the payment intents in `payment_intent_ids`. payment_intents[] (Value):
+         * {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
+         * amount, status, and capture method, returned when the payment intent is expanded.
+         * payment_link (Optional): {@link ExpandedPaymentLinkSummary} or null. Present only when
+         * `expand` includes `payment_link`; `null` when expanded and there is no related payment
+         * link. payment_link.anyOf[1] (Value): {@link ExpandedPaymentLinkSummary}. A payment
+         * link's summary fields, including name, type, status, and URL, returned when the payment
+         * link is expanded. payment_link.anyOf[2] (Value): null. payment_link_id (Optional):
+         * string. ID of the payment link the session was started from. Absent when it was not
+         * started from a payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM".
          * payment_link_image (Optional): {@link Image}. The current image of the payment link that
          * opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when
          * that link has an image; other responses and webhooks omit it. An image with its URL,
@@ -16732,11 +17715,17 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * credential may recover while is_in_recovery is true. Example:
          * "opat_01KEZF7C00B5PW9F2R8A4YSH5D". redirects (Optional): {@link CheckoutRedirects}.
          * Where hosted checkout sends the buyer. Not allowed when surface is headless; use
-         * payment_return_url. save_payment_method_requires_verification (Optional): boolean.
-         * Whether saving a new card or using saved cards needs the buyer to confirm their email
-         * with a code. A new card can be saved pending with the payment and confirmed on the
-         * receipt; using saved cards still needs the code before paying. True when
-         * can_save_payment_method is true and the checkout acts for no customer for this
+         * payment_return_url. refunds (Optional): Array of {@link BuyerRefund}. All buyer-visible
+         * refunds on this session’s order, including refunds made by the store. Uses the same
+         * buyer projection as /v1/me/refunds. Included on GET single-session reads as an array,
+         * with [] when there are none, and omitted from other responses and webhooks. A failed
+         * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+         * contact the store to get their money back. refunds[] (Value): {@link BuyerRefund}. Money
+         * returned against a collected payment. save_payment_method_requires_verification
+         * (Optional): boolean. Whether saving a new card or using saved cards needs the buyer to
+         * confirm their email with a code. A new card can be saved pending with the payment and
+         * confirmed on the receipt; using saved cards still needs the code before paying. True
+         * when can_save_payment_method is true and the checkout acts for no customer for this
          * credential: the merchant created it without one, and either the buyer has not confirmed
          * an email with this credential, or the customer whose email they confirmed has since
          * changed that email or been deleted. A credential other than the one a confirmation
@@ -16810,7 +17799,13 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
          * Format: uint64. minimum: 1.
          */
         "object": {
-            /** An attempt to pay an order. */
+            /**
+             * The payment attempt now collecting this checkout's order, the same attempt as the
+             * order's active_payment_attempt. Read it to recover after losing a pay response, and
+             * resume it only when is_resumable is true. Omitted when no attempt is active. Pending
+             * actions that open a URL are left out; the pay response carries them. An attempt to
+             * pay an order.
+             */
             "active_payment_attempt"?: OrderPaymentAttempt;
             /**
              * Contact the buyer entered in checkout before paying, saved with the session's
@@ -17041,6 +18036,17 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
             /** Origin of the page that renders this headless checkout. Omitted when not set. */
             "page_origin"?: string;
             /**
+             * Whether at least one saved card this checkout lists would be refused for the current
+             * delivery destination because the paying credential last confirmed a code more than
+             * 15 minutes ago. Request a code with purpose pay_to_new_address, without email or
+             * channel, and confirm it with this credential before paying. A Flint wallet card can
+             * still pay to an address in that wallet while this is true for a store saved card.
+             * Pickup and orders that ship nothing never require this verification. Returned only
+             * to the checkout credential. Returned only to the checkout credential; never in
+             * webhook payloads.
+             */
+            "pay_to_new_address_requires_verification"?: boolean;
+            /**
              * Guidance for collecting a payment source. Checkout-credential reads include it only
              * while the session is open. Returned only to the checkout credential; never in
              * webhook payloads. Client-side details for collecting payment from the buyer, such as
@@ -17155,6 +18161,15 @@ export type CheckoutSessionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelo
              * payment_return_url.
              */
             "redirects"?: CheckoutRedirects;
+            /**
+             * All buyer-visible refunds on this session’s order, including refunds made by the
+             * store. Uses the same buyer projection as /v1/me/refunds. Included on GET
+             * single-session reads as an array, with [] when there are none, and omitted from
+             * other responses and webhooks. A failed refund with failure_reason refund_abandoned
+             * could not be completed: tell the buyer to contact the store to get their money back.
+             * [] (Value): {@link BuyerRefund}. Money returned against a collected payment.
+             */
+            "refunds"?: Array<BuyerRefund>;
             /**
              * Whether saving a new card or using saved cards needs the buyer to confirm their
              * email with a code. A new card can be saved pending with the payment and confirmed on
@@ -17320,6 +18335,12 @@ export type CheckoutSessionWithSecret = (Exclude<CheckoutSession & object, reado
      * launch and when a saved-card confirmation keeps the current credential.
      */
     "checkout_auth_token"?: string;
+    /**
+     * One-time identity token returned only when a successful code confirmation remembered the
+     * buyer. Store it on your backend or in an HttpOnly cookie. It never opens saved cards.
+     * minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
 });
 export type CheckoutSessionsCloseParams = (InputValue<CloseCheckoutSessionRequestInput>
     | {
@@ -17590,18 +18611,19 @@ export type CheckoutSettings = {
      */
     "default_delivery_method_ids"?: Array<string>;
     /**
-     * Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead
-     * use the fixed deadline of the active invoice public-link generation. Format: int64. minimum:
-     * 60. maximum: 86400.
+     * Default lifetime in seconds for generic checkout sessions. Defaults to 86400. Invoice
+     * checkout sessions instead use the fixed deadline of the active invoice public-link
+     * generation. Format: int64. minimum: 60. maximum: 86400.
      */
     "default_expires_in_seconds"?: number;
     /**
-     * Payment options checkout offers by default. Adding ach_debit in merchant settings requests
-     * ACH Direct Debit for your payment account; Flint refuses it before the account is set up,
-     * for a payment account outside the US, and in location or device settings. Each option shows
-     * only when it is available for the payment account and order. [] enum: "card", "apple_pay",
-     * "google_pay", "affirm", "ach_debit". [] (Value): string. minLength: 1. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
+     * Payment options checkout offers by default. Effective settings fill in card, apple_pay, and
+     * google_pay when unset; an explicit empty list stays empty. Adding ach_debit in merchant
+     * settings requests ACH Direct Debit for your payment account; Flint refuses it before the
+     * account is set up, for a payment account outside the US, and in location or device settings.
+     * Each option shows only when it is available for the payment account and order. [] enum:
+     * "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. minLength: 1.
+     * Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
     "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
     /**
@@ -17619,18 +18641,20 @@ export type CheckoutSettings = {
      */
     "recovery_email"?: CheckoutRecoveryEmailSettings;
     /**
-     * Whether hosted checkout requires the buyer's billing address before payment. A checkout
-     * session or payment link can override it with `buyer_fields`.
+     * Whether hosted checkout requires the buyer's billing address before payment. Defaults to
+     * false; a payment option can still require billing details. A checkout session or payment
+     * link can override it with `buyer_fields`.
      */
     "require_billing_address"?: boolean;
     /**
-     * Whether hosted checkout requires the buyer's email address before payment. A checkout
-     * session or payment link can override it with `buyer_fields`.
+     * Whether hosted checkout requires the buyer's email address before payment. Defaults to
+     * false; subscription plan checkout always requires email. A checkout session or payment link
+     * can override it with `buyer_fields`.
      */
     "require_email"?: boolean;
     /**
-     * Whether hosted checkout requires the buyer's phone number before payment. A checkout session
-     * or payment link can override it with `buyer_fields`.
+     * Whether hosted checkout requires the buyer's phone number before payment. Defaults to false.
+     * A checkout session or payment link can override it with `buyer_fields`.
      */
     "require_phone"?: boolean;
     /**
@@ -17656,18 +18680,19 @@ export type CheckoutSettingsRequestInput = {
      */
     "default_delivery_method_ids"?: Array<string>;
     /**
-     * Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead
-     * use the fixed deadline of the active invoice public-link generation. Format: int64. minimum:
-     * 60. maximum: 86400.
+     * Default lifetime in seconds for generic checkout sessions. Defaults to 86400. Invoice
+     * checkout sessions instead use the fixed deadline of the active invoice public-link
+     * generation. Format: int64. minimum: 60. maximum: 86400.
      */
     "default_expires_in_seconds"?: number;
     /**
-     * Payment options checkout offers by default. Adding ach_debit in merchant settings requests
-     * ACH Direct Debit for your payment account; Flint refuses it before the account is set up,
-     * for a payment account outside the US, and in location or device settings. Each option shows
-     * only when it is available for the payment account and order. [] enum: "card", "apple_pay",
-     * "google_pay", "affirm", "ach_debit". [] (Value): string. minLength: 1. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
+     * Payment options checkout offers by default. Effective settings fill in card, apple_pay, and
+     * google_pay when unset; an explicit empty list stays empty. Adding ach_debit in merchant
+     * settings requests ACH Direct Debit for your payment account; Flint refuses it before the
+     * account is set up, for a payment account outside the US, and in location or device settings.
+     * Each option shows only when it is available for the payment account and order. [] enum:
+     * "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. minLength: 1.
+     * Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      */
     "enabled_payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit">;
     /**
@@ -17685,18 +18710,20 @@ export type CheckoutSettingsRequestInput = {
      */
     "recovery_email"?: CheckoutRecoveryEmailSettingsRequestInput;
     /**
-     * Whether hosted checkout requires the buyer's billing address before payment. A checkout
-     * session or payment link can override it with `buyer_fields`.
+     * Whether hosted checkout requires the buyer's billing address before payment. Defaults to
+     * false; a payment option can still require billing details. A checkout session or payment
+     * link can override it with `buyer_fields`.
      */
     "require_billing_address"?: boolean;
     /**
-     * Whether hosted checkout requires the buyer's email address before payment. A checkout
-     * session or payment link can override it with `buyer_fields`.
+     * Whether hosted checkout requires the buyer's email address before payment. Defaults to
+     * false; subscription plan checkout always requires email. A checkout session or payment link
+     * can override it with `buyer_fields`.
      */
     "require_email"?: boolean;
     /**
-     * Whether hosted checkout requires the buyer's phone number before payment. A checkout session
-     * or payment link can override it with `buyer_fields`.
+     * Whether hosted checkout requires the buyer's phone number before payment. Defaults to false.
+     * A checkout session or payment link can override it with `buyer_fields`.
      */
     "require_phone"?: boolean;
     /**
@@ -17728,9 +18755,13 @@ export type CheckoutSubscriptionTerms = {
     /** Number of billing intervals between recurring charges. Format: int32. */
     "billing_interval_count": number;
     /**
-     * minItems: 1. [] (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a
-     * subscription plan or offer. Every option bills the same line prices once per period; prices
-     * are not scaled by the interval. For a different price per interval, create separate plans.
+     * minItems: 1. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as
+     * every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that
+     * ship are per delivery, and each option charges for all deliveries in its period. Without a
+     * delivery cadence there is one delivery per period, so every option bills the same line
+     * prices once per period. With a delivery cadence, a longer period bills more deliveries of
+     * the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
      */
     "billing_interval_options": Array<SubscriptionIntervalOption>;
     /**
@@ -17740,7 +18771,8 @@ export type CheckoutSubscriptionTerms = {
     "contract_term_months"?: number;
     /**
      * Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery
-     * cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+     * cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1.
+     * maximum: 24.
      */
     "deliveries_per_period": number;
     /**
@@ -17871,7 +18903,10 @@ export type CheckoutSubscriptionTermsRequest = ({
      * whole recipient. anyOf[2] (Value): null.
      */
     "gift_recipient"?: ((SubscriptionGiftRecipientRequest) | (null));
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100. */
+    /**
+     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
+     * quantities are not supported. minimum: 1. maximum: 1.
+     */
     "quantity"?: number;
 });
 /**
@@ -17890,7 +18925,10 @@ export type CheckoutSubscriptionTermsRequestInput = ({
      * replaces the whole recipient. anyOf[2] (Value): null.
      */
     "gift_recipient"?: ((SubscriptionGiftRecipientRequestInput) | (null));
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100. */
+    /**
+     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
+     * quantities are not supported. minimum: 1. maximum: 1.
+     */
     "quantity"?: number;
 });
 /**
@@ -18123,73 +19161,3 @@ export type CloseGiftCardRequest = {
 };
 /** An optional version fence for permanently closing the gift card. */
 export type CloseGiftCardRequestInput = CloseGiftCardRequest;
-/** The request body for: Close order. */
-export type CloseOrderRequest = {
-    /**
-     * Send keep to close while keeping collected money. Required when collected money remains
-     * refundable to its original tenders, after pending refunds. Closing does not refund money,
-     * and the order remains refundable. Accepted when nothing was collected. Value enum: "keep".
-     */
-    "collected_money_behavior"?: "keep" | (string & {});
-    /**
-     * Optional order version from the last order read. The mutation fails if the order changed.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Your note explaining why you are closing the order. It is not shown to the buyer. minLength:
-     * 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/** The request body for: Close order. */
-export type CloseOrderRequestInput = {
-    /**
-     * Send keep to close while keeping collected money. Required when collected money remains
-     * refundable to its original tenders, after pending refunds. Closing does not refund money,
-     * and the order remains refundable. Accepted when nothing was collected. Value enum: "keep".
-     */
-    "collected_money_behavior"?: "keep";
-    /**
-     * Optional order version from the last order read. The mutation fails if the order changed.
-     * Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Your note explaining why you are closing the order. It is not shown to the buyer. minLength:
-     * 1. maxLength: 500.
-     */
-    "reason_message"?: string;
-};
-/** The request body for: Collect invoice. */
-export type CollectInvoiceRequest = {
-    /**
-     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
-     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
-     * invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
-     */
-    "invoice_schedule_entry_id"?: string;
-    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". */
-    "payment_method_id"?: string;
-};
-/** The request body for: Collect invoice. */
-export type CollectInvoiceRequestInput = CollectInvoiceRequest;
-/** A response containing `CollectInvoiceResult` data. */
-export type CollectInvoiceResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The invoice is the
-     * primary resource and expected_version target; invoice_payment_attempt records the collection
-     * outcome.
-     */
-    "data": CollectInvoiceResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};

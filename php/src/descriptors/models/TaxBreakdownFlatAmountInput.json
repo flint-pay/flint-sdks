@@ -1,1 +1,1 @@
-{"shared":"TaxBreakdownFlatAmount","dependencies":["MoneyValue","SharedCodec1656","TaxBreakdownFlatAmount","TaxJurisdiction"]}
+{"shared":"TaxBreakdownFlatAmount","dependencies":["MoneyValue","SharedCodec1658","TaxBreakdownFlatAmount","TaxJurisdiction"]}

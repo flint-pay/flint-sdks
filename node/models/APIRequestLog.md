@@ -30,7 +30,7 @@ A record of an API request and its response.
 | `requested_api_version` | Optional | string | The API version Flint resolved for the request. |
 | `requested_api_version_source` | Optional | string | Where `requested_api_version` came from. Absent when Flint did not record one. Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string | The ID of the resource the request is about, when Flint can attribute it to one. A failed create can have a `resource_type` and no ID. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Optional | string | The kind of resource the request is about, when Flint can attribute it to one. Example: `"order"`. Values: [153 declared values](#apirequestlog-resource_type-values). |
+| `resource_type` | Optional | string | The kind of resource the request is about, when Flint can attribute it to one. Example: `"order"`. Values: [154 declared values](#apirequestlog-resource_type-values). |
 | `retry` | Optional | string | Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
 | `route_pattern` | Required | string | The matched route as a method and path template, such as `POST /v1/orders`. |
 | `served_api_version` | Optional | string | The API version Flint used to encode the response. |
@@ -168,6 +168,7 @@ A record of an API request and its response.
 - `"refund"`
 - `"refund_allocation"`
 - `"refund_line_item_adjustment"`
+- `"remembered_buyer"`
 - `"report"`
 - `"report_download"`
 - `"return"`

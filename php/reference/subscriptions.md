@@ -174,7 +174,7 @@ Body model: [ChangeSubscriptionPlanRequestInput](../models/ChangeSubscriptionPla
 | `billing_starts` | Required | string | now bills a new period with credit for unused paid item time. next_renewal changes the plan immediately and keeps the current paid period and next billing date. period_end keeps the current plan until the next charged renewal, then applies and bills the scheduled terms. prorated_now charges the new terms for the rest of the current period, less unused paid item credit, and keeps the billing period and anchor. Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`. |
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
 | `line_items` | Optional | Array of [SubscriptionPlanChangeLineItemRequestInput](../models/SubscriptionPlanChangeLineItemRequestInput.md#subscriptionplanchangelineitemrequestinput) | Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their paired current line's quantity, or use the target line's quantity when unpaired. If an adjusted current quantity cannot be paired, send a quantity for every target line. |
-| `quantity` | Optional | integer | Omit to keep the current subscription quantity. The target plan must offer the quantity. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
+| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `subscription_plan_id` | Required | string | The target subscription plan. minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
@@ -251,7 +251,7 @@ Body model: [ChangeSubscriptionQuantityRequestInput](../models/ChangeSubscriptio
 | `billing_starts` | Required | string | prorated_now charges the prorated difference now and keeps the current period and anchor; next_renewal changes quantities now without charging; period_end schedules them for the next billing boundary. Values: `"prorated_now"`, `"next_renewal"`, `"period_end"`. |
 | `expected_version` | Optional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
 | `line_items` | Optional | Array of [SubscriptionQuantityChangeLineItemRequestInput](../models/SubscriptionQuantityChangeLineItemRequestInput.md#subscriptionquantitychangelineitemrequestinput) | Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`. |
-| `quantity` | Optional | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `100`. |
+| `quantity` | Optional | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `1`. |
 
 #### subscriptions.changeQuantity: variant 1
 
@@ -262,7 +262,7 @@ Body model: [ChangeSubscriptionQuantityRequestInput](../models/ChangeSubscriptio
 | `billing_starts` | Required | string | prorated_now charges the prorated difference now and keeps the current period and anchor; next_renewal changes quantities now without charging; period_end schedules them for the next billing boundary. Values: `"prorated_now"`, `"next_renewal"`, `"period_end"`. |
 | `expected_version` | Optional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
 | `line_items` | Optional | Array of [SubscriptionQuantityChangeLineItemRequestInput](../models/SubscriptionQuantityChangeLineItemRequestInput.md#subscriptionquantitychangelineitemrequestinput) | Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`. |
-| `quantity` | Required | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `100`. |
+| `quantity` | Required | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `1`. |
 
 #### subscriptions.changeQuantity: variant 2
 
@@ -273,7 +273,7 @@ Body model: [ChangeSubscriptionQuantityRequestInput](../models/ChangeSubscriptio
 | `billing_starts` | Required | string | prorated_now charges the prorated difference now and keeps the current period and anchor; next_renewal changes quantities now without charging; period_end schedules them for the next billing boundary. Values: `"prorated_now"`, `"next_renewal"`, `"period_end"`. |
 | `expected_version` | Optional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
 | `line_items` | Required | Array of [SubscriptionQuantityChangeLineItemRequestInput](../models/SubscriptionQuantityChangeLineItemRequestInput.md#subscriptionquantitychangelineitemrequestinput) | Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their quantities. Send quantity or line_items. minItems: `1`. maxItems: `50`. |
-| `quantity` | Optional | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `100`. |
+| `quantity` | Optional | integer | The whole-number subscription multiplier; fractional quantities are not supported. Validated as on subscription PATCH. Omit to keep its current value. Send quantity or line_items. minimum: `1`. maximum: `1`. |
 
 #### Response
 
@@ -317,7 +317,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->subscriptions->changeQuantity('sub_01KEZF7C00BVRE8YDBXQB74BBM', [
   'billing_starts' => 'prorated_now',
   'expected_version' => 1,
-  'quantity' => 2,
+  'quantity' => 1,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -517,7 +517,7 @@ Body model: [CreateSubscriptionLineItemRequestInput](../models/CreateSubscriptio
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `bundle_id` | Optional | string | minLength: `1`. pattern: `^bun_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
+| `expected_subscription_version` | Optional | integer | Subscription version last read. A stale version returns VERSION_CONFLICT. Format: `uint64`. minimum: `1`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `9999`. |
 | `type` | Required | string | The catalog source of the new line: variant or bundle. Values: `"variant"`, `"bundle"`. |
 | `variant_id` | Optional | string | minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -907,6 +907,62 @@ $result = $client->subscriptions->list([], new RequestOptions());
 ```
 
 [Complete runnable example](../examples/subscriptions-list.php)
+
+### subscriptions.listLineItems
+
+Returns the subscription's line items sorted by ID in ascending order. Default order: subscription_line_item_id ascending.
+
+`GET /v1/subscriptions/{subscription_id}/line-items`
+
+Signature: `listLineItems(string|Model $subscription_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `subscription_id` | Required | string | Flint subscription ID. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+#### Response
+
+Returned payload: [SubscriptionLineItemsListResponse](../models/SubscriptionLineItemsListResponse.md#subscriptionlineitemslistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listLineItemsItems`, `listLineItemsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```php
+$result = $client->subscriptions->listLineItems('sub_01KEZF7C00BVRE8YDBXQB74BBM', [], new RequestOptions());
+```
+
+[Complete runnable example](../examples/subscriptions-listLineItems.php)
 
 ### subscriptions.listPaymentRetries
 
@@ -1324,7 +1380,7 @@ Body model: [UpdateSubscriptionRequestInput](../models/UpdateSubscriptionRequest
 | `gift_recipient` | Optional | [SubscriptionGiftRecipientRequestInput](../models/SubscriptionGiftRecipientRequestInput.md#subscriptiongiftrecipientrequestinput) or null | Replace the whole gift recipient, or send null to clear it. There are no partial changes. Send expected_version to guard against concurrent changes. Buyers cannot change this field. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. This operation also limits the metadata object you send, before merging: at most 50 keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768 UTF-8 bytes of keys plus values. |
 | `payment_method_id` | Optional | string | minLength: `1`. |
-| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
+| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `scheduled_plan_change` | Optional | null | Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan. |
 | `tax` | Optional | [SubscriptionTaxRequestInput](../models/SubscriptionTaxRequestInput.md#subscriptiontaxrequestinput) or null | Replace the subscription's tax as a whole, or send null to clear it, so its orders follow your settings again. Orders Flint creates after the change use it; an open renewal order keeps the tax it was created with. Buyers cannot change this field. |
 
@@ -1367,7 +1423,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->subscriptions->update('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'quantity' => 2,
+  'quantity' => 1,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 
@@ -1441,7 +1497,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->subscriptions->updateLineItem('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', 'sli_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'quantity' => 2,
+  'quantity' => 1,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 

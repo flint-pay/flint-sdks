@@ -16,7 +16,7 @@ namespace Flint;
 final class CreateOrderPaymentIntentRequestInput extends Model {
     /** @param array{'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'capture_method'?: string, 'external_reference_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: OrderPaymentSourceSelectionInput|array<array-key, mixed>|\stdClass, 'platform_fee'?: PlatformFeeRequestInput|array<array-key, mixed>|\stdClass, 'request_overcapture'?: bool, 'splits'?: list<PaymentSplitRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateOrderPaymentIntentRequestInput')); }
-    /** Amount to collect toward the order, in the order currency. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount to collect toward the order, in the order currency. Omit it to collect the whole remaining balance: the amount still outstanding minus what the order's other open payments hold, meaning payments in requires_payment_method, requires_confirmation, requires_action, processing, or requires_capture. For a payment started from an invoice's checkout, the outstanding amount is the invoice's outstanding_money. A sent amount must use the order currency, otherwise the request fails with INVALID_REQUEST and NOT_ALLOWED on amount_money.currency. An amount above the remaining balance fails with LIMIT_EXCEEDED and maximum_money, and so does any amount when open payments already hold the whole balance, with a maximum of zero. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -40,7 +40,7 @@ final class CreateOrderPaymentIntentRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
+    /** Payment options the buyer can use for this payment. Name at least one. Omit it, and payment_source_selection, to offer card where your payment option settings and the order allow it; a checkout credential uses its checkout session's options instead. Affirm is offered only when named here. card_present must be the only option; confirm it with a reader credential. payment_return_url is required with affirm and not accepted with card_present. Can't be combined with payment_source_selection: sending both fails with INVALID_REQUEST and NOT_ALLOWED. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present". [] (Value): string.  Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present".
      * @return list<string>
      * @throws SdkError When payment_options is omitted; use hasPaymentOptions() or valueOrDefault().
      */
@@ -52,7 +52,7 @@ final class CreateOrderPaymentIntentRequestInput extends Model {
      */
     public function getPaymentReturnUrl(): string { return $this->get('payment_return_url'); }
     public function hasPaymentReturnUrl(): bool { return $this->has('payment_return_url'); }
-    /** The payment source options you choose when creating an order payment intent.
+    /** Offer the card payment source, and choose which digital wallets appear with it, as an alternative to payment_options. Sending card with no digital_wallets offers card alone; apple_pay and google_pay add those wallets. Can't be combined with payment_options. If nothing in the selection is available for the order, the request fails with PAYMENT_OPTION_UNAVAILABLE. The payment source options you choose when creating an order payment intent.
      * @return OrderPaymentSourceSelectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_source_selection is omitted; use hasPaymentSourceSelection() or valueOrDefault().
      */

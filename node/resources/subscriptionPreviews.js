@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptionPreviews.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/subscriptionPreviews.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["createSubscriptionPreview"]:r0});
 export class Client {
@@ -29,8 +29,6 @@ this.subscriptionPreviews = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeAddressRequest } from '../models/AddressRequest.js';
-export { makeCreateMeSubscriptionPreviewRequestDeliveryOptions } from '../models/CreateMeSubscriptionPreviewRequestDeliveryOptions.js';
-export { makeCreateMeSubscriptionPreviewRequestNextRenewal } from '../models/CreateMeSubscriptionPreviewRequestNextRenewal.js';
 export { makeCreateSubscriptionPreviewRequest } from '../models/CreateSubscriptionPreviewRequest.js';
 export { makeCreateSubscriptionPreviewRequestCreate } from '../models/CreateSubscriptionPreviewRequestCreate.js';
 export { makeCreateSubscriptionPreviewRequestDeliveryMethodUpdate } from '../models/CreateSubscriptionPreviewRequestDeliveryMethodUpdate.js';
@@ -94,7 +92,6 @@ export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makePromotionRefInputPromotionCode } from '../models/PromotionRefInputPromotionCode.js';
 export { makePromotionRefInputPromotionID } from '../models/PromotionRefInputPromotionID.js';
 export { makePromotionRefRequest } from '../models/PromotionRefRequest.js';
-export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
 export { makeSubscriptionBillingScheduleInputExternal } from '../models/SubscriptionBillingScheduleInputExternal.js';
 export { makeSubscriptionBillingScheduleInputFlint } from '../models/SubscriptionBillingScheduleInputFlint.js';
 export { makeSubscriptionBillingScheduleRequest } from '../models/SubscriptionBillingScheduleRequest.js';

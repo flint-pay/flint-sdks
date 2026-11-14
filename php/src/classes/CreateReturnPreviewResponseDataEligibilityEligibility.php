@@ -33,7 +33,7 @@ final class CreateReturnPreviewResponseDataEligibilityEligibility extends Model 
      */
     public function getPolicyEvaluation(): CreateReturnPreviewResponseDataEligibilityEligibilityPolicyEvaluation { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
-    /**  anyOf[1] (Value): {@see ReturnRefundEstimate}. Estimate for selected eligible quantities requested as refund, or with no requested resolution when refund is allowed. Null when no selected line is eligible for a refund. The store's inspection and its final decision can change the refund. Nothing is reserved. anyOf[2] (Value): null.
+    /**  anyOf[1] (Value): {@see ReturnRefundEstimate}. Estimate for selected eligible quantities requested as refund, or with no requested resolution when refund is allowed. Also includes explicitly requested eligible store credit. Null when no selected line qualifies for refund or store credit. The store's inspection and its final decision can change the refund. Nothing is reserved. anyOf[2] (Value): null.
      * @return ReturnRefundEstimate|null
      */
     public function getRefundEstimate(): ReturnRefundEstimate|null { return $this->get('refund_estimate'); }

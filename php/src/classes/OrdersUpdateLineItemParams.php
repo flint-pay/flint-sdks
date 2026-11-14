@@ -10,13 +10,14 @@ namespace Flint;
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read list<OrderLineItemModifierRequestModelInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
+ * @property-read string $product_type
  * @property-read int $quantity
  * @property-read array{'billing_interval': string, 'billing_interval_count': int, 'subscription_offer_id': string}|object|null $subscription
  * @property-read OrderCalculatedLineItemTaxRequestInput|array<array-key, mixed>|\stdClass $tax
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $unit_price_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersUpdateLineItemParams extends Model {
-    /** @param array{'description'?: string|null, 'expected_ship_date'?: string|null, 'expected_version'?: int, 'gift_card_face_value_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifiers'?: list<OrderLineItemModifierRequestModelInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'quantity'?: int, 'subscription'?: array{'billing_interval': string, 'billing_interval_count': int, 'subscription_offer_id': string}|object|null, 'tax'?: OrderCalculatedLineItemTaxRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'description'?: string|null, 'expected_ship_date'?: string|null, 'expected_version'?: int, 'gift_card_face_value_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null, 'send_at'?: string|\DateTimeInterface}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifiers'?: list<OrderLineItemModifierRequestModelInput|array<array-key, mixed>|\stdClass>, 'name'?: string, 'product_type'?: string, 'quantity'?: int, 'subscription'?: array{'billing_interval': string, 'billing_interval_count': int, 'subscription_offer_id': string}|object|null, 'tax'?: OrderCalculatedLineItemTaxRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersUpdateLineItemParams')); }
     /** Send null to clear description. minLength: 1.
      * @return string|null
@@ -66,6 +67,12 @@ final class OrdersUpdateLineItemParams extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Value enum: "physical", "service", "fee", "digital".
+     * @return string
+     * @throws SdkError When product_type is omitted; use hasProductType() or valueOrDefault().
+     */
+    public function getProductType(): string { return $this->get('product_type'); }
+    public function hasProductType(): bool { return $this->has('product_type'); }
     /** Replacement quantity, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().

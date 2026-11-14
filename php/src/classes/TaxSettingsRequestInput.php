@@ -44,7 +44,7 @@ final class TaxSettingsRequestInput extends Model {
      */
     public function getDefaultEnabled(): bool { return $this->get('default_enabled'); }
     public function hasDefaultEnabled(): bool { return $this->has('default_enabled'); }
-    /** Flint line-item tax category. Send null to clear it. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission", null.
+    /** Flint line-item tax category. Effective settings return general when unset, matching the tax engine fallback. Send null to clear it. Value enum: "general", "physical_goods", "digital_goods", "software", "saas", "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods", "admission", null.
      * @return string|null
      * @throws SdkError When default_line_item_tax_category is omitted; use hasDefaultLineItemTaxCategory() or valueOrDefault().
      */

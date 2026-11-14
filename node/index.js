@@ -5,7 +5,7 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from './runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from './runtime.js';
-import { resource, webhook, modelCodec as _sdkModelCodec } from './descriptors/root.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { resource, webhook, modelCodec as _sdkModelCodec } from './descriptors/root.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 const r0 = () => resource("analytics");
 const r1 = () => resource("apiKeys");
 const r2 = () => resource("apiRequestLogs");
@@ -96,41 +96,42 @@ const r86 = () => resource("promotionCodes");
 const r87 = () => resource("promotions");
 const r88 = () => resource("readers");
 const r89 = () => resource("refunds");
-const r90 = () => resource("reportDownloads");
-const r91 = () => resource("reports");
-const r92 = () => resource("resourceTimelines");
-const r93 = () => resource("returnDispositions");
-const r94 = () => resource("returnInspections");
-const r95 = () => resource("returnPolicies");
-const r96 = () => resource("returnPreviews");
-const r97 = () => resource("returnReasons");
-const r98 = () => resource("returnReceipts");
-const r99 = () => resource("returnResolutions");
-const r100 = () => resource("returns");
-const r101 = () => resource("riskLists");
-const r102 = () => resource("riskPreviews");
-const r103 = () => resource("riskRules");
-const r104 = () => resource("sandboxes");
-const r105 = () => resource("settings");
-const r106 = () => resource("shipments");
-const r107 = () => resource("subscriptionDeliveryMigrations");
-const r108 = () => resource("subscriptionOffers");
-const r109 = () => resource("subscriptionPlans");
-const r110 = () => resource("subscriptionPreviews");
-const r111 = () => resource("subscriptions");
-const r112 = () => resource("taxCalculationCallbacks");
-const r113 = () => resource("taxConnection");
-const r114 = () => resource("testClocks");
-const r115 = () => resource("tickets");
-const r116 = () => resource("webhookDeliveries");
-const r117 = () => resource("webhookEndpoints");
-const r118 = () => resource("webhookEventTypes");
-const r119 = () => resource("webhookEvents");
-const r120 = () => resource("workloadIdentities");
+const r90 = () => resource("rememberedBuyers");
+const r91 = () => resource("reportDownloads");
+const r92 = () => resource("reports");
+const r93 = () => resource("resourceTimelines");
+const r94 = () => resource("returnDispositions");
+const r95 = () => resource("returnInspections");
+const r96 = () => resource("returnPolicies");
+const r97 = () => resource("returnPreviews");
+const r98 = () => resource("returnReasons");
+const r99 = () => resource("returnReceipts");
+const r100 = () => resource("returnResolutions");
+const r101 = () => resource("returns");
+const r102 = () => resource("riskLists");
+const r103 = () => resource("riskPreviews");
+const r104 = () => resource("riskRules");
+const r105 = () => resource("sandboxes");
+const r106 = () => resource("settings");
+const r107 = () => resource("shipments");
+const r108 = () => resource("subscriptionDeliveryMigrations");
+const r109 = () => resource("subscriptionOffers");
+const r110 = () => resource("subscriptionPlans");
+const r111 = () => resource("subscriptionPreviews");
+const r112 = () => resource("subscriptions");
+const r113 = () => resource("taxCalculationCallbacks");
+const r114 = () => resource("taxConnection");
+const r115 = () => resource("testClocks");
+const r116 = () => resource("tickets");
+const r117 = () => resource("webhookDeliveries");
+const r118 = () => resource("webhookEndpoints");
+const r119 = () => resource("webhookEventTypes");
+const r120 = () => resource("webhookEvents");
+const r121 = () => resource("workloadIdentities");
 import { DescriptorSource } from './descriptor-source.js';
-import settings from './descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from './descriptors/settings.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["getAnalyticsOverview"]:r0,["getPaymentVolumeTimeseries"]:r0,["getSubscriptionAnalytics"]:r0,["createAPIKey"]:r1,["getAPIKey"]:r1,["listAPIKeys"]:r1,["revokeAPIKey"]:r1,["updateAPIKey"]:r1,["getAPIRequestLog"]:r2,["listAPIRequestLogs"]:r2,["getAuthContext"]:r3,["getBalanceTransaction"]:r4,["listBalanceTransactions"]:r4,["listBalances"]:r5,["createBundle"]:r6,["deleteBundle"]:r6,["getBundle"]:r6,["listBundleComponents"]:r6,["listBundles"]:r6,["updateBundle"]:r6,["createCategory"]:r7,["deleteCategory"]:r7,["getCategory"]:r7,["listCategories"]:r7,["updateCategory"]:r7,["closeCheckoutSession"]:r8,["confirmCheckoutSessionCustomerVerification"]:r8,["createCheckoutSession"]:r8,["createCheckoutSessionCustomerVerification"]:r8,["getCheckoutSession"]:r8,["getCheckoutSessionCustomerVerification"]:r8,["listCheckoutSessionCustomerVerifications"]:r8,["listCheckoutSessions"]:r8,["updateCheckoutSession"]:r8,["createCreditNote"]:r9,["createCreditNoteAllocation"]:r9,["getCreditNote"]:r9,["getCreditNoteAllocation"]:r9,["getCreditNotePDF"]:r9,["issueCreditNote"]:r9,["listCreditNoteAllocations"]:r9,["listCreditNotes"]:r9,["reverseCreditNoteAllocation"]:r9,["updateCreditNote"]:r9,["voidCreditNote"]:r9,["createCustomDomain"]:r10,["deleteCustomDomain"]:r10,["getCustomDomain"]:r10,["listCustomDomains"]:r10,["validateCustomDomain"]:r10,["createCustomerDeletionRequest"]:r11,["getCustomerDeletionRequest"]:r11,["listCustomerDeletionRequests"]:r11,["resolveCustomerDeletionRequest"]:r11,["createCustomerSession"]:r12,["refreshCustomerSession"]:r12,["revokeCustomerSession"]:r12,["confirmCustomerVerification"]:r13,["createCustomerVerification"]:r13,["getCustomerVerification"]:r13,["listCustomerVerifications"]:r13,["createCustomer"]:r14,["createCustomerAccessLink"]:r14,["createCustomerAddress"]:r14,["createCustomerTaxExemption"]:r14,["deleteCustomerAddress"]:r14,["deleteCustomerTaxExemption"]:r14,["getCustomer"]:r14,["getCustomerAddress"]:r14,["getCustomerEmailPreferences"]:r14,["getCustomerTaxExemption"]:r14,["linkCustomerGuestPurchases"]:r14,["listCustomerAddresses"]:r14,["listCustomers"]:r14,["listCustomerTaxExemptions"]:r14,["revokeCustomerSessions"]:r14,["updateCustomer"]:r14,["updateCustomerAddress"]:r14,["updateCustomerTaxExemption"]:r14,["createDeliveryLocationSet"]:r15,["deleteDeliveryLocationSet"]:r15,["getDeliveryLocationSet"]:r15,["listDeliveryLocationSets"]:r15,["updateDeliveryLocationSet"]:r15,["createDeliveryMethod"]:r16,["deleteDeliveryMethod"]:r16,["getDeliveryMethod"]:r16,["listDeliveryMethods"]:r16,["updateDeliveryMethod"]:r16,["createDeliveryPreview"]:r17,["assignToUnconfiguredDeliveryProfile"]:r18,["createDeliveryProfile"]:r18,["deleteDeliveryProfile"]:r18,["getDeliveryProfile"]:r18,["listDeliveryProfiles"]:r18,["updateDeliveryProfile"]:r18,["createDeliveryQuote"]:r19,["getDeliveryQuote"]:r19,["listDeliveryQuotes"]:r19,["checkDeliveryRateCallbackConnection"]:r20,["createDeliveryRateCallback"]:r20,["createDeliveryRateCallbackTestDelivery"]:r20,["deleteDeliveryRateCallback"]:r20,["getDeliveryRateCallback"]:r20,["listDeliveryRateCallbacks"]:r20,["rotateDeliveryRateCallbackSecret"]:r20,["updateDeliveryRateCallback"]:r20,["createDeliveryRevocation"]:r21,["getDeliveryRevocation"]:r21,["listDeliveryRevocations"]:r21,["createDeliverySelection"]:r22,["getDeliverySelection"]:r22,["listDeliverySelections"]:r22,["releaseDeliverySelection"]:r22,["createDeliveryZone"]:r23,["deleteDeliveryZone"]:r23,["getDeliveryZone"]:r23,["listDeliveryZones"]:r23,["updateDeliveryZone"]:r23,["createDemoSession"]:r24,["resetDemoSession"]:r24,["createDevice"]:r25,["deleteDevice"]:r25,["getDevice"]:r25,["listDevices"]:r25,["updateDevice"]:r25,["createDiscountPreview"]:r26,["acceptDispute"]:r27,["createDisputeResponseSession"]:r27,["getDispute"]:r27,["listDisputes"]:r27,["simulateDispute"]:r27,["lookupEmailPreferenceLink"]:r28,["unsubscribeEmailPreferenceLink"]:r28,["lookupEmailPreferences"]:r29,["createFeedbackReport"]:r30,["getFeedbackReport"]:r30,["listFeedbackReports"]:r30,["completeFile"]:r31,["createFile"]:r31,["getFile"]:r31,["getFraudWarning"]:r32,["listFraudWarnings"]:r32,["createFulfillmentEvent"]:r33,["getFulfillmentEvent"]:r33,["listFulfillmentEvents"]:r33,["getFulfillmentNotification"]:r34,["listFulfillmentNotifications"]:r34,["acceptFulfillment"]:r35,["cancelFulfillment"]:r35,["completeFulfillment"]:r35,["createFulfillment"]:r35,["dispatchFulfillment"]:r35,["failFulfillment"]:r35,["getFulfillment"]:r35,["holdFulfillment"]:r35,["listFulfillments"]:r35,["markFulfillmentNoShow"]:r35,["markFulfillmentPacked"]:r35,["markFulfillmentPicked"]:r35,["markFulfillmentPreparing"]:r35,["markFulfillmentReady"]:r35,["releaseFulfillmentHold"]:r35,["scheduleFulfillment"]:r35,["startFulfillment"]:r35,["updateFulfillment"]:r35,["createGiftCardFundingDisposition"]:r36,["getGiftCardFundingDisposition"]:r36,["listGiftCardFundingDispositions"]:r36,["createGiftCardLoad"]:r37,["getGiftCardLoad"]:r37,["listGiftCardLoads"]:r37,["cancelGiftCardNotification"]:r38,["createGiftCardNotification"]:r38,["getGiftCardNotification"]:r38,["listGiftCardNotifications"]:r38,["cancelGiftCardRedemption"]:r39,["captureGiftCardRedemption"]:r39,["createGiftCardRedemption"]:r39,["getGiftCardRedemption"]:r39,["listGiftCardRedemptions"]:r39,["listGiftCardTransactions"]:r40,["adjustGiftCardBalance"]:r41,["cashOutGiftCard"]:r41,["closeGiftCard"]:r41,["createGiftCard"]:r41,["freezeGiftCard"]:r41,["getGiftCard"]:r41,["listGiftCards"]:r41,["lookupGiftCard"]:r41,["rotateGiftCardCode"]:r41,["unfreezeGiftCard"]:r41,["updateGiftCard"]:r41,["createInventoryAdjustment"]:r42,["getInventoryAdjustment"]:r42,["listInventoryAdjustments"]:r42,["createInventoryAllocationPolicy"]:r43,["deleteInventoryAllocationPolicy"]:r43,["getInventoryAllocationPolicy"]:r43,["getInventoryAllocationPolicyRevision"]:r43,["listInventoryAllocationPolicies"]:r43,["listInventoryAllocationPolicyRevisions"]:r43,["updateInventoryAllocationPolicy"]:r43,["applyInventoryCount"]:r44,["cancelInventoryCount"]:r44,["createInventoryCount"]:r44,["getInventoryCount"]:r44,["listInventoryCounts"]:r44,["updateInventoryCount"]:r44,["createInventoryItem"]:r45,["deleteInventoryItem"]:r45,["getInventoryItem"]:r45,["listInventoryItems"]:r45,["updateInventoryItem"]:r45,["getInventoryLevel"]:r46,["listInventoryLevels"]:r46,["updateInventoryLevel"]:r46,["getInventoryMovement"]:r47,["listInventoryMovements"]:r47,["createInventoryReceipt"]:r48,["getInventoryReceipt"]:r48,["listInventoryReceipts"]:r48,["commitInventoryReservation"]:r49,["consumeInventoryReservation"]:r49,["createInventoryReservation"]:r49,["getInventoryReservation"]:r49,["listInventoryReservations"]:r49,["releaseInventoryReservation"]:r49,["updateInventoryReservation"]:r49,["cancelInventoryTransfer"]:r50,["createInventoryTransfer"]:r50,["departInventoryTransfer"]:r50,["getInventoryTransfer"]:r50,["listInventoryTransfers"]:r50,["receiveInventoryTransfer"]:r50,["reportInventoryTransferLoss"]:r50,["returnInventoryTransferToOrigin"]:r50,["updateInventoryTransfer"]:r50,["createInvoicePaymentTerm"]:r51,["deleteInvoicePaymentTerm"]:r51,["getInvoicePaymentTerm"]:r51,["listInvoicePaymentTerms"]:r51,["updateInvoicePaymentTerm"]:r51,["cancelInvoicePaymentAttempt"]:r52,["collectInvoice"]:r52,["createInvoice"]:r52,["createInvoiceLateFee"]:r52,["createInvoiceManualPayment"]:r52,["getInvoice"]:r52,["getInvoiceManualPayment"]:r52,["getInvoicePaymentAttempt"]:r52,["getInvoicePDF"]:r52,["issueInvoice"]:r52,["listInvoiceActivities"]:r52,["listInvoiceDeliveryAttempts"]:r52,["listInvoiceManualPayments"]:r52,["listInvoicePaymentAttempts"]:r52,["listInvoices"]:r52,["markInvoiceUncollectible"]:r52,["regenerateInvoicePublicLink"]:r52,["reverseInvoiceManualPayment"]:r52,["sendInvoiceReminder"]:r52,["updateInvoice"]:r52,["voidInvoice"]:r52,["waiveInvoiceLateFee"]:r52,["createLocation"]:r53,["deleteLocation"]:r53,["getLocation"]:r53,["listLocations"]:r53,["updateLocation"]:r53,["cancelMeReturn"]:r54,["cancelMeSubscription"]:r54,["changeMeSubscriptionPlan"]:r54,["changeMeSubscriptionQuantity"]:r54,["confirmMeEmailChangeRequest"]:r54,["createMeAddress"]:r54,["createMeCheckoutSession"]:r54,["createMeDeletionRequest"]:r54,["createMeEmailChangeRequest"]:r54,["createMeFlintWalletStoreSetup"]:r54,["createMePaymentMethod"]:r54,["createMeReturn"]:r54,["createMeReturnPreview"]:r54,["createMeSubscriptionPaymentRetry"]:r54,["createMeSubscriptionPreview"]:r54,["deleteMeAddress"]:r54,["deleteMePaymentMethod"]:r54,["getMe"]:r54,["getMeAddress"]:r54,["getMeCreditNote"]:r54,["getMeCreditNotePDF"]:r54,["getMeDeletionRequest"]:r54,["getMeEmailPreferences"]:r54,["getMeFulfillment"]:r54,["getMeGiftCard"]:r54,["getMeInvoice"]:r54,["getMeInvoicePDF"]:r54,["getMeOrder"]:r54,["getMeOrderReceiptPDF"]:r54,["getMePackage"]:r54,["getMePaymentIntent"]:r54,["getMePaymentMethod"]:r54,["getMeRefund"]:r54,["getMeReturn"]:r54,["getMeReturnResolution"]:r54,["getMeShipment"]:r54,["getMeSubscription"]:r54,["getMeSubscriptionPaymentRetry"]:r54,["listMeAddresses"]:r54,["listMeCreditNotes"]:r54,["listMeDeletionRequests"]:r54,["listMeFlintWalletCards"]:r54,["listMeFulfillmentEvents"]:r54,["listMeFulfillments"]:r54,["listMeGiftCards"]:r54,["listMeGiftCardTransactions"]:r54,["listMeInvoices"]:r54,["listMeOrderActivities"]:r54,["listMeOrders"]:r54,["listMePackages"]:r54,["listMePaymentIntents"]:r54,["listMePaymentMethods"]:r54,["listMeRefunds"]:r54,["listMeReturns"]:r54,["listMeShipments"]:r54,["listMeSubscriptionPaymentRetries"]:r54,["listMeSubscriptions"]:r54,["listMeTickets"]:r54,["pauseMeSubscription"]:r54,["removeMeGiftCard"]:r54,["renewMeSubscription"]:r54,["resumeMeSubscription"]:r54,["revokeMeSession"]:r54,["saveMeGiftCard"]:r54,["sendMeOrderReceipt"]:r54,["skipMeSubscriptionCycle"]:r54,["updateMe"]:r54,["updateMeAddress"]:r54,["updateMeEmailPreferences"]:r54,["updateMeSubscription"]:r54,["updateMeSubscriptionLineItem"]:r54,["getMerchant"]:r55,["updateMerchant"]:r55,["createMerchantAccountSession"]:r56,["refreshMerchantAccountSession"]:r56,["getMerchantBillingBalance"]:r57,["listMerchantBillingBalances"]:r57,["listMerchantBillingEntries"]:r58,["getMerchantBillingInvoice"]:r59,["listMerchantBillingInvoices"]:r59,["cancelMerchantSignup"]:r60,["createMerchantSignup"]:r60,["getMerchantSignup"]:r60,["listMerchantSignups"]:r60,["resendMerchantSignupCode"]:r60,["rotateMerchantSignupAuthorizationCodes"]:r60,["verifyMerchantSignup"]:r60,["createModifierGroup"]:r61,["deleteModifierGroup"]:r61,["getModifierGroup"]:r61,["listModifierGroups"]:r61,["updateModifierGroup"]:r61,["createModifierSet"]:r62,["deleteModifierSet"]:r62,["getModifierSet"]:r62,["listModifierSets"]:r62,["updateModifierSet"]:r62,["authorizeCLIDevice"]:r63,["exchangeOAuthToken"]:r63,["listCLIContexts"]:r63,["previewPartnerInstallAuthorization"]:r63,["reauthorizeCLIDevice"]:r63,["revokeOAuthToken"]:r63,["advanceOnboarding"]:r64,["createOnboardingAccessLink"]:r64,["getOnboardingState"]:r64,["startOnboarding"]:r64,["verifyOnboardingEmail"]:r64,["getOpenAPISpec"]:r65,["createOrderEditPreview"]:r66,["applyOrderDiscount"]:r67,["applyOrderGiftCard"]:r67,["cancelOrderPaymentAttempt"]:r67,["closeOrder"]:r67,["createOrder"]:r67,["createOrderAccessLink"]:r67,["createOrderCharge"]:r67,["createOrderEdit"]:r67,["createOrderLineItems"]:r67,["createOrderPaymentIntent"]:r67,["deleteOrderCharge"]:r67,["deleteOrderLineItem"]:r67,["getOrder"]:r67,["getOrderEdit"]:r67,["getOrderPaymentAttempt"]:r67,["getOrderReceiptPDF"]:r67,["listOrderActivities"]:r67,["listOrderCharges"]:r67,["listOrderEdits"]:r67,["listOrderLineItems"]:r67,["listOrderPaymentAttempts"]:r67,["listOrders"]:r67,["payOrder"]:r67,["removeOrderDiscounts"]:r67,["removeOrderGiftCard"]:r67,["repriceOrderDiscounts"]:r67,["resolveOrderInventoryException"]:r67,["retryOrderEditRefund"]:r67,["sendOrderReceipt"]:r67,["updateOrder"]:r67,["updateOrderCharge"]:r67,["updateOrderLineItem"]:r67,["createPackage"]:r68,["createPackageItem"]:r68,["deletePackageItem"]:r68,["getPackage"]:r68,["getPackageItem"]:r68,["listPackageItems"]:r68,["listPackages"]:r68,["markPackageDelivered"]:r68,["markPackageDeliveryAttempted"]:r68,["markPackageException"]:r68,["markPackageInTransit"]:r68,["markPackageOutForDelivery"]:r68,["markPackagePacked"]:r68,["markPackageReturned"]:r68,["markPackageShipped"]:r68,["updatePackage"]:r68,["updatePackageItem"]:r68,["voidPackage"]:r68,["listMerchantPartnerAppInstalls"]:r69,["revokeMerchantPartnerAppInstall"]:r69,["acceptPartnerAppPlatformTerms"]:r70,["createPartnerApp"]:r70,["createPartnerAppCredential"]:r70,["deletePartnerApp"]:r70,["deletePartnerAppCredential"]:r70,["getPartnerApp"]:r70,["getPartnerAppCredential"]:r70,["getPartnerAppInstall"]:r70,["listPartnerAppCredentials"]:r70,["listPartnerAppInstalls"]:r70,["listPartnerApps"]:r70,["revokePartnerAppEnvironmentGrant"]:r70,["revokePartnerAppInstall"]:r70,["rotatePartnerAppSecret"]:r70,["updatePartnerApp"]:r70,["cancelPaymentIntent"]:r71,["capturePaymentIntent"]:r71,["confirmPaymentIntent"]:r71,["createPaymentIntent"]:r71,["getPaymentIntent"]:r71,["listPaymentIntentActivities"]:r71,["listPaymentIntents"]:r71,["sendPaymentIntentReceipt"]:r71,["updatePaymentIntent"]:r71,["createPaymentLink"]:r72,["getPaymentLink"]:r72,["getPaymentLinkPublic"]:r72,["listPaymentLinks"]:r72,["resolvePaymentLink"]:r72,["updatePaymentLink"]:r72,["createPaymentMethodDomain"]:r73,["getPaymentMethodDomain"]:r73,["listPaymentMethodDomains"]:r73,["updatePaymentMethodDomain"]:r73,["createPaymentMethod"]:r74,["deletePaymentMethod"]:r74,["getPaymentMethod"]:r74,["listPaymentMethods"]:r74,["approvePaymentReview"]:r75,["declinePaymentReview"]:r75,["getPaymentReview"]:r75,["listPaymentReviews"]:r75,["getPaymentSplit"]:r76,["listPaymentSplits"]:r76,["deletePayoutDestination"]:r77,["getPayoutDestination"]:r77,["listPayoutDestinations"]:r77,["updatePayoutDestination"]:r77,["getPayoutSettings"]:r78,["updatePayoutSettings"]:r78,["cancelPayout"]:r79,["createPayout"]:r79,["getPayout"]:r79,["listPayouts"]:r79,["getPlatformFeeBalanceTransaction"]:r80,["listPlatformFeeBalanceTransactions"]:r80,["listPlatformFeeBalances"]:r81,["getPlatformFeePayout"]:r82,["listPlatformFeePayouts"]:r82,["getPlatformFee"]:r83,["listPlatformFees"]:r83,["createPriceList"]:r84,["createPriceListPrices"]:r84,["deletePriceList"]:r84,["deletePriceListPrice"]:r84,["getPriceList"]:r84,["getPriceListPrice"]:r84,["listPriceListPrices"]:r84,["listPriceLists"]:r84,["updatePriceList"]:r84,["updatePriceListPrice"]:r84,["createProduct"]:r85,["createProductVariant"]:r85,["deleteProduct"]:r85,["deleteProductVariant"]:r85,["getProduct"]:r85,["getProductOption"]:r85,["getProductVariant"]:r85,["listProductOptions"]:r85,["listProducts"]:r85,["listProductVariants"]:r85,["updateProduct"]:r85,["updateProductVariant"]:r85,["createPromotionCode"]:r86,["deletePromotionCode"]:r86,["getPromotionCode"]:r86,["listPromotionCodes"]:r86,["updatePromotionCode"]:r86,["createPromotion"]:r87,["deletePromotion"]:r87,["getPromotion"]:r87,["listPromotions"]:r87,["updatePromotion"]:r87,["createReader"]:r88,["createReaderConnectionSession"]:r88,["deleteReader"]:r88,["getReader"]:r88,["listReaders"]:r88,["simulateReader"]:r88,["updateReader"]:r88,["createRefund"]:r89,["getRefund"]:r89,["listRefunds"]:r89,["updateRefund"]:r89,["getReportDownload"]:r90,["createReport"]:r91,["getReport"]:r91,["listReports"]:r91,["getResourceTimeline"]:r92,["cancelReturnDisposition"]:r93,["getReturnDisposition"]:r93,["listReturnDispositions"]:r93,["retryReturnDisposition"]:r93,["decideReturnInspectionLineItem"]:r94,["getReturnInspection"]:r94,["listReturnInspections"]:r94,["createReturnPolicy"]:r95,["createReturnPolicyRevision"]:r95,["deleteReturnPolicy"]:r95,["getReturnPolicy"]:r95,["getReturnPolicyRevision"]:r95,["listReturnPolicies"]:r95,["listReturnPolicyRevisions"]:r95,["updateReturnPolicy"]:r95,["createReturnPreview"]:r96,["createReturnReason"]:r97,["deleteReturnReason"]:r97,["getReturnReason"]:r97,["listReturnReasons"]:r97,["updateReturnReason"]:r97,["getReturnReceipt"]:r98,["listReturnReceipts"]:r98,["verifyReturnReceiptLineItem"]:r98,["cancelReturnResolution"]:r99,["confirmReturnResolution"]:r99,["getReturnResolution"]:r99,["listReturnResolutions"]:r99,["releaseReturnResolution"]:r99,["retryReturnResolution"]:r99,["updateReturnResolution"]:r99,["cancelReturn"]:r100,["cancelReturnLineItem"]:r100,["completeReturn"]:r100,["createReturn"]:r100,["createReturnAccessLink"]:r100,["createReturnDisposition"]:r100,["createReturnInspection"]:r100,["createReturnLineItem"]:r100,["createReturnReceipt"]:r100,["createReturnResolution"]:r100,["decideReturn"]:r100,["deleteReturnLineItem"]:r100,["getReturn"]:r100,["getReturnLineItem"]:r100,["listReturnActivities"]:r100,["listReturnLineItems"]:r100,["listReturns"]:r100,["processReturn"]:r100,["reopenReturn"]:r100,["updateReturn"]:r100,["updateReturnLineItem"]:r100,["waiveReturnLineItemInspection"]:r100,["createRiskList"]:r101,["createRiskListItems"]:r101,["deleteRiskList"]:r101,["deleteRiskListItem"]:r101,["getRiskList"]:r101,["getRiskListItem"]:r101,["listRiskListItems"]:r101,["listRiskLists"]:r101,["updateRiskList"]:r101,["createRiskPreview"]:r102,["createRiskRule"]:r103,["deleteRiskRule"]:r103,["getRiskRule"]:r103,["getRiskRuleAttributes"]:r103,["listRiskRules"]:r103,["updateRiskRule"]:r103,["createSandbox"]:r104,["deleteSandbox"]:r104,["getSandbox"]:r104,["listSandboxes"]:r104,["resetSandbox"]:r104,["getEffectiveSettings"]:r105,["getSettings"]:r105,["updateSettings"]:r105,["createShipment"]:r106,["getShipment"]:r106,["listShipments"]:r106,["updateShipment"]:r106,["voidShipment"]:r106,["createSubscriptionDeliveryMigration"]:r107,["getSubscriptionDeliveryMigration"]:r107,["listSubscriptionDeliveryMigrationFailures"]:r107,["listSubscriptionDeliveryMigrations"]:r107,["createSubscriptionOffer"]:r108,["deleteSubscriptionOffer"]:r108,["getSubscriptionOffer"]:r108,["listSubscriptionOffers"]:r108,["updateSubscriptionOffer"]:r108,["createSubscriptionPlan"]:r109,["deleteSubscriptionPlan"]:r109,["getSubscriptionPlan"]:r109,["listSubscriptionPlans"]:r109,["updateSubscriptionPlan"]:r109,["createSubscriptionPreview"]:r110,["applySubscriptionPromotion"]:r111,["cancelSubscription"]:r111,["changeSubscriptionPlan"]:r111,["changeSubscriptionQuantity"]:r111,["createSubscription"]:r111,["createSubscriptionAccessLink"]:r111,["createSubscriptionLineItem"]:r111,["createSubscriptionPaymentRetry"]:r111,["deleteSubscriptionLineItem"]:r111,["getSubscription"]:r111,["getSubscriptionPaymentRetry"]:r111,["listSubscriptionPaymentRetries"]:r111,["listSubscriptions"]:r111,["pauseSubscription"]:r111,["removeSubscriptionPromotions"]:r111,["renewSubscription"]:r111,["resumeSubscription"]:r111,["skipSubscriptionCycle"]:r111,["updateSubscription"]:r111,["updateSubscriptionLineItem"]:r111,["checkTaxCalculationCallbackConnection"]:r112,["createTaxCalculationCallback"]:r112,["createTaxCalculationCallbackTestDelivery"]:r112,["deleteTaxCalculationCallback"]:r112,["getTaxCalculationCallback"]:r112,["listTaxCalculationCallbacks"]:r112,["rotateTaxCalculationCallbackSecret"]:r112,["updateTaxCalculationCallback"]:r112,["connectTaxConnection"]:r113,["createTaxRegistration"]:r113,["deleteTaxRegistration"]:r113,["disconnectTaxConnection"]:r113,["getTaxConnection"]:r113,["getTaxRegistration"]:r113,["listTaxRegistrations"]:r113,["updateTaxRegistration"]:r113,["advanceTestClock"]:r114,["createTestClock"]:r114,["deleteTestClock"]:r114,["getTestClock"]:r114,["listTestClocks"]:r114,["checkInTicket"]:r115,["getTicket"]:r115,["listTickets"]:r115,["lookupTicket"]:r115,["rotateTicketCode"]:r115,["undoTicketCheckIn"]:r115,["updateTicket"]:r115,["voidTicket"]:r115,["createWebhookDelivery"]:r116,["getWebhookDelivery"]:r116,["listWebhookDeliveries"]:r116,["listWebhookDeliveryAttempts"]:r116,["resendWebhookDelivery"]:r116,["createWebhookEndpoint"]:r117,["createWebhookTestEvent"]:r117,["deleteWebhookEndpoint"]:r117,["getWebhookEndpoint"]:r117,["listWebhookEndpoints"]:r117,["rotateWebhookEndpointSecret"]:r117,["signWebhookEndpointDelivery"]:r117,["updateWebhookEndpoint"]:r117,["listWebhookEventTypes"]:r118,["getWebhookEvent"]:r119,["listWebhookEvents"]:r119,["streamWebhookEvents"]:r119,["createWorkloadIdentity"]:r120,["deleteWorkloadIdentity"]:r120,["getWorkloadIdentity"]:r120,["listWorkloadIdentities"]:r120,["updateWorkloadIdentity"]:r120}, webhook);
+const _sdkDescriptors = new DescriptorSource(settings, {["getAnalyticsOverview"]:r0,["getPaymentVolumeTimeseries"]:r0,["getSubscriptionAnalytics"]:r0,["createAPIKey"]:r1,["getAPIKey"]:r1,["listAPIKeys"]:r1,["revokeAPIKey"]:r1,["updateAPIKey"]:r1,["getAPIRequestLog"]:r2,["listAPIRequestLogs"]:r2,["getAuthContext"]:r3,["getBalanceTransaction"]:r4,["listBalanceTransactions"]:r4,["listBalances"]:r5,["createBundle"]:r6,["deleteBundle"]:r6,["getBundle"]:r6,["listBundleComponents"]:r6,["listBundles"]:r6,["updateBundle"]:r6,["createCategory"]:r7,["deleteCategory"]:r7,["getCategory"]:r7,["listCategories"]:r7,["updateCategory"]:r7,["closeCheckoutSession"]:r8,["confirmCheckoutSessionCustomerVerification"]:r8,["createCheckoutSession"]:r8,["createCheckoutSessionCustomerVerification"]:r8,["getCheckoutSession"]:r8,["getCheckoutSessionCustomerVerification"]:r8,["listCheckoutSessionCustomerVerifications"]:r8,["listCheckoutSessions"]:r8,["updateCheckoutSession"]:r8,["createCreditNote"]:r9,["createCreditNoteAllocation"]:r9,["getCreditNote"]:r9,["getCreditNoteAllocation"]:r9,["getCreditNotePDF"]:r9,["issueCreditNote"]:r9,["listCreditNoteAllocations"]:r9,["listCreditNotes"]:r9,["reverseCreditNoteAllocation"]:r9,["updateCreditNote"]:r9,["voidCreditNote"]:r9,["createCustomDomain"]:r10,["deleteCustomDomain"]:r10,["getCustomDomain"]:r10,["listCustomDomains"]:r10,["validateCustomDomain"]:r10,["createCustomerDeletionRequest"]:r11,["getCustomerDeletionRequest"]:r11,["listCustomerDeletionRequests"]:r11,["resolveCustomerDeletionRequest"]:r11,["createCustomerSession"]:r12,["refreshCustomerSession"]:r12,["revokeCustomerSession"]:r12,["confirmCustomerVerification"]:r13,["createCustomerVerification"]:r13,["getCustomerVerification"]:r13,["listCustomerVerifications"]:r13,["cancelCustomerEmailChangeRequest"]:r14,["createCustomer"]:r14,["createCustomerAccessLink"]:r14,["createCustomerAddress"]:r14,["createCustomerEmailChangeRequest"]:r14,["createCustomerTaxExemption"]:r14,["deleteCustomerAddress"]:r14,["deleteCustomerTaxExemption"]:r14,["getCustomer"]:r14,["getCustomerAddress"]:r14,["getCustomerEmailChangeRequest"]:r14,["getCustomerEmailPreferences"]:r14,["getCustomerTaxExemption"]:r14,["linkCustomerGuestPurchases"]:r14,["listCustomerAddresses"]:r14,["listCustomerEmailChangeRequests"]:r14,["listCustomers"]:r14,["listCustomerTaxExemptions"]:r14,["revokeCustomerSessions"]:r14,["updateCustomer"]:r14,["updateCustomerAddress"]:r14,["updateCustomerTaxExemption"]:r14,["createDeliveryLocationSet"]:r15,["deleteDeliveryLocationSet"]:r15,["getDeliveryLocationSet"]:r15,["listDeliveryLocationSets"]:r15,["updateDeliveryLocationSet"]:r15,["createDeliveryMethod"]:r16,["deleteDeliveryMethod"]:r16,["getDeliveryMethod"]:r16,["listDeliveryMethods"]:r16,["updateDeliveryMethod"]:r16,["createDeliveryPreview"]:r17,["assignToUnconfiguredDeliveryProfile"]:r18,["createDeliveryProfile"]:r18,["deleteDeliveryProfile"]:r18,["getDeliveryProfile"]:r18,["listDeliveryProfiles"]:r18,["updateDeliveryProfile"]:r18,["createDeliveryQuote"]:r19,["getDeliveryQuote"]:r19,["listDeliveryQuotes"]:r19,["checkDeliveryRateCallbackConnection"]:r20,["createDeliveryRateCallback"]:r20,["createDeliveryRateCallbackTestDelivery"]:r20,["deleteDeliveryRateCallback"]:r20,["getDeliveryRateCallback"]:r20,["listDeliveryRateCallbacks"]:r20,["rotateDeliveryRateCallbackSecret"]:r20,["updateDeliveryRateCallback"]:r20,["createDeliveryRevocation"]:r21,["getDeliveryRevocation"]:r21,["listDeliveryRevocations"]:r21,["createDeliverySelection"]:r22,["getDeliverySelection"]:r22,["listDeliverySelections"]:r22,["releaseDeliverySelection"]:r22,["createDeliveryZone"]:r23,["deleteDeliveryZone"]:r23,["getDeliveryZone"]:r23,["listDeliveryZones"]:r23,["updateDeliveryZone"]:r23,["createDemoSession"]:r24,["resetDemoSession"]:r24,["createDevice"]:r25,["deleteDevice"]:r25,["getDevice"]:r25,["listDevices"]:r25,["updateDevice"]:r25,["createDiscountPreview"]:r26,["acceptDispute"]:r27,["createDisputeResponseSession"]:r27,["getDispute"]:r27,["listDisputes"]:r27,["simulateDispute"]:r27,["lookupEmailPreferenceLink"]:r28,["unsubscribeEmailPreferenceLink"]:r28,["lookupEmailPreferences"]:r29,["createFeedbackReport"]:r30,["getFeedbackReport"]:r30,["listFeedbackReports"]:r30,["completeFile"]:r31,["createFile"]:r31,["getFile"]:r31,["getFraudWarning"]:r32,["listFraudWarnings"]:r32,["createFulfillmentEvent"]:r33,["getFulfillmentEvent"]:r33,["listFulfillmentEvents"]:r33,["getFulfillmentNotification"]:r34,["listFulfillmentNotifications"]:r34,["acceptFulfillment"]:r35,["cancelFulfillment"]:r35,["completeFulfillment"]:r35,["createFulfillment"]:r35,["dispatchFulfillment"]:r35,["failFulfillment"]:r35,["getFulfillment"]:r35,["holdFulfillment"]:r35,["listFulfillments"]:r35,["markFulfillmentNoShow"]:r35,["markFulfillmentPacked"]:r35,["markFulfillmentPicked"]:r35,["markFulfillmentPreparing"]:r35,["markFulfillmentReady"]:r35,["releaseFulfillmentHold"]:r35,["scheduleFulfillment"]:r35,["startFulfillment"]:r35,["updateFulfillment"]:r35,["createGiftCardFundingDisposition"]:r36,["getGiftCardFundingDisposition"]:r36,["listGiftCardFundingDispositions"]:r36,["createGiftCardLoad"]:r37,["getGiftCardLoad"]:r37,["listGiftCardLoads"]:r37,["cancelGiftCardNotification"]:r38,["createGiftCardNotification"]:r38,["getGiftCardNotification"]:r38,["listGiftCardNotifications"]:r38,["cancelGiftCardRedemption"]:r39,["captureGiftCardRedemption"]:r39,["createGiftCardRedemption"]:r39,["getGiftCardRedemption"]:r39,["listGiftCardRedemptions"]:r39,["listGiftCardTransactions"]:r40,["adjustGiftCardBalance"]:r41,["cashOutGiftCard"]:r41,["closeGiftCard"]:r41,["createGiftCard"]:r41,["freezeGiftCard"]:r41,["getGiftCard"]:r41,["listGiftCards"]:r41,["lookupGiftCard"]:r41,["rotateGiftCardCode"]:r41,["unfreezeGiftCard"]:r41,["updateGiftCard"]:r41,["createInventoryAdjustment"]:r42,["getInventoryAdjustment"]:r42,["listInventoryAdjustments"]:r42,["createInventoryAllocationPolicy"]:r43,["deleteInventoryAllocationPolicy"]:r43,["getInventoryAllocationPolicy"]:r43,["getInventoryAllocationPolicyRevision"]:r43,["listInventoryAllocationPolicies"]:r43,["listInventoryAllocationPolicyRevisions"]:r43,["updateInventoryAllocationPolicy"]:r43,["applyInventoryCount"]:r44,["cancelInventoryCount"]:r44,["createInventoryCount"]:r44,["getInventoryCount"]:r44,["listInventoryCounts"]:r44,["updateInventoryCount"]:r44,["createInventoryItem"]:r45,["deleteInventoryItem"]:r45,["getInventoryItem"]:r45,["listInventoryItems"]:r45,["updateInventoryItem"]:r45,["getInventoryLevel"]:r46,["listInventoryLevels"]:r46,["updateInventoryLevel"]:r46,["getInventoryMovement"]:r47,["listInventoryMovements"]:r47,["createInventoryReceipt"]:r48,["getInventoryReceipt"]:r48,["listInventoryReceipts"]:r48,["commitInventoryReservation"]:r49,["consumeInventoryReservation"]:r49,["createInventoryReservation"]:r49,["getInventoryReservation"]:r49,["listInventoryReservations"]:r49,["releaseInventoryReservation"]:r49,["updateInventoryReservation"]:r49,["cancelInventoryTransfer"]:r50,["createInventoryTransfer"]:r50,["departInventoryTransfer"]:r50,["getInventoryTransfer"]:r50,["listInventoryTransfers"]:r50,["receiveInventoryTransfer"]:r50,["reportInventoryTransferLoss"]:r50,["returnInventoryTransferToOrigin"]:r50,["updateInventoryTransfer"]:r50,["createInvoicePaymentTerm"]:r51,["deleteInvoicePaymentTerm"]:r51,["getInvoicePaymentTerm"]:r51,["listInvoicePaymentTerms"]:r51,["updateInvoicePaymentTerm"]:r51,["cancelInvoicePaymentAttempt"]:r52,["collectInvoice"]:r52,["createInvoice"]:r52,["createInvoiceLateFee"]:r52,["createInvoiceManualPayment"]:r52,["getInvoice"]:r52,["getInvoiceManualPayment"]:r52,["getInvoicePaymentAttempt"]:r52,["getInvoicePDF"]:r52,["issueInvoice"]:r52,["listInvoiceActivities"]:r52,["listInvoiceDeliveryAttempts"]:r52,["listInvoiceLateFees"]:r52,["listInvoiceManualPayments"]:r52,["listInvoicePaymentAttempts"]:r52,["listInvoices"]:r52,["markInvoiceUncollectible"]:r52,["regenerateInvoicePublicLink"]:r52,["reverseInvoiceManualPayment"]:r52,["sendInvoiceReminder"]:r52,["updateInvoice"]:r52,["voidInvoice"]:r52,["waiveInvoiceLateFee"]:r52,["createLocation"]:r53,["deleteLocation"]:r53,["getLocation"]:r53,["listLocations"]:r53,["updateLocation"]:r53,["cancelMeReturn"]:r54,["cancelMeSubscription"]:r54,["changeMeSubscriptionPlan"]:r54,["changeMeSubscriptionQuantity"]:r54,["confirmMeEmailChangeRequest"]:r54,["createMeAddress"]:r54,["createMeCheckoutSession"]:r54,["createMeDeletionRequest"]:r54,["createMeEmailChangeRequest"]:r54,["createMeFlintWalletStoreSetup"]:r54,["createMePaymentMethod"]:r54,["createMeReturn"]:r54,["createMeReturnPreview"]:r54,["createMeSubscriptionPaymentRetry"]:r54,["createMeSubscriptionPreview"]:r54,["deleteMeAddress"]:r54,["deleteMePaymentMethod"]:r54,["getMe"]:r54,["getMeAddress"]:r54,["getMeCreditNote"]:r54,["getMeCreditNotePDF"]:r54,["getMeDeletionRequest"]:r54,["getMeEmailPreferences"]:r54,["getMeFulfillment"]:r54,["getMeGiftCard"]:r54,["getMeInvoice"]:r54,["getMeInvoicePDF"]:r54,["getMeOrder"]:r54,["getMeOrderReceiptPDF"]:r54,["getMePackage"]:r54,["getMePaymentIntent"]:r54,["getMePaymentMethod"]:r54,["getMeRefund"]:r54,["getMeReturn"]:r54,["getMeReturnResolution"]:r54,["getMeShipment"]:r54,["getMeSubscription"]:r54,["getMeSubscriptionPaymentRetry"]:r54,["listMeAddresses"]:r54,["listMeCreditNotes"]:r54,["listMeDeletionRequests"]:r54,["listMeFlintWalletCards"]:r54,["listMeFulfillmentEvents"]:r54,["listMeFulfillments"]:r54,["listMeGiftCards"]:r54,["listMeGiftCardTransactions"]:r54,["listMeInvoices"]:r54,["listMeOrderActivities"]:r54,["listMeOrders"]:r54,["listMePackages"]:r54,["listMePaymentIntents"]:r54,["listMePaymentMethods"]:r54,["listMeRefunds"]:r54,["listMeRememberedBuyers"]:r54,["listMeReturns"]:r54,["listMeShipments"]:r54,["listMeSubscriptionPaymentRetries"]:r54,["listMeSubscriptions"]:r54,["listMeTickets"]:r54,["pauseMeSubscription"]:r54,["removeMeGiftCard"]:r54,["renewMeSubscription"]:r54,["resumeMeSubscription"]:r54,["revokeMeRememberedBuyer"]:r54,["revokeMeSession"]:r54,["saveMeGiftCard"]:r54,["sendMeOrderReceipt"]:r54,["skipMeSubscriptionCycle"]:r54,["updateMe"]:r54,["updateMeAddress"]:r54,["updateMeEmailPreferences"]:r54,["updateMeSubscription"]:r54,["updateMeSubscriptionLineItem"]:r54,["getMerchant"]:r55,["updateMerchant"]:r55,["createMerchantAccountSession"]:r56,["refreshMerchantAccountSession"]:r56,["getMerchantBillingBalance"]:r57,["listMerchantBillingBalances"]:r57,["listMerchantBillingEntries"]:r58,["getMerchantBillingInvoice"]:r59,["listMerchantBillingInvoices"]:r59,["cancelMerchantSignup"]:r60,["createMerchantSignup"]:r60,["getMerchantSignup"]:r60,["listMerchantSignups"]:r60,["resendMerchantSignupCode"]:r60,["rotateMerchantSignupAuthorizationCodes"]:r60,["verifyMerchantSignup"]:r60,["createModifierGroup"]:r61,["deleteModifierGroup"]:r61,["getModifierGroup"]:r61,["listModifierGroups"]:r61,["updateModifierGroup"]:r61,["createModifierSet"]:r62,["deleteModifierSet"]:r62,["getModifierSet"]:r62,["listModifierSets"]:r62,["updateModifierSet"]:r62,["authorizeCLIDevice"]:r63,["exchangeOAuthToken"]:r63,["listCLIContexts"]:r63,["previewPartnerInstallAuthorization"]:r63,["reauthorizeCLIDevice"]:r63,["revokeOAuthToken"]:r63,["advanceOnboarding"]:r64,["createOnboardingAccessLink"]:r64,["getOnboardingState"]:r64,["startOnboarding"]:r64,["verifyOnboardingEmail"]:r64,["getOpenAPISpec"]:r65,["createOrderEditPreview"]:r66,["applyOrderDiscount"]:r67,["applyOrderGiftCard"]:r67,["cancelOrderPaymentAttempt"]:r67,["closeOrder"]:r67,["createOrder"]:r67,["createOrderAccessLink"]:r67,["createOrderCharge"]:r67,["createOrderEdit"]:r67,["createOrderLineItems"]:r67,["createOrderPaymentIntent"]:r67,["deleteOrderCharge"]:r67,["deleteOrderLineItem"]:r67,["getOrder"]:r67,["getOrderEdit"]:r67,["getOrderPaymentAttempt"]:r67,["getOrderReceiptPDF"]:r67,["listOrderActivities"]:r67,["listOrderCharges"]:r67,["listOrderEdits"]:r67,["listOrderLineItems"]:r67,["listOrderPaymentAttempts"]:r67,["listOrders"]:r67,["payOrder"]:r67,["removeOrderDiscounts"]:r67,["removeOrderGiftCard"]:r67,["repriceOrderDiscounts"]:r67,["resolveOrderInventoryException"]:r67,["retryOrderEditRefund"]:r67,["sendOrderReceipt"]:r67,["updateOrder"]:r67,["updateOrderCharge"]:r67,["updateOrderLineItem"]:r67,["createPackage"]:r68,["createPackageItem"]:r68,["deletePackageItem"]:r68,["getPackage"]:r68,["getPackageItem"]:r68,["listPackageItems"]:r68,["listPackages"]:r68,["markPackageDelivered"]:r68,["markPackageDeliveryAttempted"]:r68,["markPackageException"]:r68,["markPackageInTransit"]:r68,["markPackageOutForDelivery"]:r68,["markPackagePacked"]:r68,["markPackageReturned"]:r68,["markPackageShipped"]:r68,["updatePackage"]:r68,["updatePackageItem"]:r68,["voidPackage"]:r68,["listMerchantPartnerAppInstalls"]:r69,["revokeMerchantPartnerAppInstall"]:r69,["acceptPartnerAppPlatformTerms"]:r70,["createPartnerApp"]:r70,["createPartnerAppCredential"]:r70,["deletePartnerApp"]:r70,["deletePartnerAppCredential"]:r70,["getPartnerApp"]:r70,["getPartnerAppCredential"]:r70,["getPartnerAppInstall"]:r70,["listPartnerAppCredentials"]:r70,["listPartnerAppInstalls"]:r70,["listPartnerApps"]:r70,["revokePartnerAppEnvironmentGrant"]:r70,["revokePartnerAppInstall"]:r70,["rotatePartnerAppSecret"]:r70,["updatePartnerApp"]:r70,["cancelPaymentIntent"]:r71,["capturePaymentIntent"]:r71,["confirmPaymentIntent"]:r71,["createPaymentIntent"]:r71,["getPaymentIntent"]:r71,["listPaymentIntentActivities"]:r71,["listPaymentIntents"]:r71,["sendPaymentIntentReceipt"]:r71,["updatePaymentIntent"]:r71,["createPaymentLink"]:r72,["getPaymentLink"]:r72,["getPaymentLinkPublic"]:r72,["listPaymentLinks"]:r72,["resolvePaymentLink"]:r72,["updatePaymentLink"]:r72,["createPaymentMethodDomain"]:r73,["getPaymentMethodDomain"]:r73,["listPaymentMethodDomains"]:r73,["updatePaymentMethodDomain"]:r73,["createPaymentMethod"]:r74,["deletePaymentMethod"]:r74,["getPaymentMethod"]:r74,["listPaymentMethods"]:r74,["approvePaymentReview"]:r75,["declinePaymentReview"]:r75,["getPaymentReview"]:r75,["listPaymentReviews"]:r75,["getPaymentSplit"]:r76,["listPaymentSplits"]:r76,["deletePayoutDestination"]:r77,["getPayoutDestination"]:r77,["listPayoutDestinations"]:r77,["updatePayoutDestination"]:r77,["getPayoutSettings"]:r78,["updatePayoutSettings"]:r78,["cancelPayout"]:r79,["createPayout"]:r79,["getPayout"]:r79,["listPayouts"]:r79,["getPlatformFeeBalanceTransaction"]:r80,["listPlatformFeeBalanceTransactions"]:r80,["listPlatformFeeBalances"]:r81,["getPlatformFeePayout"]:r82,["listPlatformFeePayouts"]:r82,["getPlatformFee"]:r83,["listPlatformFees"]:r83,["createPriceList"]:r84,["createPriceListPrices"]:r84,["deletePriceList"]:r84,["deletePriceListPrice"]:r84,["getPriceList"]:r84,["getPriceListPrice"]:r84,["listPriceListPrices"]:r84,["listPriceLists"]:r84,["updatePriceList"]:r84,["updatePriceListPrice"]:r84,["createProduct"]:r85,["createProductVariant"]:r85,["deleteProduct"]:r85,["deleteProductVariant"]:r85,["getProduct"]:r85,["getProductOption"]:r85,["getProductVariant"]:r85,["listProductOptions"]:r85,["listProducts"]:r85,["listProductVariants"]:r85,["updateProduct"]:r85,["updateProductVariant"]:r85,["createPromotionCode"]:r86,["deletePromotionCode"]:r86,["getPromotionCode"]:r86,["listPromotionCodes"]:r86,["updatePromotionCode"]:r86,["createPromotion"]:r87,["deletePromotion"]:r87,["getPromotion"]:r87,["listPromotions"]:r87,["updatePromotion"]:r87,["createReader"]:r88,["createReaderConnectionSession"]:r88,["deleteReader"]:r88,["getReader"]:r88,["listReaders"]:r88,["simulateReader"]:r88,["updateReader"]:r88,["createRefund"]:r89,["getRefund"]:r89,["listRefunds"]:r89,["updateRefund"]:r89,["lookupRememberedBuyer"]:r90,["revokeRememberedBuyer"]:r90,["getReportDownload"]:r91,["createReport"]:r92,["getReport"]:r92,["listReports"]:r92,["getResourceTimeline"]:r93,["cancelReturnDisposition"]:r94,["getReturnDisposition"]:r94,["listReturnDispositions"]:r94,["retryReturnDisposition"]:r94,["decideReturnInspectionLineItem"]:r95,["getReturnInspection"]:r95,["listReturnInspections"]:r95,["createReturnPolicy"]:r96,["createReturnPolicyRevision"]:r96,["deleteReturnPolicy"]:r96,["getReturnPolicy"]:r96,["getReturnPolicyRevision"]:r96,["listReturnPolicies"]:r96,["listReturnPolicyRevisions"]:r96,["updateReturnPolicy"]:r96,["createReturnPreview"]:r97,["createReturnReason"]:r98,["deleteReturnReason"]:r98,["getReturnReason"]:r98,["listReturnReasons"]:r98,["updateReturnReason"]:r98,["getReturnReceipt"]:r99,["listReturnReceipts"]:r99,["verifyReturnReceiptLineItem"]:r99,["cancelReturnResolution"]:r100,["confirmReturnResolution"]:r100,["getReturnResolution"]:r100,["listReturnResolutions"]:r100,["releaseReturnResolution"]:r100,["retryReturnResolution"]:r100,["updateReturnResolution"]:r100,["cancelReturn"]:r101,["cancelReturnLineItem"]:r101,["completeReturn"]:r101,["createReturn"]:r101,["createReturnAccessLink"]:r101,["createReturnDisposition"]:r101,["createReturnInspection"]:r101,["createReturnLineItem"]:r101,["createReturnReceipt"]:r101,["createReturnResolution"]:r101,["decideReturn"]:r101,["deleteReturnLineItem"]:r101,["getReturn"]:r101,["getReturnLineItem"]:r101,["listReturnActivities"]:r101,["listReturnLineItems"]:r101,["listReturns"]:r101,["processReturn"]:r101,["reopenReturn"]:r101,["updateReturn"]:r101,["updateReturnLineItem"]:r101,["waiveReturnLineItemInspection"]:r101,["createRiskList"]:r102,["createRiskListItems"]:r102,["deleteRiskList"]:r102,["deleteRiskListItem"]:r102,["getRiskList"]:r102,["getRiskListItem"]:r102,["listRiskListItems"]:r102,["listRiskLists"]:r102,["updateRiskList"]:r102,["createRiskPreview"]:r103,["createRiskRule"]:r104,["deleteRiskRule"]:r104,["getRiskRule"]:r104,["getRiskRuleAttributes"]:r104,["listRiskRules"]:r104,["updateRiskRule"]:r104,["createSandbox"]:r105,["deleteSandbox"]:r105,["getSandbox"]:r105,["listSandboxes"]:r105,["resetSandbox"]:r105,["getEffectiveSettings"]:r106,["getSettings"]:r106,["updateSettings"]:r106,["createShipment"]:r107,["getShipment"]:r107,["listShipments"]:r107,["updateShipment"]:r107,["voidShipment"]:r107,["createSubscriptionDeliveryMigration"]:r108,["getSubscriptionDeliveryMigration"]:r108,["listSubscriptionDeliveryMigrationFailures"]:r108,["listSubscriptionDeliveryMigrations"]:r108,["createSubscriptionOffer"]:r109,["deleteSubscriptionOffer"]:r109,["getSubscriptionOffer"]:r109,["listSubscriptionOffers"]:r109,["updateSubscriptionOffer"]:r109,["createSubscriptionPlan"]:r110,["deleteSubscriptionPlan"]:r110,["getSubscriptionPlan"]:r110,["listSubscriptionPlans"]:r110,["updateSubscriptionPlan"]:r110,["createSubscriptionPreview"]:r111,["applySubscriptionPromotion"]:r112,["cancelSubscription"]:r112,["changeSubscriptionPlan"]:r112,["changeSubscriptionQuantity"]:r112,["createSubscription"]:r112,["createSubscriptionAccessLink"]:r112,["createSubscriptionLineItem"]:r112,["createSubscriptionPaymentRetry"]:r112,["deleteSubscriptionLineItem"]:r112,["getSubscription"]:r112,["getSubscriptionPaymentRetry"]:r112,["listSubscriptionLineItems"]:r112,["listSubscriptionPaymentRetries"]:r112,["listSubscriptions"]:r112,["pauseSubscription"]:r112,["removeSubscriptionPromotions"]:r112,["renewSubscription"]:r112,["resumeSubscription"]:r112,["skipSubscriptionCycle"]:r112,["updateSubscription"]:r112,["updateSubscriptionLineItem"]:r112,["checkTaxCalculationCallbackConnection"]:r113,["createTaxCalculationCallback"]:r113,["createTaxCalculationCallbackTestDelivery"]:r113,["deleteTaxCalculationCallback"]:r113,["getTaxCalculationCallback"]:r113,["listTaxCalculationCallbacks"]:r113,["rotateTaxCalculationCallbackSecret"]:r113,["updateTaxCalculationCallback"]:r113,["connectTaxConnection"]:r114,["createTaxRegistration"]:r114,["deleteTaxRegistration"]:r114,["disconnectTaxConnection"]:r114,["getTaxConnection"]:r114,["getTaxRegistration"]:r114,["listTaxRegistrations"]:r114,["updateTaxRegistration"]:r114,["advanceTestClock"]:r115,["createTestClock"]:r115,["deleteTestClock"]:r115,["getTestClock"]:r115,["listTestClocks"]:r115,["checkInTicket"]:r116,["getTicket"]:r116,["listTickets"]:r116,["lookupTicket"]:r116,["rotateTicketCode"]:r116,["undoTicketCheckIn"]:r116,["updateTicket"]:r116,["voidTicket"]:r116,["createWebhookDelivery"]:r117,["getWebhookDelivery"]:r117,["listWebhookDeliveries"]:r117,["listWebhookDeliveryAttempts"]:r117,["resendWebhookDelivery"]:r117,["createWebhookEndpoint"]:r118,["createWebhookTestEvent"]:r118,["deleteWebhookEndpoint"]:r118,["getWebhookEndpoint"]:r118,["listWebhookEndpoints"]:r118,["rotateWebhookEndpointSecret"]:r118,["signWebhookEndpointDelivery"]:r118,["updateWebhookEndpoint"]:r118,["listWebhookEventTypes"]:r119,["getWebhookEvent"]:r120,["listWebhookEvents"]:r120,["streamWebhookEvents"]:r120,["createWorkloadIdentity"]:r121,["deleteWorkloadIdentity"]:r121,["getWorkloadIdentity"]:r121,["listWorkloadIdentities"]:r121,["updateWorkloadIdentity"]:r121}, webhook);
 
 export class Client {
   #runtime;
@@ -1247,6 +1248,18 @@ export class Client {
 ]), options),
     });
     this.customers = Object.freeze({
+      cancelEmailChangeRequest: async (customer_id, email_change_request_id, params, options) => this.#runtime.request("cancelCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id",
+  "email_change_request_id"
+], [customer_id, email_change_request_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelCustomerEmailChangeRequest", result, path))),
       create: async (params, options) => this.#runtime.request("createCustomer", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
@@ -1274,6 +1287,17 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerAddress", result, path))),
+      createEmailChangeRequest: async (customer_id, params, options) => this.#runtime.request("createCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerEmailChangeRequest", result, path))),
       createTaxExemption: async (customer_id, params, options) => this.#runtime.request("createCustomerTaxExemption", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [], true, true, params, [
@@ -1326,6 +1350,17 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerAddress", result, path))),
+      getEmailChangeRequest: async (customer_id, email_change_request_id, params, options) => this.#runtime.request("getCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id",
+  "email_change_request_id"
+], [customer_id, email_change_request_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerEmailChangeRequest", result, path))),
       getEmailPreferences: async (customer_id, params, options) => this.#runtime.request("getCustomerEmailPreferences", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
@@ -1377,6 +1412,45 @@ export class Client {
       listAddressesItems: (customer_id, params, options) => this.#runtime.items("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listEmailChangeRequests: async (customer_id, params, options) => this.#runtime.request("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listCustomerEmailChangeRequests", result, path))),
+      listEmailChangeRequestsPages: (customer_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listCustomerEmailChangeRequests", result, path)),
+      listEmailChangeRequestsItems: (customer_id, params, options) => this.#runtime.items("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
   "page_size",
   "page_token",
   "Flint-Merchant-Id",
@@ -4800,6 +4874,42 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+      listLateFees: async (invoice_id, params, options) => this.#runtime.request("listInvoiceLateFees", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceLateFees", result, path))),
+      listLateFeesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceLateFees", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceLateFees", result, path)),
+      listLateFeesItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceLateFees", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listManualPayments: async (invoice_id, params, options) => this.#runtime.request("listInvoiceManualPayments", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -5254,17 +5364,15 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeAddress", result, path))),
-      getCreditNote: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
-  "invoice_id",
+      getCreditNote: async (credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
   "credit_note_id"
-], [invoice_id, credit_note_id], [], false, false, params, [
+], [credit_note_id], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeCreditNote", result, path))),
-      getCreditNotePDF: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNotePDF", _sdkRequestInput([
-  "invoice_id",
+      getCreditNotePDF: async (credit_note_id, params, options) => this.#runtime.request("getMeCreditNotePDF", _sdkRequestInput([
   "credit_note_id"
-], [invoice_id, credit_note_id], [], false, false, params, [
+], [credit_note_id], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
@@ -5390,31 +5498,28 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
-      listCreditNotes: async (invoice_id, params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotes: async (params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeCreditNotes", result, path))),
-      listCreditNotesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options), [], (result, path) => this.#runtime.decodePayload("listMeCreditNotes", result, path)),
-      listCreditNotesItems: (invoice_id, params, options) => this.#runtime.items("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotesItems: (params, options) => this.#runtime.items("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
@@ -5934,6 +6039,10 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+      listRememberedBuyers: async (params, options) => this.#runtime.request("listMeRememberedBuyers", _sdkRequestInput([], [], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeRememberedBuyers", result, path))),
       listReturns: async (params, options) => this.#runtime.request("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -6184,6 +6293,13 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resumeMeSubscription", result, path))),
+      revokeRememberedBuyer: async (remembered_buyer_id, params, options) => this.#runtime.request("revokeMeRememberedBuyer", _sdkRequestInput([
+  "remembered_buyer_id"
+], [remembered_buyer_id], [], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeMeRememberedBuyer", result, path))),
       revokeSession: async (params, options) => this.#runtime.request("revokeMeSession", _sdkRequestInput([], [], [], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -9816,6 +9932,17 @@ export class Client {
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateRefund", result, path))),
     });
+    this.rememberedBuyers = Object.freeze({
+      lookup: async (params, options) => this.#runtime.request("lookupRememberedBuyer", _sdkRequestInput([], [], [], true, true, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("lookupRememberedBuyer", result, path))),
+      revoke: async (params, options) => this.#runtime.request("revokeRememberedBuyer", _sdkRequestInput([], [], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeRememberedBuyer", result, path))),
+    });
     this.reportDownloads = Object.freeze({
       get: async (report_download_id, params, options) => this.#runtime.request("getReportDownload", _sdkRequestInput([
   "report_download_id"
@@ -11869,6 +11996,42 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSubscriptionPaymentRetry", result, path))),
+      listLineItems: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSubscriptionLineItems", result, path))),
+      listLineItemsPages: (subscription_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listSubscriptionLineItems", result, path)),
+      listLineItemsItems: (subscription_id, params, options) => this.#runtime.items("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listPaymentRetries: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -12920,11 +13083,14 @@ export function makeCreateCheckoutSessionDiscount(value) { return modelFromCodec
 export function makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionGiftCardPurchaseVerificationRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionInvoice(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionInvoice"), constraints: true}); }
 export function makeCreateCheckoutSessionOrder(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionOrder"), constraints: true}); }
+export function makeCreateCheckoutSessionPayToNewAddressVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionPayToNewAddressVerificationRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionQuickPay(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionQuickPay"), constraints: true}); }
 export function makeCreateCheckoutSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionReturnResolution(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionReturnResolution"), constraints: true}); }
 export function makeCreateCheckoutSessionSavePaymentMethodVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionSavePaymentMethodVerificationRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionSubscriptionPlan(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionSubscriptionPlan"), constraints: true}); }
+export function makeCreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest"), constraints: true}); }
+export function makeCreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest"), constraints: true}); }
 export function makeCreateCreditNoteAllocationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCreditNoteAllocationRequest"), constraints: true}); }
 export function makeCreateCreditNoteRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCreditNoteRequest"), constraints: true}); }
@@ -13507,6 +13673,7 @@ export function makeRefundTenderAllocationRequest(value) { return modelFromCodec
 export function makeReleaseFulfillmentHoldRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseFulfillmentHoldRequest"), constraints: true}); }
 export function makeReleaseInventoryReservationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseInventoryReservationRequest"), constraints: true}); }
 export function makeReleaseReturnResolutionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseReturnResolutionRequest"), constraints: true}); }
+export function makeRememberedBuyerTokenRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RememberedBuyerTokenRequest"), constraints: true}); }
 export function makeRemoveDiscountsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RemoveDiscountsRequest"), constraints: true}); }
 export function makeRemoveSubscriptionPromotionsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RemoveSubscriptionPromotionsRequest"), constraints: true}); }
 export function makeRenewSubscriptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RenewSubscriptionRequest"), constraints: true}); }
@@ -13628,6 +13795,7 @@ export function makeSubscriptionServiceLocationInputAddress(value) { return mode
 export function makeSubscriptionServiceLocationInputCustomerAddress(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionServiceLocationInputCustomerAddress"), constraints: true}); }
 export function makeSubscriptionServiceLocationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionServiceLocationRequest"), constraints: true}); }
 export function makeSubscriptionSettingsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionSettingsRequest"), constraints: true}); }
+export function makeSubscriptionSwapPreviewRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionSwapPreviewRequest"), constraints: true}); }
 export function makeSubscriptionTaxCalculationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionTaxCalculationRequest"), constraints: true}); }
 export function makeSubscriptionTaxRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionTaxRequest"), constraints: true}); }
 export function makeSubscriptionTermsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionTermsRequest"), constraints: true}); }

@@ -14,7 +14,7 @@ Response model.
 | `available_by_source_type` | Optional | Map of [SignedMoney](../models/SignedMoney.md#signedmoney) | Signed available amounts grouped by balance source type on LIMIT_EXCEEDED when the requested amount exceeds the available balance. Keys are an open set; US accounts use card and bank_account. An empty object means no per-source amounts are reported. |
 | `available_quantity` | Optional | integer | Whole-number quantity currently available for the requested operation; fractional quantities are not supported. Format: `int64`. |
 | `blocking_resource_count` | Optional | integer | Total number of blocking resources when a dependency refusal publishes a count. blocking_resources lists up to 25 of them. Invoice ownership conflicts use current_resource instead. Format: `int64`. |
-| `blocking_resources` | Optional | Array of [ErrorResourceReference](../models/ErrorResourceReference.md#errorresourcereference) | Resources that must transition or be corrected before the operation can succeed. Dependency conflicts list up to 25 resources, with blocking_resource_count as the total when present. OPERATION_IN_PROGRESS identifies work Flint is finishing, and PAYMENT_ATTEMPT_ACTIVE identifies the active attempt. Buyer credentials do not receive merchant-only blocking resources. On ACTION_NOT_ALLOWED with reason in_progress, a subscription payment retry is included when the buyer can read it. Manual payment conflicts identify their owning invoices. `blocking_resources[]`: [field definitions](../models/ErrorDetail.md#errordetailblocking_resources). |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](../models/ErrorResourceReference.md#errorresourcereference) | Resources that must transition or be corrected before the operation can succeed. Dependency conflicts list up to 25 resources, with blocking_resource_count as the total when present. OPERATION_IN_PROGRESS identifies work Flint is finishing, and PAYMENT_ATTEMPT_ACTIVE identifies the active attempt. Buyer credentials do not receive merchant-only blocking resources. On ACTION_NOT_ALLOWED with reason in_progress, a subscription payment retry is included when the buyer can read it. Manual payment conflicts identify their owning invoices. `blocking_resources[]`: [field definitions](../models/CustomerDeletionRequestResponse.md#customerdeletionrequestresponsedatablocking_resources). |
 | `bundle_component_id` | Optional | string | Bundle component whose inventory demand cannot be satisfied. Present on INVENTORY_INSUFFICIENT when the demand belongs to a bundle component. |
 | `capability` | Optional | string | Flint capability associated with this error, when applicable. Values: [10 declared values](ErrorDetailInput.md#errordetailinput-capability-values). |
 | `captured_physical_version` | Optional | integer | Physical basis submitted with the observation, or saved on the count line when apply refuses it. Read the current level and physically recount this item before replacing the basis. Format: `int64`. minimum: `0`. |
@@ -109,9 +109,7 @@ Response model.
 
 ### ErrorDetail.blocking_resources[]
 
-A reference to a public resource named in an error, with its type, ID, and current status when available.
-
-Field definitions: [shared fields](ErrorResourceReferenceInput.md#errorresourcereferenceinput).
+Field definitions: [CustomerDeletionRequestResponse.data.blocking_resources[]](../models/CustomerDeletionRequestResponse.md#customerdeletionrequestresponsedatablocking_resources).
 
 ### ErrorDetail.code
 
@@ -154,7 +152,7 @@ A resource the caller can select for a request field.
 | `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) | Most recent payment failure when available. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. `last_payment_error`: [field definitions](../models/SelectableErrorResource.md#selectableerrorresourcelast_payment_error). |
 | `payment_collection` | Optional | [PaymentCollection](../models/PaymentCollection.md#paymentcollection) | Payment collection details when available. Client-side details for collecting payment from the buyer, such as the Stripe settings to initialize Stripe.js. |
 | `resource_id` | Required | string | Public Flint ID to submit in the refused request field. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Stable public resource name for this choice. Example: `"order"`. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | string | Stable public resource name for this choice. Example: `"order"`. Values: [154 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `status` | Optional | string | Current public status when available. |
 | `supported_actions` | Optional | Array of string | Actions offered for this resource when the request was refused. An empty array means no action is offered; an omitted field means actions were not reported. |
 | `tip_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Tip for this choice when available. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |

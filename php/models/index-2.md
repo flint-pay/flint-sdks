@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerExpandedSubscriptionPlanSummaryInput to BuyerSubscriptionPaymentRetryResponseInput
+# BuyerExpandedPackageSummaryInput to BuyerSubscriptionInventoryWaitInput
 
+- [BuyerExpandedPackageSummaryInput](BuyerExpandedPackageSummaryInput.md)
+- [BuyerExpandedShipmentSummaryInput](BuyerExpandedShipmentSummaryInput.md)
 - [BuyerExpandedSubscriptionPlanSummaryInput](BuyerExpandedSubscriptionPlanSummaryInput.md)
 - [BuyerFlintWalletCardInput](BuyerFlintWalletCardInput.md)
 - [BuyerFlintWalletCardListResponseInput](BuyerFlintWalletCardListResponseInput.md)
@@ -58,6 +60,9 @@
 - [BuyerRefundInput](BuyerRefundInput.md)
 - [BuyerRefundListResponseInput](BuyerRefundListResponseInput.md)
 - [BuyerRefundResponseInput](BuyerRefundResponseInput.md)
+- [BuyerRememberedBuyerInput](BuyerRememberedBuyerInput.md)
+- [BuyerRememberedBuyerListResponseInput](BuyerRememberedBuyerListResponseInput.md)
+- [BuyerRememberedBuyerResponseInput](BuyerRememberedBuyerResponseInput.md)
 - [BuyerRetentionOfferInput](BuyerRetentionOfferInput.md)
 - [BuyerRetentionOfferRequestInput](BuyerRetentionOfferRequestInput.md)
 - [BuyerRetryPaymentActionOptionsInput](BuyerRetryPaymentActionOptionsInput.md)
@@ -97,9 +102,4 @@
 - [BuyerSubscriptionInput](BuyerSubscriptionInput.md)
 - [BuyerSubscriptionCancellationDetailsInput](BuyerSubscriptionCancellationDetailsInput.md)
 - [BuyerSubscriptionInventoryWaitInput](BuyerSubscriptionInventoryWaitInput.md)
-- [BuyerSubscriptionLineItemInput](BuyerSubscriptionLineItemInput.md)
-- [BuyerSubscriptionListResponseInput](BuyerSubscriptionListResponseInput.md)
-- [BuyerSubscriptionPaymentRetryInput](BuyerSubscriptionPaymentRetryInput.md)
-- [BuyerSubscriptionPaymentRetryListResponseInput](BuyerSubscriptionPaymentRetryListResponseInput.md)
-- [BuyerSubscriptionPaymentRetryResponseInput](BuyerSubscriptionPaymentRetryResponseInput.md)
 

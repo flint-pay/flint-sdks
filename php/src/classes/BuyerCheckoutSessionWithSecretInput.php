@@ -29,6 +29,7 @@ namespace Flint;
  * @property-read CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass $merchant_support
  * @property-read string $order_id
  * @property-read string $page_origin
+ * @property-read bool $pay_to_new_address_requires_verification
  * @property-read BuyerPaymentCollectionInput|array<array-key, mixed>|\stdClass $payment_collection
  * @property-read list<string> $payment_intent_ids
  * @property-read string $payment_link_id
@@ -42,6 +43,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface|null $recovery_expires_at
  * @property-read string $recovery_payment_attempt_id
  * @property-read CheckoutRedirectsInput|array<array-key, mixed>|\stdClass $redirects
+ * @property-read list<BuyerRefundInput|array<array-key, mixed>|\stdClass> $refunds
  * @property-read bool $save_payment_method_requires_verification
  * @property-read list<string> $save_payment_method_types
  * @property-read BuyerSetupCollectionInput|array<array-key, mixed>|\stdClass $setup_collection
@@ -60,11 +62,12 @@ namespace Flint;
  * @property-read string $url
  * @property-read int $version
  * @property-read string $checkout_auth_token
+ * @property-read string $remembered_buyer_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerCheckoutSessionWithSecretInput extends Model {
-    /** @param array{'active_payment_attempt'?: BuyerOrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, 'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'buyer_fields'?: CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass, 'can_apply_promotion_code': bool, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'created_at': string|\DateTimeInterface, 'custom_text'?: CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'customer_prefill'?: CheckoutCustomerPrefillInput|array<array-key, mixed>|\stdClass, 'delivery'?: CheckoutDerivedDeliveryResourceInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string|\DateTimeInterface, 'expires_in_seconds'?: int, 'gift_card_challenge'?: CheckoutGiftCardChallengeInput|array<array-key, mixed>|\stdClass, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: BuyerPaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids'?: list<string>, 'payment_link_id'?: string, 'payment_link_image'?: ImageInput|array<array-key, mixed>|\stdClass, 'payment_method_save'?: CheckoutPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillInput|array<array-key, mixed>|\stdClass, 'problems': list<BuyerCheckoutProblemResourceInput|array<array-key, mixed>|\stdClass>, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'recovery_expires_at'?: string|\DateTimeInterface|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: CheckoutRedirectsInput|array<array-key, mixed>|\stdClass, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: BuyerSetupCollectionInput|array<array-key, mixed>|\stdClass, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: CheckoutSubscriptionTermsInput|array<array-key, mixed>|\stdClass, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: CheckoutSessionTaxInput|array<array-key, mixed>|\stdClass, 'terminal_reason'?: string, 'theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, 'url'?: string, 'version': int, 'checkout_auth_token'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: BuyerOrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, 'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'buyer_fields'?: CheckoutBuyerFieldsInput|array<array-key, mixed>|\stdClass, 'can_apply_promotion_code': bool, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'created_at': string|\DateTimeInterface, 'custom_text'?: CheckoutCustomTextConfigInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'customer_prefill'?: CheckoutCustomerPrefillInput|array<array-key, mixed>|\stdClass, 'delivery'?: CheckoutDerivedDeliveryResourceInput|array<array-key, mixed>|\stdClass, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string|\DateTimeInterface, 'expires_in_seconds'?: int, 'gift_card_challenge'?: CheckoutGiftCardChallengeInput|array<array-key, mixed>|\stdClass, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: CheckoutLegalConfigInput|array<array-key, mixed>|\stdClass, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_name'?: string, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'page_origin'?: string, 'pay_to_new_address_requires_verification'?: bool, 'payment_collection'?: BuyerPaymentCollectionInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids'?: list<string>, 'payment_link_id'?: string, 'payment_link_image'?: ImageInput|array<array-key, mixed>|\stdClass, 'payment_method_save'?: CheckoutPaymentMethodSaveInput|array<array-key, mixed>|\stdClass, 'payment_return_url'?: string, 'payments'?: CheckoutPaymentConfigInput|array<array-key, mixed>|\stdClass, 'prefill'?: CheckoutPrefillInput|array<array-key, mixed>|\stdClass, 'problems': list<BuyerCheckoutProblemResourceInput|array<array-key, mixed>|\stdClass>, 'promotion_config'?: CheckoutPromotionConfigInput|array<array-key, mixed>|\stdClass, 'recovery_expires_at'?: string|\DateTimeInterface|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: CheckoutRedirectsInput|array<array-key, mixed>|\stdClass, 'refunds'?: list<BuyerRefundInput|array<array-key, mixed>|\stdClass>, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: BuyerSetupCollectionInput|array<array-key, mixed>|\stdClass, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: CheckoutSubscriptionTermsInput|array<array-key, mixed>|\stdClass, 'superseding_checkout_session_id'?: string, 'surface': string, 'tax'?: CheckoutSessionTaxInput|array<array-key, mixed>|\stdClass, 'terminal_reason'?: string, 'theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'tip'?: CheckoutTipConfigInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, 'url'?: string, 'version': int, 'checkout_auth_token'?: string, 'remembered_buyer_token'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerCheckoutSessionWithSecretInput')); }
-    /** An attempt to pay an order.
+    /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order.
      * @return BuyerOrderPaymentAttemptInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When active_payment_attempt is omitted; use hasActivePaymentAttempt() or valueOrDefault().
      */
@@ -226,6 +229,12 @@ final class BuyerCheckoutSessionWithSecretInput extends Model {
      */
     public function getPageOrigin(): string { return $this->get('page_origin'); }
     public function hasPageOrigin(): bool { return $this->has('page_origin'); }
+    /** Whether at least one saved card this checkout lists would be refused for the current delivery destination because the paying credential last confirmed a code more than 15 minutes ago. Request a code with purpose pay_to_new_address, without email or channel, and confirm it with this credential before paying. A Flint wallet card can still pay to an address in that wallet while this is true for a store saved card. Pickup and orders that ship nothing never require this verification. Returned only to the checkout credential. Returned only to the checkout credential; never in webhook payloads.
+     * @return bool
+     * @throws SdkError When pay_to_new_address_requires_verification is omitted; use hasPayToNewAddressRequiresVerification() or valueOrDefault().
+     */
+    public function getPayToNewAddressRequiresVerification(): bool { return $this->get('pay_to_new_address_requires_verification'); }
+    public function hasPayToNewAddressRequiresVerification(): bool { return $this->has('pay_to_new_address_requires_verification'); }
     /** Guidance for collecting a payment source. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. What a client needs to collect payment for a buyer's order. The `stripe` field holds the Stripe values.
      * @return BuyerPaymentCollectionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_collection is omitted; use hasPaymentCollection() or valueOrDefault().
@@ -304,6 +313,12 @@ final class BuyerCheckoutSessionWithSecretInput extends Model {
      */
     public function getRedirects(): mixed { return $this->get('redirects'); }
     public function hasRedirects(): bool { return $this->has('redirects'); }
+    /** All buyer-visible refunds on this session’s order, including refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are none, and omitted from other responses and webhooks. A failed refund with failure_reason refund_abandoned could not be completed: tell the buyer to contact the store to get their money back. [] (Value): {@see BuyerRefundInput}. Money returned against a collected payment.
+     * @return list<BuyerRefundInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When refunds is omitted; use hasRefunds() or valueOrDefault().
+     */
+    public function getRefunds(): array { return $this->get('refunds'); }
+    public function hasRefunds(): bool { return $this->has('refunds'); }
     /** Whether saving a new card or using saved cards needs the buyer to confirm their email with a code. A new card can be saved pending with the payment and confirmed on the receipt; using saved cards still needs the code before paying. True when can_save_payment_method is true and the checkout acts for no customer for this credential: the merchant created it without one, and either the buyer has not confirmed an email with this credential, or the customer whose email they confirmed has since changed that email or been deleted. A credential other than the one a confirmation returned, such as the hosted checkout link opened on another device, reads true. Send the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout acts for a customer, and whenever can_save_payment_method is false. Returned only to the checkout credential; never in webhook payloads.
      * @return bool
      * @throws SdkError When save_payment_method_requires_verification is omitted; use hasSavePaymentMethodRequiresVerification() or valueOrDefault().
@@ -412,4 +427,10 @@ final class BuyerCheckoutSessionWithSecretInput extends Model {
      */
     public function getCheckoutAuthToken(): string { return $this->get('checkout_auth_token'); }
     public function hasCheckoutAuthToken(): bool { return $this->has('checkout_auth_token'); }
+    /** One-time identity token returned only when a successful code confirmation remembered the buyer. Store it on your backend or in an HttpOnly cookie. It never opens saved cards. minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
+     * @return string
+     * @throws SdkError When remembered_buyer_token is omitted; use hasRememberedBuyerToken() or valueOrDefault().
+     */
+    public function getRememberedBuyerToken(): string { return $this->get('remembered_buyer_token'); }
+    public function hasRememberedBuyerToken(): bool { return $this->has('remembered_buyer_token'); }
 }

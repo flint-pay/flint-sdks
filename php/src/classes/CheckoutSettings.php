@@ -20,12 +20,12 @@ final class CheckoutSettings extends Model {
      */
     public function getDefaultDeliveryMethodIds(): ?array { return $this->get('default_delivery_method_ids'); }
     public function hasDefaultDeliveryMethodIds(): bool { return $this->has('default_delivery_method_ids'); }
-    /** Default lifetime in seconds for generic checkout sessions. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Format: int64. minimum: 60. maximum: 86400.
+    /** Default lifetime in seconds for generic checkout sessions. Defaults to 86400. Invoice checkout sessions instead use the fixed deadline of the active invoice public-link generation. Format: int64. minimum: 60. maximum: 86400.
      * @return ?int
      */
     public function getDefaultExpiresInSeconds(): ?int { return $this->get('default_expires_in_seconds'); }
     public function hasDefaultExpiresInSeconds(): bool { return $this->has('default_expires_in_seconds'); }
-    /** Payment options checkout offers by default. Adding ach_debit in merchant settings requests ACH Direct Debit for your payment account; Flint refuses it before the account is set up, for a payment account outside the US, and in location or device settings. Each option shows only when it is available for the payment account and order. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. minLength: 1. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
+    /** Payment options checkout offers by default. Effective settings fill in card, apple_pay, and google_pay when unset; an explicit empty list stays empty. Adding ach_debit in merchant settings requests ACH Direct Debit for your payment account; Flint refuses it before the account is set up, for a payment account outside the US, and in location or device settings. Each option shows only when it is available for the payment account and order. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. minLength: 1. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit".
      * @return ?list<string>
      */
     public function getEnabledPaymentOptions(): ?array { return $this->get('enabled_payment_options'); }
@@ -40,17 +40,17 @@ final class CheckoutSettings extends Model {
      */
     public function getRecoveryEmail(): ?CheckoutRecoveryEmailSettings { return $this->get('recovery_email'); }
     public function hasRecoveryEmail(): bool { return $this->has('recovery_email'); }
-    /** Whether hosted checkout requires the buyer's billing address before payment. A checkout session or payment link can override it with `buyer_fields`.
+    /** Whether hosted checkout requires the buyer's billing address before payment. Defaults to false; a payment option can still require billing details. A checkout session or payment link can override it with `buyer_fields`.
      * @return ?bool
      */
     public function getRequireBillingAddress(): ?bool { return $this->get('require_billing_address'); }
     public function hasRequireBillingAddress(): bool { return $this->has('require_billing_address'); }
-    /** Whether hosted checkout requires the buyer's email address before payment. A checkout session or payment link can override it with `buyer_fields`.
+    /** Whether hosted checkout requires the buyer's email address before payment. Defaults to false; subscription plan checkout always requires email. A checkout session or payment link can override it with `buyer_fields`.
      * @return ?bool
      */
     public function getRequireEmail(): ?bool { return $this->get('require_email'); }
     public function hasRequireEmail(): bool { return $this->has('require_email'); }
-    /** Whether hosted checkout requires the buyer's phone number before payment. A checkout session or payment link can override it with `buyer_fields`.
+    /** Whether hosted checkout requires the buyer's phone number before payment. Defaults to false. A checkout session or payment link can override it with `buyer_fields`.
      * @return ?bool
      */
     public function getRequirePhone(): ?bool { return $this->get('require_phone'); }

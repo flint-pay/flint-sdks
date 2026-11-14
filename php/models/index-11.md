@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# DisputeResponseSessionStripeAccountSessionInput to GiftCardCustomAmountBoundsInput
+# DisputeNeedsResponseMerchantEventInput to GetReturnPolicyResponseInput
 
+- [DisputeNeedsResponseMerchantEventInput](DisputeNeedsResponseMerchantEventInput.md)
+- [DisputePreventedInstalledMerchantsEventInput](DisputePreventedInstalledMerchantsEventInput.md)
+- [DisputePreventedMerchantEventInput](DisputePreventedMerchantEventInput.md)
+- [DisputeResponseInput](DisputeResponseInput.md)
+- [DisputeResponseSessionInput](DisputeResponseSessionInput.md)
+- [DisputeResponseSessionClientSessionInput](DisputeResponseSessionClientSessionInput.md)
+- [DisputeResponseSessionResponseInput](DisputeResponseSessionResponseInput.md)
+- [DisputeResponseSessionStripeInput](DisputeResponseSessionStripeInput.md)
 - [DisputeResponseSessionStripeAccountSessionInput](DisputeResponseSessionStripeAccountSessionInput.md)
 - [DisputeResponseSessionStripeComponentInput](DisputeResponseSessionStripeComponentInput.md)
 - [DisputeUpdatedInstalledMerchantsEventInput](DisputeUpdatedInstalledMerchantsEventInput.md)
@@ -11,6 +19,7 @@
 - [DocumentTaxIDInput](DocumentTaxIDInput.md)
 - [DocumentTaxIDRequestInput](DocumentTaxIDRequestInput.md)
 - [EmailChangeRequestInput](EmailChangeRequestInput.md)
+- [EmailChangeRequestListResponseInput](EmailChangeRequestListResponseInput.md)
 - [EmailChangeRequestResponseInput](EmailChangeRequestResponseInput.md)
 - [EmailPreferenceLinkInput](EmailPreferenceLinkInput.md)
 - [EmailPreferenceLinkRequestInput](EmailPreferenceLinkRequestInput.md)
@@ -93,13 +102,4 @@
 - [GetReturnInspectionResponseInput](GetReturnInspectionResponseInput.md)
 - [GetReturnLineItemResponseInput](GetReturnLineItemResponseInput.md)
 - [GetReturnPolicyResponseInput](GetReturnPolicyResponseInput.md)
-- [GetReturnPolicyRevisionResponseInput](GetReturnPolicyRevisionResponseInput.md)
-- [GetReturnReasonResponseInput](GetReturnReasonResponseInput.md)
-- [GetReturnReceiptResponseInput](GetReturnReceiptResponseInput.md)
-- [GetReturnResolutionResponseInput](GetReturnResolutionResponseInput.md)
-- [GetReturnResponseInput](GetReturnResponseInput.md)
-- [GiftCardInput](GiftCardInput.md)
-- [GiftCardCreatedInstalledMerchantsEventInput](GiftCardCreatedInstalledMerchantsEventInput.md)
-- [GiftCardCreatedMerchantEventInput](GiftCardCreatedMerchantEventInput.md)
-- [GiftCardCustomAmountBoundsInput](GiftCardCustomAmountBoundsInput.md)
 

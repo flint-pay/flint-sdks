@@ -1,60 +1,60 @@
-import type { ReturnLineItemRequestInput } from './types-55.js';
+import type { ReturnLineItemRequestInput } from './types-56.js';
 import type {
     BuyerReturnReplacementLineItemRequest,
     BuyerReturnReplacementLineItemRequestInput,
-    BuyerSubscriptionPlanLineItem,
     BuyerSetupCollection,
     BuyerPaymentErrorSummary,
-    BuyerSelectableOrderPaymentIntent
+    BuyerPaymentCollectionStripe
 } from './types-3.js';
 import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-57.js';
 import type { CreditNoteLineItem } from './types-14.js';
-import type { MoneyValue } from './types-38.js';
-import type { TaxCurrencyConversion, TaxIdentity, TaxBreakdown } from './types-64.js';
+import type { MoneyValue, OrderAuthorizationAmounts, OrderCalculatedChargeTax, OrderCalculatedLineItemTax } from './types-39.js';
+import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge, TextModifierRequest } from './types-65.js';
 import type { ResponseMeta } from './types-54.js';
 import type { Address } from './types-0.js';
-import type { DeferredPromotion, CustomerTaxExemptionCoverage } from './types-16.js';
-import type { OrderSettlementAmounts, OrderReturnCreditSettlement, OrderPaymentAttemptPaymentMethodSave } from './types-41.js';
-import type { PricingAmounts } from './types-49.js';
-import type { SubscriptionIntervalOption } from './types-61.js';
+import type { ErrorResourceReference } from './types-24.js';
+import type { DeferredPromotion, DeliveryChargeTaxCalculationRequest } from './types-17.js';
+import type {
+    OrderSettlementAmounts,
+    OrderReturnCreditSettlement,
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements,
+    OrderLineSubscriptionOfferSummary,
+    OrderPaymentAttemptPaymentMethodSave
+} from './types-41.js';
+import type { PricingAmounts } from './types-50.js';
+import type { BuyerSubscriptionPlanLineItem, BuyerTip } from './types-4.js';
+import type { SubscriptionIntervalOption } from './types-62.js';
 import type { CardDetails, CheckoutMerchantSupport, CheckoutBuyerContact, CategoryReference } from './types-5.js';
-import type { StripeClientSetup, SubscribedLine } from './types-60.js';
-import type { FulfillmentChargeLink } from './types-24.js';
-import type { FulfillmentRecipient } from './types-25.js';
-import type { PickupFulfillmentDetails, PendingPaymentAction } from './types-48.js';
-import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails, SelectedProductOption } from './types-59.js';
+import type { StripeClientSetup, ShipmentFulfillmentDetails, SubscribedLine } from './types-60.js';
+import type { FulfillmentChargeLink, FulfillmentRecipient } from './types-25.js';
+import type { PickupFulfillmentDetails, PendingPaymentAction } from './types-49.js';
+import type { ServiceFulfillmentDetails, SelectedProductOption } from './types-59.js';
 import type { BuyerAction, BundleComponent } from './types-1.js';
 import type { CheckoutTheme } from './types-6.js';
-import type { Image, GiftCardPurchaseSnapshot } from './types-27.js';
-import type { InvoiceDocumentRow, InvoiceDiscount } from './types-31.js';
-import type { InvoicePaymentAttempt, InvoiceLateFeePolicy, InvoiceLineItem } from './types-32.js';
-import type { InvoicePaymentOptionCostComparison, InvoicePaymentTermsSnapshot } from './types-33.js';
+import type { Image } from './types-28.js';
+import type { InvoiceDocumentRow, InvoiceLateFeePolicy, InvoiceDiscount, InvoiceLineItem } from './types-32.js';
+import type { InvoicePaymentAttempt, InvoicePaymentOptionCostComparison, InvoicePaymentTermsSnapshot } from './types-33.js';
 import type { InvoiceScheduleEntry, InvoiceTip } from './types-34.js';
 import type {
     OrderCharge,
-    OrderAuthorizationAmounts,
     OrderDeliveryDestination,
-    OrderCalculatedChargeTax,
-    OrderCalculatedLineItemTax
-} from './types-39.js';
-import type { TaxReverseCharge, TicketedEvent, TextModifierRequest } from './types-65.js';
-import type { BuyerTip } from './types-4.js';
-import type {
     OrderDeliverySummary,
     OrderDiscount,
     OrderGiftCardEstimate,
     OrderGiftCardSelection,
-    OrderGiftCardSettlement,
-    OrderLineItemFulfillmentQuantities,
-    OrderLineItemFulfillmentRequirements,
-    OrderLineSubscriptionOfferSummary
+    OrderGiftCardSettlement
 } from './types-40.js';
+import type { TaxBreakdown } from './types-64.js';
+import type { TicketedEvent } from './types-66.js';
 import type { Dimensions } from './types-23.js';
+import type { GiftCardPurchaseSnapshot } from './types-27.js';
 import type { LineItemInventorySnapshot } from './types-35.js';
 import type { PurchasedGiftCard } from './types-52.js';
-import type { Weight } from './types-69.js';
+import type { Weight } from './types-70.js';
 import type { PaymentAttemptGiftCardRedemption } from './types-44.js';
-import type { DeliveryChargeTaxCalculationRequest } from './types-17.js';
+import type { CustomerTaxExemptionCoverage } from './types-16.js';
+import type { ReturnHandoffRequirementLineItem } from './types-55.js';
 /** The request body for: Create a Return for the current buyer. */
 export type BuyerCreateReturnRequestInput = {
     /**
@@ -329,6 +329,24 @@ export type BuyerCustomer = {
 };
 /** A request to delete a customer's personal information. */
 export type BuyerCustomerDeletionRequest = {
+    /**
+     * Total resources currently preventing approval, including resources beyond the
+     * blocking_resources cap. Present only for pending_review, including zero when nothing blocks
+     * approval. Computed at read time using the same rule as approval. Format: int64. minimum: 0.
+     */
+    "blocking_resource_count"?: number;
+    /**
+     * Resources currently preventing approval, computed when the request is read. Present only for
+     * pending_review, including an empty array when nothing blocks approval. Uses the same
+     * references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment
+     * methods, ordered by resource_type then resource_id, capped at 25 of each type. List the
+     * customer's subscriptions and payment methods for the remaining resources when
+     * blocking_resource_count exceeds this array's length. Approval rechecks the blockers;
+     * cancel_subscriptions and remove_payment_methods can clear the matching resources before
+     * erasure. [] (Value): {@link ErrorResourceReference}. A reference to a public resource named
+     * in an error, with its type, ID, and current status when available.
+     */
+    "blocking_resources"?: Array<ErrorResourceReference>;
     /**
      * Subscription IDs whose immediate cancellation completed for this request, sorted by ID.
      * Empty when none have completed. Read the request again while processing to see progress. []
@@ -608,6 +626,82 @@ export type BuyerDigitalFulfillmentDetails = {
      * lines are refunded.
      */
     "delivery_url"?: string | null;
+};
+/**
+ * Nested child of Customer. A request to change this customer's sign-in email. Only one request
+ * can be pending per customer.
+ */
+export type BuyerEmailChangeRequest = {
+    /**
+     * When a person canceled this request or a newer request replaced it. Null when it has not
+     * been canceled or replaced. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "canceled_at": string | null;
+    /**
+     * When the customer email changed. Null when the request has not been confirmed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "confirmed_at": string | null;
+    /** When Flint recorded the request. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Whether the customer must also confirm a code sent to their current address. False for
+     * requests started by store staff or integrations.
+     */
+    "current_email_confirmation_required": boolean;
+    /**
+     * Flint ID of the customer whose email would change. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Flint ID of this customer's email change request. Example:
+     * "cecr_01KEZF7C00B8VJX4M828K0430H".
+     */
+    "email_change_request_id": string;
+    /**
+     * When the request expires if it has not been confirmed or canceled. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Returned only by confirm, to customer sessions that can access cards saved with Flint after
+     * a live email-code sign-in at a Flint-hosted account. Omitted when the previous email had no
+     * saved cards. Never returned to merchant credentials. Value enum: "moved", "kept",
+     * "new_email_has_wallet".
+     */
+    "flint_wallet_outcome"?: "moved" | "kept" | "new_email_has_wallet" | (string & {});
+    /**
+     * The proposed email address. Null when the request is confirmed, canceled, or expired.
+     * Format: email. Example: "buyer@example.com".
+     */
+    "new_email": string | null;
+    /** Who started this email change request. Value enum: "buyer", "merchant", "integration". */
+    "requested_by": "buyer" | "merchant" | "integration" | (string & {});
+    /**
+     * The request's current confirmation state. Value enum: "pending", "confirmed", "canceled",
+     * "expired".
+     */
+    "status": "pending" | "confirmed" | "canceled" | "expired" | (string & {});
+};
+/** A response containing `BuyerEmailChangeRequest` data. */
+export type BuyerEmailChangeRequestResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Nested child of
+     * Customer. A request to change this customer's sign-in email. Only one request can be pending
+     * per customer.
+     */
+    "data": BuyerEmailChangeRequest;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
 };
 /**
  * Guidance for recovering from a payment error: whether and how to retry (`retry`), and optional
@@ -891,12 +985,16 @@ export type BuyerExpandedSubscriptionPlanSummary = {
     /** Format: int32. */
     "billing_interval_count": number;
     /**
-     * Offered billing interval and count pairs, including the plan's default pair. Line prices are
-     * per delivery. Each option charges for all deliveries in its period. Use separate plans or
-     * promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value):
-     * {@link SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or
-     * offer. Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
+     * Offered billing interval and count pairs, including the plan's default pair. Prices of lines
+     * that ship are per delivery. Each option charges for all deliveries in its period. Use
+     * separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems:
+     * true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as every 2
+     * months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship
+     * are per delivery, and each option charges for all deliveries in its period. Without a
+     * delivery cadence there is one delivery per period, so every option bills the same line
+     * prices once per period. With a delivery cadence, a longer period bills more deliveries of
+     * the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
      */
     "billing_interval_options"?: Array<SubscriptionIntervalOption>;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -2657,6 +2755,14 @@ export type BuyerOrderLineItem = ({
      */
     "product_id"?: string;
     /**
+     * Product classification frozen on this line. Null when the line is unclassified. Custom lines
+     * accept physical, digital, service, or fee; catalog lines use the product's type when added.
+     * Unclassified non-goods lines keep ACH debit unavailable. Issued invoices retain their frozen
+     * classification; void and reissue to change it. Value enum: "physical", "service", "fee",
+     * "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /**
      * Masked card identities for fully funded units of this purchase line. Partial consideration
      * does not issue a card. [] (Value): {@link PurchasedGiftCard}. A gift card issued for one
      * unit of a purchased order line item, with its last four code characters and any card it
@@ -3187,10 +3293,10 @@ export type BuyerPackage = {
     "return_id"?: string;
     /**
      * Return line quantities allocated to this parcel. Present only on packages of return
-     * shipments. [] (Value): {@link ReturnResolutionLineItemRequest}. A return line and the
+     * shipments. [] (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the
      * quantity placed in a return shipment or package.
      */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
     /** Carrier service used for the package. */
     "service_code"?: string;
     /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
@@ -3398,91 +3504,4 @@ export type BuyerPaymentCollection = {
      * settings.
      */
     "stripe"?: BuyerPaymentCollectionStripe;
-};
-/**
- * Stripe values for collecting payment on a buyer's order: the account ID, publishable key, return
- * URL, and Elements settings.
- */
-export type BuyerPaymentCollectionStripe = {
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
-     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
-     * stripeAccount. Example: "acct_1234567890".
-     */
-    "account_id": string | null;
-    /**
-     * Stripe Elements configuration for the available payment methods and amounts. Stripe Elements
-     * collection guidance. Follow next_step in the browser, then submit the result to submit_to
-     * through Flint.
-     */
-    "elements"?: BuyerPaymentCollectionStripeElements;
-    /** Publishable Stripe key for initializing the payment client. */
-    "publishable_key"?: string;
-    /** URL the buyer returns to after a redirect payment step. */
-    "return_url"?: string;
-};
-/**
- * Stripe Elements collection guidance. Follow next_step in the browser, then submit the result to
- * submit_to through Flint.
- */
-export type BuyerPaymentCollectionStripeElements = {
-    /**
-     * Amount and currency used to initialize the payment form. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Deprecated: use payment_options. Digital wallets that the payment form can offer. Removed in
-     * a later release. [] (Value): string.
-     */
-    "digital_wallets"?: Array<string>;
-    /**
-     * Whether Elements is collecting a payment source for an immediate payment or a setup source
-     * for future use. Value enum: "payment", "setup".
-     */
-    "mode": "payment" | "setup" | (string & {});
-    /**
-     * Browser collection operation to perform before calling submit_to. Value enum:
-     * "collect_payment_source", "collect_setup_payment_source", "create_confirmation_token".
-     */
-    "next_step": "collect_payment_source"
-        | "collect_setup_payment_source"
-        | "create_confirmation_token"
-        | (string & {});
-    /**
-     * Stripe Elements payment method creation mode. Follow next_step: standalone PaymentIntents
-     * and checkout-authenticated order collection create a ConfirmationToken, while
-     * merchant-authenticated order collection and setup collection create a PaymentMethod. Value
-     * enum: "manual".
-     */
-    "payment_method_creation": "manual" | (string & {});
-    /** Payment method settings passed to the payment form. */
-    "payment_method_options"?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Deprecated: use payment_options. Processor payment method types that the payment form can
-     * offer. Removed in a later release. [] (Value): string.
-     */
-    "payment_method_types": Array<string>;
-    /**
-     * Payment options the payment form can offer, in display order. Skip values you don't
-     * recognize. Stripe Elements takes processor payment method types: pass card for card,
-     * apple_pay, and google_pay; us_bank_account for ach_debit; and affirm for affirm. Set the
-     * Payment Element's wallets option so it shows only the wallets listed. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /**
-     * Order payment intents that the buyer can select for collection. [] (Value): {@link
-     * BuyerSelectableOrderPaymentIntent}. A payment intent a buyer can pay on an order, with its
-     * status, amounts, payment collection details, and last payment error.
-     */
-    "selectable_payment_intents"?: Array<BuyerSelectableOrderPaymentIntent>;
-    /**
-     * Flint operation that accepts the result of next_step. Value enum: "pay_order",
-     * "confirm_payment_intent".
-     */
-    "submit_to": "pay_order" | "confirm_payment_intent" | (string & {});
 };

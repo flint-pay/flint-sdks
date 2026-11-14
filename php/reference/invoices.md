@@ -338,7 +338,7 @@ Body model: [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManu
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValueInput](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | Positive amount received outside Flint, in the invoice currency, no more than outstanding_money for an open invoice or written_off_money for an uncollectible invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `expected_version` | Optional | integer | Expected version of the invoice. Format: `int64`. minimum: `1`. |
+| `expected_invoice_version` | Optional | integer | Expected version of the invoice. Format: `int64`. minimum: `1`. |
 | `note` | Optional | string | Note about the offline payment, up to 4096 characters. minLength: `1`. maxLength: `4096`. |
 | `payment_reference` | Optional | string | Caller-owned check, wire, or bank reference, stored unmodified. minLength: `1`. maxLength: `255`. |
 | `received_at` | Optional | string | When the payment was received. Defaults to now. Format: `date-time`. minLength: `1`. |
@@ -901,6 +901,55 @@ $result = $client->invoices->listDeliveryAttempts('inv_01KEZF7C00A5GEBMWHEAJFSAR
 
 [Complete runnable example](../examples/invoices-listDeliveryAttempts.php)
 
+### invoices.listLateFees
+
+Returns the invoice's late fees sorted by ID in ascending order. Default order: invoice_late_fee_id ascending.
+
+`GET /v1/invoices/{invoice_id}/late-fees`
+
+Signature: `listLateFees(string|Model $invoice_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+#### Request fields
+
+Field definitions: [shared fields](#request-fields-12).
+
+#### Response
+
+Returned payload: [InvoiceLateFeesListResponse](../models/InvoiceLateFeesListResponse.md#invoicelatefeeslistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listLateFeesItems`, `listLateFeesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```php
+$result = $client->invoices->listLateFees('inv_01KEZF7C00A5GEBMWHEAJFSAR4', [], new RequestOptions());
+```
+
+[Complete runnable example](../examples/invoices-listLateFees.php)
+
 ### invoices.listManualPayments
 
 Lists every manual payment, including reversed payments. Default order: received_at descending, then invoice_manual_payment_id descending.
@@ -968,7 +1017,7 @@ Signature: `listPaymentAttempts(string|Model $invoice_id, array|Model|null $para
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-13).
+Field definitions: [shared fields](#request-fields-14).
 
 #### Response
 
@@ -1077,7 +1126,7 @@ Signature: `regeneratePublicLink(string|Model $invoice_id, array|Model|null $par
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-15). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](#request-fields-16). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 
@@ -1351,7 +1400,7 @@ Signature: `void(string|Model $invoice_id, array|Model|null $params = null, ?Req
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-15). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
+Field definitions: [shared fields](#request-fields-16). Models: [ResourceVersionRequestInput](../models/ResourceVersionRequestInput.md#resourceversionrequestinput).
 
 #### Response
 

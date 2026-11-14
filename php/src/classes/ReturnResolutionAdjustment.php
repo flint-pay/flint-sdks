@@ -7,7 +7,9 @@ namespace Flint;
  * @property-read MoneyValue $assessed_amount_money
  * @property-read string $reason
  * @property-read ?string $reason_message
+ * @property-read string|null $return_id
  * @property-read ?string $return_line_item_id
+ * @property-read string|null $return_policy_id
  * @property-read ?string $return_policy_revision_id
  * @property-read string $return_resolution_adjustment_id
  * @property-read string $status
@@ -18,7 +20,7 @@ namespace Flint;
  * @property-read ?string $waiver_reason_message
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnResolutionAdjustment extends Model {
-    /** @param array{'adjustment_type': string, 'applied_amount_money': mixed, 'assessed_amount_money': mixed, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_policy_revision_id'?: string, 'return_resolution_adjustment_id': string, 'status': string, 'value_effect': string, 'waived_at'?: string, 'waived_by'?: mixed, 'waiver_reason'?: string, 'waiver_reason_message'?: string, ...}|object $values */
+    /** @param array{'adjustment_type': string, 'applied_amount_money': mixed, 'assessed_amount_money': mixed, 'reason': string, 'reason_message'?: string, 'return_id': string|null, 'return_line_item_id'?: string, 'return_policy_id': string|null, 'return_policy_revision_id'?: string, 'return_resolution_adjustment_id': string, 'status': string, 'value_effect': string, 'waived_at'?: string, 'waived_by'?: mixed, 'waiver_reason'?: string, 'waiver_reason_message'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionAdjustment')); }
     /** What the fee or credit is for. Value enum: "return_shipping_fee", "restocking_fee", "other_fee", "goodwill_credit", "price_correction", "other".
      * @return string
@@ -45,11 +47,21 @@ final class ReturnResolutionAdjustment extends Model {
      */
     public function getReasonMessage(): ?string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null.
+     * @return string|null
+     */
+    public function getReturnId(): string|null { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line a deduction applies to. Absent when it applies to the resolution as a whole.
      * @return ?string
      */
     public function getReturnLineItemId(): ?string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
+    /** Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null.
+     * @return string|null
+     */
+    public function getReturnPolicyId(): string|null { return $this->get('return_policy_id'); }
+    public function hasReturnPolicyId(): bool { return $this->has('return_policy_id'); }
     /** return_policy_revision_id
      * @return ?string
      */

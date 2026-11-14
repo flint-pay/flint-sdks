@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read int $available_disposition_quantity
  * @property-read int $quantity
+ * @property-read string|null $return_id
  * @property-read string $return_line_item_id
  * @property-read string $return_receipt_id
  * @property-read string $return_receipt_line_item_id
@@ -16,7 +17,7 @@ namespace Flint;
  * @property-read ReturnActorInput|array<array-key, mixed>|\stdClass $verified_by
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnReceiptLineItemInput extends Model {
-    /** @param array{'available_disposition_quantity': int, 'quantity': int, 'return_line_item_id'?: string, 'return_receipt_id': string, 'return_receipt_line_item_id': string, 'supported_actions': list<string>, 'unverified_item'?: ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass, 'verification_reason'?: string, 'verification_reason_message'?: string, 'verification_status': string, 'verified_at'?: string|\DateTimeInterface, 'verified_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'available_disposition_quantity': int, 'quantity': int, 'return_id': string|null, 'return_line_item_id'?: string, 'return_receipt_id': string, 'return_receipt_line_item_id': string, 'supported_actions': list<string>, 'unverified_item'?: ReturnUnverifiedItemInput|array<array-key, mixed>|\stdClass, 'verification_reason'?: string, 'verification_reason_message'?: string, 'verification_status': string, 'verified_at'?: string|\DateTimeInterface, 'verified_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptLineItemInput')); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -30,6 +31,12 @@ final class ReturnReceiptLineItemInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string|null
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string|null { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the units were matched to. Absent for unverified units. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().

@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/subscriptions.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/subscriptions.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["applySubscriptionPromotion"]:r0,["cancelSubscription"]:r0,["changeSubscriptionPlan"]:r0,["changeSubscriptionQuantity"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionLineItem"]:r0,["createSubscriptionPaymentRetry"]:r0,["deleteSubscriptionLineItem"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["removeSubscriptionPromotions"]:r0,["renewSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["applySubscriptionPromotion"]:r0,["cancelSubscription"]:r0,["changeSubscriptionPlan"]:r0,["changeSubscriptionQuantity"]:r0,["createSubscription"]:r0,["createSubscriptionAccessLink"]:r0,["createSubscriptionLineItem"]:r0,["createSubscriptionPaymentRetry"]:r0,["deleteSubscriptionLineItem"]:r0,["getSubscription"]:r0,["getSubscriptionPaymentRetry"]:r0,["listSubscriptionLineItems"]:r0,["listSubscriptionPaymentRetries"]:r0,["listSubscriptions"]:r0,["pauseSubscription"]:r0,["removeSubscriptionPromotions"]:r0,["renewSubscription"]:r0,["resumeSubscription"]:r0,["skipSubscriptionCycle"]:r0,["updateSubscription"]:r0,["updateSubscriptionLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -136,6 +136,42 @@ this.subscriptions = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSubscriptionPaymentRetry", result, path))),
+      listLineItems: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSubscriptionLineItems", result, path))),
+      listLineItemsPages: (subscription_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listSubscriptionLineItems", result, path)),
+      listLineItemsItems: (subscription_id, params, options) => this.#runtime.items("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listPaymentRetries: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [

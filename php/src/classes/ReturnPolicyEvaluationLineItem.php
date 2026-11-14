@@ -15,6 +15,7 @@ namespace Flint;
  * @property-read bool $is_merchandise_return_required
  * @property-read list<OrderLineItemModifier> $modifiers
  * @property-read string $name
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read list<ReturnPolicyAdjustmentProposal> $policy_adjustment_proposals
  * @property-read ?string $product_id
@@ -29,7 +30,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnPolicyEvaluationLineItem extends Model {
-    /** @param array{'allowed_resolution_types': list<string>, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'description'?: string, 'eligible_quantity': int, 'expires_at'?: string, 'fulfillment_id': string, 'image'?: mixed, 'ineligibility_reason'?: string, 'is_inspection_required': bool, 'is_merchandise_return_required': bool, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'policy_adjustment_proposals': list<mixed>, 'product_id'?: string, 'reason': string, 'receiving_location_id'?: string, 'release_timing': string, 'requested_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'suggested_return_reason_ids': list<string>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allowed_resolution_types': list<string>, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'description'?: string, 'eligible_quantity': int, 'expires_at'?: string, 'fulfillment_id': string, 'image'?: mixed, 'ineligibility_reason'?: string, 'is_inspection_required': bool, 'is_merchandise_return_required': bool, 'modifiers': list<mixed>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'policy_adjustment_proposals': list<mixed>, 'product_id'?: string, 'reason': string, 'receiving_location_id'?: string, 'release_timing': string, 'requested_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'suggested_return_reason_ids': list<string>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPolicyEvaluationLineItem')); }
     /** Resolution types the policy allows for this line. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return list<string>
@@ -96,6 +97,11 @@ final class ReturnPolicyEvaluationLineItem extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Order that owns order_line_item_id.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item the units come from.
      * @return string
      */

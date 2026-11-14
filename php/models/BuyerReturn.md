@@ -24,7 +24,7 @@ Response model.
 | `merchandise_status` | Required | string | On the Return, the least-finished line's value. Values: [10 declared values](#buyerreturn-merchandise_status-values). |
 | `metadata` | Required | object | Always empty for buyer credentials. maxProperties: `0`. |
 | `order_id` | Required | string | ID of the Order the Return is against. |
-| `resolution_status` | Required | string | Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
+| `resolution_status` | Required | string | Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Values: `"not_selected"`, `"pending"`, `"partially_completed"`, `"requires_action"`, `"completed"`, `"failed"`. |
 | `return_id` | Required | string | Unique identifier for this return, prefixed `ret_`. |
 | `return_number` | Required | string | Human-readable number for the Return. |
 | `return_resolution_ids` | Required | Array of string | IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. |

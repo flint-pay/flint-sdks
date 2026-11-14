@@ -12,7 +12,7 @@ Subscription terms from either a subscription plan or subscription offers, selec
 | --- | --- | --- | --- |
 | `billing_interval` | Conditional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Conditional | integer | Format: `int32`. minimum: `1`. maximum: `365`. |
-| `quantity` | Conditional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `100`. Default: `1`. |
+| `quantity` | Conditional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `1`. Default: `1`. |
 | `subscription_plan_id` | Conditional | string | minLength: `1`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
 | `type` | Required | string |  |
 | `line_items` | Conditional | Array of [SubscriptionOfferLineItemRequest](../models/SubscriptionOfferLineItemRequest.md#subscriptionofferlineitemrequest) | minItems: `1`. |

@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $return_id
- * @property-read array{'expected_version'?: int, 'line_item': mixed}|object $body
+ * @property-read array{'expected_return_version'?: int, 'line_item': mixed}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnsCreateLineItemInput extends Model {
-    /** @param array{'return_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version'?: int, 'line_item': mixed}|object}|object $values */
+    /** @param array{'return_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_return_version'?: int, 'line_item': mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnsCreateLineItemInput')); }
     /** Flint return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
@@ -34,8 +34,8 @@ final class ReturnsCreateLineItemInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Add return line item. Example: {"expected_version":1,"line_item":{"buyer_note":"I changed my mind.","order_line_item_id":"li_01KEZF7C00XM6VK5KNWVC3T907","requested_quantity":1,"requested_resolution_type":"refund","return_reason_id":"rrsn_01KEZF7C005274REWXTZRJ4BM0"}}.
-     * @return array{'expected_version'?: int, 'line_item': mixed}|object
+    /** The request body for: Add return line item. Example: {"expected_return_version":2,"line_item":{"buyer_note":"I changed my mind.","order_line_item_id":"li_01KEZF7C00XM6VK5KNWVC3T907","requested_quantity":1,"requested_resolution_type":"refund","return_reason_id":"rrsn_01KEZF7C005274REWXTZRJ4BM0"}}.
+     * @return array{'expected_return_version'?: int, 'line_item': mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

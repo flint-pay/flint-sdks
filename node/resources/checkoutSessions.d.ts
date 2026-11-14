@@ -20,8 +20,8 @@ import type {
     CheckoutSessionsUpdateParams,
     ClientOptions
 } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -58,27 +58,33 @@ export type {
     ClientOptions,
     CloseCheckoutSessionRequestInput,
     CheckoutSessionPlatformFee,
+    CheckoutRedirects,
     CheckoutSubscriptionTerms,
     CheckoutSubscriptionRecurringShipping,
     CheckoutSessionTax,
     CheckoutTaxCalculation,
     CheckoutTheme,
     CheckoutTipConfig,
+    CheckoutRedirectsRequestInput,
     CheckoutSubscriptionTermsRequestInput,
     CheckoutTaxConfigRequestInput,
     CheckoutTaxCalculationRequestInput,
     CheckoutTipConfigRequestInput,
     CloseCheckoutSessionRequest
 } from '../declarations/types-6.js';
-export type { RequestOptions } from '../declarations/types-53.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { OrderPaymentAttempt, OrderPaymentAttemptPaymentMethodSave, OrderSettlementAmounts } from '../declarations/types-41.js';
-export type { MoneyValue, NextAction, MetadataRequestInput, MoneyValueInput } from '../declarations/types-38.js';
+export type {
+    OrderPaymentAttempt,
+    OrderPaymentAttemptPaymentMethodSave,
+    OrderSettlementAmounts,
+    OrderLineItemTaxRequestInput
+} from '../declarations/types-41.js';
+export type { MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-39.js';
 export type {
     PaymentAttemptGiftCardRedemption,
-    PaymentErrorSummary,
     PaymentAttemptPaymentIntent,
     PaymentClientAction,
     PaymentClientActionURL,
@@ -87,6 +93,7 @@ export type {
     PaymentCollectionStripe,
     PaymentCollectionStripeElements
 } from '../declarations/types-44.js';
+export type { PaymentErrorSummary } from '../declarations/types-45.js';
 export type {
     ErrorRemediation,
     ExpandedCustomerSummary,
@@ -96,13 +103,13 @@ export type {
     ExpandedPaymentLinkSummary
 } from '../declarations/types-24.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type {
     PendingPaymentAction,
     PendingPaymentActionSubject,
     PendingPaymentActionPaymentIntentSubject,
-    PendingPaymentActionSetupPaymentSourceSubject
-} from '../declarations/types-48.js';
+    PendingPaymentActionSetupPaymentSourceSubject,
+    PlatformFeeRequestInput
+} from '../declarations/types-49.js';
 export type {
     StripePaymentClientAction,
     StripeSetupIntentClientAction,
@@ -121,7 +128,7 @@ export type {
     CheckoutPrefill,
     CheckoutProblemResource,
     CheckoutPromotionConfig,
-    CheckoutRedirects,
+    CategoryReference,
     CheckoutBuyerFieldsRequestInput,
     CheckoutCustomTextWriteConfigInput,
     CheckoutLegalConfigRequestInput,
@@ -129,7 +136,6 @@ export type {
     CheckoutPrefillRequestInput,
     CheckoutPromotionConfigRequestInput,
     CheckoutQuickPayItemRequestInput,
-    CheckoutRedirectsRequestInput,
     CheckoutBuyerContactRequestInput,
     CheckoutBuyerContactRequest
 } from '../declarations/types-5.js';
@@ -146,68 +152,86 @@ export type {
     DeliveryQuoteExecutionLegResource,
     DeliveryQuoteLineItemResource
 } from '../declarations/types-20.js';
-export type { DeliveryAddressAdvisoryResource, DeliveryArrivalEstimate, DeferredPromotion } from '../declarations/types-16.js';
 export type {
+    DeliveryAddressAdvisoryResource,
     DeliveryCandidateOutcomeResource,
     DeliveryInputRequirement,
     DeliveryInputConstraint,
+    DeliveryArrivalEstimate,
     DeliveryCandidateOutcomeResourceAvailable,
     DeliveryCandidateOutcomeResourceUnavailable,
     DeliveryCandidateOutcomeResourceInputRequired,
     DeliveryCandidateOutcomeResourceCannotCalculate,
     DeliveryCandidateOutcomeResourceRequiresCheckoutContext,
-    DeliveryEligibilityMismatch
+    DeliveryEligibilityMismatch,
+    DeferredPromotion
 } from '../declarations/types-17.js';
 export type { DeliveryWindowRequest, DeliveryShipmentDetails } from '../declarations/types-22.js';
-export type {
-    DeliveryOptionProjection,
-    DeliveryPlan,
-    DeliveryPickupDetails,
-    DeliveryLocationSummaryResource,
-    DeliveryMerchantDiagnostic
-} from '../declarations/types-18.js';
-export type { BuyerInstructionsConfig } from '../declarations/types-2.js';
+export type { DeliveryOptionProjection, DeliveryPlan, DeliveryPickupDetails } from '../declarations/types-19.js';
+export type { BuyerInstructionsConfig, BuyerExpandedOrderSummary } from '../declarations/types-2.js';
+export type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from '../declarations/types-18.js';
 export type { DeliveryRecipientRequirement } from '../declarations/types-21.js';
-export type { LegalSettings } from '../declarations/types-34.js';
-export type { Image } from '../declarations/types-27.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
-export type { PricingAmounts, PlatformFeeRequestInput } from '../declarations/types-49.js';
-export type { SettlementAmounts, SelectableOrderPaymentIntent, SetupCollection, SetupCollectionStripe } from '../declarations/types-59.js';
+export type { LegalSettings } from '../declarations/types-35.js';
+export type { Image } from '../declarations/types-28.js';
+export type { MetadataMap, MetadataRequestInput, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
+export type { PricingAmounts } from '../declarations/types-50.js';
+export type {
+    SettlementAmounts,
+    SelectableOrderPaymentIntent,
+    SelectedProductOption,
+    SetupCollection,
+    SetupCollectionStripe
+} from '../declarations/types-59.js';
 export type {
     PaymentSourceSummary,
     PaymentSourceAchDebitSummary,
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
 } from '../declarations/types-47.js';
+export type { BuyerRefund, BuyerPaymentRefund } from '../declarations/types-3.js';
+export type {
+    RefundLineItemAllocation,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundAdjustmentReason,
+    RefundLineItemAutomaticRefund,
+    RefundLineItemModifierAllocation,
+    RefundTaxBreakdownRefund,
+    RefundTenderAllocation
+} from '../declarations/types-53.js';
+export type { OrderGiftCardAllocation } from '../declarations/types-40.js';
 export type {
     SubscriptionIntervalOption,
     SubscriptionGiftRecipient,
     SubscriptionGiftRecipientRequestInput,
     SubscriptionGiftRecipientRequest
-} from '../declarations/types-61.js';
+} from '../declarations/types-62.js';
 export type {
     ConfirmCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionDiscountInput,
-    CreateCheckoutSessionOrderInput,
-    CreateCheckoutSessionQuickPayInput,
-    CreateCheckoutSessionInvoiceInput,
     CreateCheckoutSessionCustomerVerificationRequestInput,
     CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput,
-    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput
+    CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput,
+    ConfirmCheckoutSessionCustomerVerificationRequest
 } from '../declarations/types-7.js';
 export type {
     CreateCheckoutSessionRequestInput,
+    CreateCheckoutSessionOrderInput,
+    CreateCheckoutSessionQuickPayInput,
     CreateCheckoutSessionSubscriptionPlanInput,
     CreateCheckoutSessionReturnResolutionInput,
+    CreateCheckoutSessionInvoiceInput,
     CreateCheckoutSessionSavePaymentMethodVerificationRequestInput,
-    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput
+    CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput,
+    CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput,
+    CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput,
+    CreateCheckoutSessionPayToNewAddressVerificationRequestInput
 } from '../declarations/types-8.js';
 export type { PromotionRefRequestInput, PromotionRefInputPromotionIDInput, PromotionRefInputPromotionCodeInput } from '../declarations/types-51.js';
-export type { OrderLineItemTaxRequestInput } from '../declarations/types-40.js';
 export type { ThemeConfigRequestInput } from '../declarations/types-65.js';
 export type { UpdateCheckoutSessionRequestInput } from '../declarations/types-66.js';
+export { makeAddressRequest } from '../declarations/types-70.js';
 export {
-    makeAddressRequest,
     makeCheckoutBuyerContactRequest,
     makeCheckoutBuyerFieldsRequest,
     makeCheckoutCustomTextWriteConfig,
@@ -215,39 +239,38 @@ export {
     makeCheckoutPaymentConfigRequest,
     makeCheckoutPrefillRequest,
     makeCheckoutPromotionConfigRequest,
-    makeCheckoutQuickPayItemRequest
-} from '../declarations/types-70.js';
-export {
+    makeCheckoutQuickPayItemRequest,
     makeCheckoutRedirectsRequest,
     makeCheckoutSubscriptionTermsRequest,
     makeCheckoutTaxCalculationRequest,
     makeCheckoutTaxConfigRequest,
     makeCheckoutTipConfigRequest,
     makeCloseCheckoutSessionRequest,
-    makeConfirmCheckoutSessionCustomerVerificationRequest,
+    makeConfirmCheckoutSessionCustomerVerificationRequest
+} from '../declarations/types-71.js';
+export {
     makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest,
     makeCreateCheckoutSessionCustomerVerificationRequest,
     makeCreateCheckoutSessionDiscount,
     makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest,
     makeCreateCheckoutSessionInvoice,
     makeCreateCheckoutSessionOrder,
+    makeCreateCheckoutSessionPayToNewAddressVerificationRequest,
     makeCreateCheckoutSessionQuickPay,
     makeCreateCheckoutSessionRequest,
     makeCreateCheckoutSessionReturnResolution,
     makeCreateCheckoutSessionSavePaymentMethodVerificationRequest,
     makeCreateCheckoutSessionSubscriptionPlan,
+    makeCreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest,
+    makeCreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest,
     makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest
-} from '../declarations/types-71.js';
+} from '../declarations/types-72.js';
 export { makeDeliveryWindowRequest } from '../declarations/types-76.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue, makeOrderLineItemTaxRequest } from '../declarations/types-78.js';
-export {
-    makePlatformFeeRequest,
-    makePromotionRefInputPromotionCode,
-    makePromotionRefInputPromotionID,
-    makePromotionRefRequest
-} from '../declarations/types-80.js';
-export { makeSubscriptionGiftRecipientRequest } from '../declarations/types-82.js';
-export { makeThemeConfigRequest, makeUpdateCheckoutSessionRequest } from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeOrderLineItemTaxRequest } from '../declarations/types-79.js';
+export { makePlatformFeeRequest, makePromotionRefInputPromotionCode, makePromotionRefInputPromotionID } from '../declarations/types-80.js';
+export { makePromotionRefRequest } from '../declarations/types-81.js';
+export { makeSubscriptionGiftRecipientRequest, makeThemeConfigRequest, makeUpdateCheckoutSessionRequest } from '../declarations/types-83.js';
 export interface CheckoutSessionsResource {
     /**
  * Closes an open checkout session before it naturally expires.
@@ -290,7 +313,9 @@ export interface CheckoutSessionsResource {
  * for saved details binds the checkout the same way, but the new credential opens only the cards
  * saved with that number: it lists and pays with no card saved by email, and reads no customer
  * details. A texted code checks once, so after a lost answer request a new code. A code for
- * purpose confirm_saved_payment_method keeps the session's credential, so the response omits
+ * purpose pay_to_new_address keeps the credential and its proof, omits checkout_auth_token, and
+ * refreshes the last confirmed code for 15 minutes. A code for purpose
+ * confirm_saved_payment_method keeps the session's credential, so the response omits
  * checkout_auth_token and carries payment_method_save on the checkout session. A texted code saves
  * the card with the number when the number already opens the customer's saved details or the
  * customer has none yet; otherwise payment_method_save.email_confirmation_required turns true, and

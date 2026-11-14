@@ -1,10 +1,10 @@
-import { d997 as c0 } from '../descriptors/data/49.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d7602 as c1, d7603 as c2, d7604 as c3, d7605 as c4 } from '../descriptors/data/362.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d997 as d997 } from '../descriptors/data/49.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d1003 as c0 } from '../descriptors/data/49.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d7640 as c1, d7641 as c2, d7642 as c3, d7643 as c4 } from '../descriptors/data/365.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d1003 as d1003 } from '../descriptors/data/49.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d997;
+const read = d1003;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["OAuthTokenRequestAuthorizationCode"]:c0(),["SharedCodec1036"]:c1(),["SharedCodec1037"]:c2(),["SharedCodec1038"]:c3(),["SharedCodec1039"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["OAuthTokenRequestAuthorizationCode"]:c0(),["SharedCodec1038"]:c1(),["SharedCodec1039"]:c2(),["SharedCodec1040"]:c3(),["SharedCodec1041"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeOAuthTokenRequestAuthorizationCode(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

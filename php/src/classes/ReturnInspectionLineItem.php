@@ -12,14 +12,16 @@ namespace Flint;
  * @property-read list<string> $finding_codes
  * @property-read ?string $internal_note
  * @property-read int $quantity
+ * @property-read string|null $return_id
  * @property-read string $return_inspection_id
  * @property-read string $return_inspection_line_item_id
  * @property-read ?string $return_line_item_id
+ * @property-read string $return_receipt_id
  * @property-read string $return_receipt_line_item_id
  * @property-read list<string> $supported_actions
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnInspectionLineItem extends Model {
-    /** @param array{'acceptance_decided_at'?: string, 'acceptance_decided_by'?: mixed, 'acceptance_decision_reason'?: string, 'acceptance_decision_reason_message'?: string, 'acceptance_status': string, 'available_disposition_quantity': int, 'condition': string, 'finding_codes': list<string>, 'internal_note'?: string, 'quantity': int, 'return_inspection_id': string, 'return_inspection_line_item_id': string, 'return_line_item_id'?: string, 'return_receipt_line_item_id': string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'acceptance_decided_at'?: string, 'acceptance_decided_by'?: mixed, 'acceptance_decision_reason'?: string, 'acceptance_decision_reason_message'?: string, 'acceptance_status': string, 'available_disposition_quantity': int, 'condition': string, 'finding_codes': list<string>, 'internal_note'?: string, 'quantity': int, 'return_id': string|null, 'return_inspection_id': string, 'return_inspection_line_item_id': string, 'return_line_item_id'?: string, 'return_receipt_id': string, 'return_receipt_line_item_id': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnInspectionLineItem')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -71,6 +73,11 @@ final class ReturnInspectionLineItem extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null.
+     * @return string|null
+     */
+    public function getReturnId(): string|null { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the inspection the line belongs to.
      * @return string
      */
@@ -86,6 +93,11 @@ final class ReturnInspectionLineItem extends Model {
      */
     public function getReturnLineItemId(): ?string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
+    /** Receipt that owns return_receipt_line_item_id.
+     * @return string
+     */
+    public function getReturnReceiptId(): string { return $this->get('return_receipt_id'); }
+    public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
     /** ID of the receipt line inspected.
      * @return string
      */

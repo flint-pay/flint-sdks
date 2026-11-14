@@ -2,7 +2,7 @@
 
 ## BuyerSubscriptionInventoryWaitInput
 
-
+Shows when a subscription renewal started waiting for inventory.
 
 Request input.
 

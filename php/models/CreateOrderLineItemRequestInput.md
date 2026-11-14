@@ -17,6 +17,7 @@ Request input.
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
 | `modifiers` | Optional | Array of [OrderLineItemModifierRequestModelInput](../models/OrderLineItemModifierRequestModelInput.md#orderlineitemmodifierrequestmodelinput) | Modifiers sold with the item, each chosen from the catalog or typed as text. Items: A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. `modifiers[]`: [declared alternatives](../models/CreateOrderLineItemInputBundleInput.md#createorderlineiteminputbundleinputmodifiers). |
 | `name` | Conditional | string | Name of the item as it appears on the order. minLength: `1`. |
+| `product_type` | Optional | string | Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
 | `quantity` | Optional | integer | Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: `int64`. minimum: `1`. maximum: `9999`. Default: `1`. |
 | `subscription` | Optional | [SubscribedLineRequestModelInput](../models/SubscribedLineRequestModelInput.md#subscribedlinerequestmodelinput) | Selected recurring terms for this variant. Lines with the same cadence start one subscription after payment. Makes an order line a subscription purchase, with the subscription offer and billing interval. |
 | `tax` | Optional | [OrderDraftLineItemTaxRequestModelInput](../models/OrderDraftLineItemTaxRequestModelInput.md#orderdraftlineitemtaxrequestmodelinput) | How tax applies to this line item. Tax settings you supply for a draft order line item: its tax category, whether it is taxable, and an optional tax calculation. `tax`: [field definitions](../models/CreateOrderLineItemInputBundleInput.md#createorderlineiteminputbundleinputtax). |
@@ -30,7 +31,7 @@ Request input.
 
 oneOf with type: "variant": The `variant` variant of `CreateOrderLineItemInput`..
 
-- Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`))).
+- Condition: not (at least one(present(`bundle_id`); present(`product_type`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`))).
 - Required: `variant_id`.
 - Optional: `bundle_id`, `fulfillment`, `name`, `unit_price_money`.
 - Constraints for `type`: Values: `"variant"`.
@@ -39,7 +40,7 @@ oneOf with type: "variant": The `variant` variant of `CreateOrderLineItemInput`.
 
 oneOf with type: "bundle": The `bundle` variant of `CreateOrderLineItemInput`..
 
-- Condition: not (at least one(present(`variant_id`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`); present(`gift_card_purchase`))).
+- Condition: not (at least one(present(`variant_id`); present(`product_type`); present(`name`); present(`unit_price_money`); present(`unit_weight`); present(`unit_dimensions`); present(`description`); present(`image`); present(`inventory_demands`); present(`fulfillment`); present(`gift_card_purchase`))).
 - Required: `bundle_id`.
 - Optional: `fulfillment`, `name`, `unit_price_money`, `variant_id`.
 - Constraints for `type`: Values: `"bundle"`.

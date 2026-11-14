@@ -1,12 +1,12 @@
-import { d5894 as c0 } from '../descriptors/data/264.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5978 as c1 } from '../descriptors/data/269.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d7819 as c2, d7820 as c3, d7821 as c4, d7822 as c5 } from '../descriptors/data/373.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5659 as c6 } from '../descriptors/data/248.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5659 as d5659 } from '../descriptors/data/248.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d5919 as c0 } from '../descriptors/data/265.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d6017 as c1 } from '../descriptors/data/271.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d7857 as c2, d7858 as c3, d7859 as c4, d7860 as c5 } from '../descriptors/data/376.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d5684 as c6 } from '../descriptors/data/249.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d5684 as d5684 } from '../descriptors/data/249.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5659;
+const read = d5684;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1695"]:c0(),["SharedCodec1698"]:c1(),["SharedCodec1758"]:c2(),["SharedCodec1759"]:c3(),["SharedCodec1760"]:c4(),["SharedCodec1761"]:c5(),["UpdatePackageRequest"]:c6()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1697"]:c0(),["SharedCodec1700"]:c1(),["SharedCodec1760"]:c2(),["SharedCodec1761"]:c3(),["SharedCodec1762"]:c4(),["SharedCodec1763"]:c5(),["UpdatePackageRequest"]:c6()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdatePackageRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

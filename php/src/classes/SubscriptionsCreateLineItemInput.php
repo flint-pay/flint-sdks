@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $subscription_id
- * @property-read array{'bundle_id'?: string, 'expected_version'?: int, 'quantity': int, 'type': string, 'variant_id': string}|object|array{'bundle_id': string, 'expected_version'?: int, 'quantity': int, 'type': string, 'variant_id'?: string}|object $body
+ * @property-read array{'bundle_id'?: string, 'expected_subscription_version'?: int, 'quantity': int, 'type': string, 'variant_id': string}|object|array{'bundle_id': string, 'expected_subscription_version'?: int, 'quantity': int, 'type': string, 'variant_id'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsCreateLineItemInput extends Model {
-    /** @param array{'subscription_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'bundle_id'?: string, 'expected_version'?: int, 'quantity': int, 'type': string, 'variant_id': string}|object|array{'bundle_id': string, 'expected_version'?: int, 'quantity': int, 'type': string, 'variant_id'?: string}|object}|object $values */
+    /** @param array{'subscription_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'bundle_id'?: string, 'expected_subscription_version'?: int, 'quantity': int, 'type': string, 'variant_id': string}|object|array{'bundle_id': string, 'expected_subscription_version'?: int, 'quantity': int, 'type': string, 'variant_id'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsCreateLineItemInput')); }
     /** Subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
@@ -34,8 +34,8 @@ final class SubscriptionsCreateLineItemInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Add subscription line item. Example: {"bundle_id":"bun_01KEZF7C00CGKB9B5RM44A71SJ","expected_version":1,"quantity":1,"type":"bundle"}.
-     * @return array{'bundle_id'?: string, 'expected_version'?: int, 'quantity': int, 'type': string, 'variant_id': string}|object|array{'bundle_id': string, 'expected_version'?: int, 'quantity': int, 'type': string, 'variant_id'?: string}|object
+    /** The request body for: Add subscription line item. Example: {"bundle_id":"bun_01KEZF7C00CGKB9B5RM44A71SJ","expected_subscription_version":2,"quantity":1,"type":"bundle"}.
+     * @return array{'bundle_id'?: string, 'expected_subscription_version'?: int, 'quantity': int, 'type': string, 'variant_id': string}|object|array{'bundle_id': string, 'expected_subscription_version'?: int, 'quantity': int, 'type': string, 'variant_id'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): mixed { return $this->get('body'); }

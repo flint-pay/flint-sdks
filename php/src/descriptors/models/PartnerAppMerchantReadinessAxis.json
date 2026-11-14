@@ -1,1 +1,1 @@
-{"shared":"PartnerAppMerchantReadinessAxis","phpRepresentation":{"kind":"record","fields":{"status":{"kind":"value","type":"string"},"status_reason":{"kind":"value","type":"string"}}},"dependencies":["PartnerAppMerchantReadinessAxis","SharedCodec140"]}
+{"shared":"PartnerAppMerchantReadinessAxis","phpRepresentation":{"kind":"record","fields":{"status":{"kind":"value","type":"string"},"status_reason":{"kind":"value","type":"string"}}},"dependencies":["PartnerAppMerchantReadinessAxis","SharedCodec141"]}

@@ -1,15 +1,3254 @@
 import type { InventoryActionRequired } from './types-28.js';
-import type { InventoryReservation, InventoryLevel, InventoryOriginPolicy, InventoryOriginPolicyRequestInput } from './types-29.js';
-import type { MerchantWebhookEnvelope } from './types-37.js';
+import type { MerchantWebhookEnvelope } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { ResponseMeta, ResourceType } from './types-54.js';
+import type { InventoryLevel, InventoryOriginPolicy, InventoryOriginPolicyRequestInput } from './types-29.js';
 import type { InputValue } from '../runtime.js';
 import type { CommitInventoryReservationRequestInput, ConsumeInventoryReservationRequestInput } from './types-7.js';
 import type { CreateInventoryReservationRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-23.js';
+import type { DisputesAcceptParams, ErrorDetail } from './types-24.js';
 import type { ReleaseInventoryReservationRequestInput } from './types-53.js';
-import type { UpdateInventoryReservationRequestInput } from './types-66.js';
-import type { ErrorDetail, ErrorObject } from './types-24.js';
+import type { UpdateInventoryReservationRequestInput } from './types-67.js';
+import type { InventoryTransferLine } from './types-31.js';
+/**
+ * A claim on stock. Quantity moves from held to committed to consumed, and can be released or
+ * reallocated.
+ */
+export type InventoryReservation = {
+    /**
+     * How the reservation ended. adopted when its remaining held stock moved to a delivery
+     * selection. mixed when more than one terminal outcome applied. `null` when the reservation
+     * isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted",
+     * "mixed", null.
+     */
+    "closed_reason"?: "consumed"
+        | "released"
+        | "expired"
+        | "reallocated"
+        | "adopted"
+        | "mixed"
+        | null
+        | (string & {})
+        | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * When held quantity is released if it isn't committed first. Backordered quantity that
+     * payment hasn't confirmed yet carries the same deadline. Committed and consumed quantity
+     * never expire. `null` when no line holds quantity or has unconfirmed backordered quantity.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string | null;
+    /**
+     * The Idempotency-Key of the request that created this resource; on a movement, of the command
+     * that wrote it. Omitted when that request had no key.
+     */
+    "idempotency_key"?: string;
+    /**
+     * Present when the claim needs a merchant action before commerce can continue. Says that an
+     * inventory reservation needs action, with the `reason` and the reservation lines affected.
+     */
+    "inventory_action_required"?: InventoryActionRequired;
+    /**
+     * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_id": string;
+    /**
+     * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+     * allocation policy, or a specific policy revision. Where an order, payment link, or
+     * reservation routes inventory from: a fixed Location, an inventory allocation policy, or one
+     * policy revision.
+     */
+    "inventory_routing_source": InventoryRoutingSource;
+    /**
+     * Allocations of the reserved stock, one for each item and Location. [] (Value): {@link
+     * InventoryReservationLine}. One item's location allocation within a reservation.
+     */
+    "lines": Array<InventoryReservationLine>;
+    /**
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order.
+     */
+    "owner": InventoryReservationOwner;
+    /**
+     * Set on a reservation whose claim Flint moved when it rerouted an order: the replacement
+     * reservation that now holds the quantity named in this reservation's reallocated_quantity.
+     * Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "replacement_inventory_reservation_id"?: string;
+    /**
+     * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+     * rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "source_inventory_reservation_id"?: string;
+    /**
+     * active while any held, committed, or backordered quantity remains; closed once none does.
+     * Value enum: "active", "closed".
+     */
+    "status": "active" | "closed" | (string & {});
+    /**
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". [] (Value): string. Value enum: "commit",
+     * "consume", "release".
+     */
+    "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * The reservation version. Send it as expected_version to reject a write if the reservation
+     * changed. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+export type InventoryReservationActionRequiredEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_reservation.action_required";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_reservation.action_required";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.action_required";
+});
+/**
+ * The `inventory_reservation.action_required` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InventoryReservationActionRequiredInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "inventory_reservation.action_required". */
+    "event_type"?: "inventory_reservation.action_required";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `inventory_reservation.action_required` webhook payload for the `merchant` event source.
+ * Fields shared by merchant webhook payloads.
+ */
+export type InventoryReservationActionRequiredMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "inventory_reservation.action_required". */
+    "event_type"?: "inventory_reservation.action_required";
+});
+export type InventoryReservationAtRiskEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_reservation.at_risk";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_reservation.at_risk";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.at_risk";
+});
+/**
+ * The `inventory_reservation.at_risk` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InventoryReservationAtRiskInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "inventory_reservation.at_risk". */
+    "event_type"?: "inventory_reservation.at_risk";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `inventory_reservation.at_risk` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InventoryReservationAtRiskMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "inventory_reservation.at_risk". */
+    "event_type"?: "inventory_reservation.at_risk";
+});
+export type InventoryReservationClosedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_reservation.closed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_reservation.closed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.closed";
+});
+/**
+ * The `inventory_reservation.closed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InventoryReservationClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "inventory_reservation.closed". */
+    "event_type"?: "inventory_reservation.closed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `inventory_reservation.closed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InventoryReservationClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "inventory_reservation.closed". */
+    "event_type"?: "inventory_reservation.closed";
+});
+export type InventoryReservationCommittedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_reservation.committed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_reservation.committed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.committed";
+});
+/**
+ * The `inventory_reservation.committed` webhook payload for the `installed_merchants` event
+ * source. Fields shared by partner webhook payloads.
+ */
+export type InventoryReservationCommittedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "inventory_reservation.committed". */
+    "event_type"?: "inventory_reservation.committed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `inventory_reservation.committed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InventoryReservationCommittedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "inventory_reservation.committed". */
+    "event_type"?: "inventory_reservation.committed";
+});
+export type InventoryReservationConsumedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_reservation.consumed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_reservation.consumed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.consumed";
+});
+/**
+ * The `inventory_reservation.consumed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InventoryReservationConsumedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "inventory_reservation.consumed". */
+    "event_type"?: "inventory_reservation.consumed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `inventory_reservation.consumed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InventoryReservationConsumedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<InventoryReservation>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "inventory_reservation.consumed". */
+    "event_type"?: "inventory_reservation.consumed";
+});
+export type InventoryReservationCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "inventory_reservation.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            "created_at": string;
+            "expires_at": string | null;
+            "idempotency_key"?: string;
+            "inventory_action_required"?: InventoryActionRequired;
+            "inventory_reservation_id": string;
+            "inventory_routing_source": InventoryRoutingSource;
+            "lines": Array<InventoryReservationLine>;
+            "owner": InventoryReservationOwner;
+            "replacement_inventory_reservation_id"?: string;
+            "source_inventory_reservation_id"?: string;
+            "status": "active" | "closed" | (string & {});
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "inventory_reservation.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "inventory_reservation.created";
+});
+/**
+ * The `inventory_reservation.created` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type InventoryReservationCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "inventory_reservation.created". */
+    "event_type"?: "inventory_reservation.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `inventory_reservation.created` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type InventoryReservationCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.closed_reason (Optional): string or null. How the reservation
+     * ended. adopted when its remaining held stock moved to a delivery selection. mixed when more
+     * than one terminal outcome applied. `null` when the reservation isn't closed. Value enum:
+     * "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
+     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.expires_at (Required): string or null. When held quantity is
+     * released if it isn't committed first. Backordered quantity that payment hasn't confirmed yet
+     * carries the same deadline. Committed and consumed quantity never expire. `null` when no line
+     * holds quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.idempotency_key (Optional): string. The Idempotency-Key of
+     * the request that created this resource; on a movement, of the command that wrote it. Omitted
+     * when that request had no key. object.inventory_action_required (Optional): {@link
+     * InventoryActionRequired}. Present when the claim needs a merchant action before commerce can
+     * continue. Says that an inventory reservation needs action, with the `reason` and the
+     * reservation lines affected. object.inventory_reservation_id (Required): string. Unique
+     * identifier for this inventory reservation, prefixed `invr_`. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.inventory_routing_source (Required): {@link
+     * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+     * fixed Location, an allocation policy, or a specific policy revision. Where an order, payment
+     * link, or reservation routes inventory from: a fixed Location, an inventory allocation
+     * policy, or one policy revision. object.lines (Required): Array of {@link
+     * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+     * Location. object.lines[] (Value): {@link InventoryReservationLine}. One item's location
+     * allocation within a reservation. object.owner (Required): {@link InventoryReservationOwner}.
+     * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for. Who
+     * holds an inventory reservation: either a merchant claim identified by your `key`, or an
+     * order. object.replacement_inventory_reservation_id (Optional): string. Set on a reservation
+     * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+     * holds the quantity named in this reservation's reallocated_quantity. Example:
+     * "invr_01KEZF7C0041ENRR0C2NF3AP12". object.source_inventory_reservation_id (Optional):
+     * string. Set on a replacement reservation: the reservation whose claim Flint moved here when
+     * it rerouted an order. This reservation holds the quantity that reservation reports as
+     * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". object.status (Required):
+     * string. active while any held, committed, or backordered quantity remains; closed once none
+     * does. Value enum: "active", "closed". object.supported_actions (Required): Array of string.
+     * Actions that can change this reservation now. Empty for a closed reservation and for one
+     * Flint holds for an order. Resending targets already applied succeeds in any status. Computed
+     * when Flint produced this response or event, so replays and webhooks keep their original
+     * value. [] enum: "commit", "consume", "release". object.supported_actions[] (Value): string.
+     * Value enum: "commit", "consume", "release". object.updated_at (Required): string. RFC3339
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. The reservation version. Send it as expected_version to reject a write if the
+     * reservation changed. Format: uint64. minimum: 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * closed_reason (Optional): string or null. How the reservation ended. adopted when its
+         * remaining held stock moved to a delivery selection. mixed when more than one terminal
+         * outcome applied. `null` when the reservation isn't closed. Value enum: "consumed",
+         * "released", "expired", "reallocated", "adopted", "mixed", null. created_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * expires_at (Required): string or null. When held quantity is released if it isn't
+         * committed first. Backordered quantity that payment hasn't confirmed yet carries the same
+         * deadline. Committed and consumed quantity never expire. `null` when no line holds
+         * quantity or has unconfirmed backordered quantity. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". idempotency_key (Optional): string. The Idempotency-Key of the
+         * request that created this resource; on a movement, of the command that wrote it. Omitted
+         * when that request had no key. inventory_action_required (Optional): {@link
+         * InventoryActionRequired}. Present when the claim needs a merchant action before commerce
+         * can continue. Says that an inventory reservation needs action, with the `reason` and the
+         * reservation lines affected. inventory_reservation_id (Required): string. Unique
+         * identifier for this inventory reservation, prefixed `invr_`. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". inventory_routing_source (Required): {@link
+         * InventoryRoutingSource}. How Flint chooses the Locations that serve the reservation: one
+         * fixed Location, an allocation policy, or a specific policy revision. Where an order,
+         * payment link, or reservation routes inventory from: a fixed Location, an inventory
+         * allocation policy, or one policy revision. lines (Required): Array of {@link
+         * InventoryReservationLine}. Allocations of the reserved stock, one for each item and
+         * Location. lines[] (Value): {@link InventoryReservationLine}. One item's location
+         * allocation within a reservation. owner (Required): {@link InventoryReservationOwner}.
+         * Who holds the reservation: a `key` you choose, or an order Flint holds the stock for.
+         * Who holds an inventory reservation: either a merchant claim identified by your `key`, or
+         * an order. replacement_inventory_reservation_id (Optional): string. Set on a reservation
+         * whose claim Flint moved when it rerouted an order: the replacement reservation that now
+         * holds the quantity named in this reservation's reallocated_quantity. Example:
+         * "invr_01KEZF7C0041ENRR0C2NF3AP12". source_inventory_reservation_id (Optional): string.
+         * Set on a replacement reservation: the reservation whose claim Flint moved here when it
+         * rerouted an order. This reservation holds the quantity that reservation reports as
+         * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12". status (Required):
+         * string. active while any held, committed, or backordered quantity remains; closed once
+         * none does. Value enum: "active", "closed". supported_actions (Required): Array of
+         * string. Actions that can change this reservation now. Empty for a closed reservation and
+         * for one Flint holds for an order. Resending targets already applied succeeds in any
+         * status. Computed when Flint produced this response or event, so replays and webhooks
+         * keep their original value. [] enum: "commit", "consume", "release". supported_actions[]
+         * (Value): string. Value enum: "commit", "consume", "release". updated_at (Required):
+         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version
+         * (Required): integer. The reservation version. Send it as expected_version to reject a
+         * write if the reservation changed. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * How the reservation ended. adopted when its remaining held stock moved to a delivery
+             * selection. mixed when more than one terminal outcome applied. `null` when the
+             * reservation isn't closed. Value enum: "consumed", "released", "expired",
+             * "reallocated", "adopted", "mixed", null.
+             */
+            "closed_reason"?: "consumed"
+                | "released"
+                | "expired"
+                | "reallocated"
+                | "adopted"
+                | "mixed"
+                | null
+                | (string & {})
+                | null;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * When held quantity is released if it isn't committed first. Backordered quantity
+             * that payment hasn't confirmed yet carries the same deadline. Committed and consumed
+             * quantity never expire. `null` when no line holds quantity or has unconfirmed
+             * backordered quantity. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string | null;
+            /**
+             * The Idempotency-Key of the request that created this resource; on a movement, of the
+             * command that wrote it. Omitted when that request had no key.
+             */
+            "idempotency_key"?: string;
+            /**
+             * Present when the claim needs a merchant action before commerce can continue. Says
+             * that an inventory reservation needs action, with the `reason` and the reservation
+             * lines affected.
+             */
+            "inventory_action_required"?: InventoryActionRequired;
+            /**
+             * Unique identifier for this inventory reservation, prefixed `invr_`. Example:
+             * "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "inventory_reservation_id": string;
+            /**
+             * How Flint chooses the Locations that serve the reservation: one fixed Location, an
+             * allocation policy, or a specific policy revision. Where an order, payment link, or
+             * reservation routes inventory from: a fixed Location, an inventory allocation policy,
+             * or one policy revision.
+             */
+            "inventory_routing_source": InventoryRoutingSource;
+            /**
+             * Allocations of the reserved stock, one for each item and Location. [] (Value):
+             * {@link InventoryReservationLine}. One item's location allocation within a
+             * reservation.
+             */
+            "lines": Array<InventoryReservationLine>;
+            /**
+             * Who holds the reservation: a `key` you choose, or an order Flint holds the stock
+             * for. Who holds an inventory reservation: either a merchant claim identified by your
+             * `key`, or an order.
+             */
+            "owner": InventoryReservationOwner;
+            /**
+             * Set on a reservation whose claim Flint moved when it rerouted an order: the
+             * replacement reservation that now holds the quantity named in this reservation's
+             * reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "replacement_inventory_reservation_id"?: string;
+            /**
+             * Set on a replacement reservation: the reservation whose claim Flint moved here when
+             * it rerouted an order. This reservation holds the quantity that reservation reports
+             * as reallocated_quantity. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+             */
+            "source_inventory_reservation_id"?: string;
+            /**
+             * active while any held, committed, or backordered quantity remains; closed once none
+             * does. Value enum: "active", "closed".
+             */
+            "status": "active" | "closed" | (string & {});
+            /**
+             * Actions that can change this reservation now. Empty for a closed reservation and for
+             * one Flint holds for an order. Resending targets already applied succeeds in any
+             * status. Computed when Flint produced this response or event, so replays and webhooks
+             * keep their original value. [] enum: "commit", "consume", "release". [] (Value):
+             * string. Value enum: "commit", "consume", "release".
+             */
+            "supported_actions": Array<"commit" | "consume" | "release" | (string & {})>;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * The reservation version. Send it as expected_version to reject a write if the
+             * reservation changed. Format: uint64. minimum: 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "inventory_reservation.created". */
+    "event_type"?: "inventory_reservation.created";
+});
 export type InventoryReservationHoldExpiredEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
@@ -2426,8 +5665,8 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -2868,1820 +6107,3 @@ export type InventoryTransferActionConflictErrorDetail = (Exclude<ErrorDetail & 
         | "wrong_credential_type"
         | (string & {});
 });
-/** An inventory transfer action refusal with the current state and supported actions. */
-export type InventoryTransferActionConflictErrorEnvelope = {
-    /**
-     * An action-not-allowed error for the inventory transfer current state. The error returned for
-     * a failed request: `type`, `code`, `message`, `remediation`, `request_id`, and a list of
-     * `details` for individual failures.
-     */
-    "error": InventoryTransferActionConflictErrorObject;
-};
-/**
- * An action-not-allowed error for the inventory transfer current state. The error returned for a
- * failed request: `type`, `code`, `message`, `remediation`, `request_id`, and a list of `details`
- * for individual failures.
- */
-export type InventoryTransferActionConflictErrorObject = (Exclude<ErrorObject & object, readonly unknown[]>)
-    & ({
-    /** Value enum: "ACTION_NOT_ALLOWED". */
-    "code": "ACTION_NOT_ALLOWED" | (string & {});
-    /**
-     * minItems: 1. [] (Value): {@link InventoryTransferActionConflictErrorDetail}. The inventory
-     * transfer state, version, and supported actions for a refused action. One specific failure
-     * within an error, with a `code` and `message` plus fields that depend on the code, such as
-     * the `param`, resource, quantity, or amount involved.
-     */
-    "details": Array<InventoryTransferActionConflictErrorDetail>;
-    /** Value enum: "conflict_error". */
-    "type": "conflict_error" | (string & {});
-    /**
-     * Human-readable explanation for your logs. The wording can change, so branch on code, and do
-     * not show it to buyers as is.
-     */
-    "message": string;
-    /**
-     * Error reference at https://developers.withflintpay.com/docs/errors# followed by the
-     * lowercase error code.
-     */
-    "doc_url": string;
-    /**
-     * Who must act before the request can succeed. It depends only on code and details[0].reason;
-     * the errors reference lists the value for each. Use it to route the failure, and code and
-     * details[0].reason for the fix. Value enum: "caller", "merchant", "merchant_endpoint",
-     * "flint".
-     */
-    "error_source": "caller" | "merchant" | "merchant_endpoint" | "flint" | (string & {});
-});
-export type InventoryTransferClosedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at"?: string;
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            "created_at": string;
-            "departed_at"?: string;
-            "destination_location_id": string;
-            "external_reference_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_transfer_id": string;
-            "lines": Array<InventoryTransferLine>;
-            "note"?: string;
-            "origin_location_id": string;
-            "received_at"?: string;
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_transfer.closed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at"?: string;
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            "created_at": string;
-            "departed_at"?: string;
-            "destination_location_id": string;
-            "external_reference_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_transfer_id": string;
-            "lines": Array<InventoryTransferLine>;
-            "note"?: string;
-            "origin_location_id": string;
-            "received_at"?: string;
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_transfer.closed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "inventory_transfer.closed";
-});
-/**
- * The `inventory_transfer.closed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type InventoryTransferClosedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
-     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
-     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
-     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
-     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
-     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
-     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Value
-     * enum: "draft", "in_transit", "partially_resolved", "closed". object.supported_actions
-     * (Required): Array of string. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
-     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
-         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
-         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
-         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Value enum: "draft", "in_transit",
-         * "partially_resolved", "closed". supported_actions (Required): Array of string. [] enum:
-         * "depart", "receive", "return_to_origin", "report_loss", "cancel". supported_actions[]
-         * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "closed_at"?: string;
-            /**
-             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
-             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
-             * null.
-             */
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "departed_at"?: string;
-            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "destination_location_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-             */
-            "inventory_transfer_id": string;
-            /**
-             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
-             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
-             * line of an inventory transfer, with its quantities.
-             */
-            "lines": Array<InventoryTransferLine>;
-            /** Free-text note about the transfer. */
-            "note"?: string;
-            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "origin_location_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at"?: string;
-            /** Value enum: "draft", "in_transit", "partially_resolved", "closed". */
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            /**
-             * [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". []
-             * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-             * "cancel".
-             */
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_transfer.closed". */
-    "event_type"?: "inventory_transfer.closed";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `inventory_transfer.closed` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type InventoryTransferClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
-     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
-     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
-     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
-     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
-     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
-     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Value
-     * enum: "draft", "in_transit", "partially_resolved", "closed". object.supported_actions
-     * (Required): Array of string. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
-     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
-         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
-         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
-         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Value enum: "draft", "in_transit",
-         * "partially_resolved", "closed". supported_actions (Required): Array of string. [] enum:
-         * "depart", "receive", "return_to_origin", "report_loss", "cancel". supported_actions[]
-         * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "closed_at"?: string;
-            /**
-             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
-             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
-             * null.
-             */
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "departed_at"?: string;
-            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "destination_location_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-             */
-            "inventory_transfer_id": string;
-            /**
-             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
-             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
-             * line of an inventory transfer, with its quantities.
-             */
-            "lines": Array<InventoryTransferLine>;
-            /** Free-text note about the transfer. */
-            "note"?: string;
-            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "origin_location_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at"?: string;
-            /** Value enum: "draft", "in_transit", "partially_resolved", "closed". */
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            /**
-             * [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". []
-             * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-             * "cancel".
-             */
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_transfer.closed". */
-    "event_type"?: "inventory_transfer.closed";
-});
-export type InventoryTransferDepartedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at"?: string;
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            "created_at": string;
-            "departed_at"?: string;
-            "destination_location_id": string;
-            "external_reference_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_transfer_id": string;
-            "lines": Array<InventoryTransferLine>;
-            "note"?: string;
-            "origin_location_id": string;
-            "received_at"?: string;
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_transfer.departed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at"?: string;
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            "created_at": string;
-            "departed_at"?: string;
-            "destination_location_id": string;
-            "external_reference_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_transfer_id": string;
-            "lines": Array<InventoryTransferLine>;
-            "note"?: string;
-            "origin_location_id": string;
-            "received_at"?: string;
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_transfer.departed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "inventory_transfer.departed";
-});
-/**
- * The `inventory_transfer.departed` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type InventoryTransferDepartedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
-     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
-     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
-     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
-     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
-     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
-     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Value
-     * enum: "draft", "in_transit", "partially_resolved", "closed". object.supported_actions
-     * (Required): Array of string. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
-     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
-         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
-         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
-         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Value enum: "draft", "in_transit",
-         * "partially_resolved", "closed". supported_actions (Required): Array of string. [] enum:
-         * "depart", "receive", "return_to_origin", "report_loss", "cancel". supported_actions[]
-         * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "closed_at"?: string;
-            /**
-             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
-             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
-             * null.
-             */
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "departed_at"?: string;
-            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "destination_location_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-             */
-            "inventory_transfer_id": string;
-            /**
-             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
-             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
-             * line of an inventory transfer, with its quantities.
-             */
-            "lines": Array<InventoryTransferLine>;
-            /** Free-text note about the transfer. */
-            "note"?: string;
-            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "origin_location_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at"?: string;
-            /** Value enum: "draft", "in_transit", "partially_resolved", "closed". */
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            /**
-             * [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". []
-             * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-             * "cancel".
-             */
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_transfer.departed". */
-    "event_type"?: "inventory_transfer.departed";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `inventory_transfer.departed` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type InventoryTransferDepartedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
-     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
-     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
-     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
-     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
-     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
-     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Value
-     * enum: "draft", "in_transit", "partially_resolved", "closed". object.supported_actions
-     * (Required): Array of string. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
-     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
-         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
-         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
-         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Value enum: "draft", "in_transit",
-         * "partially_resolved", "closed". supported_actions (Required): Array of string. [] enum:
-         * "depart", "receive", "return_to_origin", "report_loss", "cancel". supported_actions[]
-         * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "closed_at"?: string;
-            /**
-             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
-             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
-             * null.
-             */
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "departed_at"?: string;
-            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "destination_location_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-             */
-            "inventory_transfer_id": string;
-            /**
-             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
-             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
-             * line of an inventory transfer, with its quantities.
-             */
-            "lines": Array<InventoryTransferLine>;
-            /** Free-text note about the transfer. */
-            "note"?: string;
-            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "origin_location_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at"?: string;
-            /** Value enum: "draft", "in_transit", "partially_resolved", "closed". */
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            /**
-             * [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". []
-             * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-             * "cancel".
-             */
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_transfer.departed". */
-    "event_type"?: "inventory_transfer.departed";
-});
-/** One line of an inventory transfer, with its quantities. */
-export type InventoryTransferLine = {
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "canceled_quantity": number;
-    /**
-     * Condition of the units being moved. Value enum: "sellable", "quality_control", "damaged",
-     * "quarantined".
-     */
-    "condition": "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "departed_quantity": number;
-    /** ID of the inventory item to move. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY". */
-    "inventory_item_id": string;
-    /**
-     * Unique identifier for this inventory transfer line, prefixed `invtrln_`. Example:
-     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
-     */
-    "inventory_transfer_line_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "lost_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "received_damaged_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "received_quality_control_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "received_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "received_quarantined_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "received_sellable_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "requested_quantity": number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "returned_quantity": number;
-};
-/** One line of an inventory transfer you create: an item and the requested quantity. */
-export type InventoryTransferLineRequest = {
-    /**
-     * Condition of the units being moved. Default: "sellable". Value enum: "sellable",
-     * "quality_control", "damaged", "quarantined".
-     */
-    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined" | (string & {});
-    /**
-     * ID of the inventory item to move. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id": string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
-     */
-    "requested_quantity": number;
-};
-/** One line of an inventory transfer you create: an item and the requested quantity. */
-export type InventoryTransferLineRequestInput = {
-    /**
-     * Condition of the units being moved. Default: "sellable". Value enum: "sellable",
-     * "quality_control", "damaged", "quarantined".
-     */
-    "condition"?: "sellable" | "quality_control" | "damaged" | "quarantined";
-    /**
-     * ID of the inventory item to move. minLength: 1. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
-     */
-    "inventory_item_id": string;
-    /**
-     * Whole-number quantity; fractional quantities are not supported. Format: int64. minimum: 1.
-     */
-    "requested_quantity": number;
-};
-/** A page of `InventoryTransfer` objects. */
-export type InventoryTransferListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * InventoryTransfer}. Stock moving between locations.
-     */
-    "data": Array<InventoryTransfer>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type InventoryTransferLostEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at"?: string;
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            "created_at": string;
-            "departed_at"?: string;
-            "destination_location_id": string;
-            "external_reference_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_transfer_id": string;
-            "lines": Array<InventoryTransferLine>;
-            "note"?: string;
-            "origin_location_id": string;
-            "received_at"?: string;
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_transfer.lost";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at"?: string;
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            "created_at": string;
-            "departed_at"?: string;
-            "destination_location_id": string;
-            "external_reference_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_transfer_id": string;
-            "lines": Array<InventoryTransferLine>;
-            "note"?: string;
-            "origin_location_id": string;
-            "received_at"?: string;
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_transfer.lost";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "inventory_transfer.lost";
-});
-/**
- * The `inventory_transfer.lost` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type InventoryTransferLostInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
-     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
-     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
-     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
-     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
-     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
-     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Value
-     * enum: "draft", "in_transit", "partially_resolved", "closed". object.supported_actions
-     * (Required): Array of string. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
-     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
-         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
-         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
-         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Value enum: "draft", "in_transit",
-         * "partially_resolved", "closed". supported_actions (Required): Array of string. [] enum:
-         * "depart", "receive", "return_to_origin", "report_loss", "cancel". supported_actions[]
-         * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "closed_at"?: string;
-            /**
-             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
-             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
-             * null.
-             */
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "departed_at"?: string;
-            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "destination_location_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-             */
-            "inventory_transfer_id": string;
-            /**
-             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
-             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
-             * line of an inventory transfer, with its quantities.
-             */
-            "lines": Array<InventoryTransferLine>;
-            /** Free-text note about the transfer. */
-            "note"?: string;
-            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "origin_location_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at"?: string;
-            /** Value enum: "draft", "in_transit", "partially_resolved", "closed". */
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            /**
-             * [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". []
-             * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-             * "cancel".
-             */
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_transfer.lost". */
-    "event_type"?: "inventory_transfer.lost";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `inventory_transfer.lost` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type InventoryTransferLostMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
-     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
-     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
-     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
-     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
-     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
-     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Value
-     * enum: "draft", "in_transit", "partially_resolved", "closed". object.supported_actions
-     * (Required): Array of string. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
-     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
-         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
-         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
-         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Value enum: "draft", "in_transit",
-         * "partially_resolved", "closed". supported_actions (Required): Array of string. [] enum:
-         * "depart", "receive", "return_to_origin", "report_loss", "cancel". supported_actions[]
-         * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "closed_at"?: string;
-            /**
-             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
-             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
-             * null.
-             */
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "departed_at"?: string;
-            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "destination_location_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-             */
-            "inventory_transfer_id": string;
-            /**
-             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
-             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
-             * line of an inventory transfer, with its quantities.
-             */
-            "lines": Array<InventoryTransferLine>;
-            /** Free-text note about the transfer. */
-            "note"?: string;
-            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "origin_location_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at"?: string;
-            /** Value enum: "draft", "in_transit", "partially_resolved", "closed". */
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            /**
-             * [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". []
-             * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-             * "cancel".
-             */
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_transfer.lost". */
-    "event_type"?: "inventory_transfer.lost";
-});
-export type InventoryTransferReceivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at"?: string;
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            "created_at": string;
-            "departed_at"?: string;
-            "destination_location_id": string;
-            "external_reference_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_transfer_id": string;
-            "lines": Array<InventoryTransferLine>;
-            "note"?: string;
-            "origin_location_id": string;
-            "received_at"?: string;
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "inventory_transfer.received";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "closed_at"?: string;
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            "created_at": string;
-            "departed_at"?: string;
-            "destination_location_id": string;
-            "external_reference_id"?: string;
-            "idempotency_key"?: string;
-            "inventory_transfer_id": string;
-            "lines": Array<InventoryTransferLine>;
-            "note"?: string;
-            "origin_location_id": string;
-            "received_at"?: string;
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "inventory_transfer.received";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "inventory_transfer.received";
-});
-/**
- * The `inventory_transfer.received` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type InventoryTransferReceivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
-     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
-     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
-     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
-     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
-     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
-     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Value
-     * enum: "draft", "in_transit", "partially_resolved", "closed". object.supported_actions
-     * (Required): Array of string. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
-     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
-         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
-         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
-         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Value enum: "draft", "in_transit",
-         * "partially_resolved", "closed". supported_actions (Required): Array of string. [] enum:
-         * "depart", "receive", "return_to_origin", "report_loss", "cancel". supported_actions[]
-         * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "closed_at"?: string;
-            /**
-             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
-             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
-             * null.
-             */
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "departed_at"?: string;
-            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "destination_location_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-             */
-            "inventory_transfer_id": string;
-            /**
-             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
-             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
-             * line of an inventory transfer, with its quantities.
-             */
-            "lines": Array<InventoryTransferLine>;
-            /** Free-text note about the transfer. */
-            "note"?: string;
-            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "origin_location_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at"?: string;
-            /** Value enum: "draft", "in_transit", "partially_resolved", "closed". */
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            /**
-             * [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". []
-             * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-             * "cancel".
-             */
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "inventory_transfer.received". */
-    "event_type"?: "inventory_transfer.received";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `inventory_transfer.received` webhook payload for the `merchant` event source. Fields shared
- * by merchant webhook payloads.
- */
-export type InventoryTransferReceivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_reason (Optional): string or null.
-     * How the transfer ended. `null` when the transfer isn't closed. Value enum: "received",
-     * "canceled", "received_with_cancellation", "returned", "lost", "mixed", null.
-     * object.created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.departed_at (Optional): string. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.destination_location_id (Required):
-     * string. ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.idempotency_key
-     * (Optional): string. The Idempotency-Key of the request that created this resource; on a
-     * movement, of the command that wrote it. Omitted when that request had no key.
-     * object.inventory_transfer_id (Required): string. Unique identifier for this inventory
-     * transfer, prefixed `invtr_`. Example: "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". object.lines
-     * (Required): Array of {@link InventoryTransferLine}. Owned collection of transfer lines.
-     * Lines have no lifecycle outside this transfer; PATCH replaces the full collection.
-     * object.lines[] (Value): {@link InventoryTransferLine}. One line of an inventory transfer,
-     * with its quantities. object.note (Optional): string. Free-text note about the transfer.
-     * object.origin_location_id (Required): string. ID of the Location the stock leaves. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.received_at (Optional): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.status (Required): string. Value
-     * enum: "draft", "in_transit", "partially_resolved", "closed". object.supported_actions
-     * (Required): Array of string. [] enum: "depart", "receive", "return_to_origin",
-     * "report_loss", "cancel". object.supported_actions[] (Value): string. Value enum: "depart",
-     * "receive", "return_to_origin", "report_loss", "cancel". object.updated_at (Required):
-     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.version (Required): integer. Current version of this resource's owned state. Send it
-     * as `expected_version` when changing the resource to reject a stale write. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_reason (Optional): string or null. How the transfer
-         * ended. `null` when the transfer isn't closed. Value enum: "received", "canceled",
-         * "received_with_cancellation", "returned", "lost", "mixed", null. created_at (Required):
-         * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * departed_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". destination_location_id (Required): string. ID of the Location
-         * the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". idempotency_key (Optional): string. The
-         * Idempotency-Key of the request that created this resource; on a movement, of the command
-         * that wrote it. Omitted when that request had no key. inventory_transfer_id (Required):
-         * string. Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-         * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP". lines (Required): Array of {@link
-         * InventoryTransferLine}. Owned collection of transfer lines. Lines have no lifecycle
-         * outside this transfer; PATCH replaces the full collection. lines[] (Value): {@link
-         * InventoryTransferLine}. One line of an inventory transfer, with its quantities. note
-         * (Optional): string. Free-text note about the transfer. origin_location_id (Required):
-         * string. ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-         * received_at (Optional): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". status (Required): string. Value enum: "draft", "in_transit",
-         * "partially_resolved", "closed". supported_actions (Required): Array of string. [] enum:
-         * "depart", "receive", "return_to_origin", "report_loss", "cancel". supported_actions[]
-         * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-         * "cancel". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Current version of this resource's
-         * owned state. Send it as `expected_version` when changing the resource to reject a stale
-         * write. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "closed_at"?: string;
-            /**
-             * How the transfer ended. `null` when the transfer isn't closed. Value enum:
-             * "received", "canceled", "received_with_cancellation", "returned", "lost", "mixed",
-             * null.
-             */
-            "closed_reason"?: "received"
-                | "canceled"
-                | "received_with_cancellation"
-                | "returned"
-                | "lost"
-                | "mixed"
-                | null
-                | (string & {})
-                | null;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "departed_at"?: string;
-            /** ID of the Location the stock goes to. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "destination_location_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * The Idempotency-Key of the request that created this resource; on a movement, of the
-             * command that wrote it. Omitted when that request had no key.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Unique identifier for this inventory transfer, prefixed `invtr_`. Example:
-             * "invtr_01KEZF7C00HKPTX1QRZ8Y1M6BP".
-             */
-            "inventory_transfer_id": string;
-            /**
-             * Owned collection of transfer lines. Lines have no lifecycle outside this transfer;
-             * PATCH replaces the full collection. [] (Value): {@link InventoryTransferLine}. One
-             * line of an inventory transfer, with its quantities.
-             */
-            "lines": Array<InventoryTransferLine>;
-            /** Free-text note about the transfer. */
-            "note"?: string;
-            /** ID of the Location the stock leaves. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
-            "origin_location_id": string;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "received_at"?: string;
-            /** Value enum: "draft", "in_transit", "partially_resolved", "closed". */
-            "status": "draft" | "in_transit" | "partially_resolved" | "closed" | (string & {});
-            /**
-             * [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". []
-             * (Value): string. Value enum: "depart", "receive", "return_to_origin", "report_loss",
-             * "cancel".
-             */
-            "supported_actions": Array<"depart" | "receive" | "return_to_origin" | "report_loss" | "cancel" | (string & {})>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Current version of this resource's owned state. Send it as `expected_version` when
-             * changing the resource to reject a stale write. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<InventoryTransfer>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "inventory_transfer.received". */
-    "event_type"?: "inventory_transfer.received";
-});
-/** A response containing `InventoryTransfer` data. */
-export type InventoryTransferResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Stock moving between
-     * locations.
-     */
-    "data": InventoryTransfer;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};

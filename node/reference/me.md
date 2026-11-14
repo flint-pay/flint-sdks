@@ -159,7 +159,7 @@ Body model: [ChangeMeSubscriptionPlanRequestInput](../models/ChangeMeSubscriptio
 | `billing_interval` | Optional | string | Send with billing_interval_count to choose a target plan option. Omit both to keep the current interval if the target offers that pair, otherwise use the target plan's default interval and count. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Optional | integer | Required when billing_interval is sent; billing_interval is required when this field is sent. minimum: `1`. maximum: `365`. |
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
-| `quantity` | Optional | integer | Omit to keep the current subscription quantity. The target plan must offer the quantity. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
+| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `subscription_plan_id` | Required | string | The target subscription plan. minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
@@ -310,7 +310,7 @@ Field definitions: [shared fields](../models/ConfirmEmailChangeRequest.md#confir
 
 #### Response
 
-Returned payload: [EmailChangeRequest](../models/EmailChangeRequest.md#emailchangerequest).
+Returned payload: [BuyerEmailChangeRequest](../models/BuyerEmailChangeRequest.md#buyeremailchangerequest).
 
 #### Errors
 
@@ -556,19 +556,11 @@ Signature: `createEmailChangeRequest(params: MeCreateEmailChangeRequestParams, o
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `body` | Required | [CreateEmailChangeRequestInput](../models/CreateEmailChangeRequest.md#createemailchangerequest) | The request body for: Request an email change. |
-
-Body model: [CreateEmailChangeRequestInput](../models/CreateEmailChangeRequest.md#createemailchangerequest).
-
-#### me.createEmailChangeRequest body fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `new_email` | Required | string | The address to change the email to. Flint emails a six-digit code to it. Format: `email`. minLength: `1`. maxLength: `320`. |
+| `body` | Required | [CreateEmailChangeRequestInput](../models/CreateEmailChangeRequest.md#createemailchangerequest) | The request body for: Request a customer email change; Request an email change. |
 
 #### Response
 
-Returned payload: [EmailChangeRequest](../models/EmailChangeRequest.md#emailchangerequest).
+Returned payload: [BuyerEmailChangeRequest](../models/BuyerEmailChangeRequest.md#buyeremailchangerequest).
 
 #### Errors
 
@@ -942,7 +934,7 @@ const result = await client.me.createSubscriptionPaymentRetry("sub_01KEZF7C00BVR
 
 ### me.createSubscriptionPreview
 
-Estimates a buyer's next subscription renewal, an offered plan change, or a quantity change, or lists delivery methods and rates for a proposed destination, without changing the subscription. plan_change uses the selected plan_change_options entry's billing_starts and the same checks and pricing as change-plan, including unused paid item credit when billing starts now or prorated_now. quantity_change accepts the change-quantity inputs with billing_starts prorated_now and returns the charge change-quantity would collect now, with the same refusals: only adjustable lines within min_quantity and max_quantity, and only eligible digital lines. next_renewal includes recurring promotions, shipping, and tax for the next charged cycle. Tax is null when tax can't be calculated yet; a tax service failure returns 502 EXTERNAL_SERVICE_ERROR. Requires a full buyer session. A preview does not reserve inventory or guarantee a future shipping rate.
+Estimates a buyer's next subscription renewal, an offered plan change, or a quantity change, or lists delivery methods and rates for a proposed destination, without changing the subscription. plan_change uses the selected plan_change_options entry's billing_starts and the same checks and pricing as change-plan, including unused paid item credit when billing starts now or prorated_now. quantity_change accepts the change-quantity inputs with billing_starts prorated_now and returns the charge change-quantity would collect now, with the same refusals: only adjustable lines within min_quantity and max_quantity, and only eligible digital lines. next_renewal includes recurring promotions, shipping, and tax for the next charged cycle. Its optional swap applies a proposed subscription_line_item_id and variant_id with the same eligibility and current pricing as the buyer line-item update, without saving it. swap.expected_version optionally fences the version. Omit delivery when proposing a swap. Tax is null when tax can't be calculated yet; a tax service failure returns 502 EXTERNAL_SERVICE_ERROR. Requires a full buyer session. In delivery_options, shipping_countries lists countries potentially served by the subscription shipping and local delivery methods; omit destination on the buyer preview to read coverage before entering an address. Other address, cart, customer and rate checks still apply. A preview does not reserve inventory or guarantee a future shipping rate.
 
 `POST /v1/me/subscription-previews`
 
@@ -960,13 +952,13 @@ Body model: [CreateMeSubscriptionPreviewRequestInput](../models/CreateMeSubscrip
 
 The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`.
 
-Body model: [CreateMeSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput).
+Body model: [CreateMeSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateMeSubscriptionPreviewRequestDeliveryOptions.md#createmesubscriptionpreviewrequestdeliveryoptions).
 
 #### me.createSubscriptionPreview with `mode: "next_renewal"`
 
 The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`.
 
-Body model: [CreateMeSubscriptionPreviewRequestNextRenewalInput](../models/CreateMeSubscriptionPreviewRequestNextRenewalInput.md#createmesubscriptionpreviewrequestnextrenewalinput).
+Body model: [CreateMeSubscriptionPreviewRequestNextRenewalInput](../models/CreateMeSubscriptionPreviewRequestNextRenewal.md#createmesubscriptionpreviewrequestnextrenewal).
 
 #### me.createSubscriptionPreview with `mode: "plan_change"`
 
@@ -995,6 +987,8 @@ Available subscription delivery methods shown to the buyer.
 | `delivery_methods` | Required | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Delivery methods available for the proposed destination. |
 | `destination_address` | Optional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `mode` | Required | string | Always delivery_options for buyer previews. Values: `"delivery_options"`. |
+| `shipping_countries` | Required | Array of string | Sorted ISO 3166-1 alpha-2 countries potentially served by this subscription's shipping methods, based on their delivery configuration and shipping zones. Restrict a country selector with this list only when shipping_countries_complete is true. Empty when no shipping coverage is available. Other address, cart, customer and rate checks still apply. |
+| `shipping_countries_complete` | Required | boolean | Whether shipping_countries is safe to use as a country restriction. False when a radius without an explicit country boundary may serve addresses across a border; clients must not restrict the country selector in that case. Other address, cart, customer and rate checks still apply when true. |
 | `subscription_id` | Optional | string |  |
 
 ##### Response variant 2
@@ -1017,7 +1011,7 @@ Estimated pricing for a subscription plan change, including the recurring item s
 | `billing_interval_count` | Required | integer | Format: `int32`. |
 | `billing_starts` | Required | string | Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`. |
 | `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Unused paid item time credited when billing_starts is now or prorated_now; null for next_renewal and period_end. |
-| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
 | `delivery_interval` | Required | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
 | `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Required | string or null | When the plan is expected to take effect. Null when no billing time is scheduled. Format: `date-time`. |
@@ -1036,7 +1030,7 @@ Estimated pricing for a quantity change that keeps the billing period and anchor
 | --- | --- | --- | --- |
 | `billing_starts` | Required | string | When this quantity change is billed. Values: `"prorated_now"`. |
 | `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Credit for unused paid subscription time. Null when there is no paid period to credit. |
-| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
 | `delivery_interval` | Required | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
 | `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Required | string or null | When the quantities are expected to take effect. Null when no billing time is available. Format: `date-time`. |
@@ -1299,13 +1293,12 @@ const result = await client.me.getAddress("caddr_01KEZF7C00K2Q127FBJAXWB0FP", {}
 
 Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns one credit note with its lines, total, and the credit still available to allocate.
 
-`GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}`
+`GET /v1/me/credit-notes/{credit_note_id}`
 
 Signature:
 
 ```typescript
-getCreditNote(invoice_id: InputValue<string>,
- credit_note_id: InputValue<string>,
+getCreditNote(credit_note_id: InputValue<string>,
  params?: MeGetCreditNoteParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"customer" |
   "invoice">>)
@@ -1315,7 +1308,6 @@ getCreditNote(invoice_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
 | `credit_note_id` | Required | string | Flint credit note ID. |
 
 #### Response
@@ -1348,7 +1340,7 @@ Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#au
 #### Example
 
 ```typescript
-const result = await client.me.getCreditNote("inv_01KEZF7C00A5GEBMWHEAJFSAR4", "cn_01KEZF7C00N1TRRCVDNY8S471H", {}, {  });
+const result = await client.me.getCreditNote("cn_01KEZF7C00N1TRRCVDNY8S471H", {}, {  });
 ```
 
 [Complete runnable example](../examples/me-getCreditNote.mjs)
@@ -1357,13 +1349,12 @@ const result = await client.me.getCreditNote("inv_01KEZF7C00A5GEBMWHEAJFSAR4", "
 
 Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Returns the credit note document as application/pdf rather than a JSON envelope. The PDF exists from issue onward and shows the credited lines, totals, and the invoice it corrects. It uses your current branding, so a later download can differ in logo or colors, but not in content.
 
-`GET /v1/me/invoices/{invoice_id}/credit-notes/{credit_note_id}/pdf`
+`GET /v1/me/credit-notes/{credit_note_id}/pdf`
 
 Signature:
 
 ```typescript
-getCreditNotePDF(invoice_id: InputValue<string>,
- credit_note_id: InputValue<string>,
+getCreditNotePDF(credit_note_id: InputValue<string>,
  params?: MeGetCreditNotePDFParams,
  options?: _SdkWithoutIdempotency<RequestOptions<"customer" |
   "invoice">>)
@@ -1373,7 +1364,6 @@ getCreditNotePDF(invoice_id: InputValue<string>,
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
 | `credit_note_id` | Required | string | Flint credit note ID. |
 
 #### Response
@@ -1405,7 +1395,7 @@ Authentication modes: `customer`, `invoice`. [Credential setup](../RUNTIME.md#au
 #### Example
 
 ```typescript
-const result = await client.me.getCreditNotePDF("inv_01KEZF7C00A5GEBMWHEAJFSAR4", "cn_01KEZF7C00N1TRRCVDNY8S471H", {}, {  });
+const result = await client.me.getCreditNotePDF("cn_01KEZF7C00N1TRRCVDNY8S471H", {}, {  });
 ```
 
 [Complete runnable example](../examples/me-getCreditNotePDF.mjs)
@@ -2355,26 +2345,19 @@ const result = await client.me.listAddresses({}, {  });
 
 ### me.listCreditNotes
 
-Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Lists the credit notes issued against this invoice, newest first. Default order: issued_at descending, then credit_note_id descending.
+Accepts a customer session, which limits the request to that customer's invoices, or the access token from this invoice's public link, which limits it to this invoice. The request cannot select a customer_id. Lists issued and voided credit notes on your invoices, newest first. Filter by invoice_id to select one invoice. Default order: issued_at descending, then credit_note_id descending.
 
-`GET /v1/me/invoices/{invoice_id}/credit-notes`
+`GET /v1/me/credit-notes`
 
-Signature:
-
-```typescript
-listCreditNotes(invoice_id: InputValue<string>,
- params?: MeListCreditNotesParams,
- options?: _SdkWithoutIdempotency<RequestOptions<"customer" |
-  "invoice">>)
-```
+Signature: `listCreditNotes(params?: MeListCreditNotesParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer" | "invoice">>)`
 
 #### Request fields
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `invoice_id` | Optional | string | Filter by the exact source invoice ID. pattern: `^inv_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"issued"`, `"voided"`. Values: `"issued"`, `"voided"`. |
 
 #### Response
@@ -2409,7 +2392,7 @@ Pagination: `listCreditNotesItems`, `listCreditNotesPages`. [Canonical paginatio
 #### Example
 
 ```typescript
-const result = await client.me.listCreditNotes("inv_01KEZF7C00A5GEBMWHEAJFSAR4", {}, {  });
+const result = await client.me.listCreditNotes({}, {  });
 ```
 
 [Complete runnable example](../examples/me-listCreditNotes.mjs)
@@ -3208,6 +3191,53 @@ const result = await client.me.listRefunds({}, {  });
 
 [Complete runnable example](../examples/me-listRefunds.mjs)
 
+### me.listRememberedBuyers
+
+Lists every working store-reach remembered buyer for the current customer's email at this business, newest last_used_at first, then remembered_buyer_id descending. At most ten working devices exist for the email, so this bounded list returns every result without pagination. Flint-reach identities are never listed. Requires a full customer session. code_channel is omitted. Default order: last_used_at descending, then remembered_buyer_id descending.
+
+`GET /v1/me/remembered-buyers`
+
+Signature: `listRememberedBuyers(params?: MeListRememberedBuyersParams, options?: _SdkWithoutIdempotency<RequestOptions<"customer">>)`
+
+#### Request fields
+
+No request fields.
+
+#### Response
+
+Returned payload: [BuyerRememberedBuyerListResponse](../models/BuyerRememberedBuyerListResponse.md#buyerrememberedbuyerlistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+const result = await client.me.listRememberedBuyers({}, {  });
+```
+
+[Complete runnable example](../examples/me-listRememberedBuyers.mjs)
+
 ### me.listReturns
 
 Uses the customer identity fixed by the customer session. The request cannot select a customer_id. Lists the buyer's Returns. Filter by order, return number, reason, status, decision, merchandise, resolution, or creation and update time. Default order: created_at descending, then return_id descending.
@@ -3228,7 +3258,7 @@ Signature: `listReturns(params?: MeListReturnsParams, options?: _SdkWithoutIdemp
 | `order_id` | Optional | string | Filter by order id. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `resolution_status` | Optional | Array of string or string | Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
+| `resolution_status` | Optional | Array of string or string | Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"not_selected"`, `"pending"`, `"partially_completed"`, `"requires_action"`, `"completed"`, `"failed"`. Values: `"not_selected"`, `"pending"`, `"partially_completed"`, `"requires_action"`, `"completed"`, `"failed"`. |
 | `return_number` | Optional | string | Filter by return number. |
 | `return_reason_id` | Optional | string | Filter by return reason id. pattern: `^rrsn_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
@@ -3777,6 +3807,61 @@ const result = await client.me.resumeSubscription("sub_01KEZF7C00BVRE8YDBXQB74BB
 
 [Complete runnable example](../examples/me-resumeSubscription.mjs)
 
+### me.revokeRememberedBuyer
+
+Ends one working store-reach remembered buyer for the current customer's email at this business. Returns its final masked resource with no supported actions and without code_channel. Flint-reach identities, another business's identities and ended identities return 404 RESOURCE_NOT_FOUND. Saved cards stay saved. Requires a full customer session. Accepts an empty body or {}.
+
+`POST /v1/me/remembered-buyers/{remembered_buyer_id}/revoke`
+
+Signature: `revokeRememberedBuyer(remembered_buyer_id: InputValue<string>, params?: MeRevokeRememberedBuyerParams, options?: RequestOptions<"customer">)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `remembered_buyer_id` | Required | string | Remembered buyer to forget. |
+
+#### Response
+
+Returned payload: [BuyerRememberedBuyer](../models/BuyerRememberedBuyer.md#buyerrememberedbuyer).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.me.revokeRememberedBuyer("rbuy_01KEZF7C006G3NNTKE2C2ZTVM0", {}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/me-revokeRememberedBuyer.mjs)
+
 ### me.revokeSession
 
 Signs out the current customer session using its current server-held secret, including after expiry, after revocation, or after its parent buyer session or grant ended. Repeating the call preserves revoked_at. A secret rotated away by refresh is invalid. Flint Account buyer sessions remain independent.
@@ -4239,7 +4324,7 @@ Body model: [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionReq
 | `delivery` | Optional | [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequest.md#subscriptiondeliveryrequest) | The delivery preference to set on a subscription: delivery method, type, destination, and recipient. |
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
 | `payment_method_id` | Optional | string | minLength: `1`. |
-| `quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `100`. |
+| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `scheduled_plan_change` | Optional | null | Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan. |
 
 #### Response
@@ -4280,7 +4365,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.me.updateSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 2}, { idempotencyKey: idempotencyKey });
+const result = await client.me.updateSubscription("sub_01ARZ3NDEKTSV4RRFFQ69G5FAV", {quantity: 1}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/me-updateSubscription.mjs)

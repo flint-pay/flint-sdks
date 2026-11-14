@@ -97,7 +97,7 @@ Body model: [PublishReturnPolicyRevisionRequestInput](../models/PublishReturnPol
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Required | integer | Required current version of the Return policy. A stale value returns VERSION_CONFLICT. Publishing increments the policy version. Format: `int64`. minimum: `1`. |
+| `expected_return_policy_version` | Required | integer | Required current version of the Return policy. A stale value returns VERSION_CONFLICT. Publishing increments the policy version. Format: `int64`. minimum: `1`. |
 | `revision` | Required | [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequest.md#returnpolicyrevisionrequest) | The revision with the complete rules. A field you leave out doesn't carry over from the previous revision. The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee. |
 
 #### Response
@@ -137,7 +137,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.returnPolicies.createRevision("rpol_01KEZF7C00H8C042BEK6HBRANX", {expected_version: 1, revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {match_type: "all"}, ineligibility_reason: "final_sale"}}, { idempotencyKey: idempotencyKey });
+const result = await client.returnPolicies.createRevision("rpol_01KEZF7C00H8C042BEK6HBRANX", {expected_return_policy_version: 1, revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {match_type: "all"}, ineligibility_reason: "final_sale"}}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/returnPolicies-createRevision.mjs)

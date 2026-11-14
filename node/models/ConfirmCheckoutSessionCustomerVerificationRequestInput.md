@@ -2,15 +2,5 @@
 
 ## ConfirmCheckoutSessionCustomerVerificationRequestInput
 
-Request input. Response: [LookupGiftCardRequest](../models/LookupGiftCardRequest.md#lookupgiftcardrequest).
-
-The code the buyer typed.
-
-
-
-
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `code` | Required | string | The six-digit code from the email or the text. minLength: `6`. maxLength: `6`. pattern: `^[0-9]{6}$`. |
+Request input. Response: [ConfirmCheckoutSessionCustomerVerificationRequest](../models/ConfirmCheckoutSessionCustomerVerificationRequest.md#confirmcheckoutsessioncustomerverificationrequest). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
 
