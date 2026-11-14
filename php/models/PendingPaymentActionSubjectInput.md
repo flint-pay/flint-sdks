@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_intent` | Optional | [PendingPaymentActionPaymentIntentSubjectInput](../models/PendingPaymentActionPaymentIntentSubjectInput.md#pendingpaymentactionpaymentintentsubjectinput) | PaymentIntent that requires buyer authentication. It can be a standalone intent or an order-owned payment leg. The payment intent that needs buyer authentication in a pending payment action. |
+| `payment_intent` | Optional | [PendingPaymentActionPaymentIntentSubjectInput](../models/PendingPaymentActionPaymentIntentSubjectInput.md#pendingpaymentactionpaymentintentsubjectinput) | PaymentIntent that requires buyer authentication or card presentment. It can be a standalone intent or an order-owned payment leg. The payment intent that needs buyer authentication in a pending payment action. |
 | `setup_payment_source` | Optional | [PendingPaymentActionSetupPaymentSourceSubjectInput](../models/PendingPaymentActionSetupPaymentSourceSubjectInput.md#pendingpaymentactionsetuppaymentsourcesubjectinput) | Future-billing payment method setup that requires buyer authentication. The payment method setup that needs buyer authentication in a pending payment action. |
 

@@ -8,13 +8,13 @@ namespace Flint;
 final class CLIContextsResponseInput extends Model {
     /** @param array{'contexts': list<ContextSummaryInput|array<array-key, mixed>|\stdClass>, 'oauth_session_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CLIContextsResponseInput')); }
-    /** maxItems: 100. [] (Value): {@see ContextSummaryInput}. A context the CLI is authorized to use: a sandbox or live account, with its ID, merchant ID, and name.
+    /** The contexts the user can use in this session, each a merchant and environment they approved. Contexts that were removed or that the user can no longer access are left out. At most 100. maxItems: 100. [] (Value): {@see ContextSummaryInput}. A context the CLI is authorized to use: a sandbox or live account, with its ID, merchant ID, and name.
      * @return list<ContextSummaryInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When contexts is omitted; use hasContexts() or valueOrDefault().
      */
     public function getContexts(): array { return $this->get('contexts'); }
     public function hasContexts(): bool { return $this->has('contexts'); }
-    /** Example: "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".
+    /** ID of the CLI session that holds these contexts. Token responses for the session carry the same ID. Example: "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".
      * @return string
      * @throws SdkError When oauth_session_id is omitted; use hasOauthSessionId() or valueOrDefault().
      */

@@ -1,0 +1,1 @@
+{"shared":"PartnerEnvironmentGrantPaymentSplits","phpRepresentation":{"kind":"record","fields":{"approved_at":{"kind":"value","type":"string"},"seller_terms_url":{"kind":"value","type":"string"}}},"dependencies":["PartnerEnvironmentGrantPaymentSplits"]}

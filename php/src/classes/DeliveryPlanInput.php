@@ -22,13 +22,13 @@ final class DeliveryPlanInput extends Model {
      */
     public function getFirstArrivalAt(): string|\DateTimeInterface { return $this->get('first_arrival_at'); }
     public function hasFirstArrivalAt(): bool { return $this->has('first_arrival_at'); }
-    /** planned_delivery_count
+    /** Number of deliveries the plan makes.
      * @return int
      * @throws SdkError When planned_delivery_count is omitted; use hasPlannedDeliveryCount() or valueOrDefault().
      */
     public function getPlannedDeliveryCount(): int { return $this->get('planned_delivery_count'); }
     public function hasPlannedDeliveryCount(): bool { return $this->has('planned_delivery_count'); }
-    /** Value enum: "single_delivery", "multiple_deliveries".
+    /** Whether the items arrive together. Value enum: "single_delivery", "multiple_deliveries".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

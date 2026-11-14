@@ -2,7 +2,7 @@
 
 ## UpdateLineItemRequest
 
-The request body for: Update line item.
+The request body for: Update line item. minProperties: `1`.
 
 
 
@@ -16,12 +16,13 @@ The request body for: Update line item.
 | `gift_card_face_value_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Selects the face value of an unpaid, unfunded gift card line within its frozen offer's custom_amount_bounds and reprices the order. Fixed-denomination offers accept only their current value. Omission preserves the value; null is not allowed. Requires expected_version from the order. Checkout credentials may send this field alone or together with gift_card_recipient. Currency must be USD. Amount must be between 1 and 200000 minor units, inclusive. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `gift_card_face_value_money`: [field definitions](../models/UpdateLineItemRequest.md#updatelineitemrequestgift_card_face_value_money). |
 | `gift_card_recipient` | Optional | [GiftCardPurchaseRecipientPatchRequest](../models/GiftCardPurchaseRecipientPatchRequest.md#giftcardpurchaserecipientpatchrequest) or null | Replaces the recipient of an unfunded gift card purchase. Omission preserves it; null clears it. Send expected_version from the order. Send null to clear gift_card_recipient. Requires expected_version. |
 | `metadata` | Optional | [MetadataPatchRequest](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Send null to clear all metadata. |
-| `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | `modifiers[]`: [declared alternatives](../models/UpdateLineItemRequest.md#updatelineitemrequestmodifiers). |
+| `modifiers` | Optional | Array of [OrderLineItemModifierRequest](../models/OrderLineItemModifierRequest.md#orderlineitemmodifierrequest) | The line item's modifier selections. Sending the field replaces the current selections, so include every modifier you want to keep. Requires `expected_version`. Flint reprices the line item. Modifiers can't change once the line item has been paid for, and the request returns 409. `modifiers[]`: [declared alternatives](../models/UpdateLineItemRequest.md#updatelineitemrequestmodifiers). |
 | `name` | Optional | string | Name of the line item. minLength: `1`. |
+| `product_type` | Optional | string | Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
 | `quantity` | Optional | integer | Replacement quantity, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: `int64`. minimum: `1`. maximum: `9999`. |
 | `subscription` | Optional | [SubscribedLineRequest](../models/SubscribedLineRequest.md#subscribedlinerequest) or null | Selects an active subscription offer and reprices an unpaid line. Null selects a one-time purchase. Omission preserves the selection. Requires expected_version from the order and clears the delivery selection when terms change. Send null to clear subscription. Requires expected_version. `subscription`: [declared alternatives](../models/UpdateLineItemRequest.md#updatelineitemrequestsubscription). |
 | `tax` | Optional | [OrderCalculatedLineItemTax](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax) | Tax settings for the line item. Tax settings for an order line item calculated by Flint or supplied by you, including the line item tax category and whether it is taxable. `tax`: [field definitions](../models/UpdateLineItemRequest.md#updatelineitemrequesttax). |
-| `unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price of one unit. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsunit_price_money). |
+| `unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price of one unit. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `unit_price_money`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitemunit_price_money). |
 
 ### UpdateLineItemRequest.gift_card_face_value_money
 
@@ -55,11 +56,11 @@ oneOf with type: "text": The `text` variant of `OrderLineItemModifierInput`..
 
 ### UpdateLineItemRequest.modifiers[].metadata
 
-Field definitions: [AddLineItemsRequest.line_items[].modifiers[].metadata](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmodifiersmetadata).
+Field definitions: [CreateOrderLineItem.modifiers[].metadata](../models/CreateOrderLineItem.md#createorderlineitemmodifiersmetadata).
 
 ### UpdateLineItemRequest.modifiers[].text
 
-Field definitions: [AddLineItemsRequest.line_items[].modifiers[].text](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsmodifierstext).
+Field definitions: [CreateOrderLineItem.modifiers[].text](../models/CreateOrderLineItem.md#createorderlineitemmodifierstext).
 
 ### UpdateLineItemRequest.subscription
 
@@ -67,8 +68,8 @@ Selects an active subscription offer and reprices an unpaid line. Null selects a
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_interval` | Conditional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
-| `billing_interval_count` | Conditional | integer | Format: `int32`. minimum: `1`. maximum: `365`. |
+| `billing_interval` | Conditional | string | Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the pair must be one of the offer's billing interval options. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Conditional | integer | Number of billing_interval units between charges, from 1 to 365. Format: `int32`. minimum: `1`. maximum: `365`. |
 | `subscription_offer_id` | Conditional | string | Active subscription offer for this catalog variant. minLength: `1`. Example: `"soffer_01KEZF7C00KAA9Y1X1KM70YFAA"`. |
 
 ### UpdateLineItemRequest.subscription variant 1
@@ -115,5 +116,5 @@ Field definitions: [OrderCalculatedLineItemTax variant 2.calculation](../models/
 
 ### UpdateLineItemRequest.unit_price_money
 
-Field definitions: [AddLineItemsRequest.line_items[].unit_price_money](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsunit_price_money).
+Field definitions: [CreateOrderLineItem.unit_price_money](../models/CreateOrderLineItem.md#createorderlineitemunit_price_money).
 

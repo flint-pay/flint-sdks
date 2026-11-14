@@ -8,7 +8,7 @@ namespace Flint;
 final class RetryOrderEditRefundResult extends Model {
     /** @param array{'order_edit': mixed, 'refunds': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RetryOrderEditRefundResult')); }
-    /** The edit with its current unrefunded money and supported actions. Nested child of an order: an immutable, completed removal with frozen refund amounts. Refund completion is tracked on the refunds.
+    /** The edit with its current unrefunded money and supported actions. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
      * @return OrderEdit
      */
     public function getOrderEdit(): OrderEdit { return $this->get('order_edit'); }

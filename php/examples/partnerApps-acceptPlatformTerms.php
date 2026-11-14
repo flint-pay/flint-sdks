@@ -18,7 +18,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->partnerApps->acceptPlatformTerms('papp_01KEZF7C00Y8VMXYZ1GNPP3WHV', [
   'expected_version' => 1,
-  'platform_terms_version' => '2026-11-01',
+  'platform_terms_version' => '2026-11-12',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->client_id . PHP_EOL;
 echo $result->partner_app_id . PHP_EOL;

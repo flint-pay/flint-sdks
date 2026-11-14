@@ -4,7 +4,7 @@
 
 ### oauth.authorizeCLIDevice
 
-First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON. Repeated Authorization fields return 400 INVALID_REQUEST with a NOT_ALLOWED detail at Authorization in the Flint error envelope. No client secret or HTTP Basic authentication. Requests are not replayed through idempotency caching. Send session_mode=contexts for a session that supports additive reauthorization. The required scope field contains the full requested set as space-separated names. Normal login sends the unchanged x-flint-cli-bootstrap-scopes; login with extra permissions sends the desired baseline and additions. No scopes are implicitly added. The browser may approve a subset per context; token scope reports the approved set. Unknown scopes return HTTP 400 invalid_scope. Selected scopes are checked against the selected merchant and environment before approval.
+First-party public client flint-cli. Uses application/x-www-form-urlencoded and flat OAuth JSON. Repeated Authorization fields return 400 INVALID_REQUEST with a NOT_ALLOWED detail at Authorization in the Flint error envelope. No client secret or HTTP Basic authentication. Requests are not replayed through idempotency caching. Send session_mode=contexts for a session that supports additive reauthorization. The required scope field contains the full requested set as space-separated names. Login sends the scopes it needs, and login with extra permissions sends those plus the additions. No scopes are implicitly added. The browser may approve a subset per context; token scope reports the approved set. Unknown scopes return HTTP 400 invalid_scope. Selected scopes are checked against the selected merchant and environment before approval.
 
 `POST /v1/oauth/device/authorize`
 
@@ -22,13 +22,13 @@ Body model: [CLIDeviceRequestInput](../models/CLIDeviceRequestInput.md#clidevice
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `client_id` | Required | string | Values: `"flint-cli"`. |
+| `client_id` | Required | string | The public client ID, always `flint-cli`. The client has no secret: a client_secret field or an Authorization header returns invalid_client. Values: `"flint-cli"`. |
 | `device_name` | Optional | string | Optional compatibility field for the computer name sent by released Flint CLI versions. Accepted and ignored. |
 | `merchant_id` | Optional | string | ID of the merchant this resource belongs to. |
 | `mode` | Optional | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `platform` | Optional | string | Optional compatibility field for the operating system sent by released Flint CLI versions. Accepted and ignored. |
 | `sandbox_id` | Optional | string | ID of the sandbox this resource belongs to. |
-| `scope` | Required | string | Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: `1`. |
+| `scope` | Required | string | Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: `1`. |
 | `session_mode` | Optional | string | Creates a session with selectable merchant and environment contexts. Defaults to contexts when omitted. Default: `"contexts"`. Values: `"contexts"`. |
 
 #### Response
@@ -102,7 +102,7 @@ Body model: [OAuthTokenRequestInput](../models/OAuthTokenRequestInput.md#oauthto
 | `grant_type` | Required | string | OAuth grant to exchange. Partner apps use client_credentials or authorization_code; flint-cli uses device_code or refresh_token; workload identities use token-exchange. Values: [5 declared values](#oauthexchangetoken-body-grant_type-values). |
 | `merchant_id` | Optional | string | Binds the minted partner app token to this merchant, for client_credentials. Omit for an app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks only the ID's format here. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `mode` | Optional | string | Mode of the partner app token to mint, test or live. Required for client_credentials. Each token is for one mode. Values: `"test"`, `"live"`. |
-| `redirect_uri` | Optional | string | Partner redirect URI used in authorization, required for authorization_code. |
+| `redirect_uri` | Optional | string | The redirect URI the authorization request used, character for character. Required for a code from the consent screen. Omit it for a code from a merchant signup, which had no authorization request: a signup code sent with one, or a consent-screen code sent without one, returns invalid_grant. |
 | `refresh_token` | Optional | string | flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh tokens; a partner client that sends this grant gets unauthorized_client. |
 | `requested_token_type` | Optional | string | Optional requested credential type for token exchange. Only access tokens are supported. Values: `"urn:ietf:params:oauth:token-type:access_token"`. |
 | `scope` | Optional | string | flint-cli and workload identities: optional subset of API scope names for this access token. Partner apps: omit. Partner app tokens carry each install's granted permissions, and client_credentials refuses scope with invalid_scope. |
@@ -179,7 +179,6 @@ Authentication modes: none (anonymous). [Credential setup](../RUNTIME.md#authent
 $result = $client->oauth->exchangeToken([
   'grant_type' => 'authorization_code',
   'code' => 'example',
-  'redirect_uri' => 'example',
   'code_verifier' => 'examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
 ], new RequestOptions());
 ```
@@ -206,8 +205,8 @@ Body model: [CLIContextsRequestInput](../models/CLIContextsRequestInput.md#clico
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `client_id` | Required | string | Values: `"flint-cli"`. |
-| `refresh_token` | Required | string |  |
+| `client_id` | Required | string | The public client ID, always `flint-cli`. The client has no secret: a client_secret field or an Authorization header returns invalid_client. Values: `"flint-cli"`. |
+| `refresh_token` | Required | string | The session's current refresh token. This request reads the session and doesn't rotate the token. An unknown, expired, or revoked token returns invalid_grant. |
 
 #### Response
 
@@ -277,6 +276,7 @@ Returned payload: [PartnerAuthorizePreview](../models/PartnerAuthorizePreview.md
 | 404 | NotFoundError |
 | 429 | RateLimitError |
 | 500 | ServerError |
+| 503 | ServerError |
 
 Other failures: [runtime error reference](../RUNTIME.md#error-reference).
 
@@ -320,17 +320,17 @@ Body model: [CLIReauthorizeRequestInput](../models/CLIReauthorizeRequestInput.md
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `client_id` | Required | string | Values: `"flint-cli"`. |
-| `context_id` | Optional | string | minLength: `1`. |
+| `client_id` | Required | string | The public client ID, always `flint-cli`. The client has no secret: a client_secret field or an Authorization header returns invalid_client. Values: `"flint-cli"`. |
+| `context_id` | Optional | string | ID of one of the session's contexts, from the `id` of an entry in the contexts list. An ID that isn't in the session returns invalid_context. Required with scope_mode. minLength: `1`. |
 | `device_name` | Optional | string | Optional compatibility field for the computer name sent by released Flint CLI versions. Accepted and ignored. |
 | `merchant_id` | Optional | string | ID of the merchant this resource belongs to. |
 | `mode` | Optional | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `platform` | Optional | string | Optional compatibility field for the operating system sent by released Flint CLI versions. Accepted and ignored. |
-| `refresh_token` | Required | string |  |
+| `refresh_token` | Required | string | The session's current refresh token. This request reads the session and doesn't rotate the token. An unknown, expired, or revoked token returns invalid_grant. |
 | `sandbox_id` | Optional | string | ID of the sandbox this resource belongs to. |
-| `scope` | Required | string | Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: `1`. |
-| `scope_mode` | Optional | string | Values: `"additive"`. |
-| `session_mode` | Required | string | Values: `"contexts"`. |
+| `scope` | Required | string | Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: `1`. |
+| `scope_mode` | Optional | string | Set to `additive` to ask for more scopes in the one context named by context_id. The approved scopes are added to the scopes the context already has, and the session's other contexts are kept. Requires context_id. Values: `"additive"`. |
+| `session_mode` | Required | string | Required, and must be `contexts`. Unless scope_mode is `additive`, the contexts the user approves become the session's contexts: any other context is removed and its tokens stop working. Values: `"contexts"`. |
 
 #### Response
 

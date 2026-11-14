@@ -8,7 +8,7 @@ namespace Flint;
 final class DeliverySelectionInstructionsRequest extends Model {
     /** @param array{'delivery_window_id'?: string, 'instructions'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionInstructionsRequest')); }
-    /** minLength: 1.
+    /** ID from the option's offered_windows. Required when window_selection is offered; omit it otherwise. minLength: 1.
      * @return ?string
      */
     public function getDeliveryWindowId(): ?string { return $this->get('delivery_window_id'); }

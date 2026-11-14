@@ -4,13 +4,14 @@ namespace Flint;
 /**
  * @property-read int $quantity
  * @property-read ?string $release_timing
+ * @property-read string $return_id
  * @property-read string $return_line_item_id
  * @property-read string $return_resolution_id
  * @property-read string $return_resolution_line_item_id
  * @property-read BuyerReturnPreviewResponseDataEligibilityResolutionLineItemsItemReturnedTotalMoney $returned_total_money
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturnPreviewResponseDataEligibilityResolutionLineItemsItem extends Model {
-    /** @param array{'quantity': int, 'release_timing'?: string, 'return_line_item_id': string, 'return_resolution_id': string, 'return_resolution_line_item_id': string, 'returned_total_money': mixed, ...}|object $values */
+    /** @param array{'quantity': int, 'release_timing'?: string, 'return_id': string, 'return_line_item_id': string, 'return_resolution_id': string, 'return_resolution_line_item_id': string, 'returned_total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataEligibilityResolutionLineItemsItem')); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -22,6 +23,11 @@ final class BuyerReturnPreviewResponseDataEligibilityResolutionLineItemsItem ext
      */
     public function getReleaseTiming(): ?string { return $this->get('release_timing'); }
     public function hasReleaseTiming(): bool { return $this->has('release_timing'); }
+    /** Return that owns return_line_item_id.
+     * @return string
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the resolution covers.
      * @return string
      */

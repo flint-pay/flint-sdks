@@ -25,11 +25,11 @@ Request input.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](DeliveryZoneActivatedInstalledMerchantsEventInput.md#deliveryzoneactivatedinstalledmerchantseventinputdata).
+Field definitions: [shared fields](DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdata).
 
 ### DeliveryZoneCreatedInstalledMerchantsEventInput.data.object
 
-Field definitions: [DeliveryZoneActivatedInstalledMerchantsEventInput.data.object](../models/DeliveryZoneActivatedInstalledMerchantsEventInput.md#deliveryzoneactivatedinstalledmerchantseventinputdataobject).
+Field definitions: [DeliveryZoneArchivedInstalledMerchantsEventInput.data.object](../models/DeliveryZoneArchivedInstalledMerchantsEventInput.md#deliveryzonearchivedinstalledmerchantseventinputdataobject).
 
 ### DeliveryZoneCreatedInstalledMerchantsEventInput.source
 

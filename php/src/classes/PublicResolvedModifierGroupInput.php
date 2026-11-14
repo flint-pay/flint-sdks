@@ -21,7 +21,7 @@ namespace Flint;
 final class PublicResolvedModifierGroupInput extends Model {
     /** @param array{'allow_quantities'?: bool, 'max_quantity'?: int, 'max_selected'?: int, 'max_total_quantity'?: int, 'min_quantity'?: int, 'min_selected'?: int, 'modifier_group_id': string, 'modifier_group_type': string, 'name': string, 'options'?: list<PublicResolvedModifierOptionInput|array<array-key, mixed>|\stdClass>, 'position'?: int, 'pricing_scope'?: string, 'show_on_fulfillment'?: bool, 'show_on_receipt'?: bool, 'text'?: PublicResolvedTextModifierInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PublicResolvedModifierGroupInput')); }
-    /** allow_quantities
+    /** Whether the buyer can select more than one unit of an option. Omitted when they can't.
      * @return bool
      * @throws SdkError When allow_quantities is omitted; use hasAllowQuantities() or valueOrDefault().
      */
@@ -33,7 +33,7 @@ final class PublicResolvedModifierGroupInput extends Model {
      */
     public function getMaxQuantity(): int { return $this->get('max_quantity'); }
     public function hasMaxQuantity(): bool { return $this->has('max_quantity'); }
-    /** Format: int32.
+    /** Most options the buyer can select from a list group. Omitted when the group sets no limit. Format: int32.
      * @return int
      * @throws SdkError When max_selected is omitted; use hasMaxSelected() or valueOrDefault().
      */
@@ -51,61 +51,61 @@ final class PublicResolvedModifierGroupInput extends Model {
      */
     public function getMinQuantity(): int { return $this->get('min_quantity'); }
     public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
-    /** Format: int32.
+    /** Fewest options the buyer must select from a list group. Omitted when the group sets no minimum. Format: int32.
      * @return int
      * @throws SdkError When min_selected is omitted; use hasMinSelected() or valueOrDefault().
      */
     public function getMinSelected(): int { return $this->get('min_selected'); }
     public function hasMinSelected(): bool { return $this->has('min_selected'); }
-    /** Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+    /** ID of the modifier group. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
      * @return string
      * @throws SdkError When modifier_group_id is omitted; use hasModifierGroupId() or valueOrDefault().
      */
     public function getModifierGroupId(): string { return $this->get('modifier_group_id'); }
     public function hasModifierGroupId(): bool { return $this->has('modifier_group_id'); }
-    /** Value enum: "list", "text".
+    /** Whether the buyer chooses from a list of options or enters text. Value enum: "list", "text".
      * @return string
      * @throws SdkError When modifier_group_type is omitted; use hasModifierGroupType() or valueOrDefault().
      */
     public function getModifierGroupType(): string { return $this->get('modifier_group_type'); }
     public function hasModifierGroupType(): bool { return $this->has('modifier_group_type'); }
-    /** name
+    /** Name of the group shown to the buyer.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /**  [] (Value): {@see PublicResolvedModifierOptionInput}. One selectable option in a resolved modifier group, with its price change, tax category, and whether it is available.
+    /** Options the buyer can choose from in a list group. Empty for a text group. [] (Value): {@see PublicResolvedModifierOptionInput}. One selectable option in a resolved modifier group, with its price change, tax category, and whether it is available.
      * @return list<PublicResolvedModifierOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When options is omitted; use hasOptions() or valueOrDefault().
      */
     public function getOptions(): array { return $this->get('options'); }
     public function hasOptions(): bool { return $this->has('options'); }
-    /** Format: int32.
+    /** Position of the group among the groups offered for the line item. Lower values appear first. Format: int32.
      * @return int
      * @throws SdkError When position is omitted; use hasPosition() or valueOrDefault().
      */
     public function getPosition(): int { return $this->get('position'); }
     public function hasPosition(): bool { return $this->has('position'); }
-    /** Value enum: "per_item".
+    /** How the price of a selected option scales with the line item's quantity. Value enum: "per_item", "per_line".
      * @return string
      * @throws SdkError When pricing_scope is omitted; use hasPricingScope() or valueOrDefault().
      */
     public function getPricingScope(): string { return $this->get('pricing_scope'); }
     public function hasPricingScope(): bool { return $this->has('pricing_scope'); }
-    /** show_on_fulfillment
+    /** Whether the buyer's selections from this group appear in fulfillment details. Omitted when they don't.
      * @return bool
      * @throws SdkError When show_on_fulfillment is omitted; use hasShowOnFulfillment() or valueOrDefault().
      */
     public function getShowOnFulfillment(): bool { return $this->get('show_on_fulfillment'); }
     public function hasShowOnFulfillment(): bool { return $this->has('show_on_fulfillment'); }
-    /** show_on_receipt
+    /** Whether the buyer's selections from this group appear on receipts. Omitted when they don't.
      * @return bool
      * @throws SdkError When show_on_receipt is omitted; use hasShowOnReceipt() or valueOrDefault().
      */
     public function getShowOnReceipt(): bool { return $this->get('show_on_receipt'); }
     public function hasShowOnReceipt(): bool { return $this->has('show_on_receipt'); }
-    /** Input rules for a free-text modifier group on a payment link line item: required, multiline, and length limits.
+    /** Entry rules for a text group. Omitted for a list group. Input rules for a free-text modifier group on a payment link line item: required, multiline, and length limits.
      * @return PublicResolvedTextModifierInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When text is omitted; use hasText() or valueOrDefault().
      */

@@ -44,12 +44,12 @@ final class BuyerTip extends Model {
      */
     public function getName(): ?string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** order_tip_id
+    /** ID of the tip, prefixed `tip_`.
      * @return string
      */
     public function getOrderTipId(): string { return $this->get('order_tip_id'); }
     public function hasOrderTipId(): bool { return $this->has('order_tip_id'); }
-    /**  [] (Value): {@see TipPaymentIntentAllocation}. The part of a tip paid through one payment intent.
+    /** How much of the tip each payment intent paid, one entry per payment intent. Flint adds an entry when it records that payment's tip on the order. [] (Value): {@see TipPaymentIntentAllocation}. The part of a tip paid through one payment intent.
      * @return list<TipPaymentIntentAllocation>
      */
     public function getPaymentIntentAllocations(): array { return $this->get('payment_intent_allocations'); }
@@ -79,7 +79,7 @@ final class BuyerTip extends Model {
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /**  [] (Value): {@see TipValueSettlementAllocation}. The part of a tip paid through one value settlement.
+    /** How much of the tip gift cards paid, one entry per gift card redemption that included tip money. Empty when no gift card paid any of the tip. [] (Value): {@see TipValueSettlementAllocation}. The part of a tip paid through one value settlement.
      * @return list<TipValueSettlementAllocation>
      */
     public function getValueSettlementAllocations(): array { return $this->get('value_settlement_allocations'); }

@@ -34,7 +34,7 @@ final class InventoryTransfersUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update inventory transfer. Example: {}.
+    /** The request body for: Update inventory transfer. minProperties: 1. Example: {"note":"Restock the downtown store."}.
      * @return array{'expected_version'?: int, 'external_reference_id'?: string|null, 'lines'?: list<array{'condition'?: string, 'inventory_item_id': string, 'inventory_transfer_line_id'?: string, 'requested_quantity': int}|object>, 'note'?: string|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

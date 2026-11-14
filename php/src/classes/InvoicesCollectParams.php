@@ -14,7 +14,7 @@ final class InvoicesCollectParams extends Model {
      */
     public function getInvoiceScheduleEntryId(): string { return $this->get('invoice_schedule_entry_id'); }
     public function hasInvoiceScheduleEntryId(): bool { return $this->has('invoice_schedule_entry_id'); }
-    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** Optional. The customer's saved payment method to charge. Omit it to charge the invoice's `collection.payment_method_id`. The method must be active, belong to the invoice's customer, allow charges without the buyer present, and be a payment option the invoice allows. If the invoice has no method either, the request is refused. Only invoices collected automatically can be collected this way. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

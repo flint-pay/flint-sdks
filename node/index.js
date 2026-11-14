@@ -5,7 +5,7 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from './runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from './runtime.js';
-import { resource, webhook, modelCodec as _sdkModelCodec } from './descriptors/root.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { resource, webhook, modelCodec as _sdkModelCodec } from './descriptors/root.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 const r0 = () => resource("analytics");
 const r1 = () => resource("apiKeys");
 const r2 = () => resource("apiRequestLogs");
@@ -28,101 +28,110 @@ const r18 = () => resource("deliveryProfiles");
 const r19 = () => resource("deliveryQuotes");
 const r20 = () => resource("deliveryRateCallbacks");
 const r21 = () => resource("deliveryRevocations");
-const r22 = () => resource("deliveryZones");
-const r23 = () => resource("demoSessions");
-const r24 = () => resource("devices");
-const r25 = () => resource("discountPreviews");
-const r26 = () => resource("disputes");
-const r27 = () => resource("emailPreferenceLinks");
-const r28 = () => resource("emailPreferences");
-const r29 = () => resource("feedbackReports");
-const r30 = () => resource("files");
-const r31 = () => resource("fraudWarnings");
-const r32 = () => resource("fulfillmentEvents");
-const r33 = () => resource("fulfillmentNotifications");
-const r34 = () => resource("fulfillments");
-const r35 = () => resource("giftCardFundingDispositions");
-const r36 = () => resource("giftCardLoads");
-const r37 = () => resource("giftCardNotifications");
-const r38 = () => resource("giftCardRedemptions");
-const r39 = () => resource("giftCardTransactions");
-const r40 = () => resource("giftCards");
-const r41 = () => resource("inventoryAdjustments");
-const r42 = () => resource("inventoryAllocationPolicies");
-const r43 = () => resource("inventoryCounts");
-const r44 = () => resource("inventoryItems");
-const r45 = () => resource("inventoryLevels");
-const r46 = () => resource("inventoryMovements");
-const r47 = () => resource("inventoryReceipts");
-const r48 = () => resource("inventoryReservations");
-const r49 = () => resource("inventoryTransfers");
-const r50 = () => resource("invoicePaymentTerms");
-const r51 = () => resource("invoices");
-const r52 = () => resource("locations");
-const r53 = () => resource("me");
-const r54 = () => resource("merchant");
-const r55 = () => resource("merchantAccountSessions");
-const r56 = () => resource("merchantBillingBalances");
-const r57 = () => resource("merchantBillingEntries");
-const r58 = () => resource("merchantBillingInvoices");
-const r59 = () => resource("modifierGroups");
-const r60 = () => resource("modifierSets");
-const r61 = () => resource("oauth");
-const r62 = () => resource("onboarding");
-const r63 = () => resource("openapi");
-const r64 = () => resource("orderEditPreviews");
-const r65 = () => resource("orders");
-const r66 = () => resource("packages");
-const r67 = () => resource("partnerAppInstalls");
-const r68 = () => resource("partnerApps");
-const r69 = () => resource("paymentIntents");
-const r70 = () => resource("paymentLinks");
-const r71 = () => resource("paymentMethodDomains");
-const r72 = () => resource("paymentMethods");
-const r73 = () => resource("paymentReviews");
-const r74 = () => resource("payoutDestinations");
-const r75 = () => resource("payoutSettings");
-const r76 = () => resource("payouts");
-const r77 = () => resource("priceLists");
-const r78 = () => resource("products");
-const r79 = () => resource("promotionCodes");
-const r80 = () => resource("promotions");
-const r81 = () => resource("refunds");
-const r82 = () => resource("reportDownloads");
-const r83 = () => resource("reports");
-const r84 = () => resource("resourceTimelines");
-const r85 = () => resource("returnDispositions");
-const r86 = () => resource("returnInspections");
-const r87 = () => resource("returnPolicies");
-const r88 = () => resource("returnPreviews");
-const r89 = () => resource("returnReasons");
-const r90 = () => resource("returnReceipts");
-const r91 = () => resource("returnResolutions");
-const r92 = () => resource("returns");
-const r93 = () => resource("riskLists");
-const r94 = () => resource("riskPreviews");
-const r95 = () => resource("riskRules");
-const r96 = () => resource("sandboxes");
-const r97 = () => resource("settings");
-const r98 = () => resource("shipments");
-const r99 = () => resource("subscriptionDeliveryMigrations");
-const r100 = () => resource("subscriptionOffers");
-const r101 = () => resource("subscriptionPlans");
-const r102 = () => resource("subscriptionPreviews");
-const r103 = () => resource("subscriptions");
-const r104 = () => resource("taxCalculationCallbacks");
-const r105 = () => resource("taxConnection");
-const r106 = () => resource("testClocks");
-const r107 = () => resource("tickets");
-const r108 = () => resource("webhookDeliveries");
-const r109 = () => resource("webhookEndpoints");
-const r110 = () => resource("webhookEventTypes");
-const r111 = () => resource("webhookEvents");
-const r112 = () => resource("workloadIdentities");
+const r22 = () => resource("deliverySelections");
+const r23 = () => resource("deliveryZones");
+const r24 = () => resource("demoSessions");
+const r25 = () => resource("devices");
+const r26 = () => resource("discountPreviews");
+const r27 = () => resource("disputes");
+const r28 = () => resource("emailPreferenceLinks");
+const r29 = () => resource("emailPreferences");
+const r30 = () => resource("feedbackReports");
+const r31 = () => resource("files");
+const r32 = () => resource("fraudWarnings");
+const r33 = () => resource("fulfillmentEvents");
+const r34 = () => resource("fulfillmentNotifications");
+const r35 = () => resource("fulfillments");
+const r36 = () => resource("giftCardFundingDispositions");
+const r37 = () => resource("giftCardLoads");
+const r38 = () => resource("giftCardNotifications");
+const r39 = () => resource("giftCardRedemptions");
+const r40 = () => resource("giftCardTransactions");
+const r41 = () => resource("giftCards");
+const r42 = () => resource("inventoryAdjustments");
+const r43 = () => resource("inventoryAllocationPolicies");
+const r44 = () => resource("inventoryCounts");
+const r45 = () => resource("inventoryItems");
+const r46 = () => resource("inventoryLevels");
+const r47 = () => resource("inventoryMovements");
+const r48 = () => resource("inventoryReceipts");
+const r49 = () => resource("inventoryReservations");
+const r50 = () => resource("inventoryTransfers");
+const r51 = () => resource("invoicePaymentTerms");
+const r52 = () => resource("invoices");
+const r53 = () => resource("locations");
+const r54 = () => resource("me");
+const r55 = () => resource("merchant");
+const r56 = () => resource("merchantAccountSessions");
+const r57 = () => resource("merchantBillingBalances");
+const r58 = () => resource("merchantBillingEntries");
+const r59 = () => resource("merchantBillingInvoices");
+const r60 = () => resource("merchantSignups");
+const r61 = () => resource("modifierGroups");
+const r62 = () => resource("modifierSets");
+const r63 = () => resource("oauth");
+const r64 = () => resource("onboarding");
+const r65 = () => resource("openapi");
+const r66 = () => resource("orderEditPreviews");
+const r67 = () => resource("orders");
+const r68 = () => resource("packages");
+const r69 = () => resource("partnerAppInstalls");
+const r70 = () => resource("partnerApps");
+const r71 = () => resource("paymentIntents");
+const r72 = () => resource("paymentLinks");
+const r73 = () => resource("paymentMethodDomains");
+const r74 = () => resource("paymentMethods");
+const r75 = () => resource("paymentReviews");
+const r76 = () => resource("paymentSplits");
+const r77 = () => resource("payoutDestinations");
+const r78 = () => resource("payoutSettings");
+const r79 = () => resource("payouts");
+const r80 = () => resource("platformFeeBalanceTransactions");
+const r81 = () => resource("platformFeeBalances");
+const r82 = () => resource("platformFeePayouts");
+const r83 = () => resource("platformFees");
+const r84 = () => resource("priceLists");
+const r85 = () => resource("products");
+const r86 = () => resource("promotionCodes");
+const r87 = () => resource("promotions");
+const r88 = () => resource("readers");
+const r89 = () => resource("refunds");
+const r90 = () => resource("rememberedBuyers");
+const r91 = () => resource("reportDownloads");
+const r92 = () => resource("reports");
+const r93 = () => resource("resourceTimelines");
+const r94 = () => resource("returnDispositions");
+const r95 = () => resource("returnInspections");
+const r96 = () => resource("returnPolicies");
+const r97 = () => resource("returnPreviews");
+const r98 = () => resource("returnReasons");
+const r99 = () => resource("returnReceipts");
+const r100 = () => resource("returnResolutions");
+const r101 = () => resource("returns");
+const r102 = () => resource("riskLists");
+const r103 = () => resource("riskPreviews");
+const r104 = () => resource("riskRules");
+const r105 = () => resource("sandboxes");
+const r106 = () => resource("settings");
+const r107 = () => resource("shipments");
+const r108 = () => resource("subscriptionDeliveryMigrations");
+const r109 = () => resource("subscriptionOffers");
+const r110 = () => resource("subscriptionPlans");
+const r111 = () => resource("subscriptionPreviews");
+const r112 = () => resource("subscriptions");
+const r113 = () => resource("taxCalculationCallbacks");
+const r114 = () => resource("taxConnection");
+const r115 = () => resource("testClocks");
+const r116 = () => resource("tickets");
+const r117 = () => resource("webhookDeliveries");
+const r118 = () => resource("webhookEndpoints");
+const r119 = () => resource("webhookEventTypes");
+const r120 = () => resource("webhookEvents");
+const r121 = () => resource("workloadIdentities");
 import { DescriptorSource } from './descriptor-source.js';
-import settings from './descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from './descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["getAnalyticsOverview"]:r0,["getPaymentVolumeTimeseries"]:r0,["getSubscriptionAnalytics"]:r0,["createAPIKey"]:r1,["getAPIKey"]:r1,["listAPIKeys"]:r1,["revokeAPIKey"]:r1,["updateAPIKey"]:r1,["getAPIRequestLog"]:r2,["listAPIRequestLogs"]:r2,["getAuthContext"]:r3,["getBalanceTransaction"]:r4,["listBalanceTransactions"]:r4,["listBalances"]:r5,["createBundle"]:r6,["deleteBundle"]:r6,["getBundle"]:r6,["listBundleComponents"]:r6,["listBundles"]:r6,["updateBundle"]:r6,["createCategory"]:r7,["deleteCategory"]:r7,["getCategory"]:r7,["listCategories"]:r7,["updateCategory"]:r7,["closeCheckoutSession"]:r8,["confirmCheckoutSessionCustomerVerification"]:r8,["createCheckoutSession"]:r8,["createCheckoutSessionCustomerVerification"]:r8,["createCheckoutSessionDeliveryQuote"]:r8,["createCheckoutSessionDeliverySelection"]:r8,["deleteCheckoutSessionCurrentDeliverySelection"]:r8,["getCheckoutSession"]:r8,["getCheckoutSessionCurrentDeliverySelection"]:r8,["getCheckoutSessionDeliveryQuote"]:r8,["getCheckoutSessionDeliverySelection"]:r8,["listCheckoutSessionDeliverySelections"]:r8,["listCheckoutSessions"]:r8,["updateCheckoutSession"]:r8,["createCreditNote"]:r9,["createCreditNoteAllocation"]:r9,["getCreditNote"]:r9,["getCreditNoteAllocation"]:r9,["getCreditNotePDF"]:r9,["issueCreditNote"]:r9,["listCreditNoteAllocations"]:r9,["listCreditNotes"]:r9,["reverseCreditNoteAllocation"]:r9,["updateCreditNote"]:r9,["voidCreditNote"]:r9,["createCustomDomain"]:r10,["deleteCustomDomain"]:r10,["getCustomDomain"]:r10,["listCustomDomains"]:r10,["validateCustomDomain"]:r10,["createCustomerDeletionRequest"]:r11,["getCustomerDeletionRequest"]:r11,["listCustomerDeletionRequests"]:r11,["resolveCustomerDeletionRequest"]:r11,["createCustomerSession"]:r12,["refreshCustomerSession"]:r12,["revokeCustomerSession"]:r12,["confirmCustomerVerification"]:r13,["createCustomerVerification"]:r13,["createCustomer"]:r14,["createCustomerAccessLink"]:r14,["createCustomerAddress"]:r14,["createCustomerTaxExemption"]:r14,["deleteCustomerAddress"]:r14,["deleteCustomerTaxExemption"]:r14,["getCustomer"]:r14,["getCustomerAddress"]:r14,["getCustomerEmailPreferences"]:r14,["getCustomerTaxExemption"]:r14,["linkCustomerGuestPurchases"]:r14,["listCustomerAddresses"]:r14,["listCustomers"]:r14,["listCustomerTaxExemptions"]:r14,["revokeCustomerSessions"]:r14,["updateCustomer"]:r14,["updateCustomerAddress"]:r14,["updateCustomerTaxExemption"]:r14,["createDeliveryLocationSet"]:r15,["deleteDeliveryLocationSet"]:r15,["getDeliveryLocationSet"]:r15,["listDeliveryLocationSets"]:r15,["updateDeliveryLocationSet"]:r15,["createDeliveryMethod"]:r16,["deleteDeliveryMethod"]:r16,["getDeliveryMethod"]:r16,["listDeliveryMethods"]:r16,["updateDeliveryMethod"]:r16,["createDeliveryPreview"]:r17,["assignToUnconfiguredDeliveryProfile"]:r18,["createDeliveryProfile"]:r18,["deleteDeliveryProfile"]:r18,["getDeliveryProfile"]:r18,["listDeliveryProfiles"]:r18,["updateDeliveryProfile"]:r18,["getDeliveryQuote"]:r19,["listDeliveryQuotes"]:r19,["checkDeliveryRateCallbackConnection"]:r20,["createDeliveryRateCallback"]:r20,["createDeliveryRateCallbackTestDelivery"]:r20,["deleteDeliveryRateCallback"]:r20,["getDeliveryRateCallback"]:r20,["listDeliveryRateCallbacks"]:r20,["rotateDeliveryRateCallbackSigningKey"]:r20,["updateDeliveryRateCallback"]:r20,["createDeliveryRevocation"]:r21,["getDeliveryRevocation"]:r21,["listDeliveryRevocations"]:r21,["createDeliveryZone"]:r22,["deleteDeliveryZone"]:r22,["getDeliveryZone"]:r22,["listDeliveryZones"]:r22,["updateDeliveryZone"]:r22,["createDemoSession"]:r23,["resetDemoSession"]:r23,["createDevice"]:r24,["deleteDevice"]:r24,["getDevice"]:r24,["listDevices"]:r24,["updateDevice"]:r24,["createDiscountPreview"]:r25,["acceptDispute"]:r26,["createDisputeResponseSession"]:r26,["getDispute"]:r26,["listDisputes"]:r26,["simulateDispute"]:r26,["lookupEmailPreferenceLink"]:r27,["unsubscribeEmailPreferenceLink"]:r27,["lookupEmailPreferences"]:r28,["createFeedbackReport"]:r29,["getFeedbackReport"]:r29,["listFeedbackReports"]:r29,["completeFile"]:r30,["createFile"]:r30,["getFile"]:r30,["getFraudWarning"]:r31,["listFraudWarnings"]:r31,["getFulfillmentEvent"]:r32,["listFulfillmentEvents"]:r32,["getFulfillmentNotification"]:r33,["listFulfillmentNotifications"]:r33,["acceptFulfillment"]:r34,["cancelFulfillment"]:r34,["completeFulfillment"]:r34,["createFulfillmentEvent"]:r34,["createShipment"]:r34,["dispatchFulfillment"]:r34,["failFulfillment"]:r34,["getFulfillment"]:r34,["holdFulfillment"]:r34,["listFulfillments"]:r34,["markFulfillmentNoShow"]:r34,["markFulfillmentPacked"]:r34,["markFulfillmentPicked"]:r34,["markFulfillmentPreparing"]:r34,["markFulfillmentReady"]:r34,["releaseFulfillmentHold"]:r34,["scheduleFulfillment"]:r34,["startFulfillment"]:r34,["updateFulfillment"]:r34,["createGiftCardFundingDisposition"]:r35,["getGiftCardFundingDisposition"]:r35,["listGiftCardFundingDispositions"]:r35,["createGiftCardLoad"]:r36,["getGiftCardLoad"]:r36,["listGiftCardLoads"]:r36,["cancelGiftCardNotification"]:r37,["createGiftCardNotification"]:r37,["getGiftCardNotification"]:r37,["listGiftCardNotifications"]:r37,["cancelGiftCardRedemption"]:r38,["captureGiftCardRedemption"]:r38,["createGiftCardRedemption"]:r38,["getGiftCardRedemption"]:r38,["listGiftCardRedemptions"]:r38,["listGiftCardTransactions"]:r39,["adjustGiftCardBalance"]:r40,["cashOutGiftCard"]:r40,["closeGiftCard"]:r40,["createGiftCard"]:r40,["freezeGiftCard"]:r40,["getGiftCard"]:r40,["listGiftCards"]:r40,["lookupGiftCard"]:r40,["rotateGiftCardCode"]:r40,["unfreezeGiftCard"]:r40,["updateGiftCard"]:r40,["createInventoryAdjustment"]:r41,["getInventoryAdjustment"]:r41,["listInventoryAdjustments"]:r41,["createInventoryAllocationPolicy"]:r42,["deleteInventoryAllocationPolicy"]:r42,["getInventoryAllocationPolicy"]:r42,["getInventoryAllocationPolicyRevision"]:r42,["listInventoryAllocationPolicies"]:r42,["listInventoryAllocationPolicyRevisions"]:r42,["updateInventoryAllocationPolicy"]:r42,["applyInventoryCount"]:r43,["cancelInventoryCount"]:r43,["createInventoryCount"]:r43,["getInventoryCount"]:r43,["listInventoryCounts"]:r43,["updateInventoryCount"]:r43,["createInventoryItem"]:r44,["deleteInventoryItem"]:r44,["getInventoryItem"]:r44,["listInventoryItems"]:r44,["updateInventoryItem"]:r44,["getInventoryLevel"]:r45,["listInventoryLevels"]:r45,["updateInventoryLevel"]:r45,["getInventoryMovement"]:r46,["listInventoryMovements"]:r46,["createInventoryReceipt"]:r47,["getInventoryReceipt"]:r47,["listInventoryReceipts"]:r47,["commitInventoryReservation"]:r48,["consumeInventoryReservation"]:r48,["createInventoryReservation"]:r48,["getInventoryReservation"]:r48,["listInventoryReservations"]:r48,["releaseInventoryReservation"]:r48,["updateInventoryReservation"]:r48,["cancelInventoryTransfer"]:r49,["createInventoryTransfer"]:r49,["departInventoryTransfer"]:r49,["getInventoryTransfer"]:r49,["listInventoryTransfers"]:r49,["receiveInventoryTransfer"]:r49,["reportInventoryTransferLoss"]:r49,["returnInventoryTransferToOrigin"]:r49,["updateInventoryTransfer"]:r49,["createInvoicePaymentTerm"]:r50,["deleteInvoicePaymentTerm"]:r50,["getInvoicePaymentTerm"]:r50,["listInvoicePaymentTerms"]:r50,["updateInvoicePaymentTerm"]:r50,["cancelInvoicePaymentAttempt"]:r51,["collectInvoice"]:r51,["createInvoice"]:r51,["createInvoiceCheckoutSession"]:r51,["createInvoiceLateFee"]:r51,["createInvoiceManualPayment"]:r51,["getInvoice"]:r51,["getInvoiceManualPayment"]:r51,["getInvoicePaymentAttempt"]:r51,["getInvoicePDF"]:r51,["issueInvoice"]:r51,["listInvoiceActivities"]:r51,["listInvoiceDeliveryAttempts"]:r51,["listInvoiceManualPayments"]:r51,["listInvoicePaymentAttempts"]:r51,["listInvoices"]:r51,["markInvoiceUncollectible"]:r51,["regenerateInvoicePublicLink"]:r51,["reverseInvoiceManualPayment"]:r51,["sendInvoiceReminder"]:r51,["updateInvoice"]:r51,["voidInvoice"]:r51,["waiveInvoiceLateFee"]:r51,["createLocation"]:r52,["deleteLocation"]:r52,["getLocation"]:r52,["listLocations"]:r52,["updateLocation"]:r52,["cancelMeReturn"]:r53,["cancelMeSubscription"]:r53,["changeMeSubscriptionPlan"]:r53,["changeMeSubscriptionQuantity"]:r53,["confirmMeEmailChangeRequest"]:r53,["createMeAddress"]:r53,["createMeDeletionRequest"]:r53,["createMeEmailChangeRequest"]:r53,["createMeFlintWalletStoreSetup"]:r53,["createMeInvoiceCheckoutSession"]:r53,["createMePaymentMethod"]:r53,["createMeReturn"]:r53,["createMeReturnPreview"]:r53,["createMeReturnResolutionCheckoutSession"]:r53,["createMeSubscriptionPaymentRetry"]:r53,["createMeSubscriptionPreview"]:r53,["deleteMeAddress"]:r53,["deleteMePaymentMethod"]:r53,["getMe"]:r53,["getMeAddress"]:r53,["getMeCreditNote"]:r53,["getMeCreditNotePDF"]:r53,["getMeDeletionRequest"]:r53,["getMeEmailPreferences"]:r53,["getMeFulfillment"]:r53,["getMeGiftCard"]:r53,["getMeInvoice"]:r53,["getMeInvoicePDF"]:r53,["getMeOrder"]:r53,["getMeOrderReceiptPDF"]:r53,["getMePackage"]:r53,["getMePaymentIntent"]:r53,["getMePaymentMethod"]:r53,["getMeRefund"]:r53,["getMeReturn"]:r53,["getMeReturnResolution"]:r53,["getMeShipment"]:r53,["getMeSubscription"]:r53,["getMeSubscriptionPaymentRetry"]:r53,["listMeAddresses"]:r53,["listMeCreditNotes"]:r53,["listMeDeletionRequests"]:r53,["listMeFlintWalletCards"]:r53,["listMeFulfillmentEvents"]:r53,["listMeFulfillments"]:r53,["listMeGiftCards"]:r53,["listMeGiftCardTransactions"]:r53,["listMeInvoices"]:r53,["listMeOrderActivities"]:r53,["listMeOrders"]:r53,["listMePackages"]:r53,["listMePaymentIntents"]:r53,["listMePaymentMethods"]:r53,["listMeRefunds"]:r53,["listMeReturns"]:r53,["listMeShipments"]:r53,["listMeSubscriptionPaymentRetries"]:r53,["listMeSubscriptions"]:r53,["listMeTickets"]:r53,["pauseMeSubscription"]:r53,["removeMeGiftCard"]:r53,["renewMeSubscription"]:r53,["resumeMeSubscription"]:r53,["revokeMeSession"]:r53,["saveMeGiftCard"]:r53,["sendMeOrderReceipt"]:r53,["skipMeSubscriptionCycle"]:r53,["updateMe"]:r53,["updateMeAddress"]:r53,["updateMeEmailPreferences"]:r53,["updateMeSubscription"]:r53,["updateMeSubscriptionLineItem"]:r53,["getMerchant"]:r54,["updateMerchant"]:r54,["createMerchantAccountSession"]:r55,["refreshMerchantAccountSession"]:r55,["getMerchantBillingBalance"]:r56,["listMerchantBillingBalances"]:r56,["listMerchantBillingEntries"]:r57,["getMerchantBillingInvoice"]:r58,["listMerchantBillingInvoices"]:r58,["createModifierGroup"]:r59,["deleteModifierGroup"]:r59,["getModifierGroup"]:r59,["listModifierGroups"]:r59,["updateModifierGroup"]:r59,["createModifierSet"]:r60,["deleteModifierSet"]:r60,["getModifierSet"]:r60,["listModifierSets"]:r60,["updateModifierSet"]:r60,["authorizeCLIDevice"]:r61,["exchangeOAuthToken"]:r61,["listCLIContexts"]:r61,["previewPartnerInstallAuthorization"]:r61,["reauthorizeCLIDevice"]:r61,["revokeOAuthToken"]:r61,["advanceOnboarding"]:r62,["createOnboardingAPIKey"]:r62,["getOnboardingState"]:r62,["startOnboarding"]:r62,["verifyOnboardingEmail"]:r62,["getOpenAPISpec"]:r63,["createOrderEditPreview"]:r64,["applyOrderDiscount"]:r65,["applyOrderGiftCard"]:r65,["cancelOrderPaymentAttempt"]:r65,["closeOrder"]:r65,["createFulfillment"]:r65,["createOrder"]:r65,["createOrderAccessLink"]:r65,["createOrderCharge"]:r65,["createOrderEdit"]:r65,["createOrderLineItems"]:r65,["createOrderPaymentIntent"]:r65,["deleteOrderCharge"]:r65,["deleteOrderLineItem"]:r65,["getOrder"]:r65,["getOrderCurrentDeliverySelection"]:r65,["getOrderEdit"]:r65,["getOrderPaymentAttempt"]:r65,["getOrderReceiptPDF"]:r65,["listOrderActivities"]:r65,["listOrderEdits"]:r65,["listOrderPaymentAttempts"]:r65,["listOrders"]:r65,["payOrder"]:r65,["removeOrderDiscounts"]:r65,["removeOrderGiftCard"]:r65,["repriceOrderDiscounts"]:r65,["resolveOrderInventoryException"]:r65,["retryOrderEditRefund"]:r65,["sendOrderReceipt"]:r65,["updateOrder"]:r65,["updateOrderCharge"]:r65,["updateOrderLineItem"]:r65,["createPackageItem"]:r66,["deletePackageItem"]:r66,["getPackage"]:r66,["getPackageItem"]:r66,["listPackageItems"]:r66,["listPackages"]:r66,["markPackageDelivered"]:r66,["markPackageDeliveryAttempted"]:r66,["markPackageException"]:r66,["markPackageInTransit"]:r66,["markPackageOutForDelivery"]:r66,["markPackagePacked"]:r66,["markPackageReturned"]:r66,["markPackageShipped"]:r66,["updatePackage"]:r66,["updatePackageItem"]:r66,["voidPackage"]:r66,["listMerchantPartnerAppInstalls"]:r67,["revokeMerchantPartnerAppInstall"]:r67,["acceptPartnerAppPlatformTerms"]:r68,["createPartnerApp"]:r68,["createPartnerAppCredential"]:r68,["deletePartnerApp"]:r68,["deletePartnerAppCredential"]:r68,["getPartnerApp"]:r68,["getPartnerAppCredential"]:r68,["getPartnerAppInstall"]:r68,["listPartnerAppCredentials"]:r68,["listPartnerAppInstalls"]:r68,["listPartnerApps"]:r68,["revokePartnerAppEnvironmentGrant"]:r68,["revokePartnerAppInstall"]:r68,["rotatePartnerAppSecret"]:r68,["updatePartnerApp"]:r68,["cancelPaymentIntent"]:r69,["capturePaymentIntent"]:r69,["confirmPaymentIntent"]:r69,["createPaymentIntent"]:r69,["getPaymentIntent"]:r69,["listPaymentIntentActivities"]:r69,["listPaymentIntents"]:r69,["sendPaymentIntentReceipt"]:r69,["updatePaymentIntent"]:r69,["createPaymentLink"]:r70,["getPaymentLink"]:r70,["getPaymentLinkPublic"]:r70,["listPaymentLinks"]:r70,["resolvePaymentLink"]:r70,["updatePaymentLink"]:r70,["createPaymentMethodDomain"]:r71,["getPaymentMethodDomain"]:r71,["listPaymentMethodDomains"]:r71,["updatePaymentMethodDomain"]:r71,["createPaymentMethod"]:r72,["deletePaymentMethod"]:r72,["getPaymentMethod"]:r72,["listPaymentMethods"]:r72,["approvePaymentReview"]:r73,["declinePaymentReview"]:r73,["getPaymentReview"]:r73,["listPaymentReviews"]:r73,["deletePayoutDestination"]:r74,["getPayoutDestination"]:r74,["listPayoutDestinations"]:r74,["updatePayoutDestination"]:r74,["getPayoutSettings"]:r75,["updatePayoutSettings"]:r75,["cancelPayout"]:r76,["createPayout"]:r76,["getPayout"]:r76,["listPayouts"]:r76,["createPriceList"]:r77,["createPriceListPrices"]:r77,["deletePriceList"]:r77,["deletePriceListPrice"]:r77,["getPriceList"]:r77,["getPriceListPrice"]:r77,["listPriceListPrices"]:r77,["listPriceLists"]:r77,["updatePriceList"]:r77,["updatePriceListPrice"]:r77,["createProduct"]:r78,["createProductVariant"]:r78,["deleteProduct"]:r78,["deleteProductVariant"]:r78,["getProduct"]:r78,["getProductOption"]:r78,["getProductVariant"]:r78,["listProductOptions"]:r78,["listProducts"]:r78,["listProductVariants"]:r78,["updateProduct"]:r78,["updateProductVariant"]:r78,["createPromotionCode"]:r79,["deletePromotionCode"]:r79,["getPromotionCode"]:r79,["listPromotionCodes"]:r79,["updatePromotionCode"]:r79,["createPromotion"]:r80,["deletePromotion"]:r80,["getPromotion"]:r80,["listPromotions"]:r80,["updatePromotion"]:r80,["createRefund"]:r81,["getRefund"]:r81,["listRefunds"]:r81,["updateRefund"]:r81,["getReportDownload"]:r82,["createReport"]:r83,["getReport"]:r83,["listReports"]:r83,["getResourceTimeline"]:r84,["cancelReturnDisposition"]:r85,["getReturnDisposition"]:r85,["listReturnDispositions"]:r85,["retryReturnDisposition"]:r85,["decideReturnInspectionLineItem"]:r86,["getReturnInspection"]:r86,["listReturnInspections"]:r86,["createReturnPolicy"]:r87,["createReturnPolicyRevision"]:r87,["deleteReturnPolicy"]:r87,["getReturnPolicy"]:r87,["getReturnPolicyRevision"]:r87,["listReturnPolicies"]:r87,["listReturnPolicyRevisions"]:r87,["updateReturnPolicy"]:r87,["createReturnPreview"]:r88,["createReturnReason"]:r89,["deleteReturnReason"]:r89,["getReturnReason"]:r89,["listReturnReasons"]:r89,["updateReturnReason"]:r89,["getReturnReceipt"]:r90,["listReturnReceipts"]:r90,["verifyReturnReceiptLineItem"]:r90,["cancelReturnResolution"]:r91,["confirmReturnResolution"]:r91,["createReturnResolutionCheckoutSession"]:r91,["getReturnResolution"]:r91,["listReturnResolutions"]:r91,["releaseReturnResolution"]:r91,["retryReturnResolution"]:r91,["updateReturnResolution"]:r91,["cancelReturn"]:r92,["cancelReturnLineItem"]:r92,["completeReturn"]:r92,["createReturn"]:r92,["createReturnAccessLink"]:r92,["createReturnDisposition"]:r92,["createReturnInspection"]:r92,["createReturnLineItem"]:r92,["createReturnReceipt"]:r92,["createReturnResolution"]:r92,["decideReturn"]:r92,["deleteReturnLineItem"]:r92,["getReturn"]:r92,["getReturnLineItem"]:r92,["listReturnActivities"]:r92,["listReturnLineItems"]:r92,["listReturns"]:r92,["processReturn"]:r92,["reopenReturn"]:r92,["updateReturn"]:r92,["updateReturnLineItem"]:r92,["waiveReturnLineItemInspection"]:r92,["createRiskList"]:r93,["createRiskListItems"]:r93,["deleteRiskList"]:r93,["deleteRiskListItem"]:r93,["getRiskList"]:r93,["getRiskListItem"]:r93,["listRiskListItems"]:r93,["listRiskLists"]:r93,["updateRiskList"]:r93,["createRiskPreview"]:r94,["createRiskRule"]:r95,["deleteRiskRule"]:r95,["getRiskRule"]:r95,["getRiskRuleAttributes"]:r95,["listRiskRules"]:r95,["updateRiskRule"]:r95,["createSandbox"]:r96,["createSandboxAPIKey"]:r96,["deleteSandbox"]:r96,["getSandbox"]:r96,["listSandboxes"]:r96,["resetSandbox"]:r96,["getEffectiveSettings"]:r97,["getSettings"]:r97,["updateSettings"]:r97,["createPackage"]:r98,["getShipment"]:r98,["listShipments"]:r98,["updateShipment"]:r98,["voidShipment"]:r98,["createSubscriptionDeliveryMigration"]:r99,["getSubscriptionDeliveryMigration"]:r99,["listSubscriptionDeliveryMigrationFailures"]:r99,["listSubscriptionDeliveryMigrations"]:r99,["createSubscriptionOffer"]:r100,["deleteSubscriptionOffer"]:r100,["getSubscriptionOffer"]:r100,["listSubscriptionOffers"]:r100,["updateSubscriptionOffer"]:r100,["createSubscriptionPlan"]:r101,["deleteSubscriptionPlan"]:r101,["getSubscriptionPlan"]:r101,["listSubscriptionPlans"]:r101,["updateSubscriptionPlan"]:r101,["createSubscriptionPreview"]:r102,["applySubscriptionPromotion"]:r103,["cancelSubscription"]:r103,["changeSubscriptionPlan"]:r103,["changeSubscriptionQuantity"]:r103,["createSubscription"]:r103,["createSubscriptionAccessLink"]:r103,["createSubscriptionLineItem"]:r103,["createSubscriptionPaymentRetry"]:r103,["deleteSubscriptionLineItem"]:r103,["getSubscription"]:r103,["getSubscriptionPaymentRetry"]:r103,["listSubscriptionPaymentRetries"]:r103,["listSubscriptions"]:r103,["pauseSubscription"]:r103,["removeSubscriptionPromotions"]:r103,["renewSubscription"]:r103,["resumeSubscription"]:r103,["skipSubscriptionCycle"]:r103,["updateSubscription"]:r103,["updateSubscriptionLineItem"]:r103,["checkTaxCalculationCallbackConnection"]:r104,["createTaxCalculationCallback"]:r104,["createTaxCalculationCallbackTestDelivery"]:r104,["deleteTaxCalculationCallback"]:r104,["getTaxCalculationCallback"]:r104,["listTaxCalculationCallbacks"]:r104,["rotateTaxCalculationCallbackSecret"]:r104,["updateTaxCalculationCallback"]:r104,["connectTaxConnection"]:r105,["createTaxRegistration"]:r105,["deleteTaxRegistration"]:r105,["disconnectTaxConnection"]:r105,["getTaxConnection"]:r105,["getTaxRegistration"]:r105,["listTaxRegistrations"]:r105,["updateTaxRegistration"]:r105,["advanceTestClock"]:r106,["createTestClock"]:r106,["deleteTestClock"]:r106,["getTestClock"]:r106,["listTestClocks"]:r106,["checkInTicket"]:r107,["getTicket"]:r107,["listTickets"]:r107,["lookupTicket"]:r107,["rotateTicketCode"]:r107,["undoTicketCheckIn"]:r107,["updateTicket"]:r107,["voidTicket"]:r107,["createWebhookDelivery"]:r108,["getWebhookDelivery"]:r108,["listWebhookDeliveries"]:r108,["listWebhookDeliveryAttempts"]:r108,["resendWebhookDelivery"]:r108,["createWebhookEndpoint"]:r109,["createWebhookTestEvent"]:r109,["deleteWebhookEndpoint"]:r109,["getWebhookEndpoint"]:r109,["listWebhookEndpoints"]:r109,["rotateWebhookEndpointSecret"]:r109,["updateWebhookEndpoint"]:r109,["listWebhookEventTypes"]:r110,["getWebhookEvent"]:r111,["listWebhookEvents"]:r111,["streamWebhookEvents"]:r111,["createWorkloadIdentity"]:r112,["deleteWorkloadIdentity"]:r112,["getWorkloadIdentity"]:r112,["listWorkloadIdentities"]:r112,["updateWorkloadIdentity"]:r112}, webhook);
+const _sdkDescriptors = new DescriptorSource(settings, {["getAnalyticsOverview"]:r0,["getPaymentVolumeTimeseries"]:r0,["getSubscriptionAnalytics"]:r0,["createAPIKey"]:r1,["getAPIKey"]:r1,["listAPIKeys"]:r1,["revokeAPIKey"]:r1,["updateAPIKey"]:r1,["getAPIRequestLog"]:r2,["listAPIRequestLogs"]:r2,["getAuthContext"]:r3,["getBalanceTransaction"]:r4,["listBalanceTransactions"]:r4,["listBalances"]:r5,["createBundle"]:r6,["deleteBundle"]:r6,["getBundle"]:r6,["listBundleComponents"]:r6,["listBundles"]:r6,["updateBundle"]:r6,["createCategory"]:r7,["deleteCategory"]:r7,["getCategory"]:r7,["listCategories"]:r7,["updateCategory"]:r7,["closeCheckoutSession"]:r8,["confirmCheckoutSessionCustomerVerification"]:r8,["createCheckoutSession"]:r8,["createCheckoutSessionCustomerVerification"]:r8,["getCheckoutSession"]:r8,["getCheckoutSessionCustomerVerification"]:r8,["listCheckoutSessionCustomerVerifications"]:r8,["listCheckoutSessions"]:r8,["updateCheckoutSession"]:r8,["createCreditNote"]:r9,["createCreditNoteAllocation"]:r9,["getCreditNote"]:r9,["getCreditNoteAllocation"]:r9,["getCreditNotePDF"]:r9,["issueCreditNote"]:r9,["listCreditNoteAllocations"]:r9,["listCreditNotes"]:r9,["reverseCreditNoteAllocation"]:r9,["updateCreditNote"]:r9,["voidCreditNote"]:r9,["createCustomDomain"]:r10,["deleteCustomDomain"]:r10,["getCustomDomain"]:r10,["listCustomDomains"]:r10,["validateCustomDomain"]:r10,["createCustomerDeletionRequest"]:r11,["getCustomerDeletionRequest"]:r11,["listCustomerDeletionRequests"]:r11,["resolveCustomerDeletionRequest"]:r11,["createCustomerSession"]:r12,["refreshCustomerSession"]:r12,["revokeCustomerSession"]:r12,["confirmCustomerVerification"]:r13,["createCustomerVerification"]:r13,["getCustomerVerification"]:r13,["listCustomerVerifications"]:r13,["cancelCustomerEmailChangeRequest"]:r14,["createCustomer"]:r14,["createCustomerAccessLink"]:r14,["createCustomerAddress"]:r14,["createCustomerEmailChangeRequest"]:r14,["createCustomerTaxExemption"]:r14,["deleteCustomerAddress"]:r14,["deleteCustomerTaxExemption"]:r14,["getCustomer"]:r14,["getCustomerAddress"]:r14,["getCustomerEmailChangeRequest"]:r14,["getCustomerEmailPreferences"]:r14,["getCustomerTaxExemption"]:r14,["linkCustomerGuestPurchases"]:r14,["listCustomerAddresses"]:r14,["listCustomerEmailChangeRequests"]:r14,["listCustomers"]:r14,["listCustomerTaxExemptions"]:r14,["revokeCustomerSessions"]:r14,["updateCustomer"]:r14,["updateCustomerAddress"]:r14,["updateCustomerTaxExemption"]:r14,["createDeliveryLocationSet"]:r15,["deleteDeliveryLocationSet"]:r15,["getDeliveryLocationSet"]:r15,["listDeliveryLocationSets"]:r15,["updateDeliveryLocationSet"]:r15,["createDeliveryMethod"]:r16,["deleteDeliveryMethod"]:r16,["getDeliveryMethod"]:r16,["listDeliveryMethods"]:r16,["updateDeliveryMethod"]:r16,["createDeliveryPreview"]:r17,["assignToUnconfiguredDeliveryProfile"]:r18,["createDeliveryProfile"]:r18,["deleteDeliveryProfile"]:r18,["getDeliveryProfile"]:r18,["listDeliveryProfiles"]:r18,["updateDeliveryProfile"]:r18,["createDeliveryQuote"]:r19,["getDeliveryQuote"]:r19,["listDeliveryQuotes"]:r19,["checkDeliveryRateCallbackConnection"]:r20,["createDeliveryRateCallback"]:r20,["createDeliveryRateCallbackTestDelivery"]:r20,["deleteDeliveryRateCallback"]:r20,["getDeliveryRateCallback"]:r20,["listDeliveryRateCallbacks"]:r20,["rotateDeliveryRateCallbackSecret"]:r20,["updateDeliveryRateCallback"]:r20,["createDeliveryRevocation"]:r21,["getDeliveryRevocation"]:r21,["listDeliveryRevocations"]:r21,["createDeliverySelection"]:r22,["getDeliverySelection"]:r22,["listDeliverySelections"]:r22,["releaseDeliverySelection"]:r22,["createDeliveryZone"]:r23,["deleteDeliveryZone"]:r23,["getDeliveryZone"]:r23,["listDeliveryZones"]:r23,["updateDeliveryZone"]:r23,["createDemoSession"]:r24,["resetDemoSession"]:r24,["createDevice"]:r25,["deleteDevice"]:r25,["getDevice"]:r25,["listDevices"]:r25,["updateDevice"]:r25,["createDiscountPreview"]:r26,["acceptDispute"]:r27,["createDisputeResponseSession"]:r27,["getDispute"]:r27,["listDisputes"]:r27,["simulateDispute"]:r27,["lookupEmailPreferenceLink"]:r28,["unsubscribeEmailPreferenceLink"]:r28,["lookupEmailPreferences"]:r29,["createFeedbackReport"]:r30,["getFeedbackReport"]:r30,["listFeedbackReports"]:r30,["completeFile"]:r31,["createFile"]:r31,["getFile"]:r31,["getFraudWarning"]:r32,["listFraudWarnings"]:r32,["createFulfillmentEvent"]:r33,["getFulfillmentEvent"]:r33,["listFulfillmentEvents"]:r33,["getFulfillmentNotification"]:r34,["listFulfillmentNotifications"]:r34,["acceptFulfillment"]:r35,["cancelFulfillment"]:r35,["completeFulfillment"]:r35,["createFulfillment"]:r35,["dispatchFulfillment"]:r35,["failFulfillment"]:r35,["getFulfillment"]:r35,["holdFulfillment"]:r35,["listFulfillments"]:r35,["markFulfillmentNoShow"]:r35,["markFulfillmentPacked"]:r35,["markFulfillmentPicked"]:r35,["markFulfillmentPreparing"]:r35,["markFulfillmentReady"]:r35,["releaseFulfillmentHold"]:r35,["scheduleFulfillment"]:r35,["startFulfillment"]:r35,["updateFulfillment"]:r35,["createGiftCardFundingDisposition"]:r36,["getGiftCardFundingDisposition"]:r36,["listGiftCardFundingDispositions"]:r36,["createGiftCardLoad"]:r37,["getGiftCardLoad"]:r37,["listGiftCardLoads"]:r37,["cancelGiftCardNotification"]:r38,["createGiftCardNotification"]:r38,["getGiftCardNotification"]:r38,["listGiftCardNotifications"]:r38,["cancelGiftCardRedemption"]:r39,["captureGiftCardRedemption"]:r39,["createGiftCardRedemption"]:r39,["getGiftCardRedemption"]:r39,["listGiftCardRedemptions"]:r39,["listGiftCardTransactions"]:r40,["adjustGiftCardBalance"]:r41,["cashOutGiftCard"]:r41,["closeGiftCard"]:r41,["createGiftCard"]:r41,["freezeGiftCard"]:r41,["getGiftCard"]:r41,["listGiftCards"]:r41,["lookupGiftCard"]:r41,["rotateGiftCardCode"]:r41,["unfreezeGiftCard"]:r41,["updateGiftCard"]:r41,["createInventoryAdjustment"]:r42,["getInventoryAdjustment"]:r42,["listInventoryAdjustments"]:r42,["createInventoryAllocationPolicy"]:r43,["deleteInventoryAllocationPolicy"]:r43,["getInventoryAllocationPolicy"]:r43,["getInventoryAllocationPolicyRevision"]:r43,["listInventoryAllocationPolicies"]:r43,["listInventoryAllocationPolicyRevisions"]:r43,["updateInventoryAllocationPolicy"]:r43,["applyInventoryCount"]:r44,["cancelInventoryCount"]:r44,["createInventoryCount"]:r44,["getInventoryCount"]:r44,["listInventoryCounts"]:r44,["updateInventoryCount"]:r44,["createInventoryItem"]:r45,["deleteInventoryItem"]:r45,["getInventoryItem"]:r45,["listInventoryItems"]:r45,["updateInventoryItem"]:r45,["getInventoryLevel"]:r46,["listInventoryLevels"]:r46,["updateInventoryLevel"]:r46,["getInventoryMovement"]:r47,["listInventoryMovements"]:r47,["createInventoryReceipt"]:r48,["getInventoryReceipt"]:r48,["listInventoryReceipts"]:r48,["commitInventoryReservation"]:r49,["consumeInventoryReservation"]:r49,["createInventoryReservation"]:r49,["getInventoryReservation"]:r49,["listInventoryReservations"]:r49,["releaseInventoryReservation"]:r49,["updateInventoryReservation"]:r49,["cancelInventoryTransfer"]:r50,["createInventoryTransfer"]:r50,["departInventoryTransfer"]:r50,["getInventoryTransfer"]:r50,["listInventoryTransfers"]:r50,["receiveInventoryTransfer"]:r50,["reportInventoryTransferLoss"]:r50,["returnInventoryTransferToOrigin"]:r50,["updateInventoryTransfer"]:r50,["createInvoicePaymentTerm"]:r51,["deleteInvoicePaymentTerm"]:r51,["getInvoicePaymentTerm"]:r51,["listInvoicePaymentTerms"]:r51,["updateInvoicePaymentTerm"]:r51,["cancelInvoicePaymentAttempt"]:r52,["collectInvoice"]:r52,["createInvoice"]:r52,["createInvoiceLateFee"]:r52,["createInvoiceManualPayment"]:r52,["getInvoice"]:r52,["getInvoiceManualPayment"]:r52,["getInvoicePaymentAttempt"]:r52,["getInvoicePDF"]:r52,["issueInvoice"]:r52,["listInvoiceActivities"]:r52,["listInvoiceDeliveryAttempts"]:r52,["listInvoiceLateFees"]:r52,["listInvoiceManualPayments"]:r52,["listInvoicePaymentAttempts"]:r52,["listInvoices"]:r52,["markInvoiceUncollectible"]:r52,["regenerateInvoicePublicLink"]:r52,["reverseInvoiceManualPayment"]:r52,["sendInvoiceReminder"]:r52,["updateInvoice"]:r52,["voidInvoice"]:r52,["waiveInvoiceLateFee"]:r52,["createLocation"]:r53,["deleteLocation"]:r53,["getLocation"]:r53,["listLocations"]:r53,["updateLocation"]:r53,["cancelMeReturn"]:r54,["cancelMeSubscription"]:r54,["changeMeSubscriptionPlan"]:r54,["changeMeSubscriptionQuantity"]:r54,["confirmMeEmailChangeRequest"]:r54,["createMeAddress"]:r54,["createMeCheckoutSession"]:r54,["createMeDeletionRequest"]:r54,["createMeEmailChangeRequest"]:r54,["createMeFlintWalletStoreSetup"]:r54,["createMePaymentMethod"]:r54,["createMeReturn"]:r54,["createMeReturnPreview"]:r54,["createMeSubscriptionPaymentRetry"]:r54,["createMeSubscriptionPreview"]:r54,["deleteMeAddress"]:r54,["deleteMePaymentMethod"]:r54,["getMe"]:r54,["getMeAddress"]:r54,["getMeCreditNote"]:r54,["getMeCreditNotePDF"]:r54,["getMeDeletionRequest"]:r54,["getMeEmailChangeRequest"]:r54,["getMeEmailPreferences"]:r54,["getMeFulfillment"]:r54,["getMeGiftCard"]:r54,["getMeInvoice"]:r54,["getMeInvoicePDF"]:r54,["getMeOrder"]:r54,["getMeOrderReceiptPDF"]:r54,["getMePackage"]:r54,["getMePaymentIntent"]:r54,["getMePaymentMethod"]:r54,["getMeRefund"]:r54,["getMeReturn"]:r54,["getMeReturnResolution"]:r54,["getMeShipment"]:r54,["getMeSubscription"]:r54,["getMeSubscriptionPaymentRetry"]:r54,["listMeAddresses"]:r54,["listMeCreditNotes"]:r54,["listMeDeletionRequests"]:r54,["listMeEmailChangeRequests"]:r54,["listMeFlintWalletCards"]:r54,["listMeFulfillmentEvents"]:r54,["listMeFulfillments"]:r54,["listMeGiftCards"]:r54,["listMeGiftCardTransactions"]:r54,["listMeInvoices"]:r54,["listMeOrderActivities"]:r54,["listMeOrders"]:r54,["listMePackages"]:r54,["listMePaymentIntents"]:r54,["listMePaymentMethods"]:r54,["listMeRefunds"]:r54,["listMeRememberedBuyers"]:r54,["listMeReturns"]:r54,["listMeShipments"]:r54,["listMeSubscriptionPaymentRetries"]:r54,["listMeSubscriptions"]:r54,["listMeTickets"]:r54,["pauseMeSubscription"]:r54,["removeMeGiftCard"]:r54,["renewMeSubscription"]:r54,["resumeMeSubscription"]:r54,["revokeMeRememberedBuyer"]:r54,["revokeMeSession"]:r54,["saveMeGiftCard"]:r54,["sendMeOrderReceipt"]:r54,["skipMeSubscriptionCycle"]:r54,["updateMe"]:r54,["updateMeAddress"]:r54,["updateMeEmailPreferences"]:r54,["updateMeSubscription"]:r54,["updateMeSubscriptionLineItem"]:r54,["getMerchant"]:r55,["updateMerchant"]:r55,["createMerchantAccountSession"]:r56,["refreshMerchantAccountSession"]:r56,["getMerchantBillingBalance"]:r57,["listMerchantBillingBalances"]:r57,["listMerchantBillingEntries"]:r58,["getMerchantBillingInvoice"]:r59,["listMerchantBillingInvoices"]:r59,["cancelMerchantSignup"]:r60,["createMerchantSignup"]:r60,["getMerchantSignup"]:r60,["listMerchantSignups"]:r60,["resendMerchantSignupCode"]:r60,["rotateMerchantSignupAuthorizationCodes"]:r60,["verifyMerchantSignup"]:r60,["createModifierGroup"]:r61,["deleteModifierGroup"]:r61,["getModifierGroup"]:r61,["listModifierGroups"]:r61,["updateModifierGroup"]:r61,["createModifierSet"]:r62,["deleteModifierSet"]:r62,["getModifierSet"]:r62,["listModifierSets"]:r62,["updateModifierSet"]:r62,["authorizeCLIDevice"]:r63,["exchangeOAuthToken"]:r63,["listCLIContexts"]:r63,["previewPartnerInstallAuthorization"]:r63,["reauthorizeCLIDevice"]:r63,["revokeOAuthToken"]:r63,["advanceOnboarding"]:r64,["createOnboardingAccessLink"]:r64,["getOnboardingState"]:r64,["startOnboarding"]:r64,["verifyOnboardingEmail"]:r64,["getOpenAPISpec"]:r65,["createOrderEditPreview"]:r66,["applyOrderDiscount"]:r67,["applyOrderGiftCard"]:r67,["cancelOrderPaymentAttempt"]:r67,["closeOrder"]:r67,["createOrder"]:r67,["createOrderAccessLink"]:r67,["createOrderCharge"]:r67,["createOrderEdit"]:r67,["createOrderLineItems"]:r67,["deleteOrderCharge"]:r67,["deleteOrderLineItem"]:r67,["getOrder"]:r67,["getOrderEdit"]:r67,["getOrderPaymentAttempt"]:r67,["getOrderReceiptPDF"]:r67,["listOrderActivities"]:r67,["listOrderCharges"]:r67,["listOrderEdits"]:r67,["listOrderLineItems"]:r67,["listOrderPaymentAttempts"]:r67,["listOrders"]:r67,["payOrder"]:r67,["removeOrderDiscounts"]:r67,["removeOrderGiftCard"]:r67,["repriceOrderDiscounts"]:r67,["resolveOrderInventoryException"]:r67,["retryOrderEditRefund"]:r67,["sendOrderReceipt"]:r67,["updateOrder"]:r67,["updateOrderCharge"]:r67,["updateOrderLineItem"]:r67,["createPackage"]:r68,["createPackageItem"]:r68,["deletePackageItem"]:r68,["getPackage"]:r68,["getPackageItem"]:r68,["listPackageItems"]:r68,["listPackages"]:r68,["markPackageDelivered"]:r68,["markPackageDeliveryAttempted"]:r68,["markPackageException"]:r68,["markPackageInTransit"]:r68,["markPackageOutForDelivery"]:r68,["markPackagePacked"]:r68,["markPackageReturned"]:r68,["markPackageShipped"]:r68,["updatePackage"]:r68,["updatePackageItem"]:r68,["voidPackage"]:r68,["listMerchantPartnerAppInstalls"]:r69,["revokeMerchantPartnerAppInstall"]:r69,["acceptPartnerAppPlatformTerms"]:r70,["createPartnerApp"]:r70,["createPartnerAppCredential"]:r70,["deletePartnerApp"]:r70,["deletePartnerAppCredential"]:r70,["getPartnerApp"]:r70,["getPartnerAppCredential"]:r70,["getPartnerAppInstall"]:r70,["listPartnerAppCredentials"]:r70,["listPartnerAppInstalls"]:r70,["listPartnerApps"]:r70,["revokePartnerAppEnvironmentGrant"]:r70,["revokePartnerAppInstall"]:r70,["rotatePartnerAppSecret"]:r70,["updatePartnerApp"]:r70,["cancelPaymentIntent"]:r71,["capturePaymentIntent"]:r71,["confirmPaymentIntent"]:r71,["createPaymentIntent"]:r71,["getPaymentIntent"]:r71,["listPaymentIntentActivities"]:r71,["listPaymentIntents"]:r71,["sendPaymentIntentReceipt"]:r71,["updatePaymentIntent"]:r71,["createPaymentLink"]:r72,["getPaymentLink"]:r72,["getPaymentLinkPublic"]:r72,["listPaymentLinks"]:r72,["resolvePaymentLink"]:r72,["updatePaymentLink"]:r72,["createPaymentMethodDomain"]:r73,["getPaymentMethodDomain"]:r73,["listPaymentMethodDomains"]:r73,["updatePaymentMethodDomain"]:r73,["createPaymentMethod"]:r74,["deletePaymentMethod"]:r74,["getPaymentMethod"]:r74,["listPaymentMethods"]:r74,["approvePaymentReview"]:r75,["declinePaymentReview"]:r75,["getPaymentReview"]:r75,["listPaymentReviews"]:r75,["getPaymentSplit"]:r76,["listPaymentSplits"]:r76,["deletePayoutDestination"]:r77,["getPayoutDestination"]:r77,["listPayoutDestinations"]:r77,["updatePayoutDestination"]:r77,["getPayoutSettings"]:r78,["updatePayoutSettings"]:r78,["cancelPayout"]:r79,["createPayout"]:r79,["getPayout"]:r79,["listPayouts"]:r79,["getPlatformFeeBalanceTransaction"]:r80,["listPlatformFeeBalanceTransactions"]:r80,["listPlatformFeeBalances"]:r81,["getPlatformFeePayout"]:r82,["listPlatformFeePayouts"]:r82,["getPlatformFee"]:r83,["listPlatformFees"]:r83,["createPriceList"]:r84,["createPriceListPrices"]:r84,["deletePriceList"]:r84,["deletePriceListPrice"]:r84,["getPriceList"]:r84,["getPriceListPrice"]:r84,["listPriceListPrices"]:r84,["listPriceLists"]:r84,["updatePriceList"]:r84,["updatePriceListPrice"]:r84,["createProduct"]:r85,["createProductVariant"]:r85,["deleteProduct"]:r85,["deleteProductVariant"]:r85,["getProduct"]:r85,["getProductOption"]:r85,["getProductVariant"]:r85,["listProductOptions"]:r85,["listProducts"]:r85,["listProductVariants"]:r85,["updateProduct"]:r85,["updateProductVariant"]:r85,["createPromotionCode"]:r86,["deletePromotionCode"]:r86,["getPromotionCode"]:r86,["listPromotionCodes"]:r86,["updatePromotionCode"]:r86,["createPromotion"]:r87,["deletePromotion"]:r87,["getPromotion"]:r87,["listPromotions"]:r87,["updatePromotion"]:r87,["createReader"]:r88,["createReaderConnectionSession"]:r88,["deleteReader"]:r88,["getReader"]:r88,["listReaders"]:r88,["simulateReader"]:r88,["updateReader"]:r88,["createRefund"]:r89,["getRefund"]:r89,["listRefunds"]:r89,["updateRefund"]:r89,["lookupRememberedBuyer"]:r90,["revokeRememberedBuyer"]:r90,["getReportDownload"]:r91,["createReport"]:r92,["getReport"]:r92,["listReports"]:r92,["getResourceTimeline"]:r93,["cancelReturnDisposition"]:r94,["createReturnDisposition"]:r94,["getReturnDisposition"]:r94,["listReturnDispositions"]:r94,["retryReturnDisposition"]:r94,["createReturnInspection"]:r95,["decideReturnInspectionLineItem"]:r95,["getReturnInspection"]:r95,["listReturnInspections"]:r95,["createReturnPolicy"]:r96,["createReturnPolicyRevision"]:r96,["deleteReturnPolicy"]:r96,["getReturnPolicy"]:r96,["getReturnPolicyRevision"]:r96,["listReturnPolicies"]:r96,["listReturnPolicyRevisions"]:r96,["updateReturnPolicy"]:r96,["createReturnPreview"]:r97,["createReturnReason"]:r98,["deleteReturnReason"]:r98,["getReturnReason"]:r98,["listReturnReasons"]:r98,["updateReturnReason"]:r98,["createReturnReceipt"]:r99,["getReturnReceipt"]:r99,["listReturnReceipts"]:r99,["verifyReturnReceiptLineItem"]:r99,["cancelReturnResolution"]:r100,["confirmReturnResolution"]:r100,["createReturnResolution"]:r100,["getReturnResolution"]:r100,["listReturnResolutions"]:r100,["releaseReturnResolution"]:r100,["retryReturnResolution"]:r100,["updateReturnResolution"]:r100,["cancelReturn"]:r101,["cancelReturnLineItem"]:r101,["completeReturn"]:r101,["createReturn"]:r101,["createReturnAccessLink"]:r101,["createReturnLineItem"]:r101,["decideReturn"]:r101,["deleteReturnLineItem"]:r101,["getReturn"]:r101,["getReturnLineItem"]:r101,["listReturnActivities"]:r101,["listReturnLineItems"]:r101,["listReturns"]:r101,["processReturn"]:r101,["reopenReturn"]:r101,["updateReturn"]:r101,["updateReturnLineItem"]:r101,["waiveReturnLineItemInspection"]:r101,["createRiskList"]:r102,["createRiskListItems"]:r102,["deleteRiskList"]:r102,["deleteRiskListItem"]:r102,["getRiskList"]:r102,["getRiskListItem"]:r102,["listRiskListItems"]:r102,["listRiskLists"]:r102,["updateRiskList"]:r102,["createRiskPreview"]:r103,["createRiskRule"]:r104,["deleteRiskRule"]:r104,["getRiskRule"]:r104,["getRiskRuleAttributes"]:r104,["listRiskRules"]:r104,["updateRiskRule"]:r104,["createSandbox"]:r105,["deleteSandbox"]:r105,["getSandbox"]:r105,["listSandboxes"]:r105,["resetSandbox"]:r105,["getEffectiveSettings"]:r106,["getSettings"]:r106,["updateSettings"]:r106,["createShipment"]:r107,["getShipment"]:r107,["listShipments"]:r107,["updateShipment"]:r107,["voidShipment"]:r107,["createSubscriptionDeliveryMigration"]:r108,["getSubscriptionDeliveryMigration"]:r108,["listSubscriptionDeliveryMigrationFailures"]:r108,["listSubscriptionDeliveryMigrations"]:r108,["createSubscriptionOffer"]:r109,["deleteSubscriptionOffer"]:r109,["getSubscriptionOffer"]:r109,["listSubscriptionOffers"]:r109,["updateSubscriptionOffer"]:r109,["createSubscriptionPlan"]:r110,["deleteSubscriptionPlan"]:r110,["getSubscriptionPlan"]:r110,["listSubscriptionPlans"]:r110,["updateSubscriptionPlan"]:r110,["createSubscriptionPreview"]:r111,["applySubscriptionPromotion"]:r112,["cancelSubscription"]:r112,["changeSubscriptionPlan"]:r112,["changeSubscriptionQuantity"]:r112,["createSubscription"]:r112,["createSubscriptionAccessLink"]:r112,["createSubscriptionLineItem"]:r112,["createSubscriptionPaymentRetry"]:r112,["deleteSubscriptionLineItem"]:r112,["getSubscription"]:r112,["getSubscriptionPaymentRetry"]:r112,["listSubscriptionLineItems"]:r112,["listSubscriptionPaymentRetries"]:r112,["listSubscriptions"]:r112,["pauseSubscription"]:r112,["removeSubscriptionPromotions"]:r112,["renewSubscription"]:r112,["resumeSubscription"]:r112,["skipSubscriptionCycle"]:r112,["updateSubscription"]:r112,["updateSubscriptionLineItem"]:r112,["checkTaxCalculationCallbackConnection"]:r113,["createTaxCalculationCallback"]:r113,["createTaxCalculationCallbackTestDelivery"]:r113,["deleteTaxCalculationCallback"]:r113,["getTaxCalculationCallback"]:r113,["listTaxCalculationCallbacks"]:r113,["rotateTaxCalculationCallbackSecret"]:r113,["updateTaxCalculationCallback"]:r113,["connectTaxConnection"]:r114,["createTaxRegistration"]:r114,["deleteTaxRegistration"]:r114,["disconnectTaxConnection"]:r114,["getTaxConnection"]:r114,["getTaxRegistration"]:r114,["listTaxRegistrations"]:r114,["updateTaxRegistration"]:r114,["advanceTestClock"]:r115,["createTestClock"]:r115,["deleteTestClock"]:r115,["getTestClock"]:r115,["listTestClocks"]:r115,["checkInTicket"]:r116,["getTicket"]:r116,["listTickets"]:r116,["lookupTicket"]:r116,["rotateTicketCode"]:r116,["undoTicketCheckIn"]:r116,["updateTicket"]:r116,["voidTicket"]:r116,["createWebhookDelivery"]:r117,["getWebhookDelivery"]:r117,["listWebhookDeliveries"]:r117,["listWebhookDeliveryAttempts"]:r117,["resendWebhookDelivery"]:r117,["createWebhookEndpoint"]:r118,["createWebhookTestEvent"]:r118,["deleteWebhookEndpoint"]:r118,["getWebhookEndpoint"]:r118,["listWebhookEndpoints"]:r118,["rotateWebhookEndpointSecret"]:r118,["signWebhookEndpointDelivery"]:r118,["updateWebhookEndpoint"]:r118,["listWebhookEventTypes"]:r119,["getWebhookEvent"]:r120,["listWebhookEvents"]:r120,["streamWebhookEvents"]:r120,["createWorkloadIdentity"]:r121,["deleteWorkloadIdentity"]:r121,["getWorkloadIdentity"]:r121,["listWorkloadIdentities"]:r121,["updateWorkloadIdentity"]:r121}, webhook);
 
 export class Client {
   #runtime;
@@ -180,6 +189,8 @@ export class Client {
       list: async (params, options) => this.#runtime.request("listAPIKeys", _sdkRequestInput([], [], [
   "partner_app_install_id",
   "status",
+  "created_by_type",
+  "created_by_id",
   "page_size",
   "page_token",
   "sort_by",
@@ -195,6 +206,8 @@ export class Client {
       listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listAPIKeys", _sdkRequestInput([], [], [
   "partner_app_install_id",
   "status",
+  "created_by_type",
+  "created_by_id",
   "page_size",
   "page_token",
   "sort_by",
@@ -210,6 +223,8 @@ export class Client {
       listItems: (params, options) => this.#runtime.items("listAPIKeys", _sdkRequestInput([], [], [
   "partner_app_install_id",
   "status",
+  "created_by_type",
+  "created_by_id",
   "page_size",
   "page_token",
   "sort_by",
@@ -249,6 +264,7 @@ export class Client {
   "page_token",
   "caller_type",
   "caller_id",
+  "customer_id",
   "partner_app_id",
   "request_id",
   "client_request_id",
@@ -269,6 +285,7 @@ export class Client {
   "page_token",
   "caller_type",
   "caller_id",
+  "customer_id",
   "partner_app_id",
   "request_id",
   "client_request_id",
@@ -289,6 +306,7 @@ export class Client {
   "page_token",
   "caller_type",
   "caller_id",
+  "customer_id",
   "partner_app_id",
   "request_id",
   "client_request_id",
@@ -701,40 +719,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCheckoutSessionCustomerVerification", result, path))),
-      createDeliveryQuote: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionDeliveryQuote", _sdkRequestInput([
-  "checkout_session_id"
-], [checkout_session_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCheckoutSessionDeliveryQuote", result, path))),
-      createDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("createCheckoutSessionDeliverySelection", _sdkRequestInput([
-  "checkout_session_id"
-], [checkout_session_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCheckoutSessionDeliverySelection", result, path))),
-      deleteCurrentDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("deleteCheckoutSessionCurrentDeliverySelection", _sdkRequestInput([
-  "checkout_session_id"
-], [checkout_session_id], [
-  "expected_delivery_selection_id",
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], false, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteCheckoutSessionCurrentDeliverySelection", result, path))),
       get: async (checkout_session_id, params, options) => this.#runtime.request("getCheckoutSession", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
@@ -746,70 +730,36 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSession", result, path))),
-      getCurrentDeliverySelection: async (checkout_session_id, params, options) => this.#runtime.request("getCheckoutSessionCurrentDeliverySelection", _sdkRequestInput([
-  "checkout_session_id"
-], [checkout_session_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], false, false, params, [
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionCurrentDeliverySelection", result, path))),
-      getDeliveryQuote: async (checkout_session_id, delivery_quote_id, params, options) => this.#runtime.request("getCheckoutSessionDeliveryQuote", _sdkRequestInput([
+      getCustomerVerification: async (checkout_session_id, checkout_session_customer_verification_id, params, options) => this.#runtime.request("getCheckoutSessionCustomerVerification", _sdkRequestInput([
   "checkout_session_id",
-  "delivery_quote_id"
-], [checkout_session_id, delivery_quote_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], false, false, params, [
+  "checkout_session_customer_verification_id"
+], [checkout_session_id, checkout_session_customer_verification_id], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionDeliveryQuote", result, path))),
-      getDeliverySelection: async (checkout_session_id, delivery_selection_id, params, options) => this.#runtime.request("getCheckoutSessionDeliverySelection", _sdkRequestInput([
-  "checkout_session_id",
-  "delivery_selection_id"
-], [checkout_session_id, delivery_selection_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], false, false, params, [
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionDeliverySelection", result, path))),
-      listDeliverySelections: async (checkout_session_id, params, options) => this.#runtime.request("listCheckoutSessionDeliverySelections", _sdkRequestInput([
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCheckoutSessionCustomerVerification", result, path))),
+      listCustomerVerifications: async (checkout_session_id, params, options) => this.#runtime.request("listCheckoutSessionCustomerVerifications", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
   "page_size",
-  "page_token",
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
+  "page_token"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listCheckoutSessionDeliverySelections", result, path))),
-      listDeliverySelectionsPages: (checkout_session_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCheckoutSessionDeliverySelections", _sdkRequestInput([
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listCheckoutSessionCustomerVerifications", result, path))),
+      listCustomerVerificationsPages: (checkout_session_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCheckoutSessionCustomerVerifications", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
   "page_size",
-  "page_token",
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
+  "page_token"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
-]), options), [], (result, path) => this.#runtime.decodePayload("listCheckoutSessionDeliverySelections", result, path)),
-      listDeliverySelectionsItems: (checkout_session_id, params, options) => this.#runtime.items("listCheckoutSessionDeliverySelections", _sdkRequestInput([
+]), options), [], (result, path) => this.#runtime.decodePayload("listCheckoutSessionCustomerVerifications", result, path)),
+      listCustomerVerificationsItems: (checkout_session_id, params, options) => this.#runtime.items("listCheckoutSessionCustomerVerifications", _sdkRequestInput([
   "checkout_session_id"
 ], [checkout_session_id], [
   "page_size",
-  "page_token",
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
+  "page_token"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -1266,8 +1216,50 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerVerification", result, path))),
+      get: async (customer_verification_id, params, options) => this.#runtime.request("getCustomerVerification", _sdkRequestInput([
+  "customer_verification_id"
+], [customer_verification_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerVerification", result, path))),
+      list: async (params, options) => this.#runtime.request("listCustomerVerifications", _sdkRequestInput([], [], [
+  "customer_id",
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listCustomerVerifications", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listCustomerVerifications", _sdkRequestInput([], [], [
+  "customer_id",
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listCustomerVerifications", result, path)),
+      listItems: (params, options) => this.#runtime.items("listCustomerVerifications", _sdkRequestInput([], [], [
+  "customer_id",
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
     });
     this.customers = Object.freeze({
+      cancelEmailChangeRequest: async (customer_id, email_change_request_id, params, options) => this.#runtime.request("cancelCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id",
+  "email_change_request_id"
+], [customer_id, email_change_request_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelCustomerEmailChangeRequest", result, path))),
       create: async (params, options) => this.#runtime.request("createCustomer", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
@@ -1295,6 +1287,17 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerAddress", result, path))),
+      createEmailChangeRequest: async (customer_id, params, options) => this.#runtime.request("createCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createCustomerEmailChangeRequest", result, path))),
       createTaxExemption: async (customer_id, params, options) => this.#runtime.request("createCustomerTaxExemption", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [], true, true, params, [
@@ -1347,6 +1350,17 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerAddress", result, path))),
+      getEmailChangeRequest: async (customer_id, email_change_request_id, params, options) => this.#runtime.request("getCustomerEmailChangeRequest", _sdkRequestInput([
+  "customer_id",
+  "email_change_request_id"
+], [customer_id, email_change_request_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getCustomerEmailChangeRequest", result, path))),
       getEmailPreferences: async (customer_id, params, options) => this.#runtime.request("getCustomerEmailPreferences", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
@@ -1398,6 +1412,45 @@ export class Client {
       listAddressesItems: (customer_id, params, options) => this.#runtime.items("listCustomerAddresses", _sdkRequestInput([
   "customer_id"
 ], [customer_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listEmailChangeRequests: async (customer_id, params, options) => this.#runtime.request("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listCustomerEmailChangeRequests", result, path))),
+      listEmailChangeRequestsPages: (customer_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listCustomerEmailChangeRequests", result, path)),
+      listEmailChangeRequestsItems: (customer_id, params, options) => this.#runtime.items("listCustomerEmailChangeRequests", _sdkRequestInput([
+  "customer_id"
+], [customer_id], [
+  "status",
   "page_size",
   "page_token",
   "Flint-Merchant-Id",
@@ -1853,6 +1906,15 @@ export class Client {
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateDeliveryProfile", result, path))),
     });
     this.deliveryQuotes = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createDeliveryQuote", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliveryQuote", result, path))),
       get: async (delivery_quote_id, params, options) => this.#runtime.request("getDeliveryQuote", _sdkRequestInput([
   "delivery_quote_id"
 ], [delivery_quote_id], [
@@ -2008,7 +2070,7 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
-      rotateSecret: async (delivery_rate_callback_id, params, options) => this.#runtime.request("rotateDeliveryRateCallbackSigningKey", _sdkRequestInput([
+      rotateSecret: async (delivery_rate_callback_id, params, options) => this.#runtime.request("rotateDeliveryRateCallbackSecret", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
   "Flint-Merchant-Id",
@@ -2018,7 +2080,7 @@ export class Client {
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateDeliveryRateCallbackSigningKey", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateDeliveryRateCallbackSecret", result, path))),
       update: async (delivery_rate_callback_id, params, options) => this.#runtime.request("updateDeliveryRateCallback", _sdkRequestInput([
   "delivery_rate_callback_id"
 ], [delivery_rate_callback_id], [
@@ -2093,6 +2155,77 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+    });
+    this.deliverySelections = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createDeliverySelection", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createDeliverySelection", result, path))),
+      get: async (delivery_selection_id, params, options) => this.#runtime.request("getDeliverySelection", _sdkRequestInput([
+  "delivery_selection_id"
+], [delivery_selection_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getDeliverySelection", result, path))),
+      list: async (params, options) => this.#runtime.request("listDeliverySelections", _sdkRequestInput([], [], [
+  "checkout_session_id",
+  "order_id",
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listDeliverySelections", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listDeliverySelections", _sdkRequestInput([], [], [
+  "checkout_session_id",
+  "order_id",
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listDeliverySelections", result, path)),
+      listItems: (params, options) => this.#runtime.items("listDeliverySelections", _sdkRequestInput([], [], [
+  "checkout_session_id",
+  "order_id",
+  "status",
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      release: async (delivery_selection_id, params, options) => this.#runtime.request("releaseDeliverySelection", _sdkRequestInput([
+  "delivery_selection_id"
+], [delivery_selection_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("releaseDeliverySelection", result, path))),
     });
     this.deliveryZones = Object.freeze({
       create: async (params, options) => this.#runtime.request("createDeliveryZone", _sdkRequestInput([], [], [
@@ -2543,6 +2676,15 @@ export class Client {
 ]), options),
     });
     this.fulfillmentEvents = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createFulfillmentEvent", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillmentEvent", result, path))),
       get: async (fulfillment_event_id, params, options) => this.#runtime.request("getFulfillmentEvent", _sdkRequestInput([
   "fulfillment_event_id"
 ], [fulfillment_event_id], [
@@ -2719,9 +2861,7 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("completeFulfillment", result, path))),
-      createEvent: async (fulfillment_id, params, options) => this.#runtime.request("createFulfillmentEvent", _sdkRequestInput([
-  "fulfillment_id"
-], [fulfillment_id], [
+      create: async (params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
@@ -2729,18 +2869,7 @@ export class Client {
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillmentEvent", result, path))),
-      createShipment: async (fulfillment_id, params, options) => this.#runtime.request("createShipment", _sdkRequestInput([
-  "fulfillment_id"
-], [fulfillment_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createShipment", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillment", result, path))),
       dispatch: async (fulfillment_id, params, options) => this.#runtime.request("dispatchFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
@@ -2792,6 +2921,7 @@ export class Client {
   "order_id",
   "customer_id",
   "external_reference_id",
+  "idempotency_key",
   "query",
   "status",
   "type",
@@ -2816,6 +2946,7 @@ export class Client {
   "order_id",
   "customer_id",
   "external_reference_id",
+  "idempotency_key",
   "query",
   "status",
   "type",
@@ -2840,6 +2971,7 @@ export class Client {
   "order_id",
   "customer_id",
   "external_reference_id",
+  "idempotency_key",
   "query",
   "status",
   "type",
@@ -2948,7 +3080,6 @@ export class Client {
       update: async (fulfillment_id, params, options) => this.#runtime.request("updateFulfillment", _sdkRequestInput([
   "fulfillment_id"
 ], [fulfillment_id], [
-  "expand",
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
@@ -4589,17 +4720,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoice", result, path))),
-      createCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createInvoiceCheckoutSession", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createInvoiceCheckoutSession", result, path))),
       createLateFee: async (invoice_id, params, options) => this.#runtime.request("createInvoiceLateFee", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
@@ -4743,6 +4863,42 @@ export class Client {
   "X-Request-Id"
 ]), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceDeliveryAttempts", result, path)),
       listDeliveryAttemptsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceDeliveryAttempts", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listLateFees: async (invoice_id, params, options) => this.#runtime.request("listInvoiceLateFees", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceLateFees", result, path))),
+      listLateFeesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceLateFees", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceLateFees", result, path)),
+      listLateFeesItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceLateFees", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",
@@ -5135,6 +5291,11 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeAddress", result, path))),
+      createCheckoutSession: async (params, options) => this.#runtime.request("createMeCheckoutSession", _sdkRequestInput([], [], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeCheckoutSession", result, path))),
       createDeletionRequest: async (params, options) => this.#runtime.request("createMeDeletionRequest", _sdkRequestInput([], [], [], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -5152,13 +5313,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeFlintWalletStoreSetup", result, path))),
-      createInvoiceCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createMeInvoiceCheckoutSession", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeInvoiceCheckoutSession", result, path))),
       createPaymentMethod: async (params, options) => this.#runtime.request("createMePaymentMethod", _sdkRequestInput([], [], [], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -5173,13 +5327,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeReturnPreview", result, path))),
-      createReturnResolutionCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
-  "return_resolution_id"
-], [return_resolution_id], [], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeReturnResolutionCheckoutSession", result, path))),
       createSubscriptionPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [], true, false, params, [
@@ -5217,17 +5364,15 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeAddress", result, path))),
-      getCreditNote: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
-  "invoice_id",
+      getCreditNote: async (credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
   "credit_note_id"
-], [invoice_id, credit_note_id], [], false, false, params, [
+], [credit_note_id], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeCreditNote", result, path))),
-      getCreditNotePDF: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNotePDF", _sdkRequestInput([
-  "invoice_id",
+      getCreditNotePDF: async (credit_note_id, params, options) => this.#runtime.request("getMeCreditNotePDF", _sdkRequestInput([
   "credit_note_id"
-], [invoice_id, credit_note_id], [], false, false, params, [
+], [credit_note_id], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
@@ -5237,6 +5382,12 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeDeletionRequest", result, path))),
+      getEmailChangeRequest: async (email_change_request_id, params, options) => this.#runtime.request("getMeEmailChangeRequest", _sdkRequestInput([
+  "email_change_request_id"
+], [email_change_request_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeEmailChangeRequest", result, path))),
       getEmailPreferences: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -5353,31 +5504,28 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
-      listCreditNotes: async (invoice_id, params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotes: async (params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeCreditNotes", result, path))),
-      listCreditNotesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options), [], (result, path) => this.#runtime.decodePayload("listMeCreditNotes", result, path)),
-      listCreditNotesItems: (invoice_id, params, options) => this.#runtime.items("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotesItems: (params, options) => this.#runtime.items("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
@@ -5401,6 +5549,27 @@ export class Client {
 ]), options), [], (result, path) => this.#runtime.decodePayload("listMeDeletionRequests", result, path)),
       listDeletionRequestsItems: (params, options) => this.#runtime.items("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listEmailChangeRequests: async (params, options) => this.#runtime.request("listMeEmailChangeRequests", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeEmailChangeRequests", result, path))),
+      listEmailChangeRequestsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeEmailChangeRequests", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listMeEmailChangeRequests", result, path)),
+      listEmailChangeRequestsItems: (params, options) => this.#runtime.items("listMeEmailChangeRequests", _sdkRequestInput([], [], [
   "page_size",
   "page_token"
 ], false, false, params, [
@@ -5630,6 +5799,7 @@ export class Client {
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_invoice",
   "origin",
   "query",
   "subscription_id",
@@ -5656,6 +5826,7 @@ export class Client {
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_invoice",
   "origin",
   "query",
   "subscription_id",
@@ -5682,6 +5853,7 @@ export class Client {
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_invoice",
   "origin",
   "query",
   "subscription_id",
@@ -5894,6 +6066,10 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+      listRememberedBuyers: async (params, options) => this.#runtime.request("listMeRememberedBuyers", _sdkRequestInput([], [], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeRememberedBuyers", result, path))),
       listReturns: async (params, options) => this.#runtime.request("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -6144,6 +6320,13 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resumeMeSubscription", result, path))),
+      revokeRememberedBuyer: async (remembered_buyer_id, params, options) => this.#runtime.request("revokeMeRememberedBuyer", _sdkRequestInput([
+  "remembered_buyer_id"
+], [remembered_buyer_id], [], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeMeRememberedBuyer", result, path))),
       revokeSession: async (params, options) => this.#runtime.request("revokeMeSession", _sdkRequestInput([], [], [], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -6336,6 +6519,86 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+    });
+    this.merchantSignups = Object.freeze({
+      cancel: async (merchant_signup_id, params, options) => this.#runtime.request("cancelMerchantSignup", _sdkRequestInput([
+  "merchant_signup_id"
+], [merchant_signup_id], [], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelMerchantSignup", result, path))),
+      create: async (params, options) => this.#runtime.request("createMerchantSignup", _sdkRequestInput([], [], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMerchantSignup", result, path))),
+      get: async (merchant_signup_id, params, options) => this.#runtime.request("getMerchantSignup", _sdkRequestInput([
+  "merchant_signup_id"
+], [merchant_signup_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMerchantSignup", result, path))),
+      list: async (params, options) => this.#runtime.request("listMerchantSignups", _sdkRequestInput([], [], [
+  "partner_app_id",
+  "external_reference_id",
+  "owner_email",
+  "status",
+  "created_after",
+  "created_before",
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMerchantSignups", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMerchantSignups", _sdkRequestInput([], [], [
+  "partner_app_id",
+  "external_reference_id",
+  "owner_email",
+  "status",
+  "created_after",
+  "created_before",
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listMerchantSignups", result, path)),
+      listItems: (params, options) => this.#runtime.items("listMerchantSignups", _sdkRequestInput([], [], [
+  "partner_app_id",
+  "external_reference_id",
+  "owner_email",
+  "status",
+  "created_after",
+  "created_before",
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      resendCode: async (merchant_signup_id, params, options) => this.#runtime.request("resendMerchantSignupCode", _sdkRequestInput([
+  "merchant_signup_id"
+], [merchant_signup_id], [], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resendMerchantSignupCode", result, path))),
+      rotateAuthorizationCodes: async (merchant_signup_id, params, options) => this.#runtime.request("rotateMerchantSignupAuthorizationCodes", _sdkRequestInput([
+  "merchant_signup_id"
+], [merchant_signup_id], [], true, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateMerchantSignupAuthorizationCodes", result, path))),
+      verify: async (merchant_signup_id, params, options) => this.#runtime.request("verifyMerchantSignup", _sdkRequestInput([
+  "merchant_signup_id"
+], [merchant_signup_id], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("verifyMerchantSignup", result, path))),
     });
     this.modifierGroups = Object.freeze({
       create: async (params, options) => this.#runtime.request("createModifierGroup", _sdkRequestInput([], [], [
@@ -6588,11 +6851,15 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("advanceOnboarding", result, path))),
-      createAPIKey: async (params, options) => this.#runtime.request("createOnboardingAPIKey", _sdkRequestInput([], [], [], true, true, params, [
+      createAccessLink: async (params, options) => this.#runtime.request("createOnboardingAccessLink", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOnboardingAPIKey", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOnboardingAccessLink", result, path))),
       getState: async (params, options) => this.#runtime.request("getOnboardingState", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
@@ -6677,17 +6944,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("closeOrder", result, path))),
-      createFulfillment: async (order_id, params, options) => this.#runtime.request("createFulfillment", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createFulfillment", result, path))),
       create: async (params, options) => this.#runtime.request("createOrder", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
@@ -6741,17 +6997,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrderLineItems", result, path))),
-      createPaymentIntent: async (order_id, params, options) => this.#runtime.request("createOrderPaymentIntent", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrderPaymentIntent", result, path))),
       deleteCharge: async (order_id, order_charge_id, params, options) => this.#runtime.request("deleteOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
@@ -6789,16 +7034,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrder", result, path))),
-      getCurrentDeliverySelection: async (order_id, params, options) => this.#runtime.request("getOrderCurrentDeliverySelection", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], false, false, params, [
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getOrderCurrentDeliverySelection", result, path))),
       getEdit: async (order_id, order_edit_id, params, options) => this.#runtime.request("getOrderEdit", _sdkRequestInput([
   "order_id",
   "order_edit_id"
@@ -6873,6 +7108,42 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+      listCharges: async (order_id, params, options) => this.#runtime.request("listOrderCharges", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listOrderCharges", result, path))),
+      listChargesPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderCharges", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listOrderCharges", result, path)),
+      listChargesItems: (order_id, params, options) => this.#runtime.items("listOrderCharges", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listEdits: async (order_id, params, options) => this.#runtime.request("listOrderEdits", _sdkRequestInput([
   "order_id"
 ], [order_id], [
@@ -6908,6 +7179,42 @@ export class Client {
   "page_token",
   "created_after",
   "created_before",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listLineItems: async (order_id, params, options) => this.#runtime.request("listOrderLineItems", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listOrderLineItems", result, path))),
+      listLineItemsPages: (order_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listOrderLineItems", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listOrderLineItems", result, path)),
+      listLineItemsItems: (order_id, params, options) => this.#runtime.items("listOrderLineItems", _sdkRequestInput([
+  "order_id"
+], [order_id], [
+  "page_size",
+  "page_token",
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
@@ -6970,6 +7277,7 @@ export class Client {
   "order_number",
   "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
+  "has_invoice",
   "has_open_fulfillment",
   "external_reference_id",
   "origin",
@@ -7012,6 +7320,7 @@ export class Client {
   "order_number",
   "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
+  "has_invoice",
   "has_open_fulfillment",
   "external_reference_id",
   "origin",
@@ -7054,6 +7363,7 @@ export class Client {
   "order_number",
   "has_backordered_quantity",
   "has_unassigned_fulfillment_quantity",
+  "has_invoice",
   "has_open_fulfillment",
   "external_reference_id",
   "origin",
@@ -7198,6 +7508,15 @@ export class Client {
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateOrderLineItem", result, path))),
     });
     this.packages = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createPackage", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPackage", result, path))),
       createItem: async (package_id, params, options) => this.#runtime.request("createPackageItem", _sdkRequestInput([
   "package_id"
 ], [package_id], [
@@ -7718,7 +8037,7 @@ export class Client {
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
-], true, true, params, [
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -7727,7 +8046,7 @@ export class Client {
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
-], true, true, params, [
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -8245,6 +8564,62 @@ export class Client {
   "X-Request-Id"
 ]), options),
     });
+    this.paymentSplits = Object.freeze({
+      get: async (payment_split_id, params, options) => this.#runtime.request("getPaymentSplit", _sdkRequestInput([
+  "payment_split_id"
+], [payment_split_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPaymentSplit", result, path))),
+      list: async (params, options) => this.#runtime.request("listPaymentSplits", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "payment_intent_id",
+  "collecting_merchant_id",
+  "seller_merchant_id",
+  "partner_app_id",
+  "partner_app_install_id",
+  "external_reference_id",
+  "status",
+  "created_after",
+  "created_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPaymentSplits", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPaymentSplits", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "payment_intent_id",
+  "collecting_merchant_id",
+  "seller_merchant_id",
+  "partner_app_id",
+  "partner_app_install_id",
+  "external_reference_id",
+  "status",
+  "created_after",
+  "created_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listPaymentSplits", result, path)),
+      listItems: (params, options) => this.#runtime.items("listPaymentSplits", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "payment_intent_id",
+  "collecting_merchant_id",
+  "seller_merchant_id",
+  "partner_app_id",
+  "partner_app_install_id",
+  "external_reference_id",
+  "status",
+  "created_after",
+  "created_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+    });
     this.payoutDestinations = Object.freeze({
       delete: async (payout_destination_id, params, options) => this.#runtime.request("deletePayoutDestination", _sdkRequestInput([
   "payout_destination_id"
@@ -8422,6 +8797,173 @@ export class Client {
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+    });
+    this.platformFeeBalanceTransactions = Object.freeze({
+      get: async (platform_fee_balance_transaction_id, params, options) => this.#runtime.request("getPlatformFeeBalanceTransaction", _sdkRequestInput([
+  "platform_fee_balance_transaction_id"
+], [platform_fee_balance_transaction_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPlatformFeeBalanceTransaction", result, path))),
+      list: async (params, options) => this.#runtime.request("listPlatformFeeBalanceTransactions", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "platform_fee_id",
+  "platform_fee_payout_id",
+  "type",
+  "occurred_after",
+  "occurred_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPlatformFeeBalanceTransactions", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPlatformFeeBalanceTransactions", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "platform_fee_id",
+  "platform_fee_payout_id",
+  "type",
+  "occurred_after",
+  "occurred_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listPlatformFeeBalanceTransactions", result, path)),
+      listItems: (params, options) => this.#runtime.items("listPlatformFeeBalanceTransactions", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "platform_fee_id",
+  "platform_fee_payout_id",
+  "type",
+  "occurred_after",
+  "occurred_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+    });
+    this.platformFeeBalances = Object.freeze({
+      list: async (params, options) => this.#runtime.request("listPlatformFeeBalances", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "currency"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPlatformFeeBalances", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPlatformFeeBalances", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "currency"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listPlatformFeeBalances", result, path)),
+      listItems: (params, options) => this.#runtime.items("listPlatformFeeBalances", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "currency"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+    });
+    this.platformFeePayouts = Object.freeze({
+      get: async (platform_fee_payout_id, params, options) => this.#runtime.request("getPlatformFeePayout", _sdkRequestInput([
+  "platform_fee_payout_id"
+], [platform_fee_payout_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPlatformFeePayout", result, path))),
+      list: async (params, options) => this.#runtime.request("listPlatformFeePayouts", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "status",
+  "created_after",
+  "created_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPlatformFeePayouts", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPlatformFeePayouts", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "status",
+  "created_after",
+  "created_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listPlatformFeePayouts", result, path)),
+      listItems: (params, options) => this.#runtime.items("listPlatformFeePayouts", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "status",
+  "created_after",
+  "created_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+    });
+    this.platformFees = Object.freeze({
+      get: async (platform_fee_id, params, options) => this.#runtime.request("getPlatformFee", _sdkRequestInput([
+  "platform_fee_id"
+], [platform_fee_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getPlatformFee", result, path))),
+      list: async (params, options) => this.#runtime.request("listPlatformFees", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "partner_app_install_id",
+  "merchant_id",
+  "payment_intent_id",
+  "status",
+  "created_after",
+  "created_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listPlatformFees", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listPlatformFees", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "partner_app_install_id",
+  "merchant_id",
+  "payment_intent_id",
+  "status",
+  "created_after",
+  "created_before"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listPlatformFees", result, path)),
+      listItems: (params, options) => this.#runtime.items("listPlatformFees", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "partner_app_id",
+  "partner_app_install_id",
+  "merchant_id",
+  "payment_intent_id",
+  "status",
+  "created_after",
+  "created_before"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -9172,6 +9714,114 @@ export class Client {
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updatePromotion", result, path))),
     });
+    this.readers = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createReader", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReader", result, path))),
+      createConnectionSession: async (reader_id, params, options) => this.#runtime.request("createReaderConnectionSession", _sdkRequestInput([
+  "reader_id"
+], [reader_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReaderConnectionSession", result, path))),
+      delete: async (reader_id, params, options) => this.#runtime.request("deleteReader", _sdkRequestInput([
+  "reader_id"
+], [reader_id], [
+  "expected_version",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("deleteReader", result, path))),
+      get: async (reader_id, params, options) => this.#runtime.request("getReader", _sdkRequestInput([
+  "reader_id"
+], [reader_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getReader", result, path))),
+      list: async (params, options) => this.#runtime.request("listReaders", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "status",
+  "location_id",
+  "device_id",
+  "type",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listReaders", result, path))),
+      listPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listReaders", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "status",
+  "location_id",
+  "device_id",
+  "type",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listReaders", result, path)),
+      listItems: (params, options) => this.#runtime.items("listReaders", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token",
+  "status",
+  "location_id",
+  "device_id",
+  "type",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      simulate: async (reader_id, params, options) => this.#runtime.request("simulateReader", _sdkRequestInput([
+  "reader_id"
+], [reader_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("simulateReader", result, path))),
+      update: async (reader_id, params, options) => this.#runtime.request("updateReader", _sdkRequestInput([
+  "reader_id"
+], [reader_id], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateReader", result, path))),
+    });
     this.refunds = Object.freeze({
       create: async (params, options) => this.#runtime.request("createRefund", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
@@ -9298,6 +9948,17 @@ export class Client {
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateRefund", result, path))),
     });
+    this.rememberedBuyers = Object.freeze({
+      lookup: async (params, options) => this.#runtime.request("lookupRememberedBuyer", _sdkRequestInput([], [], [], true, true, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("lookupRememberedBuyer", result, path))),
+      revoke: async (params, options) => this.#runtime.request("revokeRememberedBuyer", _sdkRequestInput([], [], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeRememberedBuyer", result, path))),
+    });
     this.reportDownloads = Object.freeze({
       get: async (report_download_id, params, options) => this.#runtime.request("getReportDownload", _sdkRequestInput([
   "report_download_id"
@@ -9379,6 +10040,15 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelReturnDisposition", result, path))),
+      create: async (params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnDisposition", result, path))),
       get: async (return_disposition_id, params, options) => this.#runtime.request("getReturnDisposition", _sdkRequestInput([
   "return_disposition_id"
 ], [return_disposition_id], [
@@ -9483,6 +10153,15 @@ export class Client {
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("retryReturnDisposition", result, path))),
     });
     this.returnInspections = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createReturnInspection", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnInspection", result, path))),
       decideLineItem: async (return_inspection_id, return_inspection_line_item_id, params, options) => this.#runtime.request("decideReturnInspectionLineItem", _sdkRequestInput([
   "return_inspection_id",
   "return_inspection_line_item_id"
@@ -9829,6 +10508,15 @@ export class Client {
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateReturnReason", result, path))),
     });
     this.returnReceipts = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createReturnReceipt", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnReceipt", result, path))),
       get: async (return_receipt_id, params, options) => this.#runtime.request("getReturnReceipt", _sdkRequestInput([
   "return_receipt_id"
 ], [return_receipt_id], [
@@ -9953,17 +10641,15 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("confirmReturnResolution", result, path))),
-      createCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createReturnResolutionCheckoutSession", _sdkRequestInput([
-  "return_resolution_id"
-], [return_resolution_id], [
+      create: async (params, options) => this.#runtime.request("createReturnResolution", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
-], true, false, params, [
+], true, true, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnResolutionCheckoutSession", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnResolution", result, path))),
       get: async (return_resolution_id, params, options) => this.#runtime.request("getReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -10136,28 +10822,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnAccessLink", result, path))),
-      createDisposition: async (return_id, params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([
-  "return_id"
-], [return_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnDisposition", result, path))),
-      createInspection: async (return_id, params, options) => this.#runtime.request("createReturnInspection", _sdkRequestInput([
-  "return_id"
-], [return_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnInspection", result, path))),
       createLineItem: async (return_id, params, options) => this.#runtime.request("createReturnLineItem", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -10169,28 +10833,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnLineItem", result, path))),
-      createReceipt: async (return_id, params, options) => this.#runtime.request("createReturnReceipt", _sdkRequestInput([
-  "return_id"
-], [return_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnReceipt", result, path))),
-      createResolution: async (return_id, params, options) => this.#runtime.request("createReturnResolution", _sdkRequestInput([
-  "return_id"
-], [return_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnResolution", result, path))),
       decide: async (return_id, params, options) => this.#runtime.request("decideReturn", _sdkRequestInput([
   "return_id"
 ], [return_id], [
@@ -10735,13 +11377,6 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSandbox", result, path))),
-      createAPIKey: async (sandbox_id, params, options) => this.#runtime.request("createSandboxAPIKey", _sdkRequestInput([
-  "sandbox_id"
-], [sandbox_id], [], true, true, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createSandboxAPIKey", result, path))),
       delete: async (sandbox_id, params, options) => this.#runtime.request("deleteSandbox", _sdkRequestInput([
   "sandbox_id"
 ], [sandbox_id], [], false, false, params, [
@@ -10815,9 +11450,7 @@ export class Client {
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("updateSettings", result, path))),
     });
     this.shipments = Object.freeze({
-      createPackage: async (shipment_id, params, options) => this.#runtime.request("createPackage", _sdkRequestInput([
-  "shipment_id"
-], [shipment_id], [
+      create: async (params, options) => this.#runtime.request("createShipment", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
@@ -10825,7 +11458,7 @@ export class Client {
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPackage", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createShipment", result, path))),
       get: async (shipment_id, params, options) => this.#runtime.request("getShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
@@ -11371,6 +12004,42 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getSubscriptionPaymentRetry", result, path))),
+      listLineItems: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listSubscriptionLineItems", result, path))),
+      listLineItemsPages: (subscription_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listSubscriptionLineItems", result, path)),
+      listLineItemsItems: (subscription_id, params, options) => this.#runtime.items("listSubscriptionLineItems", _sdkRequestInput([
+  "subscription_id"
+], [subscription_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
       listPaymentRetries: async (subscription_id, params, options) => this.#runtime.request("listSubscriptionPaymentRetries", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [
@@ -12096,6 +12765,12 @@ export class Client {
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("rotateWebhookEndpointSecret", result, path))),
+      signDelivery: async (webhook_endpoint_id, params, options) => this.#runtime.request("signWebhookEndpointDelivery", _sdkRequestInput([
+  "webhook_endpoint_id"
+], [webhook_endpoint_id], [], true, true, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("signWebhookEndpointDelivery", result, path))),
       update: async (webhook_endpoint_id, params, options) => this.#runtime.request("updateWebhookEndpoint", _sdkRequestInput([
   "webhook_endpoint_id"
 ], [webhook_endpoint_id], [], true, true, params, [
@@ -12356,6 +13031,7 @@ export function makeCancelReturnRequest(value) { return modelFromCodec(value, {.
 export function makeCancelReturnResolutionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CancelReturnResolutionRequest"), constraints: true}); }
 export function makeCancelSubscriptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CancelSubscriptionRequest"), constraints: true}); }
 export function makeCapturePaymentIntentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CapturePaymentIntentRequest"), constraints: true}); }
+export function makeCapturePaymentSplitRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CapturePaymentSplitRequest"), constraints: true}); }
 export function makeCashOutGiftCardRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CashOutGiftCardRequest"), constraints: true}); }
 export function makeChangeMeSubscriptionPlanRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ChangeMeSubscriptionPlanRequest"), constraints: true}); }
 export function makeChangeMeSubscriptionQuantityRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ChangeMeSubscriptionQuantityRequest"), constraints: true}); }
@@ -12375,6 +13051,7 @@ export function makeCheckoutRedirectsRequest(value) { return modelFromCodec(valu
 export function makeCheckoutSavedPaymentDetailsSettingsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CheckoutSavedPaymentDetailsSettingsRequest"), constraints: true}); }
 export function makeCheckoutSettingsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CheckoutSettingsRequest"), constraints: true}); }
 export function makeCheckoutSubscriptionTermsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CheckoutSubscriptionTermsRequest"), constraints: true}); }
+export function makeCheckoutTaxCalculationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CheckoutTaxCalculationRequest"), constraints: true}); }
 export function makeCheckoutTaxConfigRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CheckoutTaxConfigRequest"), constraints: true}); }
 export function makeCheckoutTipConfigRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CheckoutTipConfigRequest"), constraints: true}); }
 export function makeCLIContextsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CLIContextsRequest"), constraints: true}); }
@@ -12392,10 +13069,6 @@ export function makeConfirmCheckoutSessionCustomerVerificationRequest(value) { r
 export function makeConfirmCustomerVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ConfirmCustomerVerificationRequest"), constraints: true}); }
 export function makeConfirmEmailChangeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ConfirmEmailChangeRequest"), constraints: true}); }
 export function makeConfirmPaymentIntentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ConfirmPaymentIntentRequest"), constraints: true}); }
-export function makeConfirmPaymentIntentRequestAttached(value) { return modelFromCodec(value, {..._sdkModelCodec("ConfirmPaymentIntentRequestAttached"), constraints: true}); }
-export function makeConfirmPaymentIntentRequestPaymentMethod(value) { return modelFromCodec(value, {..._sdkModelCodec("ConfirmPaymentIntentRequestPaymentMethod"), constraints: true}); }
-export function makeConfirmPaymentIntentRequestStripeConfirmationToken(value) { return modelFromCodec(value, {..._sdkModelCodec("ConfirmPaymentIntentRequestStripeConfirmationToken"), constraints: true}); }
-export function makeConfirmPaymentIntentRequestToken(value) { return modelFromCodec(value, {..._sdkModelCodec("ConfirmPaymentIntentRequestToken"), constraints: true}); }
 export function makeConfirmReturnResolutionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ConfirmReturnResolutionRequest"), constraints: true}); }
 export function makeConnectTaxConnectionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ConnectTaxConnectionRequest"), constraints: true}); }
 export function makeConsumeInventoryReservationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ConsumeInventoryReservationRequest"), constraints: true}); }
@@ -12411,11 +13084,16 @@ export function makeCreateCheckoutSessionConfirmSavedPaymentMethodVerificationRe
 export function makeCreateCheckoutSessionCustomerVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionCustomerVerificationRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionDiscount(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionDiscount"), constraints: true}); }
 export function makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionGiftCardPurchaseVerificationRequest"), constraints: true}); }
+export function makeCreateCheckoutSessionInvoice(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionInvoice"), constraints: true}); }
 export function makeCreateCheckoutSessionOrder(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionOrder"), constraints: true}); }
+export function makeCreateCheckoutSessionPayToNewAddressVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionPayToNewAddressVerificationRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionQuickPay(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionQuickPay"), constraints: true}); }
 export function makeCreateCheckoutSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionRequest"), constraints: true}); }
+export function makeCreateCheckoutSessionReturnResolution(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionReturnResolution"), constraints: true}); }
 export function makeCreateCheckoutSessionSavePaymentMethodVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionSavePaymentMethodVerificationRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionSubscriptionPlan(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionSubscriptionPlan"), constraints: true}); }
+export function makeCreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest"), constraints: true}); }
+export function makeCreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest"), constraints: true}); }
 export function makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest"), constraints: true}); }
 export function makeCreateCreditNoteAllocationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCreditNoteAllocationRequest"), constraints: true}); }
 export function makeCreateCreditNoteRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateCreditNoteRequest"), constraints: true}); }
@@ -12491,6 +13169,10 @@ export function makeCreateInvoiceRequest(value) { return modelFromCodec(value, {
 export function makeCreateInvoiceRequestOrder(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateInvoiceRequestOrder"), constraints: true}); }
 export function makeCreateInvoiceRequestQuickPay(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateInvoiceRequestQuickPay"), constraints: true}); }
 export function makeCreateLocationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateLocationRequest"), constraints: true}); }
+export function makeCreateMeCheckoutSessionInvoice(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateMeCheckoutSessionInvoice"), constraints: true}); }
+export function makeCreateMeCheckoutSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateMeCheckoutSessionRequest"), constraints: true}); }
+export function makeCreateMeCheckoutSessionReturnResolution(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateMeCheckoutSessionReturnResolution"), constraints: true}); }
+export function makeCreateMerchantSignupRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateMerchantSignupRequest"), constraints: true}); }
 export function makeCreateMeSubscriptionPreviewRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateMeSubscriptionPreviewRequest"), constraints: true}); }
 export function makeCreateMeSubscriptionPreviewRequestDeliveryOptions(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateMeSubscriptionPreviewRequestDeliveryOptions"), constraints: true}); }
 export function makeCreateMeSubscriptionPreviewRequestNextRenewal(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateMeSubscriptionPreviewRequestNextRenewal"), constraints: true}); }
@@ -12502,6 +13184,7 @@ export function makeCreateModifierSetGroupInputExisting(value) { return modelFro
 export function makeCreateModifierSetGroupInputInline(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateModifierSetGroupInputInline"), constraints: true}); }
 export function makeCreateModifierSetGroupRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateModifierSetGroupRequest"), constraints: true}); }
 export function makeCreateModifierSetRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateModifierSetRequest"), constraints: true}); }
+export function makeCreateOnboardingAccessLinkRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOnboardingAccessLinkRequest"), constraints: true}); }
 export function makeCreateOrderDiscount(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderDiscount"), constraints: true}); }
 export function makeCreateOrderDiscountManual(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderDiscountManual"), constraints: true}); }
 export function makeCreateOrderDiscountPromotion(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderDiscountPromotion"), constraints: true}); }
@@ -12510,12 +13193,14 @@ export function makeCreateOrderLineItemInputBundle(value) { return modelFromCode
 export function makeCreateOrderLineItemInputCustom(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderLineItemInputCustom"), constraints: true}); }
 export function makeCreateOrderLineItemInputVariant(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderLineItemInputVariant"), constraints: true}); }
 export function makeCreateOrderLineItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderLineItemRequest"), constraints: true}); }
-export function makeCreateOrderPaymentIntentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderPaymentIntentRequest"), constraints: true}); }
 export function makeCreateOrderRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderRequest"), constraints: true}); }
 export function makeCreateOrderTip(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderTip"), constraints: true}); }
 export function makeCreateOrderTipAmount(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderTipAmount"), constraints: true}); }
 export function makeCreateOrderTipPercent(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateOrderTipPercent"), constraints: true}); }
 export function makeCreatePackageItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePackageItemRequest"), constraints: true}); }
+export function makeCreatePackageRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePackageRequest"), constraints: true}); }
+export function makeCreatePackageRequestCreated(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePackageRequestCreated"), constraints: true}); }
+export function makeCreatePackageRequestShipped(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePackageRequestShipped"), constraints: true}); }
 export function makeCreatePartnerAppCredentialJWKSURLRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePartnerAppCredentialJWKSURLRequest"), constraints: true}); }
 export function makeCreatePartnerAppCredentialPublicKeyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePartnerAppCredentialPublicKeyRequest"), constraints: true}); }
 export function makeCreatePartnerAppCredentialRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePartnerAppCredentialRequest"), constraints: true}); }
@@ -12535,6 +13220,7 @@ export function makeCreateProductRequestOptioned(value) { return modelFromCodec(
 export function makeCreateProductRequestSimple(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateProductRequestSimple"), constraints: true}); }
 export function makeCreatePromotionCodeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePromotionCodeRequest"), constraints: true}); }
 export function makeCreatePromotionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreatePromotionRequest"), constraints: true}); }
+export function makeCreateReaderRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateReaderRequest"), constraints: true}); }
 export function makeCreateReceivablesAgingReportRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateReceivablesAgingReportRequest"), constraints: true}); }
 export function makeCreateRefundRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateRefundRequest"), constraints: true}); }
 export function makeCreateRefundRequestAmount(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateRefundRequestAmount"), constraints: true}); }
@@ -12570,6 +13256,7 @@ export function makeCreateServiceFulfillmentDetails(value) { return modelFromCod
 export function makeCreateShipmentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateShipmentRequest"), constraints: true}); }
 export function makeCreateShipmentRequestOutbound(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateShipmentRequestOutbound"), constraints: true}); }
 export function makeCreateShipmentRequestReturn(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateShipmentRequestReturn"), constraints: true}); }
+export function makeCreateSmartReaderRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateSmartReaderRequest"), constraints: true}); }
 export function makeCreateSubscriptionAccessLinkRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateSubscriptionAccessLinkRequest"), constraints: true}); }
 export function makeCreateSubscriptionDeliveryMigrationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateSubscriptionDeliveryMigrationRequest"), constraints: true}); }
 export function makeCreateSubscriptionLineItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateSubscriptionLineItemRequest"), constraints: true}); }
@@ -12586,6 +13273,7 @@ export function makeCreateSubscriptionPreviewRequestPlanChange(value) { return m
 export function makeCreateSubscriptionPreviewRequestPromotionApply(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateSubscriptionPreviewRequestPromotionApply"), constraints: true}); }
 export function makeCreateSubscriptionPreviewRequestQuantityChange(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateSubscriptionPreviewRequestQuantityChange"), constraints: true}); }
 export function makeCreateSubscriptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateSubscriptionRequest"), constraints: true}); }
+export function makeCreateTapToPayReaderRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateTapToPayReaderRequest"), constraints: true}); }
 export function makeCreateTaxCalculationCallbackRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateTaxCalculationCallbackRequest"), constraints: true}); }
 export function makeCreateTaxRegistrationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateTaxRegistrationRequest"), constraints: true}); }
 export function makeCreateTestClockRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("CreateTestClockRequest"), constraints: true}); }
@@ -12645,7 +13333,6 @@ export function makeDeliveryMethodOriginSelectorRequest(value) { return modelFro
 export function makeDeliveryPickupAvailabilityMaximumDistanceRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryPickupAvailabilityMaximumDistanceRequest"), constraints: true}); }
 export function makeDeliveryPostalCodeConditionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryPostalCodeConditionRequest"), constraints: true}); }
 export function makeDeliveryPostalCodeValueRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryPostalCodeValueRequest"), constraints: true}); }
-export function makeDeliveryPreviewRoutingSource(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryPreviewRoutingSource"), constraints: true}); }
 export function makeDeliveryPricingRateCreateRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryPricingRateCreateRequest"), constraints: true}); }
 export function makeDeliveryPricingRateRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryPricingRateRequest"), constraints: true}); }
 export function makeDeliveryPricingStrategyCreateInputCalculated(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryPricingStrategyCreateInputCalculated"), constraints: true}); }
@@ -12676,6 +13363,13 @@ export function makeDeliveryRadiusConditionRequest(value) { return modelFromCode
 export function makeDeliveryRadiusOrigin(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRadiusOrigin"), constraints: true}); }
 export function makeDeliveryRateCallbackConfigurationPatchRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateCallbackConfigurationPatchRequest"), constraints: true}); }
 export function makeDeliveryRateCallbackConfigurationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateCallbackConfigurationRequest"), constraints: true}); }
+export function makeDeliveryRateEvaluationMethodOutcome(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateEvaluationMethodOutcome"), constraints: true}); }
+export function makeDeliveryRateEvaluationOutcome(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateEvaluationOutcome"), constraints: true}); }
+export function makeDeliveryRateEvaluationOutcomeAvailable(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateEvaluationOutcomeAvailable"), constraints: true}); }
+export function makeDeliveryRateEvaluationOutcomeCannotCalculate(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateEvaluationOutcomeCannotCalculate"), constraints: true}); }
+export function makeDeliveryRateEvaluationOutcomeUnavailable(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateEvaluationOutcomeUnavailable"), constraints: true}); }
+export function makeDeliveryRateEvaluationResponse(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateEvaluationResponse"), constraints: true}); }
+export function makeDeliveryRateEvaluationWindow(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateEvaluationWindow"), constraints: true}); }
 export function makeDeliveryRateTablePricingStrategyCreateRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateTablePricingStrategyCreateRequest"), constraints: true}); }
 export function makeDeliveryRateTablePricingStrategyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRateTablePricingStrategyRequest"), constraints: true}); }
 export function makeDeliveryRecipientRequirementRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryRecipientRequirementRequest"), constraints: true}); }
@@ -12694,7 +13388,6 @@ export function makeDeliveryWindowTimeCondition(value) { return modelFromCodec(v
 export function makeDeliveryZoneConditionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryZoneConditionRequest"), constraints: true}); }
 export function makeDeliveryZoneConfigurationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeliveryZoneConfigurationRequest"), constraints: true}); }
 export function makeDepartInventoryTransferRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DepartInventoryTransferRequest"), constraints: true}); }
-export function makeDeveloperInitialAPIKeyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DeveloperInitialAPIKeyRequest"), constraints: true}); }
 export function makeDimensionsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DimensionsRequest"), constraints: true}); }
 export function makeDisconnectTaxConnectionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DisconnectTaxConnectionRequest"), constraints: true}); }
 export function makeDiscountPreviewRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("DiscountPreviewRequest"), constraints: true}); }
@@ -12710,7 +13403,6 @@ export function makeFulfillmentPackagingRequest(value) { return modelFromCodec(v
 export function makeFulfillmentRecipientRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("FulfillmentRecipientRequest"), constraints: true}); }
 export function makeFulfillmentSettingsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("FulfillmentSettingsRequest"), constraints: true}); }
 export function makeFulfillmentSinglePackageRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("FulfillmentSinglePackageRequest"), constraints: true}); }
-export function makeGetOrCreateReturnResolutionCheckoutSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GetOrCreateReturnResolutionCheckoutSessionRequest"), constraints: true}); }
 export function makeGiftCardCustomAmountBoundsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardCustomAmountBoundsRequest"), constraints: true}); }
 export function makeGiftCardFundingSourceAdjustmentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardFundingSourceAdjustmentRequest"), constraints: true}); }
 export function makeGiftCardFundingSourceExternalPaymentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("GiftCardFundingSourceExternalPaymentRequest"), constraints: true}); }
@@ -12755,7 +13447,6 @@ export function makeInventorySettingsRequest(value) { return modelFromCodec(valu
 export function makeInventorySourceSystemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("InventorySourceSystemRequest"), constraints: true}); }
 export function makeInventoryTransferLineRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("InventoryTransferLineRequest"), constraints: true}); }
 export function makeInvoiceAutopayRetryPolicy(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceAutopayRetryPolicy"), constraints: true}); }
-export function makeInvoiceCheckoutSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceCheckoutSessionRequest"), constraints: true}); }
 export function makeInvoiceCollectionInputAutomatic(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceCollectionInputAutomatic"), constraints: true}); }
 export function makeInvoiceCollectionInputBuyerInitiated(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceCollectionInputBuyerInitiated"), constraints: true}); }
 export function makeInvoiceCollectionInputExternal(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceCollectionInputExternal"), constraints: true}); }
@@ -12795,10 +13486,6 @@ export function makeInvoiceScheduleEntryWriteInstallment(value) { return modelFr
 export function makeInvoiceSettingsPatch(value) { return modelFromCodec(value, {..._sdkModelCodec("InvoiceSettingsPatch"), constraints: true}); }
 export function makeIssueCreditNoteRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("IssueCreditNoteRequest"), constraints: true}); }
 export function makeIssueInvoiceRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("IssueInvoiceRequest"), constraints: true}); }
-export function makeIssueSandboxAPIKeyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("IssueSandboxAPIKeyRequest"), constraints: true}); }
-export function makeIssueSandboxAPIKeyRequestFull(value) { return modelFromCodec(value, {..._sdkModelCodec("IssueSandboxAPIKeyRequestFull"), constraints: true}); }
-export function makeIssueSandboxAPIKeyRequestReadOnly(value) { return modelFromCodec(value, {..._sdkModelCodec("IssueSandboxAPIKeyRequestReadOnly"), constraints: true}); }
-export function makeIssueSandboxAPIKeyRequestRestricted(value) { return modelFromCodec(value, {..._sdkModelCodec("IssueSandboxAPIKeyRequestRestricted"), constraints: true}); }
 export function makeLegalSettingsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("LegalSettingsRequest"), constraints: true}); }
 export function makeLineItemFulfillmentOriginRequestModel(value) { return modelFromCodec(value, {..._sdkModelCodec("LineItemFulfillmentOriginRequestModel"), constraints: true}); }
 export function makeLineItemFulfillmentRequestModel(value) { return modelFromCodec(value, {..._sdkModelCodec("LineItemFulfillmentRequestModel"), constraints: true}); }
@@ -12823,6 +13510,9 @@ export function makeMarkPackageReturnedRequest(value) { return modelFromCodec(va
 export function makeMarkPackageShippedRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("MarkPackageShippedRequest"), constraints: true}); }
 export function makeMerchantAccountSessionCreateRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("MerchantAccountSessionCreateRequest"), constraints: true}); }
 export function makeMerchantAccountSessionRefreshRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("MerchantAccountSessionRefreshRequest"), constraints: true}); }
+export function makeMerchantSignupOwnerRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("MerchantSignupOwnerRequest"), constraints: true}); }
+export function makeMerchantSignupTermsAcceptanceRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("MerchantSignupTermsAcceptanceRequest"), constraints: true}); }
+export function makeMerchantSignupVersionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("MerchantSignupVersionRequest"), constraints: true}); }
 export function makeMetadataPatchRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("MetadataPatchRequest"), constraints: true}); }
 export function makeMetadataRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("MetadataRequest"), constraints: true}); }
 export function makeModifierOverrideRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ModifierOverrideRequest"), constraints: true}); }
@@ -12850,6 +13540,7 @@ export function makeOrderChargeRequest(value) { return modelFromCodec(value, {..
 export function makeOrderChargeTaxAssignment(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderChargeTaxAssignment"), constraints: true}); }
 export function makeOrderDeliveryDestinationRecipientRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDeliveryDestinationRecipientRequest"), constraints: true}); }
 export function makeOrderDeliveryDestinationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDeliveryDestinationRequest"), constraints: true}); }
+export function makeOrderDeliveryRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDeliveryRequest"), constraints: true}); }
 export function makeOrderDraftLineItemInventoryDemandRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDraftLineItemInventoryDemandRequest"), constraints: true}); }
 export function makeOrderDraftLineItemTaxCalculationRequestModel(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDraftLineItemTaxCalculationRequestModel"), constraints: true}); }
 export function makeOrderDraftLineItemTaxRequestModel(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderDraftLineItemTaxRequestModel"), constraints: true}); }
@@ -12858,22 +13549,23 @@ export function makeOrderDraftTaxJurisdictionRequestModel(value) { return modelF
 export function makeOrderEditPreviewRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderEditPreviewRequest"), constraints: true}); }
 export function makeOrderEditRemovalRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderEditRemovalRequest"), constraints: true}); }
 export function makeOrderGiftCardAllocationAcceptance(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderGiftCardAllocationAcceptance"), constraints: true}); }
+export function makeOrderHandoverRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderHandoverRequest"), constraints: true}); }
 export function makeOrderLineItemModifierInputCatalogRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemModifierInputCatalogRequest"), constraints: true}); }
 export function makeOrderLineItemModifierInputTextRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemModifierInputTextRequest"), constraints: true}); }
 export function makeOrderLineItemModifierRequestModel(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemModifierRequestModel"), constraints: true}); }
 export function makeOrderLineItemTaxAssignment(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemTaxAssignment"), constraints: true}); }
 export function makeOrderLineItemTaxRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderLineItemTaxRequest"), constraints: true}); }
 export function makeOrderPaymentIntentSelection(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentIntentSelection"), constraints: true}); }
-export function makeOrderPaymentIntentSelectionAttached(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentIntentSelectionAttached"), constraints: true}); }
-export function makeOrderPaymentIntentSelectionPaymentMethod(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentIntentSelectionPaymentMethod"), constraints: true}); }
-export function makeOrderPaymentIntentSelectionStripeConfirmationToken(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentIntentSelectionStripeConfirmationToken"), constraints: true}); }
-export function makeOrderPaymentIntentSelectionToken(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentIntentSelectionToken"), constraints: true}); }
 export function makeOrderPaymentSourceCardSelection(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentSourceCardSelection"), constraints: true}); }
 export function makeOrderPaymentSourceSelection(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderPaymentSourceSelection"), constraints: true}); }
 export function makeOrderTaxCalculationInputAutomatic(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxCalculationInputAutomatic"), constraints: true}); }
 export function makeOrderTaxCalculationInputExternal(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxCalculationInputExternal"), constraints: true}); }
 export function makeOrderTaxCalculationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxCalculationRequest"), constraints: true}); }
 export function makeOrderTaxComponentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxComponentRequest"), constraints: true}); }
+export function makeOrderTaxExemptionInputCustomer(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxExemptionInputCustomer"), constraints: true}); }
+export function makeOrderTaxExemptionInputNone(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxExemptionInputNone"), constraints: true}); }
+export function makeOrderTaxExemptionInputOrder(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxExemptionInputOrder"), constraints: true}); }
+export function makeOrderTaxExemptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxExemptionRequest"), constraints: true}); }
 export function makeOrderTaxJurisdictionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxJurisdictionRequest"), constraints: true}); }
 export function makeOrderTaxLocationFullAddressRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxLocationFullAddressRequest"), constraints: true}); }
 export function makeOrderTaxLocationInputFullAddress(value) { return modelFromCodec(value, {..._sdkModelCodec("OrderTaxLocationInputFullAddress"), constraints: true}); }
@@ -12888,6 +13580,7 @@ export function makePackageCreateRequest(value) { return modelFromCodec(value, {
 export function makePartnerAppCredentialJWKSURLRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PartnerAppCredentialJWKSURLRequest"), constraints: true}); }
 export function makePartnerAppCredentialPublicKeyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PartnerAppCredentialPublicKeyRequest"), constraints: true}); }
 export function makePartnerAppCredentialWorkloadIdentityRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PartnerAppCredentialWorkloadIdentityRequest"), constraints: true}); }
+export function makePartnerAppPaymentSplitsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PartnerAppPaymentSplitsRequest"), constraints: true}); }
 export function makePartnerAppPermissionManifestEntryRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PartnerAppPermissionManifestEntryRequest"), constraints: true}); }
 export function makePartnerAppPlatformProfileRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PartnerAppPlatformProfileRequest"), constraints: true}); }
 export function makePauseSubscriptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PauseSubscriptionRequest"), constraints: true}); }
@@ -12919,13 +13612,17 @@ export function makePaymentLinkThemePatchRequest(value) { return modelFromCodec(
 export function makePaymentSettingsPatch(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentSettingsPatch"), constraints: true}); }
 export function makePaymentSourceCredential(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentSourceCredential"), constraints: true}); }
 export function makePaymentSourceCredentialPaymentMethod(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentSourceCredentialPaymentMethod"), constraints: true}); }
+export function makePaymentSourceCredentialReader(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentSourceCredentialReader"), constraints: true}); }
 export function makePaymentSourceCredentialStripeConfirmationToken(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentSourceCredentialStripeConfirmationToken"), constraints: true}); }
-export function makePaymentSourceCredentialToken(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentSourceCredentialToken"), constraints: true}); }
+export function makePaymentSourceCredentialStripePaymentMethod(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentSourceCredentialStripePaymentMethod"), constraints: true}); }
+export function makePaymentSplitRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PaymentSplitRequest"), constraints: true}); }
 export function makePayOrderRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PayOrderRequest"), constraints: true}); }
 export function makePayOrderRequestConfirmPaymentIntents(value) { return modelFromCodec(value, {..._sdkModelCodec("PayOrderRequestConfirmPaymentIntents"), constraints: true}); }
 export function makePayOrderRequestPay(value) { return modelFromCodec(value, {..._sdkModelCodec("PayOrderRequestPay"), constraints: true}); }
 export function makePayOrderRequestResume(value) { return modelFromCodec(value, {..._sdkModelCodec("PayOrderRequestResume"), constraints: true}); }
 export function makePayOrderRequestSetup(value) { return modelFromCodec(value, {..._sdkModelCodec("PayOrderRequestSetup"), constraints: true}); }
+export function makePlatformFeeCapRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PlatformFeeCapRequest"), constraints: true}); }
+export function makePlatformFeeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PlatformFeeRequest"), constraints: true}); }
 export function makePriceListPriceRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PriceListPriceRequest"), constraints: true}); }
 export function makeProcessExistingReturnLineItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ProcessExistingReturnLineItemRequest"), constraints: true}); }
 export function makeProcessExistingReturnRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ProcessExistingReturnRequest"), constraints: true}); }
@@ -12956,6 +13653,7 @@ export function makePromotionScheduleRequest(value) { return modelFromCodec(valu
 export function makePromotionSettingsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PromotionSettingsRequest"), constraints: true}); }
 export function makePublishReturnPolicyRevisionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("PublishReturnPolicyRevisionRequest"), constraints: true}); }
 export function makeQuantityPriceBreakRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("QuantityPriceBreakRequest"), constraints: true}); }
+export function makeReaderPaymentSourceTip(value) { return modelFromCodec(value, {..._sdkModelCodec("ReaderPaymentSourceTip"), constraints: true}); }
 export function makeReceiveInventoryTransferRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReceiveInventoryTransferRequest"), constraints: true}); }
 export function makeRefreshCustomerSessionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RefreshCustomerSessionRequest"), constraints: true}); }
 export function makeRefundAdjustmentAudit(value) { return modelFromCodec(value, {..._sdkModelCodec("RefundAdjustmentAudit"), constraints: true}); }
@@ -12972,6 +13670,7 @@ export function makeRefundTenderAllocationRequest(value) { return modelFromCodec
 export function makeReleaseFulfillmentHoldRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseFulfillmentHoldRequest"), constraints: true}); }
 export function makeReleaseInventoryReservationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseInventoryReservationRequest"), constraints: true}); }
 export function makeReleaseReturnResolutionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("ReleaseReturnResolutionRequest"), constraints: true}); }
+export function makeRememberedBuyerTokenRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RememberedBuyerTokenRequest"), constraints: true}); }
 export function makeRemoveDiscountsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RemoveDiscountsRequest"), constraints: true}); }
 export function makeRemoveSubscriptionPromotionsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RemoveSubscriptionPromotionsRequest"), constraints: true}); }
 export function makeRenewSubscriptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("RenewSubscriptionRequest"), constraints: true}); }
@@ -13048,12 +13747,15 @@ export function makeSellerTaxAttestationRequest(value) { return modelFromCodec(v
 export function makeSendOrderReceiptRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SendOrderReceiptRequest"), constraints: true}); }
 export function makeSendPaymentIntentReceiptRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SendPaymentIntentReceiptRequest"), constraints: true}); }
 export function makeSignedMoneyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SignedMoneyRequest"), constraints: true}); }
+export function makeSignWebhookEndpointDeliveryRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SignWebhookEndpointDeliveryRequest"), constraints: true}); }
 export function makeSimulateDisputeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SimulateDisputeRequest"), constraints: true}); }
+export function makeSimulateReaderRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SimulateReaderRequest"), constraints: true}); }
 export function makeSinglePackageCreateInputCreated(value) { return modelFromCodec(value, {..._sdkModelCodec("SinglePackageCreateInputCreated"), constraints: true}); }
 export function makeSinglePackageCreateInputShipped(value) { return modelFromCodec(value, {..._sdkModelCodec("SinglePackageCreateInputShipped"), constraints: true}); }
 export function makeSinglePackageCreateRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SinglePackageCreateRequest"), constraints: true}); }
 export function makeSkipMeSubscriptionCycleRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SkipMeSubscriptionCycleRequest"), constraints: true}); }
 export function makeSkipSubscriptionCycleRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SkipSubscriptionCycleRequest"), constraints: true}); }
+export function makeSplitReversalRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SplitReversalRequest"), constraints: true}); }
 export function makeStartFulfillmentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("StartFulfillmentRequest"), constraints: true}); }
 export function makeSubscribedLineRequestModel(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscribedLineRequestModel"), constraints: true}); }
 export function makeSubscriptionBillingScheduleInputExternal(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionBillingScheduleInputExternal"), constraints: true}); }
@@ -13073,6 +13775,7 @@ export function makeSubscriptionDeliveryRequest(value) { return modelFromCodec(v
 export function makeSubscriptionEndAfterCyclesRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionEndAfterCyclesRequest"), constraints: true}); }
 export function makeSubscriptionEndAfterDateRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionEndAfterDateRequest"), constraints: true}); }
 export function makeSubscriptionEndAfterRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionEndAfterRequest"), constraints: true}); }
+export function makeSubscriptionGiftRecipientRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionGiftRecipientRequest"), constraints: true}); }
 export function makeSubscriptionIntervalOptionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionIntervalOptionRequest"), constraints: true}); }
 export function makeSubscriptionOfferLineItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionOfferLineItemRequest"), constraints: true}); }
 export function makeSubscriptionOfferTermsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionOfferTermsRequest"), constraints: true}); }
@@ -13089,6 +13792,9 @@ export function makeSubscriptionServiceLocationInputAddress(value) { return mode
 export function makeSubscriptionServiceLocationInputCustomerAddress(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionServiceLocationInputCustomerAddress"), constraints: true}); }
 export function makeSubscriptionServiceLocationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionServiceLocationRequest"), constraints: true}); }
 export function makeSubscriptionSettingsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionSettingsRequest"), constraints: true}); }
+export function makeSubscriptionSwapPreviewRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionSwapPreviewRequest"), constraints: true}); }
+export function makeSubscriptionTaxCalculationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionTaxCalculationRequest"), constraints: true}); }
+export function makeSubscriptionTaxRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionTaxRequest"), constraints: true}); }
 export function makeSubscriptionTermsRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("SubscriptionTermsRequest"), constraints: true}); }
 export function makeTaxCalculationCallbackConfigurationPatchRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxCalculationCallbackConfigurationPatchRequest"), constraints: true}); }
 export function makeTaxCalculationCallbackConfigurationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxCalculationCallbackConfigurationRequest"), constraints: true}); }
@@ -13096,6 +13802,7 @@ export function makeTaxCalculationRequestModel(value) { return modelFromCodec(va
 export function makeTaxCalculationRequestRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxCalculationRequestRequest"), constraints: true}); }
 export function makeTaxComponentRequestModel(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxComponentRequestModel"), constraints: true}); }
 export function makeTaxComponentRequestRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxComponentRequestRequest"), constraints: true}); }
+export function makeTaxDefaultCalculationRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxDefaultCalculationRequest"), constraints: true}); }
 export function makeTaxIdentityPatch(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxIdentityPatch"), constraints: true}); }
 export function makeTaxIdentityRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxIdentityRequest"), constraints: true}); }
 export function makeTaxJurisdictionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("TaxJurisdictionRequest"), constraints: true}); }
@@ -13163,6 +13870,7 @@ export function makeUpdateProductRequest(value) { return modelFromCodec(value, {
 export function makeUpdateProductVariantRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateProductVariantRequest"), constraints: true}); }
 export function makeUpdatePromotionCodeRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdatePromotionCodeRequest"), constraints: true}); }
 export function makeUpdatePromotionRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdatePromotionRequest"), constraints: true}); }
+export function makeUpdateReaderRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateReaderRequest"), constraints: true}); }
 export function makeUpdateRefundRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateRefundRequest"), constraints: true}); }
 export function makeUpdateReturnLineItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateReturnLineItemRequest"), constraints: true}); }
 export function makeUpdateReturnPolicyRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateReturnPolicyRequest"), constraints: true}); }
@@ -13193,6 +13901,7 @@ export function makeUpdateTaxRegistrationRequest(value) { return modelFromCodec(
 export function makeUpdateTicketRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateTicketRequest"), constraints: true}); }
 export function makeUpdateWebhookEndpointRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateWebhookEndpointRequest"), constraints: true}); }
 export function makeUpdateWorkloadIdentityRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("UpdateWorkloadIdentityRequest"), constraints: true}); }
+export function makeVerifyMerchantSignupRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("VerifyMerchantSignupRequest"), constraints: true}); }
 export function makeVerifyReturnReceiptLineItemRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("VerifyReturnReceiptLineItemRequest"), constraints: true}); }
 export function makeVoidPackageRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("VoidPackageRequest"), constraints: true}); }
 export function makeVoidShipmentRequest(value) { return modelFromCodec(value, {..._sdkModelCodec("VoidShipmentRequest"), constraints: true}); }

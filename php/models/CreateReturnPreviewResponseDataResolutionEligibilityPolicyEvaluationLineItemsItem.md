@@ -21,6 +21,7 @@ Response model.
 | `is_merchandise_return_required` | Required | boolean | Whether the policy requires the buyer to send the merchandise back. |
 | `modifiers` | Required | Array of ([CreateReturnPreviewResponseDataResolutionEligibilityPolicyEvaluationLineItemsItemModifiersItem](../models/CreateReturnPreviewResponseDataResolutionEligibilityPolicyEvaluationLineItemsItemModifiersItem.md#createreturnpreviewresponsedataresolutioneligibilitypolicyevaluationlineitemsitemmodifiersitem) and [OrderLineItemModifier](../models/OrderLineItemModifier.md#orderlineitemmodifier)) | Modifiers selected on the order line, with their prices. |
 | `name` | Required | string | Name of the item as sold. |
+| `order_id` | Required | string | Order that owns order_line_item_id. |
 | `order_line_item_id` | Required | string | ID of the order line item the units come from. |
 | `policy_adjustment_proposals` | Required | Array of ([CreateReturnPreviewResponseDataResolutionEligibilityPolicyEvaluationLineItemsItemPolicyAdjustmentProposalsItem](../models/CreateReturnPreviewResponseDataResolutionEligibilityPolicyEvaluationLineItemsItemPolicyAdjustmentProposalsItem.md#createreturnpreviewresponsedataresolutioneligibilitypolicyevaluationlineitemsitempolicyadjustmentproposalsitem) and [ReturnPolicyAdjustmentProposal](../models/ReturnPolicyAdjustmentProposal.md#returnpolicyadjustmentproposal)) | Fees or credits the policy proposes for this line, to add to a resolution as adjustments. |
 | `product_id` | Optional | string | ID of the catalog product the item was sold from. |

@@ -34,7 +34,7 @@ final class InventoryCountsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update inventory count. Example: {"expected_version":2,"observations":[{"counted_damaged_quantity":0,"counted_on_hand_quantity":12,"counted_quality_control_quantity":0,"counted_quarantined_quantity":0,"expected_physical_version":9,"inventory_item_id":"invi_01K0P7W6A4N9F3J2T8Q5R1C6XM"}],"source_system":{"type":"manual"}}.
+    /** The request body for: Update inventory count. minProperties: 1. Example: {"expected_version":2,"observations":[{"counted_damaged_quantity":0,"counted_on_hand_quantity":12,"counted_quality_control_quantity":0,"counted_quarantined_quantity":0,"expected_physical_version":9,"inventory_item_id":"invi_01K0P7W6A4N9F3J2T8Q5R1C6XM"}],"source_system":{"type":"manual"}}.
      * @return array{'expected_version': int, 'external_actor_id'?: string, 'observations': list<mixed>, 'occurred_at'?: string|\DateTimeInterface, 'source_system'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

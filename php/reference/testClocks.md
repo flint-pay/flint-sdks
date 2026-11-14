@@ -148,7 +148,7 @@ Signature: `delete(string|Model $test_clock_id, array|Model|null $params = null,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `test_clock_id` | Required | string | ID of the test clock. |
-| `expected_version` | Optional | integer | Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the current version. Format: `int64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the current version. Format: `int64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
 
@@ -216,6 +216,7 @@ Returned payload: [TestClock](../models/TestClockAdvancingEventDataObject.md#tes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -265,6 +266,7 @@ Returned payload: [TestClockListResponse](../models/TestClockListResponse.md#tes
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

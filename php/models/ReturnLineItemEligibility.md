@@ -19,6 +19,7 @@ Response model.
 | `reason_message` | Required | string | Explanation of `reason`. |
 | `return_policy_id` | Optional | string | ID of the policy that judged the line. Absent when none matched. |
 | `return_policy_revision_id` | Optional | string | ID of the policy revision that judged the line. Absent when none matched. |
+| `return_shipping_payer` | Required | string or null | Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Values: `"merchant"`, `"buyer"`, `null`. |
 | `status` | Required | string | Whether the policy lets the buyer return this. `review_required` means the merchant decides. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 #### ReturnLineItemEligibility reason values

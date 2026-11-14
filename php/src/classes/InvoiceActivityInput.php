@@ -10,14 +10,15 @@ namespace Flint;
  * @property-read string $checkout_session_id
  * @property-read string $collection_block_reason
  * @property-read string|\DateTimeInterface $created_at
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_money
  * @property-read string $credit_note_id
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credited_money
  * @property-read string $description
  * @property-read string|\DateTimeInterface $due_at
  * @property-read string $error_code
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_amount_money
  * @property-read string $invoice_activity_id
  * @property-read string $invoice_delivery_attempt_id
+ * @property-read string $invoice_id
  * @property-read string $invoice_late_fee_id
  * @property-read string $invoice_manual_payment_id
  * @property-read string $invoice_payment_attempt_id
@@ -29,7 +30,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $written_off_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceActivityInput extends Model {
-    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string|\DateTimeInterface, 'credit_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'credit_note_id'?: string, 'description': string, 'due_at'?: string|\DateTimeInterface, 'error_code'?: string, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string|\DateTimeInterface, 'credit_note_id'?: string, 'credited_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'description': string, 'due_at'?: string|\DateTimeInterface, 'error_code'?: string, 'expected_amount_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_id': string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceActivityInput')); }
     /** What happened. other means an activity this API version doesn't describe yet. New values may be added; treat an unrecognized value like `other`. Value enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "other".
      * @return string
@@ -79,18 +80,18 @@ final class InvoiceActivityInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
-     */
-    public function getCreditMoney(): mixed { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
     /** Credit note that requested the refund. Present on updated when a credit note refund was requested or changed. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().
      */
     public function getCreditNoteId(): string { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
+    /** Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When credited_money is omitted; use hasCreditedMoney() or valueOrDefault().
+     */
+    public function getCreditedMoney(): mixed { return $this->get('credited_money'); }
+    public function hasCreditedMoney(): bool { return $this->has('credited_money'); }
     /** Human-readable Flint description of the activity.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
@@ -127,6 +128,12 @@ final class InvoiceActivityInput extends Model {
      */
     public function getInvoiceDeliveryAttemptId(): string { return $this->get('invoice_delivery_attempt_id'); }
     public function hasInvoiceDeliveryAttemptId(): bool { return $this->has('invoice_delivery_attempt_id'); }
+    /** Invoice whose history contains this activity and owns its referenced delivery attempt, late fee, or manual payment. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * @return string
+     * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
+     */
+    public function getInvoiceId(): string { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** The late fee. Present on late_fee_assessed and late_fee_waived. Example: "inlf_01KEZF7C00NVR97MBH5AHR4W1X".
      * @return string
      * @throws SdkError When invoice_late_fee_id is omitted; use hasInvoiceLateFeeId() or valueOrDefault().

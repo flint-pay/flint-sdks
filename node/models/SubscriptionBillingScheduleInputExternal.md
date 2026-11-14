@@ -10,5 +10,5 @@ The `external` variant of `SubscriptionBillingScheduleInput`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `owner` | Required | string | Values: `"external"`. |
+| `owner` | Required | string | Who supplies billing dates: `flint` computes each next billing date; `external` waits for you to set `next_billing_at`. Values: `"external"`. |
 

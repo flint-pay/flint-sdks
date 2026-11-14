@@ -13,7 +13,7 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.me.updateSubscription(
   "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   {
-    quantity: 2,
+    quantity: 1,
   },
   { idempotencyKey: idempotencyKey },
 );

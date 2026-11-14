@@ -8,13 +8,13 @@ namespace Flint;
 final class TipValueSettlementAllocationInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'value_settlement_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TipValueSettlementAllocationInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of the tip this gift card redemption paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Example: "ovst_01KEZF7C00EMVZ016PM34KKFGY".
+    /** ID of the value settlement Flint recorded for the gift card redemption that paid this part of the tip. Example: "ovst_01KEZF7C00EMVZ016PM34KKFGY".
      * @return string
      * @throws SdkError When value_settlement_id is omitted; use hasValueSettlementId() or valueOrDefault().
      */

@@ -20,7 +20,7 @@ One externally supplied order tax component, with its jurisdiction and either a 
 
 Flat tax in the order currency. The amount must be at least 1 minor unit; otherwise Flint fails with `INVALID_REQUEST` and an `INVALID_VALUE` detail on `flat_money`. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
-Field definitions: [shared fields](CreateGiftCardLoadRequest.md#creategiftcardloadrequestvalue_money).
+Field definitions: [shared fields](CapturePaymentIntentRequest.md#capturepaymentintentrequestsplitsamount_money).
 
 ### OrderTaxComponentRequest.jurisdiction
 

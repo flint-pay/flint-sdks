@@ -14,9 +14,9 @@ Response model.
 | `courier_provider_name` | Optional | string | Delivery network or merchant fleet provider handling the job. maxLength: `255`. |
 | `courier_support_phone` | Optional | string | Buyer-safe support number for the courier or merchant fleet. maxLength: `30`. |
 | `delivered_at` | Optional | string | When the items were delivered, in RFC3339 format. Format: `date-time`. |
+| `delivery_due_at` | Optional | string | Time by which the order should be delivered. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Format: `date-time`. |
 | `dispatched_at` | Optional | string | When the delivery was dispatched, in RFC3339 format. Format: `date-time`. |
 | `dropoff_notes` | Optional | string | Driver-facing notes for the final handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. maxLength: `2048`. |
-| `expires_at` | Optional | string | Deadline after which an undelivered job should enter merchant review. Format: `date-time`. |
 | `external_delivery_id` | Optional | string | Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: `255`. |
 | `instructions` | Optional | string | Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |
 | `no_contact` | Optional | boolean | Whether the buyer requested a no-contact handoff. Omitted for a checkout session credential that doesn't act for the customer the buyer verified. |

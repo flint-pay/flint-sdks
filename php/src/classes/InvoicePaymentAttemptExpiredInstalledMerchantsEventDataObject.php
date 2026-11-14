@@ -16,10 +16,11 @@ namespace Flint;
  * @property-read ?string $settled_at
  * @property-read ?string $started_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class InvoicePaymentAttemptExpiredInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expires_at'?: string, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'canceled_at'?: string, 'cancellation_requested_at'?: string, 'checkout_session_id'?: string, 'expected_amount_money': mixed, 'expires_at'?: string, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: mixed, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string, 'started_at'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentAttemptExpiredInstalledMerchantsEventDataObject')); }
     /** When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: date-time.
      * @return ?string
@@ -31,7 +32,7 @@ final class InvoicePaymentAttemptExpiredInstalledMerchantsEventDataObject extend
      */
     public function getCancellationRequestedAt(): ?string { return $this->get('cancellation_requested_at'); }
     public function hasCancellationRequestedAt(): bool { return $this->has('cancellation_requested_at'); }
-    /** The hosted or embedded checkout session the buyer pays through. Absent for automatic charges.
+    /** The hosted or headless checkout session the buyer pays through. Absent for automatic charges.
      * @return ?string
      */
     public function getCheckoutSessionId(): ?string { return $this->get('checkout_session_id'); }
@@ -86,11 +87,16 @@ final class InvoicePaymentAttemptExpiredInstalledMerchantsEventDataObject extend
      */
     public function getStartedAt(): ?string { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** Current payment attempt status. settled means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.settled reports that completion. Value enum: "open", "settled", "failed", "canceled", "expired", "processing".
+    /** Current payment attempt status. succeeded means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.succeeded reports that completion. Value enum: "open", "succeeded", "failed", "canceled", "expired", "processing".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions accepted now. An open or processing attempt can be canceled; the payment processor can still refuse cancellation. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** When this attempt last changed. Duplicate payment notifications preserve this timestamp. Format: date-time.
      * @return string
      */

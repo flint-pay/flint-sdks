@@ -1,12 +1,13 @@
-import { d247 as c0 } from '../descriptors/data/12.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5556 as c1 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6592 as c2, d6593 as c3, d6594 as c4, d6595 as c5, d6581 as c23 } from '../descriptors/data/299.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6596 as c6, d6597 as c7, d6598 as c8, d6599 as c9, d6600 as c10, d6601 as c11, d6602 as c12, d6603 as c13, d6604 as c14, d6605 as c15, d6606 as c16, d6607 as c17, d6608 as c18, d6609 as c19, d6610 as c20, d6611 as c21, d6612 as c22, d6613 as c24, d6614 as c25, d6615 as c26 } from '../descriptors/data/300.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d247 as d247 } from '../descriptors/data/12.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d255 as c0 } from '../descriptors/data/13.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5784 as c1 } from '../descriptors/data/258.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6898 as c2 } from '../descriptors/data/324.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6909 as c3, d6910 as c4, d6911 as c5, d6912 as c6, d6913 as c7, d6914 as c8, d6915 as c9, d6916 as c10, d6917 as c11, d6918 as c12, d6919 as c13, d6920 as c14 } from '../descriptors/data/325.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6921 as c15, d6922 as c16, d6923 as c17, d6924 as c18, d6925 as c19, d6926 as c20, d6927 as c21, d6928 as c22, d6929 as c23, d6930 as c24, d6931 as c25, d6932 as c26 } from '../descriptors/data/326.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d255 as d255 } from '../descriptors/data/13.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d247;
+const read = d255;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateGiftCardLoadRequest"]:c0(),["MoneyValue"]:c1(),["SharedCodec237"]:c2(),["SharedCodec238"]:c3(),["SharedCodec239"]:c4(),["SharedCodec240"]:c5(),["SharedCodec241"]:c6(),["SharedCodec242"]:c7(),["SharedCodec243"]:c8(),["SharedCodec244"]:c9(),["SharedCodec245"]:c10(),["SharedCodec246"]:c11(),["SharedCodec247"]:c12(),["SharedCodec248"]:c13(),["SharedCodec249"]:c14(),["SharedCodec250"]:c15(),["SharedCodec251"]:c16(),["SharedCodec252"]:c17(),["SharedCodec253"]:c18(),["SharedCodec254"]:c19(),["SharedCodec255"]:c20(),["SharedCodec256"]:c21(),["SharedCodec257"]:c22(),["SharedCodec258"]:c23(),["SharedCodec259"]:c24(),["SharedCodec260"]:c25(),["SharedCodec261"]:c26()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateGiftCardLoadRequest"]:c0(),["MoneyValue"]:c1(),["SharedCodec136"]:c2(),["SharedCodec266"]:c3(),["SharedCodec267"]:c4(),["SharedCodec268"]:c5(),["SharedCodec269"]:c6(),["SharedCodec270"]:c7(),["SharedCodec271"]:c8(),["SharedCodec272"]:c9(),["SharedCodec273"]:c10(),["SharedCodec274"]:c11(),["SharedCodec275"]:c12(),["SharedCodec276"]:c13(),["SharedCodec277"]:c14(),["SharedCodec278"]:c15(),["SharedCodec279"]:c16(),["SharedCodec280"]:c17(),["SharedCodec281"]:c18(),["SharedCodec282"]:c19(),["SharedCodec283"]:c20(),["SharedCodec284"]:c21(),["SharedCodec285"]:c22(),["SharedCodec286"]:c23(),["SharedCodec287"]:c24(),["SharedCodec288"]:c25(),["SharedCodec289"]:c26()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateGiftCardLoadRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

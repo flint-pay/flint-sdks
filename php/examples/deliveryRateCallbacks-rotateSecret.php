@@ -17,6 +17,5 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->deliveryRateCallbacks->rotateSecret('dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1', [], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo $result->delivery_rate_callback_id . PHP_EOL;
-echo $result->key_id . PHP_EOL;
+echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

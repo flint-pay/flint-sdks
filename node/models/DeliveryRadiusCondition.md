@@ -10,9 +10,9 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum_distance` | Required | [DeliveryDistance](../models/DeliveryDistance.md#deliverydistance) | `maximum_distance`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradiusmaximum_distance), [field definitions](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradiusmaximum_distance). |
-| `measurement` | Optional | string | Default: `"straight_line"`. Values: `"straight_line"`. |
-| `origin` | Required | [DeliveryRadiusOrigin](../models/DeliveryRadiusOrigin.md#deliveryradiusorigin) | The point a radius condition measures from: a specific Location (`location_id`) or the delivery method's own origin (`method_origin`). |
+| `maximum_distance` | Required | [DeliveryDistance](../models/DeliveryDistance.md#deliverydistance) | The largest distance from the origin that still matches. `maximum_distance`: [field definitions](../models/DeliveryEligibilityExpression.md#deliveryeligibilityexpressionallradiusmaximum_distance), [field definitions](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradiusmaximum_distance). |
+| `measurement` | Optional | string | How Flint measures the distance. Default: `"straight_line"`. Values: `"straight_line"`. |
+| `origin` | Required | [DeliveryRadiusOrigin](../models/DeliveryRadiusOrigin.md#deliveryradiusorigin) | The point to measure the distance from. The point a radius condition measures from: a specific Location (`location_id`) or the delivery method's own origin (`method_origin`). |
 | `subject` | Optional | string | Address facts tested by this condition. destination_address is the shipping destination. buyer_location is the buyer's current pickup or local-delivery location. Default: `"destination_address"`. Values: `"destination_address"`, `"buyer_location"`. |
 
 ### DeliveryRadiusCondition variant 1: `measurement` = `"straight_line"`
@@ -33,5 +33,5 @@ Field definitions: [DeliveryEligibilityExpression.all[].radius.maximum_distance]
 
 ### DeliveryRadiusCondition variant 2.maximum_distance
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius.maximum_distance](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradiusmaximum_distance).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius.maximum_distance](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradiusmaximum_distance).
 

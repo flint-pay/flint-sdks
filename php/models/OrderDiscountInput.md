@@ -18,6 +18,6 @@ Request input.
 | `order_line_item_ids` | Required | Array of string | IDs of the order line items this discount applies to. Items: Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `promotion_code` | Optional | string | Promotion code used to create this discount. Present only when source is promotion and a code was used. |
 | `promotion_id` | Optional | string | Promotion that created this discount. Present only when source is promotion. Example: `"promo_01KEZF7C00QQ8EZ74BDYSZ315V"`. |
-| `source` | Optional | string | Where the discount came from. Values: `"manual"`, `"promotion"`, `"plan_change_credit"`, `"proration"`. |
+| `source` | Optional | string | Where the discount came from. Values: `"manual"`, `"promotion"`, `"plan_change_credit"`, `"proration"`, `"prepaid_delivery"`. |
 | `status` | Required | string | Redemption state of the discount. Values: `"pending"`, `"redeemed"`, `"canceled"`. |
 

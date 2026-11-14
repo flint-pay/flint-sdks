@@ -10,12 +10,12 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingFixedRateTableRatesItem extends Model {
     /** @param array{'currency_options': \stdClass, 'delivery_rate_id': string, 'priority': int, 'when': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingFixedRateTableRatesItem')); }
-    /**  * (Value): {@see DeliveryMethodConfigurationPricingFixedRateTableRatesItemCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price by ISO 4217 currency code. Each key must equal the currency of its Money value. * (Value): {@see DeliveryMethodConfigurationPricingFixedRateTableRatesItemCurrencyOptionsValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, DeliveryMethodConfigurationPricingFixedRateTableRatesItemCurrencyOptionsValue>
      */
     public function getCurrencyOptions(): array { return $this->get('currency_options'); }
     public function hasCurrencyOptions(): bool { return $this->has('currency_options'); }
-    /** delivery_rate_id
+    /** ID of this rate. Flint assigns it.
      * @return string
      */
     public function getDeliveryRateId(): string { return $this->get('delivery_rate_id'); }
@@ -25,7 +25,7 @@ final class DeliveryMethodConfigurationPricingFixedRateTableRatesItem extends Mo
      */
     public function getPriority(): int { return $this->get('priority'); }
     public function hasPriority(): bool { return $this->has('priority'); }
-    /**  anyOf[1] (Value): {@see DeliveryEligibilityExpression}. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. anyOf[2] (Value): null.
+    /** Eligibility expression that decides whether this rate applies. The rate matches when the expression matches. `null` when a stored rate has no condition. Flint requires a condition on every rate, so expect an expression. anyOf[1] (Value): {@see DeliveryEligibilityExpression}. A boolean expression containing exactly one operator or typed condition at each node. Expressions support at most 8 levels and 100 total nodes. anyOf[2] (Value): null.
      * @return mixed
      */
     public function getWhen(): mixed { return $this->get('when'); }

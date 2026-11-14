@@ -8,5 +8,5 @@ const result = await client.orders.getPaymentAttempt(
   "ord_01KEZF7C0054GQKJ142A8X367A",
   "opat_01KEZF7C00B5PW9F2R8A4YSH5D"
 );
+console.log(result.order_id);
 console.log(result.order_payment_attempt_id);
-console.log(result.status);

@@ -23,14 +23,13 @@ namespace Flint;
  * @property-read string $return_number
  * @property-read list<string> $return_resolution_ids
  * @property-read string $status
- * @property-read list<string> $supported_actions
  * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturn extends Model {
-    /** @param array{'buyer_actions': list<mixed>, 'canceled_at'?: string, 'cancellation_reason'?: string, 'completed_at'?: string, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'created_at': string, 'decision_at'?: string, 'decision_status': string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'initiated_by': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': \stdClass, 'order_id': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'return_resolution_ids': list<string>, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'buyer_actions': list<mixed>, 'canceled_at'?: string, 'cancellation_reason'?: string, 'completed_at'?: string, 'completion_blockers': list<mixed>, 'completion_mode'?: string, 'created_at': string, 'decision_at'?: string, 'decision_status': string, 'financial_summary': mixed, 'handoff_requirements': list<mixed>, 'initiated_by': string, 'line_items': list<mixed>, 'merchandise_status': string, 'metadata': \stdClass, 'order_id': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'return_resolution_ids': list<string>, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturn')); }
-    /** What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time; merchant reads and webhooks get an empty list. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. [] (Value): {@see BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
+    /** What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time. Merchant responses and webhooks omit this field. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. [] (Value): {@see BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
      * @return list<BuyerAction>
      */
     public function getBuyerActions(): array { return $this->get('buyer_actions'); }
@@ -110,7 +109,7 @@ final class BuyerReturn extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed".
      * @return string
      */
     public function getResolutionStatus(): string { return $this->get('resolution_status'); }
@@ -135,11 +134,6 @@ final class BuyerReturn extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
-     * @return list<string>
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

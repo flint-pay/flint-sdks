@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerCreditNoteListResponse
+# AcceptFulfillmentRequestInput to BuyerCreateReturnRequestInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequest](AcceptPartnerAppPlatformTermsRequest.md)
@@ -29,8 +29,12 @@
 - [AnalyticsOverview](AnalyticsOverview.md)
 - [AnalyticsOverviewResponse](AnalyticsOverviewResponse.md)
 - [APIKey](APIKey.md)
+- [APIKeyAuthContext](APIKeyAuthContext.md)
+- [ApiKeyCreatedEvent](ApiKeyCreatedEvent.md)
 - [APIKeyListResponse](APIKeyListResponse.md)
 - [APIKeyResponse](APIKeyResponse.md)
+- [ApiKeyRevokedEvent](ApiKeyRevokedEvent.md)
+- [ApiKeyUpdatedEvent](ApiKeyUpdatedEvent.md)
 - [APIKeyWithSecret](APIKeyWithSecret.md)
 - [APIRequestLog](APIRequestLog.md)
 - [APIRequestLogDetail](APIRequestLogDetail.md)
@@ -98,8 +102,4 @@
 - [BuyerCreateReturnPreviewRequestResolutionInput](BuyerCreateReturnPreviewRequestResolutionInput.md)
 - [BuyerCreateReturnRequest](BuyerCreateReturnRequest.md)
 - [BuyerCreateReturnRequestInput](BuyerCreateReturnRequestInput.md)
-- [BuyerCreateReturnResolutionPreviewRequest](BuyerCreateReturnResolutionPreviewRequest.md)
-- [BuyerCreateReturnResolutionPreviewRequestInput](BuyerCreateReturnResolutionPreviewRequestInput.md)
-- [BuyerCreditNote](BuyerCreditNote.md)
-- [BuyerCreditNoteListResponse](BuyerCreditNoteListResponse.md)
 

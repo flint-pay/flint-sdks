@@ -18,4 +18,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->deliveryProfiles->assignToUnconfigured('dprof_01KEZF7C0020J13FQYNY9854R0', null, new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->delivery_profile_id . PHP_EOL;
+echo $result->unconfigured_assignment->status . PHP_EOL;
 $client->close();

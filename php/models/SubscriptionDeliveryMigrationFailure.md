@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `message` | Required | string |  |
-| `reason` | Required | string | Values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
-| `subscription_id` | Required | string |  |
+| `message` | Required | string | Plain-language explanation of the failure. |
+| `reason` | Required | string | Why the subscription could not be moved. Values: `"method_not_offered"`, `"destination_not_served"`, `"rate_unavailable"`, `"method_unavailable"`, `"no_longer_applicable"`, `"not_movable"`. |
+| `subscription_id` | Required | string | ID of the subscription that could not be moved. |
 

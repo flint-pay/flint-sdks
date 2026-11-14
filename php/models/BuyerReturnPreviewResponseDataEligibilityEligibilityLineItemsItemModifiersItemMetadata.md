@@ -2,9 +2,9 @@
 
 ## BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemModifiersItemMetadata
 
-
+Always empty for buyer credentials.
 
 Response model.
 
-Value shape: object.  
+Value shape: object. Always empty for buyer credentials. 
 

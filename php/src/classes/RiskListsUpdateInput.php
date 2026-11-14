@@ -34,7 +34,7 @@ final class RiskListsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update a risk list. Example: {"expected_version":1,"name":"Addresses requiring review"}.
+    /** The request body for: Update a risk list. minProperties: 1. Example: {"expected_version":1,"name":"Addresses requiring review"}.
      * @return array{'expected_version'?: int, 'name': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -32,6 +32,7 @@ Returned payload: [AnalyticsOverview](../models/AnalyticsOverview.md#analyticsov
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -88,6 +89,7 @@ Returned payload: [PaymentVolumeTimeseries](../models/PaymentVolumeTimeseries.md
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -135,6 +137,7 @@ Returned payload: [SubscriptionAnalytics](../models/SubscriptionAnalytics.md#sub
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

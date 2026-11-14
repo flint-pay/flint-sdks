@@ -2,7 +2,7 @@
 
 ## UpdatePriceListPriceRequest
 
-Change one price or its quantity schedule. Omitted fields remain unchanged.
+Change one price or its quantity schedule. Omitted fields remain unchanged. minProperties: `1`.
 
 
 

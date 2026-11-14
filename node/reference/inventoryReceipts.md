@@ -107,6 +107,7 @@ Returned payload: [InventoryReceipt](../models/InventoryReceipt.md#inventoryrece
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -143,12 +144,12 @@ Signature: `list(params?: InventoryReceiptsListParams, options?: _SdkWithoutIdem
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `inventory_item_id` | Optional | string | Filter by inventory item. |
-| `receiving_location_id` | Optional | string | Filter by receiving Location. |
-| `inventory_reservation_id` | Optional | string | Filter by source reservation. |
-| `return_id` | Optional | string | Filter by the customer Return that produced the receipt. |
-| `return_disposition_id` | Optional | string | Filter by the Return disposition that produced the receipt. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `inventory_item_id` | Optional | string | Filter by inventory item. pattern: `^invi_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `receiving_location_id` | Optional | string | Filter by receiving Location. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `inventory_reservation_id` | Optional | string | Filter by source reservation. pattern: `^invr_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `return_id` | Optional | string | Filter by the customer Return that produced the receipt. pattern: `^ret_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `return_disposition_id` | Optional | string | Filter by the Return disposition that produced the receipt. pattern: `^retdsp_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `source_system_type` | Optional | Array of string or string | Filter by source-system type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"flint"`, `"other"`. |
 | `external_source_id` | Optional | string | Filter by external source ID. |
 | `external_actor_id` | Optional | string | Filter by external actor ID. |
@@ -172,6 +173,7 @@ Returned payload: [InventoryReceiptListResponse](../models/InventoryReceiptListR
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

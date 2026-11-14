@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read bool $can_issue_api_key
  * @property-read ?string $country
  * @property-read ?string $default_sandbox_id
  * @property-read string $merchant_id
@@ -12,13 +11,8 @@ namespace Flint;
  * @property-read string $status
  * Presence-aware response; omitted optional fields return null. */
 final class OnboardingState extends Model {
-    /** @param array{'can_issue_api_key': bool, 'country'?: string, 'default_sandbox_id'?: string, 'merchant_id': string, 'next_step'?: mixed, 'profile': mixed, 'requested_capabilities'?: list<string>, 'status': string, ...}|object $values */
+    /** @param array{'country'?: string, 'default_sandbox_id'?: string, 'merchant_id': string, 'next_step'?: mixed, 'profile': mixed, 'requested_capabilities'?: list<string>, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OnboardingState')); }
-    /** Whether you can issue the merchant's first API key with `POST /v1/onboarding/api-key`. True while the merchant has no external API key and a default sandbox exists.
-     * @return bool
-     */
-    public function getCanIssueApiKey(): bool { return $this->get('can_issue_api_key'); }
-    public function hasCanIssueApiKey(): bool { return $this->has('can_issue_api_key'); }
     /** Immutable business country for the selected stable provider-account target. Omitted until the target has selected an effective country. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Value enum: "US".
      * @return ?string
      */

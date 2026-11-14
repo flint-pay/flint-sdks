@@ -1,9 +1,9 @@
-import { d6698 as c0, d6697 as c1, d6694 as c2, d6695 as c3, d6696 as c4 } from '../descriptors/data/304.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6698 as d6698 } from '../descriptors/data/304.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7016 as c0, d7015 as c1, d7012 as c2, d7013 as c3, d7014 as c4 } from '../descriptors/data/330.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d7016 as d7016 } from '../descriptors/data/330.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d6698;
+const read = d7016;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InventorySourceSystemRequest"]:c0(),["SharedCodec270"]:c1(),["SharedCodec732"]:c2(),["SharedCodec733"]:c3(),["SharedCodec734"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InventorySourceSystemRequest"]:c0(),["SharedCodec298"]:c1(),["SharedCodec790"]:c2(),["SharedCodec791"]:c3(),["SharedCodec792"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInventorySourceSystemRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

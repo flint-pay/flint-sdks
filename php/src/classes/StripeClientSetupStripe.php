@@ -19,7 +19,7 @@ final class StripeClientSetupStripe extends Model {
      */
     public function getPublishableKey(): ?string { return $this->get('publishable_key'); }
     public function hasPublishableKey(): bool { return $this->has('publishable_key'); }
-    /** One-time client authority for the named Stripe object. This payload always names the Stripe.js call and carries its client secret.
+    /** One-time authority for the Stripe SetupIntent: its client secret and the Stripe.js call to make with it. One-time client authority for the named Stripe object. This payload always names the Stripe.js call and carries its client secret.
      * @return ?StripeClientAuthority
      */
     public function getSetupIntent(): ?StripeClientAuthority { return $this->get('setup_intent'); }

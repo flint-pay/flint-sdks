@@ -4,6 +4,8 @@
 
 Sparse patch. Omitted fields stay unchanged. Expired and archived records cannot be edited. A version fence alone is not a change.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |
@@ -15,7 +17,7 @@ Request input.
 | `evidence_reference` | Conditional | string or null | Merchant-only reference to the supporting document. Never shown to buyers or printed on buyer documents. Null when none is recorded. Send null to clear it. minLength: `1`. maxLength: `1024`. |
 | `expected_version` | Optional | integer | Resource version last read by the caller. Required when replacing coverage; optional for other changes. Format: `uint64`. minimum: `1`. |
 | `metadata` | Conditional | [MetadataPatchRequestInput](../models/MetadataPatchRequestInput.md#metadatapatchrequestinput) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `reason` | Conditional | string | Exemption reason. Other requires a description. Values: [13 declared values](CreateCustomerTaxExemptionRequestInput.md#createcustomertaxexemptionrequestinput-reason-values). |
+| `reason` | Conditional | string | Exemption reason. Other requires a description. Values: [13 declared values](BuyerOrderTaxExemptionInput.md#buyerordertaxexemptioninput-reason-values). |
 | `start_date` | Conditional | string | First day of the exemption, inclusive, in YYYY-MM-DD format. May be up to 365 days in the future. Format: `date`. minLength: `1`. Example: `"2026-08-02"`. |
 
 ### UpdateCustomerTaxExemptionRequestInput variant 1

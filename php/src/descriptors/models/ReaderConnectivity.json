@@ -1,0 +1,1 @@
+{"shared":"ReaderConnectivity","phpRepresentation":{"kind":"record","fields":{"last_seen_at":{"kind":"nullable","value":{"kind":"value","type":"string"}},"observed_at":{"kind":"value","type":"string"},"status":{"kind":"value","type":"string"}}},"dependencies":["ReaderConnectivity"]}

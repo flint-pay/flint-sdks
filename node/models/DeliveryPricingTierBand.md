@@ -12,9 +12,9 @@ Declared schema DeliveryPricingTierBandRequest: One band of a tiered pricing str
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `currency_options` | Required | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
-| `from` | Required | integer | Format: `int64`. |
-| `to` | Optional | integer | Format: `int64`. |
+| `currency_options` | Required | Map of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price by ISO 4217 currency code. Each key must equal the currency of its Money value. `currency_options{}`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
+| `from` | Required | integer | Inclusive lower bound. The first band starts at 0; every later band starts at the previous band's `to`. Format: `int64`. |
+| `to` | Optional | integer | Exclusive upper bound. Required for every band except the final band, where it must be omitted. Format: `int64`. |
 
 ### DeliveryPricingTierBand.currency_options{}
 

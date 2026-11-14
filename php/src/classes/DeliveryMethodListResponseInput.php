@@ -10,7 +10,7 @@ namespace Flint;
 final class DeliveryMethodListResponseInput extends Model {
     /** @param array{'data': list<DeliveryMethodInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodListResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. [] (Value): {@see DeliveryMethodInput}. A configured shipping, pickup, local delivery, or service option.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see DeliveryMethodInput}. A configured shipping, pickup, or local delivery option.
      * @return list<DeliveryMethodInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

@@ -27,7 +27,7 @@ Body model: [CreateLocationRequestInput](../models/CreateLocationRequest.md#crea
 | --- | --- | --- | --- |
 | `address` | Required | [AddressRequestInput](../models/AddressRequest.md#addressrequest) | Postal address of the Location. A complete postal address. State and postal_code are required for US addresses and optional for other countries. Send null or omit line2, state, and postal_code when the address has none. |
 | `coordinate` | Optional | [LocationCoordinateRequestInput](../models/LocationCoordinateRequestInput.md#locationcoordinaterequestinput) | Latitude and longitude of the Location. Send it with `coordinate_source`. A latitude and longitude for a merchant location. |
-| `coordinate_source` | Optional | string or null | Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if you got it by geocoding the address. Required with `coordinate`, and rejected without it. `null` is the same as omitting the field. Values: `"merchant_supplied"`, `"geocoded"`, `null`. |
+| `coordinate_source` | Optional | string or null | Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if you got it by geocoding the address. Send it with `coordinate`: it is required when `coordinate` is present and rejected when `coordinate` is absent. `null` counts as omitted, so it is accepted only when `coordinate` is also omitted. Values: `"merchant_supplied"`, `"geocoded"`, `null`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `inventory_allocation_enabled` | Optional | boolean | Whether this Location accepts inventory allocation. Sending this field requires commerce.inventory.allocation.write in addition to the route scope. Default: `false`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
@@ -164,6 +164,7 @@ Returned payload: [Location](../models/Location.md#location).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -220,6 +221,7 @@ Returned payload: [LocationListResponse](../models/LocationListResponse.md#locat
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -260,7 +262,7 @@ Signature: `update(location_id: InputValue<string>, params: LocationsUpdateParam
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateLocationRequestInput](../models/UpdateLocationRequest.md#updatelocationrequest) | Sparse Location update. Omitted fields stay unchanged. address and coordinate are atomic value objects. Sending address requires coordinate. Sending coordinate_source requires coordinate. A non-null coordinate requires a non-null coordinate_source. coordinate: null clears both coordinate and coordinate_source; coordinate_source must then be omitted or null. timezone and coordinate may each be updated without address. geography_version advances only when address, timezone, coordinate, or coordinate_source changes; version advances on every Location change. |
+| `body` | Required | [UpdateLocationRequestInput](../models/UpdateLocationRequest.md#updatelocationrequest) | Sparse Location update. Omitted fields stay unchanged. address and coordinate are atomic value objects. Sending address requires coordinate. Sending coordinate_source requires coordinate. A non-null coordinate requires a non-null coordinate_source. coordinate: null clears both coordinate and coordinate_source; coordinate_source must then be omitted or null. timezone and coordinate may each be updated without address. geography_version advances only when address, timezone, coordinate, or coordinate_source changes; version advances on every Location change. minProperties: `1`. |
 
 Body model: [UpdateLocationRequestInput](../models/UpdateLocationRequest.md#updatelocationrequest).
 

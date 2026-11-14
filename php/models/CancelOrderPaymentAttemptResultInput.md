@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order` | Required | [OrderInput](../models/OrderInput.md#orderinput) | A customer's purchase and its payment and fulfillment progress. |
-| `order_payment_attempt` | Optional | [OrderPaymentAttemptInput](../models/OrderPaymentAttemptInput.md#orderpaymentattemptinput) | An attempt to pay an order. |
+| `order` | Required | [OrderInput](../models/OrderInput.md#orderinput) | The order after the cancellation. Send its `version` as `expected_version` in your next change to the order. A customer's purchase and its payment and fulfillment progress. |
+| `order_payment_attempt` | Optional | [OrderPaymentAttemptInput](../models/OrderPaymentAttemptInput.md#orderpaymentattemptinput) | The payment attempt after the cancellation request. Read its `status` for the outcome. An attempt to pay an order. |
 

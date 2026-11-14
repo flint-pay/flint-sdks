@@ -1,1 +1,1 @@
-{"shared":"ReturnPolicy","dependencies":["MetadataMap","MoneyValue","ReturnPolicy","ReturnPolicyScope","ReturnRestockingFeePolicy","ReturnShippingPolicy","ReturnWindow","SharedCodec1366","SharedCodec1367","SharedCodec1379","SharedCodec1380","SharedCodec1381","SharedCodec1382"]}
+{"shared":"ReturnPolicy","dependencies":["MetadataMap","MoneyValue","ReturnPolicy","ReturnPolicyScope","ReturnRestockingFeePolicy","ReturnShippingPolicy","ReturnWindow","SharedCodec1471","SharedCodec1472","SharedCodec1484","SharedCodec1485","SharedCodec1486","SharedCodec1487"]}

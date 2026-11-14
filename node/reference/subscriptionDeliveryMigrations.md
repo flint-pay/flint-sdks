@@ -25,9 +25,9 @@ Body model: [CreateSubscriptionDeliveryMigrationRequestInput](../models/CreateSu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `from_delivery_method_id` | Required | string | minLength: `1`. |
+| `from_delivery_method_id` | Required | string | ID of the delivery method whose subscriptions to move. One migration can run for a method at a time. minLength: `1`. |
 | `subscription_plan_id` | Optional | string | Limit the migration to this plan's live subscriptions. minLength: `1`. |
-| `to_delivery_method_id` | Required | string | minLength: `1`. |
+| `to_delivery_method_id` | Required | string | ID of the active delivery method to move them to. A subscription the new method can't serve is reported as a failure and keeps its current method. minLength: `1`. |
 
 #### Response
 
@@ -106,6 +106,7 @@ Returned payload: [SubscriptionDeliveryMigration](../models/SubscriptionDelivery
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -142,7 +143,7 @@ Signature: `list(params?: SubscriptionDeliveryMigrationsListParams, options?: _S
 | --- | --- | --- | --- |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `from_delivery_method_id` | Optional | string | Filter by the delivery method subscriptions are moving from. |
+| `from_delivery_method_id` | Optional | string | Filter by the delivery method subscriptions are moving from. pattern: `^dmet_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by migration status: pending, processing, or completed. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"processing"`, `"completed"`. Values: `"pending"`, `"processing"`, `"completed"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -160,6 +161,7 @@ Returned payload: [SubscriptionDeliveryMigrationListResponse](../models/Subscrip
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -222,6 +224,7 @@ Returned payload: [SubscriptionDeliveryMigrationFailureListResponse](../models/S
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

@@ -1,1 +1,1 @@
-{"shared":"PaymentLinkLineItemCustomFixed","dependencies":["MoneyValue","OrderLineItemTax","PaymentLinkLineItemCustomFixed","ProductPriceRange","SharedCodec1114","SharedCodec1122","SharedCodec1123"]}
+{"shared":"PaymentLinkLineItemCustomFixed","dependencies":["MoneyValue","OrderLineItemTax","PaymentLinkLineItemCustomFixed","ProductPriceRange","SharedCodec1185","SharedCodec1190","SharedCodec1191"]}

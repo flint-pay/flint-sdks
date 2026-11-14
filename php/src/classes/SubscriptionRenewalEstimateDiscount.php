@@ -10,22 +10,22 @@ namespace Flint;
 final class SubscriptionRenewalEstimateDiscount extends Model {
     /** @param array{'discount_money': mixed, 'name': string, 'promotion_id': string|null, 'source': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionRenewalEstimateDiscount')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount the discount takes off the estimate. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getDiscountMoney(): MoneyValue { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /** name
+    /** Customer-facing name of the discount, or its internal name when it has none.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Promotion ID for a promotion discount; null for unused-time credit or proration.
+    /** Promotion ID for a promotion discount. `null` when the discount is unused-time credit or proration, which have no promotion.
      * @return string|null
      */
     public function getPromotionId(): string|null { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
-    /** Value enum: "promotion", "plan_change_credit", "proration".
+    /** What the discount comes from. Each value says what it means. Value enum: "promotion", "plan_change_credit", "proration".
      * @return string
      */
     public function getSource(): string { return $this->get('source'); }

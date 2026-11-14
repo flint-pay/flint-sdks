@@ -8,14 +8,18 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order_edit` | Required | [OrderEdit](../models/OrderEdit.md#orderedit) | The edit with its current unrefunded money and supported actions. Nested child of an order: an immutable, completed removal with frozen refund amounts. Refund completion is tracked on the refunds. `order_edit`: [field definitions](../models/RetryOrderEditRefundResult.md#retryordereditrefundresultorder_edit). |
+| `order_edit` | Required | [OrderEdit](../models/OrderEdit.md#orderedit) | The edit with its current unrefunded money and supported actions. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds. `order_edit`: [field definitions](../models/RetryOrderEditRefundResult.md#retryordereditrefundresultorder_edit). |
 | `refunds` | Required | Array of [Refund](../models/Refund.md#refund) | Refunds created by this retry attempt. `refunds[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefunds). |
 
 ### RetryOrderEditRefundResult.order_edit
 
-The edit with its current unrefunded money and supported actions. Nested child of an order: an immutable, completed removal with frozen refund amounts. Refund completion is tracked on the refunds.
+The edit with its current unrefunded money and supported actions. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
 
 Field definitions: [shared fields](OrderEditResponse.md#ordereditresponsedata).
+
+### RetryOrderEditRefundResult.order_edit.add_line_items[]
+
+Field definitions: [OrderEditResponse.data.add_line_items[]](../models/OrderEditResponse.md#ordereditresponsedataadd_line_items).
 
 ### RetryOrderEditRefundResult.order_edit.charge_refunds[]
 

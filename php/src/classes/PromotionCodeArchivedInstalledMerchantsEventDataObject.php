@@ -10,7 +10,6 @@ namespace Flint;
  * @property-read ?int $max_uses
  * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
- * @property-read ?Promotion $promotion
  * @property-read string $promotion_code_id
  * @property-read string $promotion_id
  * @property-read string $status
@@ -21,7 +20,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PromotionCodeArchivedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'available': bool, 'code': string, 'created_at': string, 'customer_id': string|null, 'expires_at'?: string, 'max_uses'?: int, 'merchant_id': string, 'metadata'?: mixed, 'promotion'?: mixed, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at': string, 'uses_count': int, 'version': int, ...}|object $values */
+    /** @param array{'available': bool, 'code': string, 'created_at': string, 'customer_id': string|null, 'expires_at'?: string, 'max_uses'?: int, 'merchant_id': string, 'metadata'?: mixed, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at': string, 'uses_count': int, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodeArchivedInstalledMerchantsEventDataObject')); }
     /** Whether a buyer can redeem the code right now: the code is active, not expired, and under its max_uses, and its promotion is available.
      * @return bool
@@ -63,11 +62,6 @@ final class PromotionCodeArchivedInstalledMerchantsEventDataObject extends Model
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** The promotion this code belongs to. Present only when the list request asked for expand=promotion. Promotion evaluation order: manual discounts stay, do not count toward the cap, and are ignored by combines_with. Frozen subscription-term promotions are admitted first and are exempt from exclusivity, combines_with, and the cap. Candidates include codes being applied, existing promotion discounts, and qualifying automatic promotions. Each exclusivity group keeps its highest-priority member, then the larger standalone discount, earlier created_at, and lower promotion_id. Remaining candidates rank by standalone discount, then earlier created_at and lower promotion_id; each is admitted unless max_promotions_per_order is reached or both promotions do not allow each other's discount class. Admitted promotions price line item first, then order, then service charge. A zero-value promotion is dropped and selection runs again.
-     * @return ?Promotion
-     */
-    public function getPromotion(): ?Promotion { return $this->get('promotion'); }
-    public function hasPromotion(): bool { return $this->has('promotion'); }
     /** Unique identifier for the promotion code.
      * @return string
      */

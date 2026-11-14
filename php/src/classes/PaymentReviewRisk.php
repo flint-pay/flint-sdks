@@ -8,7 +8,7 @@ namespace Flint;
 final class PaymentReviewRisk extends Model {
     /** @param array{'level': string, 'score'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewRisk')); }
-    /** Value enum: "normal", "elevated", "highest", "not_assessed".
+    /** Fraud risk level from the card processor's screening, recorded when the review opened. Value enum: "normal", "elevated", "highest", "not_assessed".
      * @return string
      */
     public function getLevel(): string { return $this->get('level'); }

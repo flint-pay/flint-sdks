@@ -3,13 +3,13 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $amount_money
- * @property-read int $expected_version
+ * @property-read int $expected_invoice_version
  * @property-read string $note
  * @property-read string $payment_reference
  * @property-read string|\DateTimeInterface $received_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicesCreateManualPaymentParams extends Model {
-    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_invoice_version'?: int, 'note'?: string, 'payment_reference'?: string, 'received_at'?: string|\DateTimeInterface, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicesCreateManualPaymentParams')); }
     /** Positive amount received outside Flint, in the invoice currency, no more than outstanding_money for an open invoice or written_off_money for an uncollectible invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
@@ -19,10 +19,10 @@ final class InvoicesCreateManualPaymentParams extends Model {
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
     /** Expected version of the invoice. Format: int64. minimum: 1.
      * @return int
-     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     * @throws SdkError When expected_invoice_version is omitted; use hasExpectedInvoiceVersion() or valueOrDefault().
      */
-    public function getExpectedVersion(): int { return $this->get('expected_version'); }
-    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    public function getExpectedInvoiceVersion(): int { return $this->get('expected_invoice_version'); }
+    public function hasExpectedInvoiceVersion(): bool { return $this->has('expected_invoice_version'); }
     /** Note about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096.
      * @return string
      * @throws SdkError When note is omitted; use hasNote() or valueOrDefault().

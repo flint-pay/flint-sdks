@@ -11,17 +11,17 @@ namespace Flint;
 final class DeliveryPickupAvailabilityLocationResource extends Model {
     /** @param array{'applicable_quantities': list<mixed>, 'candidate_outcome': mixed, 'compatible_methods': list<mixed>, 'distance_meters'?: float, 'location': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityLocationResource')); }
-    /**  [] (Value): {@see DeliveryPickupAvailabilityQuantityResource}. The quantity of an order line item, or of one of its bundle components, that a pickup location applies to.
+    /** Quantities of the order's items this Location can supply. [] (Value): {@see DeliveryPickupAvailabilityQuantityResource}. The quantity of an order line item, or of one of its bundle components, that a pickup location applies to.
      * @return list<DeliveryPickupAvailabilityQuantityResource>
      */
     public function getApplicableQuantities(): array { return $this->get('applicable_quantities'); }
     public function hasApplicableQuantities(): bool { return $this->has('applicable_quantities'); }
-    /** Whether pickup is available at one location, chosen by `type`, with the reason when it is unavailable or cannot be calculated.
+    /** Result of evaluating this Location for pickup. Whether pickup is available at one location, chosen by `type`, with the reason when it is unavailable or cannot be calculated.
      * @return DeliveryPickupAvailabilityCandidateOutcome
      */
     public function getCandidateOutcome(): DeliveryPickupAvailabilityCandidateOutcome { return $this->get('candidate_outcome'); }
     public function hasCandidateOutcome(): bool { return $this->has('candidate_outcome'); }
-    /**  [] (Value): {@see DeliveryPickupAvailabilityMethodResource}. A pickup delivery method, with its revision, that can serve a pickup location.
+    /** Pickup methods that can serve this Location. [] (Value): {@see DeliveryPickupAvailabilityMethodResource}. A pickup delivery method, with its revision, that can serve a pickup location.
      * @return list<DeliveryPickupAvailabilityMethodResource>
      */
     public function getCompatibleMethods(): array { return $this->get('compatible_methods'); }
@@ -31,7 +31,7 @@ final class DeliveryPickupAvailabilityLocationResource extends Model {
      */
     public function getDistanceMeters(): ?float { return $this->get('distance_meters'); }
     public function hasDistanceMeters(): bool { return $this->has('distance_meters'); }
-    /** The ID, name, and address of a pickup location in a pickup locations preview.
+    /** The pickup Location. The ID, name, and address of a pickup location in a pickup locations preview.
      * @return DeliveryPickupAvailabilityLocationSummary
      */
     public function getLocation(): DeliveryPickupAvailabilityLocationSummary { return $this->get('location'); }

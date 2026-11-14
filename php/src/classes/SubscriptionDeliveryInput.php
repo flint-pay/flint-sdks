@@ -16,19 +16,19 @@ namespace Flint;
 final class SubscriptionDeliveryInput extends Model {
     /** @param array{'address_verification'?: SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass, 'delivery_method'?: SubscriptionDeliveryMethodSummaryInput|array<array-key, mixed>|\stdClass, 'delivery_method_id': string, 'delivery_version': int, 'destination': SubscriptionDeliveryDestinationInput|array<array-key, mixed>|\stdClass, 'recipient'?: DeliveryRecipientResourceInput|array<array-key, mixed>|\stdClass, 'shipping_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'type': string, 'updated_at': string|\DateTimeInterface, 'updated_by'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryInput')); }
-    /** The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
+    /** Address verification result stored for the destination. Omitted when none is stored. The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
      * @return SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address_verification is omitted; use hasAddressVerification() or valueOrDefault().
      */
     public function getAddressVerification(): mixed { return $this->get('address_verification'); }
     public function hasAddressVerification(): bool { return $this->has('address_verification'); }
-    /** A short summary of a subscription's delivery method: name, description, type, and whether its price is fixed or quoted.
+    /** Summary of the saved delivery method. A short summary of a subscription's delivery method: name, description, type, and whether its price is fixed or quoted.
      * @return SubscriptionDeliveryMethodSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery_method is omitted; use hasDeliveryMethod() or valueOrDefault().
      */
     public function getDeliveryMethod(): mixed { return $this->get('delivery_method'); }
     public function hasDeliveryMethod(): bool { return $this->has('delivery_method'); }
-    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** ID of the delivery method for future deliveries. Flint prices it again for each renewal. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
@@ -40,25 +40,25 @@ final class SubscriptionDeliveryInput extends Model {
      */
     public function getDeliveryVersion(): int { return $this->get('delivery_version'); }
     public function hasDeliveryVersion(): bool { return $this->has('delivery_version'); }
-    /** The delivery address for a subscription's future shipments, with the saved customer address it came from.
+    /** Where future deliveries go. The delivery address for a subscription's future shipments, with the saved customer address it came from.
      * @return SubscriptionDeliveryDestinationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination is omitted; use hasDestination() or valueOrDefault().
      */
     public function getDestination(): mixed { return $this->get('destination'); }
     public function hasDestination(): bool { return $this->has('destination'); }
-    /** The person receiving a delivery selection, with optional `name`, `email`, and `phone`.
+    /** Who receives the deliveries. Omitted when no recipient was saved. The person receiving a delivery selection, with optional `name`, `email`, and `phone`.
      * @return DeliveryRecipientResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recipient is omitted; use hasRecipient() or valueOrDefault().
      */
     public function getRecipient(): mixed { return $this->get('recipient'); }
     public function hasRecipient(): bool { return $this->has('recipient'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Delivery price for one delivery with the saved method and destination. Omitted when Flint can't price the method now. For a quoted method, the most recently paid shipping amount replaces it once one exists. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When shipping_money is omitted; use hasShippingMoney() or valueOrDefault().
      */
     public function getShippingMoney(): mixed { return $this->get('shipping_money'); }
     public function hasShippingMoney(): bool { return $this->has('shipping_money'); }
-    /** Value enum: "shipment", "local_delivery".
+    /** How the method delivers the items. Value enum: "shipment", "local_delivery".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

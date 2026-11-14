@@ -4,6 +4,8 @@
 
 Provide at most one fulfillment details object: pickup_details, local_delivery_details, digital_details, or service_details. Shipment execution details belong to shipments and packages. A supplied detail field must match the stored fulfillment type. Omit details for metadata-only updates. Even null detail fields count toward exclusivity.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |

@@ -34,7 +34,7 @@ final class ShipmentsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update shipment. Example: {"expected_version":1,"metadata":{"route":"A7","warehouse":"east"}}.
+    /** The request body for: Update shipment. minProperties: 1. Example: {"expected_version":1,"metadata":{"route":"A7","warehouse":"east"}}.
      * @return array{'expected_version'?: int, 'external_reference_id'?: string|null, 'external_system'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

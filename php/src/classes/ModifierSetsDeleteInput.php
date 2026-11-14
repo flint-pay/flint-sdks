@@ -16,7 +16,7 @@ final class ModifierSetsDeleteInput extends Model {
      */
     public function getModifierSetId(): string { return $this->get('modifier_set_id'); }
     public function hasModifierSetId(): bool { return $this->has('modifier_set_id'); }
-    /** Optional modifier set version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional modifier set version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

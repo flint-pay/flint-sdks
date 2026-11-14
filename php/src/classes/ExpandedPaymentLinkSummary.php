@@ -51,7 +51,7 @@ final class ExpandedPaymentLinkSummary extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** subscription_plan_id
+    /** ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription.
      * @return ?string
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }

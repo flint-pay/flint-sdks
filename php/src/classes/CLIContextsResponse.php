@@ -8,12 +8,12 @@ namespace Flint;
 final class CLIContextsResponse extends Model {
     /** @param array{'contexts': list<mixed>, 'oauth_session_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CLIContextsResponse')); }
-    /** maxItems: 100. [] (Value): {@see ContextSummary}. A context the CLI is authorized to use: a sandbox or live account, with its ID, merchant ID, and name.
+    /** The contexts the user can use in this session, each a merchant and environment they approved. Contexts that were removed or that the user can no longer access are left out. At most 100. maxItems: 100. [] (Value): {@see ContextSummary}. A context the CLI is authorized to use: a sandbox or live account, with its ID, merchant ID, and name.
      * @return list<ContextSummary>
      */
     public function getContexts(): array { return $this->get('contexts'); }
     public function hasContexts(): bool { return $this->has('contexts'); }
-    /** oauth_session_id
+    /** ID of the CLI session that holds these contexts. Token responses for the session carry the same ID.
      * @return string
      */
     public function getOauthSessionId(): string { return $this->get('oauth_session_id'); }

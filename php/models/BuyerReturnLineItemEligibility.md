@@ -17,6 +17,7 @@ Response model.
 | `policy_adjustment_proposals` | Required | Array of [ReturnPolicyAdjustmentProposal](../models/ReturnPolicyAdjustmentProposal.md#returnpolicyadjustmentproposal) | Fees or credits the policy proposes for this line, to add to a resolution as adjustments. |
 | `reason` | Required | string | Why the line got this result. Values: [9 declared values](#buyerreturnlineitemeligibility-reason-values). |
 | `reason_message` | Required | string | Explanation of `reason`. |
+| `return_shipping_payer` | Required | string or null | Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Values: `"merchant"`, `"buyer"`, `null`. |
 | `status` | Required | string | Whether the policy lets the buyer return this. `review_required` means the merchant decides. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 #### BuyerReturnLineItemEligibility reason values

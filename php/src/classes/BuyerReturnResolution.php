@@ -28,12 +28,11 @@ namespace Flint;
  * @property-read string $return_resolution_id
  * @property-read MoneyValue $returned_total_money
  * @property-read string $status
- * @property-read list<string> $supported_actions
  * @property-read string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturnResolution extends Model {
-    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<mixed>, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'canceled_at'?: string, 'cancellation_reason'?: string, 'confirmed_at'?: string, 'created_at': string, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'execution_blockers': list<mixed>, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<mixed>, 'metadata': \stdClass, 'pricing_basis'?: string, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'return_resolution_id': string, 'returned_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<mixed>, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'canceled_at'?: string, 'cancellation_reason'?: string, 'confirmed_at'?: string, 'created_at': string, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'execution_blockers': list<mixed>, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<mixed>, 'metadata': \stdClass, 'pricing_basis'?: string, 'replacement_line_items': list<mixed>, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'return_resolution_id': string, 'returned_total_money': mixed, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnResolution')); }
     /** Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. Value enum: "buyer_payment", "manual_release".
      * @return ?string
@@ -105,12 +104,12 @@ final class BuyerReturnResolution extends Model {
      */
     public function getFailureMessage(): ?string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** When the resolution became fulfilled. Format: date-time.
+    /** When the resolution completed. Format: date-time.
      * @return ?string
      */
     public function getFulfilledAt(): ?string { return $this->get('fulfilled_at'); }
     public function hasFulfilledAt(): bool { return $this->has('fulfilled_at'); }
-    /** Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
+    /** Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
      * @return ?string
      */
     public function getGiftCardRefundDestination(): ?string { return $this->get('gift_card_refund_destination'); }
@@ -160,16 +159,11 @@ final class BuyerReturnResolution extends Model {
      */
     public function getReturnedTotalMoney(): MoneyValue { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
-    /** fulfilled means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+    /** completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Lists checkout_session while the buyer owes buyer_payment_amount_money for a replacement and the resolution is pending or requires_action. Pay it with POST /v1/me/return-resolutions/{return_resolution_id}/checkout-sessions. Otherwise empty. [] enum: "checkout_session". [] (Value): string.  Value enum: "checkout_session".
-     * @return list<string>
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */

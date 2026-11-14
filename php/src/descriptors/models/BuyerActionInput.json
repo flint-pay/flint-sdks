@@ -1,1 +1,1 @@
-{"shared":"BuyerAction","dependencies":["BuyerAction","BuyerCancelActionOptions","BuyerCancelRetentionOffer","BuyerPauseActionOptions","BuyerPayBalanceActionOptions"]}
+{"shared":"BuyerAction","dependencies":["BuyerAction","BuyerCancelActionOptions","BuyerCancelRetentionOffer","BuyerPauseActionOptions","BuyerPayBalanceActionOptions","BuyerRetryPaymentActionOptions"]}

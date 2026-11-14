@@ -16,13 +16,13 @@ final class SubscriptionUpcomingDeliveryHoldInput extends Model {
      */
     public function getDetectedAt(): string|\DateTimeInterface { return $this->get('detected_at'); }
     public function hasDetectedAt(): bool { return $this->has('detected_at'); }
-    /** Value enum: "buyer", "merchant".
+    /** Who can clear the problem. `method_unavailable` problems are `buyer` when buyers can update delivery and another offered method can serve the subscription. They are `merchant` when your `customer_account.buyer_capabilities.can_update_delivery` is false, or when the method was revoked and no other offered method can serve the subscription. Value enum: "buyer", "merchant".
      * @return string
      * @throws SdkError When fixable_by is omitted; use hasFixableBy() or valueOrDefault().
      */
     public function getFixableBy(): string { return $this->get('fixable_by'); }
     public function hasFixableBy(): bool { return $this->has('fixable_by'); }
-    /** Value enum: "method_unavailable", "destination_not_served", "rate_unavailable".
+    /** Why the subscription's delivery needs attention. Value enum: "method_unavailable", "destination_not_served", "rate_unavailable".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */

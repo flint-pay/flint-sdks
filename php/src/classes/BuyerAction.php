@@ -9,10 +9,11 @@ namespace Flint;
  * @property-read string $kind
  * @property-read ?BuyerPauseActionOptions $pause
  * @property-read ?BuyerPayBalanceActionOptions $pay_balance
+ * @property-read ?BuyerRetryPaymentActionOptions $retry_payment
  * @property-read ?string $unavailable_reason
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerAction extends Model {
-    /** @param array{'cancel'?: mixed, 'due_at'?: string, 'is_available': bool, 'is_required': bool, 'kind': string, 'pause'?: mixed, 'pay_balance'?: mixed, 'unavailable_reason'?: string, ...}|object $values */
+    /** @param array{'cancel'?: mixed, 'due_at'?: string, 'is_available': bool, 'is_required': bool, 'kind': string, 'pause'?: mixed, 'pay_balance'?: mixed, 'retry_payment'?: mixed, 'unavailable_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerAction')); }
     /** Present only on an available cancel action. The cancellation choices this subscription accepts from its buyer.
      * @return ?BuyerCancelActionOptions
@@ -49,7 +50,12 @@ final class BuyerAction extends Model {
      */
     public function getPayBalance(): ?BuyerPayBalanceActionOptions { return $this->get('pay_balance'); }
     public function hasPayBalance(): bool { return $this->has('pay_balance'); }
-    /** Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Value enum: "sign_in_required", "store_policy", "not_in_state", "window_closed", "nothing_to_return", "collection_unavailable", "limit_reached".
+    /** How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running.
+     * @return ?BuyerRetryPaymentActionOptions
+     */
+    public function getRetryPayment(): ?BuyerRetryPaymentActionOptions { return $this->get('retry_payment'); }
+    public function hasRetryPayment(): bool { return $this->has('retry_payment'); }
+    /** Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Value enum: "sign_in_required", "store_policy", "not_in_state", "window_closed", "nothing_to_return", "collection_unavailable", "limit_reached", "delivery_hold", "in_progress".
      * @return ?string
      */
     public function getUnavailableReason(): ?string { return $this->get('unavailable_reason'); }

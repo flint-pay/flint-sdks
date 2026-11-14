@@ -12,7 +12,7 @@ namespace Flint;
 final class PaymentFulfillmentHoldInput extends Model {
     /** @param array{'reason': string, 'released_at'?: string|\DateTimeInterface, 'requested_at': string|\DateTimeInterface, 'required_action': string, 'status': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentFulfillmentHoldInput')); }
-    /** Value enum: "external_payment_hold", "external_payment_hold_released".
+    /** Why the hold exists, which follows its status. Value enum: "external_payment_hold", "external_payment_hold_released".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */
@@ -30,13 +30,13 @@ final class PaymentFulfillmentHoldInput extends Model {
      */
     public function getRequestedAt(): string|\DateTimeInterface { return $this->get('requested_at'); }
     public function hasRequestedAt(): bool { return $this->has('requested_at'); }
-    /** Value enum: "pause_fulfillment", "reevaluate_fulfillment".
+    /** What to do with fulfillment for this payment now. It follows the hold's status. Value enum: "pause_fulfillment", "reevaluate_fulfillment".
      * @return string
      * @throws SdkError When required_action is omitted; use hasRequiredAction() or valueOrDefault().
      */
     public function getRequiredAction(): string { return $this->get('required_action'); }
     public function hasRequiredAction(): bool { return $this->has('required_action'); }
-    /** Value enum: "active", "released".
+    /** Whether the hold is in force. Value enum: "active", "released".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

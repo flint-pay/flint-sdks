@@ -9,7 +9,7 @@ namespace Flint;
 final class OrderEditResponseInput extends Model {
     /** @param array{'data': OrderEditInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. Nested child of an order: an immutable, completed removal with frozen refund amounts. Refund completion is tracked on the refunds.
+    /** Resource, collection, or operation result returned by this request. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
      * @return OrderEditInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

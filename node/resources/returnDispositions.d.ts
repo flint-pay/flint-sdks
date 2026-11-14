@@ -1,17 +1,19 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { CancelReturnDispositionResponse } from '../declarations/types-4.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { GetReturnDispositionResponse } from '../declarations/types-25.js';
-import type { ListReturnDispositionsResponse } from '../declarations/types-34.js';
-import type { RequestOptions, RetryReturnDispositionResponse } from '../declarations/types-51.js';
+import type { CreateReturnDispositionResponse } from '../declarations/types-12.js';
+import type { GetReturnDispositionResponse } from '../declarations/types-26.js';
+import type { ListReturnDispositionsResponse } from '../declarations/types-35.js';
+import type { RequestOptions, RetryReturnDispositionResponse } from '../declarations/types-54.js';
 import type {
     ReturnDisposition,
     ReturnDispositionsCancelParams,
+    ReturnDispositionsCreateParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
     ReturnDispositionsRetryParams
-} from '../declarations/types-52.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-55.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,33 +31,45 @@ export type {
 export type {
     ReturnDispositionsCancelParams,
     ReturnDisposition,
+    ReturnDispositionsCreateParams,
     ReturnDispositionsGetParams,
     ReturnDispositionsListParams,
-    ReturnDispositionsRetryParams,
-    ReturnActor
-} from '../declarations/types-52.js';
+    ReturnDispositionsRetryParams
+} from '../declarations/types-55.js';
 export type {
     RequestOptions,
     RetryReturnDispositionResponse,
+    ReturnActor,
     ResponseMeta,
     ResponseWarning,
     ResourceReference,
     RetryReturnDispositionRequestInput
-} from '../declarations/types-51.js';
+} from '../declarations/types-54.js';
 export type { CancelReturnDispositionResponse, CancelReturnDispositionRequestInput } from '../declarations/types-4.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type { GetReturnDispositionResponse } from '../declarations/types-25.js';
-export type { ListReturnDispositionsResponse } from '../declarations/types-34.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type {
+    CreateReturnDispositionResponse,
+    CreateReturnDispositionRequestInput,
+    CreateReturnDispositionRequestReceiptLineInput,
+    CreateReturnDispositionRequestInspectionLineInput
+} from '../declarations/types-12.js';
+export type { GetReturnDispositionResponse } from '../declarations/types-26.js';
+export type { ListReturnDispositionsResponse } from '../declarations/types-35.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { MetadataMap } from '../declarations/types-36.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeCancelReturnDispositionRequest } from '../declarations/types-67.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeRetryReturnDispositionRequest } from '../declarations/types-77.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MetadataMap, MetadataRequestInput } from '../declarations/types-38.js';
+export type { NextAction, MoneyValue } from '../declarations/types-39.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCancelReturnDispositionRequest } from '../declarations/types-71.js';
+export {
+    makeCreateReturnDispositionRequest,
+    makeCreateReturnDispositionRequestInspectionLine,
+    makeCreateReturnDispositionRequestReceiptLine
+} from '../declarations/types-74.js';
+export { makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeRetryReturnDispositionRequest } from '../declarations/types-81.js';
 export interface ReturnDispositionsResource {
     /**
  * Cancel a disposition that has not started its inventory effect. Cancellation is refused once the
@@ -72,6 +86,23 @@ export interface ReturnDispositionsResource {
  * reason: "created_in_error"}, { idempotencyKey: idempotencyKey })
  */
     cancel(return_disposition_id: InputValue<string>, params: ReturnDispositionsCancelParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnDisposition, CancelReturnDispositionResponse>>;
+    /**
+ * Record an auditable merchandise disposition from either a receipt line or an inspection line.
+ * Read dispositions with `GET /v1/return-dispositions?return_id=` or expand `return_dispositions`
+ * on `client.returns.get`.
+ *
+ * `POST /v1/return-dispositions`
+ * @see https://developers.withflintpay.com/docs/api/return-dispositions#createReturnDisposition
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.returnDispositions.create({disposition_type: "sellable", inventory_location_id:
+ * "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX", occurred_at: "2026-09-08T14:20:00Z", quantity: 1, reason:
+ * "return_policy", return_id: "ret_01KEZF7C00VDTZH2NK73DBK2HZ", return_receipt_line_item_id:
+ * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE"}, { idempotencyKey: idempotencyKey })
+ */
+    create(params: ReturnDispositionsCreateParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnDisposition, CreateReturnDispositionResponse>>;
     /**
  * Retrieve one disposition with its type, destination, quantity, status, and any linked inventory
  * effect.

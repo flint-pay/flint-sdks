@@ -13,43 +13,43 @@ namespace Flint;
 final class DeliveryPricingStrategyCreateInputCallerSuppliedInput extends Model {
     /** @param array{'calculated'?: DeliveryCalculatedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass, 'callback'?: DeliveryCallbackPricingStrategyRequestInput|array<array-key, mixed>|\stdClass, 'caller_supplied': DeliveryCallerSuppliedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass, 'fixed'?: DeliveryFixedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass, 'rate_table'?: DeliveryRateTablePricingStrategyCreateRequestInput|array<array-key, mixed>|\stdClass, 'tiered'?: DeliveryTieredPricingStrategyRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPricingStrategyCreateInputCallerSuppliedInput')); }
-    /** Calculated delivery pricing you supply for a delivery method: base fee, distance and weight rates, per-item handling, and fee limits, by currency.
+    /** Calculated pricing settings. Set only when `type` is `calculated`. Calculated delivery pricing you supply for a delivery method: base fee, distance and weight rates, per-item handling, and fee limits, by currency.
      * @return DeliveryCalculatedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When calculated is omitted; use hasCalculated() or valueOrDefault().
      */
     public function getCalculated(): mixed { return $this->get('calculated'); }
     public function hasCalculated(): bool { return $this->has('calculated'); }
-    /** Delivery pricing you supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
+    /** Rate callback pricing settings. Set only when `type` is `callback`. Delivery pricing you supply that comes from a delivery rate callback (`delivery_rate_callback_id`), with minimum and maximum fees by currency.
      * @return DeliveryCallbackPricingStrategyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When callback is omitted; use hasCallback() or valueOrDefault().
      */
     public function getCallback(): mixed { return $this->get('callback'); }
     public function hasCallback(): bool { return $this->has('callback'); }
-    /** Delivery pricing where you supply the rate when creating a delivery quote, bounded by minimum and maximum fees by currency.
+    /** Caller-supplied pricing settings. Set only when `type` is `caller_supplied`. Delivery pricing where you supply the rate when creating a delivery quote, bounded by minimum and maximum fees by currency.
      * @return DeliveryCallerSuppliedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When caller_supplied is omitted; use hasCallerSupplied() or valueOrDefault().
      */
     public function getCallerSupplied(): mixed { return $this->get('caller_supplied'); }
     public function hasCallerSupplied(): bool { return $this->has('caller_supplied'); }
-    /** A fixed delivery price by currency, supplied for a delivery method.
+    /** Fixed pricing settings. Set only when `type` is `fixed`. A fixed delivery price by currency, supplied for a delivery method.
      * @return DeliveryFixedPricingStrategyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When fixed is omitted; use hasFixed() or valueOrDefault().
      */
     public function getFixed(): mixed { return $this->get('fixed'); }
     public function hasFixed(): bool { return $this->has('fixed'); }
-    /** Rate table pricing strategy you supply when creating a delivery method: a list of prioritized rates, each with a condition and prices.
+    /** Rate table pricing settings. Set only when `type` is `rate_table`. Rate table pricing strategy you supply when creating a delivery method: a list of prioritized rates, each with a condition and prices.
      * @return DeliveryRateTablePricingStrategyCreateRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When rate_table is omitted; use hasRateTable() or valueOrDefault().
      */
     public function getRateTable(): mixed { return $this->get('rate_table'); }
     public function hasRateTable(): bool { return $this->has('rate_table'); }
-    /** Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the basis is total weight.
+    /** Tiered pricing settings. Set only when `type` is `tiered`. Tiered pricing strategy you supply for a delivery method: a `basis`, a list of bands with prices, and a weight `unit` when the basis is total weight.
      * @return DeliveryTieredPricingStrategyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tiered is omitted; use hasTiered() or valueOrDefault().
      */
     public function getTiered(): mixed { return $this->get('tiered'); }
     public function hasTiered(): bool { return $this->has('tiered'); }
-    /** Value enum: "caller_supplied".
+    /** How the method sets its price. Set the property named by this value. Value enum: "caller_supplied".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

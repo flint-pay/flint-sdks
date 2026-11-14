@@ -53,7 +53,7 @@ final class MeListSubscriptionsParams extends Model {
      */
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
     public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
-    /** Filter by the subscription's selected delivery method. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** Filter by the subscription's selected delivery method. pattern: ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
@@ -65,7 +65,7 @@ final class MeListSubscriptionsParams extends Model {
      */
     public function getHoldReason(): mixed { return $this->get('hold_reason'); }
     public function hasHoldReason(): bool { return $this->has('hold_reason'); }
-    /** Filter by Flint subscription plan ID. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+    /** Filter by Flint subscription plan ID. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */

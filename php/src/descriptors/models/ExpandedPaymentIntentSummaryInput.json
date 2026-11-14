@@ -1,1 +1,1 @@
-{"shared":"ExpandedPaymentIntentSummary","dependencies":["ExpandedPaymentIntentSummary","MoneyValue","PaymentSourceAchDebitSummary","PaymentSourceCardSummary","PaymentSourceSummary"]}
+{"shared":"ExpandedPaymentIntentSummary","dependencies":["ExpandedPaymentIntentSummary","MoneyValue","PaymentSourceAchDebitSummary","PaymentSourceCardPresentDetails","PaymentSourceCardSummary","PaymentSourceSummary"]}

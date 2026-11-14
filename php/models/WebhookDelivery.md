@@ -19,7 +19,7 @@ Response model.
 | `recommended_action` | Optional | string | The next step to resolve the failed delivery attempt. |
 | `retryable` | Optional | boolean | Whether sending this delivery again without changing your endpoint is likely to succeed. While the delivery is pending, Flint retries automatically either way. |
 | `status` | Required | string | Current state of this endpoint delivery and its automatic retry schedule. Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
-| `suppression_reason` | Optional | string | Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed deliveries have no failure explanation. Values: `"endpoint_inactive"`, `"endpoint_deleted"`, `"authorization_revoked"`, `"scope_missing"`, `"event_not_allowed"`, `"partner_app_install_revoked"`. |
+| `suppression_reason` | Optional | string | Why this delivery was suppressed. Present exactly when status is suppressed. Suppressed deliveries have no failure explanation. Values: [7 declared values](#webhookdelivery-suppression_reason-values). |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `webhook_delivery_id` | Required | string | Unique identifier for this webhook delivery, prefixed `wdel_`. |
 | `webhook_endpoint_id` | Required | string | ID of the receiving endpoint, retained even after the endpoint is deleted. |
@@ -38,4 +38,14 @@ Response model.
 - `"webhook_http_5xx"`
 - `"webhook_payload_render"`
 - `"webhook_delivery"`
+
+#### WebhookDelivery suppression_reason values
+
+- `"endpoint_inactive"`
+- `"endpoint_deleted"`
+- `"authorization_revoked"`
+- `"scope_missing"`
+- `"event_not_allowed"`
+- `"partner_app_install_revoked"`
+- `"sandbox_reset"`
 

@@ -20,7 +20,7 @@ final class UserInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+    /** ID of the merchant Flint treats as the user's default, which it sets when it provisions the user's merchant. Omitted when no default is set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      * @return string
      * @throws SdkError When default_merchant_id is omitted; use hasDefaultMerchantId() or valueOrDefault().
      */
@@ -44,7 +44,7 @@ final class UserInput extends Model {
      */
     public function getLastName(): string { return $this->get('last_name'); }
     public function hasLastName(): bool { return $this->has('last_name'); }
-    /** Value enum: "active", "deactivated".
+    /** Whether the user's account can sign in and access Flint. Value enum: "active", "deactivated".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

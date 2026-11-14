@@ -1,1891 +1,31 @@
-import type { MetadataMap, MerchantWebhookEnvelope, MetadataRequestInput } from './types-36.js';
-import type { TextModifierConfig } from './types-62.js';
-import type { PartnerWebhookEnvelope } from './types-42.js';
-import type { ResponseMeta, ResponseWarning, ResourceReference } from './types-51.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateModifierGroupRequestInput, CreateModifierSetRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-22.js';
-import type { UpdateModifierGroupRequestInput, UpdateModifierSetRequestInput } from './types-64.js';
-import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-27.js';
-import type { ReadinessMerchantAccountSession } from './types-49.js';
-import type { OAuthTokenRequestTokenExchange, OAuthTokenRequestTokenExchangeInput } from './types-38.js';
-/** A purchasable customization choice. */
-export type Modifier = {
+import type { PauseSubscriptionRequestInput, PartnerWebhookEnvelope } from './types-44.js';
+import type { RenewSubscriptionRequestInput } from './types-53.js';
+import type { ResourceVersionRequestInput, ResponseMeta } from './types-54.js';
+import type { SaveMeGiftCardRequestInput } from './types-59.js';
+import type { SkipMeSubscriptionCycleRequestInput } from './types-60.js';
+import type { UpdateCustomerAddressRequestInput, UpdateCustomerEmailPreferencesRequestInput } from './types-66.js';
+import type { UpdateMeRequestInput, UpdateMeSubscriptionLineItemRequestInput, UpdateMeSubscriptionRequestInput } from './types-67.js';
+import type { Address } from './types-0.js';
+import type { ImageAttachment } from './types-28.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
+import type { DisputeResponseSessionStripeAccountSession, DisputesAcceptParams } from './types-23.js';
+import type { MoneyValue } from './types-39.js';
+import type { CapabilityReadiness } from './types-5.js';
+import type { ReadinessAxis, ReadinessRequirements } from './types-52.js';
+import type { WebhookMerchant } from './types-69.js';
+import type { PlatformFeeCap } from './types-49.js';
+export type MeListShipmentsParams = {
     /**
-     * When the modifier was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
+     * Optional order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
      */
-    "created_at"?: string;
+    "order_id"?: InputValue<string>;
     /**
-     * Whole-number quantity selected by default. Used only when the choice is available and
-     * selected_by_default is true. A modifier set can override this value; fractional quantities
-     * are not supported. Format: int64.
+     * Optional fulfillment ID filter. pattern: ^ful_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ful_01KEZF7C00F24WVSTTWR1FQX5T".
      */
-    "default_quantity"?: number;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Identifier of the group that owns this modifier. For an inline group, read the group through
-     * its modifier set. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
-     * or omit it to create one. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id": string;
-    /** Name of the choice shown to buyers. */
-    "name": string;
-    /**
-     * Display position of the choice within its group; lower values appear first. Format: int32.
-     */
-    "position": number;
-    /**
-     * Whether this choice is selected when the buyer has not supplied selections for the group. A
-     * modifier set can override this value; unavailable choices are never selected by default.
-     */
-    "selected_by_default": boolean;
-    /** Whether this modifier appears in fulfillment details. */
-    "show_on_fulfillment": boolean;
-    /** Whether this modifier appears on buyer receipts. */
-    "show_on_receipt": boolean;
-    /**
-     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
-     * enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /** Whether this modifier's price is taxable. A modifier set can override this value. */
-    "taxable"?: boolean;
-    /**
-     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
-     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "unit_price_delta_money"?: MoneyValue;
-    /**
-     * When the modifier last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-};
-/** A group of choices that customize an item. */
-export type ModifierGroup = {
-    /** Whether buyers can select more than one unit of a list modifier. */
-    "allow_quantities": boolean;
-    /**
-     * When the modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Maximum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "max_quantity"?: number;
-    /**
-     * Maximum number of distinct modifiers buyers can select from a list group. Omit it for no
-     * limit. A modifier set can override this value. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "max_total_quantity"?: number;
-    /**
-     * Identifier of the merchant that owns this modifier group. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Minimum whole-number quantity for each selected list modifier when allow_quantities is true;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "min_quantity"?: number;
-    /**
-     * Minimum number of distinct modifiers buyers must select from a list group. Omit it to
-     * require no selections. A modifier set can override this value. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Stable identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-     * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-     * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /**
-     * Whether buyers choose from a list of modifiers or enter text. On create, inferred as text
-     * when text configuration is supplied, otherwise list. Value enum: "list", "text".
-     */
-    "modifier_group_type": "list" | "text" | (string & {});
-    /**
-     * Choices in a list group. Only active modifiers whose set override's available is not false
-     * are offered to buyers. Text groups do not have choices. [] (Value): {@link Modifier}. A
-     * purchasable customization choice.
-     */
-    "modifiers": Array<Modifier>;
-    /** Name of the modifier group shown to buyers. */
-    "name": string;
-    /**
-     * Whether selections from this group appear in fulfillment details unless overridden for a
-     * modifier set.
-     */
-    "show_on_fulfillment": boolean;
-    /**
-     * Whether selections from this group appear on buyer receipts unless overridden for a modifier
-     * set.
-     */
-    "show_on_receipt": boolean;
-    /**
-     * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-     * archived groups remain readable and cannot be edited. Value enum: "active", "inactive",
-     * "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * Text entry rules for a text group. Use text.required to require a value; list groups use
-     * min_selected instead. Settings for a text modifier group: whether input is required or
-     * multiline, and its length limits.
-     */
-    "text"?: TextModifierConfig;
-    /**
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-    "version": number;
-};
-export type ModifierGroupArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allow_quantities": boolean;
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "max_quantity"?: number;
-            "max_selected"?: number;
-            "max_total_quantity"?: number;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "min_quantity"?: number;
-            "min_selected"?: number;
-            "modifier_group_id": string;
-            "modifier_group_type": "list" | "text" | (string & {});
-            "modifiers": Array<Modifier>;
-            "name": string;
-            "show_on_fulfillment": boolean;
-            "show_on_receipt": boolean;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "text"?: TextModifierConfig;
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<ModifierGroup>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "modifier_group.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allow_quantities": boolean;
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "max_quantity"?: number;
-            "max_selected"?: number;
-            "max_total_quantity"?: number;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "min_quantity"?: number;
-            "min_selected"?: number;
-            "modifier_group_id": string;
-            "modifier_group_type": "list" | "text" | (string & {});
-            "modifiers": Array<Modifier>;
-            "name": string;
-            "show_on_fulfillment": boolean;
-            "show_on_receipt": boolean;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "text"?: TextModifierConfig;
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<ModifierGroup>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "modifier_group.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "modifier_group.archived";
-});
-/**
- * The `modifier_group.archived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ModifierGroupArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
-     * more than one unit of a list modifier. object.created_at (Optional): string. When the
-     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
-     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
-     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
-     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
-     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
-     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
-     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
-     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
-     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
-     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
-     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
-     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
-     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
-     * Only active modifiers whose set override's available is not false are offered to buyers.
-     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
-     * customization choice. object.name (Required): string. Name of the modifier group shown to
-     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
-     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
-     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
-     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
-     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
-     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
-     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
-     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier group and its modifiers. Format: uint64. minimum: 1. previous_attributes
-     * (Optional): object. Previous values of changed top-level fields in data.object, at this
-     * delivery's API version. Nested changes include the whole previous top-level value. A value
-     * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
-         * list modifier. created_at (Optional): string. When the modifier group was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
-         * integer. Maximum whole-number quantity for each selected list modifier when
-         * allow_quantities is true; fractional quantities are not supported. Format: int64.
-         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
-         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
-         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
-         * across selected list modifiers; fractional quantities are not supported. Format: int64.
-         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
-         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
-         * flint_ are reserved for Flint, are not returned, and cannot be written through the
-         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them.
-         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
-         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
-         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
-         * must select from a list group. Omit it to require no selections. A modifier set can
-         * override this value. Format: int32. modifier_group_id (Required): string. Stable
-         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
-         * string. Whether buyers choose from a list of modifiers or enter text. On create,
-         * inferred as text when text configuration is supplied, otherwise list. Value enum:
-         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
-         * group. Only active modifiers whose set override's available is not false are offered to
-         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
-         * purchasable customization choice. name (Required): string. Name of the modifier group
-         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
-         * group appear in fulfillment details unless overridden for a modifier set.
-         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
-         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
-         * status of the modifier group. Only active groups can be offered to buyers; archived
-         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
-         * group. Use text.required to require a value; list groups use min_selected instead.
-         * Settings for a text modifier group: whether input is required or multiline, and its
-         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
-         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
-         * its modifiers. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Whether buyers can select more than one unit of a list modifier. */
-            "allow_quantities": boolean;
-            /**
-             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "max_quantity"?: number;
-            /**
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. Format: int32.
-             */
-            "max_selected"?: number;
-            /**
-             * Maximum combined whole-number quantity across selected list modifiers; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "max_total_quantity"?: number;
-            /**
-             * Identifier of the merchant that owns this modifier group. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Minimum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "min_quantity"?: number;
-            /**
-             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
-             * to require no selections. A modifier set can override this value. Format: int32.
-             */
-            "min_selected"?: number;
-            /**
-             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
-             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
-             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-             */
-            "modifier_group_id": string;
-            /**
-             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
-             * text when text configuration is supplied, otherwise list. Value enum: "list",
-             * "text".
-             */
-            "modifier_group_type": "list" | "text" | (string & {});
-            /**
-             * Choices in a list group. Only active modifiers whose set override's available is not
-             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
-             * Modifier}. A purchasable customization choice.
-             */
-            "modifiers": Array<Modifier>;
-            /** Name of the modifier group shown to buyers. */
-            "name": string;
-            /**
-             * Whether selections from this group appear in fulfillment details unless overridden
-             * for a modifier set.
-             */
-            "show_on_fulfillment": boolean;
-            /**
-             * Whether selections from this group appear on buyer receipts unless overridden for a
-             * modifier set.
-             */
-            "show_on_receipt": boolean;
-            /**
-             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-             * archived groups remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Text entry rules for a text group. Use text.required to require a value; list groups
-             * use min_selected instead. Settings for a text modifier group: whether input is
-             * required or multiline, and its length limits.
-             */
-            "text"?: TextModifierConfig;
-            /**
-             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierGroup>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "modifier_group.archived". */
-    "event_type"?: "modifier_group.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `modifier_group.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ModifierGroupArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
-     * more than one unit of a list modifier. object.created_at (Optional): string. When the
-     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
-     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
-     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
-     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
-     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
-     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
-     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
-     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
-     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
-     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
-     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
-     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
-     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
-     * Only active modifiers whose set override's available is not false are offered to buyers.
-     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
-     * customization choice. object.name (Required): string. Name of the modifier group shown to
-     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
-     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
-     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
-     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
-     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
-     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
-     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
-     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier group and its modifiers. Format: uint64. minimum: 1. previous_attributes
-     * (Optional): object. Previous values of changed top-level fields in data.object, at this
-     * delivery's API version. Nested changes include the whole previous top-level value. A value
-     * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
-         * list modifier. created_at (Optional): string. When the modifier group was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
-         * integer. Maximum whole-number quantity for each selected list modifier when
-         * allow_quantities is true; fractional quantities are not supported. Format: int64.
-         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
-         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
-         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
-         * across selected list modifiers; fractional quantities are not supported. Format: int64.
-         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
-         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
-         * flint_ are reserved for Flint, are not returned, and cannot be written through the
-         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them.
-         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
-         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
-         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
-         * must select from a list group. Omit it to require no selections. A modifier set can
-         * override this value. Format: int32. modifier_group_id (Required): string. Stable
-         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
-         * string. Whether buyers choose from a list of modifiers or enter text. On create,
-         * inferred as text when text configuration is supplied, otherwise list. Value enum:
-         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
-         * group. Only active modifiers whose set override's available is not false are offered to
-         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
-         * purchasable customization choice. name (Required): string. Name of the modifier group
-         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
-         * group appear in fulfillment details unless overridden for a modifier set.
-         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
-         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
-         * status of the modifier group. Only active groups can be offered to buyers; archived
-         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
-         * group. Use text.required to require a value; list groups use min_selected instead.
-         * Settings for a text modifier group: whether input is required or multiline, and its
-         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
-         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
-         * its modifiers. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Whether buyers can select more than one unit of a list modifier. */
-            "allow_quantities": boolean;
-            /**
-             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "max_quantity"?: number;
-            /**
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. Format: int32.
-             */
-            "max_selected"?: number;
-            /**
-             * Maximum combined whole-number quantity across selected list modifiers; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "max_total_quantity"?: number;
-            /**
-             * Identifier of the merchant that owns this modifier group. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Minimum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "min_quantity"?: number;
-            /**
-             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
-             * to require no selections. A modifier set can override this value. Format: int32.
-             */
-            "min_selected"?: number;
-            /**
-             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
-             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
-             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-             */
-            "modifier_group_id": string;
-            /**
-             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
-             * text when text configuration is supplied, otherwise list. Value enum: "list",
-             * "text".
-             */
-            "modifier_group_type": "list" | "text" | (string & {});
-            /**
-             * Choices in a list group. Only active modifiers whose set override's available is not
-             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
-             * Modifier}. A purchasable customization choice.
-             */
-            "modifiers": Array<Modifier>;
-            /** Name of the modifier group shown to buyers. */
-            "name": string;
-            /**
-             * Whether selections from this group appear in fulfillment details unless overridden
-             * for a modifier set.
-             */
-            "show_on_fulfillment": boolean;
-            /**
-             * Whether selections from this group appear on buyer receipts unless overridden for a
-             * modifier set.
-             */
-            "show_on_receipt": boolean;
-            /**
-             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-             * archived groups remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Text entry rules for a text group. Use text.required to require a value; list groups
-             * use min_selected instead. Settings for a text modifier group: whether input is
-             * required or multiline, and its length limits.
-             */
-            "text"?: TextModifierConfig;
-            /**
-             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierGroup>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "modifier_group.archived". */
-    "event_type"?: "modifier_group.archived";
-});
-export type ModifierGroupCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allow_quantities": boolean;
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "max_quantity"?: number;
-            "max_selected"?: number;
-            "max_total_quantity"?: number;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "min_quantity"?: number;
-            "min_selected"?: number;
-            "modifier_group_id": string;
-            "modifier_group_type": "list" | "text" | (string & {});
-            "modifiers": Array<Modifier>;
-            "name": string;
-            "show_on_fulfillment": boolean;
-            "show_on_receipt": boolean;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "text"?: TextModifierConfig;
-            "updated_at"?: string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "modifier_group.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allow_quantities": boolean;
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "max_quantity"?: number;
-            "max_selected"?: number;
-            "max_total_quantity"?: number;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "min_quantity"?: number;
-            "min_selected"?: number;
-            "modifier_group_id": string;
-            "modifier_group_type": "list" | "text" | (string & {});
-            "modifiers": Array<Modifier>;
-            "name": string;
-            "show_on_fulfillment": boolean;
-            "show_on_receipt": boolean;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "text"?: TextModifierConfig;
-            "updated_at"?: string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "modifier_group.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "modifier_group.created";
-});
-/**
- * The `modifier_group.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ModifierGroupCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
-     * more than one unit of a list modifier. object.created_at (Optional): string. When the
-     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
-     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
-     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
-     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
-     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
-     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
-     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
-     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
-     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
-     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
-     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
-     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
-     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
-     * Only active modifiers whose set override's available is not false are offered to buyers.
-     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
-     * customization choice. object.name (Required): string. Name of the modifier group shown to
-     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
-     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
-     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
-     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
-     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
-     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
-     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
-     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier group and its modifiers. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
-         * list modifier. created_at (Optional): string. When the modifier group was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
-         * integer. Maximum whole-number quantity for each selected list modifier when
-         * allow_quantities is true; fractional quantities are not supported. Format: int64.
-         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
-         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
-         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
-         * across selected list modifiers; fractional quantities are not supported. Format: int64.
-         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
-         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
-         * flint_ are reserved for Flint, are not returned, and cannot be written through the
-         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them.
-         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
-         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
-         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
-         * must select from a list group. Omit it to require no selections. A modifier set can
-         * override this value. Format: int32. modifier_group_id (Required): string. Stable
-         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
-         * string. Whether buyers choose from a list of modifiers or enter text. On create,
-         * inferred as text when text configuration is supplied, otherwise list. Value enum:
-         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
-         * group. Only active modifiers whose set override's available is not false are offered to
-         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
-         * purchasable customization choice. name (Required): string. Name of the modifier group
-         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
-         * group appear in fulfillment details unless overridden for a modifier set.
-         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
-         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
-         * status of the modifier group. Only active groups can be offered to buyers; archived
-         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
-         * group. Use text.required to require a value; list groups use min_selected instead.
-         * Settings for a text modifier group: whether input is required or multiline, and its
-         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
-         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
-         * its modifiers. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Whether buyers can select more than one unit of a list modifier. */
-            "allow_quantities": boolean;
-            /**
-             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "max_quantity"?: number;
-            /**
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. Format: int32.
-             */
-            "max_selected"?: number;
-            /**
-             * Maximum combined whole-number quantity across selected list modifiers; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "max_total_quantity"?: number;
-            /**
-             * Identifier of the merchant that owns this modifier group. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Minimum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "min_quantity"?: number;
-            /**
-             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
-             * to require no selections. A modifier set can override this value. Format: int32.
-             */
-            "min_selected"?: number;
-            /**
-             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
-             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
-             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-             */
-            "modifier_group_id": string;
-            /**
-             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
-             * text when text configuration is supplied, otherwise list. Value enum: "list",
-             * "text".
-             */
-            "modifier_group_type": "list" | "text" | (string & {});
-            /**
-             * Choices in a list group. Only active modifiers whose set override's available is not
-             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
-             * Modifier}. A purchasable customization choice.
-             */
-            "modifiers": Array<Modifier>;
-            /** Name of the modifier group shown to buyers. */
-            "name": string;
-            /**
-             * Whether selections from this group appear in fulfillment details unless overridden
-             * for a modifier set.
-             */
-            "show_on_fulfillment": boolean;
-            /**
-             * Whether selections from this group appear on buyer receipts unless overridden for a
-             * modifier set.
-             */
-            "show_on_receipt": boolean;
-            /**
-             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-             * archived groups remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Text entry rules for a text group. Use text.required to require a value; list groups
-             * use min_selected instead. Settings for a text modifier group: whether input is
-             * required or multiline, and its length limits.
-             */
-            "text"?: TextModifierConfig;
-            /**
-             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "modifier_group.created". */
-    "event_type"?: "modifier_group.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `modifier_group.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ModifierGroupCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
-     * more than one unit of a list modifier. object.created_at (Optional): string. When the
-     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
-     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
-     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
-     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
-     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
-     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
-     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
-     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
-     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
-     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
-     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
-     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
-     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
-     * Only active modifiers whose set override's available is not false are offered to buyers.
-     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
-     * customization choice. object.name (Required): string. Name of the modifier group shown to
-     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
-     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
-     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
-     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
-     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
-     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
-     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
-     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier group and its modifiers. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
-         * list modifier. created_at (Optional): string. When the modifier group was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
-         * integer. Maximum whole-number quantity for each selected list modifier when
-         * allow_quantities is true; fractional quantities are not supported. Format: int64.
-         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
-         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
-         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
-         * across selected list modifiers; fractional quantities are not supported. Format: int64.
-         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
-         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
-         * flint_ are reserved for Flint, are not returned, and cannot be written through the
-         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them.
-         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
-         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
-         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
-         * must select from a list group. Omit it to require no selections. A modifier set can
-         * override this value. Format: int32. modifier_group_id (Required): string. Stable
-         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
-         * string. Whether buyers choose from a list of modifiers or enter text. On create,
-         * inferred as text when text configuration is supplied, otherwise list. Value enum:
-         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
-         * group. Only active modifiers whose set override's available is not false are offered to
-         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
-         * purchasable customization choice. name (Required): string. Name of the modifier group
-         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
-         * group appear in fulfillment details unless overridden for a modifier set.
-         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
-         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
-         * status of the modifier group. Only active groups can be offered to buyers; archived
-         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
-         * group. Use text.required to require a value; list groups use min_selected instead.
-         * Settings for a text modifier group: whether input is required or multiline, and its
-         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
-         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
-         * its modifiers. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Whether buyers can select more than one unit of a list modifier. */
-            "allow_quantities": boolean;
-            /**
-             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "max_quantity"?: number;
-            /**
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. Format: int32.
-             */
-            "max_selected"?: number;
-            /**
-             * Maximum combined whole-number quantity across selected list modifiers; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "max_total_quantity"?: number;
-            /**
-             * Identifier of the merchant that owns this modifier group. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Minimum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "min_quantity"?: number;
-            /**
-             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
-             * to require no selections. A modifier set can override this value. Format: int32.
-             */
-            "min_selected"?: number;
-            /**
-             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
-             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
-             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-             */
-            "modifier_group_id": string;
-            /**
-             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
-             * text when text configuration is supplied, otherwise list. Value enum: "list",
-             * "text".
-             */
-            "modifier_group_type": "list" | "text" | (string & {});
-            /**
-             * Choices in a list group. Only active modifiers whose set override's available is not
-             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
-             * Modifier}. A purchasable customization choice.
-             */
-            "modifiers": Array<Modifier>;
-            /** Name of the modifier group shown to buyers. */
-            "name": string;
-            /**
-             * Whether selections from this group appear in fulfillment details unless overridden
-             * for a modifier set.
-             */
-            "show_on_fulfillment": boolean;
-            /**
-             * Whether selections from this group appear on buyer receipts unless overridden for a
-             * modifier set.
-             */
-            "show_on_receipt": boolean;
-            /**
-             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-             * archived groups remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Text entry rules for a text group. Use text.required to require a value; list groups
-             * use min_selected instead. Settings for a text modifier group: whether input is
-             * required or multiline, and its length limits.
-             */
-            "text"?: TextModifierConfig;
-            /**
-             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "modifier_group.created". */
-    "event_type"?: "modifier_group.created";
-});
-/** A page of `ModifierGroup` objects. */
-export type ModifierGroupListResponse = {
-    /**
-     * Modifier groups matching the request filters for this page. [] (Value): {@link
-     * ModifierGroup}. A group of choices that customize an item.
-     */
-    "data": Array<ModifierGroup>;
-    /**
-     * Response metadata, including API version, trace identifier, and warnings when present.
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Pass this token as page_token to read the next page with the same filters. Absent when there
-     * are no more results.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ModifierGroup` data. */
-export type ModifierGroupResponse = {
-    /** The modifier group returned by this operation. A group of choices that customize an item. */
-    "data": ModifierGroup;
-    /**
-     * Response metadata, including API version, trace identifier, and warnings when present.
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type ModifierGroupUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allow_quantities": boolean;
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "max_quantity"?: number;
-            "max_selected"?: number;
-            "max_total_quantity"?: number;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "min_quantity"?: number;
-            "min_selected"?: number;
-            "modifier_group_id": string;
-            "modifier_group_type": "list" | "text" | (string & {});
-            "modifiers": Array<Modifier>;
-            "name": string;
-            "show_on_fulfillment": boolean;
-            "show_on_receipt": boolean;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "text"?: TextModifierConfig;
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<ModifierGroup>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "modifier_group.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "allow_quantities": boolean;
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "max_quantity"?: number;
-            "max_selected"?: number;
-            "max_total_quantity"?: number;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "min_quantity"?: number;
-            "min_selected"?: number;
-            "modifier_group_id": string;
-            "modifier_group_type": "list" | "text" | (string & {});
-            "modifiers": Array<Modifier>;
-            "name": string;
-            "show_on_fulfillment": boolean;
-            "show_on_receipt": boolean;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "text"?: TextModifierConfig;
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<ModifierGroup>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "modifier_group.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "modifier_group.updated";
-});
-/**
- * The `modifier_group.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ModifierGroupUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
-     * more than one unit of a list modifier. object.created_at (Optional): string. When the
-     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
-     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
-     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
-     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
-     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
-     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
-     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
-     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
-     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
-     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
-     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
-     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
-     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
-     * Only active modifiers whose set override's available is not false are offered to buyers.
-     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
-     * customization choice. object.name (Required): string. Name of the modifier group shown to
-     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
-     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
-     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
-     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
-     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
-     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
-     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
-     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier group and its modifiers. Format: uint64. minimum: 1. previous_attributes
-     * (Optional): object. Previous values of changed top-level fields in data.object, at this
-     * delivery's API version. Nested changes include the whole previous top-level value. A value
-     * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
-         * list modifier. created_at (Optional): string. When the modifier group was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
-         * integer. Maximum whole-number quantity for each selected list modifier when
-         * allow_quantities is true; fractional quantities are not supported. Format: int64.
-         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
-         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
-         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
-         * across selected list modifiers; fractional quantities are not supported. Format: int64.
-         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
-         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
-         * flint_ are reserved for Flint, are not returned, and cannot be written through the
-         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them.
-         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
-         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
-         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
-         * must select from a list group. Omit it to require no selections. A modifier set can
-         * override this value. Format: int32. modifier_group_id (Required): string. Stable
-         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
-         * string. Whether buyers choose from a list of modifiers or enter text. On create,
-         * inferred as text when text configuration is supplied, otherwise list. Value enum:
-         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
-         * group. Only active modifiers whose set override's available is not false are offered to
-         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
-         * purchasable customization choice. name (Required): string. Name of the modifier group
-         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
-         * group appear in fulfillment details unless overridden for a modifier set.
-         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
-         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
-         * status of the modifier group. Only active groups can be offered to buyers; archived
-         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
-         * group. Use text.required to require a value; list groups use min_selected instead.
-         * Settings for a text modifier group: whether input is required or multiline, and its
-         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
-         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
-         * its modifiers. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Whether buyers can select more than one unit of a list modifier. */
-            "allow_quantities": boolean;
-            /**
-             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "max_quantity"?: number;
-            /**
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. Format: int32.
-             */
-            "max_selected"?: number;
-            /**
-             * Maximum combined whole-number quantity across selected list modifiers; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "max_total_quantity"?: number;
-            /**
-             * Identifier of the merchant that owns this modifier group. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Minimum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "min_quantity"?: number;
-            /**
-             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
-             * to require no selections. A modifier set can override this value. Format: int32.
-             */
-            "min_selected"?: number;
-            /**
-             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
-             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
-             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-             */
-            "modifier_group_id": string;
-            /**
-             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
-             * text when text configuration is supplied, otherwise list. Value enum: "list",
-             * "text".
-             */
-            "modifier_group_type": "list" | "text" | (string & {});
-            /**
-             * Choices in a list group. Only active modifiers whose set override's available is not
-             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
-             * Modifier}. A purchasable customization choice.
-             */
-            "modifiers": Array<Modifier>;
-            /** Name of the modifier group shown to buyers. */
-            "name": string;
-            /**
-             * Whether selections from this group appear in fulfillment details unless overridden
-             * for a modifier set.
-             */
-            "show_on_fulfillment": boolean;
-            /**
-             * Whether selections from this group appear on buyer receipts unless overridden for a
-             * modifier set.
-             */
-            "show_on_receipt": boolean;
-            /**
-             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-             * archived groups remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Text entry rules for a text group. Use text.required to require a value; list groups
-             * use min_selected instead. Settings for a text modifier group: whether input is
-             * required or multiline, and its length limits.
-             */
-            "text"?: TextModifierConfig;
-            /**
-             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierGroup>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "modifier_group.updated". */
-    "event_type"?: "modifier_group.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `modifier_group.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ModifierGroupUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.allow_quantities (Required): boolean. Whether buyers can select
-     * more than one unit of a list modifier. object.created_at (Optional): string. When the
-     * modifier group was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.external_reference_id (Optional): string. Caller-owned
-     * identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.max_quantity (Optional): integer. Maximum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.max_selected (Optional): integer. Maximum number of
-     * distinct modifiers buyers can select from a list group. Omit it for no limit. A modifier set
-     * can override this value. Format: int32. object.max_total_quantity (Optional): integer.
-     * Maximum combined whole-number quantity across selected list modifiers; fractional quantities
-     * are not supported. Format: int64. object.merchant_id (Optional): string. Identifier of the
-     * merchant that owns this modifier group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     * object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be
-     * empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and
-     * cannot be written through the public API. Caller-owned key-value data stored on a resource.
-     * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-     * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-     * satisfy them. object.min_quantity (Optional): integer. Minimum whole-number quantity for
-     * each selected list modifier when allow_quantities is true; fractional quantities are not
-     * supported. Format: int64. object.min_selected (Optional): integer. Minimum number of
-     * distinct modifiers buyers must select from a list group. Omit it to require no selections. A
-     * modifier set can override this value. Format: int32. object.modifier_group_id (Required):
-     * string. Stable identifier of the modifier group. For a group a modifier set owns (`source:
-     * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups`
-     * doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". object.modifier_group_type
-     * (Required): string. Whether buyers choose from a list of modifiers or enter text. On create,
-     * inferred as text when text configuration is supplied, otherwise list. Value enum: "list",
-     * "text". object.modifiers (Required): Array of {@link Modifier}. Choices in a list group.
-     * Only active modifiers whose set override's available is not false are offered to buyers.
-     * Text groups do not have choices. object.modifiers[] (Value): {@link Modifier}. A purchasable
-     * customization choice. object.name (Required): string. Name of the modifier group shown to
-     * buyers. object.show_on_fulfillment (Required): boolean. Whether selections from this group
-     * appear in fulfillment details unless overridden for a modifier set. object.show_on_receipt
-     * (Required): boolean. Whether selections from this group appear on buyer receipts unless
-     * overridden for a modifier set. object.status (Required): string. Lifecycle status of the
-     * modifier group. Only active groups can be offered to buyers; archived groups remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.text (Optional):
-     * {@link TextModifierConfig}. Text entry rules for a text group. Use text.required to require
-     * a value; list groups use min_selected instead. Settings for a text modifier group: whether
-     * input is required or multiline, and its length limits. object.updated_at (Optional): string.
-     * When the modifier group or its modifiers last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier group and its modifiers. Format: uint64. minimum: 1. previous_attributes
-     * (Optional): object. Previous values of changed top-level fields in data.object, at this
-     * delivery's API version. Nested changes include the whole previous top-level value. A value
-     * is null when the field was absent before the change. Omitted when Flint did not record the
-     * previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * allow_quantities (Required): boolean. Whether buyers can select more than one unit of a
-         * list modifier. created_at (Optional): string. When the modifier group was created, as an
-         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_quantity (Optional):
-         * integer. Maximum whole-number quantity for each selected list modifier when
-         * allow_quantities is true; fractional quantities are not supported. Format: int64.
-         * max_selected (Optional): integer. Maximum number of distinct modifiers buyers can select
-         * from a list group. Omit it for no limit. A modifier set can override this value. Format:
-         * int32. max_total_quantity (Optional): integer. Maximum combined whole-number quantity
-         * across selected list modifiers; fractional quantities are not supported. Format: int64.
-         * merchant_id (Optional): string. Identifier of the merchant that owns this modifier
-         * group. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link
-         * MetadataMap}. Caller-owned metadata. Values can't be empty strings. Keys starting with
-         * flint_ are reserved for Flint, are not returned, and cannot be written through the
-         * public API. Caller-owned key-value data stored on a resource. Keys starting with flint_
-         * are reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-         * and MetadataPatchInput; maps written before those limits may not satisfy them.
-         * min_quantity (Optional): integer. Minimum whole-number quantity for each selected list
-         * modifier when allow_quantities is true; fractional quantities are not supported. Format:
-         * int64. min_selected (Optional): integer. Minimum number of distinct modifiers buyers
-         * must select from a list group. Omit it to require no selections. A modifier set can
-         * override this value. Format: int32. modifier_group_id (Required): string. Stable
-         * identifier of the modifier group. For a group a modifier set owns (`source: inline`),
-         * read it through `GET /v1/modifier-sets/{modifier_set_id}`; `/v1/modifier-groups` doesn't
-         * return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". modifier_group_type (Required):
-         * string. Whether buyers choose from a list of modifiers or enter text. On create,
-         * inferred as text when text configuration is supplied, otherwise list. Value enum:
-         * "list", "text". modifiers (Required): Array of {@link Modifier}. Choices in a list
-         * group. Only active modifiers whose set override's available is not false are offered to
-         * buyers. Text groups do not have choices. modifiers[] (Value): {@link Modifier}. A
-         * purchasable customization choice. name (Required): string. Name of the modifier group
-         * shown to buyers. show_on_fulfillment (Required): boolean. Whether selections from this
-         * group appear in fulfillment details unless overridden for a modifier set.
-         * show_on_receipt (Required): boolean. Whether selections from this group appear on buyer
-         * receipts unless overridden for a modifier set. status (Required): string. Lifecycle
-         * status of the modifier group. Only active groups can be offered to buyers; archived
-         * groups remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". text (Optional): {@link TextModifierConfig}. Text entry rules for a text
-         * group. Use text.required to require a value; list groups use min_selected instead.
-         * Settings for a text modifier group: whether input is required or multiline, and its
-         * length limits. updated_at (Optional): string. When the modifier group or its modifiers
-         * last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier group and
-         * its modifiers. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Whether buyers can select more than one unit of a list modifier. */
-            "allow_quantities": boolean;
-            /**
-             * When the modifier group was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "max_quantity"?: number;
-            /**
-             * Maximum number of distinct modifiers buyers can select from a list group. Omit it
-             * for no limit. A modifier set can override this value. Format: int32.
-             */
-            "max_selected"?: number;
-            /**
-             * Maximum combined whole-number quantity across selected list modifiers; fractional
-             * quantities are not supported. Format: int64.
-             */
-            "max_total_quantity"?: number;
-            /**
-             * Identifier of the merchant that owns this modifier group. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Minimum whole-number quantity for each selected list modifier when allow_quantities
-             * is true; fractional quantities are not supported. Format: int64.
-             */
-            "min_quantity"?: number;
-            /**
-             * Minimum number of distinct modifiers buyers must select from a list group. Omit it
-             * to require no selections. A modifier set can override this value. Format: int32.
-             */
-            "min_selected"?: number;
-            /**
-             * Stable identifier of the modifier group. For a group a modifier set owns (`source:
-             * inline`), read it through `GET /v1/modifier-sets/{modifier_set_id}`;
-             * `/v1/modifier-groups` doesn't return it. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-             */
-            "modifier_group_id": string;
-            /**
-             * Whether buyers choose from a list of modifiers or enter text. On create, inferred as
-             * text when text configuration is supplied, otherwise list. Value enum: "list",
-             * "text".
-             */
-            "modifier_group_type": "list" | "text" | (string & {});
-            /**
-             * Choices in a list group. Only active modifiers whose set override's available is not
-             * false are offered to buyers. Text groups do not have choices. [] (Value): {@link
-             * Modifier}. A purchasable customization choice.
-             */
-            "modifiers": Array<Modifier>;
-            /** Name of the modifier group shown to buyers. */
-            "name": string;
-            /**
-             * Whether selections from this group appear in fulfillment details unless overridden
-             * for a modifier set.
-             */
-            "show_on_fulfillment": boolean;
-            /**
-             * Whether selections from this group appear on buyer receipts unless overridden for a
-             * modifier set.
-             */
-            "show_on_receipt": boolean;
-            /**
-             * Lifecycle status of the modifier group. Only active groups can be offered to buyers;
-             * archived groups remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Text entry rules for a text group. Use text.required to require a value; list groups
-             * use min_selected instead. Settings for a text modifier group: whether input is
-             * required or multiline, and its length limits.
-             */
-            "text"?: TextModifierConfig;
-            /**
-             * When the modifier group or its modifiers last changed, as an RFC3339 timestamp.
-             * Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Version of the modifier group and its modifiers. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierGroup>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "modifier_group.updated". */
-    "event_type"?: "modifier_group.updated";
-});
-export type ModifierGroupsCreateParams = (InputValue<CreateModifierGroupRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ModifierGroupsDeleteParams = {
-    /** Optional modifier group version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ModifierGroupsGetParams = DisputesAcceptParams;
-export type ModifierGroupsListParams = {
+    "fulfillment_id"?: InputValue<string>;
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -1899,39 +39,149 @@ export type ModifierGroupsListParams = {
      */
     "page_token"?: InputValue<string>;
     /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "archived".
+     * Filter by linked Return ID. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
      */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
+    "return_id"?: InputValue<string>;
     /**
-     * Filter by modifier group type. Values are trimmed and deduplicated in first-seen order;
+     * Inclusive lower bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "handed_off_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on handed_off_at. Format: date-time. Example: "2026-03-17T14:30:00Z".
+     */
+    "handed_off_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by package-derived shipment status. Values within this filter are combined with OR.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "created", "packed", "shipped", "in_transit", "out_for_delivery", "delivered",
+     * "delivery_attempted", "exception", "returned", "voided". Value enum: "created", "packed",
+     * "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted", "exception",
+     * "returned", "voided". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "created",
+     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
+     * "exception", "returned", "voided". anyOf[1][] (Value): string. Value enum: "created",
+     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
+     * "exception", "returned", "voided". anyOf[2] (Value): string. Value enum: "created",
+     * "packed", "shipped", "in_transit", "out_for_delivery", "delivered", "delivery_attempted",
+     * "exception", "returned", "voided".
+     */
+    "status"?: InputValue<("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided")
+        | readonly ("created"
+        | "packed"
+        | "shipped"
+        | "in_transit"
+        | "out_for_delivery"
+        | "delivered"
+        | "delivery_attempted"
+        | "exception"
+        | "returned"
+        | "voided")[]>;
+};
+export type MeListSubscriptionPaymentRetriesParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+};
+export type MeListSubscriptionsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by subscription status. Values are trimmed and deduplicated in first-seen order;
      * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "list", "text". Value enum: "list", "text". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "list", "text". anyOf[1][] (Value): string. Value enum:
-     * "list", "text". anyOf[2] (Value): string. Value enum: "list", "text".
+     * are ANDed. [] enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
+     * "scheduled". Value enum: "trialing", "active", "paused", "past_due", "canceled",
+     * "incomplete", "scheduled". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+     * anyOf[1][] (Value): string. Value enum: "trialing", "active", "paused", "past_due",
+     * "canceled", "incomplete", "scheduled". anyOf[2] (Value): string. Value enum: "trialing",
+     * "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
      */
-    "modifier_group_type"?: InputValue<("list" | "text") | readonly ("list" | "text")[]>;
+    "status"?: InputValue<("trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled")
+        | readonly ("trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled")[]>;
     /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
+     * Separate subscriptions scheduled by Flint (flint) from those whose billing dates the store
+     * supplies (external). Values are trimmed and deduplicated in first-seen order; empty or
+     * unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "flint", "external". Value enum: "flint", "external". anyOf[1] (Value):
+     * Array of string. minItems: 1. [] enum: "flint", "external". anyOf[1][] (Value): string.
+     * Value enum: "flint", "external". anyOf[2] (Value): string. Value enum: "flint", "external".
      */
-    "external_reference_id"?: InputValue<string>;
+    "billing_schedule_owner"?: InputValue<("flint" | "external") | readonly ("flint" | "external")[]>;
     /**
-     * Search across modifier group ID, external reference ID, and name. Text fields match any part
-     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
-     * start and need the type prefix, such as mg_01.
+     * When true, returns subscriptions scheduled to cancel at the end of the current period that
+     * are not yet canceled. When false, returns every other subscription.
      */
-    "query"?: InputValue<string>;
+    "cancel_at_period_end"?: InputValue<boolean>;
     /**
-     * Field to sort by. Defaults to created_at; ties are broken by modifier_group_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at".
+     * Filter by the subscription's selected delivery method. pattern:
+     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      */
-    "sort_by"?: InputValue<"created_at" | "updated_at">;
+    "delivery_method_id"?: InputValue<string>;
+    /**
+     * Find subscriptions needing a new delivery method, address, or rate by the current
+     * delivery_hold reason. Does not match upcoming delivery issues. Values are trimmed and
+     * deduplicated in first-seen order; empty or unknown entries are rejected. Values within this
+     * filter are ORed; separate filters are ANDed. [] enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable". Value enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable". anyOf[1] (Value): Array of string. minItems:
+     * 1. [] enum: "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[1][]
+     * (Value): string. Value enum: "method_unavailable", "destination_not_served",
+     * "rate_unavailable". anyOf[2] (Value): string. Value enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable".
+     */
+    "hold_reason"?: InputValue<("method_unavailable" | "destination_not_served" | "rate_unavailable")
+        | readonly ("method_unavailable" | "destination_not_served" | "rate_unavailable")[]>;
+    /**
+     * Filter by Flint subscription plan ID. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by subscription_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "next_billing_at".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
     /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
     "sort_direction"?: InputValue<"asc" | "desc">;
     /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
@@ -1943,1924 +193,29 @@ export type ModifierGroupsListParams = {
     /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
     "updated_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Inclusive lower bound on next_billing_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
      */
-    "Flint-Merchant-Id"?: InputValue<string>;
+    "next_billing_after"?: InputValue<string | globalThis.Date>;
     /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
+     * Exclusive upper bound on next_billing_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
      */
-    "Flint-Mode"?: InputValue<"test" | "live">;
+    "next_billing_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Load subscriptions needing your attention. True matches subscriptions with a delivery hold,
+     * an upcoming delivery hold, or a delivery-action-required pause, plus past_due subscriptions
+     * and active or incomplete subscriptions whose billing date passed more than 24 hours ago
+     * without payment. False is the exact complement. Other filters still apply.
      */
-    "Flint-Sandbox-Id"?: InputValue<string>;
+    "needs_attention"?: InputValue<boolean>;
 };
-export type ModifierGroupsUpdateParams = (InputValue<UpdateModifierGroupRequestInput>)
-    & {
+export type MeListTicketsParams = {
     /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Only tickets belonging to this order. Another buyer's order returns no tickets. pattern:
+     * ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * Settings for one modifier that apply only within a modifier set group, overriding the modifier
- * group's own values.
- */
-export type ModifierOverride = {
-    /**
-     * Whether this modifier can be offered in this set. Defaults to true; the modifier must also
-     * have status active. Default: true.
-     */
-    "available"?: boolean;
-    /**
-     * Overrides the modifier's default_quantity for this set. Omit it to use the modifier's value.
-     * Ignored when the choice is unavailable. Quantities are whole numbers; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "default_quantity"?: number;
-    /**
-     * Overrides the modifier's line_item_tax_category for this set. Omit it to use the modifier's
-     * value. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
-     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
-     * "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    /**
-     * Identifier of the list modifier these overrides apply to. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id": string;
-    /**
-     * Overrides the modifier's selected_by_default for this set. Omit it to use the modifier's
-     * value. Ignored when the choice is unavailable.
-     */
-    "selected_by_default"?: boolean;
-    /** Overrides the modifier's taxable for this set. Omit it to use the modifier's value. */
-    "taxable"?: boolean;
-    /**
-     * Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's
-     * value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_delta_money"?: MoneyValue;
-};
-/**
- * Settings for one modifier that apply only within a modifier set group, overriding the modifier
- * group's own values.
- */
-export type ModifierOverrideRequestInput = {
-    /**
-     * Whether this modifier can be offered in this set. Defaults to true; the modifier must also
-     * have status active. Default: true.
-     */
-    "available"?: boolean;
-    /**
-     * Overrides the modifier's default_quantity for this set. Omit it to use the modifier's value.
-     * Ignored when the choice is unavailable. Quantities are whole numbers; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "default_quantity"?: number;
-    /**
-     * Overrides the modifier's line_item_tax_category for this set. Omit it to use the modifier's
-     * value. Value enum: "general", "physical_goods", "digital_goods", "software", "saas",
-     * "services", "professional_services", "food", "prepared_food", "clothing", "medical_goods",
-     * "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission";
-    /**
-     * Identifier of the list modifier these overrides apply to. minLength: 1. Example:
-     * "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id": string;
-    /**
-     * Overrides the modifier's selected_by_default for this set. Omit it to use the modifier's
-     * value. Ignored when the choice is unavailable.
-     */
-    "selected_by_default"?: boolean;
-    /** Overrides the modifier's taxable for this set. Omit it to use the modifier's value. */
-    "taxable"?: boolean;
-    /**
-     * Overrides the modifier's unit_price_delta_money for this set. Omit it to use the modifier's
-     * value. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "unit_price_delta_money"?: MoneyValueInput;
-};
-/**
- * A modifier you supply when creating or updating a modifier group, such as an add-on with a price
- * change.
- */
-export type ModifierRequest = {
-    /**
-     * Whole-number quantity selected by default. Used only when the choice is available and
-     * selected_by_default is true. A modifier set can override this value; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "default_quantity"?: number;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission"
-        | (string & {});
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
-     * or omit it to create one. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id"?: string;
-    /** Name of the choice shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display position of the choice within its group; lower values appear first. Format: int32.
-     */
-    "position"?: number;
-    /**
-     * Whether this choice is selected when the buyer has not supplied selections for the group. A
-     * modifier set can override this value; unavailable choices are never selected by default.
-     * Default: false.
-     */
-    "selected_by_default"?: boolean;
-    /** Whether this modifier appears in fulfillment details. */
-    "show_on_fulfillment"?: boolean;
-    /** Whether this modifier appears on buyer receipts. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
-     * enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Whether this modifier's price is taxable. A modifier set can override this value. */
-    "taxable"?: boolean;
-    /**
-     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
-     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "unit_price_delta_money"?: MoneyValue;
-};
-/**
- * A modifier you supply when creating or updating a modifier group, such as an add-on with a price
- * change.
- */
-export type ModifierRequestInput = {
-    /**
-     * Whole-number quantity selected by default. Used only when the choice is available and
-     * selected_by_default is true. A modifier set can override this value; fractional quantities
-     * are not supported. Format: int64.
-     */
-    "default_quantity"?: number;
-    /**
-     * Flint line-item tax category. Value enum: "general", "physical_goods", "digital_goods",
-     * "software", "saas", "services", "professional_services", "food", "prepared_food",
-     * "clothing", "medical_goods", "admission".
-     */
-    "line_item_tax_category"?: "general"
-        | "physical_goods"
-        | "digital_goods"
-        | "software"
-        | "saas"
-        | "services"
-        | "professional_services"
-        | "food"
-        | "prepared_food"
-        | "clothing"
-        | "medical_goods"
-        | "admission";
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Stable identifier of the modifier. In a replacement request, include it to retain a modifier
-     * or omit it to create one. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S".
-     */
-    "modifier_id"?: string;
-    /** Name of the choice shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display position of the choice within its group; lower values appear first. Format: int32.
-     */
-    "position"?: number;
-    /**
-     * Whether this choice is selected when the buyer has not supplied selections for the group. A
-     * modifier set can override this value; unavailable choices are never selected by default.
-     * Default: false.
-     */
-    "selected_by_default"?: boolean;
-    /** Whether this modifier appears in fulfillment details. */
-    "show_on_fulfillment"?: boolean;
-    /** Whether this modifier appears on buyer receipts. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Lifecycle status of the modifier. Only active modifiers can be offered to buyers. Value
-     * enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Whether this modifier's price is taxable. A modifier set can override this value. */
-    "taxable"?: boolean;
-    /**
-     * Amount added to the item's unit price for each unit of this modifier. A modifier set can
-     * override this value. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "unit_price_delta_money"?: MoneyValueInput;
-};
-/** A reusable collection of customization groups. */
-export type ModifierSet = {
-    /**
-     * When the modifier set was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Ordered group entries in this set, including the full content of reusable groups and groups
-     * owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as it appears in a
-     * modifier set, with its selection limits, display options, and per-modifier overrides.
-     */
-    "modifier_groups": Array<ModifierSetGroup>;
-    /**
-     * Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     */
-    "modifier_set_id": string;
-    /** Name used to identify this modifier set. */
-    "name": string;
-    /**
-     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
-     * sets remain readable and cannot be edited. Value enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * When the modifier set or any group it contains last changed, as an RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /**
-     * Version of the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-export type ModifierSetArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_groups": Array<ModifierSetGroup>;
-            "modifier_set_id": string;
-            "name": string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "modifier_set.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_groups": Array<ModifierSetGroup>;
-            "modifier_set_id": string;
-            "name": string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "modifier_set.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "modifier_set.archived";
-});
-/**
- * The `modifier_set.archived` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ModifierSetArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Optional): string. When the modifier set was created,
-     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
-     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
-     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
-     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
-     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
-     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
-     * string. Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
-     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
-     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
-     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Optional): string. When the modifier set was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
-         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
-         * group entries in this set, including the full content of reusable groups and groups
-         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
-         * as it appears in a modifier set, with its selection limits, display options, and
-         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
-         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
-         * (Required): string. Name used to identify this modifier set. status (Required): string.
-         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". updated_at (Optional): string. When the modifier set or any group it
-         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
-         * including the groups it contains. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Identifier of the merchant that owns this modifier set. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Ordered group entries in this set, including the full content of reusable groups and
-             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
-             * it appears in a modifier set, with its selection limits, display options, and
-             * per-modifier overrides.
-             */
-            "modifier_groups": Array<ModifierSetGroup>;
-            /**
-             * Stable identifier of the modifier set assigned to catalog items. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string;
-            /** Name used to identify this modifier set. */
-            "name": string;
-            /**
-             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-             * archived sets remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When the modifier set or any group it contains last changed, as an RFC3339
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Version of the modifier set, including the groups it contains. Format: uint64.
-             * minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "modifier_set.archived". */
-    "event_type"?: "modifier_set.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `modifier_set.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ModifierSetArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Optional): string. When the modifier set was created,
-     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
-     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
-     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
-     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
-     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
-     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
-     * string. Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
-     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
-     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
-     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Optional): string. When the modifier set was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
-         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
-         * group entries in this set, including the full content of reusable groups and groups
-         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
-         * as it appears in a modifier set, with its selection limits, display options, and
-         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
-         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
-         * (Required): string. Name used to identify this modifier set. status (Required): string.
-         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". updated_at (Optional): string. When the modifier set or any group it
-         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
-         * including the groups it contains. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Identifier of the merchant that owns this modifier set. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Ordered group entries in this set, including the full content of reusable groups and
-             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
-             * it appears in a modifier set, with its selection limits, display options, and
-             * per-modifier overrides.
-             */
-            "modifier_groups": Array<ModifierSetGroup>;
-            /**
-             * Stable identifier of the modifier set assigned to catalog items. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string;
-            /** Name used to identify this modifier set. */
-            "name": string;
-            /**
-             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-             * archived sets remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When the modifier set or any group it contains last changed, as an RFC3339
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Version of the modifier set, including the groups it contains. Format: uint64.
-             * minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "modifier_set.archived". */
-    "event_type"?: "modifier_set.archived";
-});
-export type ModifierSetCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_groups": Array<ModifierSetGroup>;
-            "modifier_set_id": string;
-            "name": string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "modifier_set.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_groups": Array<ModifierSetGroup>;
-            "modifier_set_id": string;
-            "name": string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "modifier_set.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "modifier_set.created";
-});
-/**
- * The `modifier_set.created` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ModifierSetCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Optional): string. When the modifier set was created,
-     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
-     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
-     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
-     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
-     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
-     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
-     * string. Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
-     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
-     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
-     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Optional): string. When the modifier set was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
-         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
-         * group entries in this set, including the full content of reusable groups and groups
-         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
-         * as it appears in a modifier set, with its selection limits, display options, and
-         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
-         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
-         * (Required): string. Name used to identify this modifier set. status (Required): string.
-         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". updated_at (Optional): string. When the modifier set or any group it
-         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
-         * including the groups it contains. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Identifier of the merchant that owns this modifier set. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Ordered group entries in this set, including the full content of reusable groups and
-             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
-             * it appears in a modifier set, with its selection limits, display options, and
-             * per-modifier overrides.
-             */
-            "modifier_groups": Array<ModifierSetGroup>;
-            /**
-             * Stable identifier of the modifier set assigned to catalog items. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string;
-            /** Name used to identify this modifier set. */
-            "name": string;
-            /**
-             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-             * archived sets remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When the modifier set or any group it contains last changed, as an RFC3339
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Version of the modifier set, including the groups it contains. Format: uint64.
-             * minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "modifier_set.created". */
-    "event_type"?: "modifier_set.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `modifier_set.created` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ModifierSetCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Optional): string. When the modifier set was created,
-     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
-     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
-     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
-     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
-     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
-     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
-     * string. Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
-     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
-     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
-     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Optional): string. When the modifier set was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
-         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
-         * group entries in this set, including the full content of reusable groups and groups
-         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
-         * as it appears in a modifier set, with its selection limits, display options, and
-         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
-         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
-         * (Required): string. Name used to identify this modifier set. status (Required): string.
-         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". updated_at (Optional): string. When the modifier set or any group it
-         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
-         * including the groups it contains. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Identifier of the merchant that owns this modifier set. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Ordered group entries in this set, including the full content of reusable groups and
-             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
-             * it appears in a modifier set, with its selection limits, display options, and
-             * per-modifier overrides.
-             */
-            "modifier_groups": Array<ModifierSetGroup>;
-            /**
-             * Stable identifier of the modifier set assigned to catalog items. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string;
-            /** Name used to identify this modifier set. */
-            "name": string;
-            /**
-             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-             * archived sets remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When the modifier set or any group it contains last changed, as an RFC3339
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Version of the modifier set, including the groups it contains. Format: uint64.
-             * minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "modifier_set.created". */
-    "event_type"?: "modifier_set.created";
-});
-/**
- * A modifier group as it appears in a modifier set, with its selection limits, display options,
- * and per-modifier overrides.
- */
-export type ModifierSetGroup = {
-    /** Overrides the group's name for this set. Omit it to use the group's name. */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Full modifier group for this entry, with the same representation as GET
-     * /v1/modifier-groups/{modifier_group_id}. Archived modifiers are excluded for either source,
-     * including when the group is archived. A group of choices that customize an item.
-     */
-    "modifier_group": ModifierGroup;
-    /**
-     * Stable identifier of the group contained in this entry, for either source. Example:
-     * "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
-     * overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverride>;
-    /**
-     * Stable identifier of this group entry within the set. In a replacement request, include it
-     * to retain an entry or omit it to create one. Example: "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
-     */
-    "modifier_set_group_id": string;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position": number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Inline groups are owned by this modifier set. Existing groups are independent resources
-     * referenced by this set. Value enum: "existing", "inline".
-     */
-    "source": "existing" | "inline" | (string & {});
-};
-/** The `existing` variant of `ModifierSetGroupInput`. */
-export type ModifierSetGroupInputExisting = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group"?: InlineModifierGroupRequest;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
-     * overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverride>;
-    /**
-     * Stable identifier of this group entry within the set. In a replacement request, include it
-     * to retain an entry or omit it to create one. minLength: 1. Example:
-     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
-     */
-    "modifier_set_group_id"?: string;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing".
-     */
-    "source": "existing" | (string & {});
-})
-    & (({
-    /** References an independent modifier group. Value enum: "existing". */
-    "source": "existing" | (string & {});
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-}));
-/** The `existing` variant of `ModifierSetGroupInput`. */
-export type ModifierSetGroupInputExistingInput = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group"?: InlineModifierGroupRequestInput;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
-     * set group, overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
-    /**
-     * Stable identifier of this group entry within the set. In a replacement request, include it
-     * to retain an entry or omit it to create one. minLength: 1. Example:
-     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
-     */
-    "modifier_set_group_id"?: string;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing".
-     */
-    "source": "existing";
-})
-    & (({
-    /** References an independent modifier group. Value enum: "existing". */
-    "source": "existing";
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id": string;
-})
-    & ({
-    "modifier_group"?: never;
-}));
-/** The `inline` variant of `ModifierSetGroupInput`. */
-export type ModifierSetGroupInputInline = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group": InlineModifierGroupRequest;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
-     * overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverride>;
-    /**
-     * Stable identifier of this group entry within the set. In a replacement request, include it
-     * to retain an entry or omit it to create one. minLength: 1. Example:
-     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
-     */
-    "modifier_set_group_id"?: string;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "inline".
-     */
-    "source": "inline" | (string & {});
-})
-    & (({
-    /** Defines a modifier group owned by this modifier set. Value enum: "inline". */
-    "source": "inline" | (string & {});
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group": InlineModifierGroupRequest;
-}));
-/** The `inline` variant of `ModifierSetGroupInput`. */
-export type ModifierSetGroupInputInlineInput = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group": InlineModifierGroupRequestInput;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
-     * set group, overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
-    /**
-     * Stable identifier of this group entry within the set. In a replacement request, include it
-     * to retain an entry or omit it to create one. minLength: 1. Example:
-     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
-     */
-    "modifier_set_group_id"?: string;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "inline".
-     */
-    "source": "inline";
-})
-    & (({
-    /** Defines a modifier group owned by this modifier set. Value enum: "inline". */
-    "source": "inline";
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group": InlineModifierGroupRequestInput;
-})
-    & ({
-    "modifier_group_id"?: never;
-}));
-/**
- * A modifier group you add to a modifier set, either an existing group by ID or a new inline
- * group, with selection limits and overrides.
- */
-export type ModifierSetGroupRequest = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group"?: InlineModifierGroupRequest;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
-     * overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverride>;
-    /**
-     * Stable identifier of this group entry within the set. In a replacement request, include it
-     * to retain an entry or omit it to create one. minLength: 1. Example:
-     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
-     */
-    "modifier_set_group_id"?: string;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing", "inline".
-     */
-    "source": "existing" | "inline" | (string & {});
-})
-    & ((Exclude<ModifierSetGroupInputExisting & object, readonly unknown[]>)
-    | (Exclude<ModifierSetGroupInputInline & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A modifier group you add to a modifier set, either an existing group by ID or a new inline
- * group, with selection limits and overrides.
- */
-export type ModifierSetGroupRequestInput = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when setting up a modifier set, with its name, rules for how many options can
-     * be selected, and its modifiers.
-     */
-    "modifier_group"?: InlineModifierGroupRequestInput;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
-     * set group, overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
-    /**
-     * Stable identifier of this group entry within the set. In a replacement request, include it
-     * to retain an entry or omit it to create one. minLength: 1. Example:
-     * "msg_01KEZF7C008GXTVA2AQ1SRFGFC".
-     */
-    "modifier_set_group_id"?: string;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing", "inline".
-     */
-    "source": "existing" | "inline";
-})
-    & ((Exclude<ModifierSetGroupInputExistingInput & object, readonly unknown[]>)
-    | (Exclude<ModifierSetGroupInputInlineInput & object, readonly unknown[]>));
-/** A page of `ModifierSet` objects. */
-export type ModifierSetListResponse = {
-    /**
-     * Modifier sets matching the request filters for this page. [] (Value): {@link ModifierSet}. A
-     * reusable collection of customization groups.
-     */
-    "data": Array<ModifierSet>;
-    /**
-     * Response metadata, including API version, trace identifier, and warnings when present.
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Pass this token as page_token to read the next page with the same filters. Absent when there
-     * are no more results.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ModifierSet` data. */
-export type ModifierSetResponse = {
-    /**
-     * The modifier set returned by this operation. A reusable collection of customization groups.
-     */
-    "data": ModifierSet;
-    /**
-     * Response metadata, including API version, trace identifier, and warnings when present.
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting Flint support. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type ModifierSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_groups": Array<ModifierSetGroup>;
-            "modifier_set_id": string;
-            "name": string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "modifier_set.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "created_at"?: string;
-            "external_reference_id"?: string;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_groups": Array<ModifierSetGroup>;
-            "modifier_set_id": string;
-            "name": string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "modifier_set.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "modifier_set.updated";
-});
-/**
- * The `modifier_set.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type ModifierSetUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Optional): string. When the modifier set was created,
-     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
-     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
-     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
-     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
-     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
-     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
-     * string. Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
-     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
-     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
-     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Optional): string. When the modifier set was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
-         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
-         * group entries in this set, including the full content of reusable groups and groups
-         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
-         * as it appears in a modifier set, with its selection limits, display options, and
-         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
-         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
-         * (Required): string. Name used to identify this modifier set. status (Required): string.
-         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". updated_at (Optional): string. When the modifier set or any group it
-         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
-         * including the groups it contains. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Identifier of the merchant that owns this modifier set. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Ordered group entries in this set, including the full content of reusable groups and
-             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
-             * it appears in a modifier set, with its selection limits, display options, and
-             * per-modifier overrides.
-             */
-            "modifier_groups": Array<ModifierSetGroup>;
-            /**
-             * Stable identifier of the modifier set assigned to catalog items. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string;
-            /** Name used to identify this modifier set. */
-            "name": string;
-            /**
-             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-             * archived sets remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When the modifier set or any group it contains last changed, as an RFC3339
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Version of the modifier set, including the groups it contains. Format: uint64.
-             * minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "modifier_set.updated". */
-    "event_type"?: "modifier_set.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `modifier_set.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ModifierSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.created_at (Optional): string. When the modifier set was created,
-     * as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.merchant_id
-     * (Optional): string. Identifier of the merchant that owns this modifier set. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.modifier_groups (Required): Array
-     * of {@link ModifierSetGroup}. Ordered group entries in this set, including the full content
-     * of reusable groups and groups owned by the set. object.modifier_groups[] (Value): {@link
-     * ModifierSetGroup}. A modifier group as it appears in a modifier set, with its selection
-     * limits, display options, and per-modifier overrides. object.modifier_set_id (Required):
-     * string. Stable identifier of the modifier set assigned to catalog items. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Name used to identify this
-     * modifier set. object.status (Required): string. Lifecycle status of the modifier set. Only
-     * active sets can be offered to buyers; archived sets remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When the
-     * modifier set or any group it contains last changed, as an RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Version of
-     * the modifier set, including the groups it contains. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * created_at (Optional): string. When the modifier set was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". merchant_id (Optional): string. Identifier of
-         * the merchant that owns this modifier set. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata. Values can't be empty
-         * strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot
-         * be written through the public API. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_groups (Required): Array of {@link ModifierSetGroup}. Ordered
-         * group entries in this set, including the full content of reusable groups and groups
-         * owned by the set. modifier_groups[] (Value): {@link ModifierSetGroup}. A modifier group
-         * as it appears in a modifier set, with its selection limits, display options, and
-         * per-modifier overrides. modifier_set_id (Required): string. Stable identifier of the
-         * modifier set assigned to catalog items. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name
-         * (Required): string. Name used to identify this modifier set. status (Required): string.
-         * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-         * archived sets remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". updated_at (Optional): string. When the modifier set or any group it
-         * contains last changed, as an RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Version of the modifier set,
-         * including the groups it contains. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * When the modifier set was created, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Identifier of the merchant that owns this modifier set. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Ordered group entries in this set, including the full content of reusable groups and
-             * groups owned by the set. [] (Value): {@link ModifierSetGroup}. A modifier group as
-             * it appears in a modifier set, with its selection limits, display options, and
-             * per-modifier overrides.
-             */
-            "modifier_groups": Array<ModifierSetGroup>;
-            /**
-             * Stable identifier of the modifier set assigned to catalog items. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string;
-            /** Name used to identify this modifier set. */
-            "name": string;
-            /**
-             * Lifecycle status of the modifier set. Only active sets can be offered to buyers;
-             * archived sets remain readable and cannot be edited. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When the modifier set or any group it contains last changed, as an RFC3339
-             * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Version of the modifier set, including the groups it contains. Format: uint64.
-             * minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<ModifierSet>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "modifier_set.updated". */
-    "event_type"?: "modifier_set.updated";
-});
-export type ModifierSetsCreateParams = (InputValue<CreateModifierSetRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ModifierSetsDeleteParams = {
-    /** Optional modifier set version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ModifierSetsGetParams = DisputesAcceptParams;
-export type ModifierSetsListParams = {
+    "order_id"?: InputValue<string>;
     /**
      * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
      * 100. Default: 20.
@@ -3873,1427 +228,1467 @@ export type ModifierSetsListParams = {
      * invalid, expired, or mismatched token returns a validation error.
      */
     "page_token"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "archived".
-     */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Search across modifier set ID, external reference ID, and name. Text fields match any part
-     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
-     * start and need the type prefix, such as ms_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by modifier_set_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at".
-     */
-    "sort_by"?: InputValue<"created_at" | "updated_at">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type ModifierSetsUpdateParams = (InputValue<UpdateModifierSetRequestInput>)
-    & {
+export type MePauseSubscriptionParams = (InputValue<PauseSubscriptionRequestInput>);
+export type MeRemoveGiftCardParams = {};
+export type MeRenewSubscriptionParams = (InputValue<RenewSubscriptionRequestInput>);
+export type MeResumeSubscriptionParams = (InputValue<ResourceVersionRequestInput>);
+export type MeRevokeRememberedBuyerParams = {};
+export type MeRevokeSessionParams = {};
+export type MeSaveGiftCardParams = (SaveMeGiftCardRequestInput);
+export type MeSendOrderReceiptParams = {};
+export type MeSkipSubscriptionCycleParams = (InputValue<SkipMeSubscriptionCycleRequestInput>);
+export type MeUpdateAddressParams = (InputValue<UpdateCustomerAddressRequestInput>);
+export type MeUpdateEmailPreferencesParams = (InputValue<UpdateCustomerEmailPreferencesRequestInput>);
+export type MeUpdateParams = (InputValue<UpdateMeRequestInput>);
+export type MeUpdateSubscriptionLineItemParams = (InputValue<UpdateMeSubscriptionLineItemRequestInput>);
+export type MeUpdateSubscriptionParams = (InputValue<UpdateMeSubscriptionRequestInput>);
+/** The business accepting payments. */
+export type Merchant = {
     /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     * The merchant's business address. A postal address. Every address has country. Addresses
+     * Flint checked as complete (customer and saved addresses, merchant, location, invoice, order
+     * delivery destination, tax identity, fulfillment recipient and pickup addresses) always have
+     * line1 and city, and US ones always have state and postal_code. Delivery quote destinations,
+     * buyer locations and postal-code tax locations hold only what was provided, such as
+     * postal_code and country.
      */
-    "Flint-Merchant-Id"?: InputValue<string>;
+    "address"?: Address;
     /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
+     * Default API version for requests without a Flint-Version header. Shared across live and test
+     * environments.
      */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * Why a money movement action is blocked, with an error code, a message, next steps, and who can
- * resolve it.
- */
-export type MoneyMovementBlockedReason = {
-    /** Code of the error the blocked action would return. */
-    "code": string;
-    /** Why the action is blocked. */
-    "message"?: string;
-    /** What to do to unblock the action. */
-    "next_steps"?: string;
-    /** The request field the block concerns. */
-    "param"?: string;
-    /** Who can resolve the block. Value enum: "merchant", "flint", "integrator", "buyer". */
-    "resolution_owner"?: "merchant" | "flint" | "integrator" | "buyer" | (string & {});
-    /** Whether trying the action again after the block clears can succeed. */
-    "retryable"?: boolean;
-};
-/** How complete the history in a money movement list is and when it was last reconciled. */
-export type MoneyMovementHistoryMeta = {
-    /**
-     * When Flint last finished reconciling this list's history with your processor. Absent until a
-     * reconciliation finishes. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "latest_reconciled_at"?: string;
-    /**
-     * Why the history may be incomplete: backfilling while Flint is still importing older history
-     * from your processor, partial when Flint has records from your processor but hasn't imported
-     * its full history, and unavailable when Flint can't say, such as before any import or after
-     * one fails. The list still returns every record Flint has. Value enum: "backfilling",
-     * "partial", "unavailable".
-     */
-    "status": "backfilling" | "partial" | "unavailable" | (string & {});
-};
-/**
- * Response metadata for money movement lists, including request and trace IDs, warnings, and the
- * state of the available history.
- */
-export type MoneyMovementListMeta = {
-    /** API version used to produce this response. */
     "api_version"?: string;
     /**
-     * How complete Flint's history for this list is. history is omitted when Flint's history for
-     * this list is complete. How complete the history in a money movement list is and when it was
-     * last reconciled.
-     */
-    "history"?: MoneyMovementHistoryMeta;
-    /** Whether this response replays a stored result for the supplied Idempotency-Key. */
-    "idempotency_replayed"?: boolean;
-    /**
-     * Trace identifier to include when contacting Flint about this request. Example:
-     * "0123456789abcdef0123456789abcdef".
-     */
-    "trace_id"?: string;
-    /**
-     * Conditions that need attention even though the request succeeded. [] (Value): {@link
-     * ResponseWarning}. A non-blocking condition reported with a response. The `code` identifies
-     * the condition and `severity` says how urgent it is.
-     */
-    "warnings"?: Array<ResponseWarning>;
-};
-/** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-export type MoneyValue = {
-    /**
-     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0.
-     */
-    "amount": `${bigint}`;
-    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. */
-    "currency": string;
-};
-/** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-export type MoneyValueInput = {
-    /**
-     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0.
-     */
-    "amount": `${bigint}` | bigint;
-    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. */
-    "currency": string;
-};
-/**
- * A follow-up action. When target_resource is present, send its resource_id in the target request
- * field named {resource_type}_id.
- */
-export type NextAction = {
-    /**
-     * Action to take next. Use its target resource and required_fields to prepare the request.
-     * Value enum: "get_operation", "create_checkout_session_customer_verification",
-     * "get_checkout_session", "get_payment_intent", "confirm_payment_intent",
-     * "capture_payment_intent", "cancel_payment_intent", "get_order", "update_order",
-     * "update_invoice", "pay_order", "close_order", "add_line_items", "update_checkout_session",
-     * "close_checkout_session", "create_refund", "get_refund", "get_payment_link_public",
-     * "update_payment_link", "update_inventory_allocation_policy", "update_settings",
-     * "update_location", "update_delivery_profile", "get_dispute", "review_onboarding_state",
-     * "create_dispute_response_session", "review_merchant_readiness", "recreate_delivery_quote",
-     * "create_merchant_account_session", "issue_developer_sandbox_test_key",
-     * "start_new_image_ingestion", "get_payout_settings", "payment_authentication",
-     * "complete_gift_card_challenge".
-     */
-    "action_type": "get_operation"
-        | "create_checkout_session_customer_verification"
-        | "get_checkout_session"
-        | "get_payment_intent"
-        | "confirm_payment_intent"
-        | "capture_payment_intent"
-        | "cancel_payment_intent"
-        | "get_order"
-        | "update_order"
-        | "update_invoice"
-        | "pay_order"
-        | "close_order"
-        | "add_line_items"
-        | "update_checkout_session"
-        | "close_checkout_session"
-        | "create_refund"
-        | "get_refund"
-        | "get_payment_link_public"
-        | "update_payment_link"
-        | "update_inventory_allocation_policy"
-        | "update_settings"
-        | "update_location"
-        | "update_delivery_profile"
-        | "get_dispute"
-        | "review_onboarding_state"
-        | "create_dispute_response_session"
-        | "review_merchant_readiness"
-        | "recreate_delivery_quote"
-        | "create_merchant_account_session"
-        | "issue_developer_sandbox_test_key"
-        | "start_new_image_ingestion"
-        | "get_payout_settings"
-        | "payment_authentication"
-        | "complete_gift_card_challenge"
-        | (string & {});
-    /**
-     * When this suggested action expires, in RFC3339 format. Format: date-time. Example:
+     * When the merchant's default API version last changed. Format: date-time. Example:
      * "2026-08-02T16:00:00Z".
      */
-    "expires_at"?: string;
+    "api_version_changed_at"?: string;
     /**
-     * Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is
-     * create_merchant_account_session. When absent, GET merchant readiness and use its recommended
-     * session body. Shared request body for `create_merchant_account_session` next actions in
-     * readiness, onboarding, errors, and warnings. Send unchanged to POST
-     * /v1/merchant-account-sessions; components and collection policy describe which requirements
-     * to collect.
+     * When the merchant's default API version was first set. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "merchant_account_session"?: ReadinessMerchantAccountSession;
-    /** Machine-readable reason this action is suggested. */
-    "reason_code"?: string;
-    /** Explanation of why this action is suggested. */
-    "reason_message"?: string;
-    /** Field names that must be supplied to perform this action. [] (Value): string. */
-    "required_fields"?: Array<string>;
+    "api_version_pinned_at"?: string;
+    /** Previous API version, present while a supported rollback is available. */
+    "api_version_previous"?: string;
     /**
-     * API key scope required to call the public endpoint in url, when the action points at another
-     * Flint API endpoint. Value enum: "accounts.api_keys.read", "accounts.api_keys.write",
-     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payout_settings.read", "money_movement.payout_settings.write",
-     * "money_movement.payouts.read", "money_movement.payouts.write", "payments.disputes.read",
-     * "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "reports.read", "reports.write", "risk.controls.write",
-     * "risk.read", "risk.reviews.write", "settings.read", "settings.write", "webhooks.read",
-     * "webhooks.write".
+     * When the 72-hour rollback offer expires. Explicit changes to any supported version remain
+     * available afterward. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "required_scope"?: "accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {});
-    /** Whether a person must approve the action before it is performed. */
-    "requires_human_confirmation"?: boolean;
-    /** Suggested wait before performing the action, in milliseconds. Format: int32. */
-    "suggested_delay_milliseconds"?: number;
+    "api_version_rollback_expires_at"?: string;
     /**
-     * Resource whose ID to send in the target request field named {resource_type}_id when url
-     * cannot carry the target. A reference to another resource by `resource_type` and
-     * `resource_id`.
+     * Business name buyers see on checkout, payment links, and receipts. Once the merchant starts
+     * verification, it stays in sync with the business name on the live Stripe account: a change
+     * on either side applies, and the latest change wins.
      */
-    "target_resource"?: ResourceReference;
-    /** Public endpoint or launch URL for this remediation action, when applicable. */
-    "url"?: string;
+    "business_name"?: string;
+    /**
+     * Merchant's business type. - `other`: A business type Flint does not map yet. Value enum:
+     * "individual", "company", "non_profit", "government_entity", "other".
+     */
+    "business_type"?: "individual" | "company" | "non_profit" | "government_entity" | "other" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The account's contact email address. A new account starts with the sign-up email. `null`
+     * when none is set.
+     */
+    "email": string | null;
+    /**
+     * A square image, at least 128 by 128 pixels, shown where the store needs a small mark:
+     * browser tabs and compact headers. An image attached to a resource, with its display
+     * properties and attachment metadata.
+     */
+    "icon"?: ImageAttachment;
+    /**
+     * The merchant's public brand mark. An image attached to a resource, with its display
+     * properties and attachment metadata.
+     */
+    "logo"?: ImageAttachment;
+    /** Stable identifier of the merchant. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** The account's contact phone number, in international format such as +12125551234. */
+    "phone"?: string;
+    /**
+     * Whether the merchant can accept payments and receive payouts, and what is still needed. A
+     * merchant's readiness to accept payments and receive payouts, with per-capability status and
+     * outstanding requirements.
+     */
+    "readiness": MerchantReadiness;
+    /**
+     * Whether Flint lets the account operate. `readiness` says whether payments and payouts are
+     * available. Value enum: "active", "suspended", "restricted", "closed".
+     */
+    "status": "active" | "suspended" | "restricted" | "closed" | (string & {});
+    /** Support email address shown to buyers, for example on receipts and checkout. */
+    "support_email"?: string;
+    /** Support phone number shown to buyers, in international format such as +12125551234. */
+    "support_phone"?: string;
+    /** Support page shown to buyers. */
+    "support_url"?: string;
+    /**
+     * Business IANA time zone, such as America/New_York. Used for invoice deadlines, new
+     * locations, notifications, and reporting when a request omits its time zone. Omitted when
+     * unset; UTC then applies. Existing resources keep their saved time zone.
+     */
+    "timezone"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Merchant version. Profile, status, and API version changes advance this version, including
+     * business name and business type changes synced from the payment provider. Readiness updates
+     * alone do not. Format: int64. minimum: 1.
+     */
+    "version": number;
+    /** The business's website. */
+    "website_url"?: string;
 };
-/** The request body for: Revoke an OAuth token. */
-export type OAuthRevokeRequest = ({
+/**
+ * A merchant account session: the browser initialization data, allowed components, effective
+ * policy, and launch token for embedded account management.
+ */
+export type MerchantAccountSession = {
     /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     * Browser initialization data required to mount embedded account-management components. These
+     * instructions are not merchant account resource state. Short-lived browser initialization
+     * data for an embedded merchant account session.
      */
-    "client_assertion"?: string;
+    "client_session": MerchantAccountSessionClientSession;
     /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     * The components the session authorizes, in catalog order. minItems: 1. [] enum:
+     * "account_onboarding", "account_management", "payouts", "balances", "tax_documents",
+     * "notification_banner", "payments". [] (Value): string. Value enum: "account_onboarding",
+     * "account_management", "payouts", "balances", "tax_documents", "notification_banner",
+     * "payments".
      */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    "components": Array<"account_onboarding"
+        | "account_management"
+        | "payouts"
+        | "balances"
+        | "tax_documents"
+        | "notification_banner"
+        | "payments"
+        | (string & {})>;
     /**
-     * Partner client ID for client_secret_post, or flint-cli for the public CLI client. Example:
-     * "fpc_00112233445566778899aabbccddeeff".
+     * The collection policy Flint applied to the session. The collection policy applied to a
+     * merchant account session: which requirements it targets, how they are collected, and whether
+     * future requirements are included.
      */
-    "client_id"?: string;
+    "effective_policy": MerchantAccountSessionEffectivePolicy;
     /**
-     * Partner client secret for client_secret_post. Omit when using HTTP Basic; flint-cli never
-     * sends a secret.
+     * Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new
+     * refresh operation rotates this token; a same-key retry replays the original token. The
+     * caller must still authenticate and authorize the human using the session.
      */
-    "client_secret"?: string;
-    /** Partner app token, or flint-cli access or refresh token, to revoke. */
-    "token": string;
-    /** Optional token lookup hint. Value enum: "refresh_token", "access_token". */
-    "token_type_hint"?: "refresh_token" | "access_token" | (string & {});
+    "launch_token": string;
+    /**
+     * Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "launch_token_expires_at": string;
+};
+/** Short-lived browser initialization data for an embedded merchant account session. */
+export type MerchantAccountSessionClientSession = {
+    /**
+     * Expiry of the embedded account session client secret in UTC. Connect.js calls
+     * fetchClientSecret to obtain a new secret when needed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Stripe Connect initialization credentials and authorized component collection options.
+     * Connect initializes from the account session client secret and does not take a connected
+     * account ID. Stripe Connect initialization data for a merchant account session: the account
+     * session, publishable key, and authorized components.
+     */
+    "stripe": MerchantAccountSessionStripe;
+};
+/**
+ * Creates an embedded account session for a non-empty unique set of Flint components. At most one
+ * component may use onboarding policy fields.
+ */
+export type MerchantAccountSessionCreateRequest = {
+    /**
+     * Which requirements the session collects. If omitted, `incremental` for an account that
+     * hasn't finished onboarding, otherwise `upfront`. Only `account_onboarding` and
+     * `account_management` take it. Value enum: "upfront", "incremental".
+     */
+    "collection_strategy"?: "upfront" | "incremental" | (string & {});
+    /**
+     * The embedded components the session opens, such as `account_onboarding`. Send each component
+     * once. A partner app install token can open only `account_onboarding` and
+     * `notification_banner`; another component returns `400 INVALID_REQUEST` with detail
+     * `NOT_ALLOWED`. With an API key or CLI login, `payments` also requires
+     * `payments.payment_intents.read` and `payments.disputes.write`; without them the request
+     * returns `403 INSUFFICIENT_SCOPE`. minItems: 1. maxItems: 7. uniqueItems: true. [] enum:
+     * "account_onboarding", "account_management", "payouts", "balances", "tax_documents",
+     * "notification_banner", "payments". [] (Value): string. Value enum: "account_onboarding",
+     * "account_management", "payouts", "balances", "tax_documents", "notification_banner",
+     * "payments".
+     */
+    "components": Array<"account_onboarding"
+        | "account_management"
+        | "payouts"
+        | "balances"
+        | "tax_documents"
+        | "notification_banner"
+        | "payments"
+        | (string & {})>;
+    /**
+     * Whether the session also collects requirements that will apply later. If omitted, `omit`
+     * while onboarding isn't finished or while something is due, otherwise `include`. Only
+     * `account_onboarding` and `account_management` take it. Value enum: "omit", "include".
+     */
+    "future_requirements"?: "omit" | "include" | (string & {});
+    /**
+     * Flint requirement codes. New codes can appear; treat an unknown code as
+     * additional_account_information. At most 100 codes, each up to 255 UTF-8 bytes after trimming
+     * surrounding whitespace. Only `account_onboarding` takes them. maxItems: 100. [] enum:
+     * "additional_account_information", "business_address", "business_description",
+     * "business_directors", "business_executives", "business_name", "business_owners",
+     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
+     * "business_verification_document", "business_website", "merchant_category_code",
+     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
+     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
+     * "payout_destination", "representative_address",
+     * "representative_additional_identity_document", "representative_date_of_birth",
+     * "representative_email", "representative_first_name", "representative_identity_document",
+     * "representative_last_name", "representative_phone", "representative_tax_id",
+     * "representative_tax_id_last_four". [] (Value): string. Value enum:
+     * "additional_account_information", "business_address", "business_description",
+     * "business_directors", "business_executives", "business_name", "business_owners",
+     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
+     * "business_verification_document", "business_website", "merchant_category_code",
+     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
+     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
+     * "payout_destination", "representative_address",
+     * "representative_additional_identity_document", "representative_date_of_birth",
+     * "representative_email", "representative_first_name", "representative_identity_document",
+     * "representative_last_name", "representative_phone", "representative_tax_id",
+     * "representative_tax_id_last_four".
+     */
+    "targeted_requirements"?: Array<"additional_account_information"
+        | "business_address"
+        | "business_description"
+        | "business_directors"
+        | "business_executives"
+        | "business_name"
+        | "business_owners"
+        | "business_phone"
+        | "business_support_phone"
+        | "business_support_url"
+        | "business_tax_id"
+        | "business_verification_document"
+        | "business_website"
+        | "merchant_category_code"
+        | "owner_address"
+        | "owner_additional_identity_document"
+        | "owner_date_of_birth"
+        | "owner_first_name"
+        | "owner_identity_document"
+        | "owner_last_name"
+        | "owner_tax_id_last_four"
+        | "payout_destination"
+        | "representative_address"
+        | "representative_additional_identity_document"
+        | "representative_date_of_birth"
+        | "representative_email"
+        | "representative_first_name"
+        | "representative_identity_document"
+        | "representative_last_name"
+        | "representative_phone"
+        | "representative_tax_id"
+        | "representative_tax_id_last_four"
+        | (string & {})>;
+};
+/**
+ * Creates an embedded account session for a non-empty unique set of Flint components. At most one
+ * component may use onboarding policy fields.
+ */
+export type MerchantAccountSessionCreateRequestInput = {
+    /**
+     * Which requirements the session collects. If omitted, `incremental` for an account that
+     * hasn't finished onboarding, otherwise `upfront`. Only `account_onboarding` and
+     * `account_management` take it. Value enum: "upfront", "incremental".
+     */
+    "collection_strategy"?: "upfront" | "incremental";
+    /**
+     * The embedded components the session opens, such as `account_onboarding`. Send each component
+     * once. A partner app install token can open only `account_onboarding` and
+     * `notification_banner`; another component returns `400 INVALID_REQUEST` with detail
+     * `NOT_ALLOWED`. With an API key or CLI login, `payments` also requires
+     * `payments.payment_intents.read` and `payments.disputes.write`; without them the request
+     * returns `403 INSUFFICIENT_SCOPE`. minItems: 1. maxItems: 7. uniqueItems: true. [] enum:
+     * "account_onboarding", "account_management", "payouts", "balances", "tax_documents",
+     * "notification_banner", "payments". [] (Value): string. Value enum: "account_onboarding",
+     * "account_management", "payouts", "balances", "tax_documents", "notification_banner",
+     * "payments".
+     */
+    "components": Array<"account_onboarding"
+        | "account_management"
+        | "payouts"
+        | "balances"
+        | "tax_documents"
+        | "notification_banner"
+        | "payments">;
+    /**
+     * Whether the session also collects requirements that will apply later. If omitted, `omit`
+     * while onboarding isn't finished or while something is due, otherwise `include`. Only
+     * `account_onboarding` and `account_management` take it. Value enum: "omit", "include".
+     */
+    "future_requirements"?: "omit" | "include";
+    /**
+     * Flint requirement codes. New codes can appear; treat an unknown code as
+     * additional_account_information. At most 100 codes, each up to 255 UTF-8 bytes after trimming
+     * surrounding whitespace. Only `account_onboarding` takes them. maxItems: 100. [] enum:
+     * "additional_account_information", "business_address", "business_description",
+     * "business_directors", "business_executives", "business_name", "business_owners",
+     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
+     * "business_verification_document", "business_website", "merchant_category_code",
+     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
+     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
+     * "payout_destination", "representative_address",
+     * "representative_additional_identity_document", "representative_date_of_birth",
+     * "representative_email", "representative_first_name", "representative_identity_document",
+     * "representative_last_name", "representative_phone", "representative_tax_id",
+     * "representative_tax_id_last_four". [] (Value): string. Value enum:
+     * "additional_account_information", "business_address", "business_description",
+     * "business_directors", "business_executives", "business_name", "business_owners",
+     * "business_phone", "business_support_phone", "business_support_url", "business_tax_id",
+     * "business_verification_document", "business_website", "merchant_category_code",
+     * "owner_address", "owner_additional_identity_document", "owner_date_of_birth",
+     * "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four",
+     * "payout_destination", "representative_address",
+     * "representative_additional_identity_document", "representative_date_of_birth",
+     * "representative_email", "representative_first_name", "representative_identity_document",
+     * "representative_last_name", "representative_phone", "representative_tax_id",
+     * "representative_tax_id_last_four".
+     */
+    "targeted_requirements"?: Array<"additional_account_information"
+        | "business_address"
+        | "business_description"
+        | "business_directors"
+        | "business_executives"
+        | "business_name"
+        | "business_owners"
+        | "business_phone"
+        | "business_support_phone"
+        | "business_support_url"
+        | "business_tax_id"
+        | "business_verification_document"
+        | "business_website"
+        | "merchant_category_code"
+        | "owner_address"
+        | "owner_additional_identity_document"
+        | "owner_date_of_birth"
+        | "owner_first_name"
+        | "owner_identity_document"
+        | "owner_last_name"
+        | "owner_tax_id_last_four"
+        | "payout_destination"
+        | "representative_address"
+        | "representative_additional_identity_document"
+        | "representative_date_of_birth"
+        | "representative_email"
+        | "representative_first_name"
+        | "representative_identity_document"
+        | "representative_last_name"
+        | "representative_phone"
+        | "representative_tax_id"
+        | "representative_tax_id_last_four">;
+};
+/**
+ * The collection policy applied to a merchant account session: which requirements it targets, how
+ * they are collected, and whether future requirements are included.
+ */
+export type MerchantAccountSessionEffectivePolicy = {
+    /**
+     * How the session collects requirements. Omitted when `targeting` is `none`. Value enum:
+     * "upfront", "incremental".
+     */
+    "collection_strategy"?: "upfront" | "incremental" | (string & {});
+    /**
+     * Whether the session also collects requirements that will apply later. Omitted when
+     * `targeting` is `none`. Value enum: "omit", "include".
+     */
+    "future_requirements"?: "omit" | "include" | (string & {});
+    /**
+     * Which requirements the session's policy-aware components collect. Value enum: "none", "all",
+     * "all_due", "targeted".
+     */
+    "targeting": "none" | "all" | "all_due" | "targeted" | (string & {});
+};
+/**
+ * Refreshes a merchant account session from its signed launch token. No create fields are
+ * accepted.
+ */
+export type MerchantAccountSessionRefreshRequest = {
+    /**
+     * The `launch_token` of the session to refresh. The response carries a new token to use for
+     * the next refresh. minLength: 1.
+     */
+    "launch_token": string;
+};
+/**
+ * Refreshes a merchant account session from its signed launch token. No create fields are
+ * accepted.
+ */
+export type MerchantAccountSessionRefreshRequestInput = MerchantAccountSessionRefreshRequest;
+/** A response containing `MerchantAccountSession` data. */
+export type MerchantAccountSessionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A merchant account
+     * session: the browser initialization data, allowed components, effective policy, and launch
+     * token for embedded account management.
+     */
+    "data": MerchantAccountSession;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * Stripe Connect initialization data for a merchant account session: the account session,
+ * publishable key, and authorized components.
+ */
+export type MerchantAccountSessionStripe = {
+    /**
+     * Account session authority for initializing Stripe Connect in the browser. The account
+     * session authority for initializing Stripe Connect in the browser, including the client
+     * secret.
+     */
+    "account_session": DisputeResponseSessionStripeAccountSession;
+    /**
+     * Authorized Stripe component names and collection options to apply when mounting each
+     * component. [] (Value): {@link MerchantAccountSessionStripeComponent}. One embedded component
+     * a merchant account session authorizes, with the collection options to apply to it.
+     */
+    "components": Array<MerchantAccountSessionStripeComponent>;
+    /** Stripe publishable key to pass as publishableKey to loadConnectAndInitialize. */
+    "publishable_key": string;
+};
+/**
+ * Requirement collection options to apply when mounting one embedded component: field breadth,
+ * future requirements, and any targeted requirements.
+ */
+export type MerchantAccountSessionStripeCollectionOptions = {
+    /**
+     * Requirement collection breadth to pass as fields to setCollectionOptions. Value enum:
+     * "currently_due", "eventually_due".
+     */
+    "fields": "currently_due" | "eventually_due" | (string & {});
+    /**
+     * Whether to collect future requirements. Pass this value as futureRequirements to
+     * setCollectionOptions. Value enum: "omit", "include".
+     */
+    "future_requirements": "omit" | "include" | (string & {});
+    /**
+     * Targeted requirement collection restriction to pass as requirements to setCollectionOptions.
+     * Omitted when collection is not targeted. The Stripe requirement paths to collect exclusively
+     * when a session's targeting is `targeted`.
+     */
+    "requirements"?: MerchantAccountSessionStripeRequirements;
+};
+/**
+ * One embedded component a merchant account session authorizes, with the collection options to
+ * apply to it.
+ */
+export type MerchantAccountSessionStripeComponent = {
+    /**
+     * Collection instructions for a policy-aware component. Omitted for other components. Map
+     * future_requirements to futureRequirements when calling setCollectionOptions. Requirement
+     * collection options to apply when mounting one embedded component: field breadth, future
+     * requirements, and any targeted requirements.
+     */
+    "collection_options"?: MerchantAccountSessionStripeCollectionOptions;
+    /**
+     * Stripe component name authorized by this session. tax_documents uses the Stripe name
+     * documents. Convert underscores to hyphens when calling Connect.create. Value enum:
+     * "account_onboarding", "account_management", "payouts", "balances", "documents",
+     * "notification_banner", "payments".
+     */
+    "component": "account_onboarding"
+        | "account_management"
+        | "payouts"
+        | "balances"
+        | "documents"
+        | "notification_banner"
+        | "payments"
+        | (string & {});
+};
+/** The Stripe requirement paths to collect exclusively when a session's targeting is `targeted`. */
+export type MerchantAccountSessionStripeRequirements = {
+    /**
+     * Stripe requirement paths to collect exclusively when effective_policy.targeting is targeted.
+     * They come from the targeted_requirements you sent or from Flint's remediation
+     * recommendation. [] (Value): string.
+     */
+    "only": Array<string>;
+};
+export type MerchantAccountSessionsCreateParams = (InputValue<MerchantAccountSessionCreateRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type MerchantAccountSessionsRefreshParams = (InputValue<MerchantAccountSessionRefreshRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** Current Flint merchant billing balance for one billing account and currency. */
+export type MerchantBillingBalance = {
+    /**
+     * Account credit Flint holds for you that hasn't been applied yet, unsigned. Each application
+     * lowers both amounts and records a credit_applied entry. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "available_credit_money": MoneyValue;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency": string;
+    /**
+     * Stable identifier for this billing account and currency balance projection. Example:
+     * "mbbal_01KEZF7C002TWWZA70R4DRVJC9".
+     */
+    "merchant_billing_balance_id": string;
+    /**
+     * RFC3339 timestamp for the balance snapshot. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "observed_at": string;
+    /**
+     * What you owe Flint now, unsigned. Available credit isn't subtracted: credit lowers this
+     * amount only when Flint applies it, which records a credit_applied entry. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "outstanding_money": MoneyValue;
+};
+/** A list of `MerchantBillingBalance` objects. */
+export type MerchantBillingBalanceListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * MerchantBillingBalance}. Current Flint merchant billing balance for one billing account and
+     * currency.
+     */
+    "data": Array<MerchantBillingBalance>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `MerchantBillingBalance` data. */
+export type MerchantBillingBalanceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Current Flint merchant
+     * billing balance for one billing account and currency.
+     */
+    "data": MerchantBillingBalance;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type MerchantBillingBalanceUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "available_credit_money": MoneyValue;
+            "currency": string;
+            "merchant_billing_balance_id": string;
+            "observed_at": string;
+            "outstanding_money": MoneyValue;
+        };
+        "previous_attributes"?: Partial<MerchantBillingBalance>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "merchant_billing_balance.updated";
+})
+    & {
+    "event_type": "merchant_billing_balance.updated";
 });
-/** The request body for: Revoke an OAuth token. */
-export type OAuthRevokeRequestInput = ({
+export type MerchantBillingBalancesGetParams = {};
+export type MerchantBillingBalancesListParams = {};
+export type MerchantBillingEntriesListParams = {
     /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     * Filter by one or more merchant billing entry types. Repeat or comma-separate values. Values
+     * are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected.
+     * Values within this filter are ORed; separate filters are ANDed. [] enum: "event_fee",
+     * "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued",
+     * "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off". Value
+     * enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection", "correction",
+     * "credit_issued", "credit_applied", "credit_refunded", "collection", "collection_reversal",
+     * "write_off". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "event_fee",
+     * "invoice", "custom_domain", "custom_domain_collection", "correction", "credit_issued",
+     * "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off".
+     * anyOf[1][] (Value): string. Value enum: "event_fee", "invoice", "custom_domain",
+     * "custom_domain_collection", "correction", "credit_issued", "credit_applied",
+     * "credit_refunded", "collection", "collection_reversal", "write_off". anyOf[2] (Value):
+     * string. Value enum: "event_fee", "invoice", "custom_domain", "custom_domain_collection",
+     * "correction", "credit_issued", "credit_applied", "credit_refunded", "collection",
+     * "collection_reversal", "write_off".
      */
-    "client_assertion"?: string;
+    "type"?: InputValue<("event_fee"
+        | "invoice"
+        | "custom_domain"
+        | "custom_domain_collection"
+        | "correction"
+        | "credit_issued"
+        | "credit_applied"
+        | "credit_refunded"
+        | "collection"
+        | "collection_reversal"
+        | "write_off")
+        | readonly ("event_fee"
+        | "invoice"
+        | "custom_domain"
+        | "custom_domain_collection"
+        | "correction"
+        | "credit_issued"
+        | "credit_applied"
+        | "credit_refunded"
+        | "collection"
+        | "collection_reversal"
+        | "write_off")[]>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
     /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     * Filter by Flint payment intent ID. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
      */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    "payment_intent_id"?: InputValue<string>;
     /**
-     * Partner client ID for client_secret_post, or flint-cli for the public CLI client. Example:
-     * "fpc_00112233445566778899aabbccddeeff".
+     * Filter by Flint dispute ID. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      */
-    "client_id"?: string;
+    "dispute_id"?: InputValue<string>;
     /**
-     * Partner client secret for client_secret_post. Omit when using HTTP Basic; flint-cli never
-     * sends a secret.
+     * Filter by Flint merchant billing invoice ID. pattern: ^msinv_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "msinv_01KEZF7C00MB754KPEPACGRMNP".
      */
-    "client_secret"?: string;
-    /** Partner app token, or flint-cli access or refresh token, to revoke. */
-    "token": string;
-    /** Optional token lookup hint. Value enum: "refresh_token", "access_token". */
-    "token_type_hint"?: "refresh_token" | "access_token";
-});
-/** The request body for: Exchange an OAuth token. */
-export type OAuthTokenRequest = ({
+    "merchant_billing_invoice_id"?: InputValue<string>;
     /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     * Filter by Flint balance transaction ID. pattern: ^btxn_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      */
-    "client_assertion"?: string;
+    "balance_transaction_id"?: InputValue<string>;
     /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
      */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    "page_size"?: InputValue<number>;
     /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
      */
-    "client_id"?: string;
+    "page_token"?: InputValue<string>;
+};
+/** An immutable merchant billing charge, credit, collection, correction, or write-off. */
+export type MerchantBillingEntry = {
     /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
+     * Signed change in available billing credit. credit_issued increases it; credit_applied and
+     * credit_refunded decrease it. Other entry types do not change it. Signed monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
+    "available_credit_effect_money": MoneyValue;
     /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     * Balance transaction for this collection or collection reversal, when present. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      */
-    "code_verifier"?: string;
+    "balance_transaction_id"?: string;
     /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     * When Flint inserted the entry. Never changes and is never backdated from occurred_at.
+     * Overlap created_after passes by a few minutes and deduplicate by merchant_billing_entry_id
+     * to pick up late commits. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
+    "created_at": string;
+    /** Human-readable description of the billing event. */
+    "description": string;
     /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "authorization_code", "client_credentials", "refresh_token",
-     * "urn:ietf:params:oauth:grant-type:device_code",
-     * "urn:ietf:params:oauth:grant-type:token-exchange".
+     * Related dispute, when the entry is associated with a dispute. Example:
+     * "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      */
-    "grant_type": "authorization_code"
-        | "client_credentials"
-        | "refresh_token"
-        | "urn:ietf:params:oauth:grant-type:device_code"
-        | "urn:ietf:params:oauth:grant-type:token-exchange"
+    "dispute_id"?: string;
+    /**
+     * Event fee category. Present only for event_fee entries. card_dispute and
+     * card_dispute_countered apply only when Flint paid the processor's dispute fee; a fee already
+     * deducted from your balance is recorded on the dispute balance transaction instead. Value
+     * enum: "bank_verification", "failed_ach_payment", "ach_dispute", "card_dispute",
+     * "card_dispute_countered", "external_paid_order_overage".
+     */
+    "event_fee_type"?: "bank_verification"
+        | "failed_ach_payment"
+        | "ach_dispute"
+        | "card_dispute"
+        | "card_dispute_countered"
+        | "external_paid_order_overage"
         | (string & {});
     /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * Stable entry ID. Re-reading an entry returns the same values. Example:
+     * "mbe_01KEZF7C00S06A5G1B4867TF78".
      */
-    "merchant_id"?: string;
+    "merchant_billing_entry_id": string;
     /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
+     * Related invoice issued by Flint, when applicable. Example:
+     * "msinv_01KEZF7C00MB754KPEPACGRMNP".
      */
-    "mode"?: "test" | "live" | (string & {});
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
+    "merchant_billing_invoice_id"?: string;
     /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
+     * Signed outstanding effect minus the available credit effect. Charges and collection_reversal
+     * are positive; credit_issued, collection, custom_domain_collection, and write_off are
+     * negative; credit_refunded is positive; credit_applied is zero; correction may be positive or
+     * negative. Signed monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
-    "refresh_token"?: string;
+    "net_billing_effect_money": MoneyValue;
     /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     * When the billing event happened. An entry can be recorded after entries that occurred later.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    "occurred_at": string;
     /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
+     * Signed change in the amount owed Flint. Charges (event_fee, invoice, custom_domain) and
+     * collection_reversal increase it; credit_applied, collection, custom_domain_collection, and
+     * write_off decrease it; correction may increase or decrease it. Credit issuance and refund do
+     * not change it. Signed monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
-    "scope"?: string;
+    "outstanding_effect_money": MoneyValue;
     /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
+     * Related payment intent, when the entry is associated with a payment. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
      */
-    "subject_token"?: string;
+    "payment_intent_id"?: string;
     /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     * Entry corrected, credited, collected, reversed, or written off by this entry, when
+     * applicable. Example: "mbe_01KEZF7C00S06A5G1B4867TF78".
      */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    "related_merchant_billing_entry_id"?: string;
     /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     * The billing event represented by this entry. Value enum: "event_fee", "invoice",
+     * "custom_domain", "custom_domain_collection", "correction", "credit_issued",
+     * "credit_applied", "credit_refunded", "collection", "collection_reversal", "write_off".
      */
-    "workload_identity_id"?: string;
-})
-    & ((Exclude<OAuthTokenRequestAuthorizationCode & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestClientCredentials & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestRefreshToken & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestDeviceCode & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestTokenExchange & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `authorization_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestAuthorizationCode = ({
+    "type": "event_fee"
+        | "invoice"
+        | "custom_domain"
+        | "custom_domain_collection"
+        | "correction"
+        | "credit_issued"
+        | "credit_applied"
+        | "credit_refunded"
+        | "collection"
+        | "collection_reversal"
+        | "write_off"
+        | (string & {});
+};
+/** A page of `MerchantBillingEntry` objects. */
+export type MerchantBillingEntryListResponse = {
     /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * MerchantBillingEntry}. An immutable merchant billing charge, credit, collection, correction,
+     * or write-off.
      */
-    "client_assertion"?: string;
+    "data": Array<MerchantBillingEntry>;
     /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    "meta"?: ResponseMeta;
     /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "fpc_00112233445566778899aabbccddeeff".
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
      */
-    "client_id"?: string;
+    "next_page_token"?: string;
     /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
+    "request_id": string;
+};
+/** A Flint invoice for the merchant's Flint subscription. */
+export type MerchantBillingInvoice = {
     /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     * Credit applied to the invoice: the sum of its credit line items. Never more than
+     * subtotal_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
      */
-    "code_verifier": string;
+    "applied_credit_money": MoneyValue;
+    /** When Flint created the invoice. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** When payment of the invoice is due. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "due_at": string;
     /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     * Unique invoice number; don't parse it. New numbers use FLINT-{account code}-{0001},
+     * sequential per billing account; existing numbers are retained.
      */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
+    "invoice_number": string;
+    /** When Flint issued the invoice. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "issued_at": string;
     /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "authorization_code".
+     * Invoice-owned line items. Subscription totals sum to subtotal_money; credit totals sum to
+     * applied_credit_money. [] (Value): {@link MerchantBillingInvoiceLineItem}. One line on a
+     * merchant billing invoice, either a subscription charge or a credit, with quantity, unit
+     * price, and total.
      */
-    "grant_type": "authorization_code" | (string & {});
+    "line_items": Array<MerchantBillingInvoiceLineItem>;
+    /** Stable identifier of the invoice. Example: "msinv_01KEZF7C00MB754KPEPACGRMNP". */
+    "merchant_billing_invoice_id": string;
     /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * Part of total_money Flint still has to collect. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
      */
-    "merchant_id"?: string;
+    "outstanding_money": MoneyValue;
     /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
+     * When the invoice was paid. Removed if a reversed collection reopens it. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
      */
-    "mode"?: "test" | "live" | (string & {});
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri": string;
+    "paid_at"?: string;
     /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
+     * Exclusive invoice billing period end as an RFC 3339 UTC instant. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
      */
-    "refresh_token"?: string;
+    "period_end_at": string;
     /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     * Inclusive invoice billing period start as an RFC 3339 UTC instant. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
      */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    "period_start_at": string;
     /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
+     * Collection state of the invoice: open, paid, or written_off. Flint issues an invoice as open
+     * and marks it paid once collected; a reversed collection returns it to open, and written_off
+     * means Flint stopped collecting it. Value enum: "open", "paid", "written_off".
      */
-    "scope"?: string;
+    "status": "open" | "paid" | "written_off" | (string & {});
     /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
+     * Sum of the subscription line items, before credit. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
      */
-    "subject_token"?: string;
+    "subtotal_money": MoneyValue;
     /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     * What the invoice charges: subtotal_money minus applied_credit_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
      */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
+    "total_money": MoneyValue;
+    /** When the invoice last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+};
+export type MerchantBillingInvoiceIssuedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /** Value enum: "authorization_code". */
-    "grant_type"?: unknown;
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-});
-/** The `authorization_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestAuthorizationCodeInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "authorization_code".
-     */
-    "grant_type": "authorization_code";
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri": string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
+    "data"?: {
+        "object": {
+            "applied_credit_money": MoneyValue;
+            "created_at": string;
+            "due_at": string;
+            "invoice_number": string;
+            "issued_at": string;
+            "line_items": Array<MerchantBillingInvoiceLineItem>;
+            "merchant_billing_invoice_id": string;
+            "outstanding_money": MoneyValue;
+            "paid_at"?: string;
+            "period_end_at": string;
+            "period_start_at": string;
+            "status": "open" | "paid" | "written_off" | (string & {});
+            "subtotal_money": MoneyValue;
+            "total_money": MoneyValue;
+            "updated_at": string;
+        };
+        "previous_attributes"?: Partial<MerchantBillingInvoice>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "merchant_billing_invoice.issued";
 })
+    & {
+    "event_type": "merchant_billing_invoice.issued";
+});
+/**
+ * One line on a merchant billing invoice, either a subscription charge or a credit, with quantity,
+ * unit price, and total.
+ */
+export type MerchantBillingInvoiceLineItem = {
+    /**
+     * When Flint added this line to the invoice. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /** Stable identifier of this line item. Example: "msinvl_01KEZF7C00YB825JWZ87C5HDF0". */
+    "merchant_billing_invoice_line_item_id": string;
+    /** Name of the subscription charge or credit. */
+    "name": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * Unsigned line total, calculated as quantity multiplied by unit_price_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /**
+     * Whether the line adds a subscription charge or applies credit. Value enum: "subscription",
+     * "credit".
+     */
+    "type": "subscription" | "credit" | (string & {});
+    /**
+     * Unsigned price of one unit. total_money is quantity times this amount. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+};
+/** A page of `MerchantBillingInvoice` objects. */
+export type MerchantBillingInvoiceListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * MerchantBillingInvoice}. A Flint invoice for the merchant's Flint subscription.
+     */
+    "data": Array<MerchantBillingInvoice>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `MerchantBillingInvoice` data. */
+export type MerchantBillingInvoiceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A Flint invoice for the
+     * merchant's Flint subscription.
+     */
+    "data": MerchantBillingInvoice;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type MerchantBillingInvoiceUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /** Value enum: "authorization_code". */
-    "grant_type"?: ("authorization_code") & ("authorization_code");
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-});
-/** The `client_credentials` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestClientCredentials = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "client_credentials".
-     */
-    "grant_type": "client_credentials" | (string & {});
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode": "test" | "live" | (string & {});
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
+    "data"?: {
+        "object": {
+            "applied_credit_money": MoneyValue;
+            "created_at": string;
+            "due_at": string;
+            "invoice_number": string;
+            "issued_at": string;
+            "line_items": Array<MerchantBillingInvoiceLineItem>;
+            "merchant_billing_invoice_id": string;
+            "outstanding_money": MoneyValue;
+            "paid_at"?: string;
+            "period_end_at": string;
+            "period_start_at": string;
+            "status": "open" | "paid" | "written_off" | (string & {});
+            "subtotal_money": MoneyValue;
+            "total_money": MoneyValue;
+            "updated_at": string;
+        };
+        "previous_attributes"?: Partial<MerchantBillingInvoice>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "merchant_billing_invoice.updated";
 })
+    & {
+    "event_type": "merchant_billing_invoice.updated";
+});
+export type MerchantBillingInvoicesGetParams = {};
+export type MerchantBillingInvoicesListParams = {
+    /**
+     * Filter by one or more merchant billing invoice statuses. Values are trimmed and deduplicated
+     * in first-seen order; empty or unknown entries are rejected. Values within this filter are
+     * ORed; separate filters are ANDed. [] enum: "open", "paid", "written_off". Value enum:
+     * "open", "paid", "written_off". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "open", "paid", "written_off". anyOf[1][] (Value): string. Value enum: "open", "paid",
+     * "written_off". anyOf[2] (Value): string. Value enum: "open", "paid", "written_off".
+     */
+    "status"?: InputValue<("open" | "paid" | "written_off") | readonly ("open" | "paid" | "written_off")[]>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type MerchantGetParams = DisputesAcceptParams;
+/**
+ * A merchant's readiness to accept payments and receive payouts, with per-capability status and
+ * outstanding requirements.
+ */
+export type MerchantReadiness = {
+    /**
+     * Readiness of each payment and money movement capability, with its own status, requirements,
+     * and next actions. [] (Value): {@link CapabilityReadiness}. Merchant capability readiness for
+     * a payment or money movement capability.
+     */
+    "capabilities": Array<CapabilityReadiness>;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "observed_at": string;
+    /**
+     * Readiness to accept payments. Readiness for one area of a merchant account, with its
+     * `status`, the reason for it, and the actions that would advance it.
+     */
+    "payments": ReadinessAxis;
+    /**
+     * Readiness to receive payouts. Readiness for one area of a merchant account, with its
+     * `status`, the reason for it, and the actions that would advance it.
+     */
+    "payouts": ReadinessAxis;
+    /**
+     * Account information still needed, grouped by when it is due. Each capability also lists the
+     * requirements that affect it. Account information requirements for a merchant, grouped as
+     * currently due, eventually due, past due, and pending verification.
+     */
+    "requirements": ReadinessRequirements;
+};
+export type MerchantReadinessUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /** Value enum: "client_credentials". */
-    "grant_type"?: unknown;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode": "test" | "live" | (string & {});
-});
-/** The `client_credentials` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestClientCredentialsInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "client_credentials".
-     */
-    "grant_type": "client_credentials";
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode": "test" | "live";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
+    "data"?: {
+        "object": WebhookMerchant;
+        "previous_attributes"?: Partial<WebhookMerchant>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "merchant.readiness_updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /** Value enum: "client_credentials". */
-    "grant_type"?: ("client_credentials") & ("client_credentials");
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode": "test" | "live";
+    "data"?: {
+        "object": WebhookMerchant;
+        "previous_attributes"?: Partial<WebhookMerchant>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "merchant.readiness_updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "merchant.readiness_updated";
 });
-/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestDeviceCode = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "urn:ietf:params:oauth:grant-type:device_code".
-     */
-    "grant_type": "urn:ietf:params:oauth:grant-type:device_code" | (string & {});
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live" | (string & {});
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
+/**
+ * The `merchant.readiness_updated` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type MerchantReadinessUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
-    "grant_type"?: unknown;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
+    /**
+     *  object (Required): {@link WebhookMerchant}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `banners`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `banners`. */
+        "object": WebhookMerchant;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookMerchant>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "merchant.readiness_updated". */
+    "event_type"?: "merchant.readiness_updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
 });
-/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestDeviceCodeInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "urn:ietf:params:oauth:grant-type:device_code".
-     */
-    "grant_type": "urn:ietf:params:oauth:grant-type:device_code";
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
+/**
+ * The `merchant.readiness_updated` webhook payload for the `merchant` event source. Fields shared
+ * by merchant webhook payloads.
+ */
+export type MerchantReadinessUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
-    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
-    "grant_type"?: ("urn:ietf:params:oauth:grant-type:device_code") & ("urn:ietf:params:oauth:grant-type:device_code");
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
+    /**
+     *  object (Required): {@link WebhookMerchant}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `banners`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `banners`. */
+        "object": WebhookMerchant;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookMerchant>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "merchant.readiness_updated". */
+    "event_type"?: "merchant.readiness_updated";
 });
-/** The request body for: Exchange an OAuth token. */
-export type OAuthTokenRequestInput = ({
+/** A response containing `Merchant` data. */
+export type MerchantResponse = {
     /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     * Resource, collection, or operation result returned by this request. The business accepting
+     * payments.
      */
-    "client_assertion"?: string;
+    "data": Merchant;
     /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
+    "meta"?: ResponseMeta;
     /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "client_id"?: string;
+    "request_id": string;
+};
+/**
+ * A platform's request to create a merchant for an owner, who confirms it with a code Flint emails
+ * them. Once verified, it is the record of the owner's consent, kept for as long as the merchant
+ * exists.
+ */
+export type MerchantSignup = {
     /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
+     * The new merchant's display name until onboarding sets its legal name. Absent when the
+     * request didn't send one: Flint then names the merchant from the owner's email.
      */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
+    "business_name"?: string;
+    /** When the signup was canceled. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "canceled_at"?: string;
     /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     * When the current code expires, present while the signup is `pending` and its code still
+     * works. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "code_verifier"?: string;
+    "code_expires_at"?: string;
+    /** When the signup completed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "completed_at"?: string;
+    /** When the signup was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
     /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     * When a `pending` signup expires: 24 hours after it was created. A signup Flint is completing
+     * never expires. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
+    "expires_at": string;
     /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "authorization_code", "client_credentials", "refresh_token",
-     * "urn:ietf:params:oauth:grant-type:device_code",
-     * "urn:ietf:params:oauth:grant-type:token-exchange".
+     * Your identifier for this business, as you sent it. Absent when you didn't send one.
+     * maxLength: 255. Example: "warehouse-1842".
      */
-    "grant_type": "authorization_code"
-        | "client_credentials"
-        | "refresh_token"
-        | "urn:ietf:params:oauth:grant-type:device_code"
-        | "urn:ietf:params:oauth:grant-type:token-exchange";
+    "external_reference_id"?: string;
     /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * The merchant the signup created, present once it is `completed`. Example:
      * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
      */
     "merchant_id"?: string;
+    /** Unique identifier for the merchant signup. Example: "msu_01KEZF7C00SRGYRMBPKRKW8V9J". */
+    "merchant_signup_id": string;
     /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
+     * Flint's merchant terms the owner must accept. Flint's merchant terms the owner accepts by
+     * entering the code, fixed when the signup was created.
      */
-    "mode"?: "test" | "live";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
+    "merchant_terms": MerchantSignupTerms;
     /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
+     * The modes the signup installs the app in, one environment grant each, `test` first. [] enum:
+     * "test", "live". [] (Value): string. Value enum: "test", "live".
      */
-    "refresh_token"?: string;
+    "modes": Array<"test" | "live" | (string & {})>;
     /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     * The owner the code went to. The person who will own the new merchant, as the platform
+     * supplied them.
      */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
+    "owner": MerchantSignupOwner;
     /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
+     * The partner app the signup installs on the new merchant. Example:
+     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      */
-    "scope"?: string;
+    "partner_app_id": string;
     /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
+     * The install the signup created, present once it is `completed`. Its `merchant_signup_id`
+     * names this signup. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
      */
-    "subject_token"?: string;
+    "partner_app_install_id"?: string;
     /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     * The app's platform fee cap the code email showed, frozen at create. Absent when the app has
+     * none. The most a platform fee can take from one payment. The largest platform fee on a
+     * payment is percent of the amount it collects, rounded half up to the minor unit, plus the
+     * currency's fixed part if it has one, and never more than the currency's maximum: a cap of 1%
+     * + 0.30 USD with a 5.00 USD maximum allows up to 1.30 USD on a 100.00 USD payment. A currency
+     * without a maximum can't carry a platform fee.
      */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
+    "platform_fee_cap"?: PlatformFeeCap;
     /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     * The permissions the code email asked the owner to approve, frozen at create: the requested
+     * ones, or the app's defaults, plus every required permission, in manifest order. At verify,
+     * each grant gets them narrowed to what the app's manifest still offers. [] (Value): {@link
+     * MerchantSignupPermission}. A permission the code email asked the owner to approve, as the
+     * app's manifest stated it when the signup was created.
      */
-    "workload_identity_id"?: string;
-})
-    & ((Exclude<OAuthTokenRequestAuthorizationCodeInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestClientCredentialsInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestRefreshTokenInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestDeviceCodeInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestTokenExchangeInput & object, readonly unknown[]>));
-/** The `refresh_token` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestRefreshToken = ({
+    "requested_permissions": Array<MerchantSignupPermission>;
     /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     * The onboarding state of the new merchant's default sandbox, which the test grant points at.
+     * Value enum: "complete", "not_started".
      */
-    "client_assertion"?: string;
+    "sandbox_initial_onboarding": "complete" | "not_started" | (string & {});
     /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     * Where the signup is. `completed`, `expired` and `canceled` are final. `expired` follows from
+     * `expires_at`, so it doesn't advance `version`. Value enum: "pending", "completed",
+     * "expired", "canceled".
      */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
+    "status": "pending" | "completed" | "expired" | "canceled" | (string & {});
     /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
+     * Lifecycle actions Flint accepts now: `verify` and `cancel` while `pending`, only `verify`
+     * while Flint is completing it after verify, `[]` otherwise. resend-code and
+     * rotate-authorization-codes are operations, not lifecycle actions, so they are never listed.
+     * [] enum: "cancel", "verify". [] (Value): string. Value enum: "cancel", "verify".
      */
-    "client_id"?: string;
+    "supported_actions": Array<"cancel" | "verify" | (string & {})>;
     /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
+     * The owner's acceptance, present once the signup is `completed`. The owner's acceptance of
+     * Flint's merchant terms, recorded at verify. Flint also stores the IP address and user agent
+     * you reported; they aren't returned.
      */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
+    "terms_acceptance"?: MerchantSignupTermsAcceptance;
+    /** When the signup last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
     /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
      */
-    "code_verifier"?: string;
+    "version": number;
+};
+/** A page of `MerchantSignup` objects. */
+export type MerchantSignupListResponse = {
     /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * MerchantSignup}. A platform's request to create a merchant for an owner, who confirms it
+     * with a code Flint emails them. Once verified, it is the record of the owner's consent, kept
+     * for as long as the merchant exists.
      */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
+    "data": Array<MerchantSignup>;
     /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "refresh_token".
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "grant_type": "refresh_token" | (string & {});
+    "meta"?: ResponseMeta;
     /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
      */
-    "merchant_id"?: string;
+    "next_page_token"?: string;
     /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "mode"?: "test" | "live" | (string & {});
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
+    "request_id": string;
+};
+/** The person who will own the new merchant, as the platform supplied them. */
+export type MerchantSignupOwner = {
     /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
+     * The owner's email address, lowercased, at most 254 characters. Flint emails the code here,
+     * and it becomes the new merchant's account email and the owner's Flint login. Send an address
+     * the owner gave you, never one on a domain you control.
      */
-    "refresh_token": string;
+    "email": string;
     /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
+     * The owner's first name, 1 to 100 characters. It becomes the Flint user's first name when
+     * Flint creates the user.
      */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
+    "first_name": string;
     /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
+     * The owner's last name, 1 to 100 characters. It becomes the Flint user's last name when Flint
+     * creates the user.
      */
-    "scope"?: string;
+    "last_name": string;
+};
+/** The person who will own the new merchant. Flint emails the code to this address. */
+export type MerchantSignupOwnerRequestInput = {
     /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
+     * The owner's email address, lowercased, at most 254 characters. Flint emails the code here,
+     * and it becomes the new merchant's account email and the owner's Flint login. Send an address
+     * the owner gave you, never one on a domain you control. Format: email. minLength: 3.
+     * maxLength: 254. Example: "buyer@example.com".
      */
-    "subject_token"?: string;
+    "email": string;
     /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
+     * The owner's first name, 1 to 100 characters, without links or email addresses: the code
+     * email shows it. minLength: 1. maxLength: 100.
      */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
+    "first_name": string;
     /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
+     * The owner's last name, 1 to 100 characters, without links or email addresses: the code email
+     * shows it. minLength: 1. maxLength: 100.
      */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "refresh_token". */
-    "grant_type"?: unknown;
+    "last_name": string;
+};
+/**
+ * A permission the code email asked the owner to approve, as the app's manifest stated it when the
+ * signup was created.
+ */
+export type MerchantSignupPermission = {
+    /** The permission's description. */
+    "description": string;
+    /** The manifest permission ID. Example: "manage_orders". */
+    "permission_id": string;
+    /** The Flint scopes the permission grants. [] (Value): string. */
+    "required_scopes": Array<string>;
+    /** The permission's title, as the code email showed it. */
+    "title": string;
+};
+/** A response containing `MerchantSignup` data. */
+export type MerchantSignupResponse = {
     /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
+     * Resource, collection, or operation result returned by this request. A platform's request to
+     * create a merchant for an owner, who confirms it with a code Flint emails them. Once
+     * verified, it is the record of the owner's consent, kept for as long as the merchant exists.
      */
-    "refresh_token": string;
-});
-/** The `refresh_token` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestRefreshTokenInput = ({
+    "data": MerchantSignup;
     /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      */
-    "client_assertion"?: string;
+    "meta"?: ResponseMeta;
     /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
      */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "refresh_token".
-     */
-    "grant_type": "refresh_token";
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live";
-    /** Partner redirect URI used in authorization, required for authorization_code. */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token": string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "refresh_token". */
-    "grant_type"?: ("refresh_token") & ("refresh_token");
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token": string;
-});
+    "request_id": string;
+};
+/**
+ * Flint's merchant terms the owner accepts by entering the code, fixed when the signup was
+ * created.
+ */
+export type MerchantSignupTerms = {
+    /** Where the terms are published. Link to it beside the checkbox in your form. */
+    "url": string;
+    /** The terms version. Send it as `terms_acceptance.merchant_terms_version` on verify. */
+    "version": string;
+};
+/**
+ * The owner's acceptance of Flint's merchant terms, recorded at verify. Flint also stores the IP
+ * address and user agent you reported; they aren't returned.
+ */
+export type MerchantSignupTermsAcceptance = {
+    /** When the owner accepted the terms. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "accepted_at": string;
+    /** The terms version accepted. */
+    "merchant_terms_version": string;
+};

@@ -6,11 +6,12 @@ namespace Flint;
  * @property-read list<OrderChargeTaxAssignmentInput|array<array-key, mixed>|\stdClass> $charge_calculations
  * @property-read array{'components': list<TaxComponentRequestModelInput|array<array-key, mixed>|\stdClass>, 'mode'?: string, 'price_mode': string}|object|null $delivery_charge_calculation
  * @property-read bool $enabled
+ * @property-read OrderTaxExemptionRequestInput|array<array-key, mixed>|\stdClass $exemption
  * @property-read list<OrderLineItemTaxAssignmentInput|array<array-key, mixed>|\stdClass> $line_item_calculations
  * @property-read OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass $location
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxUpdateRequestInput extends Model {
-    /** @param array{'calculation'?: OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'charge_calculations'?: list<OrderChargeTaxAssignmentInput|array<array-key, mixed>|\stdClass>, 'delivery_charge_calculation'?: array{'components': list<TaxComponentRequestModelInput|array<array-key, mixed>|\stdClass>, 'mode'?: string, 'price_mode': string}|object|null, 'enabled'?: bool, 'line_item_calculations'?: list<OrderLineItemTaxAssignmentInput|array<array-key, mixed>|\stdClass>, 'location'?: OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'calculation'?: OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'charge_calculations'?: list<OrderChargeTaxAssignmentInput|array<array-key, mixed>|\stdClass>, 'delivery_charge_calculation'?: array{'components': list<TaxComponentRequestModelInput|array<array-key, mixed>|\stdClass>, 'mode'?: string, 'price_mode': string}|object|null, 'enabled'?: bool, 'exemption'?: OrderTaxExemptionRequestInput|array<array-key, mixed>|\stdClass, 'line_item_calculations'?: list<OrderLineItemTaxAssignmentInput|array<array-key, mixed>|\stdClass>, 'location'?: OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxUpdateRequestInput')); }
     /** How tax is calculated: automatically through Flint's tax connection, or from components you supply. How tax is calculated on an order: automatically, or externally with the tax components you supply.
      * @return OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass
@@ -30,12 +31,18 @@ final class OrderTaxUpdateRequestInput extends Model {
      */
     public function getDeliveryChargeCalculation(): mixed { return $this->get('delivery_charge_calculation'); }
     public function hasDeliveryChargeCalculation(): bool { return $this->has('delivery_charge_calculation'); }
-    /** Whether Flint calculates tax for the order. When `false`, no tax applies.
+    /** Whether Flint calculates tax. When exemption is the only tax field, omission keeps the order's current value. Other tax inputs default to true. When you send false, calculation, location, delivery_charge_calculation, exemption, and calculation assignments must be omitted.
      * @return bool
      * @throws SdkError When enabled is omitted; use hasEnabled() or valueOrDefault().
      */
     public function getEnabled(): bool { return $this->get('enabled'); }
     public function hasEnabled(): bool { return $this->has('enabled'); }
+    /** Replaced as a whole: send every field you want to keep. Omission preserves the prior selection; null is rejected. Cannot change after tax commits; a change returns 409 ACTION_NOT_ALLOWED with reason payment_collected. Replaced as a whole: send every field you want to keep. Choose customer assessment, no exemption, or a one-off order declaration. Write-only: responses return the exemption that applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns 409 ACTION_NOT_ALLOWED with reason payment_collected.
+     * @return OrderTaxExemptionRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When exemption is omitted; use hasExemption() or valueOrDefault().
+     */
+    public function getExemption(): mixed { return $this->get('exemption'); }
+    public function hasExemption(): bool { return $this->has('exemption'); }
     /** Replace calculations for the listed components and keep unlisted calculations. Allowed only when the order uses external tax, including a switch in this request. Settled components cannot be changed. [] (Value): {@see OrderLineItemTaxAssignmentInput}. An externally calculated tax you assign to one order line item.
      * @return list<OrderLineItemTaxAssignmentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_item_calculations is omitted; use hasLineItemCalculations() or valueOrDefault().

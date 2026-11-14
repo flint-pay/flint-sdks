@@ -1,0 +1,1 @@
+{"shared":"ReaderUpdatedInstalledMerchantsEvent","dependencies":["MetadataMap","ReaderConnectivity","ReaderUpdatedInstalledMerchantsEvent","SharedCodec10","SharedCodec1143","SharedCodec1376","SharedCodec1380","SharedCodec27","SharedCodec28","SharedCodec31","SharedCodec7","WebhookEventSource","WebhookReader"]}

@@ -1,15 +1,9 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type {
-    DeliveryRevocation,
-    DeliveryRevocationListResponse,
-    DeliveryRevocationResponse,
-    DeliveryRevocationsCreateParams,
-    DeliveryRevocationsGetParams,
-    DeliveryRevocationsListParams
-} from '../declarations/types-20.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { DeliveryRevocation, DeliveryRevocationListResponse, DeliveryRevocationResponse } from '../declarations/types-21.js';
+import type { DeliveryRevocationsCreateParams, DeliveryRevocationsGetParams, DeliveryRevocationsListParams } from '../declarations/types-22.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -26,20 +20,22 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryRevocationsCreateParams,
-    DeliveryRevocation,
-    DeliveryRevocationResponse,
     DeliveryRevocationsGetParams,
     DeliveryRevocationsListParams,
+    DeliveryRevocationTargetLocationGeography
+} from '../declarations/types-22.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type {
+    DeliveryRevocation,
+    DeliveryRevocationResponse,
     DeliveryRevocationListResponse,
     DeliveryRevocationImpact,
     DeliveryRevocationTarget,
-    DeliveryRevocationTargetLocationGeography,
     DeliveryRevocationTargetDeliveryRateCallbackSigningKey,
     DeliveryRevocationTargetDeliveryRateCallbackRevision,
     DeliveryRevocationTargetDeliveryMethodRevision
-} from '../declarations/types-20.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-21.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type {
     CreateDeliveryRevocationRequestInput,
@@ -49,20 +45,20 @@ export type {
     CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput,
     CreateDeliveryRevocationTargetDeliveryMethodRevisionInput
 } from '../declarations/types-8.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { NextAction, MoneyValue } from '../declarations/types-39.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
 export {
     makeCreateDeliveryRevocationRequest,
     makeCreateDeliveryRevocationTarget,
     makeCreateDeliveryRevocationTargetDeliveryMethodRevision,
     makeCreateDeliveryRevocationTargetDeliveryRateCallbackRevision,
-    makeCreateDeliveryRevocationTargetDeliveryRateCallbackSigningKey
-} from '../declarations/types-68.js';
-export { makeCreateDeliveryRevocationTargetLocationGeography } from '../declarations/types-69.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
+    makeCreateDeliveryRevocationTargetDeliveryRateCallbackSigningKey,
+    makeCreateDeliveryRevocationTargetLocationGeography
+} from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
 export interface DeliveryRevocationsResource {
     /**
  * Permanently fences one exact delivery method revision, rate callback revision, callback HMAC

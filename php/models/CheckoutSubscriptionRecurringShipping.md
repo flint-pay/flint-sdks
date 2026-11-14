@@ -8,7 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `delivery_method_name` | Required | string |  |
-| `price_type` | Required | string | Values: `"fixed"`, `"quoted"`. |
-| `shipping_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `delivery_method_name` | Required | string | Name of the delivery method the buyer chose, as the buyer sees it. |
+| `price_type` | Required | string | Whether the delivery method charges a flat price or a price worked out for each delivery. Values: `"fixed"`, `"quoted"`. |
+| `shipping_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Shipping charge for one delivery with this delivery method. For a `quoted` method it is the amount worked out now, and later deliveries can charge a different amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

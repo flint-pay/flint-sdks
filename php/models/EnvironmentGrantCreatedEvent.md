@@ -44,6 +44,10 @@ Field definitions: [PartnerAppResponse.data.permission_manifest[]](../models/Par
 
 Field definitions: [PartnerAppInstallResponse.data.environment_grants[].merchant_readiness](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataenvironment_grantsmerchant_readiness).
 
+### EnvironmentGrantCreatedEvent.data fields 1.object.payment_splits
+
+Field definitions: [PartnerAppInstallResponse.data.environment_grants[].payment_splits](../models/PartnerAppInstallResponse.md#partnerappinstallresponsedataenvironment_grantspayment_splits).
+
 ### EnvironmentGrantCreatedEvent.source fields 1
 
 The merchant and partner app install this event concerns, with environment details for installed-merchant events. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events.

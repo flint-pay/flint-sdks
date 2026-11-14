@@ -7,7 +7,7 @@ namespace Flint;
 final class SubscriptionAddressVerification extends Model {
     /** @param array{'state': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionAddressVerification')); }
-    /** Value enum: "verified", "unverified", "needs_review", "unverifiable".
+    /** How far verification of the address got. Each value says what it means. Value enum: "verified", "unverified", "needs_review", "unverifiable".
      * @return string
      */
     public function getState(): string { return $this->get('state'); }

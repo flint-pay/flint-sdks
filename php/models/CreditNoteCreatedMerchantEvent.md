@@ -48,5 +48,5 @@ Field definitions: [CreditNoteResponse.data.line_items[]](../models/CreditNoteRe
 
 ### CreditNoteCreatedMerchantEvent.data fields 1.object.tax_currency_conversions[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot.tax_currency_conversions[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshottax_currency_conversions).
+Field definitions: [CreditNoteResponse.data.tax_currency_conversions[]](../models/CreditNoteResponse.md#creditnoteresponsedatatax_currency_conversions).
 

@@ -22,17 +22,17 @@ final class DeliveryMerchantDiagnostic extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** delivery_method_id
+    /** ID of the method that was evaluated. Omitted when the diagnostic is about a Location.
      * @return ?string
      */
     public function getDeliveryMethodId(): ?string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** delivery_method_revision_id
+    /** ID of the method revision that was evaluated. Omitted when the diagnostic is about a Location.
      * @return ?string
      */
     public function getDeliveryMethodRevisionId(): ?string { return $this->get('delivery_method_revision_id'); }
     public function hasDeliveryMethodRevisionId(): bool { return $this->has('delivery_method_revision_id'); }
-    /** diagnostic_id
+    /** ID to quote when you ask Flint about this diagnostic.
      * @return string
      */
     public function getDiagnosticId(): string { return $this->get('diagnostic_id'); }
@@ -42,32 +42,32 @@ final class DeliveryMerchantDiagnostic extends Model {
      */
     public function getEligibilityMismatches(): ?array { return $this->get('eligibility_mismatches'); }
     public function hasEligibilityMismatches(): bool { return $this->has('eligibility_mismatches'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Time Flint recorded this diagnostic. Format: date-time.
      * @return string
      */
     public function getOccurredAt(): string { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Value enum: "unavailable", "input_required", "cannot_calculate", "requires_checkout_context".
+    /** What happened when Flint evaluated the method or Location. Value enum: "unavailable", "input_required", "cannot_calculate", "requires_checkout_context".
      * @return string
      */
     public function getOutcome(): string { return $this->get('outcome'); }
     public function hasOutcome(): bool { return $this->has('outcome'); }
-    /** Value enum: "review_configuration", "provide_input", "create_checkout", "retry".
+    /** What the merchant can do to get an option. Value enum: "review_configuration", "provide_input", "create_checkout", "retry".
      * @return string
      */
     public function getRecommendedAction(): string { return $this->get('recommended_action'); }
     public function hasRecommendedAction(): bool { return $this->has('recommended_action'); }
-    /** retryable
+    /** Whether trying again later can succeed.
      * @return bool
      */
     public function getRetryable(): bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** Value enum: "method".
+    /** What the diagnostic is about. Value enum: "method".
      * @return string
      */
     public function getScope(): string { return $this->get('scope'); }
     public function hasScope(): bool { return $this->has('scope'); }
-    /** summary
+    /** Plain-language explanation for the merchant.
      * @return string
      */
     public function getSummary(): string { return $this->get('summary'); }

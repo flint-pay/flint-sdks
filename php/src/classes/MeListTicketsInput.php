@@ -11,7 +11,7 @@ namespace Flint;
 final class MeListTicketsInput extends Model {
     /** @param array{'order_id'?: string, 'page_size'?: int, 'page_token'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListTicketsInput')); }
-    /** Only tickets belonging to this order. Another buyer's order returns no tickets. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Only tickets belonging to this order. Another buyer's order returns no tickets. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

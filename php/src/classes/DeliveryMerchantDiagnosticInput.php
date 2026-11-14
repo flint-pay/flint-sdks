@@ -23,19 +23,19 @@ final class DeliveryMerchantDiagnosticInput extends Model {
      */
     public function getCode(): string { return $this->get('code'); }
     public function hasCode(): bool { return $this->has('code'); }
-    /** Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** ID of the method that was evaluated. Omitted when the diagnostic is about a Location. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return string
      * @throws SdkError When delivery_method_id is omitted; use hasDeliveryMethodId() or valueOrDefault().
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+    /** ID of the method revision that was evaluated. Omitted when the diagnostic is about a Location. Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
      * @return string
      * @throws SdkError When delivery_method_revision_id is omitted; use hasDeliveryMethodRevisionId() or valueOrDefault().
      */
     public function getDeliveryMethodRevisionId(): string { return $this->get('delivery_method_revision_id'); }
     public function hasDeliveryMethodRevisionId(): bool { return $this->has('delivery_method_revision_id'); }
-    /** Example: "ddiag_01KEZF7C002JPVD08857RGDGPC".
+    /** ID to quote when you ask Flint about this diagnostic. Example: "ddiag_01KEZF7C002JPVD08857RGDGPC".
      * @return string
      * @throws SdkError When diagnostic_id is omitted; use hasDiagnosticId() or valueOrDefault().
      */
@@ -47,37 +47,37 @@ final class DeliveryMerchantDiagnosticInput extends Model {
      */
     public function getEligibilityMismatches(): array { return $this->get('eligibility_mismatches'); }
     public function hasEligibilityMismatches(): bool { return $this->has('eligibility_mismatches'); }
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** Time Flint recorded this diagnostic. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When occurred_at is omitted; use hasOccurredAt() or valueOrDefault().
      */
     public function getOccurredAt(): string|\DateTimeInterface { return $this->get('occurred_at'); }
     public function hasOccurredAt(): bool { return $this->has('occurred_at'); }
-    /** Value enum: "unavailable", "input_required", "cannot_calculate", "requires_checkout_context".
+    /** What happened when Flint evaluated the method or Location. Value enum: "unavailable", "input_required", "cannot_calculate", "requires_checkout_context".
      * @return string
      * @throws SdkError When outcome is omitted; use hasOutcome() or valueOrDefault().
      */
     public function getOutcome(): string { return $this->get('outcome'); }
     public function hasOutcome(): bool { return $this->has('outcome'); }
-    /** Value enum: "review_configuration", "provide_input", "create_checkout", "retry".
+    /** What the merchant can do to get an option. Value enum: "review_configuration", "provide_input", "create_checkout", "retry".
      * @return string
      * @throws SdkError When recommended_action is omitted; use hasRecommendedAction() or valueOrDefault().
      */
     public function getRecommendedAction(): string { return $this->get('recommended_action'); }
     public function hasRecommendedAction(): bool { return $this->has('recommended_action'); }
-    /** retryable
+    /** Whether trying again later can succeed.
      * @return bool
      * @throws SdkError When retryable is omitted; use hasRetryable() or valueOrDefault().
      */
     public function getRetryable(): bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** Value enum: "method".
+    /** What the diagnostic is about. Value enum: "method".
      * @return string
      * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
      */
     public function getScope(): string { return $this->get('scope'); }
     public function hasScope(): bool { return $this->has('scope'); }
-    /** summary
+    /** Plain-language explanation for the merchant.
      * @return string
      * @throws SdkError When summary is omitted; use hasSummary() or valueOrDefault().
      */

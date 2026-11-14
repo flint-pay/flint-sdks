@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read AuthContext $data
+ * @property-read AuthContextResponseDataApiKey|AuthContextResponseDataCliLogin|AuthContextResponseDataWorkloadIdentity|AuthContextResponseDataPartnerApp|AuthContextResponseDataOnboardingSession|\stdClass $data
  * @property-read ?ResponseMeta $meta
  * @property-read string $request_id
  * Presence-aware response; omitted optional fields return null. */
 final class AuthContextResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AuthContextResponse')); }
-    /** Resource, collection, or operation result returned by this request. Identity and access of the current developer credential: whether it is an API key or OAuth, its merchant, environment, sandbox, and scopes.
-     * @return AuthContext
+    /** Resource, collection, or operation result returned by this request. Non-secret metadata for the calling credential, selected by auth_type.
+     * @return AuthContextResponseDataApiKey|AuthContextResponseDataCliLogin|AuthContextResponseDataWorkloadIdentity|AuthContextResponseDataPartnerApp|AuthContextResponseDataOnboardingSession|\stdClass
      */
-    public function getData(): AuthContext { return $this->get('data'); }
+    public function getData(): AuthContextResponseDataApiKey|AuthContextResponseDataCliLogin|AuthContextResponseDataWorkloadIdentity|AuthContextResponseDataPartnerApp|AuthContextResponseDataOnboardingSession|\stdClass { return $this->get('data'); }
     public function hasData(): bool { return $this->has('data'); }
     /** Additional information about this response. Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
      * @return ?ResponseMeta

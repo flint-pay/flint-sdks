@@ -15,6 +15,7 @@ Request input.
 | `line_items` | Required | Array of [ReturnReceiptLineItemRequestInput](../models/ReturnReceiptLineItemRequestInput.md#returnreceiptlineitemrequestinput) | The lines recorded. minItems: `1`. |
 | `received_at` | Required | string | When the event occurred, at most 5 minutes in the future. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `receiving_location_id` | Required | string | ID of the Location that received the goods. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `return_id` | Required | string | ID of the Return the goods belong to. minLength: `1`. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `shipment_id` | Optional | string | ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. minLength: `1`. Example: `"shp_01KEZF7C00Q2AFXWXHMCDR3F68"`. |
 | `source_system` | Optional | [ReturnSourceSystemRequestInput](../models/ReturnSourceSystemRequestInput.md#returnsourcesystemrequestinput) | System that recorded the observation. `null` when no source system was recorded. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
 | `supersedes_return_receipt_id` | Optional | string | ID of the receipt this one corrects. minLength: `1`. Example: `"retrc_01KEZF7C0052GWDW41D9AJAVJZ"`. |

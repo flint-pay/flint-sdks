@@ -62,7 +62,7 @@ $result = $client->deliveryRateCallbacks->checkConnection('dcb_01KEZF7C00Q4GZ7YP
 
 ### deliveryRateCallbacks.create
 
-Delivery callback endpoints pin shared outbound callback transport configuration. Creation publishes immutable revision 1. signing_methods defaults to ["jwt"]. JWTs use Flint's public JWKS and this callback's delivery_rate_callback_id as aud. Verify body_sha256 against the exact request bytes. The jwt method sends Authorization: Bearer, and the hmac method sends webhook-signature and Flint-Signing-Key-Ids. Every request includes webhook-id and webhook-timestamp. A shared secret and key_id are issued and returned once only when hmac is included. It starts inactive.
+Delivery callback endpoints pin shared outbound callback transport configuration. Creation publishes immutable revision 1. signing_methods defaults to ["jwt"]. JWTs use Flint's public JWKS and this callback's delivery_rate_callback_id as aud. Verify body_sha256 against the exact request bytes. The jwt method sends Authorization: Bearer, and the hmac method sends webhook-signature and Flint-Signing-Key-Ids. Every request includes webhook-id and webhook-timestamp. When hmac is included, the response returns the shared secret and its delivery_rate_callback_signing_key_id once; no later response returns them. It starts inactive.
 
 `POST /v1/delivery-rate-callbacks`
 
@@ -83,14 +83,15 @@ Body model: [CreateDeliveryRateCallbackRequestInput](../models/CreateDeliveryRat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | [DeliveryRateCallbackConfigurationRequestInput](../models/DeliveryRateCallbackConfigurationInput.md#deliveryratecallbackconfigurationinput) | Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it. |
+| `configuration` | Required | [DeliveryRateCallbackConfigurationRequestInput](../models/DeliveryRateCallbackConfigurationInput.md#deliveryratecallbackconfigurationinput) | The settings that define this resource. Changing them publishes a new revision. Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
-| `name` | Required | string | minLength: `1`. |
-| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Signing methods for callback requests. Defaults to JWT verification with Flint's public JWKS. A shared secret and key_id are returned only when hmac is included. minItems: `1`. uniqueItems: `true`. Default: `["jwt"]`. Items values: `"jwt"`, `"hmac"`. |
+| `name` | Required | string | Merchant-facing name. minLength: `1`. |
+| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Signing methods for callback requests. Defaults to JWT verification with Flint's public JWKS. When hmac is included, the response returns the shared secret and its delivery_rate_callback_signing_key_id once. minItems: `1`. uniqueItems: `true`. Default: `["jwt"]`. Items values: `"jwt"`, `"hmac"`. |
+| `status` | Optional | string | Whether active delivery methods can price with this callback. Defaults to inactive. Default: `"inactive"`. Values: `"inactive"`, `"active"`. |
 
 #### Response
 
-Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallbackActivatedMerchantEventDataObject.md#deliveryratecallbackactivatedmerchanteventdataobject).
+Returned payload: [DeliveryRateCallbackWithSecret](../models/DeliveryRateCallbackWithSecret.md#deliveryratecallbackwithsecret).
 
 #### Errors
 
@@ -193,7 +194,7 @@ $result = $client->deliveryRateCallbacks->createTestDelivery('dcb_01KEZF7C00Q4GZ
 
 ### deliveryRateCallbacks.delete
 
-Retires the delivery rate callback after checking current dependencies. The retired resource remains available by ID for historical records. Deleting an already archived resource returns it without changing its version or repeating effects.
+Retires the delivery rate callback. An active delivery method whose current revision still prices with the rate callback blocks deletion: the request returns 409 RESOURCE_IN_USE with the blocking methods. Move those methods to another pricing strategy first. The retired resource remains available by ID for historical records. Deleting an already archived resource returns it without changing its version or repeating effects.
 
 `DELETE /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
 
@@ -204,7 +205,7 @@ Signature: `delete(string|Model $delivery_rate_callback_id, array|Model|null $pa
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivery_rate_callback_id` | Required | string | Flint delivery rate callback ID. |
-| `expected_version` | Optional | integer | Optional current resource version. The delete is rejected if the resource changed after this version was read. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional current resource version. The delete is rejected if the resource changed after this version was read. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -273,6 +274,7 @@ Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallbackActivated
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -312,7 +314,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | `query` | Optional | string | Search across delivery_rate_callback_id, name, and external_reference_id. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as dcb_01. maxLength: `255`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
-| `delivery_method_id` | Optional | string | Filter by an active current method that references this resource. |
+| `delivery_method_id` | Optional | string | Filter by an active current method that references this resource. pattern: `^dmet_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -329,6 +331,7 @@ Returned payload: [DeliveryRateCallbackListResponse](../models/DeliveryRateCallb
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -355,7 +358,7 @@ $result = $client->deliveryRateCallbacks->list([], new RequestOptions());
 
 ### deliveryRateCallbacks.rotateSecret
 
-Issues a first shared secret and adds hmac when no secret exists, and increments the callback's version. Otherwise rotates the shared secret and accepts both keys for one hour. Returns the new secret and key_id once.
+Replaces the callback's shared secret and returns the callback with the new secret and its delivery_rate_callback_signing_key_id once. Flint signs with both keys for one hour. A callback without hmac returns ACTION_NOT_ALLOWED with reason secret_not_issued; PATCH signing_methods to include hmac to issue the first secret.
 
 `POST /v1/delivery-rate-callbacks/{delivery_rate_callback_id}/rotate-secret`
 
@@ -367,7 +370,7 @@ Field definitions: [shared fields](#request-fields).
 
 #### Response
 
-Returned payload: [DeliveryRateCallbackSigningKeyRotation](../models/DeliveryRateCallbackSigningKeyRotation.md#deliveryratecallbacksigningkeyrotation).
+Returned payload: [DeliveryRateCallbackWithSecret](../models/DeliveryRateCallbackWithSecret.md#deliveryratecallbackwithsecret).
 
 #### Errors
 
@@ -407,7 +410,7 @@ $result = $client->deliveryRateCallbacks->rotateSecret('dcb_01KEZF7C00Q4GZ7YPQ60
 
 ### deliveryRateCallbacks.update
 
-Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable revision. Configuration and signing_methods changes require expected_version. signing_methods replaces the set; removing hmac deletes all shared secrets. Use rotate-secret to issue a first shared secret before adding hmac. Archived resources can't be changed; create a new resource instead.
+Sparsely updates mutable fields. A request that carries configuration or signing_methods publishes a new immutable revision, even when its values are unchanged, and requires expected_version. Other fields, such as name, external_reference_id, and status, advance version and keep the current revision, so they never replace a revoked revision. signing_methods replaces the set. Adding hmac when the callback has no shared secret issues one and returns it once, with its delivery_rate_callback_signing_key_id, in this response. Removing hmac deletes all shared secrets. Archived resources can't be changed; create a new resource instead.
 
 `PATCH /v1/delivery-rate-callbacks/{delivery_rate_callback_id}`
 
@@ -421,7 +424,7 @@ Signature: `update(string|Model $delivery_rate_callback_id, array|Model $params,
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRateCallbackRequestInput.md#updatedeliveryratecallbackrequestinput) | The request body for: Update delivery rate callback. |
+| `body` | Required | [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRateCallbackRequestInput.md#updatedeliveryratecallbackrequestinput) | The request body for: Update delivery rate callback. minProperties: `1`. |
 
 Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRateCallbackRequestInput.md#updatedeliveryratecallbackrequestinput).
 
@@ -429,12 +432,12 @@ Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
+| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. minProperties: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required when the request carries a revision field: configuration, signing_methods. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | minLength: `1`. |
-| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
-| `status` | Optional | string | Values: `"inactive"`, `"active"`. |
+| `name` | Optional | string | Merchant-facing name. minLength: `1`. |
+| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Adding hmac when the callback has no shared secret issues one and returns it once in this response. Removing hmac deletes all shared secrets. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
+| `status` | Optional | string | Whether the resource is in use. Send it alone, with `expected_version`; combining it with another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Values: `"inactive"`, `"active"`. |
 
 #### deliveryRateCallbacks.update: variant 1
 
@@ -442,12 +445,12 @@ Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
+| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. minProperties: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required when the request carries a revision field: configuration, signing_methods. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Required | string | minLength: `1`. |
-| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
-| `status` | Optional | string | Values: `"inactive"`, `"active"`. |
+| `name` | Required | string | Merchant-facing name. minLength: `1`. |
+| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Adding hmac when the callback has no shared secret issues one and returns it once in this response. Removing hmac deletes all shared secrets. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
+| `status` | Optional | string | Whether the resource is in use. Send it alone, with `expected_version`; combining it with another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Values: `"inactive"`, `"active"`. |
 
 #### deliveryRateCallbacks.update: variant 2
 
@@ -455,12 +458,12 @@ Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
+| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. minProperties: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required when the request carries a revision field: configuration, signing_methods. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Required | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | minLength: `1`. |
-| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
-| `status` | Optional | string | Values: `"inactive"`, `"active"`. |
+| `name` | Optional | string | Merchant-facing name. minLength: `1`. |
+| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Adding hmac when the callback has no shared secret issues one and returns it once in this response. Removing hmac deletes all shared secrets. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
+| `status` | Optional | string | Whether the resource is in use. Send it alone, with `expected_version`; combining it with another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Values: `"inactive"`, `"active"`. |
 
 #### deliveryRateCallbacks.update: variant 3
 
@@ -468,12 +471,12 @@ Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
+| `configuration` | Required | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. minProperties: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required when the request carries a revision field: configuration, signing_methods. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | minLength: `1`. |
-| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
-| `status` | Optional | string | Values: `"inactive"`, `"active"`. |
+| `name` | Optional | string | Merchant-facing name. minLength: `1`. |
+| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Adding hmac when the callback has no shared secret issues one and returns it once in this response. Removing hmac deletes all shared secrets. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
+| `status` | Optional | string | Whether the resource is in use. Send it alone, with `expected_version`; combining it with another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Values: `"inactive"`, `"active"`. |
 
 #### deliveryRateCallbacks.update: variant 4
 
@@ -481,12 +484,12 @@ Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
+| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. minProperties: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required when the request carries a revision field: configuration, signing_methods. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | minLength: `1`. |
-| `signing_methods` | Required | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
-| `status` | Optional | string | Values: `"inactive"`, `"active"`. |
+| `name` | Optional | string | Merchant-facing name. minLength: `1`. |
+| `signing_methods` | Required | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Adding hmac when the callback has no shared secret issues one and returns it once in this response. Removing hmac deletes all shared secrets. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
+| `status` | Optional | string | Whether the resource is in use. Send it alone, with `expected_version`; combining it with another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Values: `"inactive"`, `"active"`. |
 
 #### deliveryRateCallbacks.update: variant 5
 
@@ -494,16 +497,16 @@ Body model: [UpdateDeliveryRateCallbackRequestInput](../models/UpdateDeliveryRat
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. Only the keys you send change; keys you leave out keep their current values. Null restores a key's default, as each field describes. The result must be a configuration you could create. Requires expected_version. An empty configuration is invalid. minProperties: `1`. |
-| `expected_version` | Optional | integer | Current resource version. Required for configuration, owned-rate replacement, and quote-pinned method presentation; optional for other scalar and status updates. Required when any of these fields is present: configuration, signing_methods. Format: `uint64`. minimum: `1`. |
+| `configuration` | Optional | [DeliveryRateCallbackConfigurationPatchRequestInput](../models/DeliveryRateCallbackConfigurationPatchRequestInput.md#deliveryratecallbackconfigurationpatchrequestinput) | Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. Patch object: fields you send are applied, fields you omit are unchanged. Null restores a key's default, as each field describes. The result must be a configuration you could create. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. minProperties: `1`. |
+| `expected_version` | Optional | integer | Current resource version. Required when the request carries a revision field: configuration, signing_methods. A revision field publishes a new immutable revision even when its value is unchanged. Optional for other fields, which advance version and keep the current revision. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
-| `name` | Optional | string | minLength: `1`. |
-| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Removing hmac deletes all shared secrets. Use rotate-secret to add hmac when no secret has been issued. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
-| `status` | Required | string | Values: `"inactive"`, `"active"`. |
+| `name` | Optional | string | Merchant-facing name. minLength: `1`. |
+| `signing_methods` | Optional | Array of [WebhookSigningMethodInput](../models/WebhookSigningMethodInput.md#webhooksigningmethodinput) | Replaces the signing methods. Adding hmac when the callback has no shared secret issues one and returns it once in this response. Removing hmac deletes all shared secrets. Omit to leave unchanged. Requires expected_version. minItems: `1`. uniqueItems: `true`. Items values: `"jwt"`, `"hmac"`. |
+| `status` | Required | string | Whether the resource is in use. Send it alone, with `expected_version`; combining it with another field returns `400 INVALID_REQUEST` with the detail `NOT_ALLOWED` on `status`. Values: `"inactive"`, `"active"`. |
 
 #### Response
 
-Returned payload: [DeliveryRateCallback](../models/DeliveryRateCallbackActivatedMerchantEventDataObject.md#deliveryratecallbackactivatedmerchanteventdataobject).
+Returned payload: [DeliveryRateCallbackWithSecret](../models/DeliveryRateCallbackWithSecret.md#deliveryratecallbackwithsecret).
 
 #### Errors
 

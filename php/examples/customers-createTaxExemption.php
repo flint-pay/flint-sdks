@@ -17,15 +17,12 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->customers->createTaxExemption('cus_01KEZF7C006X9JK6NZNA2SM9XD', [
+  'reason' => 'federal_government',
   'coverage' => (object) [
+    'type' => 'all_states',
     'country' => 'US',
-    'states' => [
-      'TX',
-    ],
-    'type' => 'states',
   ],
-  'reason' => 'resale',
-  'start_date' => '2026-01-01',
+  'start_date' => '2026-08-02',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->customer_id . PHP_EOL;
 echo $result->customer_tax_exemption_id . PHP_EOL;

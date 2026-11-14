@@ -4,7 +4,7 @@
 
 Request input. Response: [CheckoutRedirects](../models/CheckoutRedirects.md#checkoutredirects).
 
-Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
+Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
 
 
 

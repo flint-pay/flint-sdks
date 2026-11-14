@@ -15,7 +15,7 @@ Signature: `delete(payout_destination_id: InputValue<string>, params?: PayoutDes
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payout_destination_id` | Required | string | Flint payout destination ID. |
-| `expected_version` | Optional | integer | Optional payout destination version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional payout destination version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 
 #### Response
 
@@ -93,6 +93,7 @@ Returned payload: [PayoutDestination](../models/PayoutDestination.md#payoutdesti
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -149,6 +150,7 @@ Returned payload: [PayoutDestinationListResponse](../models/PayoutDestinationLis
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -186,7 +188,7 @@ Signature: `update(payout_destination_id: InputValue<string>, params: PayoutDest
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payout_destination_id` | Required | string | Flint payout destination ID. |
-| `body` | Required | [UpdatePayoutDestinationRequestInput](../models/UpdatePayoutDestinationRequest.md#updatepayoutdestinationrequest) | The request body for: Update payout destination metadata. |
+| `body` | Required | [UpdatePayoutDestinationRequestInput](../models/UpdatePayoutDestinationRequest.md#updatepayoutdestinationrequest) | The request body for: Update payout destination metadata. minProperties: `1`. |
 
 Body model: [UpdatePayoutDestinationRequestInput](../models/UpdatePayoutDestinationRequest.md#updatepayoutdestinationrequest).
 

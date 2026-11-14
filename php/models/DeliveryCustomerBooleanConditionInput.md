@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `value` | Required | boolean |  |
+| `value` | Required | boolean | The value the fact must have. `true` matches when the fact holds, `false` when it does not. |
 

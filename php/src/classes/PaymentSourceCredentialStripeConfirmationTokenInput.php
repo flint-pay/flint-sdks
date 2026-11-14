@@ -8,13 +8,13 @@ namespace Flint;
 final class PaymentSourceCredentialStripeConfirmationTokenInput extends Model {
     /** @param array{'credential_type': string, 'stripe': array{'confirmation_token': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCredentialStripeConfirmationTokenInput')); }
-    /** Value enum: "stripe_confirmation_token".
+    /** Selects the credential supplied for this payment. Value enum: "stripe_confirmation_token".
      * @return string
      * @throws SdkError When credential_type is omitted; use hasCredentialType() or valueOrDefault().
      */
     public function getCredentialType(): string { return $this->get('credential_type'); }
     public function hasCredentialType(): bool { return $this->has('credential_type'); }
-    /** Stripe credential collected for this payment. confirmation_token (Required): string. Stripe confirmation token you created with Stripe.js from `payment_collection.stripe`. minLength: 1.
+    /** Stripe credential collected for this payment. confirmation_token (Required): string. A Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use this for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
      * @return array{'confirmation_token': string}|object
      * @throws SdkError When stripe is omitted; use hasStripe() or valueOrDefault().
      */

@@ -5,12 +5,12 @@ namespace Flint;
  * @property-read string $code
  * @property-read string $failed_at
  * @property-read string $message
- * @property-read BuyerErrorRemediation|null $remediation
+ * @property-read BuyerErrorRemediation $remediation
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerPaymentErrorSummary extends Model {
     /** @param array{'code': string, 'failed_at': string, 'message': string, 'remediation': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentErrorSummary')); }
-    /** Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Value enum: "card_declined", "insufficient_funds", "bank_account_closed", "bank_account_not_found", "bank_debit_not_authorized", "bank_account_restricted", "bank_debit_limit_exceeded", "authentication_required", "payment_blocked", "expired_card", "incorrect_cvc", "processing_error", "payment_method_unavailable", "payment_method_declined", "payment_not_completed", "payment_action_expired", "payment_method_temporarily_unavailable", "payment_failed".
+    /** Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Value enum: "card_declined", "card_details_outdated", "insufficient_funds", "bank_account_closed", "bank_account_not_found", "bank_debit_not_authorized", "bank_account_restricted", "bank_debit_limit_exceeded", "authentication_required", "payment_blocked", "expired_card", "incorrect_cvc", "processing_error", "payment_method_unavailable", "payment_method_declined", "payment_not_completed", "payment_action_expired", "payment_method_temporarily_unavailable", "incorrect_pin", "pin_try_exceeded", "pin_required", "payment_failed".
      * @return string
      */
     public function getCode(): string { return $this->get('code'); }
@@ -25,9 +25,9 @@ final class BuyerPaymentErrorSummary extends Model {
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Guidance for resolving the payment failure before trying to collect again. anyOf[1] (Value): {@see BuyerErrorRemediation}. Guidance for recovering from a payment error: whether and how to retry (`retry`), and optional next steps. anyOf[2] (Value): null.
-     * @return BuyerErrorRemediation|null
+    /** Guidance for resolving the payment failure before trying to collect again. Guidance for recovering from a payment error: whether and how to retry (`retry`), and optional next steps.
+     * @return BuyerErrorRemediation
      */
-    public function getRemediation(): BuyerErrorRemediation|null { return $this->get('remediation'); }
+    public function getRemediation(): BuyerErrorRemediation { return $this->get('remediation'); }
     public function hasRemediation(): bool { return $this->has('remediation'); }
 }

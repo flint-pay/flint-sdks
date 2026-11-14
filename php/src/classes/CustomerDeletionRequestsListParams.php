@@ -16,7 +16,7 @@ final class CustomerDeletionRequestsListParams extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Only return requests for this Flint customer ID. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Only return requests for this Flint customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */

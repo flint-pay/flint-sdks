@@ -8,6 +8,6 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `payment_intent_id` | Required | string |  |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of the tip this payment intent paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `payment_intent_id` | Required | string | ID of the payment intent that paid this part of the tip. |
 

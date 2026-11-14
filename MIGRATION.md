@@ -1,6 +1,6 @@
 # SDK 8.0.0
 
-This guide covers upgrading from `7.0.0` to the `8.0.0-beta.2` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.2` or `flintpay/flint:8.0.0-beta.2`. The API date is `2026-09-07`; this beta pins Flint `main` at `6cd24dfcae461df982718effa88460b3c732c1e2`. Stable releases will pin the backend commit serving production.
+This guide covers upgrading from `7.0.0` to the `8.0.0-beta.3` prerelease. The breaking changes have no deprecated aliases or compatibility overloads. Install `@flintpay/node@8.0.0-beta.3` or `flintpay/flint:8.0.0-beta.3`. The API date is `2026-09-07`; this beta pins Flint `main` at `323766dba32c7945254bbcc0ff23b160f4076b18`. Stable releases will pin the backend commit serving production.
 
 TypeScript reports most of these changes as compile errors, so run `tsc` after upgrading and work through the output. PHP reports them when the call runs; use the search patterns in [Finding call sites](#finding-call-sites).
 
@@ -15,9 +15,9 @@ What changed, most common first:
 - [Credentials](#credentials): a credential option passed empty throws instead of falling back to the environment.
 - [Type names](#type-names), [examples](#examples-and-the-default-host), [packaging](#packaging) and [API contract changes](#api-contract-changes-in-800).
 
-## Unreleased changes after 8.0.0-beta.2
+## Changes in 8.0.0-beta.3
 
-`main` pins Flint `main` at `a29702bf` (API date still `2026-09-07`). The API changes below already apply to every supported API version, so upgrade your calls with the SDK. Field-level request and response changes are listed in the [API changelog](https://developers.withflintpay.com/changelog).
+The `8.0.0-beta.3` prerelease pins Flint `main` at `323766dba32c7945254bbcc0ff23b160f4076b18` (API date still `2026-09-07`). The API changes below already apply to every supported API version, so upgrade your calls with the SDK. Field-level request and response changes are listed in the [API changelog](https://developers.withflintpay.com/changelog).
 
 Partner apps:
 - Partner refresh tokens are gone. The code exchange returns a merchant-bound partner app token (900 seconds, no refresh token), and partner apps mint new tokens with `grant_type=client_credentials`. Mint them with `partnerAppTokens(client, { clientAssertion, mode })` (PHP `new Flint\Partner\PartnerAppTokens(...)`). A backend serving many merchants uses `app()` with each call's `Flint-Merchant-Id` param; see the [partner OAuth guide](node/guides/partner-oauth.md). `oauth.exchangeToken` with `grant_type=refresh_token` now returns `unauthorized_client` for partner clients; flint-cli keeps its refresh tokens.
@@ -29,12 +29,45 @@ Removed methods:
 - The old `deliveryRevocations.create` operation (`revokeDeliveryDependency`) is replaced by a new `deliveryRevocations.create` (`createDeliveryRevocation`) with its own request body.
 
 Moved methods:
+- `orders.createFulfillment`, `fulfillments.createShipment`, `shipments.createPackage` and `fulfillments.createEvent` become `fulfillments.create`, `shipments.create`, `packages.create` and `fulfillmentEvents.create`. Pass the parent resource ID in the body.
 - `giftCards.createLoad(giftCardId, params)` becomes `giftCardLoads.create(params)`, with `gift_card_id` in the body.
 - `promotions.createCode`, `getCode`, `updateCode` and `deleteCode` become `promotionCodes.create`, `get`, `update` and `delete`, addressed by the promotion code ID alone.
 - `me.listGiftCardTransactions(giftCardId, params)` becomes `me.listGiftCardTransactions({ gift_card_id, ... })`: the gift card ID is now a required query parameter.
 
 Idempotency keys:
-- `invoices.issue` and `orders.createFulfillment` now require your saved `idempotencyKey`. They no longer mint one, and a call without a key fails before sending. Save a key with the action before the first attempt and reuse it on every retry.
+- `invoices.issue` and `fulfillments.create` now require your saved `idempotencyKey`. They no longer mint one, and a call without a key fails before sending. Save a key with the action before the first attempt and reuse it on every retry.
+
+### Order payment intents in 8.0.0-beta.3
+
+Replace `orders.createPaymentIntent(orderId, params, options)` with `paymentIntents.create({ order_id: orderId, ...params }, options)`. Checkout credentials use the same method on their own order. The result is the payment intent itself, with `payment_collection` alongside its fields; remove the old `payment_intent` wrapper access.
+
+Customer credit-note PDF calls now use `me.getCreditNotePDF(creditNoteId, params, options)` without an invoice ID.
+
+### Webhook payload fields in 8.0.0-beta.3
+
+Event `data.object` and `data.previous_attributes` now describe the delivered snapshot. Payment intent events omit `processing_fee_money`, `add_on_fees`, `merchant_net_money` and caller-specific `payment_collection` guidance. Checkout events omit caller-specific branding, saved-payment settings and URL fields; invoice events omit `public_url`. Other resource projections also exclude their registered GET-only fields. Their TypeScript properties and PHP webhook getters are removed. Fetch the resource through its GET method when your handler needs those fields. GET resource types and getters retain them.
+
+### Payment actions, credentials and return creation
+
+Check `pending.client_action.type` before reading its member fields. A `url` action opens `client_action.url` in a redirect, popup or iframe; a `stripe` action supplies `client_action.stripe`. Expiry is `pending.expires_at`. Request `client_action_type: "url"` or `"stripe"` when starting a payment; reader credentials require `stripe`. For continuations, omission preserves the selected type.
+
+Replace top-level confirmation credential fields with `payment_source`; omit it to continue with an attached source. For example, pass `{ payment_source: { credential_type: "stripe_payment_method", stripe: { payment_method: "pm_card_visa" } } }` in a sandbox. The former `token` variant and the separate attached-confirmation model are removed. Order payment-intent selections also nest `payment_source` under the selected `payment_intent_id`.
+
+Replace `returns.createInspection(returnId, params)`, `createReceipt`, `createDisposition` and `createResolution` with `returnInspections.create({ return_id: returnId, ...params })`, `returnReceipts.create`, `returnDispositions.create` and `returnResolutions.create`. Restocking percentages must be 1 through 100.
+
+### Confirming order-owned payment intents
+
+With merchant credentials and `payments.payment_intents.write`, call `paymentIntents.confirm(paymentIntentId, params, options)` for a single order leg. Its request and response use the existing standalone-confirmation shape. Omit `payment_source` to continue the attempt holding the leg; use order `pay` for several unpaid legs or selected gift cards. Checkout credentials continue through order `pay` and `resume`.
+
+Read `supported_actions` before acting: it includes stored owner facts and can change without a new intent version. Invoice payments expose only `cancel`; subscription payments expose no actions. Replace `order_owned` checks with `managed_by_owner` and follow `remediation.next_actions`, including `collect_invoice` and `create_subscription_payment_retry`. Saving a new card on an order leg requires an order customer and `payments.payment_methods.write`; otherwise handle `configuration_required` on the order.
+
+### Response fields and invoice amounts
+
+Read invoice totals under `settlement_amounts`, including `credited_money` in place of top-level `credit_money`. Invoice activities and schedule entries also use `credited_money`. Subscription change previews use `credit_adjustment_money`. For `invoices.list` and `me.listInvoices`, replace sort value `outstanding_money` with `settlement_amounts.outstanding_money`.
+
+Buyer payment and return models no longer expose merchant `supported_actions`; merchant returns and subscriptions no longer expose `buyer_actions`. Use buyer tasks and pending payment actions in buyer flows and `supported_actions` in merchant flows. Attempts now require `order_id`. Update synthetic response fixtures for these fields and for newly non-null response fields listed in the beta.3 changelog. The invoice payment-attempt webhook is `invoice_payment_attempt.succeeded`.
+
+Custom-line `product_type` is optional without a default, accepts `physical`, `digital`, `service` or `fee`, and rejects null and `gift_card`. Responses keep nullable classification. Customer access-link results are discriminated by delivery; read the returned URL only for that variant.
 
 ## Method and namespace names
 

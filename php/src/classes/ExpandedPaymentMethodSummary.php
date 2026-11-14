@@ -13,7 +13,7 @@ namespace Flint;
 final class ExpandedPaymentMethodSummary extends Model {
     /** @param array{'card'?: mixed, 'created_at'?: string, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentMethodSummary')); }
-    /** Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
+    /** Brand, expiry and last four digits. Present when type is card. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return ?CardDetails
      */
     public function getCard(): ?CardDetails { return $this->get('card'); }
@@ -23,7 +23,7 @@ final class ExpandedPaymentMethodSummary extends Model {
      */
     public function getCreatedAt(): ?string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_id
+    /** Customer this payment method belongs to.
      * @return ?string
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
@@ -33,12 +33,12 @@ final class ExpandedPaymentMethodSummary extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Value enum: "pending", "active", "expired", "archived", "failed".
+    /** Whether the payment method can be charged. Treat any value other than active as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Value enum: "card".
+    /** Kind of payment method. Value enum: "card".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

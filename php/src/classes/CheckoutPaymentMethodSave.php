@@ -11,7 +11,7 @@ namespace Flint;
 final class CheckoutPaymentMethodSave extends Model {
     /** @param array{'email_confirmation_required': bool, 'expires_at'?: string|null, 'phone_last_digits'?: string, 'saved_with'?: string, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutPaymentMethodSave')); }
-    /** True while status is pending after the buyer confirmed the number by text, when the number alone can't save the card: the customer with the buyer's email existed before this payment, the buyer did not confirm that email in this checkout, and the number isn't already the customer's saved number with an active card saved with it. The buyer confirms the email with an emailed code to finish; the card is then saved with the number, which replaces the customer's saved number.
+    /** True from the moment status is pending when an emailed code is what finishes the save: the buyer gave no number, or the number alone can't save the card. An emailed code alone saves the card by email. If the buyer already confirmed the number by text, the emailed code saves the card with that number.
      * @return bool
      */
     public function getEmailConfirmationRequired(): bool { return $this->get('email_confirmation_required'); }
@@ -21,7 +21,7 @@ final class CheckoutPaymentMethodSave extends Model {
      */
     public function getExpiresAt(): string|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Last two digits of the number the buyer gave, which a code is texted to. Set while status is pending.
+    /** Last two digits of the number the buyer gave, which a code is texted to. Set while status is pending and the buyer gave a number.
      * @return ?string
      */
     public function getPhoneLastDigits(): ?string { return $this->get('phone_last_digits'); }

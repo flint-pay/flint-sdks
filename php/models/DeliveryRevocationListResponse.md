@@ -15,7 +15,7 @@ Response model.
 
 ### DeliveryRevocationListResponse.data[]
 
-A withdrawal of a previously available delivery choice.
+A permanent fence on an exact delivery method revision, rate callback revision, callback signing key, or Location geography version. Quotes that depend on it are revoked, and selections that depend on it stop being current.
 
 Field definitions: [shared fields](DeliveryRevocationResponse.md#deliveryrevocationresponsedata).
 

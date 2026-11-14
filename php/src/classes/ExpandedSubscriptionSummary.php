@@ -12,18 +12,19 @@ namespace Flint;
  * @property-read string $status
  * @property-read string $subscription_id
  * @property-read string $subscription_plan_id
+ * @property-read list<string> $supported_actions
  * @property-read string $terms_type
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedSubscriptionSummary extends Model {
-    /** @param array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer_id': string, 'next_billing_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'terms_type': string, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer_id': string, 'next_billing_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'supported_actions': list<string>, 'terms_type': string, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionSummary')); }
-    /** Format: int32.
+    /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32.
      * @return int
      */
     public function getBillingAnchorDay(): int { return $this->get('billing_anchor_day'); }
     public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
-    /** cancel_at_period_end
+    /** True when the subscription is scheduled to cancel instead of renewing.
      * @return bool
      */
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
@@ -43,7 +44,7 @@ final class ExpandedSubscriptionSummary extends Model {
      */
     public function getCurrentPeriodStartAt(): ?string { return $this->get('current_period_start_at'); }
     public function hasCurrentPeriodStartAt(): bool { return $this->has('current_period_start_at'); }
-    /** customer_id
+    /** The customer this subscription bills.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
@@ -53,7 +54,7 @@ final class ExpandedSubscriptionSummary extends Model {
      */
     public function getNextBillingAt(): ?string { return $this->get('next_billing_at'); }
     public function hasNextBillingAt(): bool { return $this->has('next_billing_at'); }
-    /** Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+    /** Where the subscription is in its lifecycle. Each value says what it means. Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -63,12 +64,17 @@ final class ExpandedSubscriptionSummary extends Model {
      */
     public function getSubscriptionId(): string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** subscription_plan_id
+    /** ID of the subscription plan the terms come from. An empty string when `terms_type` is `subscription_offer`.
      * @return string
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Value enum: "subscription_plan", "subscription_offer".
+    /** Merchant lifecycle actions accepted by the subscription's current state. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value): string.  Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
+     * @return list<string>
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
      * @return string
      */
     public function getTermsType(): string { return $this->get('terms_type'); }

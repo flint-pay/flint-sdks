@@ -38,3 +38,7 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](Dispute.md#dispute).
 
+### DisputeCreatedMerchantEvent.data fields 1.object.split_reversals[]
+
+Field definitions: [DisputeResponse.data.split_reversals[]](../models/DisputeResponse.md#disputeresponsedatasplit_reversals).
+

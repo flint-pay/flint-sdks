@@ -38,13 +38,13 @@ final class InventoryMovementsListParams extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by inventory item. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+    /** Filter by inventory item. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Filter by Location. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -62,19 +62,19 @@ final class InventoryMovementsListParams extends Model {
      */
     public function getReason(): mixed { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Filter by the customer Return that produced the movement. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Filter by the customer Return that produced the movement. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by the Return disposition that produced the movement. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+    /** Filter by the Return disposition that produced the movement. pattern: ^retdsp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      * @return string
      * @throws SdkError When return_disposition_id is omitted; use hasReturnDispositionId() or valueOrDefault().
      */
@@ -140,7 +140,7 @@ final class InventoryMovementsListParams extends Model {
      */
     public function getSourceReferenceType(): mixed { return $this->get('source_reference_type'); }
     public function hasSourceReferenceType(): bool { return $this->has('source_reference_type'); }
-    /** Filter by source_reference.resource_id. Example: "invadj_01KEZF7C00HFCAS32T4NVHX75M".
+    /** Filter by source_reference.resource_id. pattern: ^(ful|invadj|invc|invl|invr|invrea|invrec|invtr)_[0-9A-HJKMNP-TV-Z]{26}$. Example: "invadj_01KEZF7C00HFCAS32T4NVHX75M".
      * @return string
      * @throws SdkError When source_reference_id is omitted; use hasSourceReferenceId() or valueOrDefault().
      */

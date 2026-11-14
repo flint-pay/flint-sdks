@@ -16,7 +16,7 @@ final class DeliveryMethodOriginSelectorRequestInput extends Model {
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the Location delivery starts from. Required for `fixed_location` and not allowed otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -28,7 +28,7 @@ final class DeliveryMethodOriginSelectorRequestInput extends Model {
      */
     public function getLocationIds(): array { return $this->get('location_ids'); }
     public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** Value enum: "fixed_location", "allocated_origin_group", "pickup_location_collection".
+    /** Where delivery starts. Value enum: "fixed_location", "allocated_origin_group", "pickup_location_collection".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

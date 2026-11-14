@@ -1,0 +1,1 @@
+{"shared":"MerchantSignupTermsAcceptance","phpRepresentation":{"kind":"record","fields":{"accepted_at":{"kind":"value","type":"string"},"merchant_terms_version":{"kind":"value","type":"string"}}},"dependencies":["MerchantSignupTermsAcceptance"]}

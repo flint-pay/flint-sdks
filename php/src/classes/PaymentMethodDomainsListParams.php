@@ -16,7 +16,7 @@ final class PaymentMethodDomainsListParams extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Exact hostname filter after trimming whitespace and converting to lowercase. Accepts an ASCII fully-qualified hostname without a URL, port, wildcard, or IP address. Matches the entire stored domain name. minLength: 1. maxLength: 253.
+    /** Exact hostname filter after trimming whitespace and converting to lowercase. Accepts an ASCII fully-qualified hostname without a URL, port, wildcard, or IP address. Matches the entire stored domain name. minLength: 1. maxLength: 253. pattern: ^[\t\n\v\f\r ]*(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?[\t\n\v\f\r ]*$.
      * @return string
      * @throws SdkError When domain_name is omitted; use hasDomainName() or valueOrDefault().
      */

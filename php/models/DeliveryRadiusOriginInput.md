@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Optional | string | minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-| `method_origin` | Optional | boolean |  |
+| `location_id` | Optional | string | ID of the Location to measure from. Send either `location_id` or `method_origin`. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `method_origin` | Optional | boolean | Send `true` to measure from the origin of the delivery method. Send either `location_id` or `method_origin`. |
 

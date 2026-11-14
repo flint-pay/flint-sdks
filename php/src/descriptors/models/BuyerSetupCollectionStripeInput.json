@@ -1,0 +1,1 @@
+{"shared":"BuyerSetupCollectionStripe","dependencies":["BuyerErrorRemediation","BuyerPaymentCollection","BuyerPaymentCollectionStripe","BuyerPaymentCollectionStripeElements","BuyerPaymentErrorSummary","BuyerSetupCollectionStripe","MoneyValue","SharedCodec73","SharedCodec74","SharedCodec75"]}

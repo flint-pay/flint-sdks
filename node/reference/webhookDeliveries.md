@@ -103,6 +103,7 @@ Returned payload: [WebhookDelivery](../models/WebhookDelivery.md#webhookdelivery
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -137,8 +138,8 @@ Signature: `list(params?: WebhookDeliveriesListParams, options?: _SdkWithoutIdem
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `webhook_event_id` | Optional | string | Filter by an exact webhook event ID. Returns an empty page when no visible deliveries match. |
-| `webhook_endpoint_id` | Optional | string | Filter by an exact webhook endpoint ID, including deleted endpoints. Returns an empty page when no visible deliveries match. |
+| `webhook_event_id` | Optional | string | Filter by an exact webhook event ID. Returns an empty page when no visible deliveries match. pattern: `^whev_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `webhook_endpoint_id` | Optional | string | Filter by an exact webhook endpoint ID, including deleted endpoints. Returns an empty page when no visible deliveries match. pattern: `^whep_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Filter by delivery status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. Values: `"pending"`, `"delivered"`, `"failed"`, `"suppressed"`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
@@ -159,6 +160,7 @@ Returned payload: [WebhookDeliveryListResponse](../models/WebhookDeliveryListRes
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -220,6 +222,7 @@ Returned payload: [WebhookDeliveryAttemptListResponse](../models/WebhookDelivery
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

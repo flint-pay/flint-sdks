@@ -11,7 +11,7 @@ namespace Flint;
 final class TaxConnectionCreateRegistrationParams extends Model {
     /** @param array{'country'?: string, 'end_date'?: string|null, 'registration_number': string, 'start_date': string, 'state'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionCreateRegistrationParams')); }
-    /** Country of registration. Omit for US. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Default: "US". Example: "US". Value enum: "US", "CA".
+    /** Country of registration. Omit for US. Use EU for a non-Union OSS registration, which covers all 27 member states. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Default: "US". Example: "US". Value enum: "US", "CA", "EU", "GB", "AU", "NZ".
      * @return string
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */
@@ -23,7 +23,7 @@ final class TaxConnectionCreateRegistrationParams extends Model {
      */
     public function getEndDate(): string|null { return $this->get('end_date'); }
     public function hasEndDate(): bool { return $this->has('end_date'); }
-    /** Seller's tax registration number. Write-only; responses return only its last four characters. minLength: 1. maxLength: 255.
+    /** Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine digits. Write-only; responses return only its last four characters. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When registration_number is omitted; use hasRegistrationNumber() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class TaxConnectionCreateRegistrationParams extends Model {
      */
     public function getStartDate(): string { return $this->get('start_date'); }
     public function hasStartDate(): bool { return $this->has('start_date'); }
-    /** US state code or DC. For CA, omit for federal GST/HST, or use BC, MB, QC or SK for provincial tax. Uses the US postal abbreviation from ISO 3166-2:US (without the US- prefix). Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
+    /** US state code or DC. For CA, omit for federal GST/HST, or use BC, MB, QC or SK for provincial tax. Omit for EU, GB, AU and NZ. Uses the US postal abbreviation from ISO 3166-2:US (without the US- prefix). Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY".
      * @return string
      * @throws SdkError When state is omitted; use hasState() or valueOrDefault().
      */

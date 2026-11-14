@@ -101,7 +101,7 @@ Body model: [CollectInvoiceRequestInput](../models/CollectInvoiceRequest.md#coll
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `invoice_schedule_entry_id` | Optional | string | Optional. The schedule entry to collect. Only the earliest entry that is due and still has an outstanding balance can be collected; omit it to collect that entry. Not allowed on an invoice without a schedule. minLength: `1`. |
-| `payment_method_id` | Optional | string | minLength: `1`. |
+| `payment_method_id` | Optional | string | Optional. The customer's saved payment method to charge. Omit it to charge the invoice's `collection.payment_method_id`. The method must be active, belong to the invoice's customer, allow charges without the buyer present, and be a payment option the invoice allows. If the invoice has no method either, the request is refused. Only invoices collected automatically can be collected this way. minLength: `1`. |
 
 #### Response
 
@@ -245,67 +245,6 @@ const result = await client.invoices.create({type: "order", order_id: "ord_01KEZ
 
 [Complete runnable example](../examples/invoices-create.mjs)
 
-### invoices.createCheckoutSession
-
-Returns the current open invoice checkout session and aligned card attempt when they still match the invoice balance and collection run. A newly created session and attempt share the fixed expiration of the active invoice public-link generation. Unexpired sessions are reused regardless of remaining lifetime; active payment work returns a resolving conflict instead of creating competing collection. When the invoice's order has items to deliver, a new session offers the delivery methods in settings.checkout.default_delivery_method_ids, and the request fails with `ACTION_NOT_ALLOWED` and reason `configuration_required` when those methods cannot deliver every item. return_url sets where the checkout sends the buyer after paying. A reused session takes a new return_url only until a payment starts on it, and keeps the one it has after that.
-
-`POST /v1/invoices/{invoice_id}/checkout-sessions`
-
-Signature: `createCheckoutSession(invoice_id: InputValue<string>, params?: InvoicesCreateCheckoutSessionParams, options?: RequestOptions<"merchant">)`
-
-#### Request fields
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `invoice_id` | Required | string | Flint invoice ID. |
-| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
-| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Optional | [InvoiceCheckoutSessionRequestInput](../models/InvoiceCheckoutSessionRequest.md#invoicecheckoutsessionrequest) | The request body for: Create an invoice checkout session for the current buyer; Get or create invoice checkout collection. |
-
-#### Response
-
-Returned payload: [InvoiceCheckoutSessionResult](../models/InvoiceCheckoutSessionResult.md#invoicecheckoutsessionresult) | [InvoiceCheckoutSessionResult](../models/InvoiceCheckoutSessionResult.md#invoicecheckoutsessionresult).
-
-#### Errors
-
-| Status | Error class |
-| --- | --- |
-| 400 | InvalidRequestError |
-| 401 | AuthenticationError |
-| 403 | PermissionError |
-| 404 | NotFoundError |
-| 409 | ConflictError |
-| 413 | ApiError |
-| 415 | ApiError |
-| 429 | RateLimitError |
-| 500 | ServerError |
-| 503 | ServerError |
-| 504 | ServerError |
-
-Other failures: [runtime error reference](../RUNTIME.md#error-reference).
-
-#### Request behavior
-
-Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
-
-Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
-
-Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
-
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
-
-#### Example
-
-```typescript
-// Persist this key with the action before sending; reuse it for every resubmission.
-const idempotencyKey = crypto.randomUUID();
-
-const result = await client.invoices.createCheckoutSession("inv_01KEZF7C00A5GEBMWHEAJFSAR4", undefined, { idempotencyKey: idempotencyKey });
-```
-
-[Complete runnable example](../examples/invoices-createCheckoutSession.mjs)
-
 ### invoices.createLateFee
 
 Assesses the frozen late fee policy once per invoice or overdue schedule entry. The issued document remains unchanged.
@@ -405,7 +344,7 @@ Body model: [CreateInvoiceManualPaymentRequestInput](../models/CreateInvoiceManu
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Positive amount received outside Flint, in the invoice currency, no more than outstanding_money for an open invoice or written_off_money for an uncollectible invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `expected_version` | Optional | integer | Expected version of the invoice. Format: `int64`. minimum: `1`. |
+| `expected_invoice_version` | Optional | integer | Expected version of the invoice. Format: `int64`. minimum: `1`. |
 | `note` | Optional | string | Note about the offline payment, up to 4096 characters. minLength: `1`. maxLength: `4096`. |
 | `payment_reference` | Optional | string | Caller-owned check, wire, or bank reference, stored unmodified. minLength: `1`. maxLength: `255`. |
 | `received_at` | Optional | string | When the payment was received. Defaults to now. Format: `date-time`. minLength: `1`. |
@@ -482,6 +421,7 @@ Returned payload: [Invoice](../models/Invoice.md#invoice).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -541,6 +481,7 @@ Returned payload: [InvoiceManualPayment](../models/InvoiceManualPayment.md#invoi
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -594,6 +535,7 @@ Returned payload: [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#inv
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -645,6 +587,7 @@ Response body (inside Result.data): Uint8Array.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -748,10 +691,10 @@ Signature: `list(params?: InvoicesListParams, options?: _SdkWithoutIdempotency<R
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Filter by invoice status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"voided"`, `"uncollectible"`, `"credited"`. Values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"voided"`, `"uncollectible"`, `"credited"`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
-| `customer_id` | Optional | string | Filter by Flint customer ID. |
-| `order_id` | Optional | string | Filter by Flint order ID. |
-| `subscription_id` | Optional | string | Exact-match filter on the backing order subscription ID. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
+| `customer_id` | Optional | string | Filter by Flint customer ID. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `order_id` | Optional | string | Filter by Flint order ID. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `subscription_id` | Optional | string | Exact-match filter on the backing order subscription ID. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `invoice_number` | Optional | string | Exact, byte-sensitive whole invoice number. Preserves casing, accents, and whitespace; drafts without a number do not match. minLength: `1`. maxLength: `255`. |
 | `collection_mode` | Optional | Array of string or string | Filter by the effective collection mode. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"buyer_initiated"`, `"automatic"`, `"external"`. Values: `"buyer_initiated"`, `"automatic"`, `"external"`. |
@@ -764,8 +707,8 @@ Signature: `list(params?: InvoicesListParams, options?: _SdkWithoutIdempotency<R
 | `due_date_from` | Optional | string | Inclusive lower bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date in its timezone (UTC when absent). Format: `date`. |
 | `due_date_to` | Optional | string | Exclusive upper bound on due_date, in YYYY-MM-DD format. Compares each invoice calendar date in its timezone (UTC when absent). Format: `date`. |
 | `is_overdue` | Optional | boolean | Filter by whether an open or partially_paid invoice has an outstanding balance after its due date ends in its timezone (UTC when absent). With a schedule, matches when any entry is overdue. |
-| `has_outstanding_balance` | Optional | boolean | Filter by whether outstanding_money is greater than zero. |
-| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"due_date"`, `"invoice_number"`, `"outstanding_money"`. |
+| `has_outstanding_balance` | Optional | boolean | Filter by whether settlement_amounts.outstanding_money is greater than zero. |
+| `sort_by` | Optional | string | Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: `"created_at"`. Values: `"created_at"`, `"updated_at"`, `"due_date"`, `"invoice_number"`, `"settlement_amounts.outstanding_money"`. |
 | `sort_direction` | Optional | string | Sort direction. Defaults to desc. Default: `"desc"`. Values: `"asc"`, `"desc"`. |
 | `query` | Optional | string | Search across invoice_id, invoice_number, external_reference_id, recipient_email, reference, po_number, and the customer name and email on the invoice. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as inv_01. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: customer, order. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"customer"`, `"order"`. Values: `"customer"`, `"order"`. |
@@ -784,6 +727,7 @@ Returned payload: [InvoiceListResponse](../models/InvoiceListResponse.md#invoice
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -875,6 +819,7 @@ Returned payload: [InvoiceActivityListResponse](../models/InvoiceActivityListRes
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -936,6 +881,7 @@ Returned payload: [InvoiceDeliveryAttemptListResponse](../models/InvoiceDelivery
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -960,6 +906,61 @@ const result = await client.invoices.listDeliveryAttempts("inv_01KEZF7C00A5GEBMW
 
 [Complete runnable example](../examples/invoices-listDeliveryAttempts.mjs)
 
+### invoices.listLateFees
+
+Returns the invoice's late fees sorted by ID in ascending order. Default order: invoice_late_fee_id ascending.
+
+`GET /v1/invoices/{invoice_id}/late-fees`
+
+Signature:
+
+```typescript
+listLateFees(invoice_id: InputValue<string>,
+ params?: InvoicesListLateFeesParams,
+ options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)
+```
+
+#### Request fields
+
+Field definitions: [shared fields](#request-fields-12).
+
+#### Response
+
+Returned payload: [InvoiceLateFeesListResponse](../models/InvoiceLateFeesListResponse.md#invoicelatefeeslistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listLateFeesItems`, `listLateFeesPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```typescript
+const result = await client.invoices.listLateFees("inv_01KEZF7C00A5GEBMWHEAJFSAR4", {}, {  });
+```
+
+[Complete runnable example](../examples/invoices-listLateFees.mjs)
+
 ### invoices.listManualPayments
 
 Lists every manual payment, including reversed payments. Default order: received_at descending, then invoice_manual_payment_id descending.
@@ -981,7 +982,7 @@ listManualPayments(invoice_id: InputValue<string>,
 | `invoice_id` | Required | string | Flint invoice ID. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -998,6 +999,7 @@ Returned payload: [InvoiceManualPaymentListResponse](../models/InvoiceManualPaym
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1052,6 +1054,7 @@ Returned payload: [InvoicePaymentAttemptListResponse](../models/InvoicePaymentAt
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -1278,7 +1281,7 @@ Signature: `sendReminder(invoice_id: InputValue<string>, params?: InvoicesSendRe
 
 #### Request fields
 
-Field definitions: [shared fields](#request-fields-9).
+Field definitions: [shared fields](#request-fields-8).
 
 #### Response
 
@@ -1337,7 +1340,7 @@ Signature: `update(invoice_id: InputValue<string>, params: InvoicesUpdateParams,
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateInvoiceRequestInput](../models/UpdateInvoiceRequest.md#updateinvoicerequest) | The request body for: Update invoice. |
+| `body` | Required | [UpdateInvoiceRequestInput](../models/UpdateInvoiceRequest.md#updateinvoicerequest) | The request body for: Update invoice. minProperties: `1`. |
 
 Body model: [UpdateInvoiceRequestInput](../models/UpdateInvoiceRequest.md#updateinvoicerequest).
 
@@ -1406,7 +1409,7 @@ const result = await client.invoices.update("inv_01ARZ3NDEKTSV4RRFFQ69G5FAV", {m
 
 ### invoices.void
 
-Voids an unpaid invoice so the associated order can be edited or collected again. An invoice with an issued credit note against it cannot be voided until that credit note is voided.
+Voids an unpaid invoice and releases its collection authority. For a Quick Pay invoice, also closes the order with closed_reason invoice_voided only when it is open with no collected payment and no fulfillment. Otherwise the order is unchanged. An invoice with an issued credit note against it cannot be voided until that credit note is voided.
 
 `POST /v1/invoices/{invoice_id}/void`
 

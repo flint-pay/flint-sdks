@@ -17,7 +17,7 @@ namespace Flint;
 final class PaymentMethodsListInput extends Model {
     /** @param array{'customer_id'?: string, 'page_size'?: int, 'page_token'?: string, 'type'?: list<string>|string, 'status'?: list<string>|string, 'usage'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentMethodsListInput')); }
-    /** Optional Flint customer ID filter. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Optional Flint customer ID filter. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */

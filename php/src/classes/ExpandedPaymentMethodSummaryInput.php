@@ -13,7 +13,7 @@ namespace Flint;
 final class ExpandedPaymentMethodSummaryInput extends Model {
     /** @param array{'card'?: CardDetailsInput|array<array-key, mixed>|\stdClass, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'payment_method_id': string, 'status': string, 'type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedPaymentMethodSummaryInput')); }
-    /** Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
+    /** Brand, expiry and last four digits. Present when type is card. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used.
      * @return CardDetailsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When card is omitted; use hasCard() or valueOrDefault().
      */
@@ -25,7 +25,7 @@ final class ExpandedPaymentMethodSummaryInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -37,13 +37,13 @@ final class ExpandedPaymentMethodSummaryInput extends Model {
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Value enum: "pending", "active", "expired", "archived", "failed".
+    /** Whether the payment method can be charged. Treat any value other than active as not chargeable, including values added later. Value enum: "pending", "active", "expired", "archived", "failed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Value enum: "card".
+    /** Kind of payment method. Value enum: "card".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

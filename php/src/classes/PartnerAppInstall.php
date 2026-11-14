@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read ?list<PartnerEnvironmentGrant> $environment_grants
  * @property-read ?string $installed_by_user_id
  * @property-read string $merchant_id
+ * @property-read ?string $merchant_signup_id
  * @property-read string $partner_app_id
  * @property-read string $partner_app_install_id
  * @property-read string $partner_app_name
@@ -17,19 +18,19 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppInstall extends Model {
-    /** @param array{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
+    /** @param array{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'merchant_signup_id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstall')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /**  [] (Value): {@see PartnerEnvironmentGrant}. A partner application's authorization to access an environment.
+    /** The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. [] (Value): {@see PartnerEnvironmentGrant}. A partner application's authorization to access an environment.
      * @return ?list<PartnerEnvironmentGrant>
      */
     public function getEnvironmentGrants(): ?array { return $this->get('environment_grants'); }
     public function hasEnvironmentGrants(): bool { return $this->has('environment_grants'); }
-    /** installed_by_user_id
+    /** ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded.
      * @return ?string
      */
     public function getInstalledByUserId(): ?string { return $this->get('installed_by_user_id'); }
@@ -39,7 +40,12 @@ final class PartnerAppInstall extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** partner_app_id
+    /** The merchant signup that created the merchant and this install, when one did. The installing merchant reads it too. A merchant has at most one such install. It stays after a revoke, as history, but Flint's emails lead to the app only until the install's first revoke.
+     * @return ?string
+     */
+    public function getMerchantSignupId(): ?string { return $this->get('merchant_signup_id'); }
+    public function hasMerchantSignupId(): bool { return $this->has('merchant_signup_id'); }
+    /** ID of the partner app the merchant installed.
      * @return string
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
@@ -59,17 +65,17 @@ final class PartnerAppInstall extends Model {
      */
     public function getRevokedAt(): ?string { return $this->get('revoked_at'); }
     public function hasRevokedAt(): bool { return $this->has('revoked_at'); }
-    /** Value enum: "merchant", "partner_app".
+    /** Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again. Value enum: "merchant", "partner_app".
      * @return ?string
      */
     public function getRevokedBy(): ?string { return $this->get('revoked_by'); }
     public function hasRevokedBy(): bool { return $this->has('revoked_by'); }
-    /** revoked_by_user_id
+    /** ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it.
      * @return ?string
      */
     public function getRevokedByUserId(): ?string { return $this->get('revoked_by_user_id'); }
     public function hasRevokedByUserId(): bool { return $this->has('revoked_by_user_id'); }
-    /** Value enum: "pending_exchange", "active", "revoked".
+    /** Where the install is in its lifecycle. Value enum: "pending_exchange", "active", "revoked".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

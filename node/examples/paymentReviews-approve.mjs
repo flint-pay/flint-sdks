@@ -12,5 +12,5 @@ const result = await client.paymentReviews.approve(
   {},
   { idempotencyKey: idempotencyKey },
 );
+console.log(result.matched_risk_rule_id);
 console.log(result.payment_intent_id);
-console.log(result.payment_review_id);

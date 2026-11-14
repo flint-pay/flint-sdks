@@ -16,7 +16,7 @@ namespace Flint;
 final class TaxRegistrationInput extends Model {
     /** @param array{'country': string, 'created_at': string|\DateTimeInterface, 'end_date': string|null, 'registration_number_last4': string, 'start_date': string, 'state': string|null, 'status': string, 'tax_registration_id': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxRegistrationInput')); }
-    /** Country of registration: US or CA. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US", "CA".
+    /** Country of registration: US, CA, GB, AU or NZ, or EU for a non-Union OSS registration that covers all 27 member states. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US", "CA", "EU", "GB", "AU", "NZ".
      * @return string
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */
@@ -46,7 +46,7 @@ final class TaxRegistrationInput extends Model {
      */
     public function getStartDate(): string { return $this->get('start_date'); }
     public function hasStartDate(): bool { return $this->has('start_date'); }
-    /** US state code or DC, or CA province BC, MB, QC or SK. Null when the registration is a Canadian federal GST/HST registration. Date windows must not overlap for the same country and state. Uses the US postal abbreviation from ISO 3166-2:US (without the US- prefix). Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", null.
+    /** US state code or DC, or CA province BC, MB, QC or SK. Null when the registration is a Canadian federal GST/HST registration or an EU, GB, AU or NZ registration. Date windows must not overlap for the same country and state. Uses the US postal abbreviation from ISO 3166-2:US (without the US- prefix). Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", null.
      * @return string|null
      * @throws SdkError When state is omitted; use hasState() or valueOrDefault().
      */

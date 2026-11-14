@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryPickupDetailsInput extends Model {
     /** @param array{'location'?: DeliveryLocationSummaryResourceInput|array<array-key, mixed>|\stdClass, 'pickup_mode': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupDetailsInput')); }
-    /** A pickup location shown on a delivery option: its name, address, instructions, and timezone.
+    /** Location where the buyer collects the items. A pickup location shown on a delivery option: its name, address, instructions, and timezone.
      * @return DeliveryLocationSummaryResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When location is omitted; use hasLocation() or valueOrDefault().
      */
     public function getLocation(): mixed { return $this->get('location'); }
     public function hasLocation(): bool { return $this->has('location'); }
-    /** Value enum: "in_store", "curbside", "locker", "other".
+    /** How the buyer collects the items at this Location. Value enum: "in_store", "curbside", "locker", "other".
      * @return string
      * @throws SdkError When pickup_mode is omitted; use hasPickupMode() or valueOrDefault().
      */

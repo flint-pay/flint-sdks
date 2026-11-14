@@ -33,14 +33,14 @@ Field definitions: [shared fields](BuyerSubscriptionPlanChangeResultResponse.md#
 
 anyOf BuyerOrder: A customer's purchase and its payment and fulfillment progress..
 
-- Required: `buyer_actions`, `charges`, `checkout_session_ids`, `created_at`, `deferred_promotions`, `discounts`, `fulfillments`, `gift_card_settlements`, `gift_card_tender_enabled`, `gift_cards`, `governing_delivery_selection_id`, `line_items`, `merchant_id`, `order_id`, `paid_at`, `payment_intent_ids`, `payment_status`, `pricing_amounts`, `refund_ids`, `refund_status`, `return_credit_settlements`, `settlement_amounts`, `status`, `tax`, `tips`, `updated_at`, `version`.
-- Optional: `active_payment_attempt`, `authorization_amounts`, `buyer_contact`, `buyer_note`, `closed_at`, `closed_reason`, `customer_id`, `delivery_destination`, `fulfillment_status`, `gift_card_estimate`, `order_number`, `origin`, `payment_collection`, `payment_link_id`, `return_resolution_id`, `setup_collection`, `subscription_cycle`, `subscription_delivery_changed_at`, `subscription_id`, `subscription_plan_id`, `ticketed_event`.
+- Required: `buyer_actions`, `charges`, `checkout_session_ids`, `created_at`, `deferred_promotions`, `discounts`, `fulfillments`, `gift_card_settlements`, `gift_card_tender_enabled`, `gift_cards`, `governing_delivery_selection_id`, `invoice_id`, `line_items`, `merchant_id`, `order_id`, `paid_at`, `payment_intent_ids`, `payment_status`, `prepayment_order_id`, `pricing_amounts`, `refund_ids`, `refund_status`, `return_credit_settlements`, `settlement_amounts`, `status`, `subscription_delivery_number`, `tax`, `tips`, `updated_at`, `version`.
+- Optional: `active_payment_attempt`, `authorization_amounts`, `buyer_contact`, `buyer_note`, `closed_at`, `closed_reason`, `customer_id`, `delivery`, `delivery_destination`, `fulfillment_status`, `gift_card_estimate`, `order_number`, `origin`, `payment_collection`, `payment_link_id`, `return_resolution_id`, `setup_collection`, `subscription_cycle`, `subscription_delivery_changed_at`, `subscription_id`, `subscription_plan_id`, `ticketed_event`.
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 2
 
 anyOf variant 2.
 
-- Undeclared: `active_payment_attempt`, `authorization_amounts`, `buyer_actions`, `buyer_contact`, `buyer_note`, `charges`, `checkout_session_ids`, `closed_at`, `closed_reason`, `created_at`, `customer_id`, `deferred_promotions`, `delivery_destination`, `discounts`, `fulfillment_status`, `fulfillments`, `gift_card_estimate`, `gift_card_settlements`, `gift_card_tender_enabled`, `gift_cards`, `governing_delivery_selection_id`, `line_items`, `merchant_id`, `order_id`, `order_number`, `origin`, `paid_at`, `payment_collection`, `payment_intent_ids`, `payment_link_id`, `payment_status`, `pricing_amounts`, `refund_ids`, `refund_status`, `return_credit_settlements`, `return_resolution_id`, `settlement_amounts`, `setup_collection`, `status`, `subscription_cycle`, `subscription_delivery_changed_at`, `subscription_id`, `subscription_plan_id`, `tax`, `ticketed_event`, `tips`, `updated_at`, `version`.
+- Undeclared: `active_payment_attempt`, `authorization_amounts`, `buyer_actions`, `buyer_contact`, `buyer_note`, `charges`, `checkout_session_ids`, `closed_at`, `closed_reason`, `created_at`, `customer_id`, `deferred_promotions`, `delivery`, `delivery_destination`, `discounts`, `fulfillment_status`, `fulfillments`, `gift_card_estimate`, `gift_card_settlements`, `gift_card_tender_enabled`, `gift_cards`, `governing_delivery_selection_id`, `invoice_id`, `line_items`, `merchant_id`, `order_id`, `order_number`, `origin`, `paid_at`, `payment_collection`, `payment_intent_ids`, `payment_link_id`, `payment_status`, `prepayment_order_id`, `pricing_amounts`, `refund_ids`, `refund_status`, `return_credit_settlements`, `return_resolution_id`, `settlement_amounts`, `setup_collection`, `status`, `subscription_cycle`, `subscription_delivery_changed_at`, `subscription_delivery_number`, `subscription_id`, `subscription_plan_id`, `tax`, `ticketed_event`, `tips`, `updated_at`, `version`.
 - Value shape: null. The proration order, including a closed unpaid order on decline. Null when billing_starts is next_renewal or period_end, or the net charge is zero. 
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 1.active_payment_attempt
@@ -53,7 +53,7 @@ Field definitions: [OrderResponse.data.authorization_amounts](../models/OrderRes
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 1.buyer_actions[]
 
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
+Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 1.buyer_contact
 
@@ -66,6 +66,10 @@ Field definitions: [BuyerSubscriptionPlanChangeResultResponse.data.order variant
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 1.deferred_promotions[]
 
 Field definitions: [DisputeResponse.data.order variant 1.deferred_promotions[]](../models/DisputeResponse.md#disputeresponsedataorder-variant-1deferred_promotions).
+
+### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 1.delivery
+
+Field definitions: [OrderResponse.data.delivery](../models/OrderResponse.md#orderresponsedatadelivery).
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 1.delivery_destination
 
@@ -95,6 +99,10 @@ Field definitions: [BuyerSubscriptionPlanChangeResultResponse.data.order variant
 
 Field definitions: [OrderResponse.data.return_credit_settlements[]](../models/OrderResponse.md#orderresponsedatareturn_credit_settlements).
 
+### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 1.tax
+
+Field definitions: [BuyerSubscriptionPlanChangeResultResponse.data.order variant 1.tax](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1tax).
+
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order variant 1.ticketed_event
 
 Field definitions: [OrderResponse.data.ticketed_event](../models/OrderResponse.md#orderresponsedataticketed_event).
@@ -110,18 +118,19 @@ The payment attempt, including declines. Null when billing_starts is next_renewa
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `completed_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `expected_outstanding_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `gift_card_redemptions` | Conditional | Array of [PaymentAttemptGiftCardRedemption](../models/PaymentAttemptGiftCardRedemption.md#paymentattemptgiftcardredemption) | `gift_card_redemptions[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptgift_card_redemptions). |
+| `expected_outstanding_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The outstanding balance this attempt was started to collect, fixed when it started. For an order that gift cards partly cover, it includes the gift card part. Later changes to the order's balance don't change it, and a resume request that sends `expected_outstanding_money` is compared with this amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `gift_card_redemptions` | Conditional | Array of [PaymentAttemptGiftCardRedemption](../models/PaymentAttemptGiftCardRedemption.md#paymentattemptgiftcardredemption) | Gift cards this attempt holds or has redeemed, one entry per card. Each amount is reserved while the attempt is open and is taken from the card when the attempt succeeds. A failed or canceled attempt releases it. Empty when no gift card is used. `gift_card_redemptions[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptgift_card_redemptions). |
 | `is_resumable` | Conditional | boolean | Whether the attempt can continue through PayOrder with action: resume and this order_payment_attempt_id after any pending client action is complete. If false, check status before starting another payment; the attempt may still be in progress. |
 | `last_payment_error` | Conditional | [BuyerPaymentErrorSummary](../models/BuyerPaymentErrorSummary.md#buyerpaymenterrorsummary) | The concluded failure of a payment leg that failed this attempt. Absent for non-payment failures. Why a payment attempt failed: a normalized `code`, a message, when it failed, and recovery guidance. `last_payment_error`: [field definitions](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1active_payment_attemptlast_payment_error). |
-| `mode` | Conditional | string | Values: `"payment"`, `"setup"`, `"settlement"`. |
+| `mode` | Conditional | string | Whether the attempt collects the order's balance, saves a payment method without charging it, or settles the order without a processor payment. Values: `"payment"`, `"setup"`, `"settlement"`. |
+| `order_id` | Conditional | string | The order this payment attempt collects money for or saves a payment method for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_payment_attempt_id` | Conditional | string | Unique identifier for this order payment attempt, prefixed `opat_`. Example: `"opat_01KEZF7C00B5PW9F2R8A4YSH5D"`. |
-| `payment_intents` | Conditional | Array of [BuyerPaymentAttemptPaymentIntent](../models/BuyerPaymentAttemptPaymentIntent.md#buyerpaymentattemptpaymentintent) | `payment_intents[]`: [field definitions](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1active_payment_attemptpayment_intents). |
-| `payment_method_save` | Conditional | [OrderPaymentAttemptPaymentMethodSave](../models/OrderPaymentAttemptPaymentMethodSave.md#orderpaymentattemptpaymentmethodsave) | Set when the pay request sent save_payment_method: true and the attempt paid without saving the payment method. A card typed into checkout and saved has no entry here; read payment_method_save on the checkout session for a card saved with a mobile phone number. What became of the buyer's save_payment_method. The payment does not depend on it. |
-| `pending_actions` | Conditional | Array of [PendingPaymentAction](../models/PendingPaymentAction.md#pendingpaymentaction) | `pending_actions[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpending_actions). |
+| `payment_intents` | Conditional | Array of [BuyerPaymentAttemptPaymentIntent](../models/BuyerPaymentAttemptPaymentIntent.md#buyerpaymentattemptpaymentintent) | The payment intents this attempt collects through, each with its amount, status, tip, and latest error. Empty for an attempt that collects no processor payment, such as a setup, or an order that gift cards or return credit settle alone. `payment_intents[]`: [field definitions](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1active_payment_attemptpayment_intents). |
+| `payment_method_save` | Conditional | [OrderPaymentAttemptPaymentMethodSave](../models/OrderPaymentAttemptPaymentMethodSave.md#orderpaymentattemptpaymentmethodsave) | Set when the pay request sent save_payment_method: true and the attempt paid without saving the payment method. A card typed into checkout and saved has no entry here; read payment_method_save on the checkout session for a card waiting for confirmation. What became of the buyer's save_payment_method. The payment does not depend on it. |
+| `pending_actions` | Conditional | Array of [PendingPaymentAction](../models/PendingPaymentAction.md#pendingpaymentaction) | Steps the buyer must finish in your client before the attempt can continue, such as authentication. Empty when none is pending. Complete them, then resume the attempt. `pending_actions[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpending_actions). |
 | `started_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `status` | Conditional | string | Values: [10 declared values](#buyersubscriptionquantitychangeresultresponsedataorder_payment_attempt-status-values). |
-| `status_reason` | Conditional | string | Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment reason report other. Canceled and expired attempts include a reason only when it adds information beyond status. New values may be added. Values: [27 declared values](BuyerOrderPaymentAttemptInput.md#buyerorderpaymentattemptinput-status_reason-values). |
+| `status` | Conditional | string | Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Values: [10 declared values](#buyersubscriptionquantitychangeresultresponsedataorder_payment_attempt-status-values). |
+| `status_reason` | Conditional | string | Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment reason report other. Canceled and expired attempts include a reason only when it adds information beyond status. New values may be added. Values: [30 declared values](BuyerOrderPaymentAttemptInput.md#buyerorderpaymentattemptinput-status_reason-values). |
 
 #### BuyerSubscriptionQuantityChangeResultResponse.data.order_payment_attempt status values
 
@@ -140,14 +149,14 @@ The payment attempt, including declines. Null when billing_starts is next_renewa
 
 anyOf BuyerOrderPaymentAttempt: An attempt to pay an order..
 
-- Required: `expected_outstanding_money`, `gift_card_redemptions`, `is_resumable`, `mode`, `order_payment_attempt_id`, `payment_intents`, `pending_actions`, `status`.
+- Required: `expected_outstanding_money`, `gift_card_redemptions`, `is_resumable`, `mode`, `order_id`, `order_payment_attempt_id`, `payment_intents`, `pending_actions`, `status`.
 - Optional: `completed_at`, `last_payment_error`, `payment_method_save`, `started_at`, `status_reason`.
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order_payment_attempt variant 2
 
 anyOf variant 2.
 
-- Undeclared: `completed_at`, `expected_outstanding_money`, `gift_card_redemptions`, `is_resumable`, `last_payment_error`, `mode`, `order_payment_attempt_id`, `payment_intents`, `payment_method_save`, `pending_actions`, `started_at`, `status`, `status_reason`.
+- Undeclared: `completed_at`, `expected_outstanding_money`, `gift_card_redemptions`, `is_resumable`, `last_payment_error`, `mode`, `order_id`, `order_payment_attempt_id`, `payment_intents`, `payment_method_save`, `pending_actions`, `started_at`, `status`, `status_reason`.
 - Value shape: null. The payment attempt, including declines. Null when billing_starts is next_renewal or period_end, or the net charge is zero. 
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.order_payment_attempt variant 1.gift_card_redemptions[]
@@ -174,7 +183,7 @@ Field definitions: [shared fields](BuyerSubscriptionResponse.md#buyersubscriptio
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.buyer_actions[]
 
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
+Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.cancellation_details
 
@@ -191,6 +200,14 @@ Field definitions: [SubscriptionResponse.data.delivery_hold](../models/Subscript
 ### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.end_after
 
 Declared alternatives: [SubscriptionResponse.data.end_after](../models/SubscriptionResponse.md#subscriptionresponsedataend_after).
+
+### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.gift_recipient
+
+Declared alternatives: [SubscriptionResponse.data.gift_recipient](../models/SubscriptionResponse.md#subscriptionresponsedatagift_recipient).
+
+### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.inventory_wait
+
+Field definitions: [BuyerSubscriptionResponse.data.inventory_wait](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedatainventory_wait).
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.last_payment_error
 
@@ -215,6 +232,10 @@ Declared alternatives: [BuyerSubscriptionResponse.data.scheduled_plan_change](..
 ### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.scheduled_promotions[]
 
 Field definitions: [SubscriptionResponse.data.promotions[]](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions).
+
+### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.service_location
+
+Field definitions: [BuyerSubscriptionResponse.data.service_location](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedataservice_location).
 
 ### BuyerSubscriptionQuantityChangeResultResponse.data.subscription.subscription_plan
 

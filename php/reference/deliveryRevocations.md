@@ -103,6 +103,7 @@ Returned payload: [DeliveryRevocation](../models/DeliveryRevocation.md#deliveryr
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -158,6 +159,7 @@ Returned payload: [DeliveryRevocationListResponse](../models/DeliveryRevocationL
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

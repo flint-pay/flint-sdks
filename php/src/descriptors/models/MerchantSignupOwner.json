@@ -1,0 +1,1 @@
+{"shared":"MerchantSignupOwner","phpRepresentation":{"kind":"record","fields":{"email":{"kind":"value","type":"string"},"first_name":{"kind":"value","type":"string"},"last_name":{"kind":"value","type":"string"}}},"dependencies":["MerchantSignupOwner"]}

@@ -31,6 +31,7 @@ Returned payload: [BalanceListResponse](../models/BalanceListResponse.md#balance
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

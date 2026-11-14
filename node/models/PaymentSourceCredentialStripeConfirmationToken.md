@@ -10,10 +10,10 @@ The `stripe_confirmation_token` variant of `PaymentSourceCredential`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `credential_type` | Required | string | Values: `"stripe_confirmation_token"`. |
-| `stripe` | Required | object | Stripe credential collected for this payment. `stripe`: [field definitions](../models/ConfirmPaymentIntentRequest.md#confirmpaymentintentrequest-variant-3stripe). |
+| `credential_type` | Required | string | Selects the credential supplied for this payment. Values: `"stripe_confirmation_token"`. |
+| `stripe` | Required | object | Stripe credential collected for this payment. `stripe`: [field definitions](../models/PaymentSourceCredential.md#paymentsourcecredential-variant-2stripe). |
 
 ### PaymentSourceCredentialStripeConfirmationToken.stripe
 
-Field definitions: [ConfirmPaymentIntentRequest variant 3.stripe](../models/ConfirmPaymentIntentRequest.md#confirmpaymentintentrequest-variant-3stripe).
+Field definitions: [PaymentSourceCredential variant 2.stripe](../models/PaymentSourceCredential.md#paymentsourcecredential-variant-2stripe).
 

@@ -2,16 +2,16 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'stripe'?: StripeClientSetupStripeInput|array<array-key, mixed>|\stdClass, ...}|object|null $client_setup
+ * @property-read StripeClientSetupInput|array<array-key, mixed>|\stdClass $client_setup
  * @property-read string $payment_method_id
  * @property-read string $status
  * @property-read string $store_setup_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerFlintWalletStoreSetupInput extends Model {
-    /** @param array{'client_setup': array{'stripe'?: StripeClientSetupStripeInput|array<array-key, mixed>|\stdClass, ...}|object|null, 'payment_method_id': string, 'status': string, 'store_setup_id': string, ...}|object $values */
+    /** @param array{'client_setup': StripeClientSetupInput|array<array-key, mixed>|\stdClass, 'payment_method_id': string, 'status': string, 'store_setup_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFlintWalletStoreSetupInput')); }
-    /**  anyOf[1] (Value): {@see StripeClientSetupInput}. Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead and never carries a secret. anyOf[2] (Value): null.
-     * @return array{'stripe'?: StripeClientSetupStripeInput|array<array-key, mixed>|\stdClass, ...}|object|null
+    /** Stripe.js setup authority for saving this card at the store. Follow its stripe_js_call to finish the setup. Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead and never carries a secret.
+     * @return StripeClientSetupInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When client_setup is omitted; use hasClientSetup() or valueOrDefault().
      */
     public function getClientSetup(): mixed { return $this->get('client_setup'); }

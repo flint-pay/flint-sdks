@@ -82,7 +82,7 @@ final class DeliveryMethodUpdatedInstalledMerchantsEventDataObject extends Model
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Counts of subscriptions by status: active, past due, and paused.
+    /** How many subscriptions use this method, by status. Counts of subscriptions by status: active, past due, and paused.
      * @return SubscriptionCounts
      */
     public function getSubscriptionCounts(): SubscriptionCounts { return $this->get('subscription_counts'); }

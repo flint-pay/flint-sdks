@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read string $name
  * @property-read string $payment_link_line_item_id
  * @property-read string $product_id
+ * @property-read string|null $product_type
  * @property-read int $quantity
  * @property-read string $resolved_name
  * @property-read ProductPriceRangeInput|array<array-key, mixed>|\stdClass $resolved_price_range
@@ -28,7 +29,7 @@ namespace Flint;
  * @property-read list<string> $variant_ids
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinkLineItemBundleInput extends Model {
-    /** @param array{'allow_quantity_adjustment'?: bool, 'allow_unit_price_adjustment'?: bool, 'bundle_id': string, 'default_variant_id'?: string, 'description'?: string, 'is_catalog_item_unavailable': bool, 'key'?: string, 'max_quantity'?: int, 'max_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'min_quantity'?: int, 'min_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'payment_link_line_item_id': string, 'product_id'?: string, 'quantity': int, 'resolved_name'?: string, 'resolved_price_range'?: ProductPriceRangeInput|array<array-key, mixed>|\stdClass, 'resolved_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'suggested_unit_price_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, 'variant_ids'?: list<string>, ...}|object $values */
+    /** @param array{'allow_quantity_adjustment'?: bool, 'allow_unit_price_adjustment'?: bool, 'bundle_id': string, 'default_variant_id'?: string, 'description'?: string, 'is_catalog_item_unavailable': bool, 'key'?: string, 'max_quantity'?: int, 'max_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'min_quantity'?: int, 'min_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'payment_link_line_item_id': string, 'product_id'?: string, 'product_type': string|null, 'quantity': int, 'resolved_name'?: string, 'resolved_price_range'?: ProductPriceRangeInput|array<array-key, mixed>|\stdClass, 'resolved_unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'suggested_unit_price_money_options'?: list<MoneyValueInput|array<array-key, mixed>|\stdClass>, 'tax'?: OrderLineItemTaxInput|array<array-key, mixed>|\stdClass, 'type': string, 'unit_price_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'variant_id'?: string, 'variant_ids'?: list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinkLineItemBundleInput')); }
     /** Whether the buyer can change the quantity in checkout.
      * @return bool
@@ -114,6 +115,12 @@ final class PaymentLinkLineItemBundleInput extends Model {
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
+    /** Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null.
+     * @return string|null
+     * @throws SdkError When product_type is omitted; use hasProductType() or valueOrDefault().
+     */
+    public function getProductType(): string|null { return $this->get('product_type'); }
+    public function hasProductType(): bool { return $this->has('product_type'); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int32.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().

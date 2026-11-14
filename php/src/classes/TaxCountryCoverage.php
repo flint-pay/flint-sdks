@@ -8,7 +8,7 @@ namespace Flint;
 final class TaxCountryCoverage extends Model {
     /** @param array{'category_scope': string, 'country': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxCountryCoverage')); }
-    /** all covers supported line and charge categories; digital covers digital_goods, software and saas. Canada uses digital, so it does not cover services, professional_services or taxable charges. Value enum: "all", "digital".
+    /** all covers supported line and charge categories; digital covers digital_goods, software and saas. Canada, EU member states, GB, AU and NZ use digital, so they do not cover services, professional_services or taxable charges. Value enum: "all", "digital".
      * @return string
      */
     public function getCategoryScope(): string { return $this->get('category_scope'); }

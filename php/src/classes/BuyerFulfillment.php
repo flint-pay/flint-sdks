@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read ?string $completed_at
  * @property-read string $created_at
  * @property-read ?string $customer_id
- * @property-read ?DigitalFulfillmentDetails $digital_details
+ * @property-read ?BuyerDigitalFulfillmentDetails $digital_details
  * @property-read ?string $dispatched_at
  * @property-read string $fulfillment_id
  * @property-read list<BuyerFulfillmentLineItem> $line_items
@@ -52,10 +52,10 @@ final class BuyerFulfillment extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Delivery URL and completion time for a digital fulfillment. Details of a digital fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
-     * @return ?DigitalFulfillmentDetails
+    /** Delivery URL and completion time for a digital fulfillment. Buyer-facing details of a digital fulfillment: when it was delivered and the download link, which is `null` once the buyer no longer has download access.
+     * @return ?BuyerDigitalFulfillmentDetails
      */
-    public function getDigitalDetails(): ?DigitalFulfillmentDetails { return $this->get('digital_details'); }
+    public function getDigitalDetails(): ?BuyerDigitalFulfillmentDetails { return $this->get('digital_details'); }
     public function hasDigitalDetails(): bool { return $this->has('digital_details'); }
     /** First time this fulfillment reached dispatched. Format: date-time.
      * @return ?string
@@ -147,7 +147,7 @@ final class BuyerFulfillment extends Model {
      */
     public function getTerminalAt(): ?string { return $this->get('terminal_at'); }
     public function hasTerminalAt(): bool { return $this->has('terminal_at'); }
-    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** How the items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

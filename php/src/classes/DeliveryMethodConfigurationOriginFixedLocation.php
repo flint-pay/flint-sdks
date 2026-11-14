@@ -11,27 +11,27 @@ namespace Flint;
 final class DeliveryMethodConfigurationOriginFixedLocation extends Model {
     /** @param array{'delivery_location_set_id'?: string, 'delivery_location_set_revision_id'?: string, 'location_id': string, 'location_ids'?: list<string>, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationOriginFixedLocation')); }
-    /** delivery_location_set_id
+    /** ID of the delivery location set that names the Locations in the group.
      * @return ?string
      */
     public function getDeliveryLocationSetId(): ?string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** delivery_location_set_revision_id
+    /** ID of the location set revision in effect for this method revision.
      * @return ?string
      */
     public function getDeliveryLocationSetRevisionId(): ?string { return $this->get('delivery_location_set_revision_id'); }
     public function hasDeliveryLocationSetRevisionId(): bool { return $this->has('delivery_location_set_revision_id'); }
-    /** location_id
+    /** ID of the Location delivery starts from. Required for `fixed_location` and not allowed otherwise.
      * @return string
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /**  [] (Value): string.
+    /** IDs of the Locations in the group. [] (Value): string.
      * @return ?list<string>
      */
     public function getLocationIds(): ?array { return $this->get('location_ids'); }
     public function hasLocationIds(): bool { return $this->has('location_ids'); }
-    /** Value enum: "fixed_location".
+    /** Where delivery starts. Value enum: "fixed_location".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

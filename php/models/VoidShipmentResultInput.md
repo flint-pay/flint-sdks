@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `packages` | Required | Array of [PackageInput](../models/PackageInput.md#packageinput) |  |
-| `shipment` | Required | [ShipmentInput](../models/ShipmentInput.md#shipmentinput) | A shipment carrying fulfilled order items. |
+| `packages` | Required | Array of [PackageInput](../models/PackageInput.md#packageinput) | The shipment's packages after the void, each with status `voided`. Packages that were already voided are included. |
+| `shipment` | Required | [ShipmentInput](../models/ShipmentInput.md#shipmentinput) | The shipment after the void, with status `voided`. A shipment carrying fulfilled order items. |
 

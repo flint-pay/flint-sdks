@@ -2,7 +2,7 @@
 
 ## CreateOrderEditRequest
 
-Remove unassigned units from a paid order and queue their refund atomically.
+Remove unassigned units from a paid order, add items the removed value and released charges pay for, or do both, and queue any remaining refund atomically.
 
 
 
@@ -10,12 +10,13 @@ Remove unassigned units from a paid order and queue their refund atomically.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `charge_refunds` | Optional | Array of [RefundCharge](../models/RefundCharge.md#refundcharge) | Charges to refund. Omitting amount_money refunds the charge's remaining refundable amount. Other charges are unchanged. maxItems: `100`. |
+| `add_line_items` | Conditional | Array of [CreateOrderLineItemRequest](../models/CreateOrderLineItemRequest.md#createorderlineitemrequest) | Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines are priced and taxed as usual, without promotions, and do not join the order's delivery selection. minItems: `1`. maxItems: `100`. |
+| `charge_refunds` | Optional | Array of [RefundCharge](../models/RefundCharge.md#refundcharge) | Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: `100`. |
 | `destinations` | Optional | [RefundDestinations](../models/RefundDestinations.md#refunddestinations) | Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations for payment intent and gift card redemption allocations planned by Flint. Each tender type defaults to original when omitted. |
 | `expected_order_version` | Required | integer | The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch the order, preview again, and reconcile before committing with the new version and a new Idempotency-Key. Format: `int64`. minimum: `1`. |
 | `note` | Optional | string | Internal merchant note. Omitted from buyer and webhook payloads and refund messages. minLength: `1`. maxLength: `500`. |
 | `reason` | Optional | string | Reason for the edit and any refund it creates. Values: [13 declared values](#createordereditrequest-reason-values). |
-| `remove_line_items` | Required | Array of [OrderEditRemovalRequest](../models/OrderEditRemovalRequest.md#ordereditremovalrequest) | Whole unassigned units to remove. Each line appears once. Original quantities and pricing stay unchanged. minItems: `1`. maxItems: `100`. `remove_line_items[]`: [field definitions](../models/CreateOrderEditRequest.md#createordereditrequestremove_line_items). |
+| `remove_line_items` | Conditional | Array of [OrderEditRemovalRequest](../models/OrderEditRemovalRequest.md#ordereditremovalrequest) | Whole unassigned units to remove. Each line appears once. Original quantities and pricing stay unchanged. Send remove_line_items, add_line_items, or both. minItems: `1`. maxItems: `100`. |
 
 #### CreateOrderEditRequest reason values
 
@@ -33,9 +34,17 @@ Remove unassigned units from a paid order and queue their refund atomically.
 - `"other"`
 - `"out_of_stock"`
 
-### CreateOrderEditRequest.remove_line_items[]
+### CreateOrderEditRequest variant 1
 
-An order line and the whole units to take off it.
+anyOf variant 1.
 
-Field definitions: [shared fields](OrderEditRemovalRequestInput.md#ordereditremovalrequestinput).
+- Required: `remove_line_items`.
+- Optional: `add_line_items`.
+
+### CreateOrderEditRequest variant 2
+
+anyOf variant 2.
+
+- Required: `add_line_items`.
+- Optional: `remove_line_items`.
 

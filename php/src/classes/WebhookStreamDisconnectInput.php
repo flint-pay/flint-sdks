@@ -8,7 +8,7 @@ namespace Flint;
 final class WebhookStreamDisconnectInput extends Model {
     /** @param array{'reason': string, 'resume_cursor'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookStreamDisconnectInput')); }
-    /** Why Flint is closing the stream. Value enum: "ttl", "authorization_changed", "server_error", "backpressure".
+    /** Why Flint is closing the stream. Value enum: "ttl", "authorization_changed", "server_error", "backpressure", "sandbox_reset".
      * @return string
      * @throws SdkError When reason is omitted; use hasReason() or valueOrDefault().
      */

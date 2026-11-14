@@ -18,7 +18,7 @@ Request input.
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `mode` | Required | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |
 | `payload_version` | Required | integer | 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered afterwards, which keeps its previous data shape. Values: `1`, `2`. |
-| `request` | Required | object or null | The originating request. `null` when the event has no originating request ID. `request`: [field definitions](../models/BalanceTransactionCreatedMerchantEventInput.md#balancetransactioncreatedmerchanteventinputrequest). |
+| `request` | Required | object or null | The originating request. `null` when the event has no originating request ID. `request`: [field definitions](../models/ApiKeyCreatedEventInput.md#apikeycreatedeventinputrequest). |
 | `sandbox_id` | Optional | string | Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. Example: `"test_01KEZF7C00JC77HTMTB2XHNPE0"`. |
 | `test` | Required | boolean | true for a synthetic event sent from the test-events endpoint, false otherwise. |
 | `webhook_event_id` | Required | string | Stable ID of the recorded webhook event, shared by its delivery attempts. Example: `"whev_01KEZF7C00362MS3HV970TRZGS"`. |
@@ -29,5 +29,5 @@ Field definitions: [DisputeInquiryClosedInstalledMerchantsEventInput.data](../mo
 
 ### DisputeInquiryClosedMerchantEventInput.request
 
-Field definitions: [BalanceTransactionCreatedMerchantEventInput.request](../models/BalanceTransactionCreatedMerchantEventInput.md#balancetransactioncreatedmerchanteventinputrequest).
+Field definitions: [ApiKeyCreatedEventInput.request](../models/ApiKeyCreatedEventInput.md#apikeycreatedeventinputrequest).
 

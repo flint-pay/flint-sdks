@@ -37,6 +37,7 @@ namespace Flint;
  * @property-read MoneyValue $replacement_total_money
  * @property-read string $resolution_type
  * @property-read string $return_id
+ * @property-read string|null $return_policy_id
  * @property-read ?string $return_policy_revision_id
  * @property-read string $return_resolution_id
  * @property-read MoneyValue $returned_total_money
@@ -46,7 +47,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnResolutionCreatedMerchantEventDataObject extends Model {
-    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<mixed>, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'canceled_at'?: string, 'canceled_by'?: mixed, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'confirmed_at'?: string, 'confirmed_by'?: mixed, 'corrects_return_resolution_id'?: string, 'created_at': string, 'created_by': mixed, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'execution_blockers': list<mixed>, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<mixed>, 'metadata': mixed, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'pricing_basis'?: string, 'refund_ids': list<string>, 'refunds'?: list<mixed>, 'replacement_line_items': list<mixed>, 'replacement_order'?: mixed, 'replacement_order_id'?: string, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'return_policy_revision_id'?: string, 'return_resolution_id': string, 'returned_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<mixed>, 'buyer_payment_amount_money': mixed, 'buyer_refund_amount_money': mixed, 'canceled_at'?: string, 'canceled_by'?: mixed, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'confirmed_at'?: string, 'confirmed_by'?: mixed, 'corrects_return_resolution_id'?: string, 'created_at': string, 'created_by': mixed, 'credit_adjustment_money': mixed, 'deduction_money': mixed, 'execution_blockers': list<mixed>, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<mixed>, 'metadata': mixed, 'payment_intent_ids': list<string>, 'payment_intents'?: list<mixed>, 'pricing_basis'?: string, 'refund_ids': list<string>, 'refunds'?: list<mixed>, 'replacement_line_items': list<mixed>, 'replacement_order'?: mixed, 'replacement_order_id'?: string, 'replacement_total_money': mixed, 'resolution_type': string, 'return_id': string, 'return_policy_id': string|null, 'return_policy_revision_id'?: string, 'return_resolution_id': string, 'returned_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionCreatedMerchantEventDataObject')); }
     /** Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. Value enum: "buyer_payment", "manual_release".
      * @return ?string
@@ -148,12 +149,12 @@ final class ReturnResolutionCreatedMerchantEventDataObject extends Model {
      */
     public function getFailureMessage(): ?string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** When the resolution became fulfilled. Format: date-time.
+    /** When the resolution completed. Format: date-time.
      * @return ?string
      */
     public function getFulfilledAt(): ?string { return $this->get('fulfilled_at'); }
     public function hasFulfilledAt(): bool { return $this->has('fulfilled_at'); }
-    /** Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
+    /** Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
      * @return ?string
      */
     public function getGiftCardRefundDestination(): ?string { return $this->get('gift_card_refund_destination'); }
@@ -168,12 +169,12 @@ final class ReturnResolutionCreatedMerchantEventDataObject extends Model {
      */
     public function getMetadata(): array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /**  [] (Value): string.
+    /** IDs of the payment intents that collect the buyer's balance for this resolution, in the order Flint linked them. Empty until a payment exists. [] (Value): string.
      * @return list<string>
      */
     public function getPaymentIntentIds(): array { return $this->get('payment_intent_ids'); }
     public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /**  [] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
+    /** Present only when `expand` includes `payment_intents`. Summaries of the payment intents in `payment_intent_ids`, in the same order. [] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
      * @return ?list<ExpandedPaymentIntentSummary>
      */
     public function getPaymentIntents(): ?array { return $this->get('payment_intents'); }
@@ -183,12 +184,12 @@ final class ReturnResolutionCreatedMerchantEventDataObject extends Model {
      */
     public function getPricingBasis(): ?string { return $this->get('pricing_basis'); }
     public function hasPricingBasis(): bool { return $this->has('pricing_basis'); }
-    /**  [] (Value): string.
+    /** IDs of the Refunds that pay the buyer for this resolution, in the order Flint linked them. Empty until a Refund exists. [] (Value): string.
      * @return list<string>
      */
     public function getRefundIds(): array { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /**  [] (Value): {@see Refund}. Money returned against a collected payment.
+    /** Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same order. [] (Value): {@see Refund}. Money returned against a collected payment.
      * @return ?list<Refund>
      */
     public function getRefunds(): ?array { return $this->get('refunds'); }
@@ -223,7 +224,12 @@ final class ReturnResolutionCreatedMerchantEventDataObject extends Model {
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_policy_revision_id
+    /** Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null.
+     * @return string|null
+     */
+    public function getReturnPolicyId(): string|null { return $this->get('return_policy_id'); }
+    public function hasReturnPolicyId(): bool { return $this->has('return_policy_id'); }
+    /** ID of the return policy revision that judged the lines. Set only when Flint created the resolution itself and no merchant decision overrode the policy. Absent otherwise, including on resolutions you create and on corrections.
      * @return ?string
      */
     public function getReturnPolicyRevisionId(): ?string { return $this->get('return_policy_revision_id'); }
@@ -238,12 +244,12 @@ final class ReturnResolutionCreatedMerchantEventDataObject extends Model {
      */
     public function getReturnedTotalMoney(): MoneyValue { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
-    /** fulfilled means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+    /** completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Actions that can succeed now. Empty unless the parent Return is open, except checkout_session. A failed resolution lists retry while it has a failed effect and its failure code permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. [] enum: "cancel", "checkout_session", "confirm", "release", "retry". [] (Value): string.  Value enum: "cancel", "checkout_session", "confirm", "release", "retry".
+    /** Actions that can succeed now. Empty unless the parent Return is open. A failed resolution lists retry while it has a failed effect and its failure code permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. [] enum: "cancel", "confirm", "release", "retry". [] (Value): string.  Value enum: "cancel", "confirm", "release", "retry".
      * @return list<string>
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }

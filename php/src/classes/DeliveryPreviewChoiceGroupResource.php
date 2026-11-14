@@ -14,22 +14,22 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResource extends Model {
     /** @param array{'allowed_types'?: list<string>, 'availability_status': string, 'candidate_outcomes': \stdClass, 'evaluation_status': string, 'execution_legs'?: list<mixed>, 'input_requirements': list<mixed>, 'line_items': list<mixed>, 'options': list<mixed>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResource')); }
-    /**  [] (Value): string.
+    /** Delivery types permitted by this group's items. [] (Value): string.
      * @return ?list<string>
      */
     public function getAllowedTypes(): ?array { return $this->get('allowed_types'); }
     public function hasAllowedTypes(): bool { return $this->has('allowed_types'); }
-    /** Value enum: "ready", "needs_input", "needs_checkout_context", "unavailable".
+    /** Whether this group has a delivery option available. Value enum: "ready", "needs_input", "needs_checkout_context", "unavailable".
      * @return string
      */
     public function getAvailabilityStatus(): string { return $this->get('availability_status'); }
     public function hasAvailabilityStatus(): bool { return $this->has('availability_status'); }
-    /**  * (Value): {@see DeliveryCandidateOutcomeResource}. The result of evaluating one delivery method for a choice group, selected by `type`: available with an option, unavailable, input required, cannot calculate, or requires checkout context.
+    /** Evaluation result for each candidate delivery method, keyed by its method ID. * (Value): {@see DeliveryCandidateOutcomeResource}. The result of evaluating one delivery method for a choice group, selected by `type`: available with an option, unavailable, input required, cannot calculate, or requires checkout context.
      * @return array<array-key, DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueAvailable|DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailable|DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueInputRequired|DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculate|DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueRequiresCheckoutContext|\stdClass>
      */
     public function getCandidateOutcomes(): array { return $this->get('candidate_outcomes'); }
     public function hasCandidateOutcomes(): bool { return $this->has('candidate_outcomes'); }
-    /** Value enum: "complete", "incomplete", "degraded".
+    /** How completely Flint evaluated the group's candidate delivery methods. Value enum: "complete", "incomplete", "degraded".
      * @return string
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
@@ -39,17 +39,17 @@ final class DeliveryPreviewChoiceGroupResource extends Model {
      */
     public function getExecutionLegs(): ?array { return $this->get('execution_legs'); }
     public function hasExecutionLegs(): bool { return $this->has('execution_legs'); }
-    /**  [] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
+    /** Inputs this group's delivery methods need before they can be priced. [] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
      * @return list<DeliveryInputRequirement>
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
-    /**  [] (Value): {@see DeliveryQuoteLineItemResource}. An order line item, or one bundle component of it, and the quantity covered by a delivery choice group.
+    /** Order line items, or bundle components, this group covers, with the quantity covered. [] (Value): {@see DeliveryQuoteLineItemResource}. An order line item, or one bundle component of it, and the quantity covered by a delivery choice group.
      * @return list<DeliveryQuoteLineItemResource>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /**  [] (Value): {@see DeliveryOptionProjection}. A delivery option in a quote or preview: its price, type, timing, delivery plan, execution legs, and shipment, pickup, or local delivery details.
+    /** Delivery options available for these items. [] (Value): {@see DeliveryOptionProjection}. A delivery option in a quote or preview: its price, type, timing, delivery plan, execution legs, and shipment, pickup, or local delivery details.
      * @return list<DeliveryOptionProjection>
      */
     public function getOptions(): array { return $this->get('options'); }

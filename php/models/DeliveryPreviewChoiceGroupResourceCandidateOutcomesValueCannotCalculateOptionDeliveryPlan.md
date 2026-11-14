@@ -2,6 +2,8 @@
 
 ## DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateOptionDeliveryPlan
 
+How the option divides the items into deliveries.
+
 Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count.
 
 Response model.

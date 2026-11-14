@@ -8,8 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `end_minute` | Required | integer |  |
-| `end_weekday` | Required | integer |  |
-| `start_minute` | Required | integer |  |
-| `start_weekday` | Required | integer |  |
+| `end_minute` | Required | integer | Minute of the day the span ends, from 0 to 1439, in the schedule's timezone. |
+| `end_weekday` | Required | integer | Weekday the span ends, from 0 for Sunday to 6 for Saturday. |
+| `start_minute` | Required | integer | Minute of the day the span starts, from 0 to 1439, in the schedule's timezone. |
+| `start_weekday` | Required | integer | Weekday the span starts, from 0 for Sunday to 6 for Saturday. |
 

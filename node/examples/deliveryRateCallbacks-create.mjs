@@ -17,5 +17,4 @@ const result = await client.deliveryRateCallbacks.create(
   },
   { idempotencyKey: idempotencyKey },
 );
-console.log(result.current_delivery_rate_callback_revision_id);
-console.log(result.delivery_rate_callback_id);
+console.log(result);

@@ -14,7 +14,7 @@ final class CreateDeveloperSandboxResult extends Model {
      */
     public function getApiKey(): ?APIKey { return $this->get('api_key'); }
     public function hasApiKey(): bool { return $this->has('api_key'); }
-    /** An isolated environment for testing an integration.
+    /** The sandbox Flint created. An isolated environment for testing an integration.
      * @return Sandbox
      */
     public function getSandbox(): Sandbox { return $this->get('sandbox'); }

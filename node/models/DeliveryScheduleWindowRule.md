@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `availability` | Required | [DeliveryAvailability](../models/DeliveryAvailability.md#deliveryavailability) | `availability`: [field definitions](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1schedule_windowavailability), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailability). |
+| `availability` | Required | [DeliveryAvailability](../models/DeliveryAvailability.md#deliveryavailability) | When windows can be offered. `availability`: [field definitions](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1schedule_windowavailability), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimateschedule_windowavailability). |
 
 ### DeliveryScheduleWindowRule variant 1
 

@@ -9,11 +9,12 @@ namespace Flint;
  * @property-read PaymentLinkResolvePrefillRequestInput|array<array-key, mixed>|\stdClass $prefill
  * @property-read array<array-key, int>|\stdClass $quantity_overrides
  * @property-read string $resolution_context
+ * @property-read CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass $subscription_terms
  * @property-read array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass $unit_price_overrides
  * @property-read array<array-key, string>|\stdClass $variant_selections
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentLinksResolveParams extends Model {
-    /** @param array{'attendee_names'?: list<string>, 'client_reference'?: string, 'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, ResolvePaymentLinkLineItemModifiersInput|array<array-key, mixed>|\stdClass>|\stdClass, 'prefill'?: PaymentLinkResolvePrefillRequestInput|array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'unit_price_overrides'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'variant_selections'?: array<array-key, string>|\stdClass}|object $values */
+    /** @param array{'attendee_names'?: list<string>, 'client_reference'?: string, 'custom_field_values'?: array<array-key, string>|\stdClass, 'modifiers'?: array<array-key, ResolvePaymentLinkLineItemModifiersInput|array<array-key, mixed>|\stdClass>|\stdClass, 'prefill'?: PaymentLinkResolvePrefillRequestInput|array<array-key, mixed>|\stdClass, 'quantity_overrides'?: array<array-key, int>|\stdClass, 'resolution_context': string, 'subscription_terms'?: CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass, 'unit_price_overrides'?: array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass, 'variant_selections'?: array<array-key, string>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentLinksResolveParams')); }
     /** One attendee name per ticket on an event payment link, in line_items order: each tier's tickets in turn, skipping tiers with quantity 0. The count must equal the tickets being bought. Required when event_config.collect_attendee_names is true, and optional otherwise. Flint trims each name, which must then be 1 to 200 characters. Duplicate names are allowed. Flint copies the names onto the tickets when the order is paid, as each ticket's attendee_name, and never stores them in metadata. minItems: 1. [] (Value): string. minLength: 1.
      * @return list<string>
@@ -57,6 +58,12 @@ final class PaymentLinksResolveParams extends Model {
      */
     public function getResolutionContext(): string { return $this->get('resolution_context'); }
     public function hasResolutionContext(): bool { return $this->has('resolution_context'); }
+    /** Buyer choices for a subscription plan link. Line quantities must obey the plan line adjustment policy exposed by subscription_preview.line_items. Subscription choices for a checkout session: billing interval, interval count, line quantities, and gift recipient.
+     * @return CheckoutSubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When subscription_terms is omitted; use hasSubscriptionTerms() or valueOrDefault().
+     */
+    public function getSubscriptionTerms(): mixed { return $this->get('subscription_terms'); }
+    public function hasSubscriptionTerms(): bool { return $this->has('subscription_terms'); }
     /** Prices keyed by line item key, for items with allow_unit_price_adjustment, between min_unit_price_money and max_unit_price_money. A donation link has one line item, keyed donation. * (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return array<array-key, MoneyValueInput|array<array-key, mixed>|\stdClass>|\stdClass
      * @throws SdkError When unit_price_overrides is omitted; use hasUnitPriceOverrides() or valueOrDefault().

@@ -1,0 +1,1 @@
+{"shared":"WebhookMerchant","dependencies":["Address","CapabilityReadiness","ImageAttachment","MerchantReadiness","MetadataMap","ReadinessAction","ReadinessAxis","ReadinessMerchantAccountSession","ReadinessRequirements","SharedCodec1007","SharedCodec135","SharedCodec1382","WebhookMerchant"]}

@@ -20,6 +20,7 @@ Response model.
 | `inventory_item_id` | Required | string | ID of the inventory item to reserve. |
 | `inventory_reservation_line_id` | Required | string | Unique identifier for this inventory reservation line, prefixed `invrln_`. |
 | `location_id` | Required | string | ID of the Location the stock is allocated from. |
+| `order_id` | Optional | string | Order that owns this record or its referenced line item and charge. |
 | `order_line_item_id` | Optional | string | ID of the order line item this line covers. Absent unless an order holds the reservation. |
 | `reallocated_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `released_from_backordered_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. minimum: `0`. |

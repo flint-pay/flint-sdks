@@ -34,7 +34,7 @@ final class InventoryLevelsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update inventory level. Example: {"expected_version":4,"safety_stock_quantity":5}.
+    /** The request body for: Update inventory level. minProperties: 1. Example: {"expected_version":4,"safety_stock_quantity":5}.
      * @return array{'expected_version'?: int, 'safety_stock_quantity': int}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

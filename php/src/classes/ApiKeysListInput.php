@@ -6,6 +6,8 @@ namespace Flint;
  *
  * @property-read string $partner_app_install_id
  * @property-read list<string>|string $status
+ * @property-read list<string>|string $created_by_type
+ * @property-read string $created_by_id
  * @property-read int $page_size
  * @property-read string $page_token
  * @property-read string $sort_by
@@ -16,7 +18,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class ApiKeysListInput extends Model {
-    /** @param array{'partner_app_install_id'?: string, 'status'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'partner_app_install_id'?: string, 'status'?: list<string>|string, 'created_by_type'?: list<string>|string, 'created_by_id'?: string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ApiKeysListInput')); }
     /** Exact-match filter on partner_app_install_id. pattern: ^pinst_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
      * @return string
@@ -30,6 +32,18 @@ final class ApiKeysListInput extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Filter by created_by.resource_type. A user filter matches keys a user created directly, not keys their other keys created. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "api_key", "user", "workload_identity". Value enum: "api_key", "user", "workload_identity". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "api_key", "user", "workload_identity". anyOf[1][] (Value): string.  Value enum: "api_key", "user", "workload_identity". anyOf[2] (Value): string.  Value enum: "api_key", "user", "workload_identity".
+     * @return list<string>|string
+     * @throws SdkError When created_by_type is omitted; use hasCreatedByType() or valueOrDefault().
+     */
+    public function getCreatedByType(): mixed { return $this->get('created_by_type'); }
+    public function hasCreatedByType(): bool { return $this->has('created_by_type'); }
+    /** Filter by created_by.resource_id. The ID prefix (key_, usr_, or wid_) sets the creator type, so created_by_type is optional; when sent, it must be that one type. pattern: ^(key|usr|wid)_[0-7][0-9A-HJKMNP-TV-Z]{25}$. Example: "key_01KEZF7C008CTC2G5V6J08M6S7".
+     * @return string
+     * @throws SdkError When created_by_id is omitted; use hasCreatedById() or valueOrDefault().
+     */
+    public function getCreatedById(): string { return $this->get('created_by_id'); }
+    public function hasCreatedById(): bool { return $this->has('created_by_id'); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
      * @throws SdkError When page_size is omitted; use hasPageSize() or valueOrDefault().

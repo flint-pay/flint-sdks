@@ -4,6 +4,8 @@
 
 The request body for: Update category.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |

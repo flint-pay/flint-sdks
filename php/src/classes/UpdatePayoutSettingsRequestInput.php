@@ -38,7 +38,7 @@ final class UpdatePayoutSettingsRequestInput extends Model {
      */
     public function getInterval(): string { return $this->get('interval'); }
     public function hasInterval(): bool { return $this->has('interval'); }
-    /** Amount to keep in your balance instead of paying it out, keyed by currency code. Each value's currency must match its key and its amount can't be negative. Set a currency to null to remove its minimum. * (Value): {@see MoneyValueInput} or null. *.anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. *.anyOf[2] (Value): null.
+    /** Amount to keep in your balance instead of paying it out, keyed by uppercase ISO 4217 currency code, such as USD. Each value's currency must match its key and its amount can't be negative. Set a currency to null to remove its minimum. * (Value): {@see MoneyValueInput} or null. *.anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. *.anyOf[2] (Value): null.
      * @return array<array-key, array{'amount': string, 'currency': string}|object|null>|\stdClass
      * @throws SdkError When minimum_balance_currency_options is omitted; use hasMinimumBalanceCurrencyOptions() or valueOrDefault().
      */

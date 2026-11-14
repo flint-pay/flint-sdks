@@ -16,7 +16,7 @@ final class PayoutDestinationsUpdateInput extends Model {
      */
     public function getPayoutDestinationId(): string { return $this->get('payout_destination_id'); }
     public function hasPayoutDestinationId(): bool { return $this->has('payout_destination_id'); }
-    /** The request body for: Update payout destination metadata. Example: {"expected_version":1,"metadata":{"accounting_label":"Operating account"}}.
+    /** The request body for: Update payout destination metadata. minProperties: 1. Example: {"expected_version":1,"metadata":{"accounting_label":"Operating account"}}.
      * @return array{'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

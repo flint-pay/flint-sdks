@@ -10,7 +10,7 @@ namespace Flint;
 final class OrderReturnCreditSettlement extends Model {
     /** @param array{'amount_money': mixed, 'created_at': string, 'return_id': string, 'return_resolution_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderReturnCreditSettlement')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount of the credit applied to this order. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
@@ -20,12 +20,12 @@ final class OrderReturnCreditSettlement extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** return_id
+    /** ID of the return that created this replacement order, the return the credit comes from.
      * @return string
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** return_resolution_id
+    /** ID of the return resolution that issued the credit.
      * @return string
      */
     public function getReturnResolutionId(): string { return $this->get('return_resolution_id'); }

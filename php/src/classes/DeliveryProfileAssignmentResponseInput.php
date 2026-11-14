@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryProfileAssignmentResponseInput extends Model {
     /** @param array{'data': DeliveryProfileAssignmentInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileAssignmentResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. Result of assigning a delivery profile to catalog items that had none, with counts of the product variants and bundle components updated.
+    /** Resource, collection, or operation result returned by this request. An accepted assignment of a delivery profile to catalog items that have none, with counts of the product variants and bundle components that had none when Flint accepted it. Flint assigns them after responding; `unconfigured_assignment` is the progress to poll.
      * @return DeliveryProfileAssignmentInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

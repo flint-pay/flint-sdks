@@ -7,12 +7,14 @@ namespace Flint;
  * @property-read list<SubscriptionDeliveryOption> $delivery_methods
  * @property-read ?Address $destination_address
  * @property-read string $mode
+ * @property-read list<string> $shipping_countries
+ * @property-read bool $shipping_countries_complete
  * @property-read ?string $subscription_id
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerSubscriptionPreviewResponseDataDeliveryOptions extends Model {
-    /** @param array{'address_verification'?: mixed, 'currency'?: string, 'delivery_methods': list<mixed>, 'destination_address'?: mixed, 'mode': string, 'subscription_id'?: string, ...}|object $values */
+    /** @param array{'address_verification'?: mixed, 'currency'?: string, 'delivery_methods': list<mixed>, 'destination_address'?: mixed, 'mode': string, 'shipping_countries': list<string>, 'shipping_countries_complete': bool, 'subscription_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerSubscriptionPreviewResponseDataDeliveryOptions')); }
-    /** The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
+    /** How far verification of the destination address got. Omitted when no verification state applies. The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
      * @return ?SubscriptionAddressVerification
      */
     public function getAddressVerification(): ?SubscriptionAddressVerification { return $this->get('address_verification'); }
@@ -27,7 +29,7 @@ final class BuyerSubscriptionPreviewResponseDataDeliveryOptions extends Model {
      */
     public function getDeliveryMethods(): array { return $this->get('delivery_methods'); }
     public function hasDeliveryMethods(): bool { return $this->has('delivery_methods'); }
-    /** A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** The destination address the delivery methods were evaluated for: the address you sent, or the saved customer address you chose. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
      */
     public function getDestinationAddress(): ?Address { return $this->get('destination_address'); }
@@ -37,7 +39,17 @@ final class BuyerSubscriptionPreviewResponseDataDeliveryOptions extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** subscription_id
+    /** Sorted ISO 3166-1 alpha-2 countries potentially served by this subscription's shipping methods, based on their delivery configuration and shipping zones. Restrict a country selector with this list only when shipping_countries_complete is true. Empty when no shipping coverage is available. Other address, cart, customer and rate checks still apply. [] (Value): string.
+     * @return list<string>
+     */
+    public function getShippingCountries(): array { return $this->get('shipping_countries'); }
+    public function hasShippingCountries(): bool { return $this->has('shipping_countries'); }
+    /** Whether shipping_countries is safe to use as a country restriction. False when a radius without an explicit country boundary may serve addresses across a border; clients must not restrict the country selector in that case. Other address, cart, customer and rate checks still apply when true.
+     * @return bool
+     */
+    public function getShippingCountriesComplete(): bool { return $this->get('shipping_countries_complete'); }
+    public function hasShippingCountriesComplete(): bool { return $this->has('shipping_countries_complete'); }
+    /** ID of the subscription the delivery methods were listed for.
      * @return ?string
      */
     public function getSubscriptionId(): ?string { return $this->get('subscription_id'); }

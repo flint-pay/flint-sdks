@@ -8,5 +8,5 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_id` | Required | string |  |
+| `payment_method_id` | Required | string | ID of the payment method being saved, which needs the buyer's authentication first. |
 

@@ -13,10 +13,11 @@ namespace Flint;
  * @property-read string $reason_message
  * @property-read ?string $return_policy_id
  * @property-read ?string $return_policy_revision_id
+ * @property-read string|null $return_shipping_payer
  * @property-read string $status
  * Presence-aware response; omitted optional fields return null. */
 final class CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemEligibility extends Model {
-    /** @param array{'allowed_resolution_types': list<string>, 'decision_proposal'?: mixed, 'eligible_quantity': int, 'evaluated_at'?: string, 'expires_at'?: string, 'ineligibility_reason'?: string, 'policy_adjustment_proposals': list<mixed>, 'reason': string, 'reason_message': string, 'return_policy_id'?: string, 'return_policy_revision_id'?: string, 'status': string, ...}|object $values */
+    /** @param array{'allowed_resolution_types': list<string>, 'decision_proposal'?: mixed, 'eligible_quantity': int, 'evaluated_at'?: string, 'expires_at'?: string, 'ineligibility_reason'?: string, 'policy_adjustment_proposals': list<mixed>, 'reason': string, 'reason_message': string, 'return_policy_id'?: string, 'return_policy_revision_id'?: string, 'return_shipping_payer': string|null, 'status': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemEligibility')); }
     /** Resolution types the policy allows for this line. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return list<string>
@@ -73,6 +74,11 @@ final class CreateReturnPreviewResponseDataResolutionEligibilityLineItemsItemEli
      */
     public function getReturnPolicyRevisionId(): ?string { return $this->get('return_policy_revision_id'); }
     public function hasReturnPolicyRevisionId(): bool { return $this->has('return_policy_revision_id'); }
+    /** Value enum: "merchant", "buyer", null. anyOf[1] (Value): (string or null). Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Value enum: "merchant", "buyer", null. anyOf[2] (Value): null.
+     * @return string|null
+     */
+    public function getReturnShippingPayer(): string|null { return $this->get('return_shipping_payer'); }
+    public function hasReturnShippingPayer(): bool { return $this->has('return_shipping_payer'); }
     /** Whether the policy lets the buyer return this. `review_required` means the merchant decides. Value enum: "eligible", "ineligible", "review_required".
      * @return string
      */

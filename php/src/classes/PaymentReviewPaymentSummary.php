@@ -12,7 +12,7 @@ namespace Flint;
 final class PaymentReviewPaymentSummary extends Model {
     /** @param array{'amount_money': mixed, 'authorization_expires_at': string|null, 'capture_method': string, 'email': string, 'last4': string, 'payment_method_brand': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewPaymentSummary')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The payment's requested amount when it was confirmed. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
@@ -22,22 +22,22 @@ final class PaymentReviewPaymentSummary extends Model {
      */
     public function getAuthorizationExpiresAt(): string|null { return $this->get('authorization_expires_at'); }
     public function hasAuthorizationExpiresAt(): bool { return $this->has('authorization_expires_at'); }
-    /** Value enum: "automatic", "manual".
+    /** Whether the payment collects when confirmed or holds the funds for a later capture. Value enum: "automatic", "manual".
      * @return string
      */
     public function getCaptureMethod(): string { return $this->get('capture_method'); }
     public function hasCaptureMethod(): bool { return $this->has('capture_method'); }
-    /** email
+    /** The buyer's email address used for screening: the payment's receipt email, or else the email on the payment method, in lowercase. Empty when neither is known.
      * @return string
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** last4
+    /** Last four digits of the card number. Empty when the payment has no card details.
      * @return string
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa", "unknown".
+    /** The card network, as recorded when the payment was confirmed. Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa".
      * @return string
      */
     public function getPaymentMethodBrand(): string { return $this->get('payment_method_brand'); }

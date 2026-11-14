@@ -41,7 +41,7 @@ final class ProductsUpdateVariantInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging.
+    /** Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. minProperties: 1.
      * @return array{'barcode'?: string|null, 'delivery_profile_id'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_card_configuration'?: mixed, 'images'?: list<mixed>, 'inventory_item'?: mixed, 'inventory_item_id'?: string|null, 'line_item_tax_category'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string|null, 'position'?: int, 'quantity_price_breaks'?: list<mixed>, 'release_date'?: string|null, 'selected_options'?: list<mixed>, 'sku'?: string|null, 'status'?: string, 'taxable'?: bool, 'unit_dimensions'?: array{'height': int|float, 'length': int|float, 'unit': string, 'width': int|float}|object|null, 'unit_price_money'?: mixed, 'unit_weight'?: array{'unit': string, 'value': int|float}|object|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

@@ -59,7 +59,7 @@ final class PackageCreateInputShippedInput extends Model {
      */
     public function getExternalSystem(): string { return $this->get('external_system'); }
     public function hasExternalSystem(): bool { return $this->has('external_system'); }
-    /** Independent package-item collection. Inline creation uses the child-create shape and commits atomically; edit items through the package item routes after creation. Each order line may appear once. minItems: 1. maxItems: 100. [] (Value): {@see CreatePackageItemRequestInput}. The request body for: Create package item.
+    /** Independent package-item collection. Inline creation uses the child-create shape and commits atomically; edit items through the package item routes after creation. Each order line and bundle component pair may appear once. minItems: 1. maxItems: 100. [] (Value): {@see CreatePackageItemRequestInput}. The request body for: Create package item.
      * @return list<CreatePackageItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When items is omitted; use hasItems() or valueOrDefault().
      */
@@ -77,7 +77,7 @@ final class PackageCreateInputShippedInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Required for a package on a return shipment: allocates quantities from the shipment's return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a return shipment or package.
+    /** Required for a package on a return shipment: allocates quantities from the shipment's return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a return shipment or package. The enclosing Return or shipment determines its parent.
      * @return list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When return_line_items is omitted; use hasReturnLineItems() or valueOrDefault().
      */
@@ -101,7 +101,7 @@ final class PackageCreateInputShippedInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** minLength: 1.
+    /** Explanation of the package's status, kept as the package's `status_reason` and recorded as the reason on the shipped status change. At most 500 characters. `null` is the same as omitting the field. minLength: 1.
      * @return string
      * @throws SdkError When status_reason is omitted; use hasStatusReason() or valueOrDefault().
      */

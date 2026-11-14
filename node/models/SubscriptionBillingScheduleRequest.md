@@ -10,7 +10,7 @@ Who owns the billing schedule when creating a subscription: Flint or an external
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `owner` | Required | string | Values: `"flint"`, `"external"`. |
+| `owner` | Required | string | Who supplies billing dates: `flint` computes each next billing date; `external` waits for you to set `next_billing_at`. Values: `"flint"`, `"external"`. |
 
 ### SubscriptionBillingScheduleRequest variant 1: `owner` = `"flint"`
 

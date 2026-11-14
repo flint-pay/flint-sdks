@@ -9,5 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `delivered_at` | Optional | string | When the digital goods were delivered, in RFC3339 format. Format: `date-time`. |
-| `delivery_url` | Optional | string | URL where the recipient can access the delivered digital goods. |
+| `delivery_url` | Optional | string | URL where the recipient can access the delivered digital goods. Merchant credentials receive the link when set; checkout session and invoice access credentials don't receive it after the covered lines are fully refunded. |
 

@@ -14,7 +14,7 @@ namespace Flint;
 final class OauthAuthorizeCLIDeviceParams extends Model {
     /** @param array{'client_id': string, 'device_name'?: string, 'merchant_id'?: string, 'mode'?: string, 'platform'?: string, 'sandbox_id'?: string, 'scope': string, 'session_mode'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OauthAuthorizeCLIDeviceParams')); }
-    /** Example: "flint-cli". Value enum: "flint-cli".
+    /** The public client ID, always `flint-cli`. The client has no secret: a client_secret field or an Authorization header returns invalid_client. Example: "flint-cli". Value enum: "flint-cli".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */
@@ -50,7 +50,7 @@ final class OauthAuthorizeCLIDeviceParams extends Model {
      */
     public function getSandboxId(): string { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
-    /** Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+    /** Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
      * @return string
      * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
      */

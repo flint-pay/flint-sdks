@@ -9,12 +9,12 @@ namespace Flint;
 final class SubscriptionInventoryWait extends Model {
     /** @param array{'invoice_id': string, 'order_id': string, 'started_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionInventoryWait')); }
-    /** invoice_id
+    /** ID of the invoice recorded for the renewal that stock is blocking. Merchant credentials only.
      * @return string
      */
     public function getInvoiceId(): string { return $this->get('invoice_id'); }
     public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
-    /** order_id
+    /** ID of the renewal order waiting for stock. Merchant credentials only.
      * @return string
      */
     public function getOrderId(): string { return $this->get('order_id'); }

@@ -9,12 +9,12 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeight extends Model {
     /** @param array{'bands': list<mixed>, 'basis': string, 'unit': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeight')); }
-    /**  [] (Value): {@see DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeightBandsItem}. One band of a tiered pricing strategy, covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
+    /** One to 25 contiguous bands in ascending order. The final band has no upper bound. minItems: 1. maxItems: 25. [] (Value): {@see DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeightBandsItem}. One band of a tiered pricing strategy, covering values of the strategy's `basis` from `from` to `to`, with a price per currency.
      * @return list<DeliveryMethodConfigurationPricingCallbackTieredChoiceGroupTotalWeightBandsItem>
      */
     public function getBands(): array { return $this->get('bands'); }
     public function hasBands(): bool { return $this->has('bands'); }
-    /** Quantity measured by the tier bands. Money subtotal bases use minor currency units. Value enum: "choice_group.total_weight".
+    /** Value matched against the numeric tier bands. Money subtotal bases use minor currency units; caller.tier_key uses the nonnegative tier_key supplied when creating the checkout delivery quote. Value enum: "choice_group.total_weight".
      * @return string
      */
     public function getBasis(): string { return $this->get('basis'); }

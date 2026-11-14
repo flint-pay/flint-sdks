@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `calculation` | Optional | [TaxCalculationRequest](../models/TaxCalculationRequest.md#taxcalculationrequest) | The tax you supply for this line item. Used when the order's tax `mode` is `external`. `calculation`: [field definitions](../models/BuyerOrderLineItem.md#buyerorderlineitemtaxcalculation), [field definitions](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax-variant-2calculation), [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1taxcalculation), [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculation). |
+| `calculation` | Optional | [TaxCalculationRequest](../models/TaxCalculationRequest.md#taxcalculationrequest) | The tax you supply for this line item. Used when the order's tax `mode` is `external`. `calculation`: [field definitions](../models/BuyerOrderLineItem.md#buyerorderlineitemtaxcalculation), [field definitions](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax-variant-2calculation), [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1taxcalculation), [field definitions](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundletaxcalculation). |
 | `line_item_tax_category` | Optional | string | Flint line-item tax category. Values: [12 declared values](#ordercalculatedlineitemtax-line_item_tax_category-values). |
 | `taxable` | Optional | boolean | Whether the line item is subject to tax. |
 
@@ -95,5 +95,5 @@ Field definitions: [CreateOrderLineItem variant 1.tax.calculation](../models/Cre
 
 ### OrderCalculatedLineItemTax variant 4.calculation
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculation).
+Field definitions: [CreateOrderLineItemInputBundle.tax.calculation](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundletaxcalculation).
 

@@ -22,6 +22,7 @@ Response model.
 | `name` | Required | string | Name of an ad hoc line item. Catalog lines take the catalog name. |
 | `payment_link_line_item_id` | Required | string | Unique identifier for this payment link line item, prefixed `plli_`. |
 | `product_id` | Optional | string | Parent catalog context only. The product that the variants in variant_ids belong to. Present only on buyer choice lines; refused on input. |
+| `product_type` | Required | (string or null) or null | Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`. `product_type`: [declared alternatives](../models/PaymentLinkLineItemsItemBundle.md#paymentlinklineitemsitembundleproduct_type). |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `resolved_name` | Optional | string | Current catalog name of the referenced variant or bundle, or the product name for variant_ids lines. A variant reads as the product name, plus the variant name when the variant is a named option combination. This is the catalog value at read time, not a stored snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line items and when the catalog object no longer exists. |
 | `resolved_price_range` | Optional | [PaymentLinkLineItemsItemCustomFixedResolvedPriceRange](../models/PaymentLinkLineItemsItemCustomFixedResolvedPriceRange.md#paymentlinklineitemsitemcustomfixedresolvedpricerange) | Current lowest and highest catalog unit prices among listed variants that can be sold in the line currency. Computed at read time, not stored. Omitted when no listed variant can be sold. The lowest and highest unit prices across a product's variants. `resolved_price_range`: [field definitions](../models/PaymentLinkLineItemsItemCustomFixed.md#paymentlinklineitemsitemcustomfixedresolved_price_range). |
@@ -32,6 +33,10 @@ Response model.
 | `unit_price_money` | Required | [PaymentLinkLineItemsItemCustomFixedUnitPriceMoney](../models/PaymentLinkLineItemsItemCustomFixedUnitPriceMoney.md#paymentlinklineitemsitemcustomfixedunitpricemoney) | Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `variant_id` | Optional | string | ID of the catalog variant a `variant` line sells. |
 | `variant_ids` | Optional | Array of string | Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active, sellable variants of one product in one currency. Available only on standard payment links. Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: `1`. maxItems: `100`. uniqueItems: `true`. Items: pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+### PaymentLinkLineItemsItemCustomFixed.product_type
+
+Declared alternatives: [PaymentLinkLineItemsItemBundle.product_type](../models/PaymentLinkLineItemsItemBundle.md#paymentlinklineitemsitembundleproduct_type).
 
 ### PaymentLinkLineItemsItemCustomFixed.resolved_price_range
 

@@ -16,7 +16,7 @@ final class TestClocksDeleteInput extends Model {
      */
     public function getTestClockId(): string { return $this->get('test_clock_id'); }
     public function hasTestClockId(): bool { return $this->has('test_clock_id'); }
-    /** Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the current version. Format: int64. minimum: 1.
+    /** Optional version most recently read. A stale value fails with `VERSION_CONFLICT` and the current version. Format: int64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

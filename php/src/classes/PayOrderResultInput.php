@@ -8,13 +8,13 @@ namespace Flint;
 final class PayOrderResultInput extends Model {
     /** @param array{'order': OrderInput|array<array-key, mixed>|\stdClass, 'order_payment_attempt'?: OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayOrderResultInput')); }
-    /** A customer's purchase and its payment and fulfillment progress.
+    /** The order after the payment request. Send its `version` as `expected_version` in your next change to the order. A customer's purchase and its payment and fulfillment progress.
      * @return OrderInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
      */
     public function getOrder(): mixed { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** An attempt to pay an order.
+    /** The payment attempt for this request. Read its `status` and `pending_actions` to decide what to do next. An attempt to pay an order.
      * @return OrderPaymentAttemptInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When order_payment_attempt is omitted; use hasOrderPaymentAttempt() or valueOrDefault().
      */

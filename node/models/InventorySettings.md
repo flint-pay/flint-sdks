@@ -10,34 +10,9 @@ Inventory settings: the `low_stock_threshold`, how inventory failures are handle
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `default_routing_source` | Optional | [InventoryRoutingSource](../models/InventoryRoutingSource.md#inventoryroutingsource) or null | Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed Location, an allocation policy, or one policy revision. It applies to orders, line items added to orders, quick pay invoices, payment links, subscription plans, inventory reservations, and delivery previews. The request stores the resolved source on the resource it creates or changes, as if the caller had sent it, so changing or clearing this default never moves routing for existing orders, payment links, plans, or reservations. A source the request sends always wins. `null` when no default is set, which means callers must send `inventory_routing_source` on each request with tracked items. `default_routing_source`: [declared alternatives](../models/InventorySettings.md#inventorysettingsdefault_routing_source). |
+| `default_routing_source` | Optional | [InventoryRoutingSource](../models/InventoryRoutingSource.md#inventoryroutingsource) or null | Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed Location, an allocation policy, or one policy revision. It applies to orders, line items added to orders, quick pay invoices, payment links, subscription plans, inventory reservations, and delivery previews. The request stores the resolved source on the resource it creates or changes, as if the caller had sent it, so changing or clearing this default never moves routing for existing orders, payment links, plans, or reservations. A source the request sends always wins. `null` when no default is set, which means callers must send `inventory_routing_source` on each request with tracked items. |
 | `low_stock_threshold` | Optional | integer | Available quantity your team treats as low stock, zero or greater. The Dashboard shows this setting. It does not change allocation, filter API results, or send events. Format: `int32`. minimum: `0`. |
 | `origin_policies` | Optional | Map of [InventoryOriginPolicy](../models/InventoryOriginPolicy.md#inventoryoriginpolicy) | Inventory failure handling keyed by order source: checkout, payment_link, api, subscription, virtual_terminal, or default. The source-specific entry wins; default applies to the rest. `origin_policies{}`: [field definitions](../models/InventorySettings.md#inventorysettingsorigin_policies). |
-
-### InventorySettings.default_routing_source
-
-Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed Location, an allocation policy, or one policy revision. It applies to orders, line items added to orders, quick pay invoices, payment links, subscription plans, inventory reservations, and delivery previews. The request stores the resolved source on the resource it creates or changes, as if the caller had sent it, so changing or clearing this default never moves routing for existing orders, payment links, plans, or reservations. A source the request sends always wins. `null` when no default is set, which means callers must send `inventory_routing_source` on each request with tracked items.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `inventory_allocation_policy_id` | Conditional | string | ID of the allocation policy that routes demand. Example: `"invp_01KEZF7C0076BZX855WAGC5SQK"`. |
-| `inventory_allocation_policy_revision_id` | Conditional | string | ID of the allocation policy revision that routes demand. Example: `"invpv_01KEZF7C00JSFTTBKC1JY614JJ"`. |
-| `location_id` | Conditional | string | ID of the fixed Location that serves all demand. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
-| `type` | Conditional | string | How Flint routes demand to Locations. Values: `"fixed_location"`, `"policy"`, `"policy_revision"`. |
-
-### InventorySettings.default_routing_source variant 1
-
-anyOf InventoryRoutingSource: Where an order, payment link, or reservation routes inventory from: a fixed Location, an inventory allocation policy, or one policy revision..
-
-- Required: `type`.
-- Optional: `inventory_allocation_policy_id`, `inventory_allocation_policy_revision_id`, `location_id`.
-
-### InventorySettings.default_routing_source variant 2
-
-anyOf variant 2.
-
-- Undeclared: `inventory_allocation_policy_id`, `inventory_allocation_policy_revision_id`, `location_id`, `type`.
-- Value shape: null. Where tracked demand is routed when a request omits `inventory_routing_source`: a fixed Location, an allocation policy, or one policy revision. It applies to orders, line items added to orders, quick pay invoices, payment links, subscription plans, inventory reservations, and delivery previews. The request stores the resolved source on the resource it creates or changes, as if the caller had sent it, so changing or clearing this default never moves routing for existing orders, payment links, plans, or reservations. A source the request sends always wins. `null` when no default is set, which means callers must send `inventory_routing_source` on each request with tracked items. 
 
 ### InventorySettings.origin_policies{}
 

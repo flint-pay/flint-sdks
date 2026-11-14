@@ -10,16 +10,14 @@ namespace Flint;
  * @property-read string $delivery_rate_callback_id
  * @property-read string|null $delivery_revocation_id
  * @property-read string $external_reference_id
- * @property-read string $key_id
  * @property-read string $name
- * @property-read string $secret
  * @property-read list<string> $signing_methods
  * @property-read string $status
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryRateCallbackInput extends Model {
-    /** @param array{'circuit_failure_count': int, 'circuit_state': string, 'configuration': DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'delivery_revocation_id': string|null, 'external_reference_id'?: string, 'key_id'?: string, 'name': string, 'secret'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
+    /** @param array{'circuit_failure_count': int, 'circuit_state': string, 'configuration': DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'delivery_revocation_id': string|null, 'external_reference_id'?: string, 'name': string, 'signing_methods': list<string>, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbackInput')); }
     /** Consecutive callback failures since the last successful response. minimum: 0.
      * @return int
@@ -27,13 +25,13 @@ final class DeliveryRateCallbackInput extends Model {
      */
     public function getCircuitFailureCount(): int { return $this->get('circuit_failure_count'); }
     public function hasCircuitFailureCount(): bool { return $this->has('circuit_failure_count'); }
-    /** Value enum: "closed", "open", "half_open".
+    /** Whether Flint is currently calling the callback, based on recent failures. Value enum: "closed", "open", "half_open".
      * @return string
      * @throws SdkError When circuit_state is omitted; use hasCircuitState() or valueOrDefault().
      */
     public function getCircuitState(): string { return $this->get('circuit_state'); }
     public function hasCircuitState(): bool { return $this->has('circuit_state'); }
-    /** Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it.
+    /** Current settings of the rate callback. Settings for a delivery rate callback: the endpoint `url` Flint calls, request timeout, request and response size limits, redirect policy, and whether previews can use it.
      * @return DeliveryRateCallbackConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
@@ -45,7 +43,7 @@ final class DeliveryRateCallbackInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+    /** ID of the current revision. New quotes use it. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
      * @return string
      * @throws SdkError When current_delivery_rate_callback_revision_id is omitted; use hasCurrentDeliveryRateCallbackRevisionId() or valueOrDefault().
      */
@@ -69,31 +67,19 @@ final class DeliveryRateCallbackInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Initial HMAC signing key ID. Returned only by create when hmac is included. Example: "cbkey_00112233445566778899aabb".
-     * @return string
-     * @throws SdkError When key_id is omitted; use hasKeyId() or valueOrDefault().
-     */
-    public function getKeyId(): string { return $this->get('key_id'); }
-    public function hasKeyId(): bool { return $this->has('key_id'); }
-    /** name
+    /** Merchant-facing name of the rate callback.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Initial HMAC shared secret. Returned only by the create response when signing_methods includes hmac.
-     * @return string
-     * @throws SdkError When secret is omitted; use hasSecret() or valueOrDefault().
-     */
-    public function getSecret(): string { return $this->get('secret'); }
-    public function hasSecret(): bool { return $this->has('secret'); }
     /** Signing methods enabled for callback HTTP requests. jwt sends Authorization: Bearer with a Flint-signed token whose aud is this delivery_rate_callback_id; hmac sends webhook-signature and signing key IDs. minItems: 1. uniqueItems: true. Example: ["jwt"]. [] enum: "jwt", "hmac". [] (Value): string. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
      * @return list<string>
      * @throws SdkError When signing_methods is omitted; use hasSigningMethods() or valueOrDefault().
      */
     public function getSigningMethods(): array { return $this->get('signing_methods'); }
     public function hasSigningMethods(): bool { return $this->has('signing_methods'); }
-    /** Value enum: "active", "inactive", "archived".
+    /** Whether the rate callback is in use. Value enum: "active", "inactive", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

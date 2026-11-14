@@ -133,7 +133,7 @@ Signature: `list(params?: PaymentMethodDomainsListParams, options?: _SdkWithoutI
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`. Values: `"active"`, `"inactive"`. |
-| `domain_name` | Optional | string | Exact hostname filter after trimming whitespace and converting to lowercase. Accepts an ASCII fully-qualified hostname without a URL, port, wildcard, or IP address. Matches the entire stored domain name. minLength: `1`. maxLength: `253`. |
+| `domain_name` | Optional | string | Exact hostname filter after trimming whitespace and converting to lowercase. Accepts an ASCII fully-qualified hostname without a URL, port, wildcard, or IP address. Matches the entire stored domain name. minLength: `1`. maxLength: `253`. pattern: `^[\t\n\v\f\r ]*(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?[\t\n\v\f\r ]*$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 
@@ -187,7 +187,7 @@ Signature: `update(payment_method_domain_id: InputValue<string>, params: Payment
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `payment_method_domain_id` | Required | string | Flint payment method domain ID. |
-| `body` | Required | [UpdatePaymentMethodDomainRequestInput](../models/UpdatePaymentMethodDomainRequest.md#updatepaymentmethoddomainrequest) | The request body for: Update payment method domain. |
+| `body` | Required | [UpdatePaymentMethodDomainRequestInput](../models/UpdatePaymentMethodDomainRequest.md#updatepaymentmethoddomainrequest) | The request body for: Update payment method domain. minProperties: `1`. |
 
 Body model: [UpdatePaymentMethodDomainRequestInput](../models/UpdatePaymentMethodDomainRequest.md#updatepaymentmethoddomainrequest).
 

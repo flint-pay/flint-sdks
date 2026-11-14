@@ -88,7 +88,7 @@ Signature: `delete(promotion_code_id: InputValue<string>, params?: PromotionCode
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional resource version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `promotion_code_id` | Required | string | Flint promotion code ID. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
@@ -163,6 +163,7 @@ Returned payload: [PromotionCode](../models/PromotionCode.md#promotioncode).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -197,8 +198,8 @@ Signature: `list(params?: PromotionCodesListParams, options?: _SdkWithoutIdempot
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `promotion_id` | Optional | string | Exact match on the parent promotion ID. |
-| `customer_id` | Optional | string | Exact match on the customer bound to the code. Unbound codes are excluded. minLength: `1`. |
+| `promotion_id` | Optional | string | Exact match on the parent promotion ID. pattern: `^promo_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `customer_id` | Optional | string | Exact match on the customer bound to the code. Unbound codes are excluded. minLength: `1`. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `code` | Optional | string | Exact match that ignores case and accents: CAFÉ matches cafe. This is the same rule that makes promotion codes unique. Codes preserve their original spelling. Leading and trailing whitespace are rejected, not trimmed. minLength: `1`. maxLength: `100`. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `availability` | Optional | Array of string or string | Filter by whether a code can be redeemed now or why it cannot. available matches available: true; every other value matches unavailable_reason. Values are ORed and ANDed with status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"available"`, `"inactive"`, `"expired"`, `"exhausted"`, `"promotion_unavailable"`. Values: `"available"`, `"inactive"`, `"expired"`, `"exhausted"`, `"promotion_unavailable"`. |
@@ -226,6 +227,7 @@ Returned payload: [PromotionCodeListResponse](../models/PromotionCodeListRespons
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -266,7 +268,7 @@ Signature: `update(promotion_code_id: InputValue<string>, params: PromotionCodes
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdatePromotionCodeRequestInput](../models/UpdatePromotionCodeRequest.md#updatepromotioncoderequest) | The request body for: Update promotion code. |
+| `body` | Required | [UpdatePromotionCodeRequestInput](../models/UpdatePromotionCodeRequest.md#updatepromotioncoderequest) | The request body for: Update promotion code. minProperties: `1`. |
 
 Body model: [UpdatePromotionCodeRequestInput](../models/UpdatePromotionCodeRequest.md#updatepromotioncoderequest).
 

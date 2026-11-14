@@ -30,7 +30,7 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getArchivedAt(): string|\DateTimeInterface { return $this->get('archived_at'); }
     public function hasArchivedAt(): bool { return $this->has('archived_at'); }
-    /** audience
+    /** Audience (`aud`) a token must carry to match this identity. Set at creation and never changes.
      * @return string
      * @throws SdkError When audience is omitted; use hasAudience() or valueOrDefault().
      */
@@ -48,13 +48,13 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** The user or credential that created a workload identity, identified by resource type and ID.
+    /** The user, API key, or workload identity whose request created this identity. The user or credential that created a workload identity, identified by resource type and ID.
      * @return WorkloadIdentityCreatorInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When created_by is omitted; use hasCreatedBy() or valueOrDefault().
      */
     public function getCreatedBy(): mixed { return $this->get('created_by'); }
     public function hasCreatedBy(): bool { return $this->has('created_by'); }
-    /** issuer
+    /** Issuer (`iss`) of the external identity provider whose tokens this identity accepts. Set at creation and never changes.
      * @return string
      * @throws SdkError When issuer is omitted; use hasIssuer() or valueOrDefault().
      */
@@ -72,7 +72,7 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** name
+    /** A label that helps you tell workload identities apart, 1 to 100 characters.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -96,19 +96,19 @@ final class WorkloadIdentityInput extends Model {
      */
     public function getScopes(): array { return $this->get('scopes'); }
     public function hasScopes(): bool { return $this->has('scopes'); }
-    /** Value enum: "active", "inactive", "archived".
+    /** Whether the identity currently accepts token exchanges. Only active identities do. Value enum: "active", "inactive", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** subject
+    /** Subject (`sub`) a token must carry, compared as subject_match says.
      * @return string
      * @throws SdkError When subject is omitted; use hasSubject() or valueOrDefault().
      */
     public function getSubject(): string { return $this->get('subject'); }
     public function hasSubject(): bool { return $this->has('subject'); }
-    /** Value enum: "exact", "glob".
+    /** How `subject` is compared with a token's `sub` claim. Value enum: "exact", "glob".
      * @return string
      * @throws SdkError When subject_match is omitted; use hasSubjectMatch() or valueOrDefault().
      */

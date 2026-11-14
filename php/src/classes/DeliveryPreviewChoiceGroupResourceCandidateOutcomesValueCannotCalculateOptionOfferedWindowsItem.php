@@ -11,17 +11,17 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateOptionOfferedWindowsItem extends Model {
     /** @param array{'amount_money': mixed, 'delivery_window_id': string, 'end_at': string, 'expires_at': string, 'start_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateOptionOfferedWindowsItem')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of delivery in this window. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateOptionOfferedWindowsItemAmountMoney
      */
     public function getAmountMoney(): DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalculateOptionOfferedWindowsItemAmountMoney { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** delivery_window_id
+    /** ID of this window. The buyer sends it to choose the window.
      * @return string
      */
     public function getDeliveryWindowId(): string { return $this->get('delivery_window_id'); }
     public function hasDeliveryWindowId(): bool { return $this->has('delivery_window_id'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** End of this delivery window. Format: date-time.
      * @return string
      */
     public function getEndAt(): string { return $this->get('end_at'); }
@@ -31,7 +31,7 @@ final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueCannotCalcul
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Start of this delivery window. Format: date-time.
      * @return string
      */
     public function getStartAt(): string { return $this->get('start_at'); }

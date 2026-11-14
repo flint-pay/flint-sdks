@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read TaxJurisdictionInput|array<array-key, mixed>|\stdClass $jurisdiction
  * @property-read string $location_id
  * @property-read string $order_charge_id
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read int|float $percent
  * @property-read string $price_mode
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $taxable_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class TaxBreakdownInput extends Model {
-    /** @param array{'calculation_type': string, 'flat_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'fulfillment_choice_group_id'?: string, 'jurisdiction': TaxJurisdictionInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'order_charge_id'?: string, 'order_line_item_id'?: string, 'percent': int|float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_type': string, 'taxability_reason': string, 'taxable_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object|array{'calculation_type': string, 'flat_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'fulfillment_choice_group_id'?: string, 'jurisdiction': TaxJurisdictionInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'order_charge_id'?: string, 'order_line_item_id'?: string, 'percent'?: int|float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_type': string, 'taxability_reason': string, 'taxable_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'calculation_type': string, 'flat_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'fulfillment_choice_group_id'?: string, 'jurisdiction': TaxJurisdictionInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'order_charge_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'percent': int|float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_type': string, 'taxability_reason': string, 'taxable_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object|array{'calculation_type': string, 'flat_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'fulfillment_choice_group_id'?: string, 'jurisdiction': TaxJurisdictionInput|array<array-key, mixed>|\stdClass, 'location_id'?: string, 'order_charge_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'percent'?: int|float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'tax_type': string, 'taxability_reason': string, 'taxable_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxBreakdownInput')); }
     /** How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum: "percentage", "flat_amount".
      * @return string
@@ -32,7 +33,7 @@ final class TaxBreakdownInput extends Model {
      */
     public function getFlatMoney(): mixed { return $this->get('flat_money'); }
     public function hasFlatMoney(): bool { return $this->has('flat_money'); }
-    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+    /** ID of the delivery choice group whose delivery this row's tax covers. On a line item row, the row taxes the share of the line item that group delivers. On a charge row, it taxes that group's delivery charge. Set only on automatic tax rows outside the US, and only when delivery was chosen from a delivery quote. A delivery charge's row gets it only when the `delivery_charge_tax_basis` setting applied as the row was calculated, and a row frozen by payment or by issuing an invoice keeps the value it had. A delivery charge priced with `taxable_items_share` after its delivery choice is no longer available can carry the ID of the fulfillment that holds the charge instead. Omitted on external tax rows and on every other row. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return string
      * @throws SdkError When fulfillment_choice_group_id is omitted; use hasFulfillmentChoiceGroupId() or valueOrDefault().
      */
@@ -44,7 +45,7 @@ final class TaxBreakdownInput extends Model {
      */
     public function getJurisdiction(): mixed { return $this->get('jurisdiction'); }
     public function hasJurisdiction(): bool { return $this->has('jurisdiction'); }
-    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the location whose address was the seller origin for this row's tax: the location the goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for goods and charges that a fulfillment sends from one location. Separate shares of a line item can have different origin locations. Omitted when the tax was sourced from the merchant's legal origin, which covers services, goods with no fulfilling location yet, goods whose fulfillments can't be split by location, a charge whose fulfillments leave from more than one location, and every external tax row. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -56,6 +57,12 @@ final class TaxBreakdownInput extends Model {
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
+    /** ID of the order this tax row belongs to, including the parent of any order_line_item_id or order_charge_id reference. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item this row taxes. Absent on rows for a charge or a flat order tax. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().

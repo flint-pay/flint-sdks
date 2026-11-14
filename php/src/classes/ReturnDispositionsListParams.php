@@ -49,13 +49,13 @@ final class ReturnDispositionsListParams extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Filter by inventory location id. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by inventory location id. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When inventory_location_id is omitted; use hasInventoryLocationId() or valueOrDefault().
      */
@@ -91,31 +91,31 @@ final class ReturnDispositionsListParams extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter by replaces return disposition id. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
+    /** Filter by replaces return disposition id. pattern: ^retdsp_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      * @return string
      * @throws SdkError When replaces_return_disposition_id is omitted; use hasReplacesReturnDispositionId() or valueOrDefault().
      */
     public function getReplacesReturnDispositionId(): string { return $this->get('replaces_return_disposition_id'); }
     public function hasReplacesReturnDispositionId(): bool { return $this->has('replaces_return_disposition_id'); }
-    /** Filter by return id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** Filter by return id. pattern: ^ret_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Filter by return inspection line item id. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
+    /** Filter by return inspection line item id. pattern: ^retinli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      * @return string
      * @throws SdkError When return_inspection_line_item_id is omitted; use hasReturnInspectionLineItemId() or valueOrDefault().
      */
     public function getReturnInspectionLineItemId(): string { return $this->get('return_inspection_line_item_id'); }
     public function hasReturnInspectionLineItemId(): bool { return $this->has('return_inspection_line_item_id'); }
-    /** Filter by return line item id. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
+    /** Filter by return line item id. pattern: ^retli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Filter by return receipt line item id. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
+    /** Filter by return receipt line item id. pattern: ^retrcli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
      * @return string
      * @throws SdkError When return_receipt_line_item_id is omitted; use hasReturnReceiptLineItemId() or valueOrDefault().
      */

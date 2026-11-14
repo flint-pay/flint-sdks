@@ -25,11 +25,11 @@ Response model.
 
 The resource snapshot recorded for this event and rendered at the delivery API version.
 
-Field definitions: [shared fields](DeliveryLocationSetActivatedMerchantEvent.md#deliverylocationsetactivatedmerchanteventdata-fields-1).
+Field definitions: [shared fields](DeliveryLocationSetArchivedMerchantEvent.md#deliverylocationsetarchivedmerchanteventdata-fields-1).
 
 ### DeliveryLocationSetArchivedInstalledMerchantsEvent.data fields 1.object
 
-Field definitions: [DeliveryLocationSetActivatedMerchantEvent.data fields 1.object](../models/DeliveryLocationSetActivatedMerchantEvent.md#deliverylocationsetactivatedmerchanteventdata-fields-1object).
+Field definitions: [DeliveryLocationSetArchivedMerchantEvent.data fields 1.object](../models/DeliveryLocationSetArchivedMerchantEvent.md#deliverylocationsetarchivedmerchanteventdata-fields-1object).
 
 ### DeliveryLocationSetArchivedInstalledMerchantsEvent.source fields 1
 

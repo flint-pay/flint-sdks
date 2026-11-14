@@ -12,17 +12,17 @@ namespace Flint;
 final class DeliveryPreviewResponseDataPickupLocations extends Model {
     /** @param array{'evaluated_at': string, 'evaluation_status': string, 'input_requirements': list<mixed>, 'locations': list<mixed>, 'merchant_diagnostics'?: list<mixed>, 'mode': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataPickupLocations')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Time Flint evaluated pickup availability. Format: date-time.
      * @return string
      */
     public function getEvaluatedAt(): string { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /** Value enum: "complete", "incomplete", "degraded".
+    /** How completely Flint evaluated the pickup Locations. Value enum: "complete", "incomplete", "degraded".
      * @return string
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
     public function hasEvaluationStatus(): bool { return $this->has('evaluation_status'); }
-    /**  [] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
+    /** Inputs the pickup methods need before Flint can evaluate them. [] (Value): {@see DeliveryInputRequirement}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
      * @return list<DeliveryInputRequirement>
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }

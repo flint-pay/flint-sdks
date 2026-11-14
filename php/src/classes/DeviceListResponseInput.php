@@ -10,7 +10,7 @@ namespace Flint;
 final class DeviceListResponseInput extends Model {
     /** @param array{'data': list<DeviceInput|array<array-key, mixed>|\stdClass>, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeviceListResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. [] (Value): {@see DeviceInput}. A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't change how payments are accepted.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see DeviceInput}. A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't take payments; a reader does.
      * @return list<DeviceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

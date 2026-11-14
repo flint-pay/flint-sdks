@@ -10,25 +10,25 @@ namespace Flint;
 final class SubscriptionDeliveryMethodSummaryInput extends Model {
     /** @param array{'description'?: string, 'name'?: string, 'price_type'?: string, 'type'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionDeliveryMethodSummaryInput')); }
-    /** description
+    /** Buyer-facing description of the delivery method. Omitted when the method has none.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** name
+    /** Buyer-facing name of the delivery method.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "fixed", "quoted".
+    /** Whether the method charges a flat price or Flint works the price out for each delivery. Value enum: "fixed", "quoted".
      * @return string
      * @throws SdkError When price_type is omitted; use hasPriceType() or valueOrDefault().
      */
     public function getPriceType(): string { return $this->get('price_type'); }
     public function hasPriceType(): bool { return $this->has('price_type'); }
-    /** Value enum: "shipment", "local_delivery".
+    /** How the method delivers the items. Value enum: "shipment", "local_delivery".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

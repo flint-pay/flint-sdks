@@ -9,10 +9,7 @@ const idempotencyKey = crypto.randomUUID();
 
 const result = await client.paymentIntents.confirm(
   "pi_01KEZF7C00G8H9D509YEV22P7R",
-  {
-    credential_type: "token",
-    payment_source_token: "example",
-  },
+  undefined,
   { idempotencyKey: idempotencyKey },
 );
 console.log(result);

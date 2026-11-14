@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `stripe` | Optional | [StripeClientSetupStripeInput](../models/StripeClientSetupStripeInput.md#stripeclientsetupstripeinput) | Stripe.js initialization context and SetupIntent setup authority. |
+| `stripe` | Optional | [StripeClientSetupStripeInput](../models/StripeClientSetupStripeInput.md#stripeclientsetupstripeinput) | Stripe.js initialization context and the SetupIntent authority for saving the payment method. Stripe.js initialization context and SetupIntent setup authority. |
 

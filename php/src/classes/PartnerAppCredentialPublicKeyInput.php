@@ -8,7 +8,7 @@ namespace Flint;
 final class PartnerAppCredentialPublicKeyInput extends Model {
     /** @param array{'jwk': array<array-key, mixed>|\stdClass, 'jwk_thumbprint': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialPublicKeyInput')); }
-    /** jwk
+    /** The public JSON Web Key Flint verifies the app's client assertions against.
      * @return array<array-key, mixed>|\stdClass
      * @throws SdkError When jwk is omitted; use hasJwk() or valueOrDefault().
      */

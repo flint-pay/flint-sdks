@@ -94,13 +94,13 @@ final class InventoryTransferInput extends Model {
      */
     public function getReceivedAt(): string|\DateTimeInterface { return $this->get('received_at'); }
     public function hasReceivedAt(): bool { return $this->has('received_at'); }
-    /** Value enum: "draft", "in_transit", "partially_resolved", "closed".
+    /** Where the transfer stands, worked out from the quantities that have left the origin and have since been received, returned, or reported lost. Value enum: "draft", "in_transit", "partially_resolved", "closed".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". [] (Value): string.  Value enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
+    /** Actions that can change this transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is closed. [] enum: "depart", "receive", "return_to_origin", "report_loss", "cancel". [] (Value): string.  Value enum: "depart", "receive", "return_to_origin", "report_loss", "cancel".
      * @return list<string>
      * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
      */

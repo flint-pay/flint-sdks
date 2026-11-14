@@ -16,7 +16,7 @@ final class CustomersLinkGuestPurchasesInput extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** The request body for: Link guest purchases to a customer. Example: {"customer_verification_id":"cver_01KEZF7C00E7S01991S7457CVK"}.
+    /** The request body for: Link guest purchases to a customer. Example: {"customer_verification_id":"cver_01ARZ3NDEKTSV4RRFFQ69G5FAV"}.
      * @return array{'customer_verification_id': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

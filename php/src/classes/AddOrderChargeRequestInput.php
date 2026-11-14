@@ -3,10 +3,10 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read OrderChargeRequestInput|array<array-key, mixed>|\stdClass $charge
- * @property-read int $expected_version
+ * @property-read int $expected_order_version
  * Presence-aware input; omitted fields throw when accessed. */
 final class AddOrderChargeRequestInput extends Model {
-    /** @param array{'charge': OrderChargeRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int}|object $values */
+    /** @param array{'charge': OrderChargeRequestInput|array<array-key, mixed>|\stdClass, 'expected_order_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AddOrderChargeRequestInput')); }
     /** The charge to add. A charge you add to an order, such as a delivery or service fee, set as a fixed amount or a percentage with its tax settings.
      * @return OrderChargeRequestInput|array<array-key, mixed>|\stdClass
@@ -16,8 +16,8 @@ final class AddOrderChargeRequestInput extends Model {
     public function hasCharge(): bool { return $this->has('charge'); }
     /** Optional order version from the last order read. The mutation fails if the order changed. Format: int64. minimum: 1.
      * @return int
-     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     * @throws SdkError When expected_order_version is omitted; use hasExpectedOrderVersion() or valueOrDefault().
      */
-    public function getExpectedVersion(): int { return $this->get('expected_version'); }
-    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    public function getExpectedOrderVersion(): int { return $this->get('expected_order_version'); }
+    public function hasExpectedOrderVersion(): bool { return $this->has('expected_order_version'); }
 }

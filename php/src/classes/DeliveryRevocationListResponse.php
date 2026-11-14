@@ -10,7 +10,7 @@ namespace Flint;
 final class DeliveryRevocationListResponse extends Model {
     /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRevocationListResponse')); }
-    /** Resource, collection, or operation result returned by this request. [] (Value): {@see DeliveryRevocation}. A withdrawal of a previously available delivery choice.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see DeliveryRevocation}. A permanent fence on an exact delivery method revision, rate callback revision, callback signing key, or Location geography version. Quotes that depend on it are revoked, and selections that depend on it stop being current.
      * @return list<DeliveryRevocation>
      */
     public function getData(): array { return $this->get('data'); }

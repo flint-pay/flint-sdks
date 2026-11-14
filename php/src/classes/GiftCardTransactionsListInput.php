@@ -25,19 +25,19 @@ final class GiftCardTransactionsListInput extends Model {
      */
     public function getCashOutReference(): string { return $this->get('cash_out_reference'); }
     public function hasCashOutReference(): bool { return $this->has('cash_out_reference'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+    /** Exact, case-sensitive filter. maxLength: 255. pattern: ^gc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Exact, case-sensitive filter. maxLength: 255. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -67,7 +67,7 @@ final class GiftCardTransactionsListInput extends Model {
      */
     public function getPostedBefore(): string|\DateTimeInterface { return $this->get('posted_before'); }
     public function hasPostedBefore(): bool { return $this->has('posted_before'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "pos-sale-1842".
+    /** Exact, case-sensitive filter. maxLength: 255. pattern: ^(gcl|gcpra|gcr|gct|gfd|ref|rta)_[0-9A-HJKMNP-TV-Z]{26}$. Example: "gcl_01KEZF7C00YJED2857SE0J6KWC".
      * @return string
      * @throws SdkError When source_id is omitted; use hasSourceId() or valueOrDefault().
      */

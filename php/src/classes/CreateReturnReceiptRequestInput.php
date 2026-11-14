@@ -9,12 +9,13 @@ namespace Flint;
  * @property-read list<ReturnReceiptLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
  * @property-read string|\DateTimeInterface $received_at
  * @property-read string $receiving_location_id
+ * @property-read string $return_id
  * @property-read string $shipment_id
  * @property-read ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass $source_system
  * @property-read string $supersedes_return_receipt_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnReceiptRequestInput extends Model {
-    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'line_items': list<ReturnReceiptLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'shipment_id'?: string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass, 'supersedes_return_receipt_id'?: string}|object $values */
+    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'line_items': list<ReturnReceiptLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'received_at': string|\DateTimeInterface, 'receiving_location_id': string, 'return_id': string, 'shipment_id'?: string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass, 'supersedes_return_receipt_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnReceiptRequestInput')); }
     /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
      * @return string
@@ -58,6 +59,12 @@ final class CreateReturnReceiptRequestInput extends Model {
      */
     public function getReceivingLocationId(): string { return $this->get('receiving_location_id'); }
     public function hasReceivingLocationId(): bool { return $this->has('receiving_location_id'); }
+    /** ID of the Return the goods belong to. minLength: 1. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().

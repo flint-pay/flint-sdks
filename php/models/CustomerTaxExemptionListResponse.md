@@ -15,7 +15,7 @@ Response model.
 
 ### CustomerTaxExemptionListResponse.data[]
 
-Nested child of a customer, bounded to 100 unarchived records per customer. Archives remain retrievable by ID and through the archived status filter. Expired and archived records cannot be edited. These records store exemption evidence; saving one does not apply it to sales or change the customer's blanket tax_exempt flag.
+Nested child of a customer, bounded to 100 unarchived records per customer. Archives remain retrievable by ID and through the archived status filter. Expired and archived records cannot be edited. An active record applies to the customer's sales whose taxable destination its coverage contains, within its date range, and is snapshotted on each exempt sale. Saving one doesn't change the customer's blanket tax_exempt flag, which still takes precedence.
 
 Field definitions: [shared fields](CustomerTaxExemptionResponse.md#customertaxexemptionresponsedata).
 

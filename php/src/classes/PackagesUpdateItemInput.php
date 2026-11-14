@@ -6,10 +6,10 @@ namespace Flint;
  *
  * @property-read string $package_id
  * @property-read string $package_item_id
- * @property-read array{'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int}|object $body
+ * @property-read array{'bundle_component_id'?: string|null, 'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackagesUpdateItemInput extends Model {
-    /** @param array{'package_id': string, 'package_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int}|object}|object $values */
+    /** @param array{'package_id': string, 'package_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'bundle_component_id'?: string|null, 'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesUpdateItemInput')); }
     /** Flint package ID. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
      * @return string
@@ -41,8 +41,8 @@ final class PackagesUpdateItemInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update package item. Example: {"metadata":{"slot":"B"},"quantity":1}.
-     * @return array{'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int}|object
+    /** The request body for: Update package item. minProperties: 1. Example: {"metadata":{"slot":"B"},"quantity":1}.
+     * @return array{'bundle_component_id'?: string|null, 'expected_version'?: int, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'quantity'?: int}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

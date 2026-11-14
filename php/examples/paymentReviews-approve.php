@@ -17,6 +17,6 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->paymentReviews->approve('rev_01KEZF7C00BVBQ00XDFNKB1EF6', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+echo $result->matched_risk_rule_id . PHP_EOL;
 echo $result->payment_intent_id . PHP_EOL;
-echo $result->payment_review_id . PHP_EOL;
 $client->close();

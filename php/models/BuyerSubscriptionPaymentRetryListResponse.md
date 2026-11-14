@@ -15,13 +15,13 @@ Response model.
 
 ### BuyerSubscriptionPaymentRetryListResponse.data[]
 
-A retry of a past-due payment on the buyer's subscription. Includes, when available, the buyer's order and a failure they can act on. Omits the store's idempotency keys and payment attempt IDs.
+A retry of a past-due payment on the buyer's subscription. Includes, when available, its order, payment intent and a failure the buyer can act on. Omits the store's idempotency key.
 
 Field definitions: [shared fields](BuyerSubscriptionPaymentRetryResponse.md#buyersubscriptionpaymentretryresponsedata).
 
 ### BuyerSubscriptionPaymentRetryListResponse.data[].last_payment_error
 
-Field definitions: [OrderResponse.data.active_payment_attempt.payment_intents[].last_payment_error](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpayment_intentslast_payment_error).
+Field definitions: [BuyerSubscriptionPaymentRetryResponse.data.last_payment_error](../models/BuyerSubscriptionPaymentRetryResponse.md#buyersubscriptionpaymentretryresponsedatalast_payment_error).
 
 ### BuyerSubscriptionPaymentRetryListResponse.meta
 

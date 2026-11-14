@@ -7,7 +7,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 ## Install
 
 ```sh
-composer require flintpay/flint:8.0.0-beta.2
+composer require flintpay/flint:8.0.0-beta.3
 ```
 
 Requires PHP 8.2+ with ext-json and ext-curl. PHPDoc types target PHPStan 2.2+.
@@ -59,7 +59,7 @@ Methods return the decoded body, except result-mode operations, which return `$r
 
 ### paymentIntents.get
 
-Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm with credential_type attached to retrieve current_payment_action.
+Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm without payment_source to retrieve current_payment_action.
 
 ```php
 $result = $client->paymentIntents->get('pi_01KEZF7C00G8H9D509YEV22P7R');
@@ -127,4 +127,4 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `composer install`, then `php examples/RESOURCE-METHOD.php`.
 
-Package 8.0.0-beta.2, generated for API 2026-09-07.
+Package 8.0.0-beta.3, generated for API 2026-09-07.

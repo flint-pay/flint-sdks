@@ -7,7 +7,7 @@ namespace Flint;
 final class PendingPaymentActionPaymentIntentSubject extends Model {
     /** @param array{'payment_intent_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentActionPaymentIntentSubject')); }
-    /** payment_intent_id
+    /** ID of the payment intent that needs the buyer's action.
      * @return string
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }

@@ -8,8 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `code` | Required | string |  |
-| `details` | Optional | Array of [ErrorDetailInput](../models/ErrorDetailInput.md#errordetailinput) |  |
-| `message` | Required | string |  |
-| `param` | Optional | string |  |
+| `code` | Required | string | Stable code for this failure, as an error response would carry it. |
+| `details` | Optional | Array of [ErrorDetailInput](../models/ErrorDetailInput.md#errordetailinput) | Individual failures behind this error, as an error response would list them. Omitted when there are none. |
+| `message` | Required | string | What is wrong with the proposed subscription. |
+| `param` | Optional | string | Request field the failure applies to, as a path in the preview request, such as `subscription.terms.billing_interval`. Omitted when the failure isn't tied to one field. |
 

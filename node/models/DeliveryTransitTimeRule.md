@@ -10,8 +10,8 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `handling_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | `handling_days`: [field definitions](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1transit_timehandling_days), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days). |
-| `transit_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | `transit_days`: [field definitions](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1transit_timehandling_days), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days). |
+| `handling_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | Business days the merchant needs to prepare the order. `handling_days`: [field definitions](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1transit_timehandling_days), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days). |
+| `transit_days` | Required | [DeliveryBusinessDayRange](../models/DeliveryBusinessDayRange.md#deliverybusinessdayrange) | Business days the order spends in transit. `transit_days`: [field definitions](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1transit_timetransit_days), [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timetransit_days). |
 
 ### DeliveryTransitTimeRule variant 1
 
@@ -31,7 +31,7 @@ Field definitions: [DeliveryEstimateRule variant 1.transit_time.handling_days](.
 
 ### DeliveryTransitTimeRule variant 1.transit_days
 
-Field definitions: [DeliveryEstimateRule variant 1.transit_time.handling_days](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1transit_timehandling_days).
+Field definitions: [DeliveryEstimateRule variant 1.transit_time.transit_days](../models/DeliveryEstimateRule.md#deliveryestimaterule-variant-1transit_timetransit_days).
 
 ### DeliveryTransitTimeRule variant 2.handling_days
 
@@ -39,5 +39,5 @@ Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.estimate
 
 ### DeliveryTransitTimeRule variant 2.transit_days
 
-Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time.handling_days](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timehandling_days).
+Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.estimate.transit_time.transit_days](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimatetransit_timetransit_days).
 

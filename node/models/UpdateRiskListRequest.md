@@ -2,7 +2,7 @@
 
 ## UpdateRiskListRequest
 
-The request body for: Update a risk list.
+The request body for: Update a risk list. minProperties: `1`.
 
 
 

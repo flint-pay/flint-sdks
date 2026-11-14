@@ -8,5 +8,5 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_intent_id` | Required | string |  |
+| `payment_intent_id` | Required | string | ID of the payment intent that needs the buyer's action. |
 

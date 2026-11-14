@@ -2,6 +2,8 @@
 
 ## BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantImage
 
+Primary image of the variant (or its product) or bundle, fixed when the line was added. Omitted on custom lines and when the item has no image.
+
 An image with its URL, size, and alt text.
 
 Response model.

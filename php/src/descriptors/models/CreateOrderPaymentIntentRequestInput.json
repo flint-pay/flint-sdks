@@ -1,1 +1,0 @@
-{"shared":"CreateOrderPaymentIntentRequest","dependencies":["CreateOrderPaymentIntentRequest","MetadataRequest","MoneyValue","OrderPaymentSourceCardSelection","OrderPaymentSourceSelection"]}

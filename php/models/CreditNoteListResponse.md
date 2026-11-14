@@ -33,11 +33,11 @@ Field definitions: [CreditNoteResponse.data.line_items[]](../models/CreditNoteRe
 
 ### CreditNoteListResponse.data[].seller_tax_identity
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.snapshot.seller_tax_identity](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotseller_tax_identity).
+Declared alternatives: [CreditNoteResponse.data.seller_tax_identity](../models/CreditNoteResponse.md#creditnoteresponsedataseller_tax_identity).
 
 ### CreditNoteListResponse.data[].tax_currency_conversions[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot.tax_currency_conversions[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshottax_currency_conversions).
+Field definitions: [CreditNoteResponse.data.tax_currency_conversions[]](../models/CreditNoteResponse.md#creditnoteresponsedatatax_currency_conversions).
 
 ### CreditNoteListResponse.meta
 

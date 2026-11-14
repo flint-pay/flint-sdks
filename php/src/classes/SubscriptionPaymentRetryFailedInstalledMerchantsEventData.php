@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPaymentRetryFailedInstalledMerchantsEventData extends Model {
-    /** @param array{'object': object{'completed_at'?: string, 'created_at': string, 'idempotency_key': string, 'last_payment_error'?: mixed, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'object': object{'completed_at'?: string, 'created_at': string, 'idempotency_key': string, 'last_payment_error'?: mixed, 'order_id'?: string, 'payment_intent_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPaymentRetryFailedInstalledMerchantsEventData')); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return SubscriptionPaymentRetryFailedInstalledMerchantsEventDataObject

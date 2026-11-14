@@ -2,7 +2,7 @@
 
 ## UpdatePaymentIntentRequest
 
-The request body for: Update payment intent.
+The request body for: Update payment intent. minProperties: `1`.
 
 
 

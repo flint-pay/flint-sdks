@@ -11,7 +11,7 @@ namespace Flint;
 final class PartnerAppCredentialWorkloadIdentity extends Model {
     /** @param array{'audience': string, 'claim_conditions': list<mixed>, 'issuer': string, 'platform': string, 'subject': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialWorkloadIdentity')); }
-    /** audience
+    /** The audience (`aud`) a token must carry. Flint's configured issuer URL when no audience was given at creation.
      * @return string
      */
     public function getAudience(): string { return $this->get('audience'); }
@@ -21,7 +21,7 @@ final class PartnerAppCredentialWorkloadIdentity extends Model {
      */
     public function getClaimConditions(): array { return $this->get('claim_conditions'); }
     public function hasClaimConditions(): bool { return $this->has('claim_conditions'); }
-    /** issuer
+    /** Issuer (`iss`) of the external OIDC identity. Compared exactly.
      * @return string
      */
     public function getIssuer(): string { return $this->get('issuer'); }
@@ -31,7 +31,7 @@ final class PartnerAppCredentialWorkloadIdentity extends Model {
      */
     public function getPlatform(): string { return $this->get('platform'); }
     public function hasPlatform(): bool { return $this->has('platform'); }
-    /** subject
+    /** The exact subject (`sub`) a token must carry.
      * @return string
      */
     public function getSubject(): string { return $this->get('subject'); }

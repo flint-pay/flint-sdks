@@ -6,7 +6,6 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read string $current_delivery_profile_revision_id
  * @property-read string $delivery_profile_id
- * @property-read ?DeliveryProfileDiagnostics $diagnostics
  * @property-read ?string $external_reference_id
  * @property-read bool $is_default
  * @property-read ?array<array-key, string> $metadata
@@ -16,9 +15,9 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryProfileCreatedMerchantEventDataObject extends Model {
-    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: mixed, 'external_reference_id'?: string, 'is_default': bool, 'metadata'?: mixed, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'configuration': mixed, 'created_at': string, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'external_reference_id'?: string, 'is_default': bool, 'metadata'?: mixed, 'name': string, 'status': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileCreatedMerchantEventDataObject')); }
-    /** Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
+    /** Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, and grouping and splitting rules.
      * @return DeliveryProfileConfiguration
      */
     public function getConfiguration(): DeliveryProfileConfiguration { return $this->get('configuration'); }
@@ -38,11 +37,6 @@ final class DeliveryProfileCreatedMerchantEventDataObject extends Model {
      */
     public function getDeliveryProfileId(): string { return $this->get('delivery_profile_id'); }
     public function hasDeliveryProfileId(): bool { return $this->has('delivery_profile_id'); }
-    /** Read-only catalog and delivery-method compatibility diagnostics. Read-only coverage checks for a delivery profile, such as how many active Locations have no compatible delivery method and how many countries its zones name.
-     * @return ?DeliveryProfileDiagnostics
-     */
-    public function getDiagnostics(): ?DeliveryProfileDiagnostics { return $this->get('diagnostics'); }
-    public function hasDiagnostics(): bool { return $this->has('diagnostics'); }
     /** Caller-owned identifier for this resource in an external system. maxLength: 255.
      * @return ?string
      */

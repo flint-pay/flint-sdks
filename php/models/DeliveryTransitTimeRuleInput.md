@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `handling_days` | Required | [DeliveryBusinessDayRangeInput](../models/DeliveryBusinessDayRangeInput.md#deliverybusinessdayrangeinput) | A minimum and maximum number of business days, used in transit time estimates. |
-| `transit_days` | Required | [DeliveryBusinessDayRangeInput](../models/DeliveryBusinessDayRangeInput.md#deliverybusinessdayrangeinput) | A minimum and maximum number of business days, used in transit time estimates. |
+| `handling_days` | Required | [DeliveryBusinessDayRangeInput](../models/DeliveryBusinessDayRangeInput.md#deliverybusinessdayrangeinput) | Business days the merchant needs to prepare the order. A minimum and maximum number of business days, used in transit time estimates. |
+| `transit_days` | Required | [DeliveryBusinessDayRangeInput](../models/DeliveryBusinessDayRangeInput.md#deliverybusinessdayrangeinput) | Business days the order spends in transit. A minimum and maximum number of business days, used in transit time estimates. |
 

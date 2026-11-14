@@ -23,7 +23,7 @@ final class CustomersDeleteAddressInput extends Model {
      */
     public function getCustomerAddressId(): string { return $this->get('customer_address_id'); }
     public function hasCustomerAddressId(): bool { return $this->has('customer_address_id'); }
-    /** Optional address version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional address version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

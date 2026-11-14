@@ -16,7 +16,7 @@ final class PromotionsDeleteInput extends Model {
      */
     public function getPromotionId(): string { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

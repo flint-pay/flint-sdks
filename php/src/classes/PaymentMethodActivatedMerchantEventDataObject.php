@@ -34,7 +34,7 @@ final class PaymentMethodActivatedMerchantEventDataObject extends Model {
      */
     public function getCustomer(): ExpandedCustomerSummary|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
-    /** customer_id
+    /** Customer this payment method belongs to.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }

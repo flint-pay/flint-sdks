@@ -2,7 +2,7 @@
 
 ## UpdateInventoryCountRequest
 
-The request body for: Update inventory count.
+The request body for: Update inventory count. minProperties: `1`.
 
 
 

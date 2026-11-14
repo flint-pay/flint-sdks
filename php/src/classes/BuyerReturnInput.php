@@ -23,14 +23,13 @@ namespace Flint;
  * @property-read string $return_number
  * @property-read list<string> $return_resolution_ids
  * @property-read string $status
- * @property-read list<string> $supported_actions
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnInput extends Model {
-    /** @param array{'buyer_actions': list<BuyerActionInput|array<array-key, mixed>|\stdClass>, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_reason'?: string, 'completed_at'?: string|\DateTimeInterface, 'completion_blockers': list<BuyerReturnCompletionBlockerInput|array<array-key, mixed>|\stdClass>, 'completion_mode'?: string, 'created_at': string|\DateTimeInterface, 'decision_at'?: string|\DateTimeInterface, 'decision_status': string, 'financial_summary': ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass, 'handoff_requirements': list<BuyerReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass>, 'initiated_by': string, 'line_items': list<BuyerReturnLineItemInput|array<array-key, mixed>|\stdClass>, 'merchandise_status': string, 'metadata': array<array-key, mixed>|\stdClass, 'order_id': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'return_resolution_ids': list<string>, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'buyer_actions': list<BuyerActionInput|array<array-key, mixed>|\stdClass>, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_reason'?: string, 'completed_at'?: string|\DateTimeInterface, 'completion_blockers': list<BuyerReturnCompletionBlockerInput|array<array-key, mixed>|\stdClass>, 'completion_mode'?: string, 'created_at': string|\DateTimeInterface, 'decision_at'?: string|\DateTimeInterface, 'decision_status': string, 'financial_summary': ReturnFinancialSummaryInput|array<array-key, mixed>|\stdClass, 'handoff_requirements': list<BuyerReturnHandoffRequirementInput|array<array-key, mixed>|\stdClass>, 'initiated_by': string, 'line_items': list<BuyerReturnLineItemInput|array<array-key, mixed>|\stdClass>, 'merchandise_status': string, 'metadata': array<array-key, mixed>|\stdClass, 'order_id': string, 'resolution_status': string, 'return_id': string, 'return_number': string, 'return_resolution_ids': list<string>, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnInput')); }
-    /** What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time; merchant reads and webhooks get an empty list. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Example: []. [] (Value): {@see BuyerActionInput}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
+    /** What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time. Merchant responses and webhooks omit this field. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Example: []. [] (Value): {@see BuyerActionInput}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
      * @return list<BuyerActionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When buyer_actions is omitted; use hasBuyerActions() or valueOrDefault().
      */
@@ -126,7 +125,7 @@ final class BuyerReturnInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed".
      * @return string
      * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
      */
@@ -156,12 +155,6 @@ final class BuyerReturnInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
-     * @return list<string>
-     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

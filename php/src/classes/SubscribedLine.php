@@ -10,12 +10,12 @@ namespace Flint;
 final class SubscribedLine extends Model {
     /** @param array{'billing_interval': string, 'billing_interval_count': int, 'recurring_amount_money'?: mixed, 'subscription_offer_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscribedLine')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the pair must be one of the offer's billing interval options. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32.
+    /** Number of billing_interval units between charges, from 1 to 365. Format: int32.
      * @return int
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
@@ -25,7 +25,7 @@ final class SubscribedLine extends Model {
      */
     public function getRecurringAmountMoney(): ?MoneyValue { return $this->get('recurring_amount_money'); }
     public function hasRecurringAmountMoney(): bool { return $this->has('recurring_amount_money'); }
-    /** subscription_offer_id
+    /** ID of the subscription offer the line was bought under.
      * @return string
      */
     public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }

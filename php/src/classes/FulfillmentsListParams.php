@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read string $order_id
  * @property-read string $customer_id
  * @property-read string $external_reference_id
+ * @property-read string $idempotency_key
  * @property-read string $query
  * @property-read list<string>|string $status
  * @property-read list<string>|string $type
@@ -20,7 +21,7 @@ namespace Flint;
  * @property-read string $sort_direction
  * Presence-aware input; omitted fields throw when accessed. */
 final class FulfillmentsListParams extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'expand'?: list<string>|string, 'order_id'?: string, 'customer_id'?: string, 'external_reference_id'?: string, 'query'?: string, 'status'?: list<string>|string, 'type'?: list<string>|string, 'location_id'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'sort_by'?: string, 'sort_direction'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'expand'?: list<string>|string, 'order_id'?: string, 'customer_id'?: string, 'external_reference_id'?: string, 'idempotency_key'?: string, 'query'?: string, 'status'?: list<string>|string, 'type'?: list<string>|string, 'location_id'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'sort_by'?: string, 'sort_direction'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('FulfillmentsListParams')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -40,13 +41,13 @@ final class FulfillmentsListParams extends Model {
      */
     public function getExpand(): mixed { return $this->get('expand'); }
     public function hasExpand(): bool { return $this->has('expand'); }
-    /** Filter by order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Exact match on customer_id. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Exact match on customer_id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -58,6 +59,12 @@ final class FulfillmentsListParams extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     * @return string
+     * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
+     */
+    public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
+    public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
     /** Search across fulfillment_id and external_reference_id. Also matches an exact order number. Text fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the start and need the type prefix, such as ful_01.
      * @return string
      * @throws SdkError When query is omitted; use hasQuery() or valueOrDefault().
@@ -70,13 +77,13 @@ final class FulfillmentsListParams extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". Value enum: "shipment", "pickup", "local_delivery", "digital", "service". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup", "local_delivery", "digital", "service". anyOf[1][] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service". anyOf[2] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service".
+    /** Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover". Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[1][] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[2] (Value): string.  Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
      * @return list<string>|string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): mixed { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Filter by assigned Location ID. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by assigned Location ID. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

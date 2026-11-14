@@ -63,7 +63,7 @@ final class CreateInvoiceQuickPayRequestInput extends Model {
      */
     public function getRequestedTip(): mixed { return $this->get('requested_tip'); }
     public function hasRequestedTip(): bool { return $this->has('requested_tip'); }
-    /** Tax inputs for the backing order, the same as order creation accepts. Validation errors name fields under quick_pay.tax. Tax settings you supply when creating an order: whether tax is enabled, how it is calculated, and the tax location.
+    /** Tax inputs for the backing order, the same as order creation accepts. Validation errors name fields under quick_pay.tax. Tax settings for a new order: whether tax is enabled, its calculation, location, and exemption selection.
      * @return OrderTaxRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */

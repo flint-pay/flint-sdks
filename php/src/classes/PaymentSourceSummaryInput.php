@@ -9,13 +9,13 @@ namespace Flint;
 final class PaymentSourceSummaryInput extends Model {
     /** @param array{'ach_debit'?: PaymentSourceAchDebitSummaryInput|array<array-key, mixed>|\stdClass, 'card'?: PaymentSourceCardSummaryInput|array<array-key, mixed>|\stdClass, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceSummaryInput')); }
-    /** Display details for a bank account payment source: account type, bank name, and last four digits.
+    /** Bank account details. Present when type is ach_debit. Display details for a bank account payment source: account type, bank name, and last four digits.
      * @return PaymentSourceAchDebitSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When ach_debit is omitted; use hasAchDebit() or valueOrDefault().
      */
     public function getAchDebit(): mixed { return $this->get('ach_debit'); }
     public function hasAchDebit(): bool { return $this->has('ach_debit'); }
-    /** Display details for a card payment source: brand, last four digits, and payment method ID.
+    /** Card details. Present when type is card. Display details for a card payment source: brand, last four digits, and payment method ID.
      * @return PaymentSourceCardSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When card is omitted; use hasCard() or valueOrDefault().
      */

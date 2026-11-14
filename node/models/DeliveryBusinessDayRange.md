@@ -10,8 +10,8 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `maximum` | Required | integer |  |
-| `minimum` | Required | integer |  |
+| `maximum` | Required | integer | Most business days, from `minimum` to 365. |
+| `minimum` | Required | integer | Fewest business days, from 0. |
 
 ### DeliveryBusinessDayRange variant 1
 

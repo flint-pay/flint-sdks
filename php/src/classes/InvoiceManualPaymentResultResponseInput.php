@@ -9,7 +9,7 @@ namespace Flint;
 final class InvoiceManualPaymentResultResponseInput extends Model {
     /** @param array{'data': InvoiceManualPaymentResultInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentResultResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. The recorded or reversed payment and the updated invoice. expected_version on either write fences the invoice; use the returned invoice version for the next write.
+    /** Resource, collection, or operation result returned by this request. The recorded or reversed payment and the updated invoice. expected_invoice_version on create and expected_version on reversal fence the invoice; use the returned invoice version for the next write.
      * @return InvoiceManualPaymentResultInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

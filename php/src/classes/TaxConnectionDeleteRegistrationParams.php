@@ -7,7 +7,7 @@ namespace Flint;
 final class TaxConnectionDeleteRegistrationParams extends Model {
     /** @param array{'expected_version'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TaxConnectionDeleteRegistrationParams')); }
-    /** Registration version last read by the caller. Omit to delete the current registration. Format: uint64. minimum: 1.
+    /** Registration version last read by the caller. Omit to delete the current registration. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

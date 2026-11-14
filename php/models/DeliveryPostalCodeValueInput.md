@@ -9,6 +9,6 @@ Request input.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `country` | Required | string | ISO 3166-1 alpha-2 country code. minLength: `2`. maxLength: `2`. pattern: `^[A-Z]{2}$`. Example: `"US"`. |
-| `type` | Optional | string | Default: `"exact"`. Values: `"exact"`, `"prefix"`. |
-| `value` | Required | string | minLength: `1`. |
+| `type` | Optional | string | Whether `value` is a whole postal code or the start of one. Default: `"exact"`. Values: `"exact"`, `"prefix"`. |
+| `value` | Required | string | The postal code, or the start of postal codes, to match. minLength: `1`. |
 

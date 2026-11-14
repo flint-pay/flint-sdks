@@ -19,10 +19,6 @@ A customer's recurring purchase.
 
 Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedata).
 
-### SubscriptionListResponse.data[].buyer_actions[]
-
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
-
 ### SubscriptionListResponse.data[].cancellation_details
 
 Field definitions: [SubscriptionResponse.data.cancellation_details](../models/SubscriptionResponse.md#subscriptionresponsedatacancellation_details).
@@ -42,6 +38,10 @@ Field definitions: [SubscriptionResponse.data.delivery_hold](../models/Subscript
 ### SubscriptionListResponse.data[].end_after
 
 Declared alternatives: [SubscriptionResponse.data.end_after](../models/SubscriptionResponse.md#subscriptionresponsedataend_after).
+
+### SubscriptionListResponse.data[].gift_recipient
+
+Declared alternatives: [SubscriptionResponse.data.gift_recipient](../models/SubscriptionResponse.md#subscriptionresponsedatagift_recipient).
 
 ### SubscriptionListResponse.data[].inventory_wait
 
