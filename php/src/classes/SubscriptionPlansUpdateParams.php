@@ -41,7 +41,7 @@ final class SubscriptionPlansUpdateParams extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Omission leaves the choices unchanged. Send [] to reset to the plan's default billing interval and count. Null is invalid. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionRequestInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Omission leaves the choices unchanged. Send [] to reset to the plan's default billing interval and count. Null is invalid. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionRequestInput}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans.
      * @return list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
@@ -137,7 +137,7 @@ final class SubscriptionPlansUpdateParams extends Model {
      */
     public function getPlanChangeOptions(): array { return $this->get('plan_change_options'); }
     public function hasPlanChangeOptions(): bool { return $this->has('plan_change_options'); }
-    /** Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+    /** Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems: 1. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 1.
      * @return list<int>
      * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
      */

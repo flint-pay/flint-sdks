@@ -26,7 +26,7 @@ Body model: [CreateCustomerDeletionRequestInput](../models/CreateCustomerDeletio
 
 #### Response
 
-Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestCompletedEventDataObject.md#customerdeletionrequestcompletedeventdataobject).
+Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest).
 
 #### Errors
 
@@ -84,7 +84,7 @@ Signature: `get(string|Model $customer_deletion_request_id, array|Model|null $pa
 
 #### Response
 
-Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestCompletedEventDataObject.md#customerdeletionrequestcompletedeventdataobject).
+Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest).
 
 #### Errors
 
@@ -194,7 +194,7 @@ Field definitions: [shared fields](../models/ResolveCustomerDeletionRequestInput
 
 #### Response
 
-Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequestCompletedEventDataObject.md#customerdeletionrequestcompletedeventdataobject).
+Returned payload: [CustomerDeletionRequest](../models/CustomerDeletionRequest.md#customerdeletionrequest).
 
 #### Errors
 

@@ -1,7 +1,7 @@
-import { d1430 as c0 } from '../descriptors/data/68.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d1430 as d1430 } from '../descriptors/data/68.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d1437 as c0 } from '../descriptors/data/68.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d1437 as d1437 } from '../descriptors/data/68.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1430;
+const read = d1437;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["SaveMePaymentMethodRequest"]:c0()}); }
 export { codec as _validate };

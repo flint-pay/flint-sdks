@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class PromotionCodeArchivedMerchantEventData extends Model {
-    /** @param array{'object': object{'available': bool, 'code': string, 'created_at': string, 'customer_id': string|null, 'expires_at'?: string, 'max_uses'?: int, 'merchant_id': string, 'metadata'?: mixed, 'promotion'?: mixed, 'promotion_code_id': string, 'promotion_id': string, 'status': string, 'timezone'?: string, 'unavailable_reason'?: string, 'updated_at': string, 'uses_count': int, 'version': int}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'object': \stdClass, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodeArchivedMerchantEventData')); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `promotion`.
      * @return PromotionCodeArchivedMerchantEventDataObject

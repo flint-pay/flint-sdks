@@ -32,7 +32,7 @@ namespace Flint;
  * @property-read InvoiceMarkedUncollectibleMerchantEventDataObjectPaymentDueNone|InvoiceMarkedUncollectibleMerchantEventDataObjectPaymentDueDate|InvoiceMarkedUncollectibleMerchantEventDataObjectPaymentDuePaymentTerms|\stdClass $payment_due
  * @property-read ?InvoicePaymentTermsSnapshot $payment_terms_snapshot
  * @property-read string|null $po_number
- * @property-read ?string $public_url
+ * @property-read PricingAmounts $pricing_amounts
  * @property-read string|null $recipient_email
  * @property-read string|null $reference
  * @property-read string $refund_status
@@ -48,7 +48,6 @@ namespace Flint;
  * @property-read string|null $subscription_id
  * @property-read list<string> $supported_actions
  * @property-read ?string $timezone
- * @property-read MoneyValue $total_money
  * @property-read ?string $uncollectible_at
  * @property-read string $updated_at
  * @property-read int $version
@@ -57,7 +56,7 @@ namespace Flint;
  * @property-read MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceMarkedUncollectibleMerchantEventDataObject extends Model {
-    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at': string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'public_url'?: string, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'total_money': mixed, 'uncollectible_at'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, 'written_off_money': mixed, ...}|object $values */
+    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at': string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'pricing_amounts': mixed, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'uncollectible_at'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, 'written_off_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceMarkedUncollectibleMerchantEventDataObject')); }
     /** Additional recipients copied on the invoice email and every reminder. [] (Value): string.
      * @return list<string>
@@ -179,7 +178,7 @@ final class InvoiceMarkedUncollectibleMerchantEventDataObject extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed: total_money + late_fee_money - paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to total_money on a draft. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What is still owed: pricing_amounts.total_money + late_fee_money - paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
@@ -209,11 +208,11 @@ final class InvoiceMarkedUncollectibleMerchantEventDataObject extends Model {
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
-    /** The hosted invoice link where the buyer views and pays the invoice. Present after issue on API reads, except a list filtered by idempotency_key; webhook payloads leave it out. regenerate-public-link replaces it. Anyone with the link can open the invoice, so treat it as a secret.
-     * @return ?string
+    /** The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in late_fee_money. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmounts
      */
-    public function getPublicUrl(): ?string { return $this->get('public_url'); }
-    public function hasPublicUrl(): bool { return $this->has('public_url'); }
+    public function getPricingAmounts(): PricingAmounts { return $this->get('pricing_amounts'); }
+    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset.
      * @return string|null
      */
@@ -264,7 +263,7 @@ final class InvoiceMarkedUncollectibleMerchantEventDataObject extends Model {
      */
     public function getServiceDate(): string|null { return $this->get('service_date'); }
     public function hasServiceDate(): bool { return $this->has('service_date'); }
-    /** The billing content of the invoice: line items, discounts, charges, tip, tax, and totals. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts.
+    /** The billing content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts.
      * @return ?InvoiceSnapshot
      */
     public function getSnapshot(): ?InvoiceSnapshot { return $this->get('snapshot'); }
@@ -289,11 +288,6 @@ final class InvoiceMarkedUncollectibleMerchantEventDataObject extends Model {
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** What the issued invoice bills, equal to snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order total. Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
-    public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice was marked uncollectible. Format: date-time.
      * @return ?string
      */

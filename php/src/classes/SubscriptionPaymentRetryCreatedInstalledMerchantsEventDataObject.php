@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $idempotency_key
  * @property-read ?PaymentErrorSummary $last_payment_error
  * @property-read ?string $order_id
- * @property-read ?string $order_payment_attempt_id
+ * @property-read ?string $payment_intent_id
  * @property-read ?string $started_at
  * @property-read string $status
  * @property-read string $subscription_id
@@ -15,7 +15,7 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPaymentRetryCreatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'completed_at'?: string, 'created_at': string, 'idempotency_key': string, 'last_payment_error'?: mixed, 'order_id'?: string, 'order_payment_attempt_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string, ...}|object $values */
+    /** @param array{'completed_at'?: string, 'created_at': string, 'idempotency_key': string, 'last_payment_error'?: mixed, 'order_id'?: string, 'payment_intent_id'?: string, 'started_at'?: string, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPaymentRetryCreatedInstalledMerchantsEventDataObject')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
@@ -42,11 +42,11 @@ final class SubscriptionPaymentRetryCreatedInstalledMerchantsEventDataObject ext
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** order_payment_attempt_id
+    /** The payment intent this retry started. Omitted before charging begins or when no payment intent was created.
      * @return ?string
      */
-    public function getOrderPaymentAttemptId(): ?string { return $this->get('order_payment_attempt_id'); }
-    public function hasOrderPaymentAttemptId(): bool { return $this->has('order_payment_attempt_id'); }
+    public function getPaymentIntentId(): ?string { return $this->get('payment_intent_id'); }
+    public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return ?string
      */

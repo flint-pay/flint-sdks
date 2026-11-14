@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# OnboardingVerifyEmailResultInput to OrderResponseInput
+# OnboardingProfileRequestInput to OrderPaymentIntentSelectionAttachedInput
 
+- [OnboardingProfileRequestInput](OnboardingProfileRequestInput.md)
+- [OnboardingSessionAuthContextInput](OnboardingSessionAuthContextInput.md)
+- [OnboardingStartRequestInput](OnboardingStartRequestInput.md)
+- [OnboardingStartResponseInput](OnboardingStartResponseInput.md)
+- [OnboardingStartResultInput](OnboardingStartResultInput.md)
+- [OnboardingStateInput](OnboardingStateInput.md)
+- [OnboardingStateResponseInput](OnboardingStateResponseInput.md)
+- [OnboardingVerifyEmailRequestInput](OnboardingVerifyEmailRequestInput.md)
+- [OnboardingVerifyEmailResponseInput](OnboardingVerifyEmailResponseInput.md)
 - [OnboardingVerifyEmailResultInput](OnboardingVerifyEmailResultInput.md)
 - [OrderInput](OrderInput.md)
 - [OrderActivityInput](OrderActivityInput.md)
@@ -93,13 +102,4 @@
 - [OrderPaymentAttemptResponseInput](OrderPaymentAttemptResponseInput.md)
 - [OrderPaymentIntentSelectionInput](OrderPaymentIntentSelectionInput.md)
 - [OrderPaymentIntentSelectionAttachedInput](OrderPaymentIntentSelectionAttachedInput.md)
-- [OrderPaymentIntentSelectionPaymentMethodInput](OrderPaymentIntentSelectionPaymentMethodInput.md)
-- [OrderPaymentIntentSelectionReaderInput](OrderPaymentIntentSelectionReaderInput.md)
-- [OrderPaymentIntentSelectionStripeConfirmationTokenInput](OrderPaymentIntentSelectionStripeConfirmationTokenInput.md)
-- [OrderPaymentIntentSelectionTokenInput](OrderPaymentIntentSelectionTokenInput.md)
-- [OrderPaymentSourceCardSelectionInput](OrderPaymentSourceCardSelectionInput.md)
-- [OrderPaymentSourceSelectionInput](OrderPaymentSourceSelectionInput.md)
-- [OrderRefundedInstalledMerchantsEventInput](OrderRefundedInstalledMerchantsEventInput.md)
-- [OrderRefundedMerchantEventInput](OrderRefundedMerchantEventInput.md)
-- [OrderResponseInput](OrderResponseInput.md)
 

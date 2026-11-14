@@ -17,7 +17,7 @@ What changed, most common first:
 
 ## Unreleased changes after 8.0.0-beta.2
 
-`main` pins Flint `main` at `a29702bf` (API date still `2026-09-07`). The API changes below already apply to every supported API version, so upgrade your calls with the SDK. Field-level request and response changes are listed in the [API changelog](https://developers.withflintpay.com/changelog).
+The unpublished `8.0.0` candidate pins Flint `main` at `a908b3748df508d41b79afcc8b699cf40004e5d5` (API date still `2026-09-07`). The API changes below already apply to every supported API version, so upgrade your calls with the SDK. Field-level request and response changes are listed in the [API changelog](https://developers.withflintpay.com/changelog).
 
 Partner apps:
 - Partner refresh tokens are gone. The code exchange returns a merchant-bound partner app token (900 seconds, no refresh token), and partner apps mint new tokens with `grant_type=client_credentials`. Mint them with `partnerAppTokens(client, { clientAssertion, mode })` (PHP `new Flint\Partner\PartnerAppTokens(...)`). A backend serving many merchants uses `app()` with each call's `Flint-Merchant-Id` param; see the [partner OAuth guide](node/guides/partner-oauth.md). `oauth.exchangeToken` with `grant_type=refresh_token` now returns `unauthorized_client` for partner clients; flint-cli keeps its refresh tokens.
@@ -35,6 +35,16 @@ Moved methods:
 
 Idempotency keys:
 - `invoices.issue` and `orders.createFulfillment` now require your saved `idempotencyKey`. They no longer mint one, and a call without a key fails before sending. Save a key with the action before the first attempt and reuse it on every retry.
+
+### Order payment intents in the 8.0.0 candidate
+
+Replace `orders.createPaymentIntent(orderId, params, options)` with `paymentIntents.create({ order_id: orderId, ...params }, options)`. Checkout credentials use the same method on their own order. The result is the payment intent itself, with `payment_collection` alongside its fields; remove the old `payment_intent` wrapper access.
+
+Customer credit-note PDF calls now use `me.getCreditNotePDF(creditNoteId, params, options)` without an invoice ID.
+
+### Webhook payload fields in the 8.0.0 candidate
+
+Event `data.object` and `data.previous_attributes` now describe the delivered snapshot. Payment intent events omit `processing_fee_money`, `add_on_fees`, `merchant_net_money` and caller-specific `payment_collection` guidance. Checkout events omit caller-specific branding, saved-payment settings and URL fields; invoice events omit `public_url`. Other resource projections also exclude their registered GET-only fields. Their TypeScript properties and PHP webhook getters are removed. Fetch the resource through its GET method when your handler needs those fields. GET resource types and getters retain them.
 
 ## Method and namespace names
 

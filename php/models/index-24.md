@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# ReturnRefundEstimateInput to SettlementAmountsInput
+# ReturnReceiptInput to SavePaymentMethodResponseInput
 
+- [ReturnReceiptInput](ReturnReceiptInput.md)
+- [ReturnReceiptCreatedInstalledMerchantsEventInput](ReturnReceiptCreatedInstalledMerchantsEventInput.md)
+- [ReturnReceiptCreatedMerchantEventInput](ReturnReceiptCreatedMerchantEventInput.md)
+- [ReturnReceiptLineItemInput](ReturnReceiptLineItemInput.md)
+- [ReturnReceiptLineItemInputExcessInput](ReturnReceiptLineItemInputExcessInput.md)
+- [ReturnReceiptLineItemInputMatchedInput](ReturnReceiptLineItemInputMatchedInput.md)
+- [ReturnReceiptLineItemInputUnverifiedInput](ReturnReceiptLineItemInputUnverifiedInput.md)
+- [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
+- [ReturnReceiptSupersededInstalledMerchantsEventInput](ReturnReceiptSupersededInstalledMerchantsEventInput.md)
+- [ReturnReceiptSupersededMerchantEventInput](ReturnReceiptSupersededMerchantEventInput.md)
+- [ReturnReceiptVerifiedInstalledMerchantsEventInput](ReturnReceiptVerifiedInstalledMerchantsEventInput.md)
+- [ReturnReceiptVerifiedMerchantEventInput](ReturnReceiptVerifiedMerchantEventInput.md)
 - [ReturnRefundEstimateInput](ReturnRefundEstimateInput.md)
 - [ReturnRefundTenderEstimateInput](ReturnRefundTenderEstimateInput.md)
 - [ReturnRefundTenderEstimateGiftCardRedemptionInput](ReturnRefundTenderEstimateGiftCardRedemptionInput.md)
@@ -90,16 +102,4 @@
 - [SaveMePaymentMethodRequestInput](SaveMePaymentMethodRequestInput.md)
 - [SavePaymentMethodRequestInput](SavePaymentMethodRequestInput.md)
 - [SavePaymentMethodResponseInput](SavePaymentMethodResponseInput.md)
-- [ScheduleFulfillmentRequestInput](ScheduleFulfillmentRequestInput.md)
-- [ScopeRequirementInput](ScopeRequirementInput.md)
-- [SelectableErrorResourceInput](SelectableErrorResourceInput.md)
-- [SelectableOrderPaymentIntentInput](SelectableOrderPaymentIntentInput.md)
-- [SelectedProductOptionInput](SelectedProductOptionInput.md)
-- [SellerTaxAttestationRequestInput](SellerTaxAttestationRequestInput.md)
-- [SendOrderReceiptRequestInput](SendOrderReceiptRequestInput.md)
-- [SendPaymentIntentReceiptRequestInput](SendPaymentIntentReceiptRequestInput.md)
-- [ServiceFulfillmentDetailsInput](ServiceFulfillmentDetailsInput.md)
-- [SettingsInput](SettingsInput.md)
-- [SettingsResponseInput](SettingsResponseInput.md)
-- [SettlementAmountsInput](SettlementAmountsInput.md)
 

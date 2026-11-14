@@ -205,7 +205,7 @@ final class ReturnResourceInput extends Model {
      */
     public function getPolicyEvaluation(): mixed { return $this->get('policy_evaluation'); }
     public function hasPolicyEvaluation(): bool { return $this->has('policy_evaluation'); }
-    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_fulfilled", "requires_action", "fulfilled", "failed".
+    /** Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed", "requires_action", "completed", "failed".
      * @return string
      * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
      */

@@ -1,1 +1,1 @@
-{"shared":"ModifierGroupArchivedMerchantEvent","dependencies":["MetadataMap","Modifier","ModifierGroup","ModifierGroupArchivedMerchantEvent","MoneyValue","SharedCodec10","SharedCodec1018","SharedCodec1019","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9","TextModifierConfig"]}
+{"shared":"ModifierGroupArchivedMerchantEvent","dependencies":["MetadataMap","Modifier","ModifierGroup","ModifierGroupArchivedMerchantEvent","MoneyValue","SharedCodec10","SharedCodec1022","SharedCodec1023","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9","TextModifierConfig"]}

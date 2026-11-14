@@ -1,7 +1,7 @@
-import { d941 as c0 } from '../descriptors/data/46.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d941 as d941 } from '../descriptors/data/46.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d946 as c0 } from '../descriptors/data/47.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d946 as d946 } from '../descriptors/data/47.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d941;
+const read = d946;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["LookupTicketRequest"]:c0()}); }
 export { codec as _validate };

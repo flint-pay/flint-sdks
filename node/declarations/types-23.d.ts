@@ -1,17 +1,613 @@
+import type { DeliveryZone, DeliveryZoneConfiguration } from './types-22.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateDeviceRequestInput } from './types-9.js';
-import type { UpdateDeviceRequestInput } from './types-66.js';
-import type { ResponseMeta } from './types-54.js';
-import type { Settings, SplitReversalReference, SimulateDisputeRequestInput } from './types-59.js';
-import type { TaxConnection } from './types-64.js';
-import type { PromotionCandidate } from './types-50.js';
-import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-10.js';
+import type { CreateDeliveryZoneRequestInput, CreateDemoSessionRequestInput, CreateDeviceRequestInput } from './types-9.js';
+import type { DeliveryLocationSetsDeleteParams } from './types-18.js';
+import type {
+    DisputesAcceptParams,
+    ExpandedCustomerSummary,
+    ExpandedOrderSummary,
+    ExpandedPaymentIntentSummary
+} from './types-24.js';
+import type { UpdateDeliveryZoneRequestInput, UpdateDeviceRequestInput } from './types-66.js';
+import type { ResponseMeta, ResetDemoSessionRequestInput } from './types-54.js';
+import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
+import type { Settings } from './types-59.js';
+import type { TaxConnection } from './types-65.js';
+import type { PromotionCandidate } from './types-51.js';
+import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-11.js';
 import type { AcceptFulfillmentRequestInput } from './types-0.js';
-import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-24.js';
-import type { MoneyValue } from './types-38.js';
-import type { MerchantWebhookEnvelope } from './types-37.js';
+import type { MoneyValue } from './types-39.js';
+import type { SplitReversalReference } from './types-60.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { LookupEmailPreferencesRequestInput } from './types-35.js';
+/**
+ * The `delivery_zone.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type DeliveryZoneUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.configuration (Required): {@link DeliveryZoneConfiguration}.
+     * Current geographic eligibility conditions. A reusable geographic predicate containing only
+     * country, state, postal_code, and radius conditions. object.created_at (Required): string.
+     * Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.current_delivery_zone_revision_id (Required): string. Immutable revision used for new
+     * quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". object.delivery_zone_id (Required):
+     * string. Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
+     * in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
+     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
+     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.name (Required): string. Merchant-facing zone name.
+     * object.status (Required): string. Current zone lifecycle status. Value enum: "active",
+     * "archived". object.updated_at (Required): string. Time the zone last changed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
+     * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
+     * previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * configuration (Required): {@link DeliveryZoneConfiguration}. Current geographic
+         * eligibility conditions. A reusable geographic predicate containing only country, state,
+         * postal_code, and radius conditions. created_at (Required): string. Time the zone was
+         * created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * current_delivery_zone_revision_id (Required): string. Immutable revision used for new
+         * quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". delivery_zone_id (Required):
+         * string. Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
+         * an external system. maxLength: 255. Example: "warehouse-1842". metadata (Optional):
+         * {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a
+         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+         * limits may not satisfy them. name (Required): string. Merchant-facing zone name. status
+         * (Required): string. Current zone lifecycle status. Value enum: "active", "archived".
+         * updated_at (Required): string. Time the zone last changed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
+         * zone writes. Format: uint64. minimum: 1.
+         */
+        "object": {
+            /**
+             * Current geographic eligibility conditions. A reusable geographic predicate
+             * containing only country, state, postal_code, and radius conditions.
+             */
+            "configuration": DeliveryZoneConfiguration;
+            /** Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Immutable revision used for new quotes. Example:
+             * "dzoner_01KEZF7C00DF2H9VW29JN861K6".
+             */
+            "current_delivery_zone_revision_id": string;
+            /** Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". */
+            "delivery_zone_id": string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /**
+             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
+             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
+             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
+             * not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /** Merchant-facing zone name. */
+            "name": string;
+            /** Current zone lifecycle status. Value enum: "active", "archived". */
+            "status": "active" | "archived" | (string & {});
+            /** Time the zone last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /** Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<DeliveryZone>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "delivery_zone.updated". */
+    "event_type"?: "delivery_zone.updated";
+});
+export type DeliveryZonesCreateParams = (InputValue<CreateDeliveryZoneRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type DeliveryZonesDeleteParams = DeliveryLocationSetsDeleteParams;
+export type DeliveryZonesGetParams = DisputesAcceptParams;
+export type DeliveryZonesListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Search across delivery_zone_id, name, and external_reference_id. Text fields match any part
+     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
+     * start and need the type prefix, such as dzone_01. maxLength: 255.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
+     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
+     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
+     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
+     */
+    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
+    /**
+     * Filter by an active current method that references this resource. pattern:
+     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type DeliveryZonesUpdateParams = (UpdateDeliveryZoneRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** A demo session with its sandbox, API key, and expiry. */
+export type DemoSession = {
+    /** The API key issued for a demo session, with its `secret_key` and the scopes it grants. */
+    "api_key": DemoSessionAPIKey;
+    /**
+     * Unique identifier for this demo session, prefixed `demo_`. Example:
+     * "demo_01KEZF7C001S0675NAS5BPBS0V".
+     */
+    "demo_session_id": string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string;
+    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0". */
+    "sandbox_id": string;
+};
+/** The API key issued for a demo session, with its `secret_key` and the scopes it grants. */
+export type DemoSessionAPIKey = {
+    /**
+     * [] enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
+     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
+     * "accounts.devices.write", "accounts.workload_identities.read",
+     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
+     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
+     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
+     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
+     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
+     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
+     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
+     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
+     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
+     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
+     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
+     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
+     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
+     * "commerce.returns.operations.write", "commerce.returns.policies.write",
+     * "commerce.returns.read", "commerce.returns.reasons.write",
+     * "commerce.returns.resolutions.write", "commerce.returns.write",
+     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
+     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
+     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
+     * "developer.feedback_reports.read", "developer.feedback_reports.write",
+     * "developer.merchant_signups.read", "developer.merchant_signups.write",
+     * "developer.partner_apps.read", "developer.partner_apps.write",
+     * "developer.request_logs.read", "developer.request_logs.self.read",
+     * "developer.resource_timelines.read", "developer.sandboxes.read",
+     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
+     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
+     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
+     * "merchants.profile.read", "merchants.profile.write",
+     * "money_movement.balance_transactions.read", "money_movement.balances.read",
+     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
+     * "money_movement.payout_settings.write", "money_movement.payouts.read",
+     * "money_movement.payouts.write", "money_movement.platform_fees.read",
+     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
+     * "payments.payment_intents.write", "payments.payment_method_domains.read",
+     * "payments.payment_method_domains.write", "payments.payment_methods.read",
+     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
+     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
+     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
+     */
+    "scopes": Array<"accounts.api_keys.read"
+        | "accounts.api_keys.write"
+        | "accounts.devices.read"
+        | "accounts.devices.write"
+        | "accounts.workload_identities.read"
+        | "accounts.workload_identities.write"
+        | "analytics.read"
+        | "checkouts.checkout_sessions.read"
+        | "checkouts.checkout_sessions.write"
+        | "checkouts.payment_links.read"
+        | "checkouts.payment_links.write"
+        | "commerce.bundles.read"
+        | "commerce.bundles.write"
+        | "commerce.catalog.read"
+        | "commerce.catalog.write"
+        | "commerce.credit_notes.read"
+        | "commerce.credit_notes.write"
+        | "commerce.delivery.read"
+        | "commerce.delivery.write"
+        | "commerce.gift_cards.adjustments.write"
+        | "commerce.gift_cards.read"
+        | "commerce.gift_cards.redemptions.write"
+        | "commerce.gift_cards.secrets.write"
+        | "commerce.gift_cards.write"
+        | "commerce.inventory.allocation.write"
+        | "commerce.inventory.policies.write"
+        | "commerce.inventory.read"
+        | "commerce.inventory.write"
+        | "commerce.invoices.read"
+        | "commerce.invoices.write"
+        | "commerce.orders.read"
+        | "commerce.orders.write"
+        | "commerce.products.read"
+        | "commerce.products.write"
+        | "commerce.promotions.read"
+        | "commerce.promotions.write"
+        | "commerce.refunds.read"
+        | "commerce.refunds.tax_overrides.write"
+        | "commerce.refunds.write"
+        | "commerce.returns.operations.write"
+        | "commerce.returns.policies.write"
+        | "commerce.returns.read"
+        | "commerce.returns.reasons.write"
+        | "commerce.returns.resolutions.write"
+        | "commerce.returns.write"
+        | "commerce.subscription_plans.read"
+        | "commerce.subscription_plans.write"
+        | "commerce.subscriptions.read"
+        | "commerce.subscriptions.write"
+        | "commerce.tickets.read"
+        | "commerce.tickets.write"
+        | "customers.read"
+        | "customers.sessions.write"
+        | "customers.write"
+        | "developer.feedback_reports.read"
+        | "developer.feedback_reports.write"
+        | "developer.merchant_signups.read"
+        | "developer.merchant_signups.write"
+        | "developer.partner_apps.read"
+        | "developer.partner_apps.write"
+        | "developer.request_logs.read"
+        | "developer.request_logs.self.read"
+        | "developer.resource_timelines.read"
+        | "developer.sandboxes.read"
+        | "developer.sandboxes.write"
+        | "developer.test_clocks.read"
+        | "developer.test_clocks.write"
+        | "merchant_billing.read"
+        | "merchants.account_sessions.write"
+        | "merchants.locations.read"
+        | "merchants.locations.write"
+        | "merchants.onboarding.read"
+        | "merchants.onboarding.write"
+        | "merchants.profile.read"
+        | "merchants.profile.write"
+        | "money_movement.balance_transactions.read"
+        | "money_movement.balances.read"
+        | "money_movement.payment_splits.read"
+        | "money_movement.payout_settings.read"
+        | "money_movement.payout_settings.write"
+        | "money_movement.payouts.read"
+        | "money_movement.payouts.write"
+        | "money_movement.platform_fees.read"
+        | "payments.disputes.read"
+        | "payments.disputes.write"
+        | "payments.payment_intents.read"
+        | "payments.payment_intents.write"
+        | "payments.payment_method_domains.read"
+        | "payments.payment_method_domains.write"
+        | "payments.payment_methods.read"
+        | "payments.payment_methods.write"
+        | "payments.readers.read"
+        | "payments.readers.write"
+        | "reports.read"
+        | "reports.write"
+        | "risk.controls.write"
+        | "risk.read"
+        | "risk.reviews.write"
+        | "settings.read"
+        | "settings.write"
+        | "webhooks.read"
+        | "webhooks.write"
+        | (string & {})>;
+    "secret_key": string;
+};
+/** A response containing `DemoSession` data. */
+export type DemoSessionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A demo session with its
+     * sandbox, API key, and expiry.
+     */
+    "data": DemoSession;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type DemoSessionsCreateParams = (InputValue<CreateDemoSessionRequestInput> | {
+    "template"?: never;
+})
+    & {
+    /**
+     * Challenge token from Flint's hosted bot check on the page that offers the demo. Flint
+     * identifies the demo client by its IP address.
+     */
+    "Flint-Challenge-Token": InputValue<string>;
+};
+export type DemoSessionsResetParams = (InputValue<ResetDemoSessionRequestInput> | {
+    "template"?: never;
+})
+    & {
+    /**
+     * Challenge token from Flint's hosted bot check on the page that offers the demo. Flint
+     * identifies the demo client by its IP address.
+     */
+    "Flint-Challenge-Token": InputValue<string>;
+};
+/** Takes stock off the origin location and puts it in transit. */
+export type DepartInventoryTransferRequest = {
+    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
+     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
+     * Transfer line this action changes. minLength: 1. Example:
+     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_departed_quantity (Required): integer.
+     * Cumulative quantity that should have departed the origin. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /**
+         * Transfer line this action changes. minLength: 1. Example:
+         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
+         */
+        "inventory_transfer_line_id": string;
+        /**
+         * Cumulative quantity that should have departed the origin. Whole-number quantity;
+         * fractional quantities are not supported. Format: int64. minimum: 0.
+         */
+        "target_departed_quantity": number;
+    }>;
+    /**
+     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
+     * received the command as occurred_at and a null source_system. Where and when an inventory
+     * event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequest;
+};
+/** Takes stock off the origin location and puts it in transit. */
+export type DepartInventoryTransferRequestInput = {
+    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
+     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
+     * Transfer line this action changes. minLength: 1. Example:
+     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_departed_quantity (Required): integer.
+     * Cumulative quantity that should have departed the origin. Whole-number quantity; fractional
+     * quantities are not supported. Format: int64. minimum: 0.
+     */
+    "lines": Array<{
+        /**
+         * Transfer line this action changes. minLength: 1. Example:
+         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
+         */
+        "inventory_transfer_line_id": string;
+        /**
+         * Cumulative quantity that should have departed the origin. Whole-number quantity;
+         * fractional quantities are not supported. Format: int64. minimum: 0.
+         */
+        "target_departed_quantity": number;
+    }>;
+    /**
+     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
+     * received the command as occurred_at and a null source_system. Where and when an inventory
+     * event happened: the source system, external actor, and time.
+     */
+    "provenance"?: InventoryProvenanceRequestInput;
+};
+/**
+ * A device registered to the merchant account by hardware fingerprint, optionally assigned to a
+ * location. Registering a device doesn't take payments; a reader does.
+ */
+export type Device = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** Stable identifier of the device. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". */
+    "device_id": string;
+    /**
+     * Identifier of the physical hardware, compared exactly. Only one active device can hold a
+     * fingerprint. Archiving the device releases it, so the field is omitted on archived devices
+     * and a new device can register the same hardware.
+     */
+    "hardware_fingerprint"?: string;
+    /**
+     * The Location the device is assigned to. Omitted when it has none. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /** The merchant that owns the device. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /**
+     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
+     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+     * Flint and are not returned. Writes follow the limits on MetadataInput and
+     * MetadataPatchInput; maps written before those limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /** Name you gave the device. */
+    "name": string;
+    /** Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Starts at 1 and goes up with each update and on archive. Send it as `expected_version` to
+     * apply an update only if nothing changed. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** A page of `Device` objects. */
+export type DeviceListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * Device}. A device registered to the merchant account by hardware fingerprint, optionally
+     * assigned to a location. Registering a device doesn't take payments; a reader does.
+     */
+    "data": Array<Device>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Device` data. */
+export type DeviceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A device registered to
+     * the merchant account by hardware fingerprint, optionally assigned to a location. Registering
+     * a device doesn't take payments; a reader does.
+     */
+    "data": Device;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 export type DevicesCreateParams = (InputValue<CreateDeviceRequestInput>);
 export type DevicesDeleteParams = {
     /**
@@ -8162,407 +8758,3 @@ export type DisputeWonMerchantEvent = (Exclude<MerchantWebhookEnvelope & object,
     /** Value enum: "dispute.won". */
     "event_type"?: "dispute.won";
 });
-export type DisputesAcceptParams = {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DisputesCreateResponseSessionParams = DisputesAcceptParams;
-export type DisputesGetParams = {
-    /**
-     * Include related objects in the response. Supported expansions: customer, order,
-     * payment_intent. Expansion requires payments.disputes.read plus the read scope for each
-     * expanded resource. Limits: at most 10 unique expand paths per request. [] enum: "customer",
-     * "order", "payment_intent". Value enum: "customer", "order", "payment_intent". anyOf[1]
-     * (Value): Array of string. [] enum: "customer", "order", "payment_intent". anyOf[1][]
-     * (Value): string. Value enum: "customer", "order", "payment_intent". anyOf[2] (Value):
-     * string. Value enum: "customer", "order", "payment_intent".
-     */
-    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DisputesListParams = {
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Optional Flint payment intent ID filter. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R".
-     */
-    "payment_intent_id"?: InputValue<string>;
-    /**
-     * Optional Flint order ID filter. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Optional Flint customer ID filter. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: InputValue<string>;
-    /**
-     * Optional dispute status filter. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other". Value enum:
-     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
-     * "under_review", "won", "lost", "prevented", "other". anyOf[1] (Value): Array of string.
-     * minItems: 1. [] enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[1][] (Value):
-     * string. Value enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other". anyOf[2] (Value):
-     * string. Value enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed",
-     * "needs_response", "under_review", "won", "lost", "prevented", "other".
-     */
-    "status"?: InputValue<("inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other")
-        | readonly ("inquiry_needs_response"
-        | "inquiry_under_review"
-        | "inquiry_closed"
-        | "needs_response"
-        | "under_review"
-        | "won"
-        | "lost"
-        | "prevented"
-        | "other")[]>;
-    /**
-     * Optional normalized dispute reason filter. Values are trimmed and deduplicated in first-seen
-     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
-     * filters are ANDed. [] enum: "fraudulent", "unrecognized", "duplicate",
-     * "product_not_received", "product_not_as_described", "refund_not_processed",
-     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-     * "bank_account_not_found", "other". Value enum: "fraudulent", "unrecognized", "duplicate",
-     * "product_not_received", "product_not_as_described", "refund_not_processed",
-     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-     * "bank_account_not_found", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
-     * "fraudulent", "unrecognized", "duplicate", "product_not_received",
-     * "product_not_as_described", "refund_not_processed", "subscription_canceled", "noncompliant",
-     * "insufficient_funds", "debit_not_authorized", "bank_account_not_found", "other". anyOf[1][]
-     * (Value): string. Value enum: "fraudulent", "unrecognized", "duplicate",
-     * "product_not_received", "product_not_as_described", "refund_not_processed",
-     * "subscription_canceled", "noncompliant", "insufficient_funds", "debit_not_authorized",
-     * "bank_account_not_found", "other". anyOf[2] (Value): string. Value enum: "fraudulent",
-     * "unrecognized", "duplicate", "product_not_received", "product_not_as_described",
-     * "refund_not_processed", "subscription_canceled", "noncompliant", "insufficient_funds",
-     * "debit_not_authorized", "bank_account_not_found", "other".
-     */
-    "reason"?: InputValue<("fraudulent"
-        | "unrecognized"
-        | "duplicate"
-        | "product_not_received"
-        | "product_not_as_described"
-        | "refund_not_processed"
-        | "subscription_canceled"
-        | "noncompliant"
-        | "insufficient_funds"
-        | "debit_not_authorized"
-        | "bank_account_not_found"
-        | "other")
-        | readonly ("fraudulent"
-        | "unrecognized"
-        | "duplicate"
-        | "product_not_received"
-        | "product_not_as_described"
-        | "refund_not_processed"
-        | "subscription_canceled"
-        | "noncompliant"
-        | "insufficient_funds"
-        | "debit_not_authorized"
-        | "bank_account_not_found"
-        | "other")[]>;
-    /**
-     * Optional dispute case type filter. Values are trimmed and deduplicated in first-seen order;
-     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
-     * are ANDed. [] enum: "inquiry", "chargeback", "compliance", "resolution", "block", "other",
-     * "bank_return". Value enum: "inquiry", "chargeback", "compliance", "resolution", "block",
-     * "other", "bank_return". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "inquiry",
-     * "chargeback", "compliance", "resolution", "block", "other", "bank_return". anyOf[1][]
-     * (Value): string. Value enum: "inquiry", "chargeback", "compliance", "resolution", "block",
-     * "other", "bank_return". anyOf[2] (Value): string. Value enum: "inquiry", "chargeback",
-     * "compliance", "resolution", "block", "other", "bank_return".
-     */
-    "case_type"?: InputValue<("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")
-        | readonly ("inquiry" | "chargeback" | "compliance" | "resolution" | "block" | "other" | "bank_return")[]>;
-    /**
-     * Filter by whether a merchant response is needed now. True includes needs_response and
-     * inquiry_needs_response disputes that allow evidence and whose evidence deadline has not
-     * passed; false includes the remaining disputes.
-     */
-    "is_action_required"?: InputValue<boolean>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by dispute_id. Default:
-     * "created_at". Value enum: "created_at", "evidence_due_at", "amount_money".
-     */
-    "sort_by"?: InputValue<"created_at" | "evidence_due_at" | "amount_money">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Inclusive lower bound on evidence_due_at. Format: date-time. Example:
-     * "2026-03-17T14:30:00Z".
-     */
-    "evidence_due_after"?: InputValue<string | globalThis.Date>;
-    /**
-     * Exclusive upper bound on evidence_due_at. Format: date-time. Example:
-     * "2026-03-17T14:30:00Z".
-     */
-    "evidence_due_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Include related objects in the response. Supported expansions: customer, order,
-     * payment_intent. Include the requested related resources using scoped batch reads for this
-     * page. Each relationship requires its existing target read scopes. Expansion changes the
-     * representation without changing pagination tokens. Limits: at most 10 unique expand paths
-     * per request. [] enum: "customer", "order", "payment_intent". Value enum: "customer",
-     * "order", "payment_intent". anyOf[1] (Value): Array of string. [] enum: "customer", "order",
-     * "payment_intent". anyOf[1][] (Value): string. Value enum: "customer", "order",
-     * "payment_intent". anyOf[2] (Value): string. Value enum: "customer", "order",
-     * "payment_intent".
-     */
-    "expand"?: InputValue<("customer" | "order" | "payment_intent") | readonly ("customer" | "order" | "payment_intent")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DisputesSimulateParams = (InputValue<SimulateDisputeRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * A tax identifier printed on documents, with its country, optional region, identifier type, and
- * value. Flint does not verify the value.
- */
-export type DocumentTaxID = {
-    /**
-     * Two-letter ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
-     * Example: "US".
-     */
-    "country": string;
-    /**
-     * Server-generated identity of an existing entry. Omit when adding an entry. minLength: 1.
-     * pattern: ^dti_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dti_01KEZF7C00NS1FDK30F1BE6HPH".
-     */
-    "document_tax_id"?: string;
-    /**
-     * Provider-independent identifier type, for example vat, gst, or ein. This is an open
-     * vocabulary. minLength: 1. maxLength: 64. pattern: ^[a-z][a-z0-9_]*$.
-     */
-    "identifier_type": string;
-    /**
-     * State or province of the country, when the ID applies to one region only. Omitted for IDs
-     * that apply to the whole country. minLength: 1. maxLength: 64.
-     */
-    "region"?: string;
-    /**
-     * Full identifier printed on documents. Not verified by Flint. minLength: 1. maxLength: 255.
-     */
-    "value": string;
-};
-/**
- * A tax identifier printed on documents, with its country, optional region, identifier type, and
- * value. Flint does not verify the value.
- */
-export type DocumentTaxIDRequestInput = DocumentTaxID;
-/** A request to change a customer's email address. */
-export type EmailChangeRequest = {
-    /** Whether both addresses have been confirmed, which completes the change. */
-    "confirmed": boolean;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Whether the code sent to the current address must also be confirmed. `false` for a customer
-     * with no email on file.
-     */
-    "current_email_confirmation_required": boolean;
-    /** ID of the customer whose email is changing. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id": string;
-    /**
-     * Unique identifier for this email change request, prefixed `cecr_`. Example:
-     * "cecr_01KEZF7C00B8VJX4M828K0430H".
-     */
-    "email_change_request_id": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "expires_at": string;
-    /**
-     * Returned only by confirm, to customer sessions that can access cards saved with Flint after
-     * a live email-code sign-in at a Flint-hosted account. Omitted when the previous email had no
-     * saved cards. Never returned to merchant credentials. Value enum: "moved", "kept",
-     * "new_email_has_wallet".
-     */
-    "flint_wallet_outcome"?: "moved" | "kept" | "new_email_has_wallet" | (string & {});
-    /** The address the email is changing to. */
-    "new_email": string;
-};
-/** A response containing `EmailChangeRequest` data. */
-export type EmailChangeRequestResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A request to change a
-     * customer's email address.
-     */
-    "data": EmailChangeRequest;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * An email preference for one address, such as shipping updates or checkout reminders, with
- * whether it is enabled and the matching customer if any.
- */
-export type EmailPreferenceLink = {
-    /**
-     * Flint customer ID when the email belongs to an active customer in this merchant environment.
-     * `null` when the email belongs to a guest. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string | null;
-    /** The email address the preference applies to. */
-    "email": string;
-    /**
-     * The kind of email the preference controls. Value enum: "shipping_updates",
-     * "checkout_reminders".
-     */
-    "email_preference": "shipping_updates" | "checkout_reminders" | (string & {});
-    /** Whether Flint sends this kind of email to the address. */
-    "enabled": boolean;
-};
-/** The request body for: Look up an email preference link; Unsubscribe an email preference link. */
-export type EmailPreferenceLinkRequest = {
-    /** minLength: 1. */
-    "token": string;
-};
-/** The request body for: Look up an email preference link; Unsubscribe an email preference link. */
-export type EmailPreferenceLinkRequestInput = EmailPreferenceLinkRequest;
-/** A response containing `EmailPreferenceLink` data. */
-export type EmailPreferenceLinkResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An email preference for
-     * one address, such as shipping updates or checkout reminders, with whether it is enabled and
-     * the matching customer if any.
-     */
-    "data": EmailPreferenceLink;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type EmailPreferenceLinksLookupParams = (InputValue<EmailPreferenceLinkRequestInput>);
-export type EmailPreferenceLinksUnsubscribeParams = EmailPreferenceLinksLookupParams;
-export type EmailPreferencesLookupParams = (InputValue<LookupEmailPreferencesRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

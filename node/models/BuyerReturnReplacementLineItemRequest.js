@@ -1,8 +1,8 @@
-import { d7285 as c0 } from '../descriptors/data/344.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d7406 as c1, d7407 as c2, d7408 as c3, d7409 as c4 } from '../descriptors/data/351.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d7285 as d7285 } from '../descriptors/data/344.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d7324 as c0 } from '../descriptors/data/349.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d7444 as c1, d7445 as c2, d7446 as c3, d7447 as c4 } from '../descriptors/data/357.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d7324 as d7324 } from '../descriptors/data/349.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7285;
+const read = d7324;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["BuyerReturnReplacementLineItemRequest"]:c0(),["SharedCodec96"]:c1(),["SharedCodec97"]:c2(),["SharedCodec98"]:c3(),["SharedCodec99"]:c4()}); }
 export { codec as _validate };

@@ -1,26 +1,33 @@
-import type { InventoryBackorderPolicyRequest } from './types-28.js';
-import type { MetadataMap, MerchantSignupOwner, MerchantSignupOwnerRequestInput } from './types-37.js';
-import type { CreateInventoryBackorderPolicyRequestInput, CreateInlineModifierGroupRequestInput } from './types-9.js';
 import type {
-    MetadataRequestInput,
-    MoneyValue,
-    MoneyValueInput,
-    ModifierOverride,
-    ModifierOverrideRequestInput
-} from './types-38.js';
-import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-29.js';
+    InventoryAdjustmentConditionChangeLineRequestInput,
+    InventoryAdjustmentSetLineRequest,
+    InventoryAdjustmentSetLineRequestInput,
+    InventoryAdjustmentQuantityLineRequest,
+    InventoryAdjustmentQuantityLineRequestInput,
+    InventoryAllocationConfigurationValue,
+    InventoryAllocationPolicyConfigurationRequestInput,
+    InventoryBackorderPolicyRequest
+} from './types-28.js';
 import type {
-    InventorySourceSystemRequest,
     InventorySourceSystemRequestInput,
+    InventorySourceSystemRequest,
     InventoryReservationOwnerRequest,
     InventoryRoutingDemand,
     InventoryRoutingSourceRequest,
     InventoryReservationOwnerRequestInput,
     InventoryRoutingDemandInput,
-    InventoryRoutingSourceRequestInput,
-    InventoryTransferLineRequest,
-    InventoryTransferLineRequestInput
+    InventoryRoutingSourceRequestInput
 } from './types-30.js';
+import type { CreateInventoryAdjustmentConditionChangeRequest, CreateInlineModifierGroupRequestInput } from './types-9.js';
+import type { MetadataMap, MetadataRequestInput, ModifierOverride, ModifierOverrideRequestInput } from './types-38.js';
+import type { InventoryReceiptLineRequest, InventoryReceiptLineRequestInput } from './types-29.js';
+import type {
+    InventoryTransferLineRequest,
+    InventoryTransferLineRequestInput,
+    InvoiceCollectionRequest,
+    InvoiceCollectionRequestInput
+} from './types-31.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { InvoiceLateFeePolicy, InvoiceLateFeePolicyRequestInput } from './types-32.js';
 import type {
     InvoicePaymentTermCalculation,
@@ -28,29 +35,468 @@ import type {
     InvoicePaymentDueRequest,
     InvoicePaymentDueRequestInput
 } from './types-33.js';
-import type { CreateOrderLineItemRequest, CreateOrderTip, CreateOrderLineItemRequestInput, CreateOrderTipInput } from './types-11.js';
-import type { OrderDeliveryDestinationRequest, OrderDeliveryDestinationRequestInput } from './types-39.js';
-import type { OrderTaxRequest } from './types-41.js';
-import type { OrderTaxRequestInput } from './types-42.js';
-import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { InvoiceCollectionRequest, InvoiceCollectionRequestInput } from './types-31.js';
-import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-34.js';
 import type {
-    LocationCoordinate,
-    LocationCoordinateRequestInput,
-    ManualDiscountRequest,
-    ManualDiscountRequestInput
-} from './types-35.js';
-import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-5.js';
-import type { CreateSubscriptionPreviewRequestDeliveryOptions, CreateSubscriptionPreviewRequestNextRenewal } from './types-13.js';
-import type { SubscriptionDeliveryDestinationRequestInput } from './types-60.js';
-import type { SubscriptionDeliveryRequestInput } from './types-61.js';
-import type { SubscriptionQuantityChangeLineItemRequest } from './types-62.js';
-import type { SubscriptionQuantityChangeLineItemRequestInput } from './types-63.js';
+    CreateOrderDiscount,
+    CreateOrderLineItemRequest,
+    CreateOrderTip,
+    CreateOrderDiscountInput,
+    CreateOrderLineItemRequestInput,
+    CreateOrderTipInput
+} from './types-11.js';
+import type { OrderDeliveryDestinationRequest, OrderDeliveryDestinationRequestInput } from './types-40.js';
+import type { OrderTaxRequest, OrderTaxRequestInput } from './types-42.js';
+import type { AddressRequest, AddressRequestInput } from './types-0.js';
+import type { InvoiceScheduleEntryWrite, InvoiceScheduleEntryWriteInput } from './types-34.js';
+import type { LocationCoordinate, LocationCoordinateRequestInput } from './types-35.js';
+import type { CheckoutRedirects, CheckoutRedirectsRequestInput } from './types-6.js';
+import type {
+    SubscriptionServiceLocationRequest,
+    SubscriptionSwapPreviewRequest,
+    SubscriptionSwapPreviewRequestInput,
+    SubscriptionQuantityChangeLineItemRequest,
+    SubscriptionQuantityChangeLineItemRequestInput
+} from './types-63.js';
+import type {
+    SubscriptionDeliveryDestinationRequestInput,
+    SubscriptionDeliveryRequest,
+    SubscriptionDeliveryRequestInput
+} from './types-61.js';
+import type { MerchantSignupOwner, MerchantSignupOwnerRequestInput } from './types-37.js';
 import type { TextModifierConfigRequest } from './types-65.js';
-import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
-import type { OrderEditRemovalRequest, OrderEditRemovalRequestInput } from './types-40.js';
-import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput } from './types-52.js';
+/** The `condition_changed` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentConditionChangeRequestInput = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentConditionChangeLineRequestInput}. One
+     * line of an inventory condition change: moves a `quantity` of an item at a Location from one
+     * condition to another.
+     */
+    "lines": Array<InventoryAdjustmentConditionChangeLineRequestInput>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Why the stock changed. It decides which fields each line takes. Value enum:
+     * "condition_changed".
+     */
+    "reason": "condition_changed";
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+});
+/** The `correction` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentCorrectionRequest = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequest}. One line of an
+     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
+     * quantities stay unchanged.
+     */
+    "lines": Array<InventoryAdjustmentSetLineRequest>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     * pattern: \S.
+     */
+    "note": string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "correction". */
+    "reason": "correction" | (string & {});
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequest;
+})
+    & (({
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
+     * string. Value enum: "pos", "wms", "erp", "other".
+     */
+    "source_system": null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "pos", "wms", "erp", "other". */
+        "type": "pos" | "wms" | "erp" | "other" | (string & {});
+        "external_source_id": unknown;
+    });
+})
+    | ({
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
+     * any.
+     */
+    "lines"?: unknown;
+})
+    | (Record<string, unknown>));
+/** The `correction` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentCorrectionRequestInput = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequestInput}. One line of an
+     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
+     * quantities stay unchanged.
+     */
+    "lines": Array<InventoryAdjustmentSetLineRequestInput>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     * pattern: \S.
+     */
+    "note": string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "correction". */
+    "reason": "correction";
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+})
+    & (({
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
+     * string. Value enum: "pos", "wms", "erp", "other".
+     */
+    "source_system": null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "pos", "wms", "erp", "other". */
+        "type": "pos" | "wms" | "erp" | "other";
+        "external_source_id": unknown;
+    });
+})
+    | ({
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
+     * any.
+     */
+    "lines"?: unknown;
+}));
+/** The `counted` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentCountedRequest = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequest}. One line of an
+     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
+     * quantities stay unchanged.
+     */
+    "lines": Array<InventoryAdjustmentSetLineRequest>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "counted". */
+    "reason": "counted" | (string & {});
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequest;
+})
+    & (({
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
+     * string. Value enum: "pos", "wms", "erp", "other".
+     */
+    "source_system": null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "pos", "wms", "erp", "other". */
+        "type": "pos" | "wms" | "erp" | "other" | (string & {});
+        "external_source_id": unknown;
+    });
+})
+    | ({
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
+     * any.
+     */
+    "lines"?: unknown;
+})
+    | (Record<string, unknown>));
+/** The `counted` variant of `CreateInventoryAdjustmentRequest`. */
+export type CreateInventoryAdjustmentCountedRequestInput = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequestInput}. One line of an
+     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
+     * quantities stay unchanged.
+     */
+    "lines": Array<InventoryAdjustmentSetLineRequestInput>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /** Why the stock changed. It decides which fields each line takes. Value enum: "counted". */
+    "reason": "counted";
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+})
+    & (({
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
+     * string. Value enum: "pos", "wms", "erp", "other".
+     */
+    "source_system": null
+        | boolean
+        | number
+        | string
+        | unknown[]
+        | ({
+        /** Value enum: "pos", "wms", "erp", "other". */
+        "type": "pos" | "wms" | "erp" | "other";
+        "external_source_id": unknown;
+    });
+})
+    | ({
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
+     * any.
+     */
+    "lines"?: unknown;
+}));
+/**
+ * The `loss` variant of `CreateInventoryAdjustmentRequest`. The `received` variant of
+ * `CreateInventoryAdjustmentRequest`. The `returned` variant of
+ * `CreateInventoryAdjustmentRequest`. The `sold` variant of `CreateInventoryAdjustmentRequest`.
+ * The `theft` variant of `CreateInventoryAdjustmentRequest`.
+ */
+export type CreateInventoryAdjustmentQuantityRequest = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentQuantityLineRequest}. One line of an
+     * inventory quantity adjustment: a `quantity` of an item at a Location, in the given
+     * `condition`.
+     */
+    "lines": Array<InventoryAdjustmentQuantityLineRequest>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string;
+    /**
+     * Why the stock changed. It decides which fields each line takes. Value enum: "received",
+     * "returned", "sold", "theft", "loss".
+     */
+    "reason": "received" | "returned" | "sold" | "theft" | "loss" | (string & {});
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequest;
+});
+/**
+ * The `loss` variant of `CreateInventoryAdjustmentRequest`. The `received` variant of
+ * `CreateInventoryAdjustmentRequest`. The `returned` variant of
+ * `CreateInventoryAdjustmentRequest`. The `sold` variant of `CreateInventoryAdjustmentRequest`.
+ * The `theft` variant of `CreateInventoryAdjustmentRequest`.
+ */
+export type CreateInventoryAdjustmentQuantityRequestInput = ({
+    /**
+     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_actor_id"?: string;
+    /**
+     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
+     * maxItems: 100. [] (Value): {@link InventoryAdjustmentQuantityLineRequestInput}. One line of
+     * an inventory quantity adjustment: a `quantity` of an item at a Location, in the given
+     * `condition`.
+     */
+    "lines": Array<InventoryAdjustmentQuantityLineRequestInput>;
+    /**
+     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
+     */
+    "note"?: string;
+    /**
+     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
+     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "occurred_at"?: string | globalThis.Date;
+    /**
+     * Why the stock changed. It decides which fields each line takes. Value enum: "received",
+     * "returned", "sold", "theft", "loss".
+     */
+    "reason": "received" | "returned" | "sold" | "theft" | "loss";
+    /**
+     * System the change came from, such as a point-of-sale or warehouse system. The source system
+     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
+     * identifier when it applies.
+     */
+    "source_system"?: InventorySourceSystemRequestInput;
+});
+/** The request body for: Create inventory adjustment. */
+export type CreateInventoryAdjustmentRequest = ((CreateInventoryAdjustmentQuantityRequest)
+    | (CreateInventoryAdjustmentConditionChangeRequest)
+    | (CreateInventoryAdjustmentCountedRequest)
+    | (CreateInventoryAdjustmentCorrectionRequest)
+    | (Record<string, unknown>));
+/** The request body for: Create inventory adjustment. */
+export type CreateInventoryAdjustmentRequestInput = ((CreateInventoryAdjustmentQuantityRequestInput)
+    | (CreateInventoryAdjustmentConditionChangeRequestInput)
+    | (CreateInventoryAdjustmentCountedRequestInput)
+    | (CreateInventoryAdjustmentCorrectionRequestInput));
+/** The request body for: Create inventory allocation policy. */
+export type CreateInventoryAllocationPolicyRequest = {
+    /**
+     * Routing rules: ranked groups of Locations, whether demand can be split, and the most
+     * Locations one assignment may use. Routing rules for an inventory allocation policy: ranked
+     * groups of Locations, whether demand can be split, and how many Locations one assignment may
+     * use.
+     */
+    "configuration": InventoryAllocationConfigurationValue;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Merchant-facing policy name. minLength: 1. */
+    "name": string;
+    /**
+     * Status the allocation policy starts in. Defaults to `active`. Default: "active". Value enum:
+     * "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+};
+/** The request body for: Create inventory allocation policy. */
+export type CreateInventoryAllocationPolicyRequestInput = {
+    /**
+     * Routing rules: ranked groups of Locations, whether demand can be split, and the most
+     * Locations one assignment may use. Routing rules for an inventory allocation policy: ranked
+     * groups of Locations, whether demand can be split, and how many Locations one assignment may
+     * use.
+     */
+    "configuration": InventoryAllocationPolicyConfigurationRequestInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Merchant-facing policy name. minLength: 1. */
+    "name": string;
+    /**
+     * Status the allocation policy starts in. Defaults to `active`. Default: "active". Value enum:
+     * "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+};
+/** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
+export type CreateInventoryBackorderPolicyRequestInput = {
+    /** Whether this inventory item allows backorders. Default: false. */
+    "enabled"?: boolean;
+    /**
+     * Expected shipping date. Send null to clear it. Format: date. minLength: 1. pattern:
+     * ^[0-9]{4}-[0-9]{2}-[0-9]{2}$. Example: "2026-08-02".
+     */
+    "expected_ship_date"?: string | null;
+    /**
+     * Maximum units on backorder across the item's levels. Send null for no cap. Format: int64.
+     * minimum: 1. maximum: 9007199254740991.
+     */
+    "limit_quantity"?: number | null;
+};
 /** The request body for: Create inventory count. */
 export type CreateInventoryCountRequest = {
     /**
@@ -327,7 +773,7 @@ export type CreateInvoiceManualPaymentRequest = {
      */
     "amount_money": MoneyValue;
     /** Expected version of the invoice. Format: int64. minimum: 1. */
-    "expected_version"?: number;
+    "expected_invoice_version"?: number;
     /** Note about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096. */
     "note"?: string;
     /**
@@ -350,7 +796,7 @@ export type CreateInvoiceManualPaymentRequestInput = {
      */
     "amount_money": MoneyValueInput;
     /** Expected version of the invoice. Format: int64. minimum: 1. */
-    "expected_version"?: number;
+    "expected_invoice_version"?: number;
     /** Note about the offline payment, up to 4096 characters. minLength: 1. maxLength: 4096. */
     "note"?: string;
     /**
@@ -1252,8 +1698,10 @@ export type CreateLocationRequest = {
     "coordinate"?: LocationCoordinate;
     /**
      * Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if
-     * you got it by geocoding the address. Required with `coordinate`, and rejected without it.
-     * `null` is the same as omitting the field. Value enum: "merchant_supplied", "geocoded", null.
+     * you got it by geocoding the address. Send it with `coordinate`: it is required when
+     * `coordinate` is present and rejected when `coordinate` is absent. `null` counts as omitted,
+     * so it is accepted only when `coordinate` is also omitted. Value enum: "merchant_supplied",
+     * "geocoded", null.
      */
     "coordinate_source"?: "merchant_supplied" | "geocoded" | null | (string & {}) | null;
     /**
@@ -1303,8 +1751,10 @@ export type CreateLocationRequestInput = {
     "coordinate"?: LocationCoordinateRequestInput;
     /**
      * Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if
-     * you got it by geocoding the address. Required with `coordinate`, and rejected without it.
-     * `null` is the same as omitting the field. Value enum: "merchant_supplied", "geocoded", null.
+     * you got it by geocoding the address. Send it with `coordinate`: it is required when
+     * `coordinate` is present and rejected when `coordinate` is absent. `null` counts as omitted,
+     * so it is accepted only when `coordinate` is also omitted. Value enum: "merchant_supplied",
+     * "geocoded", null.
      */
     "coordinate_source"?: "merchant_supplied" | "geocoded" | null;
     /**
@@ -1839,18 +2289,33 @@ export type CreateMeCheckoutSessionReturnResolutionInput = ({
     "invoice_schedule_entry_id"?: never;
 })));
 /** The request body for: Preview subscription. */
-export type CreateMeSubscriptionPreviewRequest = ((CreateSubscriptionPreviewRequestDeliveryOptions)
-    | (CreateSubscriptionPreviewRequestNextRenewal)
+export type CreateMeSubscriptionPreviewRequest = ((CreateMeSubscriptionPreviewRequestDeliveryOptions)
+    | (CreateMeSubscriptionPreviewRequestNextRenewal)
     | (CreateMeSubscriptionPreviewRequestPlanChange)
     | (CreateMeSubscriptionPreviewRequestQuantityChange)
     | (Record<string, unknown>));
+/** The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`. */
+export type CreateMeSubscriptionPreviewRequestDeliveryOptions = {
+    /**
+     * Address to evaluate each method against: one of the customer's saved addresses or a new
+     * address. Where to deliver a subscription: a saved customer address by ID, or a new address.
+     */
+    "destination"?: SubscriptionServiceLocationRequest;
+    /** Selects the delivery options preview. Value enum: "delivery_options". */
+    "mode": "delivery_options" | (string & {});
+    /**
+     * ID of the subscription to list delivery methods for. minLength: 1. pattern:
+     * ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+};
 /** The `delivery_options` variant of `CreateMeSubscriptionPreviewRequest`. */
 export type CreateMeSubscriptionPreviewRequestDeliveryOptionsInput = {
     /**
      * Address to evaluate each method against: one of the customer's saved addresses or a new
      * address. Where to deliver a subscription: a saved customer address by ID, or a new address.
      */
-    "destination": SubscriptionDeliveryDestinationRequestInput;
+    "destination"?: SubscriptionDeliveryDestinationRequestInput;
     /** Selects the delivery options preview. Value enum: "delivery_options". */
     "mode": "delivery_options";
     /**
@@ -1865,7 +2330,27 @@ export type CreateMeSubscriptionPreviewRequestInput = ((CreateMeSubscriptionPrev
     | (CreateMeSubscriptionPreviewRequestPlanChangeInput)
     | (CreateMeSubscriptionPreviewRequestQuantityChangeInput));
 /** The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`. */
-export type CreateMeSubscriptionPreviewRequestNextRenewalInput = {
+export type CreateMeSubscriptionPreviewRequestNextRenewal = ({
+    /**
+     * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
+     * paid renewal as if this delivery were saved. A held delivery with
+     * remaining_prepaid_deliveries greater than zero is already paid: fixing it charges nothing,
+     * while this preview still prices the next paid cycle. Nothing is saved, no stock is reserved,
+     * and no rate is guaranteed. Refusals match PATCH. The delivery preference to set on a
+     * subscription: delivery method, type, destination, and recipient.
+     */
+    "delivery"?: SubscriptionDeliveryRequest;
+    /** Value enum: "next_renewal". */
+    "mode": "next_renewal" | (string & {});
+    /**
+     * minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     */
+    "subscription_id": string;
+    "swap"?: SubscriptionSwapPreviewRequest;
+});
+/** The `next_renewal` variant of `CreateMeSubscriptionPreviewRequest`. */
+export type CreateMeSubscriptionPreviewRequestNextRenewalInput = ({
     /**
      * Proposed complete delivery preference, as accepted by subscription PATCH. Prices the next
      * paid renewal as if this delivery were saved. A held delivery with
@@ -1882,7 +2367,13 @@ export type CreateMeSubscriptionPreviewRequestNextRenewalInput = {
      * "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      */
     "subscription_id": string;
-};
+    "swap"?: SubscriptionSwapPreviewRequestInput;
+})
+    & ({
+    "swap"?: never;
+} | {
+    "delivery"?: never;
+});
 /** The `plan_change` variant of `CreateMeSubscriptionPreviewRequest`. */
 export type CreateMeSubscriptionPreviewRequestPlanChange = ({
     /**
@@ -1899,8 +2390,9 @@ export type CreateMeSubscriptionPreviewRequestPlanChange = ({
     /** The subscription change to preview. Value enum: "plan_change". */
     "mode": "plan_change" | (string & {});
     /**
-     * Omit to keep the current subscription quantity. The target plan must offer the quantity.
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
+     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
+     * line_items for multiple units. Whole-number quantity; fractional quantities are not
+     * supported. minimum: 1. maximum: 1.
      */
     "quantity"?: number;
     /**
@@ -1930,8 +2422,9 @@ export type CreateMeSubscriptionPreviewRequestPlanChangeInput = ({
     /** The subscription change to preview. Value enum: "plan_change". */
     "mode": "plan_change";
     /**
-     * Omit to keep the current subscription quantity. The target plan must offer the quantity.
-     * Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
+     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
+     * line_items for multiple units. Whole-number quantity; fractional quantities are not
+     * supported. minimum: 1. maximum: 1.
      */
     "quantity"?: number;
     /**
@@ -2577,470 +3070,4 @@ export type CreateModifierSetGroupInputInlineInput = ({
 })
     & ({
     "modifier_group_id"?: never;
-}));
-/**
- * A modifier group to add to a modifier set, either an existing group by ID or one defined inline,
- * chosen by `source`.
- */
-export type CreateModifierSetGroupRequest = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group"?: CreateModifierGroupRequest;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
-     * overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverride>;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing", "inline".
-     */
-    "source": "existing" | "inline" | (string & {});
-})
-    & ((Exclude<CreateModifierSetGroupInputExisting & object, readonly unknown[]>)
-    | (Exclude<CreateModifierSetGroupInputInline & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A modifier group to add to a modifier set, either an existing group by ID or one defined inline,
- * chosen by `source`.
- */
-export type CreateModifierSetGroupRequestInput = ({
-    /**
-     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
-     * maxLength: 255.
-     */
-    "display_name"?: string;
-    /**
-     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; if neither value is set, there is no limit. Format: int32.
-     */
-    "max_selected"?: number;
-    /**
-     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
-     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
-     * the minimum is 0. Format: int32.
-     */
-    "min_selected"?: number;
-    /**
-     * Modifier group owned by this set when source is inline. Read this group through GET
-     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
-     * defined inline when creating a modifier set, with its selection limits, modifiers or text
-     * rules, and display flags.
-     */
-    "modifier_group"?: CreateInlineModifierGroupRequestInput;
-    /**
-     * Identifier of the independent modifier group referenced when source is existing. minLength:
-     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
-     */
-    "modifier_group_id"?: string;
-    /**
-     * Overrides for individual list modifiers in this set. A choice is offered only when its
-     * status is active and its override's available is not false. [] (Value): {@link
-     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
-     * set group, overriding the modifier group's own values.
-     */
-    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
-    /** Display position of this group within the set; lower values appear first. Format: int32. */
-    "position"?: number;
-    /**
-     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
-     * only for text groups; for a list group, set min_selected: 1 to require a selection.
-     */
-    "required"?: boolean;
-    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
-    "show_on_fulfillment"?: boolean;
-    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
-    "show_on_receipt"?: boolean;
-    /**
-     * Use inline for a modifier group owned by this modifier set, or existing to reference an
-     * independent modifier group. Value enum: "existing", "inline".
-     */
-    "source": "existing" | "inline";
-})
-    & ((Exclude<CreateModifierSetGroupInputExistingInput & object, readonly unknown[]>)
-    | (Exclude<CreateModifierSetGroupInputInlineInput & object, readonly unknown[]>));
-/** The request body for: Create modifier set. */
-export type CreateModifierSetRequest = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Ordered group entries in this set, including references to reusable groups and groups owned
-     * by the set. [] (Value): {@link CreateModifierSetGroupRequest}. A modifier group to add to a
-     * modifier set, either an existing group by ID or one defined inline, chosen by `source`.
-     */
-    "modifier_groups"?: Array<CreateModifierSetGroupRequest>;
-    /** Name used to identify this modifier set. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
-     * sets remain readable and cannot be edited. Default: "active". Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/** The request body for: Create modifier set. */
-export type CreateModifierSetRequestInput = {
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Ordered group entries in this set, including references to reusable groups and groups owned
-     * by the set. [] (Value): {@link CreateModifierSetGroupRequestInput}. A modifier group to add
-     * to a modifier set, either an existing group by ID or one defined inline, chosen by `source`.
-     */
-    "modifier_groups"?: Array<CreateModifierSetGroupRequestInput>;
-    /** Name used to identify this modifier set. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
-     * sets remain readable and cannot be edited. Default: "active". Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive";
-};
-/**
- * Where Flint's hosted onboarding page sends the person when they exit, finish, or open a used or
- * expired link.
- */
-export type CreateOnboardingAccessLinkRequest = {
-    /**
-     * An absolute https URL without credentials, up to 2,048 characters. Query strings and
-     * fragments are allowed. For a partner app install token, its origin must be the origin of the
-     * app's merchant_action_url or of one of its redirect URIs. Format: uri. minLength: 1.
-     * maxLength: 2048. Example: "https://example.com/receipt".
-     */
-    "return_url": string;
-};
-/**
- * Where Flint's hosted onboarding page sends the person when they exit, finish, or open a used or
- * expired link.
- */
-export type CreateOnboardingAccessLinkRequestInput = CreateOnboardingAccessLinkRequest;
-/**
- * A discount to apply when creating an order: either a manual discount or a reference to a
- * promotion.
- */
-export type CreateOrderDiscount = ({
-    /**
-     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual"?: ManualDiscountRequest;
-    /**
-     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
-     * ID.
-     */
-    "promotion"?: PromotionRefRequest;
-})
-    & ((Exclude<CreateOrderDiscountPromotion & object, readonly unknown[]>)
-    | (Exclude<CreateOrderDiscountManual & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * A discount to apply when creating an order: either a manual discount or a reference to a
- * promotion.
- */
-export type CreateOrderDiscountInput = ({
-    /**
-     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual"?: ManualDiscountRequestInput;
-    /**
-     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
-     * ID.
-     */
-    "promotion"?: PromotionRefRequestInput;
-})
-    & ((Exclude<CreateOrderDiscountPromotionInput & object, readonly unknown[]>)
-    | (Exclude<CreateOrderDiscountManualInput & object, readonly unknown[]>));
-/** The `Manual` variant of `CreateOrderDiscount`. */
-export type CreateOrderDiscountManual = ({
-    /**
-     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual": ManualDiscountRequest;
-    /**
-     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
-     * ID.
-     */
-    "promotion"?: PromotionRefRequest;
-});
-/** The `Manual` variant of `CreateOrderDiscount`. */
-export type CreateOrderDiscountManualInput = ({
-    /**
-     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual": ManualDiscountRequestInput;
-    /**
-     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
-     * ID.
-     */
-    "promotion"?: PromotionRefRequestInput;
-})
-    & (({
-    "promotion"?: never;
-}));
-/** The `Promotion` variant of `CreateOrderDiscount`. */
-export type CreateOrderDiscountPromotion = ({
-    /**
-     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual"?: ManualDiscountRequest;
-    /**
-     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
-     * ID.
-     */
-    "promotion": PromotionRefRequest;
-});
-/** The `Promotion` variant of `CreateOrderDiscount`. */
-export type CreateOrderDiscountPromotionInput = ({
-    /**
-     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
-     * order, with a name, an amount, and the order, line items, or charges it applies to.
-     */
-    "manual"?: ManualDiscountRequestInput;
-    /**
-     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
-     * ID.
-     */
-    "promotion": PromotionRefRequestInput;
-})
-    & (({
-    "manual"?: never;
-}));
-/**
- * Remove unassigned units from a paid order, add items the removed value and released charges pay
- * for, or do both, and queue any remaining refund atomically.
- */
-export type CreateOrderEditRequest = ({
-    /**
-     * Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items.
-     * Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines
-     * are priced and taxed as usual, without promotions, and do not join the order's delivery
-     * selection. minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequest}. A
-     * line item to add to an order: a catalog variant, a bundle, or a custom item with a name and
-     * unit price.
-     */
-    "add_line_items"?: Array<CreateOrderLineItemRequest>;
-    /**
-     * Charges to release. Released value pays for added lines first and the rest is refunded.
-     * Omitting amount_money releases the charge's remaining refundable amount. maxItems: 100. []
-     * (Value): {@link RefundCharge}. An order charge to refund when creating a refund, with an
-     * optional amount to refund.
-     */
-    "charge_refunds"?: Array<RefundCharge>;
-    /**
-     * Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations
-     * for payment intent and gift card redemption allocations planned by Flint. Each tender type
-     * defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinations;
-    /**
-     * The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch
-     * the order, preview again, and reconcile before committing with the new version and a new
-     * Idempotency-Key. Format: int64. minimum: 1.
-     */
-    "expected_order_version": number;
-    /**
-     * Internal merchant note. Omitted from buyer and webhook payloads and refund messages.
-     * minLength: 1. maxLength: 500.
-     */
-    "note"?: string;
-    /**
-     * Reason for the edit and any refund it creates. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock"
-        | (string & {});
-    /**
-     * Whole unassigned units to remove. Each line appears once. Original quantities and pricing
-     * stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100.
-     * [] (Value): {@link OrderEditRemovalRequest}. An order line and the whole units to take off
-     * it.
-     */
-    "remove_line_items"?: Array<OrderEditRemovalRequest>;
-})
-    & (({
-    /**
-     * Whole unassigned units to remove. Each line appears once. Original quantities and pricing
-     * stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100.
-     * [] (Value): {@link OrderEditRemovalRequest}. An order line and the whole units to take off
-     * it.
-     */
-    "remove_line_items": Array<OrderEditRemovalRequest>;
-})
-    | ({
-    /**
-     * Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items.
-     * Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines
-     * are priced and taxed as usual, without promotions, and do not join the order's delivery
-     * selection. minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequest}. A
-     * line item to add to an order: a catalog variant, a bundle, or a custom item with a name and
-     * unit price.
-     */
-    "add_line_items": Array<CreateOrderLineItemRequest>;
-})
-    | (Record<string, unknown>));
-/**
- * Remove unassigned units from a paid order, add items the removed value and released charges pay
- * for, or do both, and queue any remaining refund atomically.
- */
-export type CreateOrderEditRequestInput = ({
-    /**
-     * Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items.
-     * Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines
-     * are priced and taxed as usual, without promotions, and do not join the order's delivery
-     * selection. minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequestInput}.
-     * A line item to add to an order: a catalog variant, a bundle, or a custom item with a name
-     * and unit price.
-     */
-    "add_line_items"?: Array<CreateOrderLineItemRequestInput>;
-    /**
-     * Charges to release. Released value pays for added lines first and the rest is refunded.
-     * Omitting amount_money releases the charge's remaining refundable amount. maxItems: 100. []
-     * (Value): {@link RefundChargeInput}. An order charge to refund when creating a refund, with
-     * an optional amount to refund.
-     */
-    "charge_refunds"?: Array<RefundChargeInput>;
-    /**
-     * Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations
-     * for payment intent and gift card redemption allocations planned by Flint. Each tender type
-     * defaults to original when omitted.
-     */
-    "destinations"?: RefundDestinationsInput;
-    /**
-     * The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch
-     * the order, preview again, and reconcile before committing with the new version and a new
-     * Idempotency-Key. Format: int64. minimum: 1.
-     */
-    "expected_order_version": number;
-    /**
-     * Internal merchant note. Omitted from buyer and webhook payloads and refund messages.
-     * minLength: 1. maxLength: 500.
-     */
-    "note"?: string;
-    /**
-     * Reason for the edit and any refund it creates. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock".
-     */
-    "reason"?: "duplicate"
-        | "fraudulent"
-        | "requested_by_customer"
-        | "defective_product"
-        | "wrong_item_shipped"
-        | "never_received"
-        | "not_as_described"
-        | "arrived_too_late"
-        | "customer_changed_mind"
-        | "better_price_found"
-        | "accidental_order"
-        | "other"
-        | "out_of_stock";
-    /**
-     * Whole unassigned units to remove. Each line appears once. Original quantities and pricing
-     * stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100.
-     * [] (Value): {@link OrderEditRemovalRequestInput}. An order line and the whole units to take
-     * off it.
-     */
-    "remove_line_items"?: Array<OrderEditRemovalRequestInput>;
-})
-    & (({
-    /**
-     * Whole unassigned units to remove. Each line appears once. Original quantities and pricing
-     * stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100.
-     * [] (Value): {@link OrderEditRemovalRequestInput}. An order line and the whole units to take
-     * off it.
-     */
-    "remove_line_items": Array<OrderEditRemovalRequestInput>;
-})
-    | ({
-    /**
-     * Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items.
-     * Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines
-     * are priced and taxed as usual, without promotions, and do not join the order's delivery
-     * selection. minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequestInput}.
-     * A line item to add to an order: a catalog variant, a bundle, or a custom item with a name
-     * and unit price.
-     */
-    "add_line_items": Array<CreateOrderLineItemRequestInput>;
 }));

@@ -4,10 +4,11 @@ namespace Flint;
 /**
  * @property-read int $page_size
  * @property-read string $page_token
+ * @property-read string $invoice_id
  * @property-read list<string>|string $status
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListCreditNotesParams extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'status'?: list<string>|string}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'invoice_id'?: string, 'status'?: list<string>|string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListCreditNotesParams')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -21,6 +22,12 @@ final class MeListCreditNotesParams extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
+    /** Filter by the exact source invoice ID. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * @return string
+     * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
+     */
+    public function getInvoiceId(): string { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "issued", "voided". Value enum: "issued", "voided". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "issued", "voided". anyOf[1][] (Value): string.  Value enum: "issued", "voided". anyOf[2] (Value): string.  Value enum: "issued", "voided".
      * @return list<string>|string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().

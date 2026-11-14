@@ -8,6 +8,16 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | [PromotionCodeCreatedInstalledMerchantsEventDataObject](../models/PromotionCodeCreatedInstalledMerchantsEventDataObject.md#promotioncodecreatedinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. |
+| `object` | Required | [PromotionCodeCreatedInstalledMerchantsEventDataObject](../models/PromotionCodeCreatedInstalledMerchantsEventDataObject.md#promotioncodecreatedinstalledmerchantseventdataobject) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. `object`: [field definitions](../models/PromotionCodeCreatedInstalledMerchantsEventData.md#promotioncodecreatedinstalledmerchantseventdataobject-fields-1). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
+
+### PromotionCodeCreatedInstalledMerchantsEventData.object fields 1
+
+The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `promotion`.
+
+Field definitions: [shared fields](PromotionCodeArchivedMerchantEventData.md#promotioncodearchivedmerchanteventdataobject-fields-1).
+
+### PromotionCodeCreatedInstalledMerchantsEventData.object fields 1.metadata
+
+Field definitions: [PromotionResponse.data.codes[].metadata](../models/PromotionResponse.md#promotionresponsedatacodesmetadata).
 

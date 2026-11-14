@@ -4,13 +4,14 @@ namespace Flint;
 /**
  * @property-read int $quantity
  * @property-read string $release_timing
+ * @property-read string $return_id
  * @property-read string $return_line_item_id
  * @property-read string $return_resolution_id
  * @property-read string $return_resolution_line_item_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $returned_total_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionLineItemInput extends Model {
-    /** @param array{'quantity': int, 'release_timing'?: string, 'return_line_item_id': string, 'return_resolution_id': string, 'return_resolution_line_item_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'quantity': int, 'release_timing'?: string, 'return_id': string, 'return_line_item_id': string, 'return_resolution_id': string, 'return_resolution_line_item_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionLineItemInput')); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -24,6 +25,12 @@ final class ReturnResolutionLineItemInput extends Model {
      */
     public function getReleaseTiming(): string { return $this->get('release_timing'); }
     public function hasReleaseTiming(): bool { return $this->has('release_timing'); }
+    /** Return that owns return_line_item_id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the resolution covers. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().

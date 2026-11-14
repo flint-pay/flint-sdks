@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read string $order_id
  * @property-read ?string $order_line_item_id
  * @property-read ?string $product_id
+ * @property-read string|null $product_type
  * @property-read int $quantity
  * @property-read ?list<SelectedProductOption> $selected_options
  * @property-read ?string $sku
@@ -27,7 +28,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceLineItem extends Model {
-    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'discount_money': mixed, 'image'?: mixed, 'invoice_line_item_id': string, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'order_id': string, 'order_line_item_id'?: string, 'product_id'?: string, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'unit_price_money': mixed, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'base_subtotal_money': mixed, 'bundle_components'?: list<mixed>, 'bundle_id'?: string, 'categories'?: list<mixed>, 'description'?: string, 'discount_money': mixed, 'image'?: mixed, 'invoice_line_item_id': string, 'modifier_total_money': mixed, 'modifiers'?: list<mixed>, 'name': string, 'order_id': string, 'order_line_item_id'?: string, 'product_id'?: string, 'product_type': string|null, 'quantity': int, 'selected_options'?: list<mixed>, 'sku'?: string, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, 'type': string, 'unit_price_money': mixed, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceLineItem')); }
     /** unit_price_money × quantity. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -99,6 +100,11 @@ final class InvoiceLineItem extends Model {
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
+    /** Product classification frozen on this line. Null when the line is unclassified. Custom lines accept physical, digital, service, or fee; catalog lines use the product's type when added. Unclassified non-goods lines keep ACH debit unavailable. Issued invoices retain their frozen classification; void and reissue to change it. Value enum: "physical", "service", "fee", "digital", "gift_card", null.
+     * @return string|null
+     */
+    public function getProductType(): string|null { return $this->get('product_type'); }
+    public function hasProductType(): bool { return $this->has('product_type'); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
      */

@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# InvoicePaymentOptionLimitRequestInput to MarkPackageInTransitRequestInput
+# InvoicePaymentDueInputDateInput to ManualDiscountRequestInput
 
+- [InvoicePaymentDueInputDateInput](InvoicePaymentDueInputDateInput.md)
+- [InvoicePaymentDueInputMerchantDefaultInput](InvoicePaymentDueInputMerchantDefaultInput.md)
+- [InvoicePaymentDueInputNoneInput](InvoicePaymentDueInputNoneInput.md)
+- [InvoicePaymentDueInputPaymentTermsInput](InvoicePaymentDueInputPaymentTermsInput.md)
+- [InvoicePaymentDueNoneInput](InvoicePaymentDueNoneInput.md)
+- [InvoicePaymentDuePaymentTermsInput](InvoicePaymentDuePaymentTermsInput.md)
+- [InvoicePaymentDueRequestInput](InvoicePaymentDueRequestInput.md)
+- [InvoicePaymentOptionCostComparisonInput](InvoicePaymentOptionCostComparisonInput.md)
+- [InvoicePaymentOptionLimitInput](InvoicePaymentOptionLimitInput.md)
 - [InvoicePaymentOptionLimitRequestInput](InvoicePaymentOptionLimitRequestInput.md)
 - [InvoicePaymentPolicyInput](InvoicePaymentPolicyInput.md)
 - [InvoicePaymentPolicyRequestInput](InvoicePaymentPolicyRequestInput.md)
@@ -93,13 +102,4 @@
 - [LookupGiftCardRequestInput](LookupGiftCardRequestInput.md)
 - [LookupTicketRequestInput](LookupTicketRequestInput.md)
 - [ManualDiscountRequestInput](ManualDiscountRequestInput.md)
-- [MarkFulfillmentNoShowRequestInput](MarkFulfillmentNoShowRequestInput.md)
-- [MarkFulfillmentPackedRequestInput](MarkFulfillmentPackedRequestInput.md)
-- [MarkFulfillmentPickedRequestInput](MarkFulfillmentPickedRequestInput.md)
-- [MarkFulfillmentPreparingRequestInput](MarkFulfillmentPreparingRequestInput.md)
-- [MarkFulfillmentReadyRequestInput](MarkFulfillmentReadyRequestInput.md)
-- [MarkPackageDeliveredRequestInput](MarkPackageDeliveredRequestInput.md)
-- [MarkPackageDeliveryAttemptedRequestInput](MarkPackageDeliveryAttemptedRequestInput.md)
-- [MarkPackageExceptionRequestInput](MarkPackageExceptionRequestInput.md)
-- [MarkPackageInTransitRequestInput](MarkPackageInTransitRequestInput.md)
 

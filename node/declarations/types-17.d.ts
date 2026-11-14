@@ -1,13 +1,8 @@
-import type {
-    DeliveryAddressRequest,
-    DeliveryAddressRequestInput,
-    DeliveryBuyerLocationInputAddress,
-    DeliveryBuyerLocationInputAddressInput,
-    DeliveryAddressAdvisoryResource
-} from './types-16.js';
-import type { LocationCoordinate } from './types-35.js';
+import type { GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse } from './types-26.js';
 import type { Address, AddRiskListItemsRequest } from './types-0.js';
 import type {
+    DeliveryWeeklyInterval,
+    DeliveryWeeklyIntervalRequestInput,
     DeliveryWeightUnitPrice,
     DeliveryWeightUnitPriceRequestInput,
     DeliveryStateCondition,
@@ -16,23 +11,273 @@ import type {
     DeliveryStateConditionRequestInput,
     DeliveryWindowTimeConditionInput,
     DeliveryZoneConditionRequestInput,
+    DeliveryScheduleWindowRule,
     DeliveryTransitTimeRule,
+    DeliveryScheduleWindowRuleRequestInput,
     DeliveryTransitTimeRuleRequestInput,
     DeliveryWindowRequest
 } from './types-22.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { DeliveryOptionProjection, DeliveryPostalCodeCondition } from './types-18.js';
-import type { TaxComponentRequest, TaxComponentRequestModelInput } from './types-64.js';
+import type { LocationCoordinate } from './types-35.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { DeliveryOptionProjection, DeliveryPostalCodeCondition, DeliveryPostalCodeConditionRequestInput } from './types-19.js';
+import type { TaxComponentRequest } from './types-64.js';
+import type { TaxComponentRequestModelInput } from './types-65.js';
 import type { DeliveryRadiusCondition, DeliveryRadiusConditionRequestInput } from './types-20.js';
-import type { DeliveryPostalCodeConditionRequestInput } from './types-19.js';
-import type { DeliveryScheduleWindowRule, DeliveryScheduleWindowRuleRequestInput } from './types-21.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-37.js';
+import type { DeliveryLocationSetConfiguration } from './types-18.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { ResponseMeta } from './types-54.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateDeliveryLocationSetRequestInput } from './types-8.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { UpdateDeliveryLocationSetRequestInput } from './types-66.js';
+/**
+ * A promotion accepted at subscription signup for the subscription's first charged cycle. It does
+ * not discount the signup order.
+ */
+export type DeferredPromotion = {
+    /** Name the buyer sees for the promotion, fixed when it was accepted at signup. */
+    "customer_facing_name": string;
+    /**
+     * ID of this order's deferred promotion. Starts with dp_. Send it in deferred_promotion_ids to
+     * POST /v1/orders/{order_id}/discounts/remove to remove the promotion before payment. Example:
+     * "dp_01KEZF7C00AZMP1PY1ER7CQ4SA".
+     */
+    "deferred_promotion_id": string;
+    /** Promotion code accepted at signup. Null when the promotion was applied by ID. */
+    "promotion_code": string | null;
+    /**
+     * ID of the promotion accepted for the subscription. Example:
+     * "promo_01KEZF7C00E1JAV4M413D9DE1P".
+     */
+    "promotion_id": string;
+};
+export type DeleteReturnLineItemResponse = GetReturnResponse;
+export type DeleteReturnPolicyResponse = GetReturnPolicyResponse;
+export type DeleteReturnReasonResponse = GetReturnReasonResponse;
+/**
+ * An address verification result for a delivery address or buyer location. `suggested_address` may
+ * offer a correction.
+ */
+export type DeliveryAddressAdvisoryResource = {
+    /** Which address the advisory is about. Value enum: "destination_address", "buyer_location". */
+    "role": "destination_address" | "buyer_location" | (string & {});
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. A postal address. Every address has country. Addresses Flint checked as complete
+     * (customer and saved addresses, merchant, location, invoice, order delivery destination, tax
+     * identity, fulfillment recipient and pickup addresses) always have line1 and city, and US
+     * ones always have state and postal_code. Delivery quote destinations, buyer locations and
+     * postal-code tax locations hold only what was provided, such as postal_code and country.
+     */
+    "suggested_address"?: Address;
+    /** How far address verification got. Value enum: "needs_review", "unverifiable". */
+    "verification_state": "needs_review" | "unverifiable" | (string & {});
+};
+/**
+ * A partial address for delivery quotes, previews, and buyer locations. Country is required when
+ * any member is present.
+ */
+export type DeliveryAddressRequest = ({
+    /** City, town, or locality. minLength: 1. maxLength: 100. */
+    "city"?: string;
+    /**
+     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
+     * "US".
+     */
+    "country"?: string;
+    /** First line of the street address. minLength: 1. maxLength: 255. */
+    "line1"?: string;
+    /**
+     * Second line of the street address, such as an apartment or suite. minLength: 1. maxLength:
+     * 255.
+     */
+    "line2"?: string;
+    /** Postal or ZIP code. minLength: 1. maxLength: 20. */
+    "postal_code"?: string;
+    /**
+     * State, province, or region. State conditions read it as a subdivision of the address's
+     * country: send its code with or without the country prefix, such as NY or US-NY. In the US
+     * and Canada, the English name, such as New York, also matches. US addresses also accept the
+     * USPS military codes AA, AE, and AP. If the address country is listed by a state condition
+     * but state names no subdivision of that country, the condition cannot be decided: the method
+     * or rate is left out as cannot_calculate (invalid_buyer_input). minLength: 1. maxLength: 100.
+     */
+    "state"?: string;
+});
+/**
+ * A partial address for delivery quotes, previews, and buyer locations. Country is required when
+ * any member is present.
+ */
+export type DeliveryAddressRequestInput = DeliveryAddressRequest;
+/**
+ * The estimated arrival date range for a delivery option, as calendar dates in the option's
+ * timezone.
+ */
+export type DeliveryArrivalEstimate = {
+    /**
+     * Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: date.
+     * Example: "2026-08-02".
+     */
+    "earliest_date": string;
+    /**
+     * Calendar date in the option timezone. Do not parse it as a UTC timestamp. Format: date.
+     * Example: "2026-08-02".
+     */
+    "latest_date": string;
+    /** Uses an IANA time zone name. */
+    "timezone": string;
+};
+/**
+ * When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and
+ * how far ahead a buyer can book.
+ */
+export type DeliveryAvailability = {
+    /**
+     * Local date-time spans in which no window is offered. [] (Value): {@link
+     * DeliveryBlackoutInterval}. A local start and end time during which a delivery schedule
+     * offers no windows.
+     */
+    "blackout_intervals"?: Array<DeliveryBlackoutInterval>;
+    /**
+     * Which of the two instants a local time means when a clock change makes it happen twice.
+     * Defaults to `earlier`. Default: "earlier". Value enum: "earlier", "later".
+     */
+    "dst_disambiguation"?: "earlier" | "later" | (string & {});
+    /** How many days ahead windows are offered, from 1 to 365. */
+    "maximum_scheduling_horizon_days": number;
+    /**
+     * Notice the merchant needs before a window starts, in seconds. A buyer can choose a window
+     * until this long before it starts. Quotes offer only windows that can still be chosen, so a
+     * window already under way is not offered. Format: int64.
+     */
+    "preparation_lead_time_seconds": number;
+    /**
+     * Minute of the day, from 0 to 1439 in the schedule's timezone, after which today's windows
+     * are no longer offered. Omit it to apply no cutoff.
+     */
+    "same_day_cutoff_minute"?: number;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone": string;
+    /**
+     * One to 100 weekly spans in which windows are offered. They cannot overlap. [] (Value):
+     * {@link DeliveryWeeklyInterval}. A recurring weekly span, from a start weekday and minute to
+     * an end weekday and minute, used in a delivery method's availability schedule.
+     */
+    "weekly_intervals": Array<DeliveryWeeklyInterval>;
+};
+/**
+ * When a delivery method can be scheduled: weekly intervals, blackout intervals, lead time, and
+ * how far ahead a buyer can book.
+ */
+export type DeliveryAvailabilityRequestInput = {
+    /**
+     * Local date-time spans in which no window is offered. [] (Value): {@link
+     * DeliveryBlackoutIntervalRequestInput}. A local start and end time during which a delivery
+     * schedule offers no windows.
+     */
+    "blackout_intervals"?: Array<DeliveryBlackoutIntervalRequestInput>;
+    /**
+     * Which of the two instants a local time means when a clock change makes it happen twice.
+     * Defaults to `earlier`. Default: "earlier". Value enum: "earlier", "later".
+     */
+    "dst_disambiguation"?: "earlier" | "later";
+    /** How many days ahead windows are offered, from 1 to 365. */
+    "maximum_scheduling_horizon_days": number;
+    /**
+     * Notice the merchant needs before a window starts, in seconds. A buyer can choose a window
+     * until this long before it starts. Quotes offer only windows that can still be chosen, so a
+     * window already under way is not offered. Format: int64.
+     */
+    "preparation_lead_time_seconds": number;
+    /**
+     * Minute of the day, from 0 to 1439 in the schedule's timezone, after which today's windows
+     * are no longer offered. Omit it to apply no cutoff.
+     */
+    "same_day_cutoff_minute"?: number;
+    /** Uses an IANA time zone name. minLength: 1. */
+    "timezone": string;
+    /**
+     * One to 100 weekly spans in which windows are offered. They cannot overlap. [] (Value):
+     * {@link DeliveryWeeklyIntervalRequestInput}. A recurring weekly span, from a start weekday
+     * and minute to an end weekday and minute, used in a delivery method's availability schedule.
+     */
+    "weekly_intervals": Array<DeliveryWeeklyIntervalRequestInput>;
+};
+/** A local start and end time during which a delivery schedule offers no windows. */
+export type DeliveryBlackoutInterval = {
+    /**
+     * Local date and time the blackout ends, as `YYYY-MM-DDTHH:MM:SS` in the schedule's timezone.
+     * minLength: 1.
+     */
+    "end_local": string;
+    /**
+     * Local date and time the blackout starts, as `YYYY-MM-DDTHH:MM:SS` in the schedule's
+     * timezone. minLength: 1.
+     */
+    "start_local": string;
+};
+/** A local start and end time during which a delivery schedule offers no windows. */
+export type DeliveryBlackoutIntervalRequestInput = DeliveryBlackoutInterval;
+/** A minimum and maximum number of business days, used in transit time estimates. */
+export type DeliveryBusinessDayRange = {
+    /** Most business days, from `minimum` to 365. */
+    "maximum": number;
+    /** Fewest business days, from 0. */
+    "minimum": number;
+};
+/** A minimum and maximum number of business days, used in transit time estimates. */
+export type DeliveryBusinessDayRangeRequestInput = DeliveryBusinessDayRange;
+/** The `address` variant of `DeliveryBuyerLocationInput`. */
+export type DeliveryBuyerLocationInputAddress = ({
+    /**
+     * The buyer location as an address. Set only when `type` is `address`. A partial address for
+     * delivery quotes, previews, and buyer locations. Country is required when any member is
+     * present.
+     */
+    "address": DeliveryAddressRequest;
+    /**
+     * The buyer location as a coordinate. Set only when `type` is `coordinate`. A latitude and
+     * longitude.
+     */
+    "coordinate"?: LocationCoordinate;
+    /** Whether the buyer location is an address or a coordinate. Value enum: "address". */
+    "type": "address" | (string & {});
+})
+    & (({
+    /** Whether the buyer location is an address or a coordinate. Value enum: "address". */
+    "type": unknown;
+    /**
+     * The buyer location as an address. Set only when `type` is `address`. A partial address for
+     * delivery quotes, previews, and buyer locations. Country is required when any member is
+     * present.
+     */
+    "address": DeliveryAddressRequest;
+}));
+/** The `address` variant of `DeliveryBuyerLocationInput`. */
+export type DeliveryBuyerLocationInputAddressInput = ({
+    /**
+     * The buyer location as an address. Set only when `type` is `address`. A partial address for
+     * delivery quotes, previews, and buyer locations. Country is required when any member is
+     * present.
+     */
+    "address": DeliveryAddressRequestInput;
+    /**
+     * The buyer location as a coordinate. Set only when `type` is `coordinate`. A latitude and
+     * longitude.
+     */
+    "coordinate"?: DeliveryCoordinateRequestInput;
+    /** Whether the buyer location is an address or a coordinate. Value enum: "address". */
+    "type": "address";
+})
+    & (({
+    /** Whether the buyer location is an address or a coordinate. Value enum: "address". */
+    "type": ("address") & ("address");
+    /**
+     * The buyer location as an address. Set only when `type` is `address`. A partial address for
+     * delivery quotes, previews, and buyer locations. Country is required when any member is
+     * present.
+     */
+    "address": DeliveryAddressRequestInput;
+})
+    & ({
+    "coordinate"?: never;
+}));
 /** The `coordinate` variant of `DeliveryBuyerLocationInput`. */
 export type DeliveryBuyerLocationInputCoordinate = ({
     /**
@@ -3383,848 +3628,3 @@ export type DeliveryLocationSetArchivedInstalledMerchantsEvent = (Exclude<Partne
         "sandbox_id"?: string;
     });
 });
-/**
- * The `delivery_location_set.archived` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryLocationSetArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link
-     * DeliveryLocationSetConfiguration}. Current member Locations. The location IDs in a delivery
-     * location set. object.created_at (Required): string. Time the location set was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_location_set_revision_id (Required): string. Immutable revision used
-     * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". object.delivery_location_set_id
-     * (Required): string. Stable delivery location set ID. Example:
-     * "dls_01KEZF7C00C4WWN7RYTRF55C4H". object.external_reference_id (Optional): string.
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
-     * (Required): string. Merchant-facing location set name. object.status (Required): string.
-     * Current location set lifecycle status. Value enum: "active", "archived". object.updated_at
-     * (Required): string. Time the location set last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency version
-     * for location set writes. Format: uint64. minimum: 1. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryLocationSetConfiguration}. Current member
-         * Locations. The location IDs in a delivery location set. created_at (Required): string.
-         * Time the location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_location_set_revision_id (Required): string. Immutable revision used
-         * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". delivery_location_set_id
-         * (Required): string. Stable delivery location set ID. Example:
-         * "dls_01KEZF7C00C4WWN7RYTRF55C4H". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. name
-         * (Required): string. Merchant-facing location set name. status (Required): string.
-         * Current location set lifecycle status. Value enum: "active", "archived". updated_at
-         * (Required): string. Time the location set last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
-         * location set writes. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Current member Locations. The location IDs in a delivery location set. */
-            "configuration": DeliveryLocationSetConfiguration;
-            /**
-             * Time the location set was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
-             */
-            "current_delivery_location_set_revision_id": string;
-            /** Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". */
-            "delivery_location_set_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing location set name. */
-            "name": string;
-            /** Current location set lifecycle status. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * Time the location set last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_location_set.archived". */
-    "event_type"?: "delivery_location_set.archived";
-});
-/** The location IDs in a delivery location set. */
-export type DeliveryLocationSetConfiguration = {
-    /**
-     * IDs of the Locations in the set, from 1 to 1,000. An allocated origin group accepts at most
-     * 25. [] (Value): string. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_ids": Array<string>;
-};
-/** The location IDs in a delivery location set. */
-export type DeliveryLocationSetConfigurationInput = DeliveryLocationSetConfiguration;
-export type DeliveryLocationSetCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryLocationSetConfiguration;
-            "created_at": string;
-            "current_delivery_location_set_revision_id": string;
-            "delivery_location_set_id": string;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "status": "active" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_location_set.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryLocationSetConfiguration;
-            "created_at": string;
-            "current_delivery_location_set_revision_id": string;
-            "delivery_location_set_id": string;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "status": "active" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_location_set.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_location_set.created";
-});
-/**
- * The `delivery_location_set.created` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryLocationSetCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link
-     * DeliveryLocationSetConfiguration}. Current member Locations. The location IDs in a delivery
-     * location set. object.created_at (Required): string. Time the location set was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_location_set_revision_id (Required): string. Immutable revision used
-     * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". object.delivery_location_set_id
-     * (Required): string. Stable delivery location set ID. Example:
-     * "dls_01KEZF7C00C4WWN7RYTRF55C4H". object.external_reference_id (Optional): string.
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
-     * (Required): string. Merchant-facing location set name. object.status (Required): string.
-     * Current location set lifecycle status. Value enum: "active", "archived". object.updated_at
-     * (Required): string. Time the location set last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency version
-     * for location set writes. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryLocationSetConfiguration}. Current member
-         * Locations. The location IDs in a delivery location set. created_at (Required): string.
-         * Time the location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_location_set_revision_id (Required): string. Immutable revision used
-         * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". delivery_location_set_id
-         * (Required): string. Stable delivery location set ID. Example:
-         * "dls_01KEZF7C00C4WWN7RYTRF55C4H". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. name
-         * (Required): string. Merchant-facing location set name. status (Required): string.
-         * Current location set lifecycle status. Value enum: "active", "archived". updated_at
-         * (Required): string. Time the location set last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
-         * location set writes. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Current member Locations. The location IDs in a delivery location set. */
-            "configuration": DeliveryLocationSetConfiguration;
-            /**
-             * Time the location set was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
-             */
-            "current_delivery_location_set_revision_id": string;
-            /** Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". */
-            "delivery_location_set_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing location set name. */
-            "name": string;
-            /** Current location set lifecycle status. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * Time the location set last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_location_set.created". */
-    "event_type"?: "delivery_location_set.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `delivery_location_set.created` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryLocationSetCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link
-     * DeliveryLocationSetConfiguration}. Current member Locations. The location IDs in a delivery
-     * location set. object.created_at (Required): string. Time the location set was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_location_set_revision_id (Required): string. Immutable revision used
-     * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". object.delivery_location_set_id
-     * (Required): string. Stable delivery location set ID. Example:
-     * "dls_01KEZF7C00C4WWN7RYTRF55C4H". object.external_reference_id (Optional): string.
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
-     * (Required): string. Merchant-facing location set name. object.status (Required): string.
-     * Current location set lifecycle status. Value enum: "active", "archived". object.updated_at
-     * (Required): string. Time the location set last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency version
-     * for location set writes. Format: uint64. minimum: 1.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryLocationSetConfiguration}. Current member
-         * Locations. The location IDs in a delivery location set. created_at (Required): string.
-         * Time the location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_location_set_revision_id (Required): string. Immutable revision used
-         * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". delivery_location_set_id
-         * (Required): string. Stable delivery location set ID. Example:
-         * "dls_01KEZF7C00C4WWN7RYTRF55C4H". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. name
-         * (Required): string. Merchant-facing location set name. status (Required): string.
-         * Current location set lifecycle status. Value enum: "active", "archived". updated_at
-         * (Required): string. Time the location set last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
-         * location set writes. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Current member Locations. The location IDs in a delivery location set. */
-            "configuration": DeliveryLocationSetConfiguration;
-            /**
-             * Time the location set was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
-             */
-            "current_delivery_location_set_revision_id": string;
-            /** Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". */
-            "delivery_location_set_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing location set name. */
-            "name": string;
-            /** Current location set lifecycle status. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * Time the location set last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_location_set.created". */
-    "event_type"?: "delivery_location_set.created";
-});
-/** A page of `DeliveryLocationSet` objects. */
-export type DeliveryLocationSetListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * DeliveryLocationSet}. The locations available to a delivery method.
-     */
-    "data": Array<DeliveryLocationSet>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `DeliveryLocationSet` data. */
-export type DeliveryLocationSetResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The locations available
-     * to a delivery method.
-     */
-    "data": DeliveryLocationSet;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DeliveryLocationSetUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryLocationSetConfiguration;
-            "created_at": string;
-            "current_delivery_location_set_revision_id": string;
-            "delivery_location_set_id": string;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "status": "active" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "delivery_location_set.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "configuration": DeliveryLocationSetConfiguration;
-            "created_at": string;
-            "current_delivery_location_set_revision_id": string;
-            "delivery_location_set_id": string;
-            "external_reference_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "status": "active" | "archived" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "delivery_location_set.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "delivery_location_set.updated";
-});
-/**
- * The `delivery_location_set.updated` webhook payload for the `installed_merchants` event source.
- * Fields shared by partner webhook payloads.
- */
-export type DeliveryLocationSetUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link
-     * DeliveryLocationSetConfiguration}. Current member Locations. The location IDs in a delivery
-     * location set. object.created_at (Required): string. Time the location set was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_location_set_revision_id (Required): string. Immutable revision used
-     * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". object.delivery_location_set_id
-     * (Required): string. Stable delivery location set ID. Example:
-     * "dls_01KEZF7C00C4WWN7RYTRF55C4H". object.external_reference_id (Optional): string.
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
-     * (Required): string. Merchant-facing location set name. object.status (Required): string.
-     * Current location set lifecycle status. Value enum: "active", "archived". object.updated_at
-     * (Required): string. Time the location set last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency version
-     * for location set writes. Format: uint64. minimum: 1. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryLocationSetConfiguration}. Current member
-         * Locations. The location IDs in a delivery location set. created_at (Required): string.
-         * Time the location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_location_set_revision_id (Required): string. Immutable revision used
-         * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". delivery_location_set_id
-         * (Required): string. Stable delivery location set ID. Example:
-         * "dls_01KEZF7C00C4WWN7RYTRF55C4H". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. name
-         * (Required): string. Merchant-facing location set name. status (Required): string.
-         * Current location set lifecycle status. Value enum: "active", "archived". updated_at
-         * (Required): string. Time the location set last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
-         * location set writes. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Current member Locations. The location IDs in a delivery location set. */
-            "configuration": DeliveryLocationSetConfiguration;
-            /**
-             * Time the location set was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
-             */
-            "current_delivery_location_set_revision_id": string;
-            /** Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". */
-            "delivery_location_set_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing location set name. */
-            "name": string;
-            /** Current location set lifecycle status. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * Time the location set last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "delivery_location_set.updated". */
-    "event_type"?: "delivery_location_set.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `delivery_location_set.updated` webhook payload for the `merchant` event source. Fields
- * shared by merchant webhook payloads.
- */
-export type DeliveryLocationSetUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link
-     * DeliveryLocationSetConfiguration}. Current member Locations. The location IDs in a delivery
-     * location set. object.created_at (Required): string. Time the location set was created.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_location_set_revision_id (Required): string. Immutable revision used
-     * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". object.delivery_location_set_id
-     * (Required): string. Stable delivery location set ID. Example:
-     * "dls_01KEZF7C00C4WWN7RYTRF55C4H". object.external_reference_id (Optional): string.
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842". object.metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.name
-     * (Required): string. Merchant-facing location set name. object.status (Required): string.
-     * Current location set lifecycle status. Value enum: "active", "archived". object.updated_at
-     * (Required): string. Time the location set last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Optimistic-concurrency version
-     * for location set writes. Format: uint64. minimum: 1. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryLocationSetConfiguration}. Current member
-         * Locations. The location IDs in a delivery location set. created_at (Required): string.
-         * Time the location set was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_location_set_revision_id (Required): string. Immutable revision used
-         * for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ". delivery_location_set_id
-         * (Required): string. Stable delivery location set ID. Example:
-         * "dls_01KEZF7C00C4WWN7RYTRF55C4H". external_reference_id (Optional): string. Caller-owned
-         * identifier for this resource in an external system. maxLength: 255. Example:
-         * "warehouse-1842". metadata (Optional): {@link MetadataMap}. Caller-owned metadata.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. name
-         * (Required): string. Merchant-facing location set name. status (Required): string.
-         * Current location set lifecycle status. Value enum: "active", "archived". updated_at
-         * (Required): string. Time the location set last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
-         * location set writes. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /** Current member Locations. The location IDs in a delivery location set. */
-            "configuration": DeliveryLocationSetConfiguration;
-            /**
-             * Time the location set was created. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * Immutable revision used for new quotes. Example: "dlsr_01KEZF7C00HN2NT80H5VNQSVFJ".
-             */
-            "current_delivery_location_set_revision_id": string;
-            /** Stable delivery location set ID. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H". */
-            "delivery_location_set_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing location set name. */
-            "name": string;
-            /** Current location set lifecycle status. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * Time the location set last changed. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "updated_at": string;
-            /**
-             * Optimistic-concurrency version for location set writes. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<DeliveryLocationSet>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_location_set.updated". */
-    "event_type"?: "delivery_location_set.updated";
-});
-export type DeliveryLocationSetsCreateParams = (InputValue<CreateDeliveryLocationSetRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DeliveryLocationSetsDeleteParams = {
-    /**
-     * Optional current resource version. The delete is rejected if the resource changed after this
-     * version was read. Format: uint64. minimum: 1. maximum: 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DeliveryLocationSetsGetParams = DisputesAcceptParams;
-export type DeliveryLocationSetsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Search across delivery_location_set_id, name, and external_reference_id. Text fields match
-     * any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from
-     * the start and need the type prefix, such as dls_01. maxLength: 255.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
-     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
-     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
-    /**
-     * Filter by an active current method that references this resource. pattern:
-     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_id"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DeliveryLocationSetsUpdateParams = (UpdateDeliveryLocationSetRequestInput)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

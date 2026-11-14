@@ -8,6 +8,8 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `blocking_resource_count` | Optional | integer | Total resources currently preventing approval, including resources beyond the blocking_resources cap. Present only for pending_review, including zero when nothing blocks approval. Computed at read time using the same rule as approval. Format: `int64`. minimum: `0`. |
+| `blocking_resources` | Optional | Array of [ErrorResourceReference](../models/ErrorResourceReference.md#errorresourcereference) | Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure. `blocking_resources[]`: [field definitions](../models/CustomerDeletionRequestResponse.md#customerdeletionrequestresponsedatablocking_resources). |
 | `canceled_subscription_ids` | Required | Array of string | Subscription IDs whose immediate cancellation completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. |
 | `customer_deletion_request_id` | Required | string | Stable ID of the tracked deletion request. Use it to retrieve the review and erasure status. |
 | `customer_id` | Required | string | ID of the customer the request would erase. |
@@ -20,4 +22,8 @@ Response model.
 | `response_due_at` | Required | string | Requested time plus one calendar month in UTC, clamped to the last day of that month. This is the deadline for responding to the buyer's request. Format: `date-time`. |
 | `retention_policy` | Required | string | What deletion keeps. `retain_required_commerce_records`: orders, invoices, credit notes, payments, and refunds stay for accounting, tax, and disputes, without the customer's email address or phone number. Issued invoices and credit notes keep the buyer name, billing address, and tax ID they were issued with, because tax law requires them. Orders keep the delivery recipient's name and address. Contact copies created while deletion is finishing are erased within minutes, with another check about 24 hours later. Values: `"retain_required_commerce_records"`. |
 | `status` | Required | string | Where the request is in review and erasure. Values: `"pending_review"`, `"processing"`, `"completed"`, `"rejected"`, `"failed"`. |
+
+### BuyerCustomerDeletionRequest.blocking_resources[]
+
+Field definitions: [CustomerDeletionRequestResponse.data.blocking_resources[]](../models/CustomerDeletionRequestResponse.md#customerdeletionrequestresponsedatablocking_resources).
 

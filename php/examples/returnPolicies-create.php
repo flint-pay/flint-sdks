@@ -22,7 +22,7 @@ $result = $client->returnPolicies->create([
     'approval_mode' => 'automatic',
     'eligibility_result' => 'ineligible',
     'is_merchandise_return_required' => true,
-    'priority' => 1,
+    'priority' => 0,
     'scope' => (object) [
       'match_type' => 'all',
     ],

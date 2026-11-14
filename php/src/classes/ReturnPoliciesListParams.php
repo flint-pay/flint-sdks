@@ -30,7 +30,7 @@ final class ReturnPoliciesListParams extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Search by return policy ID, name, or external reference ID.
+    /** Search by return_policy_id, name, or external_reference_id. Limited to 255 bytes after trimming surrounding whitespace. A blank query is ignored.
      * @return string
      * @throws SdkError When query is omitted; use hasQuery() or valueOrDefault().
      */

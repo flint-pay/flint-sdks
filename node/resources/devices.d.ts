@@ -1,15 +1,17 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { Device, DeviceListResponse, DeviceResponse } from '../declarations/types-22.js';
 import type {
+    Device,
+    DeviceListResponse,
+    DeviceResponse,
     DevicesCreateParams,
     DevicesDeleteParams,
     DevicesGetParams,
     DevicesListParams,
     DevicesUpdateParams
 } from '../declarations/types-23.js';
-import type { RequestOptions } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -26,26 +28,27 @@ export type {
 } from '../runtime.js';
 export type {
     DevicesCreateParams,
+    Device,
+    DeviceResponse,
     DevicesDeleteParams,
     DevicesGetParams,
     DevicesListParams,
+    DeviceListResponse,
     DevicesUpdateParams
 } from '../declarations/types-23.js';
-export type { RequestOptions } from '../declarations/types-53.js';
-export type { Device, DeviceResponse, DeviceListResponse } from '../declarations/types-22.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateDeviceRequestInput } from '../declarations/types-9.js';
-export type { MetadataRequestInput, NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { UpdateDeviceRequestInput } from '../declarations/types-66.js';
 export { makeCreateDeviceRequest } from '../declarations/types-72.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
-export { makeUpdateDeviceRequest } from '../declarations/types-83.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-79.js';
+export { makeUpdateDeviceRequest } from '../declarations/types-84.js';
 export interface DevicesResource {
     /**
  * Creates a device. If an active device already has the hardware_fingerprint, fails with

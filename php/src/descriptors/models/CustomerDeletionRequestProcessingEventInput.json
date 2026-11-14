@@ -1,1 +1,1 @@
-{"shared":"CustomerDeletionRequestProcessingEvent","dependencies":["CustomerDeletionRequest","CustomerDeletionRequestProcessingEvent","SharedCodec10","SharedCodec477","SharedCodec481","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}
+{"shared":"CustomerDeletionRequestProcessingEvent","dependencies":["CustomerDeletionRequest","CustomerDeletionRequestProcessingEvent","ErrorResourceReference","SharedCodec10","SharedCodec483","SharedCodec487","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

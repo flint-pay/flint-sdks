@@ -6,6 +6,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $created_at
  * @property-read PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass $last_payment_error
  * @property-read string $order_id
+ * @property-read string $payment_intent_id
  * @property-read string|\DateTimeInterface $started_at
  * @property-read string $status
  * @property-read string $subscription_id
@@ -13,7 +14,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerSubscriptionPaymentRetryInput extends Model {
-    /** @param array{'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'started_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'completed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'order_id'?: string, 'payment_intent_id'?: string, 'started_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_payment_retry_id': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerSubscriptionPaymentRetryInput')); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -39,6 +40,12 @@ final class BuyerSubscriptionPaymentRetryInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** The payment intent this retry started. Omitted before charging begins or when no payment intent was created. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * @return string
+     * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
+     */
+    public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
+    public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When started_at is omitted; use hasStartedAt() or valueOrDefault().

@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read ?string $bundle_id
  * @property-read ?list<CategoryReference> $categories
  * @property-read ?list<RefundLineItemModifierAllocation> $modifiers
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read ?string $product_id
  * @property-read int $quantity
@@ -20,7 +21,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class RefundLineItemAllocation extends Model {
-    /** @param array{'adjustment_refunds'?: list<mixed>, 'adjustments'?: list<mixed>, 'automatic_refund': mixed, 'bundle_id'?: string, 'categories'?: list<mixed>, 'modifiers'?: list<mixed>, 'order_line_item_id': string, 'product_id'?: string, 'quantity': int, 'refunded_money': mixed, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tax_refund_mode': string, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'adjustment_refunds'?: list<mixed>, 'adjustments'?: list<mixed>, 'automatic_refund': mixed, 'bundle_id'?: string, 'categories'?: list<mixed>, 'modifiers'?: list<mixed>, 'order_id': string, 'order_line_item_id': string, 'product_id'?: string, 'quantity': int, 'refunded_money': mixed, 'selected_options'?: list<mixed>, 'sku'?: string, 'source_type'?: string, 'tax_breakdown_refunds'?: list<mixed>, 'tax_refund_mode': string, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundLineItemAllocation')); }
     /** Amounts refunded back against adjustments withheld by earlier refunds of this line. [] (Value): {@see RefundLineItemAdjustmentRefund}. An amount refunded back against an earlier line item adjustment.
      * @return ?list<RefundLineItemAdjustmentRefund>
@@ -52,6 +53,11 @@ final class RefundLineItemAllocation extends Model {
      */
     public function getModifiers(): ?array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
+    /** ID of the order that owns the refunded line item.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item this allocation refunded.
      * @return string
      */

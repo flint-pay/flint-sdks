@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/fulfillments.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/fulfillments.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["acceptFulfillment"]:r0,["cancelFulfillment"]:r0,["completeFulfillment"]:r0,["createFulfillment"]:r0,["dispatchFulfillment"]:r0,["failFulfillment"]:r0,["getFulfillment"]:r0,["holdFulfillment"]:r0,["listFulfillments"]:r0,["markFulfillmentNoShow"]:r0,["markFulfillmentPacked"]:r0,["markFulfillmentPicked"]:r0,["markFulfillmentPreparing"]:r0,["markFulfillmentReady"]:r0,["releaseFulfillmentHold"]:r0,["scheduleFulfillment"]:r0,["startFulfillment"]:r0,["updateFulfillment"]:r0});
 export class Client {

@@ -26,7 +26,7 @@ Response model.
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
 | `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BundleResponse.md#bundleresponsedatametadata). |
 | `modifier_set` | Optional | [ModifierSet](../models/ModifierSet.md#modifierset) or null | Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. Also included when `expand` includes `variants.modifier_set`. |
-| `modifier_set_id` | Required | string or null | Attached modifier set. Send null on update to remove it. |
+| `modifier_set_id` | Required | string or null | Attached modifier set. Null when no modifier set is assigned. Send null on update to remove it. |
 | `name` | Optional | string | Variant name that distinguishes it from the product's other variants. |
 | `position` | Required | integer | Display order among the product's variants, starting at zero. Format: `int32`. |
 | `product_id` | Required | string | Identifier of the product this variant belongs to. |

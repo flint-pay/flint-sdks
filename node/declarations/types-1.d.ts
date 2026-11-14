@@ -1,15 +1,13 @@
 import type { APIKeyAuthContext } from './types-0.js';
 import type { CLILoginAuthContext } from './types-4.js';
-import type { OnboardingSessionAuthContext } from './types-39.js';
+import type { OnboardingSessionAuthContext, MoneyValue, MoneyMovementListMeta } from './types-39.js';
 import type { PartnerAppAuthContext } from './types-43.js';
-import type { WorkloadIdentityAuthContext } from './types-69.js';
+import type { WorkloadIdentityAuthContext } from './types-70.js';
 import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams } from './types-23.js';
+import type { DisputesAcceptParams, ExpandedOrderSummary } from './types-24.js';
 import type { ResponseMeta, ResourceReference, ResolvePaymentLinkResponse } from './types-54.js';
 import type { Credentials } from './types-14.js';
-import type { MoneyValue, MoneyMovementListMeta, ModifierSet } from './types-38.js';
-import type { ExpandedOrderSummary } from './types-24.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type {
     CategoryReference,
@@ -23,10 +21,10 @@ import type {
     CheckoutPaymentConfig,
     CheckoutPaymentMethodSave,
     CheckoutPrefill,
-    CheckoutPromotionConfig,
-    CheckoutRedirects
+    CheckoutPromotionConfig
 } from './types-5.js';
-import type { ImageAttachment, Image } from './types-27.js';
+import type { ImageAttachment, Image } from './types-28.js';
+import type { WebhookBundle } from './types-69.js';
 import type { SelectedProductOption } from './types-59.js';
 import type { CreateBundleRequestInput } from './types-7.js';
 import type { UpdateBundleRequestInput } from './types-66.js';
@@ -47,10 +45,17 @@ import type {
     BuyerSkipCapability,
     BuyerRetentionOfferRequestInput,
     BuyerSkipCapabilityInput,
+    BuyerRefund,
     BuyerSetupCollection
 } from './types-3.js';
-import type { CheckoutSessionTax, CheckoutSubscriptionTerms, CheckoutTheme, CheckoutTipConfig } from './types-6.js';
-import type { LegalSettings } from './types-34.js';
+import type {
+    CheckoutRedirects,
+    CheckoutSessionTax,
+    CheckoutSubscriptionTerms,
+    CheckoutTheme,
+    CheckoutTipConfig
+} from './types-6.js';
+import type { LegalSettings } from './types-35.js';
 import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-12.js';
 import type { ReturnLineItemRequest } from './types-55.js';
 /** Non-secret metadata for the calling credential, selected by auth_type. */
@@ -1986,7 +1991,7 @@ export type BalanceTransactionsListParams = {
         | "payment_split")[]>;
     /**
      * Filter by related_resource.resource_id. pattern:
-     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "related_resource_id"?: InputValue<string>;
@@ -2656,8 +2661,8 @@ export type Bundle = {
      */
     "modifier_set"?: ((ModifierSet) | (null));
     /**
-     * Attached modifier set. Send null on update to remove it. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     * Attached modifier set. Null when no modifier set is assigned. Send null on update to remove
+     * it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR".
      */
     "modifier_set_id": string | null;
     /** Bundle name shown to buyers. */
@@ -2688,30 +2693,8 @@ export type Bundle = {
 export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "barcode"?: string;
-            "bundle_id": string;
-            "categories": Array<CategoryReference>;
-            "component_count": number;
-            "components": Array<BundleComponent>;
-            "created_at"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale": boolean;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "sku"?: string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unit_price_money": MoneyValue;
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Bundle>;
+        "object": WebhookBundle;
+        "previous_attributes"?: Partial<WebhookBundle>;
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "bundle.archived";
@@ -2719,30 +2702,8 @@ export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "barcode"?: string;
-            "bundle_id": string;
-            "categories": Array<CategoryReference>;
-            "component_count": number;
-            "components": Array<BundleComponent>;
-            "created_at"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale": boolean;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "sku"?: string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unit_price_money": MoneyValue;
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Bundle>;
+        "object": WebhookBundle;
+        "previous_attributes"?: Partial<WebhookBundle>;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "bundle.archived";
@@ -2764,210 +2725,25 @@ export type BundleArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
 export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
-     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
-     * CategoryReference}. Always present. Empty collections are returned as [].
-     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
-     * ID, handle, and name. object.component_count (Required): integer. Number of components in
-     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
-     * The bundle's components in position order, on every bundle response including list rows. []
-     * only when the bundle has no components. object.components[] (Value): {@link
-     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
-     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
-     * readiness aggregated across the bundle's components. A bundle with no components reports
-     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
-     * object.description (Optional): string. Description of the bundle shown to buyers.
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
-     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
-     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
-     * to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
-     * `active`, has at least one component, every component's variant and product are `active`,
-     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
-     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
-     * in addition to the resource's read scope. Present only when `expand` includes
-     * `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
-     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
-     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
-     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current resource version. Send it as expected_version to reject a write if the
-     * resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     *  object (Required): {@link WebhookBundle}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `modifier_set`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
-         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
-         * (Required): string. Stable identifier of the bundle. Example:
-         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
-         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
-         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-         * name. component_count (Required): integer. Number of components in the bundle. Format:
-         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
-         * in position order, on every bundle response including list rows. [] only when the bundle
-         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
-         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
-         * the bundle's components. A bundle with no components reports `not_applicable`. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
-         * the bundle can be sold now: it is `active`, has at least one component, every
-         * component's variant and product are `active`, and `delivery_configuration_status` isn't
-         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
-         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
-         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
-         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
-         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
-         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
-         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
-         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
-         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
-         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
-         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
-         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
-         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * version (Required): integer. Current resource version. Send it as expected_version to
-         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": {
-            /** Barcode assigned to this sellable item. */
-            "barcode"?: string;
-            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-            "bundle_id": string;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /** Number of components in the bundle. Format: int32. */
-            "component_count": number;
-            /**
-             * The bundle's components in position order, on every bundle response including list
-             * rows. [] only when the bundle has no components. [] (Value): {@link
-             * BundleComponent}. An item included in a bundle.
-             */
-            "components": Array<BundleComponent>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Delivery readiness aggregated across the bundle's components. A bundle with no
-             * components reports `not_applicable`. Value enum: "configured", "action_required",
-             * "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the bundle shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /**
-             * Whether the bundle can be sold now: it is `active`, has at least one component,
-             * every component's variant and product are `active`, and
-             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-             */
-            "is_available_for_sale": boolean;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Bundle name shown to buyers. */
-            "name": string;
-            /** Stock keeping unit assigned to this sellable item. */
-            "sku"?: string;
-            /**
-             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Price charged for one unit, in the currency's smallest unit. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "unit_price_money": MoneyValue;
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
+        "object": WebhookBundle;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Bundle>;
+        "previous_attributes"?: Partial<WebhookBundle>;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3015,210 +2791,25 @@ export type BundleArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
 export type BundleArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
-     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
-     * CategoryReference}. Always present. Empty collections are returned as [].
-     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
-     * ID, handle, and name. object.component_count (Required): integer. Number of components in
-     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
-     * The bundle's components in position order, on every bundle response including list rows. []
-     * only when the bundle has no components. object.components[] (Value): {@link
-     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
-     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
-     * readiness aggregated across the bundle's components. A bundle with no components reports
-     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
-     * object.description (Optional): string. Description of the bundle shown to buyers.
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
-     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
-     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
-     * to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
-     * `active`, has at least one component, every component's variant and product are `active`,
-     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
-     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
-     * in addition to the resource's read scope. Present only when `expand` includes
-     * `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
-     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
-     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
-     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current resource version. Send it as expected_version to reject a write if the
-     * resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     *  object (Required): {@link WebhookBundle}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `modifier_set`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
-         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
-         * (Required): string. Stable identifier of the bundle. Example:
-         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
-         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
-         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-         * name. component_count (Required): integer. Number of components in the bundle. Format:
-         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
-         * in position order, on every bundle response including list rows. [] only when the bundle
-         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
-         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
-         * the bundle's components. A bundle with no components reports `not_applicable`. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
-         * the bundle can be sold now: it is `active`, has at least one component, every
-         * component's variant and product are `active`, and `delivery_configuration_status` isn't
-         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
-         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
-         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
-         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
-         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
-         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
-         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
-         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
-         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
-         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
-         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
-         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
-         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * version (Required): integer. Current resource version. Send it as expected_version to
-         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": {
-            /** Barcode assigned to this sellable item. */
-            "barcode"?: string;
-            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-            "bundle_id": string;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /** Number of components in the bundle. Format: int32. */
-            "component_count": number;
-            /**
-             * The bundle's components in position order, on every bundle response including list
-             * rows. [] only when the bundle has no components. [] (Value): {@link
-             * BundleComponent}. An item included in a bundle.
-             */
-            "components": Array<BundleComponent>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Delivery readiness aggregated across the bundle's components. A bundle with no
-             * components reports `not_applicable`. Value enum: "configured", "action_required",
-             * "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the bundle shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /**
-             * Whether the bundle can be sold now: it is `active`, has at least one component,
-             * every component's variant and product are `active`, and
-             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-             */
-            "is_available_for_sale": boolean;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Bundle name shown to buyers. */
-            "name": string;
-            /** Stock keeping unit assigned to this sellable item. */
-            "sku"?: string;
-            /**
-             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Price charged for one unit, in the currency's smallest unit. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "unit_price_money": MoneyValue;
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
+        "object": WebhookBundle;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Bundle>;
+        "previous_attributes"?: Partial<WebhookBundle>;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3321,29 +2912,7 @@ export type BundleComponentVariantSummary = {
 export type BundleCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "barcode"?: string;
-            "bundle_id": string;
-            "categories": Array<CategoryReference>;
-            "component_count": number;
-            "components": Array<BundleComponent>;
-            "created_at"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale": boolean;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "sku"?: string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unit_price_money": MoneyValue;
-            "updated_at"?: string;
-            "version": number;
-        };
+        "object": WebhookBundle;
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "bundle.created";
@@ -3351,29 +2920,7 @@ export type BundleCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "barcode"?: string;
-            "bundle_id": string;
-            "categories": Array<CategoryReference>;
-            "component_count": number;
-            "components": Array<BundleComponent>;
-            "created_at"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale": boolean;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "sku"?: string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unit_price_money": MoneyValue;
-            "updated_at"?: string;
-            "version": number;
-        };
+        "object": WebhookBundle;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "bundle.created";
@@ -3395,199 +2942,14 @@ export type BundleCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
 export type BundleCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
-     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
-     * CategoryReference}. Always present. Empty collections are returned as [].
-     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
-     * ID, handle, and name. object.component_count (Required): integer. Number of components in
-     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
-     * The bundle's components in position order, on every bundle response including list rows. []
-     * only when the bundle has no components. object.components[] (Value): {@link
-     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
-     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
-     * readiness aggregated across the bundle's components. A bundle with no components reports
-     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
-     * object.description (Optional): string. Description of the bundle shown to buyers.
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
-     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
-     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
-     * to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
-     * `active`, has at least one component, every component's variant and product are `active`,
-     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
-     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
-     * in addition to the resource's read scope. Present only when `expand` includes
-     * `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
-     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
-     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
-     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current resource version. Send it as expected_version to reject a write if the
-     * resource has changed. Format: uint64. minimum: 0.
+     *  object (Required): {@link WebhookBundle}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `modifier_set`.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
-         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
-         * (Required): string. Stable identifier of the bundle. Example:
-         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
-         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
-         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-         * name. component_count (Required): integer. Number of components in the bundle. Format:
-         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
-         * in position order, on every bundle response including list rows. [] only when the bundle
-         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
-         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
-         * the bundle's components. A bundle with no components reports `not_applicable`. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
-         * the bundle can be sold now: it is `active`, has at least one component, every
-         * component's variant and product are `active`, and `delivery_configuration_status` isn't
-         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
-         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
-         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
-         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
-         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
-         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
-         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
-         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
-         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
-         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
-         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
-         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
-         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * version (Required): integer. Current resource version. Send it as expected_version to
-         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": {
-            /** Barcode assigned to this sellable item. */
-            "barcode"?: string;
-            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-            "bundle_id": string;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /** Number of components in the bundle. Format: int32. */
-            "component_count": number;
-            /**
-             * The bundle's components in position order, on every bundle response including list
-             * rows. [] only when the bundle has no components. [] (Value): {@link
-             * BundleComponent}. An item included in a bundle.
-             */
-            "components": Array<BundleComponent>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Delivery readiness aggregated across the bundle's components. A bundle with no
-             * components reports `not_applicable`. Value enum: "configured", "action_required",
-             * "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the bundle shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /**
-             * Whether the bundle can be sold now: it is `active`, has at least one component,
-             * every component's variant and product are `active`, and
-             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-             */
-            "is_available_for_sale": boolean;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Bundle name shown to buyers. */
-            "name": string;
-            /** Stock keeping unit assigned to this sellable item. */
-            "sku"?: string;
-            /**
-             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Price charged for one unit, in the currency's smallest unit. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "unit_price_money": MoneyValue;
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
+        "object": WebhookBundle;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -3635,199 +2997,14 @@ export type BundleCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
 export type BundleCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
-     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
-     * CategoryReference}. Always present. Empty collections are returned as [].
-     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
-     * ID, handle, and name. object.component_count (Required): integer. Number of components in
-     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
-     * The bundle's components in position order, on every bundle response including list rows. []
-     * only when the bundle has no components. object.components[] (Value): {@link
-     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
-     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
-     * readiness aggregated across the bundle's components. A bundle with no components reports
-     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
-     * object.description (Optional): string. Description of the bundle shown to buyers.
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
-     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
-     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
-     * to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
-     * `active`, has at least one component, every component's variant and product are `active`,
-     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
-     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
-     * in addition to the resource's read scope. Present only when `expand` includes
-     * `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
-     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
-     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
-     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current resource version. Send it as expected_version to reject a write if the
-     * resource has changed. Format: uint64. minimum: 0.
+     *  object (Required): {@link WebhookBundle}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `modifier_set`.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
-         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
-         * (Required): string. Stable identifier of the bundle. Example:
-         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
-         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
-         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-         * name. component_count (Required): integer. Number of components in the bundle. Format:
-         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
-         * in position order, on every bundle response including list rows. [] only when the bundle
-         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
-         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
-         * the bundle's components. A bundle with no components reports `not_applicable`. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
-         * the bundle can be sold now: it is `active`, has at least one component, every
-         * component's variant and product are `active`, and `delivery_configuration_status` isn't
-         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
-         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
-         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
-         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
-         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
-         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
-         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
-         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
-         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
-         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
-         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
-         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
-         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * version (Required): integer. Current resource version. Send it as expected_version to
-         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": {
-            /** Barcode assigned to this sellable item. */
-            "barcode"?: string;
-            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-            "bundle_id": string;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /** Number of components in the bundle. Format: int32. */
-            "component_count": number;
-            /**
-             * The bundle's components in position order, on every bundle response including list
-             * rows. [] only when the bundle has no components. [] (Value): {@link
-             * BundleComponent}. An item included in a bundle.
-             */
-            "components": Array<BundleComponent>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Delivery readiness aggregated across the bundle's components. A bundle with no
-             * components reports `not_applicable`. Value enum: "configured", "action_required",
-             * "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the bundle shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /**
-             * Whether the bundle can be sold now: it is `active`, has at least one component,
-             * every component's variant and product are `active`, and
-             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-             */
-            "is_available_for_sale": boolean;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Bundle name shown to buyers. */
-            "name": string;
-            /** Stock keeping unit assigned to this sellable item. */
-            "sku"?: string;
-            /**
-             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Price charged for one unit, in the currency's smallest unit. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "unit_price_money": MoneyValue;
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
+        "object": WebhookBundle;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -3879,30 +3056,8 @@ export type BundleResponse = {
 export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "barcode"?: string;
-            "bundle_id": string;
-            "categories": Array<CategoryReference>;
-            "component_count": number;
-            "components": Array<BundleComponent>;
-            "created_at"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale": boolean;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "sku"?: string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unit_price_money": MoneyValue;
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Bundle>;
+        "object": WebhookBundle;
+        "previous_attributes"?: Partial<WebhookBundle>;
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "bundle.updated";
@@ -3910,30 +3065,8 @@ export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "barcode"?: string;
-            "bundle_id": string;
-            "categories": Array<CategoryReference>;
-            "component_count": number;
-            "components": Array<BundleComponent>;
-            "created_at"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale": boolean;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "sku"?: string;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unit_price_money": MoneyValue;
-            "updated_at"?: string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Bundle>;
+        "object": WebhookBundle;
+        "previous_attributes"?: Partial<WebhookBundle>;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "bundle.updated";
@@ -3955,210 +3088,25 @@ export type BundleUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
 export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
-     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
-     * CategoryReference}. Always present. Empty collections are returned as [].
-     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
-     * ID, handle, and name. object.component_count (Required): integer. Number of components in
-     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
-     * The bundle's components in position order, on every bundle response including list rows. []
-     * only when the bundle has no components. object.components[] (Value): {@link
-     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
-     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
-     * readiness aggregated across the bundle's components. A bundle with no components reports
-     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
-     * object.description (Optional): string. Description of the bundle shown to buyers.
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
-     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
-     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
-     * to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
-     * `active`, has at least one component, every component's variant and product are `active`,
-     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
-     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
-     * in addition to the resource's read scope. Present only when `expand` includes
-     * `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
-     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
-     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
-     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current resource version. Send it as expected_version to reject a write if the
-     * resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     *  object (Required): {@link WebhookBundle}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `modifier_set`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
-         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
-         * (Required): string. Stable identifier of the bundle. Example:
-         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
-         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
-         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-         * name. component_count (Required): integer. Number of components in the bundle. Format:
-         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
-         * in position order, on every bundle response including list rows. [] only when the bundle
-         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
-         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
-         * the bundle's components. A bundle with no components reports `not_applicable`. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
-         * the bundle can be sold now: it is `active`, has at least one component, every
-         * component's variant and product are `active`, and `delivery_configuration_status` isn't
-         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
-         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
-         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
-         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
-         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
-         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
-         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
-         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
-         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
-         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
-         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
-         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
-         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * version (Required): integer. Current resource version. Send it as expected_version to
-         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": {
-            /** Barcode assigned to this sellable item. */
-            "barcode"?: string;
-            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-            "bundle_id": string;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /** Number of components in the bundle. Format: int32. */
-            "component_count": number;
-            /**
-             * The bundle's components in position order, on every bundle response including list
-             * rows. [] only when the bundle has no components. [] (Value): {@link
-             * BundleComponent}. An item included in a bundle.
-             */
-            "components": Array<BundleComponent>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Delivery readiness aggregated across the bundle's components. A bundle with no
-             * components reports `not_applicable`. Value enum: "configured", "action_required",
-             * "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the bundle shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /**
-             * Whether the bundle can be sold now: it is `active`, has at least one component,
-             * every component's variant and product are `active`, and
-             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-             */
-            "is_available_for_sale": boolean;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Bundle name shown to buyers. */
-            "name": string;
-            /** Stock keeping unit assigned to this sellable item. */
-            "sku"?: string;
-            /**
-             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Price charged for one unit, in the currency's smallest unit. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "unit_price_money": MoneyValue;
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
+        "object": WebhookBundle;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Bundle>;
+        "previous_attributes"?: Partial<WebhookBundle>;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -4206,210 +3154,25 @@ export type BundleUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
 export type BundleUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `modifier_set`. object.barcode (Optional): string. Barcode assigned to this sellable
-     * item. object.bundle_id (Required): string. Stable identifier of the bundle. Example:
-     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". object.categories (Required): Array of {@link
-     * CategoryReference}. Always present. Empty collections are returned as [].
-     * object.categories[] (Value): {@link CategoryReference}. A reference to a product category by
-     * ID, handle, and name. object.component_count (Required): integer. Number of components in
-     * the bundle. Format: int32. object.components (Required): Array of {@link BundleComponent}.
-     * The bundle's components in position order, on every bundle response including list rows. []
-     * only when the bundle has no components. object.components[] (Value): {@link
-     * BundleComponent}. An item included in a bundle. object.created_at (Optional): string. When
-     * this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.delivery_configuration_status (Required): string. Delivery
-     * readiness aggregated across the bundle's components. A bundle with no components reports
-     * `not_applicable`. Value enum: "configured", "action_required", "not_applicable".
-     * object.description (Optional): string. Description of the bundle shown to buyers.
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.images (Required):
-     * Array of {@link ImageAttachment}. Images attached to this resource, in display order. The
-     * first image is primary. object.images[] (Value): {@link ImageAttachment}. An image attached
-     * to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Required): boolean. Whether the bundle can be sold now: it is
-     * `active`, has at least one component, every component's variant and product are `active`,
-     * and `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-     * object.merchant_id (Optional): string. Identifier of the merchant that owns this resource.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null. Attached
-     * modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read
-     * in addition to the resource's read scope. Present only when `expand` includes
-     * `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Bundle name shown
-     * to buyers. object.sku (Optional): string. Stock keeping unit assigned to this sellable item.
-     * object.status (Required): string. Bundle lifecycle status. Archived bundles remain readable
-     * and cannot be edited. Value enum: "active", "inactive", "archived". object.unit_price_money
-     * (Required): {@link MoneyValue}. Price charged for one unit, in the currency's smallest unit.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * object.updated_at (Optional): string. When this resource last changed, as an RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
-     * integer. Current resource version. Send it as expected_version to reject a write if the
-     * resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional): object.
-     * Previous values of changed top-level fields in data.object, at this delivery's API version.
-     * Nested changes include the whole previous top-level value. A value is null when the field
-     * was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
+     *  object (Required): {@link WebhookBundle}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `modifier_set`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields: `modifier_set`.
-         * barcode (Optional): string. Barcode assigned to this sellable item. bundle_id
-         * (Required): string. Stable identifier of the bundle. Example:
-         * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". categories (Required): Array of {@link
-         * CategoryReference}. Always present. Empty collections are returned as []. categories[]
-         * (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-         * name. component_count (Required): integer. Number of components in the bundle. Format:
-         * int32. components (Required): Array of {@link BundleComponent}. The bundle's components
-         * in position order, on every bundle response including list rows. [] only when the bundle
-         * has no components. components[] (Value): {@link BundleComponent}. An item included in a
-         * bundle. created_at (Optional): string. When this resource was created, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * delivery_configuration_status (Required): string. Delivery readiness aggregated across
-         * the bundle's components. A bundle with no components reports `not_applicable`. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the bundle shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Required): boolean. Whether
-         * the bundle can be sold now: it is `active`, has at least one component, every
-         * component's variant and product are `active`, and `delivery_configuration_status` isn't
-         * `action_required`. Stock isn't considered. merchant_id (Optional): string. Identifier of
-         * the merchant that owns this resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-         * metadata (Optional): {@link MetadataMap}. Caller-owned metadata stored on this resource.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. modifier_set
-         * (Optional): {@link ModifierSet} or null. Attached modifier set, included when
-         * expand=modifier_set is requested. Requires commerce.catalog.read in addition to the
-         * resource's read scope. Present only when `expand` includes `modifier_set`; `null` when
-         * expanded and there is no related modifier set. modifier_set.anyOf[1] (Value): {@link
-         * ModifierSet}. A reusable collection of customization groups. modifier_set.anyOf[2]
-         * (Value): null. modifier_set_id (Required): string or null. Attached modifier set. Send
-         * null on update to remove it. Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required):
-         * string. Bundle name shown to buyers. sku (Optional): string. Stock keeping unit assigned
-         * to this sellable item. status (Required): string. Bundle lifecycle status. Archived
-         * bundles remain readable and cannot be edited. Value enum: "active", "inactive",
-         * "archived". unit_price_money (Required): {@link MoneyValue}. Price charged for one unit,
-         * in the currency's smallest unit. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * version (Required): integer. Current resource version. Send it as expected_version to
-         * reject a write if the resource has changed. Format: uint64. minimum: 0.
          */
-        "object": {
-            /** Barcode assigned to this sellable item. */
-            "barcode"?: string;
-            /** Stable identifier of the bundle. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-            "bundle_id": string;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /** Number of components in the bundle. Format: int32. */
-            "component_count": number;
-            /**
-             * The bundle's components in position order, on every bundle response including list
-             * rows. [] only when the bundle has no components. [] (Value): {@link
-             * BundleComponent}. An item included in a bundle.
-             */
-            "components": Array<BundleComponent>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * Delivery readiness aggregated across the bundle's components. A bundle with no
-             * components reports `not_applicable`. Value enum: "configured", "action_required",
-             * "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the bundle shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /**
-             * Whether the bundle can be sold now: it is `active`, has at least one component,
-             * every component's variant and product are `active`, and
-             * `delivery_configuration_status` isn't `action_required`. Stock isn't considered.
-             */
-            "is_available_for_sale": boolean;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Bundle name shown to buyers. */
-            "name": string;
-            /** Stock keeping unit assigned to this sellable item. */
-            "sku"?: string;
-            /**
-             * Bundle lifecycle status. Archived bundles remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Price charged for one unit, in the currency's smallest unit. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "unit_price_money": MoneyValue;
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
+        "object": WebhookBundle;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Bundle>;
+        "previous_attributes"?: Partial<WebhookBundle>;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -4952,7 +3715,12 @@ export type BuyerCheckoutProblemResource = {
 };
 /** A session in which a buyer completes an order's payment. */
 export type BuyerCheckoutSession = {
-    /** An attempt to pay an order. */
+    /**
+     * The payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them. An attempt to pay an order.
+     */
     "active_payment_attempt"?: BuyerOrderPaymentAttempt;
     /**
      * Contact the buyer entered in checkout before paying, saved with the session's checkout
@@ -5106,6 +3874,16 @@ export type BuyerCheckoutSession = {
     /** Origin of the page that renders this headless checkout. Omitted when not set. */
     "page_origin"?: string;
     /**
+     * Whether at least one saved card this checkout lists would be refused for the current
+     * delivery destination because the paying credential last confirmed a code more than 15
+     * minutes ago. Request a code with purpose pay_to_new_address, without email or channel, and
+     * confirm it with this credential before paying. A Flint wallet card can still pay to an
+     * address in that wallet while this is true for a store saved card. Pickup and orders that
+     * ship nothing never require this verification. Returned only to the checkout credential.
+     * Returned only to the checkout credential; never in webhook payloads.
+     */
+    "pay_to_new_address_requires_verification"?: boolean;
+    /**
      * Guidance for collecting a payment source. Checkout-credential reads include it only while
      * the session is open. Returned only to the checkout credential; never in webhook payloads.
      * What a client needs to collect payment for a buyer's order. The `stripe` field holds the
@@ -5194,6 +3972,15 @@ export type BuyerCheckoutSession = {
      * payment_return_url.
      */
     "redirects"?: CheckoutRedirects;
+    /**
+     * All buyer-visible refunds on this session’s order, including refunds made by the store. Uses
+     * the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an
+     * array, with [] when there are none, and omitted from other responses and webhooks. A failed
+     * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+     * contact the store to get their money back. [] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment.
+     */
+    "refunds"?: Array<BuyerRefund>;
     /**
      * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
      * code. A new card can be saved pending with the payment and confirmed on the receipt; using
@@ -5335,6 +4122,12 @@ export type BuyerCheckoutSessionWithSecret = (Exclude<BuyerCheckoutSession & obj
      * launch and when a saved-card confirmation keeps the current credential.
      */
     "checkout_auth_token"?: string;
+    /**
+     * One-time identity token returned only when a successful code confirmation remembered the
+     * buyer. Store it on your backend or in an HttpOnly cookie. It never opens saved cards.
+     * minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
 });
 /** The request body for: Preview Return eligibility or resolution amounts for the current buyer. */
 export type BuyerCreateReturnPreviewRequest = ({

@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntentActivities"]:r0,["listPaymentIntents"]:r0,["sendPaymentIntentReceipt"]:r0,["updatePaymentIntent"]:r0});
 export class Client {
@@ -53,7 +53,7 @@ this.paymentIntents = Object.freeze({
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
-], true, true, params, [
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -253,6 +253,8 @@ export { makeCreatePaymentIntentRequest } from '../models/CreatePaymentIntentReq
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOrderPaymentSourceCardSelection } from '../models/OrderPaymentSourceCardSelection.js';
+export { makeOrderPaymentSourceSelection } from '../models/OrderPaymentSourceSelection.js';
 export { makePaymentSplitRequest } from '../models/PaymentSplitRequest.js';
 export { makePlatformFeeRequest } from '../models/PlatformFeeRequest.js';
 export { makeReaderPaymentSourceTip } from '../models/ReaderPaymentSourceTip.js';

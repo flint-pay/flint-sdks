@@ -10,5 +10,5 @@ Card options for the payment source selected on an order payment intent, includi
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `digital_wallets` | Optional | Array of string | Items: minLength: `1`. |
+| `digital_wallets` | Optional | Array of string | Digital wallets to offer with card: apple_pay, google_pay, or both. Omit it or send an empty list to offer card alone. Items: minLength: `1`. |
 

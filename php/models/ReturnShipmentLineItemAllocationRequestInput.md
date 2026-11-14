@@ -2,7 +2,7 @@
 
 ## ReturnShipmentLineItemAllocationRequestInput
 
-A return line and the quantity placed in a return shipment or package.
+A Return line and the quantity to place in a return shipment or package. The enclosing Return or shipment determines its parent.
 
 Request input.
 

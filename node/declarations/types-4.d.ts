@@ -1,24 +1,190 @@
-import type { CategoryReference, CapturePaymentSplitRequestInput } from './types-5.js';
-import type { Image } from './types-27.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { OrderLineItemTax } from './types-40.js';
-import type { SelectedProductOption } from './types-59.js';
-import type { SubscriptionPlanSwapVariant, SubscriptionPlanChangePreview, SubscriptionPreview } from './types-62.js';
+import type { BuyerSubscriptionPaymentRetry, BuyerSubscription, BuyerSubscriptionLineItem } from './types-3.js';
 import type { ResponseMeta } from './types-54.js';
-import type { SubscriptionQuantityChangePreview, SubscriptionRenewalPreview } from './types-63.js';
-import type { BuyerOrder, BuyerOrderPaymentAttempt, BuyerExpandedSubscriptionPlanSummary } from './types-2.js';
-import type { BuyerSubscription, BuyerSubscriptionLineItem } from './types-3.js';
+import type { BuyerExpandedSubscriptionPlanSummary, BuyerOrder, BuyerOrderPaymentAttempt } from './types-2.js';
+import type { CategoryReference } from './types-5.js';
+import type { Image } from './types-28.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { OrderLineItemTax } from './types-41.js';
+import type { SelectedProductOption } from './types-59.js';
+import type {
+    SubscriptionPlanSwapVariant,
+    SubscriptionPreview,
+    SubscriptionQuantityChangePreview,
+    SubscriptionRenewalPreview
+} from './types-63.js';
+import type { SubscriptionPlanChangePreview } from './types-62.js';
 import type { Address, AcceptFulfillmentRequestInput, ApplyInventoryCountRequestInput } from './types-0.js';
-import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-65.js';
+import type { TipPaymentIntentAllocation, TipValueSettlementAllocation } from './types-66.js';
 import type { ContextSummary } from './types-7.js';
 import type { DeliveryWindowRequest, DeliveryWindowRequestInput } from './types-22.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
 import type { PayOrderResponse } from './types-44.js';
-import type { GetReturnDispositionResponse, GetReturnResolutionResponse } from './types-25.js';
-import type { GetReturnResponse } from './types-26.js';
-import type { ReadinessAction, ReadinessRequirements } from './types-52.js';
-import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-49.js';
-import type { SplitReversalRequest } from './types-60.js';
+import type { GetReturnDispositionResponse, GetReturnResponse, GetReturnResolutionResponse } from './types-26.js';
+/** A response containing `BuyerSubscriptionPaymentRetry` data. */
+export type BuyerSubscriptionPaymentRetryResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A retry of a past-due
+     * payment on the buyer's subscription. Includes, when available, its order, payment intent and
+     * a failure the buyer can act on. Omits the store's idempotency key.
+     */
+    "data": BuyerSubscriptionPaymentRetry;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * A subscription plan this buyer may choose, with the store's billing timing and the target plan's
+ * summary.
+ */
+export type BuyerSubscriptionPlanChangeOption = {
+    /**
+     * The store's billing timing for this target: now collects a new period with unused-time
+     * credit; next_renewal changes the plan now and keeps the current paid period and next billing
+     * date; period_end keeps the current plan until the next charged renewal; prorated_now charges
+     * the difference for the rest of the current period and keeps the period and anchor. Value
+     * enum: "now", "next_renewal", "period_end", "prorated_now".
+     */
+    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now" | (string & {});
+    /**
+     * The target plan's current summary. A subscription plan expanded on a buyer's order: billing
+     * interval, setup fee, trial length, status, and line items.
+     */
+    "subscription_plan": BuyerExpandedSubscriptionPlanSummary;
+    /**
+     * The target subscription plan. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id": string;
+};
+/**
+ * The subscription is the primary resource and expected_version target; the result uses the same
+ * subscription and order fields as the corresponding /v1/me reads. The order and
+ * order_payment_attempt are null when billing_starts is next_renewal or period_end, or the
+ * prorated_now net charge is zero.
+ */
+export type BuyerSubscriptionPlanChangeResult = {
+    /**
+     * The resolved billing timing for this plan change. Value enum: "now", "next_renewal",
+     * "period_end", "prorated_now".
+     */
+    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now" | (string & {});
+    /**
+     * The new period or proration order when billing_starts is now or prorated_now, including a
+     * closed unpaid order when payment fails. Null when billing_starts is next_renewal or
+     * period_end, or a prorated_now net charge is zero. anyOf[1] (Value): {@link BuyerOrder}. A
+     * customer's purchase and its payment and fulfillment progress. anyOf[2] (Value): null.
+     */
+    "order": ((BuyerOrder) | (null));
+    /**
+     * The recorded payment attempt when billing_starts is now or prorated_now, including declines.
+     * Null when billing_starts is next_renewal or period_end, or a prorated_now net charge is
+     * zero. anyOf[1] (Value): {@link BuyerOrderPaymentAttempt}. An attempt to pay an order.
+     * anyOf[2] (Value): null.
+     */
+    "order_payment_attempt": ((BuyerOrderPaymentAttempt) | (null));
+    /**
+     * The subscription after this request, including any scheduled plan change, or the unchanged
+     * subscription when payment fails. A customer's recurring purchase.
+     */
+    "subscription": BuyerSubscription;
+};
+/** A response containing `BuyerSubscriptionPlanChangeResult` data. */
+export type BuyerSubscriptionPlanChangeResultResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The subscription is the
+     * primary resource and expected_version target; the result uses the same subscription and
+     * order fields as the corresponding /v1/me reads. The order and order_payment_attempt are null
+     * when billing_starts is next_renewal or period_end, or the prorated_now net charge is zero.
+     */
+    "data": BuyerSubscriptionPlanChangeResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A line item on a subscription plan. */
+export type BuyerSubscriptionPlanLineItem = ({
+    /**
+     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
+     * may allow adjustment. Default: false.
+     */
+    "allow_quantity_adjustment"?: boolean;
+    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /**
+     *  [] (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
+     * name.
+     */
+    "categories"?: Array<CategoryReference>;
+    "description"?: string;
+    /** An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /**
+     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
+     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
+     * minimum: 1. maximum: 9999. Default: 9999.
+     */
+    "max_quantity"?: number;
+    /**
+     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
+     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
+     * maximum: 9999. Default: 1.
+     */
+    "min_quantity"?: number;
+    "name"?: string;
+    /** Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
+     * variant, such as size Large.
+     */
+    "selected_options"?: Array<SelectedProductOption>;
+    "sku"?: string;
+    /**
+     * Unique identifier for this subscription plan line item, prefixed `spli_`. Example:
+     * "spli_01KEZF7C00H9FGC2KBRF82H87N".
+     */
+    "subscription_plan_line_item_id": string;
+    /**
+     * maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "swap_variant_ids": Array<string>;
+    /**
+     * Current sellable alternatives in swap_variant_ids order, excluding the line's own variant
+     * and variants priced in a different currency. Present on variant lines, including an empty
+     * array. maxItems: 25. [] (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber
+     * can swap to on a plan line, with its name, options, and price.
+     */
+    "swap_variants"?: Array<SubscriptionPlanSwapVariant>;
+    /** A line item's tax category and whether it is taxable. */
+    "tax"?: OrderLineItemTax;
+    /** Value enum: "variant", "bundle", "custom". */
+    "type": "variant" | "bundle" | "custom" | (string & {});
+    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    "unit_price_money"?: MoneyValue;
+    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id"?: string;
+})
+    & ((Exclude<BuyerSubscriptionPlanLineItemVariant & object, readonly unknown[]>)
+    | (Exclude<BuyerSubscriptionPlanLineItemBundle & object, readonly unknown[]>)
+    | (Exclude<BuyerSubscriptionPlanLineItemCustom & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /** A line item on a subscription plan. */
 export type BuyerSubscriptionPlanLineItemBundle = ({
     /**
@@ -1875,320 +2041,3 @@ export type CancelReturnRequestInput = {
 export type CancelReturnResolutionRequestInput = CancelReturnRequestInput;
 export type CancelReturnResolutionResponse = GetReturnResolutionResponse;
 export type CancelReturnResponse = GetReturnResponse;
-/** Cancellation timing and the optional reason and comment recorded with the request. */
-export type CancelSubscriptionRequest = {
-    /**
-     * When true, ends the subscription now. Otherwise, schedules cancellation at trial_end_at
-     * while trialing, current_period_end_at while active, or next_retry_at while past_due, instead
-     * of that charge. An active subscription with an expired renewal delivery hold ends now. A
-     * scheduled, incomplete, or paused subscription, or a past_due subscription without
-     * next_retry_at, requires cancel_immediately: true; otherwise returns 409 ACTION_NOT_ALLOWED
-     * with reason period_end_unavailable. A buyer may cancel immediately when the store allows
-     * buyer_chooses or no scheduled cancellation time is available. Under end_of_period, a trial
-     * continues until trial_end_at.
-     */
-    "cancel_immediately"?: boolean;
-    /**
-     * Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed.
-     * Recorded in cancellation_details.comment, which only merchant credentials read. minLength:
-     * 1. maxLength: 500.
-     */
-    "cancellation_comment"?: string;
-    /**
-     * Optional. Why the subscription is being canceled. When the store lists
-     * customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one
-     * of them; merchant credentials may send any code. Recorded in
-     * cancellation_details.reason_code. Value enum: "too_expensive", "missing_features",
-     * "switched_service", "unused", "customer_service", "too_complex", "low_quality", "other".
-     */
-    "cancellation_reason_code"?: "too_expensive"
-        | "missing_features"
-        | "switched_service"
-        | "unused"
-        | "customer_service"
-        | "too_complex"
-        | "low_quality"
-        | "other"
-        | (string & {});
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked to cancel: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/cancel. Recorded in
-     * cancellation_details.requested_by and cancellation_reason. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
-};
-/** Cancellation timing and the optional reason and comment recorded with the request. */
-export type CancelSubscriptionRequestInput = {
-    /**
-     * When true, ends the subscription now. Otherwise, schedules cancellation at trial_end_at
-     * while trialing, current_period_end_at while active, or next_retry_at while past_due, instead
-     * of that charge. An active subscription with an expired renewal delivery hold ends now. A
-     * scheduled, incomplete, or paused subscription, or a past_due subscription without
-     * next_retry_at, requires cancel_immediately: true; otherwise returns 409 ACTION_NOT_ALLOWED
-     * with reason period_end_unavailable. A buyer may cancel immediately when the store allows
-     * buyer_chooses or no scheduled cancellation time is available. Under end_of_period, a trial
-     * continues until trial_end_at.
-     */
-    "cancel_immediately"?: boolean;
-    /**
-     * Free text about the cancellation, up to 500 characters after surrounding spaces are trimmed.
-     * Recorded in cancellation_details.comment, which only merchant credentials read. minLength:
-     * 1. maxLength: 500.
-     */
-    "cancellation_comment"?: string;
-    /**
-     * Optional. Why the subscription is being canceled. When the store lists
-     * customer_account.buyer_capabilities.cancellation_reasons, a reason a buyer sends must be one
-     * of them; merchant credentials may send any code. Recorded in
-     * cancellation_details.reason_code. Value enum: "too_expensive", "missing_features",
-     * "switched_service", "unused", "customer_service", "too_complex", "low_quality", "other".
-     */
-    "cancellation_reason_code"?: "too_expensive"
-        | "missing_features"
-        | "switched_service"
-        | "unused"
-        | "customer_service"
-        | "too_complex"
-        | "low_quality"
-        | "other";
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked to cancel: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/cancel. Recorded in
-     * cancellation_details.requested_by and cancellation_reason. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration";
-};
-/** Merchant capability readiness for a payment or money movement capability. */
-export type CapabilityReadiness = {
-    /**
-     * Flint-owned capability name. Payment capabilities describe transaction acceptance readiness;
-     * money movement capabilities describe payout and balance movement readiness. Value enum:
-     * "accept_card_payments", "save_payment_methods", "accept_affirm_payments",
-     * "accept_ach_debit_payments", "receive_payouts", "create_standard_payouts",
-     * "manage_payout_destinations", "manage_payout_settings".
-     */
-    "capability": "accept_card_payments"
-        | "save_payment_methods"
-        | "accept_affirm_payments"
-        | "accept_ach_debit_payments"
-        | "receive_payouts"
-        | "create_standard_payouts"
-        | "manage_payout_destinations"
-        | "manage_payout_settings"
-        | (string & {});
-    /**
-     * Product domain this capability belongs to: payments for payment acceptance or money_movement
-     * for balances and payouts. Value enum: "money_movement", "payments".
-     */
-    "domain": "money_movement" | "payments" | (string & {});
-    /**
-     * Actions that can remediate or refresh this capability when Flint can suggest one. []
-     * (Value): {@link ReadinessAction}. A step that moves a merchant capability or readiness axis
-     * forward, with the party that must do it (`owner`) and any required fields.
-     */
-    "next_actions": Array<ReadinessAction>;
-    /**
-     * Merchant requirements that affect this capability. Account information requirements for a
-     * merchant, grouped as currently due, eventually due, past due, and pending verification.
-     */
-    "requirements": ReadinessRequirements;
-    /**
-     * Current readiness status for this capability. Value enum: "ready", "pending", "blocked",
-     * "not_requested", "not_available".
-     */
-    "status": "ready" | "pending" | "blocked" | "not_requested" | "not_available" | (string & {});
-    /**
-     * Why readiness has its current status. MERCHANT_NOT_READY uses onboarding_required for
-     * onboarding_not_started, requirements_due, requirements_past_due and pending_verification,
-     * and platform_review for Flint's own review. `null` when no reason applies. Value enum:
-     * "provisioning", "onboarding_not_started", "requirements_due", "requirements_past_due",
-     * "pending_verification", "account_rejected", "disabled_by_platform_policy",
-     * "billing_suspended", "platform_review", "processing_not_enabled",
-     * "platform_funding_unavailable", "tax_category_required", "service_unavailable",
-     * "payment_option_access_not_provisioned", "payment_option_activation_pending",
-     * "payment_option_not_in_plan", "payment_option_not_available", "capability_not_active",
-     * "other".
-     */
-    "status_reason"?: "provisioning"
-        | "onboarding_not_started"
-        | "requirements_due"
-        | "requirements_past_due"
-        | "pending_verification"
-        | "account_rejected"
-        | "disabled_by_platform_policy"
-        | "billing_suspended"
-        | "platform_review"
-        | "processing_not_enabled"
-        | "platform_funding_unavailable"
-        | "tax_category_required"
-        | "service_unavailable"
-        | "payment_option_access_not_provisioned"
-        | "payment_option_activation_pending"
-        | "payment_option_not_in_plan"
-        | "payment_option_not_available"
-        | "capability_not_active"
-        | "other"
-        | (string & {});
-};
-/** The request body for: Capture payment intent. */
-export type CapturePaymentIntentRequest = {
-    /**
-     * Amount to capture, in the authorization's currency. Omit it to capture all of
-     * capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same
-     * request, and the payment intent can't be captured again. Must be greater than zero and at
-     * most capturable_money. Affirm payments can only be captured in full. Can't be combined with
-     * final_amount_money or tip_money. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * The bill without the tip. The capture collects final_amount_money plus tip_money in one
-     * charge. With only tip_money, the bill is the authorization minus the tip it carries; when
-     * the authorization is all tip, final_amount_money is required. Must be greater than zero, in
-     * the payment's currency. On an order's payment, it is at most the authorization minus the tip
-     * it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with
-     * maximum_money on final_amount_money. The order releases the difference. Not accepted on
-     * Affirm or ACH debit payments. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "final_amount_money"?: MoneyValue;
-    /**
-     * A platform fee your partner app charges on this payment, set when you know the final bill
-     * and tip. Only the partner app install token that created the payment can send it; from any
-     * other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. It replaces the fee
-     * the payment was created with, or adds one if it had none, after the same consent, capability
-     * and currency checks as at create: amount_money must be above zero and in the payment's
-     * currency, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money. Without
-     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
-     * platform_fee_consent_required; in live mode the partner app's platform_fees capability must
-     * be active. A fee that already ended is ACTION_NOT_ALLOWED with reason terminal_status. The
-     * cap and Flint's own fees apply to the captured total, so Flint lowers the fee rather than
-     * refusing the capture. A payment that belongs to an order can't take it at capture:
-     * INVALID_REQUEST with NOT_ALLOWED on platform_fee. Part of the request fingerprint. See
-     * [Platform fees](/docs/guides/platform-fees). A platform fee the partner app charges on the
-     * payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of
-     * it.
-     */
-    "platform_fee"?: PlatformFeeRequest;
-    /**
-     * Final split amounts for this capture. List every split that isn't canceled, once each, with
-     * an amount above zero in the payment's currency. Omit splits to keep the stored amounts. The
-     * total must fit after Flint's fees and one minor unit for the collecting merchant; otherwise
-     * INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. An amount_money too small
-     * for the stored splits is LIMIT_EXCEEDED with minimum_money. A payment created without splits
-     * can't gain them. Part of the idempotency fingerprint. minItems: 1. maxItems: 25. [] (Value):
-     * {@link SplitReversalRequest}. The final amount of an existing split at capture.
-     */
-    "splits"?: Array<SplitReversalRequest>;
-    /**
-     * The tip, replacing the tip the authorization carries. Zero captures without a tip. With only
-     * final_amount_money, the tip is the one the authorization carries, or zero. At most the
-     * larger of 1,000.00 USD and final_amount_money; on an order's payment, the larger of 1,000.00
-     * USD and the payment's share of the order's subtotal after discounts. Above it
-     * INVALID_REQUEST with INVALID_VALUE on tip_money and maximum_money. On an order's payment,
-     * keeping or lowering the tip the authorization carries is never refused, and the tip becomes
-     * this payment's part of the order's tip. A payment that doesn't carry part of the order's
-     * requested tip can't add a tip above zero beside it: INVALID_REQUEST with NOT_ALLOWED on
-     * tip_money. On an order, the bill can't grow, so without overcapture a tip fits only within
-     * what the bill leaves of the hold. The total is at most overcapture.maximum_capturable_money
-     * when overcapture is available, else capturable_money; above it LIMIT_EXCEEDED with
-     * maximum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "tip_money"?: MoneyValue;
-};
-/** The request body for: Capture payment intent. */
-export type CapturePaymentIntentRequestInput = {
-    /**
-     * Amount to capture, in the authorization's currency. Omit it to capture all of
-     * capturable_money. A smaller amount is a partial capture: Flint releases the rest in the same
-     * request, and the payment intent can't be captured again. Must be greater than zero and at
-     * most capturable_money. Affirm payments can only be captured in full. Can't be combined with
-     * final_amount_money or tip_money. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValueInput;
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * The bill without the tip. The capture collects final_amount_money plus tip_money in one
-     * charge. With only tip_money, the bill is the authorization minus the tip it carries; when
-     * the authorization is all tip, final_amount_money is required. Must be greater than zero, in
-     * the payment's currency. On an order's payment, it is at most the authorization minus the tip
-     * it carries, so the order's items, charges and tax can't grow; above it LIMIT_EXCEEDED with
-     * maximum_money on final_amount_money. The order releases the difference. Not accepted on
-     * Affirm or ACH debit payments. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code.
-     */
-    "final_amount_money"?: MoneyValueInput;
-    /**
-     * A platform fee your partner app charges on this payment, set when you know the final bill
-     * and tip. Only the partner app install token that created the payment can send it; from any
-     * other credential it is INVALID_REQUEST with NOT_ALLOWED on platform_fee. It replaces the fee
-     * the payment was created with, or adds one if it had none, after the same consent, capability
-     * and currency checks as at create: amount_money must be above zero and in the payment's
-     * currency, otherwise INVALID_REQUEST with INVALID_VALUE on platform_fee.amount_money. Without
-     * an approved cap in this currency it is ACTION_NOT_ALLOWED with reason
-     * platform_fee_consent_required; in live mode the partner app's platform_fees capability must
-     * be active. A fee that already ended is ACTION_NOT_ALLOWED with reason terminal_status. The
-     * cap and Flint's own fees apply to the captured total, so Flint lowers the fee rather than
-     * refusing the capture. A payment that belongs to an order can't take it at capture:
-     * INVALID_REQUEST with NOT_ALLOWED on platform_fee. Part of the request fingerprint. See
-     * [Platform fees](/docs/guides/platform-fees). A platform fee the partner app charges on the
-     * payment, beside Flint's fees. The installed merchant pays it, and Flint takes no share of
-     * it.
-     */
-    "platform_fee"?: PlatformFeeRequestInput;
-    /**
-     * Final split amounts for this capture. List every split that isn't canceled, once each, with
-     * an amount above zero in the payment's currency. Omit splits to keep the stored amounts. The
-     * total must fit after Flint's fees and one minor unit for the collecting merchant; otherwise
-     * INVALID_REQUEST with INVALID_VALUE on splits and maximum_money. An amount_money too small
-     * for the stored splits is LIMIT_EXCEEDED with minimum_money. A payment created without splits
-     * can't gain them. Part of the idempotency fingerprint. minItems: 1. maxItems: 25. [] (Value):
-     * {@link CapturePaymentSplitRequestInput}. The final amount of an existing split at capture.
-     */
-    "splits"?: Array<CapturePaymentSplitRequestInput>;
-    /**
-     * The tip, replacing the tip the authorization carries. Zero captures without a tip. With only
-     * final_amount_money, the tip is the one the authorization carries, or zero. At most the
-     * larger of 1,000.00 USD and final_amount_money; on an order's payment, the larger of 1,000.00
-     * USD and the payment's share of the order's subtotal after discounts. Above it
-     * INVALID_REQUEST with INVALID_VALUE on tip_money and maximum_money. On an order's payment,
-     * keeping or lowering the tip the authorization carries is never refused, and the tip becomes
-     * this payment's part of the order's tip. A payment that doesn't carry part of the order's
-     * requested tip can't add a tip above zero beside it: INVALID_REQUEST with NOT_ALLOWED on
-     * tip_money. On an order, the bill can't grow, so without overcapture a tip fits only within
-     * what the bill leaves of the hold. The total is at most overcapture.maximum_capturable_money
-     * when overcapture is available, else capturable_money; above it LIMIT_EXCEEDED with
-     * maximum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "tip_money"?: MoneyValueInput;
-};

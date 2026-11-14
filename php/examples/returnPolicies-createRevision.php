@@ -17,12 +17,12 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->returnPolicies->createRevision('rpol_01KEZF7C00H8C042BEK6HBRANX', [
-  'expected_version' => 1,
+  'expected_return_policy_version' => 1,
   'revision' => (object) [
     'approval_mode' => 'automatic',
     'eligibility_result' => 'ineligible',
     'is_merchandise_return_required' => true,
-    'priority' => 1,
+    'priority' => 0,
     'scope' => (object) [
       'match_type' => 'all',
     ],

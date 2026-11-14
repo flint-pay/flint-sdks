@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# ResolvePaymentLinkTextModifierRequestInput to ReturnReceiptVerifiedMerchantEventInput
+# ReportResponseInput to ReturnReasonSummaryInput
 
+- [ReportResponseInput](ReportResponseInput.md)
+- [ReportSucceededInput](ReportSucceededInput.md)
+- [ReportSucceededEventInput](ReportSucceededEventInput.md)
+- [RepriceDiscountsRequestInput](RepriceDiscountsRequestInput.md)
+- [ResendWebhookDeliveryRequestInput](ResendWebhookDeliveryRequestInput.md)
+- [ResetDemoSessionRequestInput](ResetDemoSessionRequestInput.md)
+- [ResolveCustomerDeletionRequestInput](ResolveCustomerDeletionRequestInput.md)
+- [ResolveOrderInventoryExceptionRequestInput](ResolveOrderInventoryExceptionRequestInput.md)
+- [ResolvePaymentLinkLineItemModifierRequestInput](ResolvePaymentLinkLineItemModifierRequestInput.md)
+- [ResolvePaymentLinkLineItemModifiersInput](ResolvePaymentLinkLineItemModifiersInput.md)
+- [ResolvePaymentLinkRequestInput](ResolvePaymentLinkRequestInput.md)
+- [ResolvePaymentLinkResponseInput](ResolvePaymentLinkResponseInput.md)
 - [ResolvePaymentLinkTextModifierRequestInput](ResolvePaymentLinkTextModifierRequestInput.md)
 - [ResourceReferenceInput](ResourceReferenceInput.md)
 - [ResourceTimelineInput](ResourceTimelineInput.md)
@@ -90,16 +102,4 @@
 - [ReturnProcessResultInput](ReturnProcessResultInput.md)
 - [ReturnReasonInput](ReturnReasonInput.md)
 - [ReturnReasonSummaryInput](ReturnReasonSummaryInput.md)
-- [ReturnReceiptInput](ReturnReceiptInput.md)
-- [ReturnReceiptCreatedInstalledMerchantsEventInput](ReturnReceiptCreatedInstalledMerchantsEventInput.md)
-- [ReturnReceiptCreatedMerchantEventInput](ReturnReceiptCreatedMerchantEventInput.md)
-- [ReturnReceiptLineItemInput](ReturnReceiptLineItemInput.md)
-- [ReturnReceiptLineItemInputExcessInput](ReturnReceiptLineItemInputExcessInput.md)
-- [ReturnReceiptLineItemInputMatchedInput](ReturnReceiptLineItemInputMatchedInput.md)
-- [ReturnReceiptLineItemInputUnverifiedInput](ReturnReceiptLineItemInputUnverifiedInput.md)
-- [ReturnReceiptLineItemRequestInput](ReturnReceiptLineItemRequestInput.md)
-- [ReturnReceiptSupersededInstalledMerchantsEventInput](ReturnReceiptSupersededInstalledMerchantsEventInput.md)
-- [ReturnReceiptSupersededMerchantEventInput](ReturnReceiptSupersededMerchantEventInput.md)
-- [ReturnReceiptVerifiedInstalledMerchantsEventInput](ReturnReceiptVerifiedInstalledMerchantsEventInput.md)
-- [ReturnReceiptVerifiedMerchantEventInput](ReturnReceiptVerifiedMerchantEventInput.md)
 

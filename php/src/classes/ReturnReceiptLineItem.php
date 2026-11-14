@@ -4,6 +4,7 @@ namespace Flint;
 /**
  * @property-read int $available_disposition_quantity
  * @property-read int $quantity
+ * @property-read string|null $return_id
  * @property-read ?string $return_line_item_id
  * @property-read string $return_receipt_id
  * @property-read string $return_receipt_line_item_id
@@ -16,7 +17,7 @@ namespace Flint;
  * @property-read ?ReturnActor $verified_by
  * Presence-aware response; omitted optional fields return null. */
 final class ReturnReceiptLineItem extends Model {
-    /** @param array{'available_disposition_quantity': int, 'quantity': int, 'return_line_item_id'?: string, 'return_receipt_id': string, 'return_receipt_line_item_id': string, 'supported_actions': list<string>, 'unverified_item'?: mixed, 'verification_reason'?: string, 'verification_reason_message'?: string, 'verification_status': string, 'verified_at'?: string, 'verified_by'?: mixed, ...}|object $values */
+    /** @param array{'available_disposition_quantity': int, 'quantity': int, 'return_id': string|null, 'return_line_item_id'?: string, 'return_receipt_id': string, 'return_receipt_line_item_id': string, 'supported_actions': list<string>, 'unverified_item'?: mixed, 'verification_reason'?: string, 'verification_reason_message'?: string, 'verification_status': string, 'verified_at'?: string, 'verified_by'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnReceiptLineItem')); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -28,6 +29,11 @@ final class ReturnReceiptLineItem extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null.
+     * @return string|null
+     */
+    public function getReturnId(): string|null { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the units were matched to. Absent for unverified units.
      * @return ?string
      */

@@ -1,0 +1,373 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read list<string> $cc_emails
+ * @property-read string|\DateTimeInterface $closed_at
+ * @property-read InvoiceCollectionInput|array<array-key, mixed>|\stdClass $collection
+ * @property-read string $collection_block_status
+ * @property-read string|\DateTimeInterface $created_at
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $currently_due_money
+ * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
+ * @property-read string $customer_id
+ * @property-read string $delivery_mode
+ * @property-read string $due_date
+ * @property-read string|null $external_reference_id
+ * @property-read string|null $footer
+ * @property-read string $invoice_id
+ * @property-read string $invoice_number
+ * @property-read bool $is_overdue
+ * @property-read string|\DateTimeInterface $issued_at
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $late_fee_money
+ * @property-read list<InvoiceLateFeeInput|array<array-key, mixed>|\stdClass> $late_fees
+ * @property-read string|null $memo
+ * @property-read string $merchant_id
+ * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
+ * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
+ * @property-read string $order_id
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $outstanding_money
+ * @property-read string|\DateTimeInterface $paid_at
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $paid_money
+ * @property-read InvoicePaymentDueInput|array<array-key, mixed>|\stdClass $payment_due
+ * @property-read InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass $payment_terms_snapshot
+ * @property-read string|null $po_number
+ * @property-read PricingAmountsInput|array<array-key, mixed>|\stdClass $pricing_amounts
+ * @property-read string|null $recipient_email
+ * @property-read string|null $reference
+ * @property-read string $refund_status
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
+ * @property-read bool $reminders_paused
+ * @property-read string|\DateTimeInterface $reminders_paused_at
+ * @property-read AddressInput|array<array-key, mixed>|\stdClass $remit_to_address
+ * @property-read list<InvoiceScheduleEntryInput|array<array-key, mixed>|\stdClass> $schedule_entries
+ * @property-read string|\DateTimeInterface|null $scheduled_issue_at
+ * @property-read string|null $service_date
+ * @property-read InvoiceSnapshotInput|array<array-key, mixed>|\stdClass $snapshot
+ * @property-read string $status
+ * @property-read string|null $subscription_id
+ * @property-read list<string> $supported_actions
+ * @property-read string $timezone
+ * @property-read string|\DateTimeInterface $uncollectible_at
+ * @property-read string|\DateTimeInterface $updated_at
+ * @property-read int $version
+ * @property-read string|\DateTimeInterface $viewed_at
+ * @property-read string|\DateTimeInterface $voided_at
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $written_off_money
+ * Presence-aware input; omitted fields throw when accessed. */
+final class WebhookInvoiceInput extends Model {
+    /** @param array{'cc_emails': list<string>, 'closed_at'?: string|\DateTimeInterface, 'collection': InvoiceCollectionInput|array<array-key, mixed>|\stdClass, 'collection_block_status': string, 'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'currently_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string|\DateTimeInterface, 'late_fee_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'late_fees': list<InvoiceLateFeeInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_at'?: string|\DateTimeInterface, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_due': InvoicePaymentDueInput|array<array-key, mixed>|\stdClass, 'payment_terms_snapshot'?: InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass, 'po_number': string|null, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reminders_paused': bool, 'reminders_paused_at'?: string|\DateTimeInterface, 'remit_to_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'schedule_entries': list<InvoiceScheduleEntryInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at': string|\DateTimeInterface|null, 'service_date': string|null, 'snapshot'?: InvoiceSnapshotInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'uncollectible_at'?: string|\DateTimeInterface, 'updated_at': string|\DateTimeInterface, 'version': int, 'viewed_at'?: string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookInvoiceInput')); }
+    /** Additional recipients copied on the invoice email and every reminder. [] (Value): string.
+     * @return list<string>
+     * @throws SdkError When cc_emails is omitted; use hasCcEmails() or valueOrDefault().
+     */
+    public function getCcEmails(): array { return $this->get('cc_emails'); }
+    public function hasCcEmails(): bool { return $this->has('cc_emails'); }
+    /** When the current closed interval began. Cleared when status returns to open or partially_paid. A direct move between closed statuses preserves this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When closed_at is omitted; use hasClosedAt() or valueOrDefault().
+     */
+    public function getClosedAt(): string|\DateTimeInterface { return $this->get('closed_at'); }
+    public function hasClosedAt(): bool { return $this->has('closed_at'); }
+    /** How this invoice is collected, resolved when the draft is written. Send this object back when updating its collection policy. The invoice collection policy resolved at write time. The object can be sent back when updating a draft.
+     * @return InvoiceCollectionInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When collection is omitted; use hasCollection() or valueOrDefault().
+     */
+    public function getCollection(): mixed { return $this->get('collection'); }
+    public function hasCollection(): bool { return $this->has('collection'); }
+    /** Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
+     * @return string
+     * @throws SdkError When collection_block_status is omitted; use hasCollectionBlockStatus() or valueOrDefault().
+     */
+    public function getCollectionBlockStatus(): string { return $this->get('collection_block_status'); }
+    public function hasCollectionBlockStatus(): bool { return $this->has('collection_block_status'); }
+    /** When the invoice was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
+     */
+    public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
+    public function hasCreatedAt(): bool { return $this->has('created_at'); }
+    /** Credit note credit allocated to this invoice, minus reversed allocations. Unallocated credit isn't included. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
+     */
+    public function getCreditMoney(): mixed { return $this->get('credit_money'); }
+    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    /** The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due date has started and that still has a balance, or 0 when there is none. It is the amount the next collect call or checkout session charges. To total everything overdue, add the outstanding_money of the entries whose status is overdue. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When currently_due_money is omitted; use hasCurrentlyDueMoney() or valueOrDefault().
+     */
+    public function getCurrentlyDueMoney(): mixed { return $this->get('currently_due_money'); }
+    public function hasCurrentlyDueMoney(): bool { return $this->has('currently_due_money'); }
+    /** Summary of the billed customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryInput}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
+     * @return array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @throws SdkError When customer is omitted; use hasCustomer() or valueOrDefault().
+     */
+    public function getCustomer(): mixed { return $this->get('customer'); }
+    public function hasCustomer(): bool { return $this->has('customer'); }
+    /** Customer billed by this invoice. Absent when the invoice has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * @return string
+     * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
+     */
+    public function getCustomerId(): string { return $this->get('customer_id'); }
+    public function hasCustomerId(): bool { return $this->has('customer_id'); }
+    /** How issue delivered the invoice. Value enum: "email", "caller_managed".
+     * @return string
+     * @throws SdkError When delivery_mode is omitted; use hasDeliveryMode() or valueOrDefault().
+     */
+    public function getDeliveryMode(): string { return $this->get('delivery_mode'); }
+    public function hasDeliveryMode(): bool { return $this->has('delivery_mode'); }
+    /** Calendar due date in YYYY-MM-DD format, interpreted in timezone (UTC when absent). The outstanding balance becomes overdue only after this date ends. Automatic collection runs at the later of issue and the start of this date. With payment terms, issue computes this date from issued_at. Absent when there is no due date. Format: date. Example: "2026-08-02".
+     * @return string
+     * @throws SdkError When due_date is omitted; use hasDueDate() or valueOrDefault().
+     */
+    public function getDueDate(): string { return $this->get('due_date'); }
+    public function hasDueDate(): bool { return $this->has('due_date'); }
+    /** Caller-owned identifier for this resource in an external system. Use it as your sync key: it isn't printed on the invoice. `null` when unset. minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     * @return string|null
+     * @throws SdkError When external_reference_id is omitted; use hasExternalReferenceId() or valueOrDefault().
+     */
+    public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
+    public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Fine print at the bottom of the invoice and PDF. It cannot change after issue. `null` when unset.
+     * @return string|null
+     * @throws SdkError When footer is omitted; use hasFooter() or valueOrDefault().
+     */
+    public function getFooter(): string|null { return $this->get('footer'); }
+    public function hasFooter(): bool { return $this->has('footer'); }
+    /** Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     * @return string
+     * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
+     */
+    public function getInvoiceId(): string { return $this->get('invoice_id'); }
+    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
+    /** Sequential document number assigned when the invoice is issued. Numbering is per merchant, with test and live mode numbered independently.
+     * @return string
+     * @throws SdkError When invoice_number is omitted; use hasInvoiceNumber() or valueOrDefault().
+     */
+    public function getInvoiceNumber(): string { return $this->get('invoice_number'); }
+    public function hasInvoiceNumber(): bool { return $this->has('invoice_number'); }
+    /** Whether the invoice is open or partially_paid and past due with a balance remaining. Without schedule_entries, the due_date has ended in timezone (UTC when absent) and outstanding_money is above zero; with them, at least one entry is overdue. Computed when the invoice is read.
+     * @return bool
+     * @throws SdkError When is_overdue is omitted; use hasIsOverdue() or valueOrDefault().
+     */
+    public function getIsOverdue(): bool { return $this->get('is_overdue'); }
+    public function hasIsOverdue(): bool { return $this->has('is_overdue'); }
+    /** When the invoice was issued. Absent on a draft. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When issued_at is omitted; use hasIssuedAt() or valueOrDefault().
+     */
+    public function getIssuedAt(): string|\DateTimeInterface { return $this->get('issued_at'); }
+    public function hasIssuedAt(): bool { return $this->has('issued_at'); }
+    /** Late fees assessed after issue, minus waivers, including amounts since paid or written off. Itemized in late_fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When late_fee_money is omitted; use hasLateFeeMoney() or valueOrDefault().
+     */
+    public function getLateFeeMoney(): mixed { return $this->get('late_fee_money'); }
+    public function hasLateFeeMoney(): bool { return $this->has('late_fee_money'); }
+    /** Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. late_fee_money is their assessed total minus waivers. [] (Value): {@see InvoiceLateFeeInput}. A charge assessed because an invoice payment is overdue.
+     * @return list<InvoiceLateFeeInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When late_fees is omitted; use hasLateFees() or valueOrDefault().
+     */
+    public function getLateFees(): array { return $this->get('late_fees'); }
+    public function hasLateFees(): bool { return $this->has('late_fees'); }
+    /** Message to the customer, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * @return string|null
+     * @throws SdkError When memo is omitted; use hasMemo() or valueOrDefault().
+     */
+    public function getMemo(): string|null { return $this->get('memo'); }
+    public function hasMemo(): bool { return $this->has('memo'); }
+    /** Merchant that owns this invoice. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * @return string
+     * @throws SdkError When merchant_id is omitted; use hasMerchantId() or valueOrDefault().
+     */
+    public function getMerchantId(): string { return $this->get('merchant_id'); }
+    public function hasMerchantId(): bool { return $this->has('merchant_id'); }
+    /** Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
+     * @return MetadataMapInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
+     */
+    public function getMetadata(): mixed { return $this->get('metadata'); }
+    public function hasMetadata(): bool { return $this->has('metadata'); }
+    /** Summary of the backing order. Returned only with expand=order. Present only when `expand` includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value): {@see ExpandedOrderSummaryInput}. An order's summary fields, including status, payment and refund status, and pricing and settlement amounts, returned when the order is expanded. anyOf[2] (Value): null.
+     * @return array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
+     * @throws SdkError When order is omitted; use hasOrder() or valueOrDefault().
+     */
+    public function getOrder(): mixed { return $this->get('order'); }
+    public function hasOrder(): bool { return $this->has('order'); }
+    /** The order this invoice bills. Every invoice has one; quick pay creates it. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
+    /** What is still owed: pricing_amounts.total_money + late_fee_money - paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When outstanding_money is omitted; use hasOutstandingMoney() or valueOrDefault().
+     */
+    public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
+    public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
+    /** When the invoice most recently became paid. Cleared when status leaves paid and set again on a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When paid_at is omitted; use hasPaidAt() or valueOrDefault().
+     */
+    public function getPaidAt(): string|\DateTimeInterface { return $this->get('paid_at'); }
+    public function hasPaidAt(): bool { return $this->has('paid_at'); }
+    /** Payments collected toward this invoice, online or as recorded manual payments, minus reversed payments, including payments toward late fees. Never below zero. Disputes, including losses, don't reduce it. Refunds don't reduce it; they are in refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When paid_money is omitted; use hasPaidMoney() or valueOrDefault().
+     */
+    public function getPaidMoney(): mixed { return $this->get('paid_money'); }
+    public function hasPaidMoney(): bool { return $this->has('paid_money'); }
+    /** The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. The invoice due-date policy resolved at write time. The object can be sent back when updating a draft.
+     * @return InvoicePaymentDueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When payment_due is omitted; use hasPaymentDue() or valueOrDefault().
+     */
+    public function getPaymentDue(): mixed { return $this->get('payment_due'); }
+    public function hasPaymentDue(): bool { return $this->has('payment_due'); }
+    /** The payment term captured on the draft, with its due date rule and late fee policy. Later changes to the payment term don't affect this invoice. The payment terms saved on an invoice: the term's name, version, due date calculation, and late fee policy.
+     * @return InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When payment_terms_snapshot is omitted; use hasPaymentTermsSnapshot() or valueOrDefault().
+     */
+    public function getPaymentTermsSnapshot(): mixed { return $this->get('payment_terms_snapshot'); }
+    public function hasPaymentTermsSnapshot(): bool { return $this->has('payment_terms_snapshot'); }
+    /** The buyer's purchase order number, printed on the invoice and PDF. It cannot change after issue. `null` when unset.
+     * @return string|null
+     * @throws SdkError When po_number is omitted; use hasPoNumber() or valueOrDefault().
+     */
+    public function getPoNumber(): string|null { return $this->get('po_number'); }
+    public function hasPoNumber(): bool { return $this->has('po_number'); }
+    /** The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in late_fee_money. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmountsInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When pricing_amounts is omitted; use hasPricingAmounts() or valueOrDefault().
+     */
+    public function getPricingAmounts(): mixed { return $this->get('pricing_amounts'); }
+    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
+    /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset.
+     * @return string|null
+     * @throws SdkError When recipient_email is omitted; use hasRecipientEmail() or valueOrDefault().
+     */
+    public function getRecipientEmail(): string|null { return $this->get('recipient_email'); }
+    public function hasRecipientEmail(): bool { return $this->has('recipient_email'); }
+    /** Your reference for the invoice, printed on the invoice and PDF. The buyer's purchase order number goes in po_number. It cannot change after issue. `null` when unset.
+     * @return string|null
+     * @throws SdkError When reference is omitted; use hasReference() or valueOrDefault().
+     */
+    public function getReference(): string|null { return $this->get('reference'); }
+    public function hasReference(): bool { return $this->has('reference'); }
+    /** How much of the collected money has been refunded. It doesn't change status. Value enum: "none", "partially_refunded", "refunded".
+     * @return string
+     * @throws SdkError When refund_status is omitted; use hasRefundStatus() or valueOrDefault().
+     */
+    public function getRefundStatus(): string { return $this->get('refund_status'); }
+    public function hasRefundStatus(): bool { return $this->has('refund_status'); }
+    /** Money refunded to the buyer after collection. Refunds don't reopen the balance; refund_status summarizes them. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
+     */
+    public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
+    public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
+    /** Whether automatic reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
+     * @return bool
+     * @throws SdkError When reminders_paused is omitted; use hasRemindersPaused() or valueOrDefault().
+     */
+    public function getRemindersPaused(): bool { return $this->get('reminders_paused'); }
+    public function hasRemindersPaused(): bool { return $this->has('reminders_paused'); }
+    /** When automatic reminders were paused. Absent while reminders are active. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When reminders_paused_at is omitted; use hasRemindersPausedAt() or valueOrDefault().
+     */
+    public function getRemindersPausedAt(): string|\DateTimeInterface { return $this->get('reminders_paused_at'); }
+    public function hasRemindersPausedAt(): bool { return $this->has('reminders_paused_at'); }
+    /** Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice settings remit-to address. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+     * @return AddressInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When remit_to_address is omitted; use hasRemitToAddress() or valueOrDefault().
+     */
+    public function getRemitToAddress(): mixed { return $this->get('remit_to_address'); }
+    public function hasRemitToAddress(): bool { return $this->has('remit_to_address'); }
+    /** The payment schedule, in schedule order. Always [] when the invoice has no schedule and is collected in one balance. [] (Value): {@see InvoiceScheduleEntryInput}. One payment on an invoice's payment schedule, such as a deposit, installment, or balance, with its due time, amounts, and status.
+     * @return list<InvoiceScheduleEntryInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When schedule_entries is omitted; use hasScheduleEntries() or valueOrDefault().
+     */
+    public function getScheduleEntries(): array { return $this->get('schedule_entries'); }
+    public function hasScheduleEntries(): bool { return $this->has('schedule_entries'); }
+    /** When Flint will issue and deliver this draft. `null` when no issue is scheduled. Cleared when the draft is issued or voided, or when you send null. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface|null
+     * @throws SdkError When scheduled_issue_at is omitted; use hasScheduledIssueAt() or valueOrDefault().
+     */
+    public function getScheduledIssueAt(): string|\DateTimeInterface|null { return $this->get('scheduled_issue_at'); }
+    public function hasScheduledIssueAt(): bool { return $this->has('scheduled_issue_at'); }
+    /** The calendar date of the billed service, in YYYY-MM-DD format. The invoice and PDF print it as written, without timezone conversion. `null` when unset. Format: date. Example: "2026-08-02".
+     * @return string|null
+     * @throws SdkError When service_date is omitted; use hasServiceDate() or valueOrDefault().
+     */
+    public function getServiceDate(): string|null { return $this->get('service_date'); }
+    public function hasServiceDate(): bool { return $this->has('service_date'); }
+    /** The billing content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts.
+     * @return InvoiceSnapshotInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When snapshot is omitted; use hasSnapshot() or valueOrDefault().
+     */
+    public function getSnapshot(): mixed { return $this->get('snapshot'); }
+    public function hasSnapshot(): bool { return $this->has('snapshot'); }
+    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+     * @return string
+     * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
+     */
+    public function getStatus(): string { return $this->get('status'); }
+    public function hasStatus(): bool { return $this->has('status'); }
+    /** The subscription the backing order belongs to, copied when the draft is created and never changed. `null` when the order isn't part of a subscription. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+     * @return string|null
+     * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
+     */
+    public function getSubscriptionId(): string|null { return $this->get('subscription_id'); }
+    public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
+    /** Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. [] enum: "collect", "issue", "mark_uncollectible", "void". [] (Value): string.  Value enum: "collect", "issue", "mark_uncollectible", "void".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** IANA time zone snapshot for invoice due dates, reminders, and late fee calendar days. Taken from the merchant's timezone when the draft is written, or UTC when unset. Later merchant changes do not alter this invoice's calendar.
+     * @return string
+     * @throws SdkError When timezone is omitted; use hasTimezone() or valueOrDefault().
+     */
+    public function getTimezone(): string { return $this->get('timezone'); }
+    public function hasTimezone(): bool { return $this->has('timezone'); }
+    /** When the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When uncollectible_at is omitted; use hasUncollectibleAt() or valueOrDefault().
+     */
+    public function getUncollectibleAt(): string|\DateTimeInterface { return $this->get('uncollectible_at'); }
+    public function hasUncollectibleAt(): bool { return $this->has('uncollectible_at'); }
+    /** When the invoice last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().
+     */
+    public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
+    public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
+    /** Current invoice version. Send this as expected_version when updating the draft. Format: int64. minimum: 1.
+     * @return int
+     * @throws SdkError When version is omitted; use hasVersion() or valueOrDefault().
+     */
+    public function getVersion(): int { return $this->get('version'); }
+    public function hasVersion(): bool { return $this->has('version'); }
+    /** When the buyer first opened the invoice through its hosted invoice link. Recorded on a best-effort basis. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When viewed_at is omitted; use hasViewedAt() or valueOrDefault().
+     */
+    public function getViewedAt(): string|\DateTimeInterface { return $this->get('viewed_at'); }
+    public function hasViewedAt(): bool { return $this->has('viewed_at'); }
+    /** When the invoice was voided. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When voided_at is omitted; use hasVoidedAt() or valueOrDefault().
+     */
+    public function getVoidedAt(): string|\DateTimeInterface { return $this->get('voided_at'); }
+    public function hasVoidedAt(): bool { return $this->has('voided_at'); }
+    /** The balance written off when the invoice was marked uncollectible, including unpaid late fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When written_off_money is omitted; use hasWrittenOffMoney() or valueOrDefault().
+     */
+    public function getWrittenOffMoney(): mixed { return $this->get('written_off_money'); }
+    public function hasWrittenOffMoney(): bool { return $this->has('written_off_money'); }
+}

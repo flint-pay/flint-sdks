@@ -29,22 +29,18 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. `object`: [field definitions](../models/PromotionArchivedMerchantEvent.md#promotionarchivedmerchanteventdata-fields-1object). |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. `object`: [field definitions](../models/PromotionArchivedMerchantEvent.md#promotionarchivedmerchanteventdata-fields-1object). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### PromotionArchivedMerchantEvent.data fields 1.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
 
-Field definitions: [shared fields](Promotion.md#promotion).
+Field definitions: [shared fields](PromotionArchivedMerchantEventData.md#promotionarchivedmerchanteventdataobject-fields-1).
 
 ### PromotionArchivedMerchantEvent.data fields 1.object.application_method
 
 Declared alternatives: [PromotionResponse.data.application_method](../models/PromotionResponse.md#promotionresponsedataapplication_method).
-
-### PromotionArchivedMerchantEvent.data fields 1.object.codes[]
-
-Field definitions: [PromotionResponse.data.codes[]](../models/PromotionResponse.md#promotionresponsedatacodes).
 
 ### PromotionArchivedMerchantEvent.data fields 1.object.eligibility_rules
 

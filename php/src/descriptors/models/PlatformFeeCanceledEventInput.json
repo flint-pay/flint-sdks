@@ -1,1 +1,1 @@
-{"shared":"PlatformFeeCanceledEvent","dependencies":["MoneyValue","PlatformFee","PlatformFeeCanceledEvent","SharedCodec10","SharedCodec1302","SharedCodec1303","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}
+{"shared":"PlatformFeeCanceledEvent","dependencies":["MoneyValue","PlatformFee","PlatformFeeCanceledEvent","SharedCodec10","SharedCodec1303","SharedCodec1304","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

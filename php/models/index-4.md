@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# CheckoutSessionCustomerVerificationConfirmationResponseInput to CreateDeliveryMethodRequestShipmentInput
+# CheckoutSessionClosedInstalledMerchantsEventInput to CreateCustomerSessionRequestInput
 
+- [CheckoutSessionClosedInstalledMerchantsEventInput](CheckoutSessionClosedInstalledMerchantsEventInput.md)
+- [CheckoutSessionClosedMerchantEventInput](CheckoutSessionClosedMerchantEventInput.md)
+- [CheckoutSessionCreatedInstalledMerchantsEventInput](CheckoutSessionCreatedInstalledMerchantsEventInput.md)
+- [CheckoutSessionCreatedMerchantEventInput](CheckoutSessionCreatedMerchantEventInput.md)
+- [CheckoutSessionCustomerVerificationInput](CheckoutSessionCustomerVerificationInput.md)
 - [CheckoutSessionCustomerVerificationConfirmationResponseInput](CheckoutSessionCustomerVerificationConfirmationResponseInput.md)
 - [CheckoutSessionCustomerVerificationListResponseInput](CheckoutSessionCustomerVerificationListResponseInput.md)
 - [CheckoutSessionCustomerVerificationResponseInput](CheckoutSessionCustomerVerificationResponseInput.md)
@@ -80,11 +85,14 @@
 - [CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput](CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput.md)
 - [CreateCheckoutSessionInvoiceInput](CreateCheckoutSessionInvoiceInput.md)
 - [CreateCheckoutSessionOrderInput](CreateCheckoutSessionOrderInput.md)
+- [CreateCheckoutSessionPayToNewAddressVerificationRequestInput](CreateCheckoutSessionPayToNewAddressVerificationRequestInput.md)
 - [CreateCheckoutSessionQuickPayInput](CreateCheckoutSessionQuickPayInput.md)
 - [CreateCheckoutSessionRequestInput](CreateCheckoutSessionRequestInput.md)
 - [CreateCheckoutSessionReturnResolutionInput](CreateCheckoutSessionReturnResolutionInput.md)
 - [CreateCheckoutSessionSavePaymentMethodVerificationRequestInput](CreateCheckoutSessionSavePaymentMethodVerificationRequestInput.md)
 - [CreateCheckoutSessionSubscriptionPlanInput](CreateCheckoutSessionSubscriptionPlanInput.md)
+- [CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput](CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput.md)
+- [CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput](CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput.md)
 - [CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput](CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput.md)
 - [CreateCreditNoteAllocationRequestInput](CreateCreditNoteAllocationRequestInput.md)
 - [CreateCreditNoteRequestInput](CreateCreditNoteRequestInput.md)
@@ -94,12 +102,4 @@
 - [CreateCustomerDeletionRequestInput](CreateCustomerDeletionRequestInput.md)
 - [CreateCustomerRequestInput](CreateCustomerRequestInput.md)
 - [CreateCustomerSessionRequestInput](CreateCustomerSessionRequestInput.md)
-- [CreateCustomerTaxExemptionRequestInput](CreateCustomerTaxExemptionRequestInput.md)
-- [CreateCustomerVerificationRequestInput](CreateCustomerVerificationRequestInput.md)
-- [CreateDeliveryFulfillmentDetailsInput](CreateDeliveryFulfillmentDetailsInput.md)
-- [CreateDeliveryLocationSetRequestInput](CreateDeliveryLocationSetRequestInput.md)
-- [CreateDeliveryMethodRequestInput](CreateDeliveryMethodRequestInput.md)
-- [CreateDeliveryMethodRequestLocalDeliveryInput](CreateDeliveryMethodRequestLocalDeliveryInput.md)
-- [CreateDeliveryMethodRequestPickupInput](CreateDeliveryMethodRequestPickupInput.md)
-- [CreateDeliveryMethodRequestShipmentInput](CreateDeliveryMethodRequestShipmentInput.md)
 

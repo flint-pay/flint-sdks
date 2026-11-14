@@ -18,9 +18,11 @@ Response model.
 | `finding_codes` | Required | Array of string | What the inspection found. Up to 50 values, none repeated. Items values: `"matches_expected_item"`, `"wrong_item"`, `"damaged"`, `"defective"`, `"used"`, `"missing_parts"`, `"empty_package"`, `"counterfeit_suspected"`, `"other"`. |
 | `internal_note` | Optional | string | Note for your own team about this line. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `return_id` | Required | string or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. |
 | `return_inspection_id` | Required | string | ID of the inspection the line belongs to. |
 | `return_inspection_line_item_id` | Required | string | Unique identifier for this return inspection line item, prefixed `retinli_`. |
 | `return_line_item_id` | Optional | string | ID of the Return line inspected. |
+| `return_receipt_id` | Required | string | Receipt that owns return_receipt_line_item_id. |
 | `return_receipt_line_item_id` | Required | string | ID of the receipt line inspected. |
 | `supported_actions` | Required | Array of string | Items values: `"decide"`. |
 

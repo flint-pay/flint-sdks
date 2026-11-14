@@ -3,13 +3,13 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $bundle_id
- * @property-read int $expected_version
+ * @property-read int $expected_subscription_version
  * @property-read int $quantity
  * @property-read string $type
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsCreateLineItemParams extends Model {
-    /** @param array{'bundle_id'?: string, 'expected_version'?: int, 'quantity': int, 'type': string, 'variant_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object|array{'bundle_id': string, 'expected_version'?: int, 'quantity': int, 'type': string, 'variant_id'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
+    /** @param array{'bundle_id'?: string, 'expected_subscription_version'?: int, 'quantity': int, 'type': string, 'variant_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object|array{'bundle_id': string, 'expected_subscription_version'?: int, 'quantity': int, 'type': string, 'variant_id'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsCreateLineItemParams')); }
     /** minLength: 1. pattern: ^bun_[0-9A-HJKMNP-TV-Z]{26}$. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
@@ -17,12 +17,12 @@ final class SubscriptionsCreateLineItemParams extends Model {
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
+    /** Subscription version last read. A stale version returns VERSION_CONFLICT. Format: uint64. minimum: 1.
      * @return int
-     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     * @throws SdkError When expected_subscription_version is omitted; use hasExpectedSubscriptionVersion() or valueOrDefault().
      */
-    public function getExpectedVersion(): int { return $this->get('expected_version'); }
-    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    public function getExpectedSubscriptionVersion(): int { return $this->get('expected_subscription_version'); }
+    public function hasExpectedSubscriptionVersion(): bool { return $this->has('expected_subscription_version'); }
     /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 9999.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().

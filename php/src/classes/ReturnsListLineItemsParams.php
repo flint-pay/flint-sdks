@@ -44,7 +44,7 @@ final class ReturnsListLineItemsParams extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_selected", "pending", "requires_action", "fulfilled", "failed". Value enum: "not_selected", "pending", "requires_action", "fulfilled", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_selected", "pending", "requires_action", "fulfilled", "failed". anyOf[1][] (Value): string.  Value enum: "not_selected", "pending", "requires_action", "fulfilled", "failed". anyOf[2] (Value): string.  Value enum: "not_selected", "pending", "requires_action", "fulfilled", "failed".
+    /** Filter by resolution status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "not_selected", "pending", "requires_action", "completed", "failed". Value enum: "not_selected", "pending", "requires_action", "completed", "failed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "not_selected", "pending", "requires_action", "completed", "failed". anyOf[1][] (Value): string.  Value enum: "not_selected", "pending", "requires_action", "completed", "failed". anyOf[2] (Value): string.  Value enum: "not_selected", "pending", "requires_action", "completed", "failed".
      * @return list<string>|string
      * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
      */

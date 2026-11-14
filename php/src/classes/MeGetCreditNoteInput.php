@@ -4,18 +4,11 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read string $invoice_id
  * @property-read string $credit_note_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeGetCreditNoteInput extends Model {
-    /** @param array{'invoice_id': string, 'credit_note_id': string}|object $values */
+    /** @param array{'credit_note_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeGetCreditNoteInput')); }
-    /** Flint invoice ID. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     * @return string
-     * @throws SdkError When invoice_id is omitted; use hasInvoiceId() or valueOrDefault().
-     */
-    public function getInvoiceId(): string { return $this->get('invoice_id'); }
-    public function hasInvoiceId(): bool { return $this->has('invoice_id'); }
     /** Flint credit note ID. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * @return string
      * @throws SdkError When credit_note_id is omitted; use hasCreditNoteId() or valueOrDefault().

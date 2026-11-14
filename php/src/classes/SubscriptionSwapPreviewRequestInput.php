@@ -1,0 +1,30 @@
+<?php
+declare(strict_types=1);
+namespace Flint;
+/**
+ * @property-read int $expected_version
+ * @property-read string $subscription_line_item_id
+ * @property-read string $variant_id
+ * Presence-aware input; omitted fields throw when accessed. */
+final class SubscriptionSwapPreviewRequestInput extends Model {
+    /** @param array{'expected_version'?: int, 'subscription_line_item_id': string, 'variant_id': string}|object $values */
+    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionSwapPreviewRequestInput')); }
+    /** Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: uint64. minimum: 1.
+     * @return int
+     * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
+     */
+    public function getExpectedVersion(): int { return $this->get('expected_version'); }
+    public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
+    /** minLength: 1. pattern: ^sli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sli_01KEZF7C00PPWVJ2N321V84ASA".
+     * @return string
+     * @throws SdkError When subscription_line_item_id is omitted; use hasSubscriptionLineItemId() or valueOrDefault().
+     */
+    public function getSubscriptionLineItemId(): string { return $this->get('subscription_line_item_id'); }
+    public function hasSubscriptionLineItemId(): bool { return $this->has('subscription_line_item_id'); }
+    /** minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     * @return string
+     * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
+     */
+    public function getVariantId(): string { return $this->get('variant_id'); }
+    public function hasVariantId(): bool { return $this->has('variant_id'); }
+}

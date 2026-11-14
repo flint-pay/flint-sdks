@@ -17,6 +17,7 @@ Response model.
 | `image` | Optional | [BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage](../models/BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage.md#buyerreturnpreviewresponsedataeligibilityeligibilitylineitemsitemimage) | Image of the item as sold. An image with its URL, size, and alt text. |
 | `modifiers` | Required | Array of ([BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemModifiersItem](../models/BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemModifiersItem.md#buyerreturnpreviewresponsedataeligibilityeligibilitylineitemsitemmodifiersitem) and [BuyerReturnLineItemModifier](../models/BuyerReturnLineItemModifier.md#buyerreturnlineitemmodifier)) | Modifiers selected on the order line, with their prices. |
 | `name` | Required | string | Name of the item as sold. |
+| `order_id` | Required | string | Order that owns order_line_item_id. |
 | `order_line_item_id` | Required | string | ID of the order line item the units come from. |
 | `product_id` | Optional | string | ID of the catalog product the item was sold from. |
 | `requested_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |

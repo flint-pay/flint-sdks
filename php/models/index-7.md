@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# CreditNoteAllocationListResponseInput to DeliveryAddressAdvisoryResourceInput
+# CreateWebhookEndpointRequestInput to DecideReturnRequestInput
 
+- [CreateWebhookEndpointRequestInput](CreateWebhookEndpointRequestInput.md)
+- [CreateWebhookTestEventRequestInput](CreateWebhookTestEventRequestInput.md)
+- [CreateWorkloadIdentityRequestInput](CreateWorkloadIdentityRequestInput.md)
+- [CreditNoteInput](CreditNoteInput.md)
+- [CreditNoteAllocationInput](CreditNoteAllocationInput.md)
+- [CreditNoteAllocationCreatedInstalledMerchantsEventInput](CreditNoteAllocationCreatedInstalledMerchantsEventInput.md)
+- [CreditNoteAllocationCreatedMerchantEventInput](CreditNoteAllocationCreatedMerchantEventInput.md)
 - [CreditNoteAllocationListResponseInput](CreditNoteAllocationListResponseInput.md)
 - [CreditNoteAllocationResponseInput](CreditNoteAllocationResponseInput.md)
 - [CreditNoteAllocationResultInput](CreditNoteAllocationResultInput.md)
@@ -95,11 +102,4 @@
 - [DecideReturnInspectionLineItemRequestInput](DecideReturnInspectionLineItemRequestInput.md)
 - [DecideReturnInspectionLineItemResponseInput](DecideReturnInspectionLineItemResponseInput.md)
 - [DecideReturnRequestInput](DecideReturnRequestInput.md)
-- [DecideReturnResponseInput](DecideReturnResponseInput.md)
-- [DeclinePaymentReviewRequestInput](DeclinePaymentReviewRequestInput.md)
-- [DeferredPromotionInput](DeferredPromotionInput.md)
-- [DeleteReturnLineItemResponseInput](DeleteReturnLineItemResponseInput.md)
-- [DeleteReturnPolicyResponseInput](DeleteReturnPolicyResponseInput.md)
-- [DeleteReturnReasonResponseInput](DeleteReturnReasonResponseInput.md)
-- [DeliveryAddressAdvisoryResourceInput](DeliveryAddressAdvisoryResourceInput.md)
 

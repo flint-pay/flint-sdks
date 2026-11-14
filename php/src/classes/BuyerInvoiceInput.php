@@ -35,6 +35,7 @@ namespace Flint;
  * @property-read list<string> $payment_options
  * @property-read InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass $payment_terms_snapshot
  * @property-read string|null $po_number
+ * @property-read PricingAmountsInput|array<array-key, mixed>|\stdClass $pricing_amounts
  * @property-read string|null $recipient_email
  * @property-read string|null $reference
  * @property-read string $refund_status
@@ -49,14 +50,13 @@ namespace Flint;
  * @property-read string|null $subscription_id
  * @property-read CheckoutThemeInput|array<array-key, mixed>|\stdClass $theme
  * @property-read string $timezone
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * @property-read string|\DateTimeInterface $viewed_at
  * @property-read string|\DateTimeInterface $voided_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerInvoiceInput extends Model {
-    /** @param array{'active_payment_attempt'?: InvoicePaymentAttemptInput|array<array-key, mixed>|\stdClass, 'balance_rows'?: list<InvoiceDocumentRowInput|array<array-key, mixed>|\stdClass>, 'buyer_actions': list<BuyerActionInput|array<array-key, mixed>|\stdClass>, 'cc_emails': list<string>, 'closed_at'?: string|\DateTimeInterface, 'collection_block_status': string, 'collection_mode'?: string, 'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'currently_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'due_date'?: string, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issue_rows'?: list<InvoiceDocumentRowInput|array<array-key, mixed>|\stdClass>, 'issued_at'?: string|\DateTimeInterface, 'late_fee_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'late_fees': list<BuyerInvoiceLateFeeInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_at'?: string|\DateTimeInterface, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_option_cost_comparison'?: InvoicePaymentOptionCostComparisonInput|array<array-key, mixed>|\stdClass, 'payment_options'?: list<string>, 'payment_terms_snapshot'?: InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass, 'po_number': string|null, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'remit_to_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'schedule_entries': list<InvoiceScheduleEntryInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at': string|\DateTimeInterface|null, 'service_date': string|null, 'show_flint_mark'?: bool, 'snapshot'?: BuyerInvoiceSnapshotInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_id': string|null, 'theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'timezone'?: string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at': string|\DateTimeInterface, 'version': int, 'viewed_at'?: string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: InvoicePaymentAttemptInput|array<array-key, mixed>|\stdClass, 'balance_rows'?: list<InvoiceDocumentRowInput|array<array-key, mixed>|\stdClass>, 'buyer_actions': list<BuyerActionInput|array<array-key, mixed>|\stdClass>, 'cc_emails': list<string>, 'closed_at'?: string|\DateTimeInterface, 'collection_block_status': string, 'collection_mode'?: string, 'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'currently_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'customer_id'?: string, 'due_date'?: string, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issue_rows'?: list<InvoiceDocumentRowInput|array<array-key, mixed>|\stdClass>, 'issued_at'?: string|\DateTimeInterface, 'late_fee_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'late_fees': list<BuyerInvoiceLateFeeInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'merchant_icon'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_id': string, 'merchant_logo'?: ImageInput|array<array-key, mixed>|\stdClass, 'merchant_support'?: CheckoutMerchantSupportInput|array<array-key, mixed>|\stdClass, 'order_id': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_at'?: string|\DateTimeInterface, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_option_cost_comparison'?: InvoicePaymentOptionCostComparisonInput|array<array-key, mixed>|\stdClass, 'payment_options'?: list<string>, 'payment_terms_snapshot'?: InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass, 'po_number': string|null, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'remit_to_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'schedule_entries': list<InvoiceScheduleEntryInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at': string|\DateTimeInterface|null, 'service_date': string|null, 'show_flint_mark'?: bool, 'snapshot'?: BuyerInvoiceSnapshotInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_id': string|null, 'theme'?: CheckoutThemeInput|array<array-key, mixed>|\stdClass, 'timezone'?: string, 'updated_at': string|\DateTimeInterface, 'version': int, 'viewed_at'?: string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerInvoiceInput')); }
     /** The payment attempt in progress for this invoice, such as a bank debit still processing. Omitted when none is open. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An attempt to collect payment for an invoice.
      * @return InvoicePaymentAttemptInput|array<array-key, mixed>|\stdClass
@@ -154,7 +154,7 @@ final class BuyerInvoiceInput extends Model {
      */
     public function getIsOverdue(): bool { return $this->get('is_overdue'); }
     public function hasIsOverdue(): bool { return $this->has('is_overdue'); }
-    /** The rows of the invoice's totals as issued, in display order. Rows where `is_informational` is `false` sum to `snapshot.pricing_amounts.total_money`. A closing `total` row is informational and states that sum. Show the rows in order without merging or summing them. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] (Value): {@see InvoiceDocumentRowInput}. One row of an invoice document, such as a subtotal, discount, tax, late fee, payment, or amount due, with its amount.
+    /** The rows of the invoice's totals as issued, in display order. Rows where `is_informational` is `false` sum to `pricing_amounts.total_money`. A closing `total` row is informational and states that sum. Show the rows in order without merging or summing them. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] (Value): {@see InvoiceDocumentRowInput}. One row of an invoice document, such as a subtotal, discount, tax, late fee, payment, or amount due, with its amount.
      * @return list<InvoiceDocumentRowInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When issue_rows is omitted; use hasIssueRows() or valueOrDefault().
      */
@@ -214,7 +214,7 @@ final class BuyerInvoiceInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What is still owed. On an open or partially_paid invoice it is pricing_amounts.total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When outstanding_money is omitted; use hasOutstandingMoney() or valueOrDefault().
      */
@@ -256,6 +256,12 @@ final class BuyerInvoiceInput extends Model {
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
+    /** The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in late_fee_money. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmountsInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When pricing_amounts is omitted; use hasPricingAmounts() or valueOrDefault().
+     */
+    public function getPricingAmounts(): mixed { return $this->get('pricing_amounts'); }
+    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset.
      * @return string|null
      * @throws SdkError When recipient_email is omitted; use hasRecipientEmail() or valueOrDefault().
@@ -310,7 +316,7 @@ final class BuyerInvoiceInput extends Model {
      */
     public function getShowFlintMark(): bool { return $this->get('show_flint_mark'); }
     public function hasShowFlintMark(): bool { return $this->has('show_flint_mark'); }
-    /** The billing content of the invoice: line items, discounts, charges, tip, tax, and totals, frozen at issue. Invoice details captured at issue. Buyer views omit merchant exemption evidence references.
+    /** The billing content of the invoice: line items, discounts, charges, tip, and tax, frozen at issue. Invoice details captured at issue. Buyer views omit merchant exemption evidence references.
      * @return BuyerInvoiceSnapshotInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When snapshot is omitted; use hasSnapshot() or valueOrDefault().
      */
@@ -340,12 +346,6 @@ final class BuyerInvoiceInput extends Model {
      */
     public function getTimezone(): string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** What the invoice bills, equal to snapshot.pricing_amounts.total_money and fixed at issue. Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
-     */
-    public function getTotalMoney(): mixed { return $this->get('total_money'); }
-    public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

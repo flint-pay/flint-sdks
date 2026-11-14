@@ -1,12 +1,11 @@
-import { d187 as c0 } from '../descriptors/data/8.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d7785 as c1 } from '../descriptors/data/370.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d7789 as c2 } from '../descriptors/data/371.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d7914 as c3 } from '../descriptors/data/378.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d187 as d187 } from '../descriptors/data/8.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d190 as c0 } from '../descriptors/data/8.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d7817 as c1, d7818 as c2 } from '../descriptors/data/376.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d7942 as c3 } from '../descriptors/data/384.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d190 as d190 } from '../descriptors/data/8.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d187;
+const read = d190;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["ConfirmPaymentIntentRequestReader"]:c0(),["ReaderPaymentSourceTip"]:c1(),["SharedCodec187"]:c2(),["SharedCodec188"]:c3()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["ConfirmPaymentIntentRequestReader"]:c0(),["ReaderPaymentSourceTip"]:c1(),["SharedCodec186"]:c2(),["SharedCodec187"]:c3()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeConfirmPaymentIntentRequestReader(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

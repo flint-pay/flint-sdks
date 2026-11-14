@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# SetupCollectionInput to SubscriptionGiftRecipientRequestInput
+# ScheduleFulfillmentRequestInput to SubscriptionDeliveryUpdatedMerchantEventInput
 
+- [ScheduleFulfillmentRequestInput](ScheduleFulfillmentRequestInput.md)
+- [ScopeRequirementInput](ScopeRequirementInput.md)
+- [SelectableErrorResourceInput](SelectableErrorResourceInput.md)
+- [SelectableOrderPaymentIntentInput](SelectableOrderPaymentIntentInput.md)
+- [SelectedProductOptionInput](SelectedProductOptionInput.md)
+- [SellerTaxAttestationRequestInput](SellerTaxAttestationRequestInput.md)
+- [SendOrderReceiptRequestInput](SendOrderReceiptRequestInput.md)
+- [SendPaymentIntentReceiptRequestInput](SendPaymentIntentReceiptRequestInput.md)
+- [ServiceFulfillmentDetailsInput](ServiceFulfillmentDetailsInput.md)
+- [SettingsInput](SettingsInput.md)
+- [SettingsResponseInput](SettingsResponseInput.md)
+- [SettlementAmountsInput](SettlementAmountsInput.md)
 - [SetupCollectionInput](SetupCollectionInput.md)
 - [SetupCollectionStripeInput](SetupCollectionStripeInput.md)
 - [ShipmentInput](ShipmentInput.md)
@@ -90,16 +102,4 @@
 - [SubscriptionDeliveryRequestInput](SubscriptionDeliveryRequestInput.md)
 - [SubscriptionDeliveryUpdatedInstalledMerchantsEventInput](SubscriptionDeliveryUpdatedInstalledMerchantsEventInput.md)
 - [SubscriptionDeliveryUpdatedMerchantEventInput](SubscriptionDeliveryUpdatedMerchantEventInput.md)
-- [SubscriptionDunningExhaustedInstalledMerchantsEventInput](SubscriptionDunningExhaustedInstalledMerchantsEventInput.md)
-- [SubscriptionDunningExhaustedMerchantEventInput](SubscriptionDunningExhaustedMerchantEventInput.md)
-- [SubscriptionEndAfterInput](SubscriptionEndAfterInput.md)
-- [SubscriptionEndAfterCyclesInput](SubscriptionEndAfterCyclesInput.md)
-- [SubscriptionEndAfterCyclesRequestInput](SubscriptionEndAfterCyclesRequestInput.md)
-- [SubscriptionEndAfterDateInput](SubscriptionEndAfterDateInput.md)
-- [SubscriptionEndAfterDateRequestInput](SubscriptionEndAfterDateRequestInput.md)
-- [SubscriptionEndAfterRequestInput](SubscriptionEndAfterRequestInput.md)
-- [SubscriptionEndUpcomingInstalledMerchantsEventInput](SubscriptionEndUpcomingInstalledMerchantsEventInput.md)
-- [SubscriptionEndUpcomingMerchantEventInput](SubscriptionEndUpcomingMerchantEventInput.md)
-- [SubscriptionGiftRecipientInput](SubscriptionGiftRecipientInput.md)
-- [SubscriptionGiftRecipientRequestInput](SubscriptionGiftRecipientRequestInput.md)
 
