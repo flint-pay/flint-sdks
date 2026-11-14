@@ -21,6 +21,7 @@ Request input.
 | `is_merchandise_return_required` | Required | boolean | Whether the policy requires the buyer to send the merchandise back. |
 | `modifiers` | Required | Array of [BuyerReturnLineItemModifierInput](../models/BuyerReturnLineItemModifierInput.md#buyerreturnlineitemmodifierinput) | Modifiers selected on the order line, with their prices. |
 | `name` | Required | string | Name of the item as sold. |
+| `order_id` | Required | string | Order that owns order_line_item_id. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_line_item_id` | Required | string | ID of the order line item the units come from. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `policy_adjustment_proposals` | Required | Array of [ReturnPolicyAdjustmentProposalInput](../models/ReturnPolicyAdjustmentProposalInput.md#returnpolicyadjustmentproposalinput) | Fees or credits the policy proposes for this line, to add to a resolution as adjustments. |
 | `product_id` | Optional | string | ID of the catalog product the item was sold from. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |

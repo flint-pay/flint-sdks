@@ -9,10 +9,10 @@ import type {
     RefundsCreateParams,
     RefundsGetParams,
     RefundsListParams,
-    RefundsUpdateParams,
-    RequestOptions
+    RefundsUpdateParams
 } from '../declarations/types-53.js';
-import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,27 +29,35 @@ export type {
 } from '../runtime.js';
 export type {
     RefundsCreateParams,
-    RequestOptions,
     RefundWithGiftCardCodes,
     RefundsGetParams,
     RefundResponse,
     RefundsListParams,
     RefundListResponse,
     RefundsUpdateParams,
+    RefundChargeInput,
+    RefundDestinationsInput,
     RefundLineItemInput,
     RefundLineItemAdjustmentRefundInInput,
+    RefundLineItemAdjustmentInInput,
+    RefundAdjustmentReasonRequestInput,
     RefundTaxBreakdownRefundInInput,
     RefundTenderAllocationRequestInput,
     RefundTenderAllocationInputPaymentIntentInput,
     RefundTenderAllocationInputGiftCardRedemptionInput,
+    RefundGiftCardCode,
     RefundLineItemAllocation,
+    RefundLineItemAdjustmentRefund,
+    RefundLineItemAdjustment,
+    RefundAdjustmentReason,
     RefundLineItemAutomaticRefund,
     RefundLineItemModifierAllocation,
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
     RefundUnissuedGiftCardRecovery
 } from '../declarations/types-53.js';
-export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type {
     CreateRefundResponse,
     CreateRefundRequestInput,
@@ -58,29 +66,17 @@ export type {
     CreateRefundRequestAmountInput,
     CreateRefundRequestTargetsInput
 } from '../declarations/types-12.js';
-export type {
-    Refund,
-    RefundChargeInput,
-    RefundDestinationsInput,
-    RefundLineItemAdjustmentInInput,
-    RefundAdjustmentReasonRequestInput,
-    RefundAdjustmentAuditInput,
-    RefundGiftCardCode,
-    RefundLineItemAdjustmentRefund,
-    RefundLineItemAdjustment,
-    RefundAdjustmentReason,
-    ReadinessMerchantAccountSession
-} from '../declarations/types-52.js';
+export type { Refund, RefundAdjustmentAuditInput, ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { MoneyValueInput, MetadataRequestInput, MoneyValue, NextAction } from '../declarations/types-38.js';
-export type { SplitReversalRequestInput } from '../declarations/types-60.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
+export type { SplitReversalRequestInput, SplitReversalReference } from '../declarations/types-60.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from '../declarations/types-24.js';
 export type { CategoryReference, CheckoutBuyerContact } from '../declarations/types-5.js';
-export type { SelectedProductOption, SettlementAmounts, SplitReversalReference } from '../declarations/types-59.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
-export type { DeferredPromotion } from '../declarations/types-16.js';
+export type { SelectedProductOption, SettlementAmounts } from '../declarations/types-59.js';
+export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-49.js';
 export type { OrderSettlementAmounts } from '../declarations/types-41.js';
 export type {
@@ -91,16 +87,15 @@ export type {
     PaymentRefund
 } from '../declarations/types-47.js';
 export type { OrderGiftCardAllocation } from '../declarations/types-40.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { UpdateRefundRequestInput } from '../declarations/types-67.js';
+export type { UpdateRefundRequestInput } from '../declarations/types-68.js';
 export {
     makeCreateRefundRequest,
     makeCreateRefundRequestAmount,
     makeCreateRefundRequestCreditNote,
     makeCreateRefundRequestFull,
     makeCreateRefundRequestTargets
-} from '../declarations/types-73.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+} from '../declarations/types-74.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-79.js';
 export {
     makeRefundAdjustmentAudit,
     makeRefundAdjustmentReasonRequest,
@@ -113,9 +108,9 @@ export {
     makeRefundTenderAllocationInputGiftCardRedemption,
     makeRefundTenderAllocationInputPaymentIntent,
     makeRefundTenderAllocationRequest
-} from '../declarations/types-80.js';
+} from '../declarations/types-81.js';
 export { makeSplitReversalRequest } from '../declarations/types-82.js';
-export { makeUpdateRefundRequest } from '../declarations/types-83.js';
+export { makeUpdateRefundRequest } from '../declarations/types-84.js';
 export interface RefundsResource {
     /**
  * Creates a refund for an issued credit note on a paid invoice, an order, a payment intent, a

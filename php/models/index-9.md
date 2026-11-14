@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# DeliveryPickupDetailsInput to DeliveryRateEvaluationOutcomeUnavailableInput
+# DeliveryPickupAvailabilityCandidateOutcomeInput to DeliveryRateEvaluationAllocationInput
 
+- [DeliveryPickupAvailabilityCandidateOutcomeInput](DeliveryPickupAvailabilityCandidateOutcomeInput.md)
+- [DeliveryPickupAvailabilityDiagnosticInput](DeliveryPickupAvailabilityDiagnosticInput.md)
+- [DeliveryPickupAvailabilityLocationResourceInput](DeliveryPickupAvailabilityLocationResourceInput.md)
+- [DeliveryPickupAvailabilityLocationSummaryInput](DeliveryPickupAvailabilityLocationSummaryInput.md)
+- [DeliveryPickupAvailabilityMaximumDistanceRequestInput](DeliveryPickupAvailabilityMaximumDistanceRequestInput.md)
+- [DeliveryPickupAvailabilityMethodResourceInput](DeliveryPickupAvailabilityMethodResourceInput.md)
+- [DeliveryPickupAvailabilityQuantityResourceInput](DeliveryPickupAvailabilityQuantityResourceInput.md)
 - [DeliveryPickupDetailsInput](DeliveryPickupDetailsInput.md)
 - [DeliveryPlanInput](DeliveryPlanInput.md)
 - [DeliveryPostalCodeConditionInput](DeliveryPostalCodeConditionInput.md)
@@ -95,11 +102,4 @@
 - [DeliveryRateCallbackWithSecretInput](DeliveryRateCallbackWithSecretInput.md)
 - [DeliveryRateCallbackWithSecretResponseInput](DeliveryRateCallbackWithSecretResponseInput.md)
 - [DeliveryRateEvaluationAllocationInput](DeliveryRateEvaluationAllocationInput.md)
-- [DeliveryRateEvaluationCandidateInput](DeliveryRateEvaluationCandidateInput.md)
-- [DeliveryRateEvaluationExecutionLegInput](DeliveryRateEvaluationExecutionLegInput.md)
-- [DeliveryRateEvaluationMethodOutcomeInput](DeliveryRateEvaluationMethodOutcomeInput.md)
-- [DeliveryRateEvaluationOutcomeInput](DeliveryRateEvaluationOutcomeInput.md)
-- [DeliveryRateEvaluationOutcomeAvailableInput](DeliveryRateEvaluationOutcomeAvailableInput.md)
-- [DeliveryRateEvaluationOutcomeCannotCalculateInput](DeliveryRateEvaluationOutcomeCannotCalculateInput.md)
-- [DeliveryRateEvaluationOutcomeUnavailableInput](DeliveryRateEvaluationOutcomeUnavailableInput.md)
 

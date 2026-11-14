@@ -27,7 +27,7 @@ final class CreateLocationRequestInput extends Model {
      */
     public function getCoordinate(): mixed { return $this->get('coordinate'); }
     public function hasCoordinate(): bool { return $this->has('coordinate'); }
-    /** Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if you got it by geocoding the address. Required with `coordinate`, and rejected without it. `null` is the same as omitting the field. Value enum: "merchant_supplied", "geocoded", null.
+    /** Where `coordinate` came from: `merchant_supplied` if you chose or measured it, `geocoded` if you got it by geocoding the address. Send it with `coordinate`: it is required when `coordinate` is present and rejected when `coordinate` is absent. `null` counts as omitted, so it is accepted only when `coordinate` is also omitted. Value enum: "merchant_supplied", "geocoded", null.
      * @return string|null
      * @throws SdkError When coordinate_source is omitted; use hasCoordinateSource() or valueOrDefault().
      */

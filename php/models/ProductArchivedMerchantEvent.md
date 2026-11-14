@@ -29,14 +29,14 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`. `object`: [field definitions](../models/ProductArchivedMerchantEvent.md#productarchivedmerchanteventdata-fields-1object). |
+| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`. `object`: [field definitions](../models/ProductArchivedMerchantEvent.md#productarchivedmerchanteventdata-fields-1object). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### ProductArchivedMerchantEvent.data fields 1.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `variants`, `matched_variant`, `modifier_set`.
 
-Field definitions: [shared fields](Product.md#product).
+Field definitions: [shared fields](ProductArchivedMerchantEventData.md#productarchivedmerchanteventdataobject-fields-1).
 
 ### ProductArchivedMerchantEvent.data fields 1.object.categories[]
 
@@ -50,10 +50,6 @@ Field definitions: [ProductResponse.data.default_variant](../models/ProductRespo
 
 Field definitions: [BundleResponse.data.images[]](../models/BundleResponse.md#bundleresponsedataimages).
 
-### ProductArchivedMerchantEvent.data fields 1.object.matched_variant
-
-Field definitions: [ProductResponse.data.matched_variant](../models/ProductResponse.md#productresponsedatamatched_variant).
-
 ### ProductArchivedMerchantEvent.data fields 1.object.metadata
 
 Field definitions: [BundleResponse.data.metadata](../models/BundleResponse.md#bundleresponsedatametadata).
@@ -61,8 +57,4 @@ Field definitions: [BundleResponse.data.metadata](../models/BundleResponse.md#bu
 ### ProductArchivedMerchantEvent.data fields 1.object.options[]
 
 Field definitions: [ProductResponse.data.options[]](../models/ProductResponse.md#productresponsedataoptions).
-
-### ProductArchivedMerchantEvent.data fields 1.object.variants[]
-
-Field definitions: [ProductResponse.data.variants[]](../models/ProductResponse.md#productresponsedatavariants).
 

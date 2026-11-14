@@ -119,7 +119,7 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getFailureMessage(): string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** When the resolution became fulfilled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** When the resolution completed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When fulfilled_at is omitted; use hasFulfilledAt() or valueOrDefault().
      */
@@ -185,7 +185,7 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getReturnedTotalMoney(): mixed { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
-    /** fulfilled means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+    /** completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

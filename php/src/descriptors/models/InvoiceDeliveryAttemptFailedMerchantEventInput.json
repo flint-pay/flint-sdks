@@ -1,1 +1,1 @@
-{"shared":"InvoiceDeliveryAttemptFailedMerchantEvent","dependencies":["InvoiceDeliveryAttempt","InvoiceDeliveryAttemptFailedMerchantEvent","SharedCodec10","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec884","SharedCodec885","SharedCodec887","SharedCodec888","SharedCodec9"]}
+{"shared":"InvoiceDeliveryAttemptFailedMerchantEvent","dependencies":["InvoiceDeliveryAttempt","InvoiceDeliveryAttemptFailedMerchantEvent","SharedCodec10","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec888","SharedCodec889","SharedCodec891","SharedCodec892","SharedCodec9"]}

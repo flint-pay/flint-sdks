@@ -13,5 +13,5 @@ Request input.
 | `event_type` | Required | string | Webhook event type string accepted by compatible endpoint enabled_events values and webhook event filters. Values: [291 declared values](CreateWebhookTestEventRequestInput.md#createwebhooktesteventrequestinput-event_type-values). |
 | `kind` | Required | string | Whether the event records a resource snapshot or asks you to fetch current state. Values: `"snapshot"`, `"notification"`. |
 | `previous_names` | Required | Array of string | Previous names of this type, retained permanently for reading stored events. Inputs accept only the current event_type. Empty when the type has never been renamed. |
-| `resource_type` | Required | string | Public resource type: the resource's ID field name without `_id`. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | string | Public resource type: the resource's ID field name without `_id`. Values: [154 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 

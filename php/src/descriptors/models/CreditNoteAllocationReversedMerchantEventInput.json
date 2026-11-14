@@ -1,1 +1,1 @@
-{"shared":"CreditNoteAllocationReversedMerchantEvent","dependencies":["CreditNoteAllocation","CreditNoteAllocationReversedMerchantEvent","MoneyValue","SharedCodec10","SharedCodec450","SharedCodec451","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}
+{"shared":"CreditNoteAllocationReversedMerchantEvent","dependencies":["CreditNoteAllocation","CreditNoteAllocationReversedMerchantEvent","MoneyValue","SharedCodec10","SharedCodec456","SharedCodec457","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

@@ -1,10 +1,10 @@
-import { d7106 as c0 } from '../descriptors/data/331.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d6151 as c1, d6152 as c2, d6153 as c3, d6154 as c4, d6155 as c5, d6156 as c6, d6157 as c7, d6158 as c8, d6159 as c9, d6160 as c10, d6161 as c11 } from '../descriptors/data/278.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d7106 as d7106 } from '../descriptors/data/331.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d7144 as c0 } from '../descriptors/data/337.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d6194 as c1, d6195 as c2, d6196 as c3, d6197 as c4, d6198 as c5, d6199 as c6, d6200 as c7, d6201 as c8, d6202 as c9, d6203 as c10, d6204 as c11 } from '../descriptors/data/284.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d7144 as d7144 } from '../descriptors/data/337.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d7106;
+const read = d7144;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentTermCalculationRequest"]:c0(),["SharedCodec944"]:c1(),["SharedCodec945"]:c2(),["SharedCodec946"]:c3(),["SharedCodec947"]:c4(),["SharedCodec948"]:c5(),["SharedCodec949"]:c6(),["SharedCodec950"]:c7(),["SharedCodec951"]:c8(),["SharedCodec952"]:c9(),["SharedCodec953"]:c10(),["SharedCodec954"]:c11()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoicePaymentTermCalculationRequest"]:c0(),["SharedCodec948"]:c1(),["SharedCodec949"]:c2(),["SharedCodec950"]:c3(),["SharedCodec951"]:c4(),["SharedCodec952"]:c5(),["SharedCodec953"]:c6(),["SharedCodec954"]:c7(),["SharedCodec955"]:c8(),["SharedCodec956"]:c9(),["SharedCodec957"]:c10(),["SharedCodec958"]:c11()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoicePaymentTermCalculationRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

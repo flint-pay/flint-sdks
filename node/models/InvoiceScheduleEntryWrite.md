@@ -40,7 +40,7 @@ How much the entry collects. Deposits and installments use fixed or percentage, 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `amount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount to collect, in the invoice currency. Required with fixed and not accepted with any other type. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `amount_money`: [field definitions](../models/InvoiceScheduleAmountSpecification.md#invoicescheduleamountspecificationamount_money). |
-| `percent` | Conditional | number | Percentage of snapshot.pricing_amounts.total_money to collect, greater than 0 and at most 100, with up to four decimal places. Required with percentage and not accepted with any other type. multipleOf: `0.0001`. |
+| `percent` | Conditional | number | Percentage of pricing_amounts.total_money to collect, greater than 0 and at most 100, with up to four decimal places. Required with percentage and not accepted with any other type. multipleOf: `0.0001`. |
 | `type` | Required | string | How the entry's amount is set. Values: `"fixed"`, `"percentage"`. |
 
 ### InvoiceScheduleEntryWrite variant 1.amount_specification variant 1: `type` = `"fixed"`

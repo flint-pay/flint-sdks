@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/checkoutSessions.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/checkoutSessions.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["closeCheckoutSession"]:r0,["confirmCheckoutSessionCustomerVerification"]:r0,["createCheckoutSession"]:r0,["createCheckoutSessionCustomerVerification"]:r0,["getCheckoutSession"]:r0,["getCheckoutSessionCustomerVerification"]:r0,["listCheckoutSessionCustomerVerifications"]:r0,["listCheckoutSessions"]:r0,["updateCheckoutSession"]:r0});
 export class Client {
@@ -220,11 +220,14 @@ export { makeCreateCheckoutSessionDiscount } from '../models/CreateCheckoutSessi
 export { makeCreateCheckoutSessionGiftCardPurchaseVerificationRequest } from '../models/CreateCheckoutSessionGiftCardPurchaseVerificationRequest.js';
 export { makeCreateCheckoutSessionInvoice } from '../models/CreateCheckoutSessionInvoice.js';
 export { makeCreateCheckoutSessionOrder } from '../models/CreateCheckoutSessionOrder.js';
+export { makeCreateCheckoutSessionPayToNewAddressVerificationRequest } from '../models/CreateCheckoutSessionPayToNewAddressVerificationRequest.js';
 export { makeCreateCheckoutSessionQuickPay } from '../models/CreateCheckoutSessionQuickPay.js';
 export { makeCreateCheckoutSessionRequest } from '../models/CreateCheckoutSessionRequest.js';
 export { makeCreateCheckoutSessionReturnResolution } from '../models/CreateCheckoutSessionReturnResolution.js';
 export { makeCreateCheckoutSessionSavePaymentMethodVerificationRequest } from '../models/CreateCheckoutSessionSavePaymentMethodVerificationRequest.js';
 export { makeCreateCheckoutSessionSubscriptionPlan } from '../models/CreateCheckoutSessionSubscriptionPlan.js';
+export { makeCreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest } from '../models/CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest.js';
+export { makeCreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest } from '../models/CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest.js';
 export { makeCreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest } from '../models/CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';

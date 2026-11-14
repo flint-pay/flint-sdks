@@ -6,5 +6,5 @@ One payment from a buyer, standalone or as a leg of an order. amount_money is th
 
 Response model.
 
-Fields, types, descriptions and enum values: [OrdersCreatePaymentIntentResponseData](../models/OrdersCreatePaymentIntentResponseData.md#orderscreatepaymentintentresponsedata).
+Fields, types, descriptions and enum values: [PaymentIntentsCreateResponseData](../models/PaymentIntentsCreateResponseData.md#paymentintentscreateresponsedata).
 

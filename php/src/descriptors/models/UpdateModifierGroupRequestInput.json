@@ -1,1 +1,1 @@
-{"shared":"UpdateModifierGroupRequest","dependencies":["MetadataRequest","ModifierRequest","MoneyValue","SharedCodec1693","SharedCodec1694","SharedCodec1695","SharedCodec1739","SharedCodec1747","SharedCodec1748","UpdateModifierGroupRequest"]}
+{"shared":"UpdateModifierGroupRequest","dependencies":["MetadataRequest","ModifierRequest","MoneyValue","SharedCodec1690","SharedCodec1691","SharedCodec1692","SharedCodec1736","SharedCodec1744","SharedCodec1745","UpdateModifierGroupRequest"]}

@@ -17,7 +17,7 @@ $client = new Client(new ClientOptions(
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->returns->createLineItem('ret_01KEZF7C00PG93650ZKVQNGF7X', [
-  'expected_version' => 1,
+  'expected_return_version' => 2,
   'line_item' => (object) [
     'buyer_note' => 'I changed my mind.',
     'order_line_item_id' => 'li_01KEZF7C00XM6VK5KNWVC3T907',

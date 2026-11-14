@@ -23,7 +23,7 @@ Resource, collection, or operation result returned by this request. An attempt t
 | `idempotency_key` | Required | string |  |
 | `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) | A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. `last_payment_error`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpayment_intentslast_payment_error). |
 | `order_id` | Optional | string | Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `order_payment_attempt_id` | Optional | string | Example: `"opat_01KEZF7C00B5PW9F2R8A4YSH5D"`. |
+| `payment_intent_id` | Optional | string | The payment intent this retry started. Omitted before charging begins or when no payment intent was created. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `status` | Required | string | Values: `"pending"`, `"processing"`, `"succeeded"`, `"failed"`. |
 | `subscription_id` | Required | string | Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |

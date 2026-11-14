@@ -2,8 +2,8 @@ import { verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from './runtime.js'
 export { parseExact } from './runtime.js';
 
 import { DescriptorSource } from './descriptor-source.js';
-import settings from './descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import webhook from './descriptors/webhook.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from './descriptors/settings.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import webhook from './descriptors/webhook.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 const _sdkDescriptors = new DescriptorSource(settings, {}, webhook);
 
 export function verifyWebhook(rawBody, headers, secrets, nowSeconds) { return verifyWebhookFromPlan(_sdkDescriptors, rawBody, headers, secrets, nowSeconds); }

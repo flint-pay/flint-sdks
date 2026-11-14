@@ -4,7 +4,6 @@ namespace Flint;
 /**
  * @property-read PromotionArchivedMerchantEventDataObjectApplicationMethodPercentOff|PromotionArchivedMerchantEventDataObjectApplicationMethodAmountOff|PromotionArchivedMerchantEventDataObjectApplicationMethodBuyXGetY|\stdClass $application_method
  * @property-read bool $available
- * @property-read ?list<PromotionCode> $codes
  * @property-read ?PromotionCodesSummary $codes_summary
  * @property-read PromotionCombinesWith $combines_with
  * @property-read ?string $created_at
@@ -29,7 +28,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PromotionArchivedMerchantEventDataObject extends Model {
-    /** @param array{'application_method': mixed, 'available': bool, 'codes'?: list<mixed>, 'codes_summary'?: mixed, 'combines_with': mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: int, 'max_uses_per_customer': int|null, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': int, 'version': int, ...}|object $values */
+    /** @param array{'application_method': mixed, 'available': bool, 'codes_summary'?: mixed, 'combines_with': mixed, 'created_at'?: string, 'description'?: string, 'discount_class': string, 'display_name': string, 'eligibility_rules'?: mixed, 'exclusivity'?: mixed, 'external_reference_id'?: string, 'max_uses'?: int, 'max_uses_per_customer': int|null, 'merchant_id'?: string, 'metadata'?: mixed, 'name': string, 'promotion_id': string, 'redemption_type': string, 'schedule'?: mixed, 'status': string, 'unavailable_reason'?: string, 'updated_at'?: string, 'uses_count': int, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionArchivedMerchantEventDataObject')); }
     /** Discount effect and how it applies to eligible items or charges. A flat application method whose type selects its effect fields.
      * @return PromotionArchivedMerchantEventDataObjectApplicationMethodPercentOff|PromotionArchivedMerchantEventDataObjectApplicationMethodAmountOff|PromotionArchivedMerchantEventDataObjectApplicationMethodBuyXGetY|\stdClass
@@ -41,11 +40,6 @@ final class PromotionArchivedMerchantEventDataObject extends Model {
      */
     public function getAvailable(): bool { return $this->get('available'); }
     public function hasAvailable(): bool { return $this->has('available'); }
-    /** The codes this request created, in request order. Present only on the `POST /v1/promotions` response, where it is `[]` for a promotion created without codes. Read codes later with `GET /v1/promotion-codes?promotion_id=`. [] (Value): {@see PromotionCode}. A code a buyer enters to claim a promotion.
-     * @return ?list<PromotionCode>
-     */
-    public function getCodes(): ?array { return $this->get('codes'); }
-    public function hasCodes(): bool { return $this->has('codes'); }
     /** Read-only rollup of this promotion's codes. Present only on code-gated promotions; automatic promotions omit it. A count of a promotion's codes, including how many are redeemable now and the newest redeemable code.
      * @return ?PromotionCodesSummary
      */

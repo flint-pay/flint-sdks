@@ -148,7 +148,7 @@ final class PaymentIntentWithAction extends Model {
      */
     public function getDisputeStatus(): ?string { return $this->get('dispute_status'); }
     public function hasDisputeStatus(): bool { return $this->has('dispute_status'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Null when no external reference is recorded. minLength: 1. maxLength: 255.
      * @return string|null
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
@@ -243,7 +243,7 @@ final class PaymentIntentWithAction extends Model {
      */
     public function getReaderId(): ?string { return $this->get('reader_id'); }
     public function hasReaderId(): bool { return $this->has('reader_id'); }
-    /** Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. Format: email. maxLength: 255.
+    /** Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. Null when no receipt email address is recorded on the payment. Format: email. maxLength: 255.
      * @return string|null
      */
     public function getReceiptEmail(): string|null { return $this->get('receipt_email'); }
@@ -283,7 +283,7 @@ final class PaymentIntentWithAction extends Model {
      */
     public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** Risk assessment. Always present with merchant credentials; null when no risk assessment is available. Omitted with the checkout credential. anyOf[1] (Value): {@see PaymentRisk}. The risk assessment for a payment intent, with its risk level, score, outcome, and any matched rule or review. anyOf[2] (Value): null.
+    /** Risk assessment. Always present with merchant credentials. Null when no risk assessment is available. Omitted with the checkout credential. anyOf[1] (Value): {@see PaymentRisk}. The risk assessment for a payment intent, with its risk level, score, outcome, and any matched rule or review. anyOf[2] (Value): null.
      * @return PaymentRisk|null
      */
     public function getRisk(): PaymentRisk|null { return $this->get('risk'); }
@@ -323,7 +323,7 @@ final class PaymentIntentWithAction extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. Null when no tip is recorded. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getTipMoney(): MoneyValue|null { return $this->get('tip_money'); }

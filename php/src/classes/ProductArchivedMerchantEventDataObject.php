@@ -12,10 +12,8 @@ namespace Flint;
  * @property-read ?string $external_reference_id
  * @property-read list<ImageAttachment> $images
  * @property-read ?bool $is_available_for_sale
- * @property-read ?ProductVariantMatch $matched_variant
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
- * @property-read ModifierSet|null $modifier_set
  * @property-read string|null $modifier_set_id
  * @property-read string $name
  * @property-read ?int $option_count
@@ -26,11 +24,10 @@ namespace Flint;
  * @property-read string $status
  * @property-read ?string $updated_at
  * @property-read ?int $variant_count
- * @property-read ?list<ProductVariant> $variants
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ProductArchivedMerchantEventDataObject extends Model {
-    /** @param array{'active_variant_count'?: int, 'categories': list<mixed>, 'created_at'?: string, 'default_variant'?: mixed, 'default_variant_id'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'is_available_for_sale'?: bool, 'matched_variant'?: mixed, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name': string, 'option_count'?: int, 'options': list<mixed>, 'price_range'?: mixed, 'product_id': string, 'product_type': string, 'status': string, 'updated_at'?: string, 'variant_count'?: int, 'variants'?: list<mixed>, 'version': int, ...}|object $values */
+    /** @param array{'active_variant_count'?: int, 'categories': list<mixed>, 'created_at'?: string, 'default_variant'?: mixed, 'default_variant_id'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'is_available_for_sale'?: bool, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set_id': string|null, 'name': string, 'option_count'?: int, 'options': list<mixed>, 'price_range'?: mixed, 'product_id': string, 'product_type': string, 'status': string, 'updated_at'?: string, 'variant_count'?: int, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductArchivedMerchantEventDataObject')); }
     /** Number of active variants belonging to the product. Format: int32.
      * @return ?int
@@ -82,11 +79,6 @@ final class ProductArchivedMerchantEventDataObject extends Model {
      */
     public function getIsAvailableForSale(): ?bool { return $this->get('is_available_for_sale'); }
     public function hasIsAvailableForSale(): bool { return $this->has('is_available_for_sale'); }
-    /** On product list rows, the first non-archived variant by position, then variant_id, that matches all exact variant filters. Without exact variant filters, identifies the first variant whose SKU matches query. Omitted when no variant matches; a product name or description match alone does not set it. Page the product's variants to find all matches. A single variant witness on product list rows only. With exact variant filters, the first variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use the paginated nested variant list to enumerate every match.
-     * @return ?ProductVariantMatch
-     */
-    public function getMatchedVariant(): ?ProductVariantMatch { return $this->get('matched_variant'); }
-    public function hasMatchedVariant(): bool { return $this->has('matched_variant'); }
     /** Identifier of the merchant that owns this resource.
      * @return ?string
      */
@@ -97,12 +89,7 @@ final class ProductArchivedMerchantEventDataObject extends Model {
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. anyOf[1] (Value): {@see ModifierSet}. A reusable collection of customization groups. anyOf[2] (Value): null.
-     * @return ModifierSet|null
-     */
-    public function getModifierSet(): ModifierSet|null { return $this->get('modifier_set'); }
-    public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** Attached modifier set. Send null on update to remove it.
+    /** Attached modifier set. Null when no modifier set is assigned. Send null on update to remove it.
      * @return string|null
      */
     public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }
@@ -152,11 +139,6 @@ final class ProductArchivedMerchantEventDataObject extends Model {
      */
     public function getVariantCount(): ?int { return $this->get('variant_count'); }
     public function hasVariantCount(): bool { return $this->has('variant_count'); }
-    /** The product's complete non-archived variants, ordered by `position` and then `variant_id`. Present when `expand=variants` is requested, and on the `POST /v1/products` response. An archived product returns an empty array. [] (Value): {@see ProductVariant}. A specific purchasable version of a product.
-     * @return ?list<ProductVariant>
-     */
-    public function getVariants(): ?array { return $this->get('variants'); }
-    public function hasVariants(): bool { return $this->has('variants'); }
     /** Current resource version. Send it as expected_version to reject a write if the resource has changed. Format: uint64. minimum: 0.
      * @return int
      */

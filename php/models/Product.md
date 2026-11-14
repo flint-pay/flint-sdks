@@ -22,7 +22,7 @@ Response model.
 | `merchant_id` | Optional | string | Identifier of the merchant that owns this resource. |
 | `metadata` | Optional | Map of string | Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/BundleResponse.md#bundleresponsedatametadata). |
 | `modifier_set` | Optional | [ModifierSet](../models/ModifierSet.md#modifierset) or null | Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. |
-| `modifier_set_id` | Required | string or null | Attached modifier set. Send null on update to remove it. |
+| `modifier_set_id` | Required | string or null | Attached modifier set. Null when no modifier set is assigned. Send null on update to remove it. |
 | `name` | Required | string | Product name shown to buyers. |
 | `option_count` | Optional | integer | Number of active options belonging to the product. Format: `int32`. |
 | `options` | Required | Array of [ProductOption](../models/ProductOption.md#productoption) | Product options and their non-archived values. Empty when the product has no options. `options[]`: [field definitions](../models/ProductResponse.md#productresponsedataoptions). |

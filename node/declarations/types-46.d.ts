@@ -1,41 +1,1382 @@
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { OrderLineItemTax, OrderLineItemTaxRequestInput } from './types-40.js';
-import type {
-    PaymentLinkLineItemInputBundle,
-    PaymentLinkLineItemInputCustomFixed,
-    PaymentLinkLineItemInputCustomVariable,
-    PaymentLinkLineItemInputBundleInput,
-    PaymentLinkLineItemInputCustomFixedInput,
-    PaymentLinkLineItemInputCustomVariableInput,
-    PaymentLink,
-    PaymentLinkCustomField,
-    PaymentLinkEventConfig,
-    PaymentLinkLineItem
-} from './types-45.js';
-import type { ProductPriceRange } from './types-49.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { OrderLineItemTax, OrderLineItemTaxRequestInput } from './types-41.js';
+import type { ProductPriceRange } from './types-50.js';
+import type { PaymentLink, PaymentLinkCustomField } from './types-45.js';
 import type { ResponseMeta, ResolvePaymentLinkRequestInput } from './types-54.js';
-import type { Image, ImageAttachment } from './types-27.js';
-import type { SubscriptionIntervalOption } from './types-61.js';
+import type { Image, ImageAttachment } from './types-28.js';
+import type { SubscriptionIntervalOption } from './types-62.js';
 import type {
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
     CheckoutPromotionConfig,
-    CheckoutRedirects,
     CardDetails
 } from './types-5.js';
-import type { CheckoutTaxConfig, CheckoutTipConfig } from './types-6.js';
+import type { CheckoutRedirects, CheckoutTaxConfig, CheckoutTipConfig } from './types-6.js';
 import type { ExpandedSubscriptionPlanSummary, ExpandedCustomerSummary } from './types-24.js';
 import type { InventoryRoutingSource } from './types-30.js';
-import type { LegalSettings } from './types-34.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { LegalSettings } from './types-35.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { ThemeConfig } from './types-65.js';
 import type { InputValue } from '../runtime.js';
-import type { CreatePaymentLinkRequestInput, CreatePaymentMethodDomainRequestInput } from './types-11.js';
-import type { UpdatePaymentLinkRequestInput, UpdatePaymentMethodDomainRequestInput } from './types-67.js';
-import type { StripeClientSetup } from './types-60.js';
-import type { SavePaymentMethodRequestInput } from './types-59.js';
+import type { CreatePaymentLinkRequestInput } from './types-11.js';
+import type { UpdatePaymentLinkRequestInput } from './types-67.js';
+/**
+ * Custom text shown on a payment link's checkout, such as the order summary message and shipping
+ * address label.
+ */
+export type PaymentLinkCustomTextConfigInput = {
+    /** Message shown near the order summary in checkout. minLength: 1. maxLength: 2048. */
+    "order_summary_message"?: string;
+    /** Label shown for the shipping address in checkout. minLength: 1. maxLength: 255. */
+    "shipping_address_label"?: string;
+};
+/** Changes to a payment link's custom checkout text. Send null to clear a field. */
+export type PaymentLinkCustomTextPatchRequest = {
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "order_summary_message"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "shipping_address_label"?: string | null;
+};
+/** Changes to a payment link's custom checkout text. Send null to clear a field. */
+export type PaymentLinkCustomTextPatchRequestInput = PaymentLinkCustomTextPatchRequest;
+/**
+ * Event settings on an event payment link, such as its date, venue, ticket limit, and ticket
+ * emails.
+ */
+export type PaymentLinkEventConfig = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. maxLength: 5.
+     */
+    "ticket_prefix"?: string;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. */
+    "timezone"?: string;
+    /** Where the event takes place. maxLength: 500. */
+    "venue"?: string;
+};
+/** Changes to an event payment link's settings. Send null on a nullable field to clear it. */
+export type PaymentLinkEventConfigPatchRequest = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. Send null to clear it. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string | null;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "venue"?: string | null;
+};
+/** Changes to an event payment link's settings. Send null on a nullable field to clear it. */
+export type PaymentLinkEventConfigPatchRequestInput = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string | globalThis.Date;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. Send null to clear it. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string | null;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Send null to clear it. minLength: 1. maxLength: 500. */
+    "venue"?: string | null;
+};
+/** Event settings you supply when creating an event payment link. */
+export type PaymentLinkEventConfigRequestInput = {
+    /**
+     * Whether resolving the link requires `attendee_names`, one name per ticket. Flint copies the
+     * names onto the tickets when the order is paid. Defaults to false.
+     */
+    "collect_attendee_names"?: boolean;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "event_at"?: string | globalThis.Date;
+    /**
+     * Most tickets the event sells across all orders. `null` when the event has no ticket limit.
+     * On update, send null to remove the limit; a value below the tickets already sold or held by
+     * payments in progress fails with `LIMIT_EXCEEDED`. Whole-number quantity; fractional
+     * quantities are not supported. Format: int32.
+     */
+    "max_total_quantity"?: number | null;
+    /** Whether Flint emails tickets to buyers after they pay. */
+    "send_ticket_emails"?: boolean;
+    /**
+     * Prefix for ticket numbers, up to 5 characters. It cannot change after the event has issued
+     * tickets. minLength: 1. maxLength: 5.
+     */
+    "ticket_prefix"?: string;
+    /** IANA time zone of the event venue, used to show `event_at` as venue time. minLength: 1. */
+    "timezone"?: string;
+    /** Where the event takes place. minLength: 1. maxLength: 500. */
+    "venue"?: string;
+};
+/**
+ * Legal links on a payment link: contract, refund policy, shipping policy, and terms of service
+ * URLs, and whether buyers must accept the terms.
+ */
+export type PaymentLinkLegalConfigInput = {
+    /**
+     * An `https://` URL of the contract the buyer agrees to, linked in checkout. minLength: 1.
+     * maxLength: 2048.
+     */
+    "contract_url"?: string;
+    /**
+     * An `https://` URL of your refund policy, linked in checkout. minLength: 1. maxLength: 2048.
+     */
+    "refund_policy_url"?: string;
+    /** Whether the buyer must accept the terms of service before paying. */
+    "require_terms_of_service"?: boolean;
+    /**
+     * An `https://` URL of your shipping policy, linked in checkout. minLength: 1. maxLength:
+     * 2048.
+     */
+    "shipping_policy_url"?: string;
+    /**
+     * An `https://` URL of your terms of service, linked in checkout. minLength: 1. maxLength:
+     * 2048.
+     */
+    "terms_of_service_url"?: string;
+};
+/** Changes to a payment link's legal links and terms setting. Send null on a URL to clear it. */
+export type PaymentLinkLegalPatchRequestInput = {
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "contract_url"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "refund_policy_url"?: string | null;
+    /** Whether the buyer must accept the terms of service before paying. */
+    "require_terms_of_service"?: boolean;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "shipping_policy_url"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "terms_of_service_url"?: string | null;
+};
+/** A line item on a payment link. */
+export type PaymentLinkLineItem = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name"?: string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /**
+     * How the line item is defined. Value enum: "variant", "bundle", "custom_fixed",
+     * "custom_variable".
+     */
+    "type": "variant" | "bundle" | "custom_fixed" | "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & ((Exclude<PaymentLinkLineItemVariant & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemBundle & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomFixed & object, readonly unknown[]>)
+    | (Exclude<PaymentLinkLineItemCustomVariable & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name"?: string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+}));
+/** A line item on a payment link. */
+export type PaymentLinkLineItemCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. */
+    "description"?: string;
+    /**
+     * True when the referenced variant or bundle cannot be sold, or no listed variant in
+     * variant_ids can be sold in the line currency. Always false on ad hoc line items.
+     */
+    "is_catalog_item_unavailable": boolean;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+    /**
+     * Unique identifier for this payment link line item, prefixed `plli_`. Example:
+     * "plli_01KEZF7C004V7GVCCNMYYCBAJS".
+     */
+    "payment_link_line_item_id": string;
+    /**
+     * Parent catalog context only. The product that the variants in variant_ids belong to. Present
+     * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Current catalog name of the referenced variant or bundle, or the product name for
+     * variant_ids lines. A variant reads as the product name, plus the variant name when the
+     * variant is a named option combination. This is the catalog value at read time, not a stored
+     * snapshot: checkout resolves it again when a buyer opens the link. Absent on ad-hoc line
+     * items and when the catalog object no longer exists.
+     */
+    "resolved_name"?: string;
+    /**
+     * Current lowest and highest catalog unit prices among listed variants that can be sold in the
+     * line currency. Computed at read time, not stored. Omitted when no listed variant can be
+     * sold. The lowest and highest unit prices across a product's variants.
+     */
+    "resolved_price_range"?: ProductPriceRange;
+    /**
+     * Current catalog unit price of the referenced variant or bundle. For a fixed variant this is
+     * the base price that applies below the first quantity price break. This is the catalog value
+     * at read time, not a stored snapshot: checkout resolves the price again when a buyer opens
+     * the link, so the amount a buyer pays can differ. Absent on ad-hoc line items, variant_ids
+     * lines, and when the catalog object no longer exists. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /** Name of an ad hoc line item. Catalog lines take the catalog name. */
+    "name": string;
+}));
+/** The `bundle` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputBundle = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": "bundle" | (string & {});
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** The `bundle` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputBundleInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "bundle". */
+    "type": "bundle";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: "bundle". */
+    "type": ("bundle") & ("bundle");
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "name"?: never;
+})
+    & ({
+    "unit_price_money"?: never;
+})
+    & ({
+    "description"?: never;
+})
+    & ({
+    "tax"?: never;
+})
+    & ({
+    "allow_unit_price_adjustment"?: never;
+})
+    & ({
+    "min_unit_price_money"?: never;
+})
+    & ({
+    "max_unit_price_money"?: never;
+})
+    & ({
+    "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
+})));
+/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomFixed = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: boolean;
+    /** Value enum: "custom_fixed". */
+    "type": "custom_fixed" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValue;
+}));
+/** The `custom_fixed` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomFixedInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment"?: boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_fixed". */
+    "type": "custom_fixed";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: false. */
+    "allow_unit_price_adjustment"?: false;
+    /** Value enum: "custom_fixed". */
+    "type": ("custom_fixed") & ("custom_fixed");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money": MoneyValueInput;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
+/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomVariable = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValue;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValue;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValue>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTax;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": boolean;
+    /** Value enum: "custom_variable". */
+    "type": "custom_variable" | (string & {});
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+}));
+/** The `custom_variable` variant of `PaymentLinkLineItemInput`. */
+export type PaymentLinkLineItemInputCustomVariableInput = ({
+    /** Whether the buyer can change the quantity in checkout. */
+    "allow_quantity_adjustment"?: boolean;
+    /** Whether the buyer sets the unit price. Only `custom_variable` lines allow it. */
+    "allow_unit_price_adjustment": boolean;
+    /**
+     * ID of the catalog bundle a `bundle` line sells. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /**
+     * Variant selected when the page opens and used at resolve when the buyer omits a selection.
+     * Must be in variant_ids. Omit it to require a buyer selection. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "default_variant_id"?: string;
+    /** Description of an ad hoc line item. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Keys the resolve override maps. Stable line item key used in checkout overrides. Must not
+     * have leading or trailing whitespace. Assigned as line_item_1, line_item_2, and so on when
+     * omitted, skipping numbers already used by explicit keys; retained for an existing line item
+     * when omitted on update. minLength: 1. maxLength: 100.
+     */
+    "key"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "max_quantity"?: number;
+    /**
+     * Highest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "max_unit_price_money"?: MoneyValueInput;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "min_quantity"?: number;
+    /**
+     * Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "min_unit_price_money"?: MoneyValueInput;
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
+     * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
+     * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
+     */
+    "quantity"?: number;
+    /**
+     * Unit prices offered as one-tap choices when the buyer sets the price. [] (Value): {@link
+     * MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "suggested_unit_price_money_options"?: Array<MoneyValueInput>;
+    /**
+     * Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax
+     * category and whether it is taxable.
+     */
+    "tax"?: OrderLineItemTaxRequestInput;
+    /** How the line item is defined. Value enum: "custom_variable". */
+    "type": "custom_variable";
+    /**
+     * Price of one unit of a `custom_fixed` line item. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the catalog variant a `variant` line sells. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+    /**
+     * Variant IDs buyers may choose from, in the order offered. Contains 1 to 100 unique, active,
+     * sellable variants of one product in one currency. Available only on standard payment links.
+     * Mutually exclusive with variant_id, bundle_id, and ad hoc line item fields. minItems: 1.
+     * maxItems: 100. uniqueItems: true. [] (Value): string. minLength: 1. pattern:
+     * ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_ids"?: Array<string>;
+})
+    & (({
+    /** Value enum: true. */
+    "allow_unit_price_adjustment": true;
+    /** Value enum: "custom_variable". */
+    "type": ("custom_variable") & ("custom_variable");
+    /**
+     * Name of an ad hoc line item. Catalog lines take the catalog name. minLength: 1. maxLength:
+     * 255.
+     */
+    "name": string;
+})
+    & (({
+    "variant_id"?: never;
+})
+    & ({
+    "variant_ids"?: never;
+})
+    & ({
+    "default_variant_id"?: never;
+})
+    & ({
+    "bundle_id"?: never;
+})));
 /** The `variant` variant of `PaymentLinkLineItemInput`. */
 export type PaymentLinkLineItemInputVariant = ({
     /** Whether the buyer can change the quantity in checkout. */
@@ -81,6 +1422,14 @@ export type PaymentLinkLineItemInputVariant = ({
      * 255.
      */
     "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
@@ -186,6 +1535,14 @@ export type PaymentLinkLineItemInputVariantInput = ({
      */
     "name"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
      */
@@ -271,6 +1628,9 @@ export type PaymentLinkLineItemInputVariantInput = ({
     "suggested_unit_price_money_options"?: never;
 })
     & ({
+    "product_type"?: never;
+})
+    & ({
     "variant_id"?: never;
 } | {
     "variant_ids"?: never;
@@ -326,6 +1686,14 @@ export type PaymentLinkLineItemPatchInputBundle = ({
      * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
      */
     "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
@@ -424,6 +1792,14 @@ export type PaymentLinkLineItemPatchInputBundleInput = ({
      */
     "payment_link_line_item_id"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
      */
@@ -501,6 +1877,9 @@ export type PaymentLinkLineItemPatchInputBundleInput = ({
 })
     & ({
     "suggested_unit_price_money_options"?: never;
+})
+    & ({
+    "product_type"?: never;
 })));
 /** The `custom_fixed` variant of `PaymentLinkLineItemPatchInput`. */
 export type PaymentLinkLineItemPatchInputCustomFixed = ({
@@ -553,6 +1932,14 @@ export type PaymentLinkLineItemPatchInputCustomFixed = ({
      * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
      */
     "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
@@ -657,6 +2044,14 @@ export type PaymentLinkLineItemPatchInputCustomFixedInput = ({
      * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
      */
     "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
     /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
@@ -774,6 +2169,14 @@ export type PaymentLinkLineItemPatchInputCustomVariable = ({
      */
     "payment_link_line_item_id"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
      */
@@ -872,6 +2275,14 @@ export type PaymentLinkLineItemPatchInputCustomVariableInput = ({
      * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
      */
     "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
     /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
@@ -984,6 +2395,14 @@ export type PaymentLinkLineItemPatchInputVariant = ({
      */
     "payment_link_line_item_id"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
      */
@@ -1094,6 +2513,14 @@ export type PaymentLinkLineItemPatchInputVariantInput = ({
      */
     "payment_link_line_item_id"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
      */
@@ -1179,6 +2606,9 @@ export type PaymentLinkLineItemPatchInputVariantInput = ({
     "suggested_unit_price_money_options"?: never;
 })
     & ({
+    "product_type"?: never;
+})
+    & ({
     "variant_id"?: never;
 } | {
     "variant_ids"?: never;
@@ -1237,6 +2667,14 @@ export type PaymentLinkLineItemPatchRequest = ({
      * Example: "plli_01KEZF7C004V7GVCCNMYYCBAJS".
      */
     "payment_link_line_item_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
@@ -1337,6 +2775,14 @@ export type PaymentLinkLineItemPatchRequestInput = ({
      */
     "payment_link_line_item_id"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
      */
@@ -1428,6 +2874,14 @@ export type PaymentLinkLineItemRequest = ({
      * 255.
      */
     "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
@@ -1521,6 +2975,14 @@ export type PaymentLinkLineItemRequestInput = ({
      * 255.
      */
     "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
     /**
      * Whole-number default quantity; fractional quantities are not supported. Omission uses 1.
      * Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
@@ -1621,6 +3083,12 @@ export type PaymentLinkLineItemVariant = ({
      * only on buyer choice lines; refused on input. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      */
     "product_id"?: string;
+    /**
+     * Classification configured on a custom line for ACH debit. Null when unclassified or
+     * catalog-backed; catalog lines get their product classification when checkout starts. Value
+     * enum: "physical", "service", "fee", "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
     /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
     "quantity": number;
     /**
@@ -1890,10 +3358,13 @@ export type PaymentLinkSubscriptionPreview = {
     /**
      * Billing intervals the plan offers, which the buyer chooses among on the checkout this link
      * opens. The same values as the subscription plan's `billing_interval_options`. maxItems: 12.
-     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing cadence offered
-     * by a subscription plan or offer. Every option bills the same line prices once per period;
-     * prices are not scaled by the interval. For a different price per interval, create separate
-     * plans.
+     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such
+     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
+     * that ship are per delivery, and each option charges for all deliveries in its period.
+     * Without a delivery cadence there is one delivery per period, so every option bills the same
+     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
+     * of the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
      */
     "billing_interval_options": Array<SubscriptionIntervalOption>;
     /**
@@ -3882,1203 +5353,3 @@ export type PaymentMethodArchivedInstalledMerchantsEvent = (Exclude<PartnerWebho
         "sandbox_id"?: string;
     });
 });
-/**
- * The `payment_method.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentMethodArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
-     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
-     * month and year, last four digits, and the wallet when one was used. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
-     * fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint (Optional): string. A value that is the
-     * same for every saved copy of one card number at this merchant and environment, so you can
-     * spot duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-     * or Google Pay can have a different fingerprint from the same card typed in.
-     * object.is_default (Required): boolean. Whether this is the customer's default payment
-     * method, the one Customer.default_payment_method_id names. Change the default with PATCH
-     * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
-     * object.merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string. Unique
-     * identifier for this payment method, prefixed `pm_`. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
-     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
-     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
-     * string. Whether the payment method can be charged. Treat any value other than active as not
-     * chargeable, including values added later. Value enum: "pending", "active", "expired",
-     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
-     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
-     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
-     * charges without the buyer, and can be a customer's default. on_session payment methods were
-     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
-     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
-     * default. Payment methods saved before usage existed are off_session. Value enum:
-     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
-         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
-         * is `card`. Card details on a payment method: brand, expiration month and year, last four
-         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
-         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional):
-         * string. A value that is the same for every saved copy of one card number at this
-         * merchant and environment, so you can spot duplicates. It doesn't identify the card
-         * anywhere else. A card added through Apple Pay or Google Pay can have a different
-         * fingerprint from the same card typed in. is_default (Required): boolean. Whether this is
-         * the customer's default payment method, the one Customer.default_payment_method_id names.
-         * Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated,
-         * not a payment method event. merchant_id (Required): string. ID of the merchant this
-         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id
-         * (Required): string. Unique identifier for this payment method, prefixed `pm_`. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
-         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
-         * support is enabled. Accept future values. Value enum: "flint", "store". status
-         * (Required): string. Whether the payment method can be charged. Treat any value other
-         * than active as not chargeable, including values added later. Value enum: "pending",
-         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
-         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
-         * charge the payment method. off_session payment methods can pay subscriptions, automatic
-         * invoices, and other charges without the buyer, and can be a customer's default.
-         * on_session payment methods were saved by the buyer in checkout for faster checkout at
-         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
-         * for any charge without the buyer and as a default. Payment methods saved before usage
-         * existed are off_session. Value enum: "on_session", "off_session".
-         */
-        "object": {
-            /**
-             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
-             * payment method: brand, expiration month and year, last four digits, and the wallet
-             * when one was used.
-             */
-            "card"?: CardDetails;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * A value that is the same for every saved copy of one card number at this merchant
-             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
-             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
-             * from the same card typed in.
-             */
-            "fingerprint"?: string;
-            /**
-             * Whether this is the customer's default payment method, the one
-             * Customer.default_payment_method_id names. Change the default with PATCH
-             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-             * event.
-             */
-            "is_default": boolean;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Unique identifier for this payment method, prefixed `pm_`. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string;
-            /**
-             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
-             * responses when Flint wallet support is enabled. Accept future values. Value enum:
-             * "flint", "store".
-             */
-            "saved_with"?: "flint" | "store" | (string & {});
-            /**
-             * Whether the payment method can be charged. Treat any value other than active as not
-             * chargeable, including values added later. Value enum: "pending", "active",
-             * "expired", "archived", "failed".
-             */
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            /** Kind of payment method. Value enum: "card". */
-            "type": "card" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * When Flint may charge the payment method. off_session payment methods can pay
-             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
-             * customer's default. on_session payment methods were saved by the buyer in checkout
-             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
-             * completes and refuses them for any charge without the buyer and as a default.
-             * Payment methods saved before usage existed are off_session. Value enum:
-             * "on_session", "off_session".
-             */
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payment_method.archived". */
-    "event_type"?: "payment_method.archived";
-});
-/** A domain registered for browser payment methods. */
-export type PaymentMethodDomain = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The registered hostname, trimmed and lowercased. ASCII only, at least two labels, each up to
-     * 63 characters, 253 characters in total; no scheme, path, port, IP address, or wildcard.
-     */
-    "domain_name": string;
-    /**
-     * Flint payment method domain ID, starting with pmdom_. Example:
-     * "pmdom_01KEZF7C001WQCSRGH9GWR6628".
-     */
-    "payment_method_domain_id": string;
-    /**
-     * Availability and validation status of each payment option on this domain. [] (Value): {@link
-     * PaymentMethodDomainPaymentOptionStatus}. Whether a wallet payment option, Apple Pay or
-     * Google Pay, is active, inactive, or unavailable for a payment method domain.
-     */
-    "payment_option_statuses": Array<PaymentMethodDomainPaymentOptionStatus>;
-    /**
-     * Whether wallet buttons are on for the hostname. Change it with `PATCH`. Value enum:
-     * "active", "inactive".
-     */
-    "status": "active" | "inactive" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Whether the hostname passed the checks wallets need, summarizing `payment_option_statuses`.
-     * Value enum: "active", "action_required", "unavailable".
-     */
-    "validation_status": "active" | "action_required" | "unavailable" | (string & {});
-    /**
-     * Persisted version of this resource's owned state. Expanded resources and external
-     * observations can change independently. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-/** A page of `PaymentMethodDomain` objects. */
-export type PaymentMethodDomainListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PaymentMethodDomain}. A domain registered for browser payment methods.
-     */
-    "data": Array<PaymentMethodDomain>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * Whether a wallet payment option, Apple Pay or Google Pay, is active, inactive, or unavailable
- * for a payment method domain.
- */
-export type PaymentMethodDomainPaymentOptionStatus = {
-    /** The wallet this status is for. Value enum: "apple_pay", "google_pay". */
-    "payment_option": "apple_pay" | "google_pay" | (string & {});
-    /**
-     * Whether this wallet's button can show on the hostname. Value enum: "active", "inactive",
-     * "unavailable".
-     */
-    "status": "active" | "inactive" | "unavailable" | (string & {});
-};
-/** A response containing `PaymentMethodDomain` data. */
-export type PaymentMethodDomainResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A domain registered for
-     * browser payment methods.
-     */
-    "data": PaymentMethodDomain;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PaymentMethodDomainsCreateParams = (InputValue<CreatePaymentMethodDomainRequestInput>);
-export type PaymentMethodDomainsGetParams = {};
-export type PaymentMethodDomainsListParams = {
-    /**
-     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
-     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
-     * enum: "active", "inactive". Value enum: "active", "inactive". anyOf[1] (Value): Array of
-     * string. minItems: 1. [] enum: "active", "inactive". anyOf[1][] (Value): string. Value enum:
-     * "active", "inactive". anyOf[2] (Value): string. Value enum: "active", "inactive".
-     */
-    "status"?: InputValue<("active" | "inactive") | readonly ("active" | "inactive")[]>;
-    /**
-     * Exact hostname filter after trimming whitespace and converting to lowercase. Accepts an
-     * ASCII fully-qualified hostname without a URL, port, wildcard, or IP address. Matches the
-     * entire stored domain name. minLength: 1. maxLength: 253. pattern: ^[\t\n\v\f\r
-     * ]*(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?[\t\n\v\f\r
-     * ]*$.
-     */
-    "domain_name"?: InputValue<(string)>;
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-};
-export type PaymentMethodDomainsUpdateParams = (InputValue<UpdatePaymentMethodDomainRequestInput>);
-export type PaymentMethodFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "card"?: CardDetails;
-            "created_at": string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "fingerprint"?: string;
-            "is_default": boolean;
-            "merchant_id": string;
-            "payment_method_id": string;
-            "saved_with"?: "flint" | "store" | (string & {});
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            "type": "card" | (string & {});
-            "updated_at": string;
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payment_method.failed";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "card"?: CardDetails;
-            "created_at": string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "fingerprint"?: string;
-            "is_default": boolean;
-            "merchant_id": string;
-            "payment_method_id": string;
-            "saved_with"?: "flint" | "store" | (string & {});
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            "type": "card" | (string & {});
-            "updated_at": string;
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payment_method.failed";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payment_method.failed";
-});
-/**
- * The `payment_method.failed` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PaymentMethodFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
-     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
-     * month and year, last four digits, and the wallet when one was used. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
-     * fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint (Optional): string. A value that is the
-     * same for every saved copy of one card number at this merchant and environment, so you can
-     * spot duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-     * or Google Pay can have a different fingerprint from the same card typed in.
-     * object.is_default (Required): boolean. Whether this is the customer's default payment
-     * method, the one Customer.default_payment_method_id names. Change the default with PATCH
-     * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
-     * object.merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string. Unique
-     * identifier for this payment method, prefixed `pm_`. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
-     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
-     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
-     * string. Whether the payment method can be charged. Treat any value other than active as not
-     * chargeable, including values added later. Value enum: "pending", "active", "expired",
-     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
-     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
-     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
-     * charges without the buyer, and can be a customer's default. on_session payment methods were
-     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
-     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
-     * default. Payment methods saved before usage existed are off_session. Value enum:
-     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
-         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
-         * is `card`. Card details on a payment method: brand, expiration month and year, last four
-         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
-         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional):
-         * string. A value that is the same for every saved copy of one card number at this
-         * merchant and environment, so you can spot duplicates. It doesn't identify the card
-         * anywhere else. A card added through Apple Pay or Google Pay can have a different
-         * fingerprint from the same card typed in. is_default (Required): boolean. Whether this is
-         * the customer's default payment method, the one Customer.default_payment_method_id names.
-         * Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated,
-         * not a payment method event. merchant_id (Required): string. ID of the merchant this
-         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id
-         * (Required): string. Unique identifier for this payment method, prefixed `pm_`. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
-         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
-         * support is enabled. Accept future values. Value enum: "flint", "store". status
-         * (Required): string. Whether the payment method can be charged. Treat any value other
-         * than active as not chargeable, including values added later. Value enum: "pending",
-         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
-         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
-         * charge the payment method. off_session payment methods can pay subscriptions, automatic
-         * invoices, and other charges without the buyer, and can be a customer's default.
-         * on_session payment methods were saved by the buyer in checkout for faster checkout at
-         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
-         * for any charge without the buyer and as a default. Payment methods saved before usage
-         * existed are off_session. Value enum: "on_session", "off_session".
-         */
-        "object": {
-            /**
-             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
-             * payment method: brand, expiration month and year, last four digits, and the wallet
-             * when one was used.
-             */
-            "card"?: CardDetails;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * A value that is the same for every saved copy of one card number at this merchant
-             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
-             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
-             * from the same card typed in.
-             */
-            "fingerprint"?: string;
-            /**
-             * Whether this is the customer's default payment method, the one
-             * Customer.default_payment_method_id names. Change the default with PATCH
-             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-             * event.
-             */
-            "is_default": boolean;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Unique identifier for this payment method, prefixed `pm_`. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string;
-            /**
-             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
-             * responses when Flint wallet support is enabled. Accept future values. Value enum:
-             * "flint", "store".
-             */
-            "saved_with"?: "flint" | "store" | (string & {});
-            /**
-             * Whether the payment method can be charged. Treat any value other than active as not
-             * chargeable, including values added later. Value enum: "pending", "active",
-             * "expired", "archived", "failed".
-             */
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            /** Kind of payment method. Value enum: "card". */
-            "type": "card" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * When Flint may charge the payment method. off_session payment methods can pay
-             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
-             * customer's default. on_session payment methods were saved by the buyer in checkout
-             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
-             * completes and refuses them for any charge without the buyer and as a default.
-             * Payment methods saved before usage existed are off_session. Value enum:
-             * "on_session", "off_session".
-             */
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "payment_method.failed". */
-    "event_type"?: "payment_method.failed";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `payment_method.failed` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentMethodFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
-     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
-     * month and year, last four digits, and the wallet when one was used. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
-     * fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint (Optional): string. A value that is the
-     * same for every saved copy of one card number at this merchant and environment, so you can
-     * spot duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-     * or Google Pay can have a different fingerprint from the same card typed in.
-     * object.is_default (Required): boolean. Whether this is the customer's default payment
-     * method, the one Customer.default_payment_method_id names. Change the default with PATCH
-     * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
-     * object.merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string. Unique
-     * identifier for this payment method, prefixed `pm_`. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
-     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
-     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
-     * string. Whether the payment method can be charged. Treat any value other than active as not
-     * chargeable, including values added later. Value enum: "pending", "active", "expired",
-     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
-     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
-     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
-     * charges without the buyer, and can be a customer's default. on_session payment methods were
-     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
-     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
-     * default. Payment methods saved before usage existed are off_session. Value enum:
-     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
-         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
-         * is `card`. Card details on a payment method: brand, expiration month and year, last four
-         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
-         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional):
-         * string. A value that is the same for every saved copy of one card number at this
-         * merchant and environment, so you can spot duplicates. It doesn't identify the card
-         * anywhere else. A card added through Apple Pay or Google Pay can have a different
-         * fingerprint from the same card typed in. is_default (Required): boolean. Whether this is
-         * the customer's default payment method, the one Customer.default_payment_method_id names.
-         * Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated,
-         * not a payment method event. merchant_id (Required): string. ID of the merchant this
-         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id
-         * (Required): string. Unique identifier for this payment method, prefixed `pm_`. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
-         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
-         * support is enabled. Accept future values. Value enum: "flint", "store". status
-         * (Required): string. Whether the payment method can be charged. Treat any value other
-         * than active as not chargeable, including values added later. Value enum: "pending",
-         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
-         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
-         * charge the payment method. off_session payment methods can pay subscriptions, automatic
-         * invoices, and other charges without the buyer, and can be a customer's default.
-         * on_session payment methods were saved by the buyer in checkout for faster checkout at
-         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
-         * for any charge without the buyer and as a default. Payment methods saved before usage
-         * existed are off_session. Value enum: "on_session", "off_session".
-         */
-        "object": {
-            /**
-             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
-             * payment method: brand, expiration month and year, last four digits, and the wallet
-             * when one was used.
-             */
-            "card"?: CardDetails;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * A value that is the same for every saved copy of one card number at this merchant
-             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
-             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
-             * from the same card typed in.
-             */
-            "fingerprint"?: string;
-            /**
-             * Whether this is the customer's default payment method, the one
-             * Customer.default_payment_method_id names. Change the default with PATCH
-             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-             * event.
-             */
-            "is_default": boolean;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Unique identifier for this payment method, prefixed `pm_`. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string;
-            /**
-             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
-             * responses when Flint wallet support is enabled. Accept future values. Value enum:
-             * "flint", "store".
-             */
-            "saved_with"?: "flint" | "store" | (string & {});
-            /**
-             * Whether the payment method can be charged. Treat any value other than active as not
-             * chargeable, including values added later. Value enum: "pending", "active",
-             * "expired", "archived", "failed".
-             */
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            /** Kind of payment method. Value enum: "card". */
-            "type": "card" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * When Flint may charge the payment method. off_session payment methods can pay
-             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
-             * customer's default. on_session payment methods were saved by the buyer in checkout
-             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
-             * completes and refuses them for any charge without the buyer and as a default.
-             * Payment methods saved before usage existed are off_session. Value enum:
-             * "on_session", "off_session".
-             */
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payment_method.failed". */
-    "event_type"?: "payment_method.failed";
-});
-/** A page of `PaymentMethod` objects. */
-export type PaymentMethodListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * PaymentMethod}. A customer's saved payment details.
-     */
-    "data": Array<PaymentMethod>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `PaymentMethod` data. */
-export type PaymentMethodResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A customer's saved
-     * payment details.
-     */
-    "data": PaymentMethod;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type PaymentMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "card"?: CardDetails;
-            "created_at": string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "fingerprint"?: string;
-            "is_default": boolean;
-            "merchant_id": string;
-            "payment_method_id": string;
-            "saved_with"?: "flint" | "store" | (string & {});
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            "type": "card" | (string & {});
-            "updated_at": string;
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payment_method.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "card"?: CardDetails;
-            "created_at": string;
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            "customer_id": string;
-            "fingerprint"?: string;
-            "is_default": boolean;
-            "merchant_id": string;
-            "payment_method_id": string;
-            "saved_with"?: "flint" | "store" | (string & {});
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            "type": "card" | (string & {});
-            "updated_at": string;
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payment_method.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payment_method.updated";
-});
-/**
- * The `payment_method.updated` webhook payload for the `installed_merchants` event source. Fields
- * shared by partner webhook payloads.
- */
-export type PaymentMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
-     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
-     * month and year, last four digits, and the wallet when one was used. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
-     * fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint (Optional): string. A value that is the
-     * same for every saved copy of one card number at this merchant and environment, so you can
-     * spot duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-     * or Google Pay can have a different fingerprint from the same card typed in.
-     * object.is_default (Required): boolean. Whether this is the customer's default payment
-     * method, the one Customer.default_payment_method_id names. Change the default with PATCH
-     * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
-     * object.merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string. Unique
-     * identifier for this payment method, prefixed `pm_`. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
-     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
-     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
-     * string. Whether the payment method can be charged. Treat any value other than active as not
-     * chargeable, including values added later. Value enum: "pending", "active", "expired",
-     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
-     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
-     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
-     * charges without the buyer, and can be a customer's default. on_session payment methods were
-     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
-     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
-     * default. Payment methods saved before usage existed are off_session. Value enum:
-     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
-         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
-         * is `card`. Card details on a payment method: brand, expiration month and year, last four
-         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
-         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional):
-         * string. A value that is the same for every saved copy of one card number at this
-         * merchant and environment, so you can spot duplicates. It doesn't identify the card
-         * anywhere else. A card added through Apple Pay or Google Pay can have a different
-         * fingerprint from the same card typed in. is_default (Required): boolean. Whether this is
-         * the customer's default payment method, the one Customer.default_payment_method_id names.
-         * Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated,
-         * not a payment method event. merchant_id (Required): string. ID of the merchant this
-         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id
-         * (Required): string. Unique identifier for this payment method, prefixed `pm_`. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
-         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
-         * support is enabled. Accept future values. Value enum: "flint", "store". status
-         * (Required): string. Whether the payment method can be charged. Treat any value other
-         * than active as not chargeable, including values added later. Value enum: "pending",
-         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
-         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
-         * charge the payment method. off_session payment methods can pay subscriptions, automatic
-         * invoices, and other charges without the buyer, and can be a customer's default.
-         * on_session payment methods were saved by the buyer in checkout for faster checkout at
-         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
-         * for any charge without the buyer and as a default. Payment methods saved before usage
-         * existed are off_session. Value enum: "on_session", "off_session".
-         */
-        "object": {
-            /**
-             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
-             * payment method: brand, expiration month and year, last four digits, and the wallet
-             * when one was used.
-             */
-            "card"?: CardDetails;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * A value that is the same for every saved copy of one card number at this merchant
-             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
-             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
-             * from the same card typed in.
-             */
-            "fingerprint"?: string;
-            /**
-             * Whether this is the customer's default payment method, the one
-             * Customer.default_payment_method_id names. Change the default with PATCH
-             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-             * event.
-             */
-            "is_default": boolean;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Unique identifier for this payment method, prefixed `pm_`. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string;
-            /**
-             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
-             * responses when Flint wallet support is enabled. Accept future values. Value enum:
-             * "flint", "store".
-             */
-            "saved_with"?: "flint" | "store" | (string & {});
-            /**
-             * Whether the payment method can be charged. Treat any value other than active as not
-             * chargeable, including values added later. Value enum: "pending", "active",
-             * "expired", "archived", "failed".
-             */
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            /** Kind of payment method. Value enum: "card". */
-            "type": "card" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * When Flint may charge the payment method. off_session payment methods can pay
-             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
-             * customer's default. on_session payment methods were saved by the buyer in checkout
-             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
-             * completes and refuses them for any charge without the buyer and as a default.
-             * Payment methods saved before usage existed are off_session. Value enum:
-             * "on_session", "off_session".
-             */
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "payment_method.updated". */
-    "event_type"?: "payment_method.updated";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `payment_method.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type PaymentMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
-     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
-     * month and year, last four digits, and the wallet when one was used. object.created_at
-     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
-     * `expand` includes `customer`; `null` when expanded and there is no related customer.
-     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
-     * fields, returned in place of a customer ID when the customer is expanded.
-     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint (Optional): string. A value that is the
-     * same for every saved copy of one card number at this merchant and environment, so you can
-     * spot duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay
-     * or Google Pay can have a different fingerprint from the same card typed in.
-     * object.is_default (Required): boolean. Whether this is the customer's default payment
-     * method, the one Customer.default_payment_method_id names. Change the default with PATCH
-     * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
-     * object.merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string. Unique
-     * identifier for this payment method, prefixed `pm_`. Example:
-     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
-     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
-     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
-     * string. Whether the payment method can be charged. Treat any value other than active as not
-     * chargeable, including values added later. Value enum: "pending", "active", "expired",
-     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
-     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
-     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
-     * charges without the buyer, and can be a customer's default. on_session payment methods were
-     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
-     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
-     * default. Payment methods saved before usage existed are off_session. Value enum:
-     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
-     * changed top-level fields in data.object, at this delivery's API version. Nested changes
-     * include the whole previous top-level value. A value is null when the field was absent before
-     * the change. Omitted when Flint did not record the previous state, including synthetic test
-     * events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
-         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
-         * is `card`. Card details on a payment method: brand, expiration month and year, last four
-         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
-         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional):
-         * string. A value that is the same for every saved copy of one card number at this
-         * merchant and environment, so you can spot duplicates. It doesn't identify the card
-         * anywhere else. A card added through Apple Pay or Google Pay can have a different
-         * fingerprint from the same card typed in. is_default (Required): boolean. Whether this is
-         * the customer's default payment method, the one Customer.default_payment_method_id names.
-         * Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated,
-         * not a payment method event. merchant_id (Required): string. ID of the merchant this
-         * resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id
-         * (Required): string. Unique identifier for this payment method, prefixed `pm_`. Example:
-         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
-         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
-         * support is enabled. Accept future values. Value enum: "flint", "store". status
-         * (Required): string. Whether the payment method can be charged. Treat any value other
-         * than active as not chargeable, including values added later. Value enum: "pending",
-         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
-         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
-         * charge the payment method. off_session payment methods can pay subscriptions, automatic
-         * invoices, and other charges without the buyer, and can be a customer's default.
-         * on_session payment methods were saved by the buyer in checkout for faster checkout at
-         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
-         * for any charge without the buyer and as a default. Payment methods saved before usage
-         * existed are off_session. Value enum: "on_session", "off_session".
-         */
-        "object": {
-            /**
-             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
-             * payment method: brand, expiration month and year, last four digits, and the wallet
-             * when one was used.
-             */
-            "card"?: CardDetails;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-            "customer_id": string;
-            /**
-             * A value that is the same for every saved copy of one card number at this merchant
-             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
-             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
-             * from the same card typed in.
-             */
-            "fingerprint"?: string;
-            /**
-             * Whether this is the customer's default payment method, the one
-             * Customer.default_payment_method_id names. Change the default with PATCH
-             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
-             * event.
-             */
-            "is_default": boolean;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Unique identifier for this payment method, prefixed `pm_`. Example:
-             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
-             */
-            "payment_method_id": string;
-            /**
-             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
-             * responses when Flint wallet support is enabled. Accept future values. Value enum:
-             * "flint", "store".
-             */
-            "saved_with"?: "flint" | "store" | (string & {});
-            /**
-             * Whether the payment method can be charged. Treat any value other than active as not
-             * chargeable, including values added later. Value enum: "pending", "active",
-             * "expired", "archived", "failed".
-             */
-            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
-            /** Kind of payment method. Value enum: "card". */
-            "type": "card" | (string & {});
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * When Flint may charge the payment method. off_session payment methods can pay
-             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
-             * customer's default. on_session payment methods were saved by the buyer in checkout
-             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
-             * completes and refuses them for any charge without the buyer and as a default.
-             * Payment methods saved before usage existed are off_session. Value enum:
-             * "on_session", "off_session".
-             */
-            "usage": "on_session" | "off_session" | (string & {});
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<PaymentMethod>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payment_method.updated". */
-    "event_type"?: "payment_method.updated";
-});
-/**
- * The saved payment method, with `client_setup` when the buyer must still complete processor setup
- * before the payment method can be used. A customer's saved payment details.
- */
-export type PaymentMethodWithSetup = (Exclude<PaymentMethod & object, readonly unknown[]>)
-    & ({
-    /**
-     * Present when the buyer must complete processor setup before using this payment method.
-     * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call
-     * now. setup_collection is guidance instead and never carries a secret.
-     */
-    "client_setup"?: StripeClientSetup;
-});
-export type PaymentMethodsCreateParams = (InputValue<SavePaymentMethodRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};

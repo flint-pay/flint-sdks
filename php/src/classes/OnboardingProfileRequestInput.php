@@ -17,7 +17,7 @@ final class OnboardingProfileRequestInput extends Model {
      */
     public function getEmail(): string|null { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** Send null to clear it. minLength: 1.
+    /** Buyers see this address on receipts and in their account. A support email is required before initial live activation. Existing live merchants may clear it and receive a nonblocking prompt to add one. Send null to clear it. minLength: 1.
      * @return string|null
      * @throws SdkError When support_email is omitted; use hasSupportEmail() or valueOrDefault().
      */

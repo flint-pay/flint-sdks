@@ -1,1 +1,1 @@
-{"shared":"ConfirmPaymentIntentRequestReader","dependencies":["ConfirmPaymentIntentRequestReader","ReaderPaymentSourceTip","SharedCodec187","SharedCodec188"]}
+{"shared":"ConfirmPaymentIntentRequestReader","dependencies":["ConfirmPaymentIntentRequestReader","ReaderPaymentSourceTip","SharedCodec186","SharedCodec187"]}

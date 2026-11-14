@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ?string $active_payment_intent_id
  * @property-read ?ReaderConnectivity $connectivity
  * @property-read string $created_at
  * @property-read ?string $device_id
@@ -19,13 +18,8 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ReaderArchivedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'active_payment_intent_id'?: string, 'connectivity'?: mixed, 'created_at': string, 'device_id'?: string, 'is_simulated': bool, 'location_id': string, 'metadata': mixed, 'model'?: string, 'name': string, 'reader_id': string, 'serial_number'?: string, 'status': string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'connectivity'?: mixed, 'created_at': string, 'device_id'?: string, 'is_simulated': bool, 'location_id': string, 'metadata': mixed, 'model'?: string, 'name': string, 'reader_id': string, 'serial_number'?: string, 'status': string, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReaderArchivedInstalledMerchantsEventDataObject')); }
-    /** The payment intent presented on the reader now. Omitted while the reader is idle. It follows the payment, so it doesn't advance the reader's `version` or send a reader event.
-     * @return ?string
-     */
-    public function getActivePaymentIntentId(): ?string { return $this->get('active_payment_intent_id'); }
-    public function hasActivePaymentIntentId(): bool { return $this->has('active_payment_intent_id'); }
     /** Smart readers only, and omitted once the reader is archived. Observed reader state: it changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on it: Flint checks the reader itself before it sends a payment. Observed connectivity of a smart reader. Flint refreshes it when it sends or cancels a payment or simulates one, and every five minutes for active live smart readers.
      * @return ?ReaderConnectivity
      */

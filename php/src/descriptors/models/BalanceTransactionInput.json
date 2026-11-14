@@ -1,1 +1,1 @@
-{"shared":"BalanceTransaction","dependencies":["BalanceTransaction","CheckoutBuyerContact","DeferredPromotion","MoneyValue","OrderSettlementAmounts","PricingAmounts","ResourceReference","ResourceType","SharedCodec1093","SharedCodec24","SharedCodec25","SharedCodec26","SignedMoney"]}
+{"shared":"BalanceTransaction","dependencies":["BalanceTransaction","CheckoutBuyerContact","DeferredPromotion","MoneyValue","OrderSettlementAmounts","PricingAmounts","ResourceReference","ResourceType","SharedCodec1095","SharedCodec24","SharedCodec25","SharedCodec26","SignedMoney"]}

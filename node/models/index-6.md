@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# CreateDeliveryRateCallbackRequestInput to CreateInvoiceRequestOrderInput
+# CreateDeliveryMethodRequestPickupInput to CreateInventoryTransferRequestInput
 
+- [CreateDeliveryMethodRequestPickupInput](CreateDeliveryMethodRequestPickupInput.md)
+- [CreateDeliveryMethodRequestShipment](CreateDeliveryMethodRequestShipment.md)
+- [CreateDeliveryMethodRequestShipmentInput](CreateDeliveryMethodRequestShipmentInput.md)
+- [CreateDeliveryOptionsPreviewRequest](CreateDeliveryOptionsPreviewRequest.md)
+- [CreateDeliveryOptionsPreviewRequestInput](CreateDeliveryOptionsPreviewRequestInput.md)
+- [CreateDeliveryPickupLocationsPreviewRequest](CreateDeliveryPickupLocationsPreviewRequest.md)
+- [CreateDeliveryPickupLocationsPreviewRequestInput](CreateDeliveryPickupLocationsPreviewRequestInput.md)
+- [CreateDeliveryPreviewRequest](CreateDeliveryPreviewRequest.md)
+- [CreateDeliveryPreviewRequestInput](CreateDeliveryPreviewRequestInput.md)
+- [CreateDeliveryProfileRequest](CreateDeliveryProfileRequest.md)
+- [CreateDeliveryProfileRequestInput](CreateDeliveryProfileRequestInput.md)
+- [CreateDeliveryRateCallbackRequest](CreateDeliveryRateCallbackRequest.md)
 - [CreateDeliveryRateCallbackRequestInput](CreateDeliveryRateCallbackRequestInput.md)
 - [CreateDeliveryRevocationRequest](CreateDeliveryRevocationRequest.md)
 - [CreateDeliveryRevocationRequestInput](CreateDeliveryRevocationRequestInput.md)
@@ -90,16 +102,4 @@
 - [CreateInventoryReservationRequestInput](CreateInventoryReservationRequestInput.md)
 - [CreateInventoryTransferRequest](CreateInventoryTransferRequest.md)
 - [CreateInventoryTransferRequestInput](CreateInventoryTransferRequestInput.md)
-- [CreateInvoiceIssueRequest](CreateInvoiceIssueRequest.md)
-- [CreateInvoiceIssueRequestInput](CreateInvoiceIssueRequestInput.md)
-- [CreateInvoiceManualPaymentRequest](CreateInvoiceManualPaymentRequest.md)
-- [CreateInvoiceManualPaymentRequestInput](CreateInvoiceManualPaymentRequestInput.md)
-- [CreateInvoicePaymentTermRequest](CreateInvoicePaymentTermRequest.md)
-- [CreateInvoicePaymentTermRequestInput](CreateInvoicePaymentTermRequestInput.md)
-- [CreateInvoiceQuickPayRequest](CreateInvoiceQuickPayRequest.md)
-- [CreateInvoiceQuickPayRequestInput](CreateInvoiceQuickPayRequestInput.md)
-- [CreateInvoiceRequest](CreateInvoiceRequest.md)
-- [CreateInvoiceRequestInput](CreateInvoiceRequestInput.md)
-- [CreateInvoiceRequestOrder](CreateInvoiceRequestOrder.md)
-- [CreateInvoiceRequestOrderInput](CreateInvoiceRequestOrderInput.md)
 

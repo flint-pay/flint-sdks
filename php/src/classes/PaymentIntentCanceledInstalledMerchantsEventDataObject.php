@@ -2,7 +2,6 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read ?list<PaymentAddOnFee> $add_on_fees
  * @property-read MoneyValue $amount_money
  * @property-read ?string $authorization_expires_at
  * @property-read ?string $authorized_at
@@ -26,7 +25,6 @@ namespace Flint;
  * @property-read PaymentErrorSummary|null $last_payment_error
  * @property-read string|null $latest_order_payment_attempt_id
  * @property-read ?string $merchant_id
- * @property-read ?MoneyValue $merchant_net_money
  * @property-read array<array-key, string> $metadata
  * @property-read ExpandedOrderSummary|null $order
  * @property-read ?string $order_id
@@ -36,7 +34,6 @@ namespace Flint;
  * @property-read list<string> $payment_options
  * @property-read ?PaymentSourceSummary $payment_source
  * @property-read ?PaymentIntentPlatformFee $platform_fee
- * @property-read ?MoneyValue $processing_fee_money
  * @property-read ?string $reader_id
  * @property-read string|null $receipt_email
  * @property-read string|null $refund_expires_at
@@ -60,13 +57,8 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentIntentCanceledInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'add_on_fees'?: list<mixed>, 'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'latest_order_payment_attempt_id'?: string|null, 'merchant_id'?: string, 'merchant_net_money'?: mixed, 'metadata': mixed, 'order'?: mixed, 'order_id'?: string, 'overcapture'?: mixed, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'processing_fee_money'?: mixed, 'reader_id'?: string, 'receipt_email'?: string|null, 'refund_expires_at': string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'splits'?: list<mixed>, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer'?: mixed, 'customer_id'?: string, 'customer_presence': string, 'dispute_status'?: string, 'external_reference_id'?: string|null, 'fulfillment_hold'?: mixed, 'invoice'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'latest_order_payment_attempt_id'?: string|null, 'merchant_id'?: string, 'metadata': mixed, 'order'?: mixed, 'order_id'?: string, 'overcapture'?: mixed, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'platform_fee'?: mixed, 'reader_id'?: string, 'receipt_email'?: string|null, 'refund_expires_at': string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'request_overcapture'?: bool, 'return_id'?: string, 'return_resolution_id'?: string, 'risk'?: mixed, 'selected_payment_option'?: string, 'splits'?: list<mixed>, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentCanceledInstalledMerchantsEventDataObject')); }
-    /** Itemized invoice, subscription, and automatic tax fees collected with this payment. Available to the merchant only. Empty until fees settle or when no add-ons apply. Refunds do not return or revise these fees. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. [] (Value): {@see PaymentAddOnFee}. A Flint fee added to a payment intent, with the fee type and amount.
-     * @return ?list<PaymentAddOnFee>
-     */
-    public function getAddOnFees(): ?array { return $this->get('add_on_fees'); }
-    public function hasAddOnFees(): bool { return $this->has('add_on_fees'); }
     /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. On a standalone payment intent, PATCH can change it only before the first confirmation attempt. An amount_money or tip_money change that leaves too little for stored splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
@@ -147,7 +139,7 @@ final class PaymentIntentCanceledInstalledMerchantsEventDataObject extends Model
      */
     public function getDisputeStatus(): ?string { return $this->get('dispute_status'); }
     public function hasDisputeStatus(): bool { return $this->has('dispute_status'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. Null when no external reference is recorded. minLength: 1. maxLength: 255.
      * @return string|null
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
@@ -182,11 +174,6 @@ final class PaymentIntentCanceledInstalledMerchantsEventDataObject extends Model
      */
     public function getMerchantId(): ?string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** Captured amount minus processing_fee_money, every amount in add_on_fees, platform_fee.amount_money, and each split commitment. Live, succeeded and fully_reversed splits commit their whole amount; payment_not_completed and install_revoked cancellations commit nothing. A failed split commits only money already taken back before failure; its remainder returns to the collecting merchant. Refunds do not reduce the commitment. Later merchant assessments and credits are separate balance effects. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return ?MoneyValue
-     */
-    public function getMerchantNetMoney(): ?MoneyValue { return $this->get('merchant_net_money'); }
-    public function hasMerchantNetMoney(): bool { return $this->has('merchant_net_money'); }
     /** Caller-owned metadata. Keys starting with flint_ are reserved for Flint and aren't returned. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return array<array-key, string>
      */
@@ -232,17 +219,12 @@ final class PaymentIntentCanceledInstalledMerchantsEventDataObject extends Model
      */
     public function getPlatformFee(): ?PaymentIntentPlatformFee { return $this->get('platform_fee'); }
     public function hasPlatformFee(): bool { return $this->has('platform_fee'); }
-    /** Flint's all-in processing fee for this payment. It is the complete price Flint charges to process the payment, never a provider cost passed through. The fee is final once the card payment is captured or the ACH payment succeeds; canceled payments and failures before success have none, except a payment intent canceled with cancellation_reason payment_returned, which shows the fee charged at capture on the charge Flint is returning. Flint returns that fee to your balance separately. Invoice, subscription, and automatic tax fees are itemized separately in add_on_fees. Your net for the payment is captured_money minus this fee and the add-on fees. Refunds do not return or revise it. Absent until Flint has determined and verified the fee. If Flint can't verify it when you read the payment intent, the field is omitted rather than shown unverified; read the payment intent again later. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return ?MoneyValue
-     */
-    public function getProcessingFeeMoney(): ?MoneyValue { return $this->get('processing_fee_money'); }
-    public function hasProcessingFeeMoney(): bool { return $this->has('processing_fee_money'); }
     /** The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now.
      * @return ?string
      */
     public function getReaderId(): ?string { return $this->get('reader_id'); }
     public function hasReaderId(): bool { return $this->has('reader_id'); }
-    /** Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. Format: email. maxLength: 255.
+    /** Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. Null when no receipt email address is recorded on the payment. Format: email. maxLength: 255.
      * @return string|null
      */
     public function getReceiptEmail(): string|null { return $this->get('receipt_email'); }
@@ -282,7 +264,7 @@ final class PaymentIntentCanceledInstalledMerchantsEventDataObject extends Model
      */
     public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** Risk assessment. Always present with merchant credentials; null when no risk assessment is available. Omitted with the checkout credential. anyOf[1] (Value): {@see PaymentRisk}. The risk assessment for a payment intent, with its risk level, score, outcome, and any matched rule or review. anyOf[2] (Value): null.
+    /** Risk assessment. Always present with merchant credentials. Null when no risk assessment is available. Omitted with the checkout credential. anyOf[1] (Value): {@see PaymentRisk}. The risk assessment for a payment intent, with its risk level, score, outcome, and any matched rule or review. anyOf[2] (Value): null.
      * @return PaymentRisk|null
      */
     public function getRisk(): PaymentRisk|null { return $this->get('risk'); }
@@ -322,7 +304,7 @@ final class PaymentIntentCanceledInstalledMerchantsEventDataObject extends Model
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. Null when no tip is recorded. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getTipMoney(): MoneyValue|null { return $this->get('tip_money'); }

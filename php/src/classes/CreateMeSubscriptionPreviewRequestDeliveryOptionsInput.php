@@ -7,7 +7,7 @@ namespace Flint;
  * @property-read string $subscription_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateMeSubscriptionPreviewRequestDeliveryOptionsInput extends Model {
-    /** @param array{'destination': SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'mode': string, 'subscription_id': string}|object $values */
+    /** @param array{'destination'?: SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass, 'mode': string, 'subscription_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateMeSubscriptionPreviewRequestDeliveryOptionsInput')); }
     /** Address to evaluate each method against: one of the customer's saved addresses or a new address. Where to deliver a subscription: a saved customer address by ID, or a new address.
      * @return SubscriptionDeliveryDestinationRequestInput|array<array-key, mixed>|\stdClass

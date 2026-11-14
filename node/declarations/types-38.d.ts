@@ -1,18 +1,794 @@
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-37.js';
-import type { TextModifierConfig } from './types-65.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { ResponseMeta, ResponseWarning, ResourceReference } from './types-54.js';
+import type { MerchantSignup } from './types-37.js';
+import type { ResponseMeta } from './types-54.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateModifierGroupRequestInput, CreateModifierSetRequestInput } from './types-10.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { UpdateModifierGroupRequestInput, UpdateModifierSetRequestInput } from './types-67.js';
+import type { CreateMerchantSignupRequestInput, CreateModifierGroupRequestInput } from './types-10.js';
+import type { VerifyMerchantSignupRequestInput } from './types-69.js';
+import type { UpdateMerchantRequestInput, UpdateModifierGroupRequestInput } from './types-67.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { WebhookMerchant } from './types-70.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { TextModifierConfig } from './types-65.js';
+import type { DisputesAcceptParams } from './types-24.js';
 import type { InlineModifierGroupRequest, InlineModifierGroupRequestInput } from './types-28.js';
-import type { ReadinessMerchantAccountSession } from './types-52.js';
-import type {
-    OAuthTokenRequestTokenExchange,
-    OAuthTokenRequestRefreshTokenInput,
-    OAuthTokenRequestTokenExchangeInput
-} from './types-39.js';
+import type { CreateModifierSetRequestInput } from './types-11.js';
+/**
+ * The owner's acceptance of Flint's merchant terms, recorded at verify. Flint also stores the IP
+ * address and user agent you reported; they aren't returned.
+ */
+export type MerchantSignupTermsAcceptance = {
+    /** When the owner accepted the terms. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "accepted_at": string;
+    /** The terms version accepted. */
+    "merchant_terms_version": string;
+};
+/**
+ * Your statement that the owner ticked Flint's terms checkbox in your form, with Flint's wording.
+ * The platform terms oblige you to show it and to report real values.
+ */
+export type MerchantSignupTermsAcceptanceRequest = {
+    /**
+     * The owner's browser IP address, IPv4 or IPv6. Request logs redact it. minLength: 2.
+     * maxLength: 64.
+     */
+    "ip_address": string;
+    /** Must equal the signup's `merchant_terms.version`. minLength: 1. */
+    "merchant_terms_version": string;
+    /**
+     * The owner's browser user agent, 1 to 1,024 characters. Request logs redact it. minLength: 1.
+     * maxLength: 1024.
+     */
+    "user_agent": string;
+};
+/**
+ * Your statement that the owner ticked Flint's terms checkbox in your form, with Flint's wording.
+ * The platform terms oblige you to show it and to report real values.
+ */
+export type MerchantSignupTermsAcceptanceRequestInput = MerchantSignupTermsAcceptanceRequest;
+/**
+ * The request body for: Cancel a merchant signup; Mint new authorization codes for a merchant
+ * signup; Send a new merchant signup code.
+ */
+export type MerchantSignupVersionRequestInput = {
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/**
+ * A completed merchant signup with the authorization codes to exchange for its grants' tokens. A
+ * platform's request to create a merchant for an owner, who confirms it with a code Flint emails
+ * them. Once verified, it is the record of the owner's consent, kept for as long as the merchant
+ * exists.
+ */
+export type MerchantSignupWithAuthorizationCodes = ({})
+    & (Exclude<MerchantSignup & object, readonly unknown[]>)
+    & ({
+    /**
+     * When the codes in this response expire, 5 minutes after they were minted. Present with them.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "authorization_codes_expire_at"?: string;
+    /**
+     * Exchange it at POST /v1/oauth/token for the live grant's tokens, with the code_verifier for
+     * the signup's code_challenge and without redirect_uri. Present when the signup installed in
+     * live mode and the code was minted by this request. Single use. An idempotent replay
+     * withholds it: mint new codes with rotate-authorization-codes.
+     */
+    "live_authorization_code"?: string;
+    /**
+     * Exchange it at POST /v1/oauth/token for the test grant's tokens, with the code_verifier for
+     * the signup's code_challenge and without redirect_uri. Present when the signup installed in
+     * test mode and the code was minted by this request. Single use. An idempotent replay
+     * withholds it: mint new codes with rotate-authorization-codes.
+     */
+    "test_authorization_code"?: string;
+});
+/** A response containing `MerchantSignupWithAuthorizationCodes` data. */
+export type MerchantSignupWithAuthorizationCodesResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A completed merchant
+     * signup with the authorization codes to exchange for its grants' tokens. A platform's request
+     * to create a merchant for an owner, who confirms it with a code Flint emails them. Once
+     * verified, it is the record of the owner's consent, kept for as long as the merchant exists.
+     */
+    "data": MerchantSignupWithAuthorizationCodes;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type MerchantSignupsCancelParams = (InputValue<MerchantSignupVersionRequestInput>);
+export type MerchantSignupsCreateParams = (InputValue<CreateMerchantSignupRequestInput>);
+export type MerchantSignupsGetParams = {};
+export type MerchantSignupsListParams = {
+    /**
+     * Return signups of this partner app. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Return signups with this external_reference_id. minLength: 1. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Return signups for this owner email, compared in lower case. Format: email. Example:
+     * "buyer@example.com".
+     */
+    "owner_email"?: InputValue<string>;
+    /**
+     * Return signups with any of these statuses. Values are trimmed and deduplicated in first-seen
+     * order; empty or unknown entries are rejected. Values within this filter are ORed; separate
+     * filters are ANDed. [] enum: "pending", "completed", "expired", "canceled". Value enum:
+     * "pending", "completed", "expired", "canceled". anyOf[1] (Value): Array of string. minItems:
+     * 1. [] enum: "pending", "completed", "expired", "canceled". anyOf[1][] (Value): string. Value
+     * enum: "pending", "completed", "expired", "canceled". anyOf[2] (Value): string. Value enum:
+     * "pending", "completed", "expired", "canceled".
+     */
+    "status"?: InputValue<("pending" | "completed" | "expired" | "canceled")
+        | readonly ("pending" | "completed" | "expired" | "canceled")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+};
+export type MerchantSignupsResendCodeParams = MerchantSignupsCancelParams;
+export type MerchantSignupsRotateAuthorizationCodesParams = MerchantSignupsCancelParams;
+export type MerchantSignupsVerifyParams = (InputValue<VerifyMerchantSignupRequestInput>);
+export type MerchantUpdateParams = (InputValue<UpdateMerchantRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type MerchantUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookMerchant;
+        "previous_attributes"?: Partial<WebhookMerchant>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "merchant.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookMerchant;
+        "previous_attributes"?: Partial<WebhookMerchant>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "merchant.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "merchant.updated";
+});
+/**
+ * The `merchant.updated` webhook payload for the `installed_merchants` event source. Fields shared
+ * by partner webhook payloads.
+ */
+export type MerchantUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookMerchant}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `banners`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `banners`. */
+        "object": WebhookMerchant;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookMerchant>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "merchant.updated". */
+    "event_type"?: "merchant.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `merchant.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type MerchantUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookMerchant}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `banners`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `banners`. */
+        "object": WebhookMerchant;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookMerchant>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "merchant.updated". */
+    "event_type"?: "merchant.updated";
+});
+/** Fields shared by merchant webhook payloads. */
+export type MerchantWebhookEnvelope = ({
+    /**
+     * API version used to render this delivery attempt. The older of the event version and the
+     * endpoint version when the attempt runs, with default resolved to the merchant pin. Format:
+     * date. Example: "2026-08-02".
+     */
+    "api_version": string;
+    /** When Flint recorded the event. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The resource snapshot recorded for this event and rendered at the delivery API version.
+     * object (Required): object. The affected public resource without expansions, client authority
+     * fields, or fields computed for an individual caller. previous_attributes (Optional): object.
+     * Previous values of changed top-level fields in data.object, at this delivery's API version.
+     * Nested changes include the whole previous top-level value. A value is null when the field
+     * was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
+     */
+    "data": {
+        /**
+         * The affected public resource without expansions, client authority fields, or fields
+         * computed for an individual caller.
+         */
+        "object": {
+            [key: string]: unknown;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: {
+            [key: string]: unknown;
+        };
+    };
+    /**
+     * The origin of the event. Selects the webhook envelope and the fields in source. Value enum:
+     * "merchant".
+     */
+    "event_source": "merchant" | (string & {});
+    /**
+     * The resource change or condition this event announces. Value enum: "api_key.created",
+     * "api_key.updated", "api_key.revoked", "test_clock.created", "test_clock.advancing",
+     * "test_clock.ready", "test_clock.failed", "test_clock.archived", "tax_connection.updated",
+     * "customer_deletion_request.processing", "customer_deletion_request.failed",
+     * "invoice_delivery_attempt.sent", "invoice_delivery_attempt.failed",
+     * "invoice_delivery_attempt.suppressed", "fulfillment.canceled", "fulfillment.failed",
+     * "merchant.updated", "product.created", "product.updated", "product.archived",
+     * "product_variant.created", "product_variant.updated", "product_variant.archived",
+     * "bundle.created", "bundle.updated", "bundle.archived", "price_list.created",
+     * "price_list.updated", "price_list.archived", "reader.created", "reader.updated",
+     * "reader.archived", "category.created", "category.updated", "category.deleted",
+     * "modifier_group.created", "modifier_group.updated", "modifier_group.archived",
+     * "modifier_set.created", "modifier_set.updated", "modifier_set.archived",
+     * "promotion.created", "promotion.updated", "promotion.archived", "promotion_code.created",
+     * "promotion_code.updated", "promotion_code.archived", "balance.updated",
+     * "balance_transaction.created", "balance_transaction.updated",
+     * "checkout_session.partially_paid", "checkout_session.created", "checkout_session.updated",
+     * "checkout_session.paid", "checkout_session.closed", "checkout_session.expired",
+     * "checkout_session.invalidated", "credit_note_allocation.created",
+     * "credit_note_allocation.reversed", "credit_note.created", "credit_note.issued",
+     * "credit_note.updated", "credit_note.voided", "customer_email_preferences.updated",
+     * "customer.created", "customer_deletion_request.completed",
+     * "customer_deletion_request.rejected", "customer_deletion_request.created",
+     * "customer.updated", "customer.deleted", "custom_domain.updated", "custom_domain.archived",
+     * "dispute.created", "dispute.lost", "dispute.needs_response", "dispute.prevented",
+     * "dispute.updated", "dispute.inquiry_closed", "dispute.won", "fraud_warning.created",
+     * "fraud_warning.updated", "ticket.created", "ticket.voided", "ticket.checked_in",
+     * "ticket.updated", "gift_card.created", "gift_card.updated", "gift_card_load.created",
+     * "gift_card_load.updated", "gift_card_notification.created",
+     * "gift_card_notification.updated", "gift_card_redemption.created",
+     * "gift_card_redemption.updated", "gift_card_transaction.created",
+     * "delivery_rate_callback.archived", "tax_calculation_callback.archived",
+     * "delivery_rate_callback.created", "tax_calculation_callback.created",
+     * "delivery_rate_callback.deactivated", "tax_calculation_callback.deactivated",
+     * "delivery_rate_callback.activated", "tax_calculation_callback.activated",
+     * "delivery_rate_callback.updated", "tax_calculation_callback.updated",
+     * "delivery_method.archived", "delivery_method.created", "delivery_method.deactivated",
+     * "delivery_method.activated", "delivery_method.updated", "delivery_location_set.archived",
+     * "delivery_location_set.created", "delivery_location_set.updated",
+     * "delivery_profile.archived", "delivery_profile.created", "delivery_profile.updated",
+     * "delivery_revocation.created", "delivery_selection.committed", "delivery_zone.archived",
+     * "delivery_zone.created", "delivery_zone.updated", "invoice.collection_block_resolved",
+     * "invoice.collection_blocked", "invoice.credited", "invoice.created", "invoice.issued",
+     * "invoice.issue_failed", "invoice.late_fee_due", "invoice.late_fee_assessed",
+     * "invoice.late_fee_waived", "invoice.marked_uncollectible", "invoice_manual_payment.created",
+     * "invoice_manual_payment.reversed", "invoice.overdue", "invoice.paid",
+     * "invoice_payment_attempt.processing", "invoice_payment_attempt.canceled",
+     * "invoice_payment_attempt.expired", "invoice_payment_attempt.failed",
+     * "invoice_payment_attempt.succeeded", "invoice.partially_paid", "invoice.partially_refunded",
+     * "invoice.refunded", "invoice.reminder_due", "invoice.reopened", "invoice.sent",
+     * "invoice.updated", "invoice.voided", "inventory_reservation.action_required",
+     * "inventory_count.applied", "inventory_count.updated", "inventory_level.updated",
+     * "inventory_receipt.created", "inventory_reservation.at_risk",
+     * "inventory_reservation.closed", "inventory_reservation.committed",
+     * "inventory_reservation.consumed", "inventory_reservation.created",
+     * "inventory_reservation.hold_expired", "inventory_reservation.released",
+     * "inventory_reservation.updated", "inventory_level.shortage_detected",
+     * "inventory_transfer.closed", "inventory_transfer.departed", "inventory_transfer.lost",
+     * "inventory_transfer.received", "inventory_transfer.returned", "inventory_transfer.updated",
+     * "merchant_billing_balance.updated", "merchant.readiness_updated",
+     * "merchant_billing_invoice.issued", "merchant_billing_invoice.updated",
+     * "order.partially_refunded", "order.closed", "order_edit.created", "order.created",
+     * "fulfillment.completed", "fulfillment.created", "fulfillment_event.created",
+     * "package.created", "package.updated", "shipment.created", "shipment.updated",
+     * "fulfillment.updated", "order.inventory_exception_created",
+     * "order.inventory_exception_resolved", "order.partially_paid", "order.paid",
+     * "order.refunded", "order.updated", "payment_intent.authorization_expiring",
+     * "payment_intent.expired", "payment_intent.updated", "payment_intent.created",
+     * "payment_intent.canceled", "payment_intent.fulfillment_hold_updated",
+     * "payment_intent.payment_failed", "payment_intent.processing",
+     * "payment_intent.requires_action", "payment_intent.requires_capture",
+     * "payment_intent.succeeded", "payment_link.created", "payment_link.updated",
+     * "payment_method.archived", "payment_method.failed", "payment_method.activated",
+     * "payment_method.updated", "payout.canceled", "payout.created", "payout.failed",
+     * "payout.succeeded", "payout.reversed", "payout.updated", "payout_destination.created",
+     * "payout_destination.archived", "payout_destination.disabled", "payout_destination.updated",
+     * "payout_settings.updated", "refund.partially_succeeded", "refund.succeeded",
+     * "refund.created", "refund.failed", "refund.updated", "report.failed", "report.succeeded",
+     * "return.canceled", "return.completed", "return.created", "return.decision_recorded",
+     * "return.reopened", "return.updated", "return_disposition.created",
+     * "return_disposition.updated", "return_inspection.acceptance_decided",
+     * "return_inspection.created", "return_inspection.superseded", "return_receipt.created",
+     * "return_receipt.superseded", "return_receipt.verified", "return_resolution.created",
+     * "return_resolution.updated", "payment_review.closed", "payment_review.reopened",
+     * "payment_review.opened", "subscription.activated", "subscription.canceled",
+     * "subscription.cancellation_scheduled", "subscription.created",
+     * "subscription.dunning_exhausted", "subscription.past_due", "subscription.paused",
+     * "subscription.payment_succeeded", "subscription_payment_retry.created",
+     * "subscription_payment_retry.succeeded", "subscription_payment_retry.failed",
+     * "subscription.reactivated", "subscription.resumed", "subscription.end_upcoming",
+     * "subscription.renewal_upcoming", "subscription.trial_ending",
+     * "subscription.plan_change_scheduled", "subscription.plan_change_canceled",
+     * "subscription.plan_changed", "subscription.updated",
+     * "subscription.delivery_action_required", "subscription.delivery_pause_upcoming",
+     * "subscription.delivery_updated", "subscription.cycle_skipped",
+     * "subscription_delivery_migration.completed", "partner_app.updated",
+     * "partner_app.platform_approved", "partner_app.platform_limited",
+     * "partner_app.platform_rejected", "platform_fee_payout.created",
+     * "platform_fee_payout.succeeded", "platform_fee_payout.failed", "payment_split.created",
+     * "payment_split.succeeded", "payment_split.failed", "payment_split.canceled",
+     * "payment_split.updated", "platform_fee.created", "platform_fee.succeeded",
+     * "platform_fee.canceled", "platform_fee.updated".
+     */
+    "event_type": "api_key.created"
+        | "api_key.updated"
+        | "api_key.revoked"
+        | "test_clock.created"
+        | "test_clock.advancing"
+        | "test_clock.ready"
+        | "test_clock.failed"
+        | "test_clock.archived"
+        | "tax_connection.updated"
+        | "customer_deletion_request.processing"
+        | "customer_deletion_request.failed"
+        | "invoice_delivery_attempt.sent"
+        | "invoice_delivery_attempt.failed"
+        | "invoice_delivery_attempt.suppressed"
+        | "fulfillment.canceled"
+        | "fulfillment.failed"
+        | "merchant.updated"
+        | "product.created"
+        | "product.updated"
+        | "product.archived"
+        | "product_variant.created"
+        | "product_variant.updated"
+        | "product_variant.archived"
+        | "bundle.created"
+        | "bundle.updated"
+        | "bundle.archived"
+        | "price_list.created"
+        | "price_list.updated"
+        | "price_list.archived"
+        | "reader.created"
+        | "reader.updated"
+        | "reader.archived"
+        | "category.created"
+        | "category.updated"
+        | "category.deleted"
+        | "modifier_group.created"
+        | "modifier_group.updated"
+        | "modifier_group.archived"
+        | "modifier_set.created"
+        | "modifier_set.updated"
+        | "modifier_set.archived"
+        | "promotion.created"
+        | "promotion.updated"
+        | "promotion.archived"
+        | "promotion_code.created"
+        | "promotion_code.updated"
+        | "promotion_code.archived"
+        | "balance.updated"
+        | "balance_transaction.created"
+        | "balance_transaction.updated"
+        | "checkout_session.partially_paid"
+        | "checkout_session.created"
+        | "checkout_session.updated"
+        | "checkout_session.paid"
+        | "checkout_session.closed"
+        | "checkout_session.expired"
+        | "checkout_session.invalidated"
+        | "credit_note_allocation.created"
+        | "credit_note_allocation.reversed"
+        | "credit_note.created"
+        | "credit_note.issued"
+        | "credit_note.updated"
+        | "credit_note.voided"
+        | "customer_email_preferences.updated"
+        | "customer.created"
+        | "customer_deletion_request.completed"
+        | "customer_deletion_request.rejected"
+        | "customer_deletion_request.created"
+        | "customer.updated"
+        | "customer.deleted"
+        | "custom_domain.updated"
+        | "custom_domain.archived"
+        | "dispute.created"
+        | "dispute.lost"
+        | "dispute.needs_response"
+        | "dispute.prevented"
+        | "dispute.updated"
+        | "dispute.inquiry_closed"
+        | "dispute.won"
+        | "fraud_warning.created"
+        | "fraud_warning.updated"
+        | "ticket.created"
+        | "ticket.voided"
+        | "ticket.checked_in"
+        | "ticket.updated"
+        | "gift_card.created"
+        | "gift_card.updated"
+        | "gift_card_load.created"
+        | "gift_card_load.updated"
+        | "gift_card_notification.created"
+        | "gift_card_notification.updated"
+        | "gift_card_redemption.created"
+        | "gift_card_redemption.updated"
+        | "gift_card_transaction.created"
+        | "delivery_rate_callback.archived"
+        | "tax_calculation_callback.archived"
+        | "delivery_rate_callback.created"
+        | "tax_calculation_callback.created"
+        | "delivery_rate_callback.deactivated"
+        | "tax_calculation_callback.deactivated"
+        | "delivery_rate_callback.activated"
+        | "tax_calculation_callback.activated"
+        | "delivery_rate_callback.updated"
+        | "tax_calculation_callback.updated"
+        | "delivery_method.archived"
+        | "delivery_method.created"
+        | "delivery_method.deactivated"
+        | "delivery_method.activated"
+        | "delivery_method.updated"
+        | "delivery_location_set.archived"
+        | "delivery_location_set.created"
+        | "delivery_location_set.updated"
+        | "delivery_profile.archived"
+        | "delivery_profile.created"
+        | "delivery_profile.updated"
+        | "delivery_revocation.created"
+        | "delivery_selection.committed"
+        | "delivery_zone.archived"
+        | "delivery_zone.created"
+        | "delivery_zone.updated"
+        | "invoice.collection_block_resolved"
+        | "invoice.collection_blocked"
+        | "invoice.credited"
+        | "invoice.created"
+        | "invoice.issued"
+        | "invoice.issue_failed"
+        | "invoice.late_fee_due"
+        | "invoice.late_fee_assessed"
+        | "invoice.late_fee_waived"
+        | "invoice.marked_uncollectible"
+        | "invoice_manual_payment.created"
+        | "invoice_manual_payment.reversed"
+        | "invoice.overdue"
+        | "invoice.paid"
+        | "invoice_payment_attempt.processing"
+        | "invoice_payment_attempt.canceled"
+        | "invoice_payment_attempt.expired"
+        | "invoice_payment_attempt.failed"
+        | "invoice_payment_attempt.succeeded"
+        | "invoice.partially_paid"
+        | "invoice.partially_refunded"
+        | "invoice.refunded"
+        | "invoice.reminder_due"
+        | "invoice.reopened"
+        | "invoice.sent"
+        | "invoice.updated"
+        | "invoice.voided"
+        | "inventory_reservation.action_required"
+        | "inventory_count.applied"
+        | "inventory_count.updated"
+        | "inventory_level.updated"
+        | "inventory_receipt.created"
+        | "inventory_reservation.at_risk"
+        | "inventory_reservation.closed"
+        | "inventory_reservation.committed"
+        | "inventory_reservation.consumed"
+        | "inventory_reservation.created"
+        | "inventory_reservation.hold_expired"
+        | "inventory_reservation.released"
+        | "inventory_reservation.updated"
+        | "inventory_level.shortage_detected"
+        | "inventory_transfer.closed"
+        | "inventory_transfer.departed"
+        | "inventory_transfer.lost"
+        | "inventory_transfer.received"
+        | "inventory_transfer.returned"
+        | "inventory_transfer.updated"
+        | "merchant_billing_balance.updated"
+        | "merchant.readiness_updated"
+        | "merchant_billing_invoice.issued"
+        | "merchant_billing_invoice.updated"
+        | "order.partially_refunded"
+        | "order.closed"
+        | "order_edit.created"
+        | "order.created"
+        | "fulfillment.completed"
+        | "fulfillment.created"
+        | "fulfillment_event.created"
+        | "package.created"
+        | "package.updated"
+        | "shipment.created"
+        | "shipment.updated"
+        | "fulfillment.updated"
+        | "order.inventory_exception_created"
+        | "order.inventory_exception_resolved"
+        | "order.partially_paid"
+        | "order.paid"
+        | "order.refunded"
+        | "order.updated"
+        | "payment_intent.authorization_expiring"
+        | "payment_intent.expired"
+        | "payment_intent.updated"
+        | "payment_intent.created"
+        | "payment_intent.canceled"
+        | "payment_intent.fulfillment_hold_updated"
+        | "payment_intent.payment_failed"
+        | "payment_intent.processing"
+        | "payment_intent.requires_action"
+        | "payment_intent.requires_capture"
+        | "payment_intent.succeeded"
+        | "payment_link.created"
+        | "payment_link.updated"
+        | "payment_method.archived"
+        | "payment_method.failed"
+        | "payment_method.activated"
+        | "payment_method.updated"
+        | "payout.canceled"
+        | "payout.created"
+        | "payout.failed"
+        | "payout.succeeded"
+        | "payout.reversed"
+        | "payout.updated"
+        | "payout_destination.created"
+        | "payout_destination.archived"
+        | "payout_destination.disabled"
+        | "payout_destination.updated"
+        | "payout_settings.updated"
+        | "refund.partially_succeeded"
+        | "refund.succeeded"
+        | "refund.created"
+        | "refund.failed"
+        | "refund.updated"
+        | "report.failed"
+        | "report.succeeded"
+        | "return.canceled"
+        | "return.completed"
+        | "return.created"
+        | "return.decision_recorded"
+        | "return.reopened"
+        | "return.updated"
+        | "return_disposition.created"
+        | "return_disposition.updated"
+        | "return_inspection.acceptance_decided"
+        | "return_inspection.created"
+        | "return_inspection.superseded"
+        | "return_receipt.created"
+        | "return_receipt.superseded"
+        | "return_receipt.verified"
+        | "return_resolution.created"
+        | "return_resolution.updated"
+        | "payment_review.closed"
+        | "payment_review.reopened"
+        | "payment_review.opened"
+        | "subscription.activated"
+        | "subscription.canceled"
+        | "subscription.cancellation_scheduled"
+        | "subscription.created"
+        | "subscription.dunning_exhausted"
+        | "subscription.past_due"
+        | "subscription.paused"
+        | "subscription.payment_succeeded"
+        | "subscription_payment_retry.created"
+        | "subscription_payment_retry.succeeded"
+        | "subscription_payment_retry.failed"
+        | "subscription.reactivated"
+        | "subscription.resumed"
+        | "subscription.end_upcoming"
+        | "subscription.renewal_upcoming"
+        | "subscription.trial_ending"
+        | "subscription.plan_change_scheduled"
+        | "subscription.plan_change_canceled"
+        | "subscription.plan_changed"
+        | "subscription.updated"
+        | "subscription.delivery_action_required"
+        | "subscription.delivery_pause_upcoming"
+        | "subscription.delivery_updated"
+        | "subscription.cycle_skipped"
+        | "subscription_delivery_migration.completed"
+        | "partner_app.updated"
+        | "partner_app.platform_approved"
+        | "partner_app.platform_limited"
+        | "partner_app.platform_rejected"
+        | "platform_fee_payout.created"
+        | "platform_fee_payout.succeeded"
+        | "platform_fee_payout.failed"
+        | "payment_split.created"
+        | "payment_split.succeeded"
+        | "payment_split.failed"
+        | "payment_split.canceled"
+        | "payment_split.updated"
+        | "platform_fee.created"
+        | "platform_fee.succeeded"
+        | "platform_fee.canceled"
+        | "platform_fee.updated"
+        | (string & {});
+    /** ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+    "merchant_id": string;
+    /** Environment used for this resource or request. Value enum: "test", "live". */
+    "mode": "test" | "live" | (string & {});
+    /**
+     * 2 for every current event. 1 only for an event queued before 2026-10-16 and delivered
+     * afterwards, which keeps its previous data shape. Value enum: 1, 2.
+     */
+    "payload_version": number;
+    /**
+     * The originating request. `null` when the event has no originating request ID. id (Required):
+     * string. Request ID of the request that caused the event. idempotency_key (Optional): string.
+     * The Idempotency-Key the originating request sent. Absent when it sent none.
+     */
+    "request": {
+        /** Request ID of the request that caused the event. */
+        "id": string;
+        /** The Idempotency-Key the originating request sent. Absent when it sent none. */
+        "idempotency_key"?: string;
+    }
+        | null;
+    /**
+     * Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode.
+     * Example: "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id"?: string;
+    /** true for a synthetic event sent from the test-events endpoint, false otherwise. */
+    "test": boolean;
+    /**
+     * Stable ID of the recorded webhook event, shared by its delivery attempts. Example:
+     * "whev_01KEZF7C00362MS3HV970TRZGS".
+     */
+    "webhook_event_id": string;
+});
+/**
+ * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
+ * Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
+ * maps written before those limits may not satisfy them.
+ */
+export type MetadataMap = Record<string, string>;
+/**
+ * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+ * sets a value, a null value deletes the key, and an empty object makes no change; send null for
+ * the whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+ * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+ * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
+ * that does not exist is allowed, so the number of operations is not itself the stored-map limit.
+ * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+ */
+export type MetadataPatchRequest = Record<string, string | null>;
+/**
+ * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+ * sets a value, a null value deletes the key, and an empty object makes no change; send null for
+ * the whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+ * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to
+ * 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key
+ * that does not exist is allowed, so the number of operations is not itself the stored-map limit.
+ * Values can't be empty strings, and keys starting with flint_ are reserved for Flint.
+ */
+export type MetadataPatchRequestInput = MetadataPatchRequest;
 /**
  * Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50
  * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
@@ -3851,1417 +4627,3 @@ export type ModifierSetsCreateParams = (InputValue<CreateModifierSetRequestInput
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type ModifierSetsDeleteParams = {
-    /**
-     * Optional modifier set version last read by the caller. Format: uint64. minimum: 1. maximum:
-     * 9007199254740991.
-     */
-    "expected_version"?: InputValue<number>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ModifierSetsGetParams = DisputesAcceptParams;
-export type ModifierSetsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "inactive", "archived". Value enum: "active", "inactive", "archived". anyOf[1] (Value):
-     * Array of string. minItems: 1. [] enum: "active", "inactive", "archived". anyOf[1][] (Value):
-     * string. Value enum: "active", "inactive", "archived". anyOf[2] (Value): string. Value enum:
-     * "active", "inactive", "archived".
-     */
-    "status"?: InputValue<("active" | "inactive" | "archived") | readonly ("active" | "inactive" | "archived")[]>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Search across modifier set ID, external reference ID, and name. Text fields match any part
-     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
-     * start and need the type prefix, such as ms_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by modifier_set_id. Default:
-     * "created_at". Value enum: "created_at", "updated_at".
-     */
-    "sort_by"?: InputValue<"created_at" | "updated_at">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type ModifierSetsUpdateParams = (InputValue<UpdateModifierSetRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/**
- * Why a money movement action is blocked, with an error code, a message, next steps, and who can
- * resolve it.
- */
-export type MoneyMovementBlockedReason = {
-    /** Code of the error the blocked action would return. */
-    "code": string;
-    /** Why the action is blocked. */
-    "message"?: string;
-    /** What to do to unblock the action. */
-    "next_steps"?: string;
-    /** The request field the block concerns. */
-    "param"?: string;
-    /** Who can resolve the block. Value enum: "merchant", "flint", "integrator", "buyer". */
-    "resolution_owner"?: "merchant" | "flint" | "integrator" | "buyer" | (string & {});
-    /** Whether trying the action again after the block clears can succeed. */
-    "retryable"?: boolean;
-};
-/** How complete the history in a money movement list is and when it was last reconciled. */
-export type MoneyMovementHistoryMeta = {
-    /**
-     * When Flint last finished reconciling this list's history with your processor. Absent until a
-     * reconciliation finishes. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "latest_reconciled_at"?: string;
-    /**
-     * Why the history may be incomplete: backfilling while Flint is still importing older history
-     * from your processor, partial when Flint has records from your processor but hasn't imported
-     * its full history, and unavailable when Flint can't say, such as before any import or after
-     * one fails. The list still returns every record Flint has. Value enum: "backfilling",
-     * "partial", "unavailable".
-     */
-    "status": "backfilling" | "partial" | "unavailable" | (string & {});
-};
-/**
- * Response metadata for money movement lists, including request and trace IDs, warnings, and the
- * state of the available history.
- */
-export type MoneyMovementListMeta = {
-    /** API version used to produce this response. */
-    "api_version"?: string;
-    /**
-     * How complete Flint's history for this list is. history is omitted when Flint's history for
-     * this list is complete. How complete the history in a money movement list is and when it was
-     * last reconciled.
-     */
-    "history"?: MoneyMovementHistoryMeta;
-    /** Whether this response replays a stored result for the supplied Idempotency-Key. */
-    "idempotency_replayed"?: boolean;
-    /**
-     * Trace identifier to include when contacting Flint about this request. Example:
-     * "0123456789abcdef0123456789abcdef".
-     */
-    "trace_id"?: string;
-    /**
-     * Conditions that need attention even though the request succeeded. [] (Value): {@link
-     * ResponseWarning}. A non-blocking condition reported with a response. The `code` identifies
-     * the condition and `severity` says how urgent it is.
-     */
-    "warnings"?: Array<ResponseWarning>;
-};
-/** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-export type MoneyValue = {
-    /**
-     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0.
-     */
-    "amount": `${bigint}`;
-    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. */
-    "currency": string;
-};
-/** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-export type MoneyValueInput = {
-    /**
-     * Amount in the currency's minor unit, such as cents for USD. Use an integer string (decimal
-     * digits), not a floating-point number. Format: int64. minimum: 0.
-     */
-    "amount": `${bigint}` | bigint;
-    /** ISO 4217 currency code for this amount. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. */
-    "currency": string;
-};
-/**
- * A follow-up action. When target_resource is present, send its resource_id in the target request
- * field named {resource_type}_id.
- */
-export type NextAction = {
-    /**
-     * Action to take next. Use its target resource and required_fields to prepare the request.
-     * Value enum: "get_operation", "create_checkout_session_customer_verification",
-     * "get_checkout_session", "get_payment_intent", "confirm_payment_intent",
-     * "capture_payment_intent", "cancel_payment_intent", "get_order", "update_order",
-     * "update_invoice", "pay_order", "close_order", "add_line_items", "update_checkout_session",
-     * "close_checkout_session", "create_refund", "get_refund", "get_payment_link_public",
-     * "update_payment_link", "update_inventory_allocation_policy", "update_settings",
-     * "update_location", "update_delivery_profile", "get_dispute", "review_onboarding_state",
-     * "create_dispute_response_session", "review_merchant_readiness", "recreate_delivery_quote",
-     * "create_merchant_account_session", "issue_developer_sandbox_test_key",
-     * "start_new_image_ingestion", "get_payout_settings", "payment_authentication",
-     * "complete_gift_card_challenge".
-     */
-    "action_type": "get_operation"
-        | "create_checkout_session_customer_verification"
-        | "get_checkout_session"
-        | "get_payment_intent"
-        | "confirm_payment_intent"
-        | "capture_payment_intent"
-        | "cancel_payment_intent"
-        | "get_order"
-        | "update_order"
-        | "update_invoice"
-        | "pay_order"
-        | "close_order"
-        | "add_line_items"
-        | "update_checkout_session"
-        | "close_checkout_session"
-        | "create_refund"
-        | "get_refund"
-        | "get_payment_link_public"
-        | "update_payment_link"
-        | "update_inventory_allocation_policy"
-        | "update_settings"
-        | "update_location"
-        | "update_delivery_profile"
-        | "get_dispute"
-        | "review_onboarding_state"
-        | "create_dispute_response_session"
-        | "review_merchant_readiness"
-        | "recreate_delivery_quote"
-        | "create_merchant_account_session"
-        | "issue_developer_sandbox_test_key"
-        | "start_new_image_ingestion"
-        | "get_payout_settings"
-        | "payment_authentication"
-        | "complete_gift_card_challenge"
-        | (string & {});
-    /**
-     * When this suggested action expires, in RFC3339 format. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "expires_at"?: string;
-    /**
-     * Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is
-     * create_merchant_account_session. When absent, GET merchant readiness and use its recommended
-     * session body. Shared request body for `create_merchant_account_session` next actions in
-     * readiness, onboarding, errors, and warnings. Send unchanged to POST
-     * /v1/merchant-account-sessions; components and collection policy describe which requirements
-     * to collect.
-     */
-    "merchant_account_session"?: ReadinessMerchantAccountSession;
-    /** Machine-readable reason this action is suggested. */
-    "reason_code"?: string;
-    /** Explanation of why this action is suggested. */
-    "reason_message"?: string;
-    /** Field names that must be supplied to perform this action. [] (Value): string. */
-    "required_fields"?: Array<string>;
-    /**
-     * API key scope required to call the public endpoint in url, when the action points at another
-     * Flint API endpoint. Value enum: "accounts.api_keys.read", "accounts.api_keys.write",
-     * "accounts.devices.read", "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
-     */
-    "required_scope"?: "accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.merchant_signups.read"
-        | "developer.merchant_signups.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payment_splits.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "money_movement.platform_fees.read"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.readers.read"
-        | "payments.readers.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {});
-    /** Whether a person must approve the action before it is performed. */
-    "requires_human_confirmation"?: boolean;
-    /** Suggested wait before performing the action, in milliseconds. Format: int32. */
-    "suggested_delay_milliseconds"?: number;
-    /**
-     * Resource whose ID to send in the target request field named {resource_type}_id when url
-     * cannot carry the target. A reference to another resource by `resource_type` and
-     * `resource_id`.
-     */
-    "target_resource"?: ResourceReference;
-    /** Public endpoint or launch URL for this remediation action, when applicable. */
-    "url"?: string;
-};
-/** The request body for: Revoke an OAuth token. */
-export type OAuthRevokeRequest = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner client ID for client_secret_post, or flint-cli for the public CLI client. Example:
-     * "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner client secret for client_secret_post. Omit when using HTTP Basic; flint-cli never
-     * sends a secret.
-     */
-    "client_secret"?: string;
-    /** Partner app token, or flint-cli access or refresh token, to revoke. */
-    "token": string;
-    /** Optional token lookup hint. Value enum: "refresh_token", "access_token". */
-    "token_type_hint"?: "refresh_token" | "access_token" | (string & {});
-});
-/** The request body for: Revoke an OAuth token. */
-export type OAuthRevokeRequestInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner client ID for client_secret_post, or flint-cli for the public CLI client. Example:
-     * "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner client secret for client_secret_post. Omit when using HTTP Basic; flint-cli never
-     * sends a secret.
-     */
-    "client_secret"?: string;
-    /** Partner app token, or flint-cli access or refresh token, to revoke. */
-    "token": string;
-    /** Optional token lookup hint. Value enum: "refresh_token", "access_token". */
-    "token_type_hint"?: "refresh_token" | "access_token";
-});
-/** The request body for: Exchange an OAuth token. */
-export type OAuthTokenRequest = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "authorization_code", "client_credentials", "refresh_token",
-     * "urn:ietf:params:oauth:grant-type:device_code",
-     * "urn:ietf:params:oauth:grant-type:token-exchange".
-     */
-    "grant_type": "authorization_code"
-        | "client_credentials"
-        | "refresh_token"
-        | "urn:ietf:params:oauth:grant-type:device_code"
-        | "urn:ietf:params:oauth:grant-type:token-exchange"
-        | (string & {});
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live" | (string & {});
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ((Exclude<OAuthTokenRequestAuthorizationCode & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestClientCredentials & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestRefreshToken & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestDeviceCode & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestTokenExchange & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The `authorization_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestAuthorizationCode = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "authorization_code".
-     */
-    "grant_type": "authorization_code" | (string & {});
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live" | (string & {});
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "authorization_code". */
-    "grant_type"?: unknown;
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-});
-/** The `authorization_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestAuthorizationCodeInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "authorization_code".
-     */
-    "grant_type": "authorization_code";
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live";
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "authorization_code". */
-    "grant_type"?: ("authorization_code") & ("authorization_code");
-    /** Partner authorization code, required for authorization_code. */
-    "code": string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier": string;
-});
-/** The `client_credentials` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestClientCredentials = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "client_credentials".
-     */
-    "grant_type": "client_credentials" | (string & {});
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode": "test" | "live" | (string & {});
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "client_credentials". */
-    "grant_type"?: unknown;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode": "test" | "live" | (string & {});
-});
-/** The `client_credentials` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestClientCredentialsInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "fpc_00112233445566778899aabbccddeeff".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "client_credentials".
-     */
-    "grant_type": "client_credentials";
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode": "test" | "live";
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "client_credentials". */
-    "grant_type"?: ("client_credentials") & ("client_credentials");
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode": "test" | "live";
-});
-/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestDeviceCode = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "urn:ietf:params:oauth:grant-type:device_code".
-     */
-    "grant_type": "urn:ietf:params:oauth:grant-type:device_code" | (string & {});
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live" | (string & {});
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
-    "grant_type"?: unknown;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-});
-/** The `urn:ietf:params:oauth:grant-type:device_code` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestDeviceCodeInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "urn:ietf:params:oauth:grant-type:device_code".
-     */
-    "grant_type": "urn:ietf:params:oauth:grant-type:device_code";
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live";
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "urn:ietf:params:oauth:grant-type:device_code". */
-    "grant_type"?: ("urn:ietf:params:oauth:grant-type:device_code") & ("urn:ietf:params:oauth:grant-type:device_code");
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code": string;
-});
-/** The request body for: Exchange an OAuth token. */
-export type OAuthTokenRequestInput = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "authorization_code", "client_credentials", "refresh_token",
-     * "urn:ietf:params:oauth:grant-type:device_code",
-     * "urn:ietf:params:oauth:grant-type:token-exchange".
-     */
-    "grant_type": "authorization_code"
-        | "client_credentials"
-        | "refresh_token"
-        | "urn:ietf:params:oauth:grant-type:device_code"
-        | "urn:ietf:params:oauth:grant-type:token-exchange";
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live";
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token"?: string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token";
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token";
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ((Exclude<OAuthTokenRequestAuthorizationCodeInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestClientCredentialsInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestRefreshTokenInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestDeviceCodeInput & object, readonly unknown[]>)
-    | (Exclude<OAuthTokenRequestTokenExchangeInput & object, readonly unknown[]>));
-/** The `refresh_token` variant of `OAuthTokenRequest`. */
-export type OAuthTokenRequestRefreshToken = ({
-    /**
-     * Signed RFC 7523 JWT for partner client authentication. Send client_id and
-     * client_assertion_type, without HTTP Basic or client_secret. minLength: 1. maxLength: 8192.
-     */
-    "client_assertion"?: string;
-    /**
-     * Required with client_assertion for partner private_key_jwt authentication. Value enum:
-     * "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
-     */
-    "client_assertion_type"?: "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" | (string & {});
-    /**
-     * Partner app client ID when using client_secret_post; flint-cli sends flint-cli. Omit when
-     * HTTP Basic supplies the partner client ID. Forbidden for workload identity token exchange.
-     * Example: "flint-cli".
-     */
-    "client_id"?: string;
-    /**
-     * Partner app secret for client_secret_post. Omit when using HTTP Basic. flint-cli never sends
-     * a secret. Forbidden for workload identity token exchange.
-     */
-    "client_secret"?: string;
-    /** Partner authorization code, required for authorization_code. */
-    "code"?: string;
-    /**
-     * Partner PKCE verifier for the S256 challenge, required for authorization_code. minLength:
-     * 43. maxLength: 128. pattern: ^[A-Za-z0-9\-._~]+$.
-     */
-    "code_verifier"?: string;
-    /**
-     * flint-cli only. Example:
-     * "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
-     */
-    "context_id"?: string;
-    /** flint-cli device code, required for the device_code grant. */
-    "device_code"?: string;
-    /**
-     * OAuth grant to exchange. Partner apps use client_credentials or authorization_code;
-     * flint-cli uses device_code or refresh_token; workload identities use token-exchange. Value
-     * enum: "refresh_token".
-     */
-    "grant_type": "refresh_token" | (string & {});
-    /**
-     * Binds the minted partner app token to this merchant, for client_credentials. Omit for an
-     * app-level token that names the merchant in Flint-Merchant-Id on each request. Flint checks
-     * only the ID's format here. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Mode of the partner app token to mint, test or live. Required for client_credentials. Each
-     * token is for one mode. Value enum: "test", "live".
-     */
-    "mode"?: "test" | "live" | (string & {});
-    /**
-     * The redirect URI the authorization request used, character for character. Required for a
-     * code from the consent screen. Omit it for a code from a merchant signup, which had no
-     * authorization request: a signup code sent with one, or a consent-screen code sent without
-     * one, returns invalid_grant.
-     */
-    "redirect_uri"?: string;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token": string;
-    /**
-     * Optional requested credential type for token exchange. Only access tokens are supported.
-     * Value enum: "urn:ietf:params:oauth:token-type:access_token".
-     */
-    "requested_token_type"?: "urn:ietf:params:oauth:token-type:access_token" | (string & {});
-    /**
-     * flint-cli and workload identities: optional subset of API scope names for this access token.
-     * Partner apps: omit. Partner app tokens carry each install's granted permissions, and
-     * client_credentials refuses scope with invalid_scope.
-     */
-    "scope"?: string;
-    /**
-     * JWT from the workload identity's external issuer. Required for token exchange. minLength: 1.
-     * maxLength: 8192.
-     */
-    "subject_token"?: string;
-    /**
-     * Format of subject_token. Required for token exchange. Value enum:
-     * "urn:ietf:params:oauth:token-type:jwt", "urn:ietf:params:oauth:token-type:id_token".
-     */
-    "subject_token_type"?: "urn:ietf:params:oauth:token-type:jwt" | "urn:ietf:params:oauth:token-type:id_token" | (string & {});
-    /**
-     * Configured workload identity to match against the verified subject token. Required for token
-     * exchange. Example: "wid_01KEZF7C00GKCN7Y1482VY8TWP".
-     */
-    "workload_identity_id"?: string;
-})
-    & ({
-    /** Value enum: "refresh_token". */
-    "grant_type"?: unknown;
-    /**
-     * flint-cli refresh token, required for refresh_token. Partner apps don't receive refresh
-     * tokens; a partner client that sends this grant gets unauthorized_client.
-     */
-    "refresh_token": string;
-});

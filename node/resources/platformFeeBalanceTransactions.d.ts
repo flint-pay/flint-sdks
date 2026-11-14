@@ -6,9 +6,9 @@ import type {
     PlatformFeeBalanceTransactionResponse,
     PlatformFeeBalanceTransactionsGetParams,
     PlatformFeeBalanceTransactionsListParams
-} from '../declarations/types-48.js';
-import type { RequestOptions } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+} from '../declarations/types-49.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -29,16 +29,15 @@ export type {
     PlatformFeeBalanceTransactionResponse,
     PlatformFeeBalanceTransactionsListParams,
     PlatformFeeBalanceTransactionListResponse
-} from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
-export type { RequestOptions } from '../declarations/types-53.js';
+} from '../declarations/types-49.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyValue, NextAction } from '../declarations/types-38.js';
-export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
+export type { MoneyValue, NextAction } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export interface PlatformFeeBalanceTransactionsResource {
     /**
  * Returns one entry of your partner apps' platform fee ledger. Reads the merchant that owns the

@@ -2,6 +2,75 @@
 
 # customers
 
+### customers.cancelEmailChangeRequest
+
+Cancels a pending request and invalidates its link or codes. The customer's email stays unchanged. A terminal request refuses cancellation. Send no body or an empty JSON object.
+
+`POST /v1/customers/{customer_id}/email-change-requests/{email_change_request_id}/cancel`
+
+Signature:
+
+```text
+cancelEmailChangeRequest(string|
+  Model $customer_id,
+ string|
+  Model $email_change_request_id,
+ array|
+  Model|
+  null $params = null,
+ ?RequestOptions $options = null)
+```
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string | Flint customer ID. |
+| `email_change_request_id` | Required | string | Flint email change request ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+#### Response
+
+Returned payload: [EmailChangeRequest](../models/EmailChangeRequest.md#emailchangerequest).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->customers->cancelEmailChangeRequest('cus_01KEZF7C006X9JK6NZNA2SM9XD', 'cecr_01KEZF7C00B8VJX4M828K0430H', [], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/customers-cancelEmailChangeRequest.php)
+
 ### customers.create
 
 Creates a customer record for a buyer's contact details and purchases in this environment. When an active customer already has `email`, `on_email_conflict` chooses whether to fail with `ALREADY_EXISTS`, which names that customer, or return the existing customer unchanged. Emails match case-insensitively.
@@ -216,6 +285,68 @@ $result = $client->customers->createAddress('cus_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
 ```
 
 [Complete runnable example](../examples/customers-createAddress.php)
+
+### customers.createEmailChangeRequest
+
+Emails the new address a confirmation link valid for seven days. Available for Flint-hosted accounts. One request can be pending per customer; creating another cancels the previous request. Nothing changes until the new address confirms. The change affects only this store, revokes the customer's sessions and links, and never moves cards saved with Flint. Limited to three attempts per customer in 15 minutes and 30 staff requests per merchant environment per hour.
+
+`POST /v1/customers/{customer_id}/email-change-requests`
+
+Signature: `createEmailChangeRequest(string|Model $customer_id, array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string | Flint customer ID. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Required | [CreateEmailChangeRequestInput](../models/CreateEmailChangeRequestInput.md#createemailchangerequestinput) | The request body for: Request a customer email change; Request an email change. |
+
+#### Response
+
+Returned payload: [EmailChangeRequest](../models/EmailChangeRequest.md#emailchangerequest).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key automatic, [At least 24 hours. A retry with the same key and request within that window returns the original result instead of repeating it; afterwards the key may run as a new request retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->customers->createEmailChangeRequest('cus_01KEZF7C006X9JK6NZNA2SM9XD', [
+  'new_email' => 'alex.new@example.com',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/customers-createEmailChangeRequest.php)
 
 ### customers.createTaxExemption
 
@@ -539,6 +670,64 @@ $result = $client->customers->getAddress('cus_01KEZF7C006X9JK6NZNA2SM9XD', 'cadd
 
 [Complete runnable example](../examples/customers-getAddress.php)
 
+### customers.getEmailChangeRequest
+
+Returns one request belonging to this customer, including its current status. Terminal requests have no new_email.
+
+`GET /v1/customers/{customer_id}/email-change-requests/{email_change_request_id}`
+
+Signature:
+
+```text
+getEmailChangeRequest(string|
+  Model $customer_id,
+ string|
+  Model $email_change_request_id,
+ array|
+  Model|
+  null $params = null,
+ ?RequestOptions $options = null)
+```
+
+#### Request fields
+
+Field definitions: [shared fields](#request-fields).
+
+#### Response
+
+Returned payload: [EmailChangeRequest](../models/EmailChangeRequest.md#emailchangerequest).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+$result = $client->customers->getEmailChangeRequest('cus_01KEZF7C006X9JK6NZNA2SM9XD', 'cecr_01KEZF7C00B8VJX4M828K0430H', [], new RequestOptions());
+```
+
+[Complete runnable example](../examples/customers-getEmailChangeRequest.php)
+
 ### customers.getEmailPreferences
 
 Returns the preferences for the customer's current email address in this merchant environment. A missing choice is enabled. Reads remain available while deletion is processing. Returns RESOURCE_NOT_FOUND for an unknown or deleted customer, or with reason email_missing when the customer has no email address. Merchants cannot change these preferences.
@@ -845,6 +1034,63 @@ $result = $client->customers->listAddresses('cus_01KEZF7C006X9JK6NZNA2SM9XD', []
 
 [Complete runnable example](../examples/customers-listAddresses.php)
 
+### customers.listEmailChangeRequests
+
+Returns requests in every status, ordered by created_at descending, then email_change_request_id descending. Status and supported_actions are computed when read. Default order: created_at descending, then email_change_request_id descending.
+
+`GET /v1/customers/{customer_id}/email-change-requests`
+
+Signature: `listEmailChangeRequests(string|Model $customer_id, array|Model|null $params = null, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `customer_id` | Required | string | Flint customer ID. |
+| `status` | Optional | Array of string or string | Only return requests in these statuses. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"pending"`, `"confirmed"`, `"canceled"`, `"expired"`. Values: `"pending"`, `"confirmed"`, `"canceled"`, `"expired"`. |
+| `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
+| `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+
+#### Response
+
+Returned payload: [EmailChangeRequestListResponse](../models/EmailChangeRequestListResponse.md#emailchangerequestlistresponse).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+Pagination: `listEmailChangeRequestsItems`, `listEmailChangeRequestsPages`. [Canonical pagination example](../RUNTIME.md#pagination-and-polling).
+
+#### Example
+
+```php
+$result = $client->customers->listEmailChangeRequests('cus_01KEZF7C006X9JK6NZNA2SM9XD', [], new RequestOptions());
+```
+
+[Complete runnable example](../examples/customers-listEmailChangeRequests.php)
+
 ### customers.listTaxExemptions
 
 Returns the customer's exemption records ordered by created_at descending, then customer_tax_exemption_id descending. Archived records are excluded by default. Status may filter scheduled, active, expired and archived records, alone or together. Default order: created_at descending, then customer_tax_exemption_id descending.
@@ -955,7 +1201,7 @@ $result = $client->customers->revokeSessions('cus_01KEZF7C006X9JK6NZNA2SM9XD', [
 
 ### customers.update
 
-Applies a sparse update to a customer. Clearing email while any subscription is not canceled returns 409 CUSTOMER_EMAIL_REQUIRED. Changing, case-changing, or clearing an existing email requires customer_account.mode to be merchant_hosted; otherwise the update fails with `ACTION_NOT_ALLOWED` and reason `managed_externally`. A customer with no email can be given one in either mode. To change the email of a customer who signs in to your Flint-hosted account, create a customer session for the customer and send POST /v1/me/email-change-requests with the new email; the customer confirms it with the codes Flint emails them. If Flint cannot read the account settings, the update fails with a retryable `SERVICE_UNAVAILABLE` and the customer is unchanged.
+Applies a sparse update to a customer. Clearing email while any subscription is not canceled returns 409 CUSTOMER_EMAIL_REQUIRED. Changing, case-changing, or clearing an existing email requires customer_account.mode to be merchant_hosted; otherwise the update fails with `ACTION_NOT_ALLOWED` and reason `managed_externally`. A customer with no email can be given one in either mode. To change the email of a customer who signs in to your Flint-hosted account, send POST /v1/customers/{customer_id}/email-change-requests with new_email. The new address confirms through the link Flint emails it. If Flint cannot read the account settings, the update fails with a retryable `SERVICE_UNAVAILABLE` and the customer is unchanged.
 
 `PATCH /v1/customers/{customer_id}`
 

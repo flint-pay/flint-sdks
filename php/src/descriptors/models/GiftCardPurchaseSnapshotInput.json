@@ -1,1 +1,1 @@
-{"shared":"GiftCardPurchaseSnapshot","dependencies":["GiftCardCustomAmountBounds","GiftCardPurchaseRecipient","GiftCardPurchaseSnapshot","MoneyValue","SharedCodec767","SharedCodec768"]}
+{"shared":"GiftCardPurchaseSnapshot","dependencies":["GiftCardCustomAmountBounds","GiftCardPurchaseRecipient","GiftCardPurchaseSnapshot","MoneyValue","SharedCodec772","SharedCodec773"]}

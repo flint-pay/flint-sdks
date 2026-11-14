@@ -1,29 +1,676 @@
-import type { MoneyValue, MoneyValueInput, ModifierSet } from './types-38.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
-import type { ResponseMeta } from './types-54.js';
+import type { PaymentClientAction, PartnerWebhookEnvelope } from './types-44.js';
+import type { Address } from './types-0.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { ResponseMeta, ResourceReference } from './types-54.js';
 import type { InputValue } from '../runtime.js';
-import type { PlatformFee } from './types-48.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
 import type { QuantityPriceBreak, QuantityPriceBreakRequestInput } from './types-52.js';
-import type { CreatePriceListRequestInput, CreatePriceListPricesRequestInput } from './types-11.js';
-import type { DisputesAcceptParams } from './types-23.js';
+import type { CreatePriceListRequestInput, CreatePriceListPricesRequestInput } from './types-12.js';
+import type { DisputesAcceptParams } from './types-24.js';
 import type { UpdatePriceListRequestInput, UpdatePriceListPriceRequestInput } from './types-67.js';
 import type {
     ReturnProcessDecision,
     ReturnProcessDispositionRequest,
     ReturnProcessInspectionRequest,
-    ReturnProcessResolutionRequest,
-    ReturnProcessDecisionInput,
-    ReturnProcessDispositionRequestInput,
-    ReturnProcessInspectionRequestInput,
-    ReturnProcessResolutionRequestInput,
-    ReturnProcessReceiptRequest,
-    ReturnProcessReceiptRequestInput,
-    ReturnProcessResult
+    ReturnProcessResolutionRequest
 } from './types-56.js';
-import type { CategoryReference } from './types-5.js';
-import type { ImageAttachment } from './types-27.js';
-import type { ProductVariant, ProductVariantMatch } from './types-50.js';
+/**
+ * Client-side action required before continuing a payment. Resume an order through PayOrder with
+ * order_payment_attempt_id, or continue a standalone PaymentIntent through its confirm endpoint
+ * without a replacement credential.
+ */
+export type PendingPaymentAction = {
+    /**
+     * Product-level action type. payment_authentication applies to a payment leg;
+     * payment_method_authentication applies to saving a future-billing payment method.
+     * card_presentment means present the card on the Tap to Pay reader in your app. Value enum:
+     * "payment_authentication", "payment_method_authentication", "card_presentment".
+     */
+    "action_type": "payment_authentication" | "payment_method_authentication" | "card_presentment" | (string & {});
+    /**
+     * How to finish this step before continuing through Flint. Flint's API returns a Stripe client
+     * secret only for client_action_type stripe. The url branch carries a bearer URL; Stripe's
+     * authentication page receives what it needs to run the challenge. How to finish a payment
+     * step. Flint's API returns a Stripe client secret only for client_action_type stripe. With
+     * url, Stripe's authentication page receives what it needs to run the challenge, including the
+     * client secret for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't
+     * approve, Flint doesn't count the charge, returns it to the buyer, and the payment intent
+     * ends canceled with cancellation_reason payment_returned.
+     */
+    "client_action": PaymentClientAction;
+    /**
+     * When this step stops working. For a standalone payment intent, 12 hours after the step was
+     * created; for an order payment, when its attempt is canceled. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Stable Flint action ID. Use this to deduplicate a repeated action projection while resuming
+     * an attempt. Example: "pendact_01KEZF7C00SVMRXWKVZX6R9822".
+     */
+    "pending_action_id": string;
+    /**
+     * The attempt subject that requires client action. Exactly one of payment_intent or
+     * setup_payment_source is present. Typed subject for a pending order payment action. Exactly
+     * one subject is present.
+     */
+    "subject": PendingPaymentActionSubject;
+};
+/** The payment intent that needs buyer authentication in a pending payment action. */
+export type PendingPaymentActionPaymentIntentSubject = {
+    /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id": string;
+};
+/** The payment method setup that needs buyer authentication in a pending payment action. */
+export type PendingPaymentActionSetupPaymentSourceSubject = {
+    /** Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". */
+    "payment_method_id": string;
+};
+/** Typed subject for a pending order payment action. Exactly one subject is present. */
+export type PendingPaymentActionSubject = {
+    /**
+     * PaymentIntent that requires buyer authentication or card presentment. It can be a standalone
+     * intent or an order-owned payment leg. The payment intent that needs buyer authentication in
+     * a pending payment action.
+     */
+    "payment_intent"?: PendingPaymentActionPaymentIntentSubject;
+    /**
+     * Future-billing payment method setup that requires buyer authentication. The payment method
+     * setup that needs buyer authentication in a pending payment action.
+     */
+    "setup_payment_source"?: PendingPaymentActionSetupPaymentSourceSubject;
+};
+/**
+ * Pickup details. For a pickup that checkout creates, location_name, address, and instructions
+ * name the store the buyer chose and the delivery method's pickup instructions. The note the buyer
+ * left for the store is in recipient.instructions.
+ */
+export type PickupFulfillmentDetails = {
+    /**
+     * Address where the buyer collects the order. A postal address. Every address has country.
+     * Addresses Flint checked as complete (customer and saved addresses, merchant, location,
+     * invoice, order delivery destination, tax identity, fulfillment recipient and pickup
+     * addresses) always have line1 and city, and US ones always have state and postal_code.
+     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
+     * was provided, such as postal_code and country.
+     */
+    "address"?: Address;
+    /** Instructions specific to curbside handoff. maxLength: 2048. */
+    "curbside_instructions"?: string;
+    /**
+     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "customer_arrived_at"?: string;
+    /** Pickup instructions for the buyer, such as where to go on arrival. */
+    "instructions"?: string;
+    /** Name of the store or place where the buyer collects the order. */
+    "location_name"?: string;
+    /**
+     * When the recipient collected the items, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "picked_up_at"?: string;
+    /**
+     * Time by which the buyer should collect the order. Passing it does not change status or emit
+     * an event automatically; the merchant decides how to follow up. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "pickup_due_at"?: string;
+    /**
+     * How the buyer collects the items, such as in store or curbside. Value enum: "in_store",
+     * "curbside", "locker", "other".
+     */
+    "pickup_mode"?: "in_store" | "curbside" | "locker" | "other" | (string & {});
+    /**
+     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
+     * maximum: 86400.
+     */
+    "pickup_window_duration_seconds"?: number;
+    /**
+     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
+     * Format: int64. minimum: 0. maximum: 86400.
+     */
+    "prep_time_duration_seconds"?: number;
+    /**
+     * When the items became ready for pickup, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "ready_at"?: string;
+    /** Timezone used to display the pickup window. Uses an IANA time zone name. */
+    "timezone"?: string;
+    /**
+     * Buyer vehicle description used for curbside handoff. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. maxLength: 500.
+     */
+    "vehicle_description"?: string;
+    /**
+     * End of the promised pickup window, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "window_end_at"?: string;
+    /**
+     * Start of the promised pickup window, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "window_start_at"?: string;
+};
+/**
+ * A platform fee your partner app charged, or asked to charge, on a payment it created for an
+ * installed merchant. Owned by the merchant that owns the partner app.
+ */
+export type PlatformFee = {
+    /**
+     * The fee Flint will charge until the payment succeeds, then the fee charged. Flint lowers it
+     * at confirm and capture to fit the merchant's cap and Flint's own fees; 0 once canceled.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Why Flint collected no fee. Present only when status is canceled. Can gain values. Value
+     * enum: "payment_not_completed", "install_revoked", "platform_capability_inactive",
+     * "uncollectible".
+     */
+    "canceled_reason"?: "payment_not_completed"
+        | "install_revoked"
+        | "platform_capability_inactive"
+        | "uncollectible"
+        | (string & {});
+    /**
+     * The checkout session the payment came from. Absent when the fee was sent with the payment
+     * itself. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_id"?: string;
+    /**
+     * When Flint collected the fee with the payment. Absent unless status is succeeded. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "collected_at"?: string;
+    /**
+     * When the payment's create recorded the fee. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /**
+     * The installed merchant charged the fee, as on the install. Example:
+     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     */
+    "merchant_id": string;
+    /** The partner app that charged the fee. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id": string;
+    /**
+     * The install whose partner app token created the payment. Example:
+     * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+     */
+    "partner_app_install_id": string;
+    /**
+     * The payment the fee rides on, owned by the installed merchant. After that merchant resets
+     * the sandbox the payment was in, the ID no longer resolves. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id": string;
+    /**
+     * Unique identifier for the platform fee, the payment intent's platform_fee.platform_fee_id.
+     * Example: "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
+     */
+    "platform_fee_id": string;
+    /**
+     * The fee returned to the installed merchant so far, including opted-in payment refunds and
+     * returns of the whole application fee. A failed refund reverses its share of this total. 0
+     * when nothing has been returned. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "refunded_money": MoneyValue;
+    /**
+     * The fee the request asked for. Monetary amount represented as integer minor units plus an
+     * ISO 4217 currency code.
+     */
+    "requested_amount_money": MoneyValue;
+    /**
+     * When the held share is due to return to your available balance. Absent until the fee posts,
+     * and when nothing was held. Setting it sends no event. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "reserve_available_at"?: string;
+    /**
+     * The share of the fee Flint held in your reserve when it posted the fee to your ledger.
+     * Absent until then. A snapshot: loss coverage draws on the reserve as a whole, so read
+     * PlatformFeeBalance.reserve_money for what is held now. Setting it sends no event. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "reserve_hold_money"?: MoneyValue;
+    /** Where the fee stands. canceled is final. Value enum: "pending", "succeeded", "canceled". */
+    "status": "pending" | "succeeded" | "canceled" | (string & {});
+    /** When the fee last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** One partner app's platform fee balance in one currency. */
+export type PlatformFeeBalance = {
+    /**
+     * Fees Flint holds as available funds, net of the reserve. It can be negative: a fee returned
+     * after payout is owed back from your next fees. available_money plus pending_money equals the
+     * sum of amount_money over the app's balance transactions in this currency. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "available_money": MoneyValue;
+    /**
+     * ISO 4217 currency code of every amount on the balance. minLength: 3. maxLength: 3. pattern:
+     * ^[A-Z]{3}$. Example: "USD".
+     */
+    "currency": string;
+    /**
+     * The next scheduled payout run. Absent until scheduled. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "next_payout_at"?: string;
+    /** The partner app the balance belongs to. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id": string;
+    /**
+     * Why payouts wait. Present only when payouts_enabled is false. Can gain values. Value enum:
+     * "platform_paused", "merchant_payouts_unavailable".
+     */
+    "payouts_disabled_reason"?: "platform_paused" | "merchant_payouts_unavailable" | (string & {});
+    /**
+     * Whether your platform and merchant account can receive payouts. Flint deferring a run for
+     * cash safety doesn't disable payouts.
+     */
+    "payouts_enabled": boolean;
+    /**
+     * Fees Flint hasn't received as available funds yet, net of their reserve holds. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "pending_money": MoneyValue;
+    /** Unique identifier for the balance. Example: "pfbal_01KEZF7C005QNZBGFAR0NNPEQ4". */
+    "platform_fee_balance_id": string;
+    /**
+     * What Flint holds in your reserve now: reserve holds minus releases. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "reserve_money": MoneyValue;
+    /** When the balance last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+};
+/** A page of `PlatformFeeBalance` objects. */
+export type PlatformFeeBalanceListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PlatformFeeBalance}. One partner app's platform fee balance in one currency.
+     */
+    "data": Array<PlatformFeeBalance>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * One entry of a partner app's platform fee ledger. Entries keep their amounts; status,
+ * available_at and the payout link can be filled later.
+ */
+export type PlatformFeeBalanceTransaction = {
+    /**
+     * The signed effect on available_money plus pending_money: positive for money in, negative for
+     * money out. Signed monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * When the entry becomes, or became, available. Absent while Flint hasn't verified the
+     * application fee that carries it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "available_at"?: string;
+    /** When Flint recorded the entry. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /** Display text, not for matching. */
+    "description"?: string;
+    /** When the movement happened. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "occurred_at": string;
+    /** The partner app the entry belongs to. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV". */
+    "partner_app_id": string;
+    /**
+     * Unique identifier for the balance transaction. Example: "pfbt_01KEZF7C0079KPKMAHC7C60G1T".
+     */
+    "platform_fee_balance_transaction_id": string;
+    /**
+     * The fee the entry concerns, when it concerns one. Example:
+     * "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
+     */
+    "platform_fee_id"?: string;
+    /**
+     * The payout that carried the entry. Set once when a payout is prepared, and never changed.
+     * Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
+     */
+    "platform_fee_payout_id"?: string;
+    /**
+     * Earlier entries this one is linked to. Empty when none. [] (Value): string. Example:
+     * "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+     */
+    "related_balance_transaction_ids": Array<string>;
+    /**
+     * The Flint resource behind the entry, when it has one other than the fee. A reference to
+     * another resource by `resource_type` and `resource_id`.
+     */
+    "related_resource"?: ResourceReference;
+    /** Whether the amount counts toward available_money yet. Value enum: "pending", "available". */
+    "status": "pending" | "available" | (string & {});
+    /**
+     * What the entry records. Can gain values; treat an unknown value as other. Value enum:
+     * "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal", "other".
+     */
+    "type": "platform_fee"
+        | "reserve_hold"
+        | "reserve_release"
+        | "loss_coverage"
+        | "loss_coverage_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_refund_reversal"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal"
+        | "other"
+        | (string & {});
+};
+/** A page of `PlatformFeeBalanceTransaction` objects. */
+export type PlatformFeeBalanceTransactionListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PlatformFeeBalanceTransaction}. One entry of a partner app's platform fee ledger. Entries
+     * keep their amounts; status, available_at and the payout link can be filled later.
+     */
+    "data": Array<PlatformFeeBalanceTransaction>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `PlatformFeeBalanceTransaction` data. */
+export type PlatformFeeBalanceTransactionResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. One entry of a partner
+     * app's platform fee ledger. Entries keep their amounts; status, available_at and the payout
+     * link can be filled later.
+     */
+    "data": PlatformFeeBalanceTransaction;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PlatformFeeBalanceTransactionsGetParams = {};
+export type PlatformFeeBalanceTransactionsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the partner app. minLength: 1. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /**
+     * Exact match on the fee the entry concerns. minLength: 1. pattern:
+     * ^pfee_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pfee_01KEZF7C00JHAZN19B3MMW0R3A".
+     */
+    "platform_fee_id"?: InputValue<string>;
+    /**
+     * Exact match on the payout that carried the entry. minLength: 1. pattern:
+     * ^pfpo_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pfpo_01KEZF7C00H58B147FK286D4A4".
+     */
+    "platform_fee_payout_id"?: InputValue<string>;
+    /**
+     * Types to include. Omit it to list every type. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "platform_fee", "reserve_hold", "reserve_release",
+     * "loss_coverage", "loss_coverage_reversal", "platform_fee_refund",
+     * "platform_fee_refund_reversal", "platform_fee_payout", "platform_fee_payout_reversal". Value
+     * enum: "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal". anyOf[1][] (Value): string. Value
+     * enum: "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal". anyOf[2] (Value): string. Value enum:
+     * "platform_fee", "reserve_hold", "reserve_release", "loss_coverage",
+     * "loss_coverage_reversal", "platform_fee_refund", "platform_fee_refund_reversal",
+     * "platform_fee_payout", "platform_fee_payout_reversal".
+     */
+    "type"?: InputValue<("platform_fee"
+        | "reserve_hold"
+        | "reserve_release"
+        | "loss_coverage"
+        | "loss_coverage_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_refund_reversal"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal")
+        | readonly ("platform_fee"
+        | "reserve_hold"
+        | "reserve_release"
+        | "loss_coverage"
+        | "loss_coverage_reversal"
+        | "platform_fee_refund"
+        | "platform_fee_refund_reversal"
+        | "platform_fee_payout"
+        | "platform_fee_payout_reversal")[]>;
+    /** Inclusive lower bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on occurred_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "occurred_before"?: InputValue<string | globalThis.Date>;
+};
+export type PlatformFeeBalancesListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Exact match on the partner app. minLength: 1. pattern: ^papp_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+     */
+    "partner_app_id"?: InputValue<string>;
+    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
+    "currency"?: InputValue<string>;
+};
+export type PlatformFeeCanceledEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "canceled_reason"?: "payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {});
+            "checkout_session_id"?: string;
+            "collected_at"?: string;
+            "created_at": string;
+            "merchant_id": string;
+            "partner_app_id": string;
+            "partner_app_install_id": string;
+            "payment_intent_id": string;
+            "platform_fee_id": string;
+            "refunded_money": MoneyValue;
+            "requested_amount_money": MoneyValue;
+            "reserve_available_at"?: string;
+            "reserve_hold_money"?: MoneyValue;
+            "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<PlatformFee>;
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee.canceled";
+})
+    & {
+    "event_type": "platform_fee.canceled";
+});
+/**
+ * The most a platform fee can take from one payment. The largest platform fee on a payment is
+ * percent of the amount it collects, rounded half up to the minor unit, plus the currency's fixed
+ * part if it has one, and never more than the currency's maximum: a cap of 1% + 0.30 USD with a
+ * 5.00 USD maximum allows up to 1.30 USD on a 100.00 USD payment. A currency without a maximum
+ * can't carry a platform fee.
+ */
+export type PlatformFeeCap = {
+    /**
+     * The fixed part of the cap per payment, keyed by currency code, added to the percentage part.
+     * Omitted when no currency has one. Only USD today. * (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "fixed_fee_currency_options"?: Record<string, MoneyValue>;
+    /**
+     * The maximum fee on one payment, keyed by currency code. Only USD today. * (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code.
+     */
+    "maximum_fee_currency_options": Record<string, MoneyValue>;
+    /**
+     * The percentage part of the cap, in percent: 2.5 means 2.5%. 0 when the cap is a fixed part
+     * alone. minimum: 0. maximum: 25. multipleOf: 0.0001.
+     */
+    "percent": number;
+};
+/**
+ * The whole platform fee cap. The largest platform fee on a payment is percent of the amount it
+ * collects, rounded half up to the minor unit, plus the currency's fixed part if it has one, and
+ * never more than the currency's maximum: a cap of 1% + 0.30 USD with a 5.00 USD maximum allows up
+ * to 1.30 USD on a 100.00 USD payment. percent and maximum_fee_currency_options are required. A
+ * write replaces the cap whole, so a cap sent without fixed_fee_currency_options has no fixed
+ * part.
+ */
+export type PlatformFeeCapRequestInput = {
+    /**
+     * The fixed part of the cap per payment, keyed by currency code, added to the percentage part:
+     * 30 USD minor units with percent 1 is 1% + 0.30 USD. Optional. Each is from 1 minor unit to
+     * the same currency's maximum, and a currency needs a maximum to have one; otherwise
+     * INVALID_REQUEST with INVALID_VALUE on the entry. Each key must equal its Money's currency.
+     * Only USD today. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "fixed_fee_currency_options"?: Record<string, MoneyValueInput>;
+    /**
+     * The maximum fee on one payment, keyed by currency code: from 1 to 1,000,000 minor units
+     * ($0.01 to $10,000.00). Each key must equal its Money's currency. Only USD today.
+     * minProperties: 1. * (Value): {@link MoneyValueInput}. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "maximum_fee_currency_options": Record<string, MoneyValueInput>;
+    /**
+     * The percentage part of the cap, in percent: from 0 to 25, with up to four decimal places.
+     * 2.5 means 2.5%. 0 needs a fixed part in every currency with a maximum, so the cap is a flat
+     * fee per payment; otherwise INVALID_REQUEST with INVALID_VALUE on the maximum of the currency
+     * without one. minimum: 0. maximum: 25. multipleOf: 0.0001.
+     */
+    "percent": number;
+};
+export type PlatformFeeCreatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "canceled_reason"?: "payment_not_completed"
+                | "install_revoked"
+                | "platform_capability_inactive"
+                | "uncollectible"
+                | (string & {});
+            "checkout_session_id"?: string;
+            "collected_at"?: string;
+            "created_at": string;
+            "merchant_id": string;
+            "partner_app_id": string;
+            "partner_app_install_id": string;
+            "payment_intent_id": string;
+            "platform_fee_id": string;
+            "refunded_money": MoneyValue;
+            "requested_amount_money": MoneyValue;
+            "reserve_available_at"?: string;
+            "reserve_hold_money"?: MoneyValue;
+            "status": "pending" | "succeeded" | "canceled" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: "merchant" | (string & {});
+    "event_type"?: "platform_fee.created";
+})
+    & {
+    "event_type": "platform_fee.created";
+});
+/** A page of `PlatformFee` objects. */
+export type PlatformFeeListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PlatformFee}. A platform fee your partner app charged, or asked to charge, on a payment it
+     * created for an installed merchant. Owned by the merchant that owns the partner app.
+     */
+    "data": Array<PlatformFee>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /**
  * A payout from your partner app's platform fee balance to your merchant balance. Owned by the
  * merchant that owns the partner app.
@@ -2095,1839 +2742,3 @@ export type ProcessExistingReturnLineItemRequest = {
      */
     "return_line_item_id": string;
 };
-/**
- * How to process one line of an existing return: the received quantity, inspection, decision,
- * disposition, and resolution.
- */
-export type ProcessExistingReturnLineItemRequestInput = {
-    /**
-     * The decision for this line, as an assertion about the committed terms. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}. Start from
-     * the pinned policy proposal recomputed for approved_quantity when the line has a policy
-     * evaluation and the proposal can be built. Otherwise start with return_required_quantity
-     * equal to approved_quantity, allowed_resolution_types containing refund, exchange,
-     * replacement, no_monetary_action, and store_credit in that order regardless of whether the
-     * original payment is refundable, no automatic_resolution_type, is_inspection_required false,
-     * and no receiving_location_id. Each supplied field replaces its starting value;
-     * allowed_resolution_types replaces the whole list. Omit automatic_resolution_type to keep its
-     * starting value, or send null to resolve manually. Then fill an omitted release_timing with
-     * after_inspection when merchandise is required and inspection is required, after_receipt when
-     * merchandise is required without inspection, or after_approval when no merchandise is
-     * required. Validate the merged decision for quantity bounds, allowed resolution types, and
-     * reachable timing and inspection requirements. A pinned policy always requires
-     * override_reason when approved_quantity exceeds evaluated eligible_quantity, even when no
-     * proposal can be built. With a pinned policy but no proposal, other decision fields use these
-     * defaults and override_reason is otherwise optional. Example:
-     * {"approved_quantity":1,"receiving_location_id":"loc_01KEZF7C005QW6QDMVP0P473FZ"}.
-     */
-    "decision"?: ReturnProcessDecisionInput;
-    /**
-     * A disposition to record for this line's units. What was done with a returned item, such as
-     * restocked as sellable or sent for repair, supplied when processing an existing return.
-     */
-    "disposition"?: ReturnProcessDispositionRequestInput;
-    /**
-     * An inspection to record for this line's units. An inspection result for a returned item,
-     * supplied when processing an existing return.
-     */
-    "inspection"?: ReturnProcessInspectionRequestInput;
-    /**
-     * Whole number of units received. It must equal the line's committed return_required_quantity;
-     * fractional quantities are not supported. Format: int64.
-     */
-    "received_quantity"?: number;
-    /**
-     * A resolution to create and confirm for this line. The resolution to apply to a returned
-     * item, such as refund or exchange, with the quantity and any replacement items.
-     */
-    "resolution"?: ReturnProcessResolutionRequestInput;
-    /**
-     * ID of the Return line to act on. minLength: 1. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-};
-/** The request body for: Process existing return. */
-export type ProcessExistingReturnRequest = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
-     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
-     * completion_mode. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic" | (string & {});
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * One decision for each line. minItems: 1. [] (Value): {@link
-     * ProcessExistingReturnLineItemRequest}. How to process one line of an existing return: the
-     * received quantity, inspection, decision, disposition, and resolution.
-     */
-    "line_items": Array<ProcessExistingReturnLineItemRequest>;
-    /**
-     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
-     * it was received, supplied when processing an existing return.
-     */
-    "receipt"?: ReturnProcessReceiptRequest;
-};
-/** The request body for: Process existing return. */
-export type ProcessExistingReturnRequestInput = {
-    /**
-     * Omit to use the mode shared by all pinned policies that set completion_mode, or automatic
-     * when no pinned policy sets one. Conflicting pinned policy modes return 400 naming
-     * completion_mode only when completion_mode is omitted. An explicit manual or automatic value
-     * is used as sent. On an open Return, omit to keep its committed mode. Sending that mode is
-     * accepted; a different mode returns 409 ACTION_NOT_ALLOWED with reason field_locked and param
-     * completion_mode. Value enum: "manual", "automatic".
-     */
-    "completion_mode"?: "manual" | "automatic";
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * One decision for each line. minItems: 1. [] (Value): {@link
-     * ProcessExistingReturnLineItemRequestInput}. How to process one line of an existing return:
-     * the received quantity, inspection, decision, disposition, and resolution.
-     */
-    "line_items": Array<ProcessExistingReturnLineItemRequestInput>;
-    /**
-     * A receipt to record for the Return. The receipt of returned merchandise, with when and where
-     * it was received, supplied when processing an existing return.
-     */
-    "receipt"?: ReturnProcessReceiptRequestInput;
-};
-/** A response containing `ReturnProcessResult` data. */
-export type ProcessExistingReturnResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The return is the
-     * primary resource and expected_version target; the other resources report the processing
-     * effects.
-     */
-    "data": ReturnProcessResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** An item offered in the merchant's catalog. */
-export type Product = {
-    /** Number of active variants belonging to the product. Format: int32. */
-    "active_variant_count"?: number;
-    /**
-     * Always present. Empty collections are returned as []. [] (Value): {@link CategoryReference}.
-     * A reference to a product category by ID, handle, and name.
-     */
-    "categories": Array<CategoryReference>;
-    /**
-     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * The product's default variant, when one is set. A specific purchasable version of a product.
-     */
-    "default_variant"?: ProductVariant;
-    /**
-     * Identifier of the variant chosen as this product's default, when one is set. Example:
-     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "default_variant_id"?: string;
-    /**
-     * Delivery readiness aggregated across the product's non-archived variants. Value enum:
-     * "configured", "action_required", "not_applicable".
-     */
-    "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-    /** Description of the product shown to buyers. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Images attached to this resource, in display order. The first image is primary. [] (Value):
-     * {@link ImageAttachment}. An image attached to a resource, with its display properties and
-     * attachment metadata.
-     */
-    "images": Array<ImageAttachment>;
-    /** Whether the product is active and has at least one active variant. */
-    "is_available_for_sale"?: boolean;
-    /**
-     * On product list rows, the first non-archived variant by position, then variant_id, that
-     * matches all exact variant filters. Without exact variant filters, identifies the first
-     * variant whose SKU matches query. Omitted when no variant matches; a product name or
-     * description match alone does not set it. Page the product's variants to find all matches. A
-     * single variant witness on product list rows only. With exact variant filters, the first
-     * variant by position, then variant_id, satisfying every exact predicate. Otherwise, the first
-     * variant in that order whose SKU matches query. Use the paginated nested variant list to
-     * enumerate every match.
-     */
-    "matched_variant"?: ProductVariantMatch;
-    /**
-     * Identifier of the merchant that owns this resource. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-     */
-    "merchant_id"?: string;
-    /**
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Attached modifier set, included when expand=modifier_set is requested. Requires
-     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
-     * includes `modifier_set`; `null` when expanded and there is no related modifier set. anyOf[1]
-     * (Value): {@link ModifierSet}. A reusable collection of customization groups. anyOf[2]
-     * (Value): null.
-     */
-    "modifier_set"?: ((ModifierSet) | (null));
-    /**
-     * Attached modifier set. Send null on update to remove it. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     */
-    "modifier_set_id": string | null;
-    /** Product name shown to buyers. */
-    "name": string;
-    /** Number of active options belonging to the product. Format: int32. */
-    "option_count"?: number;
-    /**
-     * Product options and their non-archived values. Empty when the product has no options. []
-     * (Value): {@link ProductOption}. A choice that defines a product's variants.
-     */
-    "options": Array<ProductOption>;
-    /**
-     * Lowest and highest base unit prices among active variants, before any quantity price breaks.
-     * Omitted when there are no active variants or their currencies differ. The lowest and highest
-     * unit prices across a product's variants.
-     */
-    "price_range"?: ProductPriceRange;
-    /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
-    "product_id": string;
-    /**
-     * Kind of goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-    /**
-     * Product lifecycle status. Archived products remain readable and cannot be edited. Value
-     * enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /** Number of non-archived variants belonging to the product. Format: int32. */
-    "variant_count"?: number;
-    /**
-     * The product's complete non-archived variants, ordered by `position` and then `variant_id`.
-     * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
-     * archived product returns an empty array. [] (Value): {@link ProductVariant}. A specific
-     * purchasable version of a product.
-     */
-    "variants"?: Array<ProductVariant>;
-    /**
-     * Current resource version. Send it as expected_version to reject a write if the resource has
-     * changed. Format: uint64. minimum: 0.
-     */
-    "version": number;
-};
-export type ProductArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "active_variant_count"?: number;
-            "categories": Array<CategoryReference>;
-            "created_at"?: string;
-            "default_variant"?: ProductVariant;
-            "default_variant_id"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale"?: boolean;
-            "matched_variant"?: ProductVariantMatch;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "option_count"?: number;
-            "options": Array<ProductOption>;
-            "price_range"?: ProductPriceRange;
-            "product_id": string;
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "variant_count"?: number;
-            "variants"?: Array<ProductVariant>;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Product>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "product.archived";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "active_variant_count"?: number;
-            "categories": Array<CategoryReference>;
-            "created_at"?: string;
-            "default_variant"?: ProductVariant;
-            "default_variant_id"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale"?: boolean;
-            "matched_variant"?: ProductVariantMatch;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "option_count"?: number;
-            "options": Array<ProductOption>;
-            "price_range"?: ProductPriceRange;
-            "product_id": string;
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "variant_count"?: number;
-            "variants"?: Array<ProductVariant>;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Product>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "product.archived";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "product.archived";
-});
-/**
- * The `product.archived` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ProductArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `variants`, `matched_variant`, `modifier_set`. object.active_variant_count
-     * (Optional): integer. Number of active variants belonging to the product. Format: int32.
-     * object.categories (Required): Array of {@link CategoryReference}. Always present. Empty
-     * collections are returned as []. object.categories[] (Value): {@link CategoryReference}. A
-     * reference to a product category by ID, handle, and name. object.created_at (Optional):
-     * string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.default_variant (Optional): {@link ProductVariant}. The
-     * product's default variant, when one is set. A specific purchasable version of a product.
-     * object.default_variant_id (Optional): string. Identifier of the variant chosen as this
-     * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     * object.delivery_configuration_status (Required): string. Delivery readiness aggregated
-     * across the product's non-archived variants. Value enum: "configured", "action_required",
-     * "not_applicable". object.description (Optional): string. Description of the product shown to
-     * buyers. object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.images
-     * (Required): Array of {@link ImageAttachment}. Images attached to this resource, in display
-     * order. The first image is primary. object.images[] (Value): {@link ImageAttachment}. An
-     * image attached to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Optional): boolean. Whether the product is active and has at
-     * least one active variant. object.matched_variant (Optional): {@link ProductVariantMatch}. On
-     * product list rows, the first non-archived variant by position, then variant_id, that matches
-     * all exact variant filters. Without exact variant filters, identifies the first variant whose
-     * SKU matches query. Omitted when no variant matches; a product name or description match
-     * alone does not set it. Page the product's variants to find all matches. A single variant
-     * witness on product list rows only. With exact variant filters, the first variant by
-     * position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in
-     * that order whose SKU matches query. Use the paginated nested variant list to enumerate every
-     * match. object.merchant_id (Optional): string. Identifier of the merchant that owns this
-     * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null.
-     * Attached modifier set, included when expand=modifier_set is requested. Requires
-     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
-     * includes `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Product name shown
-     * to buyers. object.option_count (Optional): integer. Number of active options belonging to
-     * the product. Format: int32. object.options (Required): Array of {@link ProductOption}.
-     * Product options and their non-archived values. Empty when the product has no options.
-     * object.options[] (Value): {@link ProductOption}. A choice that defines a product's variants.
-     * object.price_range (Optional): {@link ProductPriceRange}. Lowest and highest base unit
-     * prices among active variants, before any quantity price breaks. Omitted when there are no
-     * active variants or their currencies differ. The lowest and highest unit prices across a
-     * product's variants. object.product_id (Required): string. Stable identifier of the product.
-     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.product_type (Required): string. Kind of
-     * goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card". object.status (Required):
-     * string. Product lifecycle status. Archived products remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When
-     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.variant_count (Optional): integer. Number of non-archived
-     * variants belonging to the product. Format: int32. object.variants (Optional): Array of
-     * {@link ProductVariant}. The product's complete non-archived variants, ordered by `position`
-     * and then `variant_id`. Present when `expand=variants` is requested, and on the `POST
-     * /v1/products` response. An archived product returns an empty array. object.variants[]
-     * (Value): {@link ProductVariant}. A specific purchasable version of a product. object.version
-     * (Required): integer. Current resource version. Send it as expected_version to reject a write
-     * if the resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
-         * `matched_variant`, `modifier_set`. active_variant_count (Optional): integer. Number of
-         * active variants belonging to the product. Format: int32. categories (Required): Array of
-         * {@link CategoryReference}. Always present. Empty collections are returned as [].
-         * categories[] (Value): {@link CategoryReference}. A reference to a product category by
-         * ID, handle, and name. created_at (Optional): string. When this resource was created, as
-         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * default_variant (Optional): {@link ProductVariant}. The product's default variant, when
-         * one is set. A specific purchasable version of a product. default_variant_id (Optional):
-         * string. Identifier of the variant chosen as this product's default, when one is set.
-         * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". delivery_configuration_status (Required):
-         * string. Delivery readiness aggregated across the product's non-archived variants. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the product shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Optional): boolean. Whether
-         * the product is active and has at least one active variant. matched_variant (Optional):
-         * {@link ProductVariantMatch}. On product list rows, the first non-archived variant by
-         * position, then variant_id, that matches all exact variant filters. Without exact variant
-         * filters, identifies the first variant whose SKU matches query. Omitted when no variant
-         * matches; a product name or description match alone does not set it. Page the product's
-         * variants to find all matches. A single variant witness on product list rows only. With
-         * exact variant filters, the first variant by position, then variant_id, satisfying every
-         * exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use
-         * the paginated nested variant list to enumerate every match. merchant_id (Optional):
-         * string. Identifier of the merchant that owns this resource. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
-         * metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_set (Optional): {@link ModifierSet} or null. Attached modifier
-         * set, included when expand=modifier_set is requested. Requires commerce.catalog.read in
-         * addition to the resource's read scope. Present only when `expand` includes
-         * `modifier_set`; `null` when expanded and there is no related modifier set.
-         * modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-         * customization groups. modifier_set.anyOf[2] (Value): null. modifier_set_id (Required):
-         * string or null. Attached modifier set. Send null on update to remove it. Example:
-         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required): string. Product name shown to buyers.
-         * option_count (Optional): integer. Number of active options belonging to the product.
-         * Format: int32. options (Required): Array of {@link ProductOption}. Product options and
-         * their non-archived values. Empty when the product has no options. options[] (Value):
-         * {@link ProductOption}. A choice that defines a product's variants. price_range
-         * (Optional): {@link ProductPriceRange}. Lowest and highest base unit prices among active
-         * variants, before any quantity price breaks. Omitted when there are no active variants or
-         * their currencies differ. The lowest and highest unit prices across a product's variants.
-         * product_id (Required): string. Stable identifier of the product. Example:
-         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_type (Required): string. Kind of goods or
-         * service this product represents. New variants of digital products store digital_goods
-         * when line_item_tax_category is omitted; explicit categories are preserved. Value enum:
-         * "physical", "service", "fee", "digital", "gift_card". status (Required): string. Product
-         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
-         * "active", "inactive", "archived". updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * variant_count (Optional): integer. Number of non-archived variants belonging to the
-         * product. Format: int32. variants (Optional): Array of {@link ProductVariant}. The
-         * product's complete non-archived variants, ordered by `position` and then `variant_id`.
-         * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
-         * archived product returns an empty array. variants[] (Value): {@link ProductVariant}. A
-         * specific purchasable version of a product. version (Required): integer. Current resource
-         * version. Send it as expected_version to reject a write if the resource has changed.
-         * Format: uint64. minimum: 0.
-         */
-        "object": {
-            /** Number of active variants belonging to the product. Format: int32. */
-            "active_variant_count"?: number;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * The product's default variant, when one is set. A specific purchasable version of a
-             * product.
-             */
-            "default_variant"?: ProductVariant;
-            /**
-             * Identifier of the variant chosen as this product's default, when one is set.
-             * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-             */
-            "default_variant_id"?: string;
-            /**
-             * Delivery readiness aggregated across the product's non-archived variants. Value
-             * enum: "configured", "action_required", "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the product shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /** Whether the product is active and has at least one active variant. */
-            "is_available_for_sale"?: boolean;
-            /**
-             * On product list rows, the first non-archived variant by position, then variant_id,
-             * that matches all exact variant filters. Without exact variant filters, identifies
-             * the first variant whose SKU matches query. Omitted when no variant matches; a
-             * product name or description match alone does not set it. Page the product's variants
-             * to find all matches. A single variant witness on product list rows only. With exact
-             * variant filters, the first variant by position, then variant_id, satisfying every
-             * exact predicate. Otherwise, the first variant in that order whose SKU matches query.
-             * Use the paginated nested variant list to enumerate every match.
-             */
-            "matched_variant"?: ProductVariantMatch;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Product name shown to buyers. */
-            "name": string;
-            /** Number of active options belonging to the product. Format: int32. */
-            "option_count"?: number;
-            /**
-             * Product options and their non-archived values. Empty when the product has no
-             * options. [] (Value): {@link ProductOption}. A choice that defines a product's
-             * variants.
-             */
-            "options": Array<ProductOption>;
-            /**
-             * Lowest and highest base unit prices among active variants, before any quantity price
-             * breaks. Omitted when there are no active variants or their currencies differ. The
-             * lowest and highest unit prices across a product's variants.
-             */
-            "price_range"?: ProductPriceRange;
-            /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
-            "product_id": string;
-            /**
-             * Kind of goods or service this product represents. New variants of digital products
-             * store digital_goods when line_item_tax_category is omitted; explicit categories are
-             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
-             */
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            /**
-             * Product lifecycle status. Archived products remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of non-archived variants belonging to the product. Format: int32. */
-            "variant_count"?: number;
-            /**
-             * The product's complete non-archived variants, ordered by `position` and then
-             * `variant_id`. Present when `expand=variants` is requested, and on the `POST
-             * /v1/products` response. An archived product returns an empty array. [] (Value):
-             * {@link ProductVariant}. A specific purchasable version of a product.
-             */
-            "variants"?: Array<ProductVariant>;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Product>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "product.archived". */
-    "event_type"?: "product.archived";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `product.archived` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type ProductArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `variants`, `matched_variant`, `modifier_set`. object.active_variant_count
-     * (Optional): integer. Number of active variants belonging to the product. Format: int32.
-     * object.categories (Required): Array of {@link CategoryReference}. Always present. Empty
-     * collections are returned as []. object.categories[] (Value): {@link CategoryReference}. A
-     * reference to a product category by ID, handle, and name. object.created_at (Optional):
-     * string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.default_variant (Optional): {@link ProductVariant}. The
-     * product's default variant, when one is set. A specific purchasable version of a product.
-     * object.default_variant_id (Optional): string. Identifier of the variant chosen as this
-     * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     * object.delivery_configuration_status (Required): string. Delivery readiness aggregated
-     * across the product's non-archived variants. Value enum: "configured", "action_required",
-     * "not_applicable". object.description (Optional): string. Description of the product shown to
-     * buyers. object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.images
-     * (Required): Array of {@link ImageAttachment}. Images attached to this resource, in display
-     * order. The first image is primary. object.images[] (Value): {@link ImageAttachment}. An
-     * image attached to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Optional): boolean. Whether the product is active and has at
-     * least one active variant. object.matched_variant (Optional): {@link ProductVariantMatch}. On
-     * product list rows, the first non-archived variant by position, then variant_id, that matches
-     * all exact variant filters. Without exact variant filters, identifies the first variant whose
-     * SKU matches query. Omitted when no variant matches; a product name or description match
-     * alone does not set it. Page the product's variants to find all matches. A single variant
-     * witness on product list rows only. With exact variant filters, the first variant by
-     * position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in
-     * that order whose SKU matches query. Use the paginated nested variant list to enumerate every
-     * match. object.merchant_id (Optional): string. Identifier of the merchant that owns this
-     * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null.
-     * Attached modifier set, included when expand=modifier_set is requested. Requires
-     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
-     * includes `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Product name shown
-     * to buyers. object.option_count (Optional): integer. Number of active options belonging to
-     * the product. Format: int32. object.options (Required): Array of {@link ProductOption}.
-     * Product options and their non-archived values. Empty when the product has no options.
-     * object.options[] (Value): {@link ProductOption}. A choice that defines a product's variants.
-     * object.price_range (Optional): {@link ProductPriceRange}. Lowest and highest base unit
-     * prices among active variants, before any quantity price breaks. Omitted when there are no
-     * active variants or their currencies differ. The lowest and highest unit prices across a
-     * product's variants. object.product_id (Required): string. Stable identifier of the product.
-     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.product_type (Required): string. Kind of
-     * goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card". object.status (Required):
-     * string. Product lifecycle status. Archived products remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When
-     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.variant_count (Optional): integer. Number of non-archived
-     * variants belonging to the product. Format: int32. object.variants (Optional): Array of
-     * {@link ProductVariant}. The product's complete non-archived variants, ordered by `position`
-     * and then `variant_id`. Present when `expand=variants` is requested, and on the `POST
-     * /v1/products` response. An archived product returns an empty array. object.variants[]
-     * (Value): {@link ProductVariant}. A specific purchasable version of a product. object.version
-     * (Required): integer. Current resource version. Send it as expected_version to reject a write
-     * if the resource has changed. Format: uint64. minimum: 0. previous_attributes (Optional):
-     * object. Previous values of changed top-level fields in data.object, at this delivery's API
-     * version. Nested changes include the whole previous top-level value. A value is null when the
-     * field was absent before the change. Omitted when Flint did not record the previous state,
-     * including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
-         * `matched_variant`, `modifier_set`. active_variant_count (Optional): integer. Number of
-         * active variants belonging to the product. Format: int32. categories (Required): Array of
-         * {@link CategoryReference}. Always present. Empty collections are returned as [].
-         * categories[] (Value): {@link CategoryReference}. A reference to a product category by
-         * ID, handle, and name. created_at (Optional): string. When this resource was created, as
-         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * default_variant (Optional): {@link ProductVariant}. The product's default variant, when
-         * one is set. A specific purchasable version of a product. default_variant_id (Optional):
-         * string. Identifier of the variant chosen as this product's default, when one is set.
-         * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". delivery_configuration_status (Required):
-         * string. Delivery readiness aggregated across the product's non-archived variants. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the product shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Optional): boolean. Whether
-         * the product is active and has at least one active variant. matched_variant (Optional):
-         * {@link ProductVariantMatch}. On product list rows, the first non-archived variant by
-         * position, then variant_id, that matches all exact variant filters. Without exact variant
-         * filters, identifies the first variant whose SKU matches query. Omitted when no variant
-         * matches; a product name or description match alone does not set it. Page the product's
-         * variants to find all matches. A single variant witness on product list rows only. With
-         * exact variant filters, the first variant by position, then variant_id, satisfying every
-         * exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use
-         * the paginated nested variant list to enumerate every match. merchant_id (Optional):
-         * string. Identifier of the merchant that owns this resource. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
-         * metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_set (Optional): {@link ModifierSet} or null. Attached modifier
-         * set, included when expand=modifier_set is requested. Requires commerce.catalog.read in
-         * addition to the resource's read scope. Present only when `expand` includes
-         * `modifier_set`; `null` when expanded and there is no related modifier set.
-         * modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-         * customization groups. modifier_set.anyOf[2] (Value): null. modifier_set_id (Required):
-         * string or null. Attached modifier set. Send null on update to remove it. Example:
-         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required): string. Product name shown to buyers.
-         * option_count (Optional): integer. Number of active options belonging to the product.
-         * Format: int32. options (Required): Array of {@link ProductOption}. Product options and
-         * their non-archived values. Empty when the product has no options. options[] (Value):
-         * {@link ProductOption}. A choice that defines a product's variants. price_range
-         * (Optional): {@link ProductPriceRange}. Lowest and highest base unit prices among active
-         * variants, before any quantity price breaks. Omitted when there are no active variants or
-         * their currencies differ. The lowest and highest unit prices across a product's variants.
-         * product_id (Required): string. Stable identifier of the product. Example:
-         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_type (Required): string. Kind of goods or
-         * service this product represents. New variants of digital products store digital_goods
-         * when line_item_tax_category is omitted; explicit categories are preserved. Value enum:
-         * "physical", "service", "fee", "digital", "gift_card". status (Required): string. Product
-         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
-         * "active", "inactive", "archived". updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * variant_count (Optional): integer. Number of non-archived variants belonging to the
-         * product. Format: int32. variants (Optional): Array of {@link ProductVariant}. The
-         * product's complete non-archived variants, ordered by `position` and then `variant_id`.
-         * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
-         * archived product returns an empty array. variants[] (Value): {@link ProductVariant}. A
-         * specific purchasable version of a product. version (Required): integer. Current resource
-         * version. Send it as expected_version to reject a write if the resource has changed.
-         * Format: uint64. minimum: 0.
-         */
-        "object": {
-            /** Number of active variants belonging to the product. Format: int32. */
-            "active_variant_count"?: number;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * The product's default variant, when one is set. A specific purchasable version of a
-             * product.
-             */
-            "default_variant"?: ProductVariant;
-            /**
-             * Identifier of the variant chosen as this product's default, when one is set.
-             * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-             */
-            "default_variant_id"?: string;
-            /**
-             * Delivery readiness aggregated across the product's non-archived variants. Value
-             * enum: "configured", "action_required", "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the product shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /** Whether the product is active and has at least one active variant. */
-            "is_available_for_sale"?: boolean;
-            /**
-             * On product list rows, the first non-archived variant by position, then variant_id,
-             * that matches all exact variant filters. Without exact variant filters, identifies
-             * the first variant whose SKU matches query. Omitted when no variant matches; a
-             * product name or description match alone does not set it. Page the product's variants
-             * to find all matches. A single variant witness on product list rows only. With exact
-             * variant filters, the first variant by position, then variant_id, satisfying every
-             * exact predicate. Otherwise, the first variant in that order whose SKU matches query.
-             * Use the paginated nested variant list to enumerate every match.
-             */
-            "matched_variant"?: ProductVariantMatch;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Product name shown to buyers. */
-            "name": string;
-            /** Number of active options belonging to the product. Format: int32. */
-            "option_count"?: number;
-            /**
-             * Product options and their non-archived values. Empty when the product has no
-             * options. [] (Value): {@link ProductOption}. A choice that defines a product's
-             * variants.
-             */
-            "options": Array<ProductOption>;
-            /**
-             * Lowest and highest base unit prices among active variants, before any quantity price
-             * breaks. Omitted when there are no active variants or their currencies differ. The
-             * lowest and highest unit prices across a product's variants.
-             */
-            "price_range"?: ProductPriceRange;
-            /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
-            "product_id": string;
-            /**
-             * Kind of goods or service this product represents. New variants of digital products
-             * store digital_goods when line_item_tax_category is omitted; explicit categories are
-             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
-             */
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            /**
-             * Product lifecycle status. Archived products remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of non-archived variants belonging to the product. Format: int32. */
-            "variant_count"?: number;
-            /**
-             * The product's complete non-archived variants, ordered by `position` and then
-             * `variant_id`. Present when `expand=variants` is requested, and on the `POST
-             * /v1/products` response. An archived product returns an empty array. [] (Value):
-             * {@link ProductVariant}. A specific purchasable version of a product.
-             */
-            "variants"?: Array<ProductVariant>;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Product>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "product.archived". */
-    "event_type"?: "product.archived";
-});
-export type ProductCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "active_variant_count"?: number;
-            "categories": Array<CategoryReference>;
-            "created_at"?: string;
-            "default_variant"?: ProductVariant;
-            "default_variant_id"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale"?: boolean;
-            "matched_variant"?: ProductVariantMatch;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "option_count"?: number;
-            "options": Array<ProductOption>;
-            "price_range"?: ProductPriceRange;
-            "product_id": string;
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "variant_count"?: number;
-            "variants"?: Array<ProductVariant>;
-            "version": number;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "product.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "active_variant_count"?: number;
-            "categories": Array<CategoryReference>;
-            "created_at"?: string;
-            "default_variant"?: ProductVariant;
-            "default_variant_id"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale"?: boolean;
-            "matched_variant"?: ProductVariantMatch;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "option_count"?: number;
-            "options": Array<ProductOption>;
-            "price_range"?: ProductPriceRange;
-            "product_id": string;
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "variant_count"?: number;
-            "variants"?: Array<ProductVariant>;
-            "version": number;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "product.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "product.created";
-});
-/**
- * The `product.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type ProductCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `variants`, `matched_variant`, `modifier_set`. object.active_variant_count
-     * (Optional): integer. Number of active variants belonging to the product. Format: int32.
-     * object.categories (Required): Array of {@link CategoryReference}. Always present. Empty
-     * collections are returned as []. object.categories[] (Value): {@link CategoryReference}. A
-     * reference to a product category by ID, handle, and name. object.created_at (Optional):
-     * string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.default_variant (Optional): {@link ProductVariant}. The
-     * product's default variant, when one is set. A specific purchasable version of a product.
-     * object.default_variant_id (Optional): string. Identifier of the variant chosen as this
-     * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     * object.delivery_configuration_status (Required): string. Delivery readiness aggregated
-     * across the product's non-archived variants. Value enum: "configured", "action_required",
-     * "not_applicable". object.description (Optional): string. Description of the product shown to
-     * buyers. object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.images
-     * (Required): Array of {@link ImageAttachment}. Images attached to this resource, in display
-     * order. The first image is primary. object.images[] (Value): {@link ImageAttachment}. An
-     * image attached to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Optional): boolean. Whether the product is active and has at
-     * least one active variant. object.matched_variant (Optional): {@link ProductVariantMatch}. On
-     * product list rows, the first non-archived variant by position, then variant_id, that matches
-     * all exact variant filters. Without exact variant filters, identifies the first variant whose
-     * SKU matches query. Omitted when no variant matches; a product name or description match
-     * alone does not set it. Page the product's variants to find all matches. A single variant
-     * witness on product list rows only. With exact variant filters, the first variant by
-     * position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in
-     * that order whose SKU matches query. Use the paginated nested variant list to enumerate every
-     * match. object.merchant_id (Optional): string. Identifier of the merchant that owns this
-     * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null.
-     * Attached modifier set, included when expand=modifier_set is requested. Requires
-     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
-     * includes `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Product name shown
-     * to buyers. object.option_count (Optional): integer. Number of active options belonging to
-     * the product. Format: int32. object.options (Required): Array of {@link ProductOption}.
-     * Product options and their non-archived values. Empty when the product has no options.
-     * object.options[] (Value): {@link ProductOption}. A choice that defines a product's variants.
-     * object.price_range (Optional): {@link ProductPriceRange}. Lowest and highest base unit
-     * prices among active variants, before any quantity price breaks. Omitted when there are no
-     * active variants or their currencies differ. The lowest and highest unit prices across a
-     * product's variants. object.product_id (Required): string. Stable identifier of the product.
-     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.product_type (Required): string. Kind of
-     * goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card". object.status (Required):
-     * string. Product lifecycle status. Archived products remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When
-     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.variant_count (Optional): integer. Number of non-archived
-     * variants belonging to the product. Format: int32. object.variants (Optional): Array of
-     * {@link ProductVariant}. The product's complete non-archived variants, ordered by `position`
-     * and then `variant_id`. Present when `expand=variants` is requested, and on the `POST
-     * /v1/products` response. An archived product returns an empty array. object.variants[]
-     * (Value): {@link ProductVariant}. A specific purchasable version of a product. object.version
-     * (Required): integer. Current resource version. Send it as expected_version to reject a write
-     * if the resource has changed. Format: uint64. minimum: 0.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
-         * `matched_variant`, `modifier_set`. active_variant_count (Optional): integer. Number of
-         * active variants belonging to the product. Format: int32. categories (Required): Array of
-         * {@link CategoryReference}. Always present. Empty collections are returned as [].
-         * categories[] (Value): {@link CategoryReference}. A reference to a product category by
-         * ID, handle, and name. created_at (Optional): string. When this resource was created, as
-         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * default_variant (Optional): {@link ProductVariant}. The product's default variant, when
-         * one is set. A specific purchasable version of a product. default_variant_id (Optional):
-         * string. Identifier of the variant chosen as this product's default, when one is set.
-         * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". delivery_configuration_status (Required):
-         * string. Delivery readiness aggregated across the product's non-archived variants. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the product shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Optional): boolean. Whether
-         * the product is active and has at least one active variant. matched_variant (Optional):
-         * {@link ProductVariantMatch}. On product list rows, the first non-archived variant by
-         * position, then variant_id, that matches all exact variant filters. Without exact variant
-         * filters, identifies the first variant whose SKU matches query. Omitted when no variant
-         * matches; a product name or description match alone does not set it. Page the product's
-         * variants to find all matches. A single variant witness on product list rows only. With
-         * exact variant filters, the first variant by position, then variant_id, satisfying every
-         * exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use
-         * the paginated nested variant list to enumerate every match. merchant_id (Optional):
-         * string. Identifier of the merchant that owns this resource. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
-         * metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_set (Optional): {@link ModifierSet} or null. Attached modifier
-         * set, included when expand=modifier_set is requested. Requires commerce.catalog.read in
-         * addition to the resource's read scope. Present only when `expand` includes
-         * `modifier_set`; `null` when expanded and there is no related modifier set.
-         * modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-         * customization groups. modifier_set.anyOf[2] (Value): null. modifier_set_id (Required):
-         * string or null. Attached modifier set. Send null on update to remove it. Example:
-         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required): string. Product name shown to buyers.
-         * option_count (Optional): integer. Number of active options belonging to the product.
-         * Format: int32. options (Required): Array of {@link ProductOption}. Product options and
-         * their non-archived values. Empty when the product has no options. options[] (Value):
-         * {@link ProductOption}. A choice that defines a product's variants. price_range
-         * (Optional): {@link ProductPriceRange}. Lowest and highest base unit prices among active
-         * variants, before any quantity price breaks. Omitted when there are no active variants or
-         * their currencies differ. The lowest and highest unit prices across a product's variants.
-         * product_id (Required): string. Stable identifier of the product. Example:
-         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_type (Required): string. Kind of goods or
-         * service this product represents. New variants of digital products store digital_goods
-         * when line_item_tax_category is omitted; explicit categories are preserved. Value enum:
-         * "physical", "service", "fee", "digital", "gift_card". status (Required): string. Product
-         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
-         * "active", "inactive", "archived". updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * variant_count (Optional): integer. Number of non-archived variants belonging to the
-         * product. Format: int32. variants (Optional): Array of {@link ProductVariant}. The
-         * product's complete non-archived variants, ordered by `position` and then `variant_id`.
-         * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
-         * archived product returns an empty array. variants[] (Value): {@link ProductVariant}. A
-         * specific purchasable version of a product. version (Required): integer. Current resource
-         * version. Send it as expected_version to reject a write if the resource has changed.
-         * Format: uint64. minimum: 0.
-         */
-        "object": {
-            /** Number of active variants belonging to the product. Format: int32. */
-            "active_variant_count"?: number;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * The product's default variant, when one is set. A specific purchasable version of a
-             * product.
-             */
-            "default_variant"?: ProductVariant;
-            /**
-             * Identifier of the variant chosen as this product's default, when one is set.
-             * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-             */
-            "default_variant_id"?: string;
-            /**
-             * Delivery readiness aggregated across the product's non-archived variants. Value
-             * enum: "configured", "action_required", "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the product shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /** Whether the product is active and has at least one active variant. */
-            "is_available_for_sale"?: boolean;
-            /**
-             * On product list rows, the first non-archived variant by position, then variant_id,
-             * that matches all exact variant filters. Without exact variant filters, identifies
-             * the first variant whose SKU matches query. Omitted when no variant matches; a
-             * product name or description match alone does not set it. Page the product's variants
-             * to find all matches. A single variant witness on product list rows only. With exact
-             * variant filters, the first variant by position, then variant_id, satisfying every
-             * exact predicate. Otherwise, the first variant in that order whose SKU matches query.
-             * Use the paginated nested variant list to enumerate every match.
-             */
-            "matched_variant"?: ProductVariantMatch;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Product name shown to buyers. */
-            "name": string;
-            /** Number of active options belonging to the product. Format: int32. */
-            "option_count"?: number;
-            /**
-             * Product options and their non-archived values. Empty when the product has no
-             * options. [] (Value): {@link ProductOption}. A choice that defines a product's
-             * variants.
-             */
-            "options": Array<ProductOption>;
-            /**
-             * Lowest and highest base unit prices among active variants, before any quantity price
-             * breaks. Omitted when there are no active variants or their currencies differ. The
-             * lowest and highest unit prices across a product's variants.
-             */
-            "price_range"?: ProductPriceRange;
-            /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
-            "product_id": string;
-            /**
-             * Kind of goods or service this product represents. New variants of digital products
-             * store digital_goods when line_item_tax_category is omitted; explicit categories are
-             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
-             */
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            /**
-             * Product lifecycle status. Archived products remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of non-archived variants belonging to the product. Format: int32. */
-            "variant_count"?: number;
-            /**
-             * The product's complete non-archived variants, ordered by `position` and then
-             * `variant_id`. Present when `expand=variants` is requested, and on the `POST
-             * /v1/products` response. An archived product returns an empty array. [] (Value):
-             * {@link ProductVariant}. A specific purchasable version of a product.
-             */
-            "variants"?: Array<ProductVariant>;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "product.created". */
-    "event_type"?: "product.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `product.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type ProductCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `variants`, `matched_variant`, `modifier_set`. object.active_variant_count
-     * (Optional): integer. Number of active variants belonging to the product. Format: int32.
-     * object.categories (Required): Array of {@link CategoryReference}. Always present. Empty
-     * collections are returned as []. object.categories[] (Value): {@link CategoryReference}. A
-     * reference to a product category by ID, handle, and name. object.created_at (Optional):
-     * string. When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.default_variant (Optional): {@link ProductVariant}. The
-     * product's default variant, when one is set. A specific purchasable version of a product.
-     * object.default_variant_id (Optional): string. Identifier of the variant chosen as this
-     * product's default, when one is set. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     * object.delivery_configuration_status (Required): string. Delivery readiness aggregated
-     * across the product's non-archived variants. Value enum: "configured", "action_required",
-     * "not_applicable". object.description (Optional): string. Description of the product shown to
-     * buyers. object.external_reference_id (Optional): string. Caller-owned identifier for this
-     * resource in an external system. maxLength: 255. Example: "warehouse-1842". object.images
-     * (Required): Array of {@link ImageAttachment}. Images attached to this resource, in display
-     * order. The first image is primary. object.images[] (Value): {@link ImageAttachment}. An
-     * image attached to a resource, with its display properties and attachment metadata.
-     * object.is_available_for_sale (Optional): boolean. Whether the product is active and has at
-     * least one active variant. object.matched_variant (Optional): {@link ProductVariantMatch}. On
-     * product list rows, the first non-archived variant by position, then variant_id, that matches
-     * all exact variant filters. Without exact variant filters, identifies the first variant whose
-     * SKU matches query. Omitted when no variant matches; a product name or description match
-     * alone does not set it. Page the product's variants to find all matches. A single variant
-     * witness on product list rows only. With exact variant filters, the first variant by
-     * position, then variant_id, satisfying every exact predicate. Otherwise, the first variant in
-     * that order whose SKU matches query. Use the paginated nested variant list to enumerate every
-     * match. object.merchant_id (Optional): string. Identifier of the merchant that owns this
-     * resource. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link
-     * MetadataMap}. Caller-owned metadata stored on this resource. Caller-owned key-value data
-     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-     * limits may not satisfy them. object.modifier_set (Optional): {@link ModifierSet} or null.
-     * Attached modifier set, included when expand=modifier_set is requested. Requires
-     * commerce.catalog.read in addition to the resource's read scope. Present only when `expand`
-     * includes `modifier_set`; `null` when expanded and there is no related modifier set.
-     * object.modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-     * customization groups. object.modifier_set.anyOf[2] (Value): null. object.modifier_set_id
-     * (Required): string or null. Attached modifier set. Send null on update to remove it.
-     * Example: "ms_01KEZF7C007EWZVVFAWVJJM8NR". object.name (Required): string. Product name shown
-     * to buyers. object.option_count (Optional): integer. Number of active options belonging to
-     * the product. Format: int32. object.options (Required): Array of {@link ProductOption}.
-     * Product options and their non-archived values. Empty when the product has no options.
-     * object.options[] (Value): {@link ProductOption}. A choice that defines a product's variants.
-     * object.price_range (Optional): {@link ProductPriceRange}. Lowest and highest base unit
-     * prices among active variants, before any quantity price breaks. Omitted when there are no
-     * active variants or their currencies differ. The lowest and highest unit prices across a
-     * product's variants. object.product_id (Required): string. Stable identifier of the product.
-     * Example: "prod_01KEZF7C00BVSHCNWVH528HB66". object.product_type (Required): string. Kind of
-     * goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card". object.status (Required):
-     * string. Product lifecycle status. Archived products remain readable and cannot be edited.
-     * Value enum: "active", "inactive", "archived". object.updated_at (Optional): string. When
-     * this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.variant_count (Optional): integer. Number of non-archived
-     * variants belonging to the product. Format: int32. object.variants (Optional): Array of
-     * {@link ProductVariant}. The product's complete non-archived variants, ordered by `position`
-     * and then `variant_id`. Present when `expand=variants` is requested, and on the `POST
-     * /v1/products` response. An archived product returns an empty array. object.variants[]
-     * (Value): {@link ProductVariant}. A specific purchasable version of a product. object.version
-     * (Required): integer. Current resource version. Send it as expected_version to reject a write
-     * if the resource has changed. Format: uint64. minimum: 0.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `variants`,
-         * `matched_variant`, `modifier_set`. active_variant_count (Optional): integer. Number of
-         * active variants belonging to the product. Format: int32. categories (Required): Array of
-         * {@link CategoryReference}. Always present. Empty collections are returned as [].
-         * categories[] (Value): {@link CategoryReference}. A reference to a product category by
-         * ID, handle, and name. created_at (Optional): string. When this resource was created, as
-         * an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * default_variant (Optional): {@link ProductVariant}. The product's default variant, when
-         * one is set. A specific purchasable version of a product. default_variant_id (Optional):
-         * string. Identifier of the variant chosen as this product's default, when one is set.
-         * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". delivery_configuration_status (Required):
-         * string. Delivery readiness aggregated across the product's non-archived variants. Value
-         * enum: "configured", "action_required", "not_applicable". description (Optional): string.
-         * Description of the product shown to buyers. external_reference_id (Optional): string.
-         * Caller-owned identifier for this resource in an external system. maxLength: 255.
-         * Example: "warehouse-1842". images (Required): Array of {@link ImageAttachment}. Images
-         * attached to this resource, in display order. The first image is primary. images[]
-         * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-         * properties and attachment metadata. is_available_for_sale (Optional): boolean. Whether
-         * the product is active and has at least one active variant. matched_variant (Optional):
-         * {@link ProductVariantMatch}. On product list rows, the first non-archived variant by
-         * position, then variant_id, that matches all exact variant filters. Without exact variant
-         * filters, identifies the first variant whose SKU matches query. Omitted when no variant
-         * matches; a product name or description match alone does not set it. Page the product's
-         * variants to find all matches. A single variant witness on product list rows only. With
-         * exact variant filters, the first variant by position, then variant_id, satisfying every
-         * exact predicate. Otherwise, the first variant in that order whose SKU matches query. Use
-         * the paginated nested variant list to enumerate every match. merchant_id (Optional):
-         * string. Identifier of the merchant that owns this resource. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
-         * metadata stored on this resource. Caller-owned key-value data stored on a resource. Keys
-         * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. modifier_set (Optional): {@link ModifierSet} or null. Attached modifier
-         * set, included when expand=modifier_set is requested. Requires commerce.catalog.read in
-         * addition to the resource's read scope. Present only when `expand` includes
-         * `modifier_set`; `null` when expanded and there is no related modifier set.
-         * modifier_set.anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-         * customization groups. modifier_set.anyOf[2] (Value): null. modifier_set_id (Required):
-         * string or null. Attached modifier set. Send null on update to remove it. Example:
-         * "ms_01KEZF7C007EWZVVFAWVJJM8NR". name (Required): string. Product name shown to buyers.
-         * option_count (Optional): integer. Number of active options belonging to the product.
-         * Format: int32. options (Required): Array of {@link ProductOption}. Product options and
-         * their non-archived values. Empty when the product has no options. options[] (Value):
-         * {@link ProductOption}. A choice that defines a product's variants. price_range
-         * (Optional): {@link ProductPriceRange}. Lowest and highest base unit prices among active
-         * variants, before any quantity price breaks. Omitted when there are no active variants or
-         * their currencies differ. The lowest and highest unit prices across a product's variants.
-         * product_id (Required): string. Stable identifier of the product. Example:
-         * "prod_01KEZF7C00BVSHCNWVH528HB66". product_type (Required): string. Kind of goods or
-         * service this product represents. New variants of digital products store digital_goods
-         * when line_item_tax_category is omitted; explicit categories are preserved. Value enum:
-         * "physical", "service", "fee", "digital", "gift_card". status (Required): string. Product
-         * lifecycle status. Archived products remain readable and cannot be edited. Value enum:
-         * "active", "inactive", "archived". updated_at (Optional): string. When this resource last
-         * changed, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * variant_count (Optional): integer. Number of non-archived variants belonging to the
-         * product. Format: int32. variants (Optional): Array of {@link ProductVariant}. The
-         * product's complete non-archived variants, ordered by `position` and then `variant_id`.
-         * Present when `expand=variants` is requested, and on the `POST /v1/products` response. An
-         * archived product returns an empty array. variants[] (Value): {@link ProductVariant}. A
-         * specific purchasable version of a product. version (Required): integer. Current resource
-         * version. Send it as expected_version to reject a write if the resource has changed.
-         * Format: uint64. minimum: 0.
-         */
-        "object": {
-            /** Number of active variants belonging to the product. Format: int32. */
-            "active_variant_count"?: number;
-            /**
-             * Always present. Empty collections are returned as []. [] (Value): {@link
-             * CategoryReference}. A reference to a product category by ID, handle, and name.
-             */
-            "categories": Array<CategoryReference>;
-            /**
-             * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /**
-             * The product's default variant, when one is set. A specific purchasable version of a
-             * product.
-             */
-            "default_variant"?: ProductVariant;
-            /**
-             * Identifier of the variant chosen as this product's default, when one is set.
-             * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-             */
-            "default_variant_id"?: string;
-            /**
-             * Delivery readiness aggregated across the product's non-archived variants. Value
-             * enum: "configured", "action_required", "not_applicable".
-             */
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            /** Description of the product shown to buyers. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Images attached to this resource, in display order. The first image is primary. []
-             * (Value): {@link ImageAttachment}. An image attached to a resource, with its display
-             * properties and attachment metadata.
-             */
-            "images": Array<ImageAttachment>;
-            /** Whether the product is active and has at least one active variant. */
-            "is_available_for_sale"?: boolean;
-            /**
-             * On product list rows, the first non-archived variant by position, then variant_id,
-             * that matches all exact variant filters. Without exact variant filters, identifies
-             * the first variant whose SKU matches query. Omitted when no variant matches; a
-             * product name or description match alone does not set it. Page the product's variants
-             * to find all matches. A single variant witness on product list rows only. With exact
-             * variant filters, the first variant by position, then variant_id, satisfying every
-             * exact predicate. Otherwise, the first variant in that order whose SKU matches query.
-             * Use the paginated nested variant list to enumerate every match.
-             */
-            "matched_variant"?: ProductVariantMatch;
-            /**
-             * Identifier of the merchant that owns this resource. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on
-             * a resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Attached modifier set, included when expand=modifier_set is requested. Requires
-             * commerce.catalog.read in addition to the resource's read scope. Present only when
-             * `expand` includes `modifier_set`; `null` when expanded and there is no related
-             * modifier set. anyOf[1] (Value): {@link ModifierSet}. A reusable collection of
-             * customization groups. anyOf[2] (Value): null.
-             */
-            "modifier_set"?: ((ModifierSet) | (null));
-            /**
-             * Attached modifier set. Send null on update to remove it. Example:
-             * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-             */
-            "modifier_set_id": string | null;
-            /** Product name shown to buyers. */
-            "name": string;
-            /** Number of active options belonging to the product. Format: int32. */
-            "option_count"?: number;
-            /**
-             * Product options and their non-archived values. Empty when the product has no
-             * options. [] (Value): {@link ProductOption}. A choice that defines a product's
-             * variants.
-             */
-            "options": Array<ProductOption>;
-            /**
-             * Lowest and highest base unit prices among active variants, before any quantity price
-             * breaks. Omitted when there are no active variants or their currencies differ. The
-             * lowest and highest unit prices across a product's variants.
-             */
-            "price_range"?: ProductPriceRange;
-            /** Stable identifier of the product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
-            "product_id": string;
-            /**
-             * Kind of goods or service this product represents. New variants of digital products
-             * store digital_goods when line_item_tax_category is omitted; explicit categories are
-             * preserved. Value enum: "physical", "service", "fee", "digital", "gift_card".
-             */
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            /**
-             * Product lifecycle status. Archived products remain readable and cannot be edited.
-             * Value enum: "active", "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * When this resource last changed, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of non-archived variants belonging to the product. Format: int32. */
-            "variant_count"?: number;
-            /**
-             * The product's complete non-archived variants, ordered by `position` and then
-             * `variant_id`. Present when `expand=variants` is requested, and on the `POST
-             * /v1/products` response. An archived product returns an empty array. [] (Value):
-             * {@link ProductVariant}. A specific purchasable version of a product.
-             */
-            "variants"?: Array<ProductVariant>;
-            /**
-             * Current resource version. Send it as expected_version to reject a write if the
-             * resource has changed. Format: uint64. minimum: 0.
-             */
-            "version": number;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "product.created". */
-    "event_type"?: "product.created";
-});
-/** A page of `Product` objects. */
-export type ProductListResponse = {
-    /**
-     * The requested product data. [] (Value): {@link Product}. An item offered in the merchant's
-     * catalog.
-     */
-    "data": Array<Product>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A choice that defines a product's variants. */
-export type ProductOption = {
-    /**
-     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** Option name, such as Size or Color. */
-    "name": string;
-    /** Stable identifier of the product option. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8". */
-    "option_id": string;
-    /** Display order among the product's options, starting at zero. Format: int32. */
-    "position": number;
-    /**
-     * Identifier of the product this option belongs to. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_id": string;
-    /**
-     * Option lifecycle status. Every active variant must select an active value for each active
-     * option. Value enum: "active", "inactive", "archived".
-     */
-    "status": "active" | "inactive" | "archived" | (string & {});
-    /**
-     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
-     * {@link ProductOptionValue}. One value of a product option, such as a size or color.
-     */
-    "values"?: Array<ProductOptionValue>;
-};
-/** A page of `ProductOption` objects. */
-export type ProductOptionListResponse = {
-    /**
-     * The requested product option data. [] (Value): {@link ProductOption}. A choice that defines
-     * a product's variants.
-     */
-    "data": Array<ProductOption>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /** Token for the next page. Omitted when there are no more results. */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ProductOption` data. */
-export type ProductOptionResponse = {
-    /** The requested product option data. A choice that defines a product's variants. */
-    "data": ProductOption;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** One value of a product option, such as a size or color. */
-export type ProductOptionValue = {
-    /**
-     * When this resource was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "created_at"?: string;
-    /**
-     * Caller-owned metadata stored on this resource. Caller-owned key-value data stored on a
-     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** Stable identifier of the option value. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F". */
-    "option_value_id": string;
-    /** Display order among the option's values, starting at zero. Format: int32. */
-    "position": number;
-    /**
-     * Option value lifecycle status. Only active values can be newly selected by active variants.
-     * Value enum: "active", "inactive", "archived".
-     */
-    "status"?: "active" | "inactive" | "archived" | (string & {});
-    /**
-     * When this resource last changed, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "updated_at"?: string;
-    /** Option value shown to buyers, such as Medium. */
-    "value": string;
-};
-/** The lowest and highest unit prices across a product's variants. */
-export type ProductPriceRange = {
-    /**
-     * Highest unit price among the product's active variants. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "max_unit_price_money": MoneyValue;
-    /**
-     * Lowest unit price among the product's active variants. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "min_unit_price_money": MoneyValue;
-};
-/** A response containing `Product` data. */
-export type ProductResponse = {
-    /** The requested product data. An item offered in the merchant's catalog. */
-    "data": Product;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
-     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type ProductUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "active_variant_count"?: number;
-            "categories": Array<CategoryReference>;
-            "created_at"?: string;
-            "default_variant"?: ProductVariant;
-            "default_variant_id"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale"?: boolean;
-            "matched_variant"?: ProductVariantMatch;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "option_count"?: number;
-            "options": Array<ProductOption>;
-            "price_range"?: ProductPriceRange;
-            "product_id": string;
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "variant_count"?: number;
-            "variants"?: Array<ProductVariant>;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Product>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "product.updated";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "active_variant_count"?: number;
-            "categories": Array<CategoryReference>;
-            "created_at"?: string;
-            "default_variant"?: ProductVariant;
-            "default_variant_id"?: string;
-            "delivery_configuration_status": "configured" | "action_required" | "not_applicable" | (string & {});
-            "description"?: string;
-            "external_reference_id"?: string;
-            "images": Array<ImageAttachment>;
-            "is_available_for_sale"?: boolean;
-            "matched_variant"?: ProductVariantMatch;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "modifier_set"?: ((ModifierSet) | (null));
-            "modifier_set_id": string | null;
-            "name": string;
-            "option_count"?: number;
-            "options": Array<ProductOption>;
-            "price_range"?: ProductPriceRange;
-            "product_id": string;
-            "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "updated_at"?: string;
-            "variant_count"?: number;
-            "variants"?: Array<ProductVariant>;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Product>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "product.updated";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "product.updated";
-});

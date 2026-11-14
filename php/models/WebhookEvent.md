@@ -20,7 +20,7 @@ Response model.
 | `payload_version` | Optional | integer | Envelope payload version. Present only while the stored payload is retained. Values: `1`, `2`. |
 | `request` | Optional | [WebhookEventRequest](../models/WebhookEventRequest.md#webhookeventrequest) or null | Originating request. `null` when the event is synthetic or no originating request ID is recorded. The idempotency key is included only on an authorized detail read while the payload is retained. Omitted for partner events. |
 | `resource_id` | Optional | string | ID of the resource affected by the event. Omitted when no resource ID is attributed. |
-| `resource_type` | Optional | string | Public resource type affected by the event. Omitted when no public resource type is attributed. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Optional | string | Public resource type affected by the event. Omitted when no public resource type is attributed. Values: [154 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `sandbox_id` | Optional | string | Public sandbox ID for this event. Present exactly when mode is test; omitted in live mode. |
 | `source` | Optional | [WebhookEventSource](../models/WebhookEventSource.md#webhookeventsource) | Partner envelope source. Present only for partner events while the stored payload is retained. The merchant and partner app install the event concerns. Environment fields are present for installed-merchant events. `source`: [field definitions](../models/WebhookEventResponse.md#webhookeventresponsedatasource). |
 | `test` | Required | boolean | Whether this is a synthetic event created to test an endpoint; independent of live or test mode. |

@@ -17,7 +17,7 @@ One entry in a return's activity history.
 | `reason` | Optional | string | The reason given for the action. When Flint records a failed effect, the failure code, such as `refund_creation_failed`. Values: [54 declared values](#returnactivity-reason-values). |
 | `reason_message` | Optional | string | Free text given with the reason, or the failure message for a failed effect. Can hold staff notes, so only merchant credentials can read it. |
 | `resource_id` | Required | string | The ID of the Return or child resource the activity touched, whose type is `resource_type`. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
-| `resource_type` | Required | string | Type of the resource that changed: the part of `activity_type` before the dot. Example: `"return"`. Values: [153 declared values](APIRequestLog.md#apirequestlog-resource_type-values). |
+| `resource_type` | Required | string | Type of the resource that changed: the part of `activity_type` before the dot. Example: `"return"`. Values: [154 declared values](APIRequestLog.md#apirequestlog-resource_type-values). |
 | `return_activity_id` | Required | string | Stable identifier of the activity. Example: `"retact_01KEZF7C00J26XVS5GK98PQ39D"`. |
 | `return_id` | Required | string | The Return this activity belongs to. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `return_version` | Required | integer | Return version produced by this activity. Format: `int64`. minimum: `0`. |

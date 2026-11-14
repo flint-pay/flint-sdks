@@ -6,7 +6,6 @@ namespace Flint;
  * @property-read MoneyValue $added_total_money
  * @property-read list<OrderEditChargeRefund> $charge_refunds
  * @property-read string $created_at
- * @property-read ?string $note
  * @property-read string $order_edit_id
  * @property-read string $order_id
  * @property-read ?string $reason
@@ -19,7 +18,7 @@ namespace Flint;
  * @property-read MoneyValue $unrefunded_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderEditCreatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'add_line_items': list<mixed>, 'added_total_money': mixed, 'charge_refunds': list<mixed>, 'created_at': string, 'note'?: string, 'order_edit_id': string, 'order_id': string, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': mixed, 'remove_line_items': list<mixed>, 'removed_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': mixed, ...}|object $values */
+    /** @param array{'add_line_items': list<mixed>, 'added_total_money': mixed, 'charge_refunds': list<mixed>, 'created_at': string, 'order_edit_id': string, 'order_id': string, 'reason'?: string, 'refund_ids': list<string>, 'refund_money': mixed, 'remove_line_items': list<mixed>, 'removed_total_money': mixed, 'status': string, 'supported_actions': list<string>, 'unrefunded_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditCreatedInstalledMerchantsEventDataObject')); }
     /** Added order lines, in request order, with their quantities and values frozen at commit. Empty when the edit added nothing. [] (Value): {@see OrderEditLineAddition}. An order line added by the enclosing edit, with its value frozen at commit.
      * @return list<OrderEditLineAddition>
@@ -41,11 +40,6 @@ final class OrderEditCreatedInstalledMerchantsEventDataObject extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Internal merchant note. Omitted from buyer and webhook payloads and refund messages. maxLength: 500.
-     * @return ?string
-     */
-    public function getNote(): ?string { return $this->get('note'); }
-    public function hasNote(): bool { return $this->has('note'); }
     /** Stable ID of this order edit. pattern: ^oed_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */

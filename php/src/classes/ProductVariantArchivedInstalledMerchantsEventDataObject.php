@@ -11,7 +11,6 @@ namespace Flint;
  * @property-read ?string $external_reference_id
  * @property-read ?GiftCardProductConfiguration $gift_card_configuration
  * @property-read list<ImageAttachment> $images
- * @property-read ?ProductVariantInventoryAvailability $inventory_availability
  * @property-read ?string $inventory_item_id
  * @property-read string $inventory_tracking
  * @property-read bool $is_available_for_sale
@@ -19,7 +18,6 @@ namespace Flint;
  * @property-read ?string $line_item_tax_category
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
- * @property-read ModifierSet|null $modifier_set
  * @property-read string|null $modifier_set_id
  * @property-read ?string $name
  * @property-read int $position
@@ -38,7 +36,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class ProductVariantArchivedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'barcode'?: string, 'created_at'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: mixed, 'images': list<mixed>, 'inventory_availability'?: mixed, 'inventory_item_id'?: string, 'inventory_tracking': string, 'is_available_for_sale': bool, 'is_inheriting_product_images': bool, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'quantity_price_breaks': list<mixed>, 'release_date': string|null, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'updated_at'?: string, 'variant_id': string, 'version': int, ...}|object $values */
+    /** @param array{'barcode'?: string, 'created_at'?: string, 'delivery_configuration_reason'?: string, 'delivery_configuration_status': string, 'delivery_profile_id'?: string, 'effective_images': list<mixed>, 'external_reference_id'?: string, 'gift_card_configuration'?: mixed, 'images': list<mixed>, 'inventory_item_id'?: string, 'inventory_tracking': string, 'is_available_for_sale': bool, 'is_inheriting_product_images': bool, 'line_item_tax_category'?: string, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set_id': string|null, 'name'?: string, 'position': int, 'product_id': string, 'quantity_price_breaks': list<mixed>, 'release_date': string|null, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'taxable'?: bool, 'unit_dimensions'?: mixed, 'unit_price_money': mixed, 'unit_weight'?: mixed, 'updated_at'?: string, 'variant_id': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ProductVariantArchivedInstalledMerchantsEventDataObject')); }
     /** Barcode assigned to this sellable item.
      * @return ?string
@@ -85,11 +83,6 @@ final class ProductVariantArchivedInstalledMerchantsEventDataObject extends Mode
      */
     public function getImages(): array { return $this->get('images'); }
     public function hasImages(): bool { return $this->has('images'); }
-    /** Whether one order line can buy this variant now, evaluated at read time against `settings.inventory.default_routing_source` with the same routing pay uses. Returned by `GET /v1/products/{product_id}/variants/{variant_id}`, `GET /v1/products/{product_id}/variants`, and variants included by `expand=variants` on product reads; write responses and webhooks omit it. Advisory: it holds no stock, so pay can still find the stock gone. Variants that share an inventory item are each evaluated alone. It ignores the variant's `status`, so also check `is_available_for_sale`. It is outside `version` and sends no event of its own: read the variant again after `inventory_level.updated`. Stock availability of a variant for one order line, computed when the variant is read.
-     * @return ?ProductVariantInventoryAvailability
-     */
-    public function getInventoryAvailability(): ?ProductVariantInventoryAvailability { return $this->get('inventory_availability'); }
-    public function hasInventoryAvailability(): bool { return $this->has('inventory_availability'); }
     /** The inventory item this variant consumes. Present exactly when inventory_tracking is tracked. Several variants may share one inventory item.
      * @return ?string
      */
@@ -125,12 +118,7 @@ final class ProductVariantArchivedInstalledMerchantsEventDataObject extends Mode
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. Also included when `expand` includes `variants.modifier_set`. anyOf[1] (Value): {@see ModifierSet}. A reusable collection of customization groups. anyOf[2] (Value): null.
-     * @return ModifierSet|null
-     */
-    public function getModifierSet(): ModifierSet|null { return $this->get('modifier_set'); }
-    public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** Attached modifier set. Send null on update to remove it.
+    /** Attached modifier set. Null when no modifier set is assigned. Send null on update to remove it.
      * @return string|null
      */
     public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }

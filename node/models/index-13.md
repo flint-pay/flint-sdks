@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateEvaluationWindow to DisputeNeedsResponseMerchantEvent
+# DeliveryRateEvaluationOutcome to DiscountPreviewRequestInput
 
+- [DeliveryRateEvaluationOutcome](DeliveryRateEvaluationOutcome.md)
+- [DeliveryRateEvaluationOutcomeInput](DeliveryRateEvaluationOutcomeInput.md)
+- [DeliveryRateEvaluationOutcomeAvailable](DeliveryRateEvaluationOutcomeAvailable.md)
+- [DeliveryRateEvaluationOutcomeAvailableInput](DeliveryRateEvaluationOutcomeAvailableInput.md)
+- [DeliveryRateEvaluationOutcomeCannotCalculate](DeliveryRateEvaluationOutcomeCannotCalculate.md)
+- [DeliveryRateEvaluationOutcomeCannotCalculateInput](DeliveryRateEvaluationOutcomeCannotCalculateInput.md)
+- [DeliveryRateEvaluationOutcomeUnavailable](DeliveryRateEvaluationOutcomeUnavailable.md)
+- [DeliveryRateEvaluationOutcomeUnavailableInput](DeliveryRateEvaluationOutcomeUnavailableInput.md)
+- [DeliveryRateEvaluationPricing](DeliveryRateEvaluationPricing.md)
+- [DeliveryRateEvaluationRequest](DeliveryRateEvaluationRequest.md)
+- [DeliveryRateEvaluationResponse](DeliveryRateEvaluationResponse.md)
+- [DeliveryRateEvaluationResponseInput](DeliveryRateEvaluationResponseInput.md)
 - [DeliveryRateEvaluationWindow](DeliveryRateEvaluationWindow.md)
 - [DeliveryRateEvaluationWindowInput](DeliveryRateEvaluationWindowInput.md)
 - [DeliveryRateTablePricingStrategy](DeliveryRateTablePricingStrategy.md)
@@ -90,16 +102,4 @@
 - [DiscountPreview](DiscountPreview.md)
 - [DiscountPreviewRequest](DiscountPreviewRequest.md)
 - [DiscountPreviewRequestInput](DiscountPreviewRequestInput.md)
-- [DiscountPreviewResponse](DiscountPreviewResponse.md)
-- [DispatchFulfillmentRequestInput](DispatchFulfillmentRequestInput.md)
-- [Dispute](Dispute.md)
-- [DisputeCreatedInstalledMerchantsEvent](DisputeCreatedInstalledMerchantsEvent.md)
-- [DisputeCreatedMerchantEvent](DisputeCreatedMerchantEvent.md)
-- [DisputeInquiryClosedInstalledMerchantsEvent](DisputeInquiryClosedInstalledMerchantsEvent.md)
-- [DisputeInquiryClosedMerchantEvent](DisputeInquiryClosedMerchantEvent.md)
-- [DisputeListResponse](DisputeListResponse.md)
-- [DisputeLostInstalledMerchantsEvent](DisputeLostInstalledMerchantsEvent.md)
-- [DisputeLostMerchantEvent](DisputeLostMerchantEvent.md)
-- [DisputeNeedsResponseInstalledMerchantsEvent](DisputeNeedsResponseInstalledMerchantsEvent.md)
-- [DisputeNeedsResponseMerchantEvent](DisputeNeedsResponseMerchantEvent.md)
 

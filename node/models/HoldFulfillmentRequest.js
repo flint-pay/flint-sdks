@@ -1,7 +1,7 @@
-import { d728 as c0 } from '../descriptors/data/39.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d728 as d728 } from '../descriptors/data/39.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d732 as c0 } from '../descriptors/data/40.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
+import { d732 as d732 } from '../descriptors/data/40.js?sdk=a086a23565c4993b78f348340a2a26cb0487877444f587a940a69a0f6d259868';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d728;
+const read = d732;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["HoldFulfillmentRequest"]:c0()}); }
 export { codec as _validate };

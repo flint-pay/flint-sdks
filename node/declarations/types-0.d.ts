@@ -1,16 +1,16 @@
 import type { ResourceReference, ResponseMeta } from './types-54.js';
 import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
-import type { OrderChargeRequest, OrderChargeRequestInput } from './types-39.js';
+import type { OrderChargeRequest, OrderChargeRequestInput } from './types-40.js';
 import type { ReturnLineItemRequest, ReturnLineItemRequestInput } from './types-55.js';
 import type { GetReturnResponse, GiftCard, GiftCardLoad } from './types-26.js';
-import type { RiskListItemAddition } from './types-57.js';
-import type { MoneyValue } from './types-38.js';
-import type { SignedMoneyRequestInput } from './types-59.js';
+import type { RiskListItemAddition } from './types-58.js';
+import type { MoneyValue } from './types-39.js';
+import type { SignedMoneyRequestInput } from './types-60.js';
 import type { GiftCardTransaction } from './types-27.js';
 import type { InputValue } from '../runtime.js';
-import type { MerchantWebhookEnvelope } from './types-37.js';
+import type { MerchantWebhookEnvelope } from './types-38.js';
 import type { CreateAPIKeyRequestInput, ConfigurationVersionRequestInput } from './types-7.js';
-import type { UpdateAPIKeyRequestInput } from './types-65.js';
+import type { UpdateAPIKeyRequestInput } from './types-66.js';
 import type { ManualDiscountRequest, ManualDiscountRequestInput } from './types-35.js';
 import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
 /** A credential used to authenticate API requests. */
@@ -488,8 +488,8 @@ export type APIRequestLog = {
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -614,6 +614,7 @@ export type APIRequestLog = {
         | "refund"
         | "refund_allocation"
         | "refund_line_item_adjustment"
+        | "remembered_buyer"
         | "report"
         | "report_download"
         | "return"
@@ -829,8 +830,8 @@ export type APIRequestLogDetail = {
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -955,6 +956,7 @@ export type APIRequestLogDetail = {
         | "refund"
         | "refund_allocation"
         | "refund_line_item_adjustment"
+        | "remembered_buyer"
         | "report"
         | "report_download"
         | "return"
@@ -1271,11 +1273,10 @@ export type AddOrderChargeRequestInput = {
 /** The request body for: Add return line item. */
 export type AddReturnLineItemRequest = {
     /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
+     * Return version from the last read. A stale value returns VERSION_CONFLICT without adding the
+     * line. Format: int64. minimum: 1.
      */
-    "expected_version"?: number;
+    "expected_return_version"?: number;
     /**
      * The line to add. An order line item to return, with the quantity, return reason, and
      * optionally a note and the resolution the buyer wants.
@@ -1285,11 +1286,10 @@ export type AddReturnLineItemRequest = {
 /** The request body for: Add return line item. */
 export type AddReturnLineItemRequestInput = {
     /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: int64. minimum: 1.
+     * Return version from the last read. A stale value returns VERSION_CONFLICT without adding the
+     * line. Format: int64. minimum: 1.
      */
-    "expected_version"?: number;
+    "expected_return_version"?: number;
     /**
      * The line to add. An order line item to return, with the quantity, return reason, and
      * optionally a note and the resolution the buyer wants.
@@ -2304,8 +2304,8 @@ export type ApiRequestLogsListParams = {
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -2342,8 +2342,8 @@ export type ApiRequestLogsListParams = {
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -2380,8 +2380,8 @@ export type ApiRequestLogsListParams = {
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -2418,8 +2418,8 @@ export type ApiRequestLogsListParams = {
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -2456,8 +2456,8 @@ export type ApiRequestLogsListParams = {
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -2582,6 +2582,7 @@ export type ApiRequestLogsListParams = {
         | "refund"
         | "refund_allocation"
         | "refund_line_item_adjustment"
+        | "remembered_buyer"
         | "report"
         | "report_download"
         | "return"
@@ -2735,6 +2736,7 @@ export type ApiRequestLogsListParams = {
         | "refund"
         | "refund_allocation"
         | "refund_line_item_adjustment"
+        | "remembered_buyer"
         | "report"
         | "report_download"
         | "return"
@@ -2774,7 +2776,7 @@ export type ApiRequestLogsListParams = {
         | "workload_identity")[]>;
     /**
      * Filter by resource ID. pattern:
-     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "resource_id"?: InputValue<string>;

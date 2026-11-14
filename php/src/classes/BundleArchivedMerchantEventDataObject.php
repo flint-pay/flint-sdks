@@ -15,7 +15,6 @@ namespace Flint;
  * @property-read bool $is_available_for_sale
  * @property-read ?string $merchant_id
  * @property-read ?array<array-key, string> $metadata
- * @property-read ModifierSet|null $modifier_set
  * @property-read string|null $modifier_set_id
  * @property-read string $name
  * @property-read ?string $sku
@@ -25,7 +24,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BundleArchivedMerchantEventDataObject extends Model {
-    /** @param array{'barcode'?: string, 'bundle_id': string, 'categories': list<mixed>, 'component_count': int, 'components': list<mixed>, 'created_at'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'is_available_for_sale': bool, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set'?: mixed, 'modifier_set_id': string|null, 'name': string, 'sku'?: string, 'status': string, 'unit_price_money': mixed, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'barcode'?: string, 'bundle_id': string, 'categories': list<mixed>, 'component_count': int, 'components': list<mixed>, 'created_at'?: string, 'delivery_configuration_status': string, 'description'?: string, 'external_reference_id'?: string, 'images': list<mixed>, 'is_available_for_sale': bool, 'merchant_id'?: string, 'metadata'?: mixed, 'modifier_set_id': string|null, 'name': string, 'sku'?: string, 'status': string, 'unit_price_money': mixed, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BundleArchivedMerchantEventDataObject')); }
     /** Barcode assigned to this sellable item.
      * @return ?string
@@ -92,12 +91,7 @@ final class BundleArchivedMerchantEventDataObject extends Model {
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Attached modifier set, included when expand=modifier_set is requested. Requires commerce.catalog.read in addition to the resource's read scope. Present only when `expand` includes `modifier_set`; `null` when expanded and there is no related modifier set. anyOf[1] (Value): {@see ModifierSet}. A reusable collection of customization groups. anyOf[2] (Value): null.
-     * @return ModifierSet|null
-     */
-    public function getModifierSet(): ModifierSet|null { return $this->get('modifier_set'); }
-    public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** Attached modifier set. Send null on update to remove it.
+    /** Attached modifier set. Null when no modifier set is assigned. Send null on update to remove it.
      * @return string|null
      */
     public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }

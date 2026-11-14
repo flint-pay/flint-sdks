@@ -79,6 +79,10 @@ Field definitions: [CheckoutSessionResponse.data.platform_fee](../models/Checkou
 
 Field definitions: [CheckoutSessionResponse.data.redirects](../models/CheckoutSessionResponse.md#checkoutsessionresponsedataredirects).
 
+### DeliverySelectionResult.checkout_session.refunds[]
+
+Field definitions: [CheckoutSessionResponse.data.refunds[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatarefunds).
+
 ### DeliverySelectionResult.checkout_session.subscription_terms
 
 Field definitions: [CheckoutSessionResponse.data.subscription_terms](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatasubscription_terms).

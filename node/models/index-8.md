@@ -1,7 +1,19 @@
 [Model index](../MODELS.md)
 
-# CreateProductOptionRequest to CreateSubscriptionLineItemRequestBundle
+# CreatePaymentMethodDomainRequest to CreateShipmentRequestOutbound
 
+- [CreatePaymentMethodDomainRequest](CreatePaymentMethodDomainRequest.md)
+- [CreatePaymentMethodDomainRequestInput](CreatePaymentMethodDomainRequestInput.md)
+- [CreatePayoutRequest](CreatePayoutRequest.md)
+- [CreatePayoutRequestInput](CreatePayoutRequestInput.md)
+- [CreatePickupFulfillmentDetails](CreatePickupFulfillmentDetails.md)
+- [CreatePickupFulfillmentDetailsInput](CreatePickupFulfillmentDetailsInput.md)
+- [CreatePriceListPricesRequest](CreatePriceListPricesRequest.md)
+- [CreatePriceListPricesRequestInput](CreatePriceListPricesRequestInput.md)
+- [CreatePriceListPricesResponse](CreatePriceListPricesResponse.md)
+- [CreatePriceListPricesResult](CreatePriceListPricesResult.md)
+- [CreatePriceListRequest](CreatePriceListRequest.md)
+- [CreatePriceListRequestInput](CreatePriceListRequestInput.md)
 - [CreateProductOptionRequest](CreateProductOptionRequest.md)
 - [CreateProductOptionRequestInput](CreateProductOptionRequestInput.md)
 - [CreateProductOptionValueRequest](CreateProductOptionValueRequest.md)
@@ -90,16 +102,4 @@
 - [CreateShipmentRequest](CreateShipmentRequest.md)
 - [CreateShipmentRequestInput](CreateShipmentRequestInput.md)
 - [CreateShipmentRequestOutbound](CreateShipmentRequestOutbound.md)
-- [CreateShipmentRequestOutboundInput](CreateShipmentRequestOutboundInput.md)
-- [CreateShipmentRequestReturn](CreateShipmentRequestReturn.md)
-- [CreateShipmentRequestReturnInput](CreateShipmentRequestReturnInput.md)
-- [CreateSmartReaderRequest](CreateSmartReaderRequest.md)
-- [CreateSmartReaderRequestInput](CreateSmartReaderRequestInput.md)
-- [CreateSubscriptionAccessLinkRequest](CreateSubscriptionAccessLinkRequest.md)
-- [CreateSubscriptionAccessLinkRequestInput](CreateSubscriptionAccessLinkRequestInput.md)
-- [CreateSubscriptionDeliveryMigrationRequest](CreateSubscriptionDeliveryMigrationRequest.md)
-- [CreateSubscriptionDeliveryMigrationRequestInput](CreateSubscriptionDeliveryMigrationRequestInput.md)
-- [CreateSubscriptionLineItemRequest](CreateSubscriptionLineItemRequest.md)
-- [CreateSubscriptionLineItemRequestInput](CreateSubscriptionLineItemRequestInput.md)
-- [CreateSubscriptionLineItemRequestBundle](CreateSubscriptionLineItemRequestBundle.md)
 

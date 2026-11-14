@@ -19,7 +19,7 @@ Request input.
 | `billing_interval_count` | Conditional | integer | Required when billing_interval is sent; billing_interval is required when this field is sent. minimum: `1`. maximum: `365`. |
 | `billing_starts` | Conditional | string |  |
 | `line_items` | Conditional | Varies by condition |  |
-| `quantity` | Conditional | integer | minimum: `1`. maximum: `100`. |
+| `quantity` | Conditional | integer | minimum: `1`. maximum: `1`. |
 | `subscription_plan_id` | Conditional | string | The target subscription plan. minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
 | `expected_version` | Conditional | integer | Reject the request if the subscription version has changed. Format: `uint64`. minimum: `1`. |
 | `first_cycle` | Conditional | integer | First charged cycle eligible for this promotion. Defaults to the next cycle without a renewal order, which is also the minimum: completed_cycles + 1, or completed_cycles + 2 while past_due. The maximum is completed_cycles + 120. The unpaid past_due order keeps its price. Format: `uint64`. minimum: `1`. |
@@ -70,7 +70,7 @@ oneOf with mode: "plan_change": The `plan_change` variant of `CreateSubscription
 - Constraints for `billing_starts`: now bills a new period with credit for unused paid item time. next_renewal changes the plan immediately and keeps the current paid period and next billing date. period_end keeps the current plan until the next charged renewal, then applies and bills the scheduled terms. prorated_now charges the new terms for the rest of the current period, less unused paid item credit, and keeps the billing period and anchor. Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`.
 - Constraints for `line_items`: Array of [SubscriptionPlanChangeLineItemRequestInput](../models/SubscriptionPlanChangeLineItemRequestInput.md#subscriptionplanchangelineitemrequestinput). Optional quantities for target plan lines, with no duplicate IDs. Omitted lines carry their paired current line's quantity, or use the target line's quantity when unpaired. If an adjusted current quantity cannot be paired, send a quantity for every target line.
 - Constraints for `mode`: Values: `"plan_change"`.
-- Constraints for `quantity`: Omit to keep the current subscription quantity. The target plan must offer the quantity. Whole-number quantity; fractional quantities are not supported.
+- Constraints for `quantity`: Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported.
 
 ### CreateSubscriptionPreviewRequestInput variant 6: `billing_starts` = `"prorated_now"`, `mode` = `"quantity_change"`
 

@@ -11,7 +11,7 @@ Contact and website details you submit for a merchant during onboarding. Send nu
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `email` | Optional | string or null | Send null to clear it. minLength: `1`. |
-| `support_email` | Optional | string or null | Send null to clear it. minLength: `1`. |
+| `support_email` | Optional | string or null | Buyers see this address on receipts and in their account. A support email is required before initial live activation. Existing live merchants may clear it and receive a nonblocking prompt to add one. Send null to clear it. minLength: `1`. |
 | `support_phone` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `support_url` | Optional | string or null | Send null to clear it. minLength: `1`. |
 | `website_url` | Optional | string or null | Send null to clear it. minLength: `1`. |

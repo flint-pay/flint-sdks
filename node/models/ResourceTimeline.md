@@ -12,6 +12,6 @@ The activity timeline for one resource, such as API requests, webhook events and
 | --- | --- | --- | --- |
 | `entries` | Required | Array of [ResourceTimelineEntry](../models/ResourceTimelineEntry.md#resourcetimelineentry) | Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. |
 | `resource_id` | Required | string | ID of the resource this timeline is for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [153 declared values](APIRequestLog.md#apirequestlog-resource_type-values). |
+| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [154 declared values](APIRequestLog.md#apirequestlog-resource_type-values). |
 | `test` | Required | boolean | `true` when the timeline is for test mode data and `false` for live data. |
 

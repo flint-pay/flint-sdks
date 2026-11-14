@@ -1,1 +1,1 @@
-{"shared":"Ticket","dependencies":["CheckoutBuyerContact","DeferredPromotion","ExpandedOrderSummary","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1093","SharedCodec1677","Ticket"]}
+{"shared":"Ticket","dependencies":["CheckoutBuyerContact","DeferredPromotion","ExpandedOrderSummary","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1095","SharedCodec1674","Ticket"]}

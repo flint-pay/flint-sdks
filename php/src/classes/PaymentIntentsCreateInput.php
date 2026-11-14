@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read array{'amount_money': mixed, 'capture_method'?: string, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options': list<string>, 'payment_return_url'?: string, 'platform_fee'?: mixed, 'receipt_email'?: string, 'request_overcapture'?: bool, 'splits'?: list<mixed>, 'tip_money'?: mixed, 'transaction_purpose'?: string}|object $body
+ * @property-read array{'amount_money'?: mixed, 'capture_method'?: string, 'customer_id'?: string, 'expected_order_version'?: int, 'external_reference_id'?: string, 'metadata'?: mixed, 'order_id'?: string, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed, 'platform_fee'?: mixed, 'receipt_email'?: string, 'request_overcapture'?: bool, 'splits'?: list<mixed>, 'tip_money'?: mixed, 'transaction_purpose'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PaymentIntentsCreateInput extends Model {
-    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'amount_money': mixed, 'capture_method'?: string, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options': list<string>, 'payment_return_url'?: string, 'platform_fee'?: mixed, 'receipt_email'?: string, 'request_overcapture'?: bool, 'splits'?: list<mixed>, 'tip_money'?: mixed, 'transaction_purpose'?: string}|object}|object $values */
+    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body'?: array{'amount_money'?: mixed, 'capture_method'?: string, 'customer_id'?: string, 'expected_order_version'?: int, 'external_reference_id'?: string, 'metadata'?: mixed, 'order_id'?: string, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed, 'platform_fee'?: mixed, 'receipt_email'?: string, 'request_overcapture'?: bool, 'splits'?: list<mixed>, 'tip_money'?: mixed, 'transaction_purpose'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentsCreateInput')); }
     /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
@@ -27,8 +27,8 @@ final class PaymentIntentsCreateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Create standalone payment intent.
-     * @return array{'amount_money': mixed, 'capture_method'?: string, 'customer_id'?: string, 'external_reference_id'?: string, 'metadata'?: mixed, 'payment_options': list<string>, 'payment_return_url'?: string, 'platform_fee'?: mixed, 'receipt_email'?: string, 'request_overcapture'?: bool, 'splits'?: list<mixed>, 'tip_money'?: mixed, 'transaction_purpose'?: string}|object
+    /** The request body for: Create payment intent.
+     * @return array{'amount_money'?: mixed, 'capture_method'?: string, 'customer_id'?: string, 'expected_order_version'?: int, 'external_reference_id'?: string, 'metadata'?: mixed, 'order_id'?: string, 'payment_options'?: list<string>, 'payment_return_url'?: string, 'payment_source_selection'?: mixed, 'platform_fee'?: mixed, 'receipt_email'?: string, 'request_overcapture'?: bool, 'splits'?: list<mixed>, 'tip_money'?: mixed, 'transaction_purpose'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

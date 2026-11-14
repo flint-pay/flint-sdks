@@ -30,6 +30,8 @@ Resource, collection, or operation result returned by this request.
 | `currency` | Conditional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `delivery_methods` | Conditional | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Delivery methods available for the proposed destination. |
 | `destination_address` | Conditional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
+| `shipping_countries` | Conditional | Array of string | Sorted ISO 3166-1 alpha-2 countries potentially served by this subscription's shipping methods, based on their delivery configuration and shipping zones. Restrict a country selector with this list only when shipping_countries_complete is true. Empty when no shipping coverage is available. Other address, cart, customer and rate checks still apply. |
+| `shipping_countries_complete` | Conditional | boolean | Whether shipping_countries is safe to use as a country restriction. False when a radius without an explicit country boundary may serve addresses across a border; clients must not restrict the country selector in that case. Other address, cart, customer and rate checks still apply when true. |
 | `subscription_id` | Conditional | string | Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 | `delivery_method_id` | Conditional | string | ID of the delivery method whose edit was previewed. Example: `"dmet_01KEZF7C00YSG3X2D1TZJ36TM0"`. |
 | `no_longer_eligible_counts` | Conditional | [SubscriptionCounts](../models/SubscriptionCounts.md#subscriptioncounts) | Of those, the subscriptions the edit would leave unable to use the method, by status. Counts of subscriptions by status: active, past due, and paused. |
@@ -40,7 +42,7 @@ Resource, collection, or operation result returned by this request.
 | `billing_interval_count` | Conditional | integer | Format: `int32`. |
 | `billing_starts` | Conditional | string |  |
 | `credit_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | `credit_money`: [declared alternatives](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-3credit_money), [declared alternatives](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-4credit_money). |
-| `deliveries_per_period` | Conditional | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `deliveries_per_period` | Conditional | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
 | `delivery_interval` | Conditional | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
 | `delivery_interval_count` | Conditional | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Conditional | string or null | Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -56,14 +58,14 @@ Resource, collection, or operation result returned by this request.
 oneOf with mode: "create": Validation and estimates for the first and recurring collections of a proposed subscription..
 
 - Required: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`.
-- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `subscription_id`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`, `promotion`.
+- Undeclared: `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `subscription_id`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`, `promotion`.
 - Constraints for `mode`: The kind of subscription preview. Values: `"create"`.
 
 ### SubscriptionPreviewResponse.data variant 2: `mode` = `"delivery_options"`
 
 oneOf with mode: "delivery_options": Delivery methods available for a proposed subscription destination..
 
-- Required: `delivery_methods`.
+- Required: `delivery_methods`, `shipping_countries`, `shipping_countries_complete`.
 - Optional: `address_verification`, `currency`, `destination_address`, `subscription_id`.
 - Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`, `promotion`.
 - Constraints for `mode`: Values: `"delivery_options"`.
@@ -74,7 +76,7 @@ oneOf with mode: "delivery_method_update": How a delivery method change affects 
 
 - Required: `delivery_method_id`, `no_longer_eligible_counts`, `subscription_counts`.
 - Optional: `no_longer_eligible_reasons`.
-- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `subscription_id`, `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`, `promotion`.
+- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `subscription_id`, `renewal`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`, `promotion`.
 - Constraints for `mode`: Selects the delivery method update preview. Values: `"delivery_method_update"`.
 
 ### SubscriptionPreviewResponse.data variant 4: `mode` = `"next_renewal"`
@@ -82,7 +84,7 @@ oneOf with mode: "delivery_method_update": How a delivery method change affects 
 oneOf with mode: "next_renewal": A preview of a subscription's next renewal and its estimated pricing..
 
 - Required: `renewal`, `subscription_id`.
-- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`, `promotion`.
+- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`, `promotion`.
 - Constraints for `mode`: Values: `"next_renewal"`.
 
 ### SubscriptionPreviewResponse.data variant 5: `mode` = `"plan_change"`
@@ -90,7 +92,7 @@ oneOf with mode: "next_renewal": A preview of a subscription's next renewal and 
 oneOf with mode: "plan_change": Estimated pricing for a subscription plan change, including the recurring item subtotal and renewal amounts..
 
 - Required: `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`, `subscription_plan_id`.
-- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `interval`, `interval_count`, `promotion`.
+- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `interval`, `interval_count`, `promotion`.
 - Constraints for `billing_starts`: Values: `"now"`, `"next_renewal"`, `"period_end"`, `"prorated_now"`.
 - Constraints for `credit_money`: Unused paid item time credited when billing_starts is now or prorated_now; null for next_renewal and period_end.
 - Constraints for `effective_at`: When the plan is expected to take effect. Null when no billing time is scheduled.
@@ -101,7 +103,7 @@ oneOf with mode: "plan_change": Estimated pricing for a subscription plan change
 oneOf with mode: "quantity_change": Estimated pricing for a quantity change that keeps the billing period and anchor..
 
 - Required: `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `interval`, `interval_count`, `quantity`, `recurring_subtotal_money`, `renewal`, `subscription_id`.
-- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`, `promotion`.
+- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `billing_interval`, `billing_interval_count`, `subscription_plan_id`, `promotion`.
 - Constraints for `billing_starts`: When this quantity change is billed. Values: `"prorated_now"`.
 - Constraints for `credit_money`: Credit for unused paid subscription time. Null when there is no paid period to credit.
 - Constraints for `effective_at`: When the quantities are expected to take effect. Null when no billing time is available.
@@ -115,7 +117,7 @@ oneOf with mode: "quantity_change": Estimated pricing for a quantity change that
 oneOf with mode: "promotion_apply": A proposed subscription promotion attachment and estimated renewal for its first eligible charged cycle..
 
 - Required: `promotion`, `renewal`, `subscription_id`.
-- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
+- Undeclared: `errors`, `first_charge`, `first_period_charge`, `is_valid`, `recurring`, `address_verification`, `currency`, `delivery_methods`, `destination_address`, `shipping_countries`, `shipping_countries_complete`, `delivery_method_id`, `no_longer_eligible_counts`, `no_longer_eligible_reasons`, `subscription_counts`, `billing_interval`, `billing_interval_count`, `billing_starts`, `credit_money`, `deliveries_per_period`, `delivery_interval`, `delivery_interval_count`, `effective_at`, `quantity`, `recurring_subtotal_money`, `subscription_plan_id`, `interval`, `interval_count`.
 - Constraints for `mode`: The kind of subscription pricing estimate. Values: `"promotion_apply"`.
 - Constraints for `renewal`: Estimated renewal for the promotion's first_cycle.
 - Constraints for `subscription_id`: ID of the subscription being previewed. pattern: `^sub_[0-9A-HJKMNP-TV-Z]{26}$`.

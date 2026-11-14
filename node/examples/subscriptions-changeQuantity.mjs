@@ -12,7 +12,7 @@ const result = await client.subscriptions.changeQuantity(
   {
     billing_starts: "prorated_now",
     expected_version: 1,
-    quantity: 2,
+    quantity: 1,
   },
   { idempotencyKey: idempotencyKey },
 );

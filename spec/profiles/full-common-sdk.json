@@ -703,7 +703,8 @@
       "merchant_signups": "merchant-signups",
       "payment_splits": "payment-splits",
       "platform_fees": "platform-fees",
-      "readers": "readers"
+      "readers": "readers",
+      "remembered_buyers": "remembered-buyers"
     },
     "exampleValues": {
       "customer_address_id": "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
@@ -3821,7 +3822,7 @@
       },
       "example": {
         "body": {
-          "quantity": 2
+          "quantity": 1
         },
         "subscription_id": "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
@@ -4478,20 +4479,6 @@
       "idempotency": {
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      }
-    },
-    "createOrderPaymentIntent": {
-      "pagination": false,
-      "idempotency": {
-        "auto": false,
-        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
       },
       "retry": {
         "maxAttempts": 3
@@ -6400,7 +6387,7 @@
       },
       "example": {
         "body": {
-          "quantity": 2
+          "quantity": 1
         },
         "subscription_id": "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
@@ -8160,6 +8147,99 @@
         "transport": false
       },
       "pagination": false
+    },
+    "listCustomerEmailChangeRequests": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "createCustomerEmailChangeRequest": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getCustomerEmailChangeRequest": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "cancelCustomerEmailChangeRequest": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listInvoiceLateFees": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "listMeRememberedBuyers": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": false
+    },
+    "revokeMeRememberedBuyer": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "lookupRememberedBuyer": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      },
+      "pagination": false
+    },
+    "revokeRememberedBuyer": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listSubscriptionLineItems": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
     }
   },
   "requests": {

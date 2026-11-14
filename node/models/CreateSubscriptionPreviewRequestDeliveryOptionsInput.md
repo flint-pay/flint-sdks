@@ -2,13 +2,5 @@
 
 ## CreateSubscriptionPreviewRequestDeliveryOptionsInput
 
-Request input. Response: [CreateSubscriptionPreviewRequestDeliveryOptions](../models/CreateSubscriptionPreviewRequestDeliveryOptions.md#createsubscriptionpreviewrequestdeliveryoptions).
-
-The `delivery_options` variant of `CreateSubscriptionPreviewRequest`.
-
-
-
-
-
-Fields, types, descriptions and enum values: [CreateMeSubscriptionPreviewRequestDeliveryOptionsInput](../models/CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md#createmesubscriptionpreviewrequestdeliveryoptionsinput).
+Request input. Response: [CreateSubscriptionPreviewRequestDeliveryOptions](../models/CreateSubscriptionPreviewRequestDeliveryOptions.md#createsubscriptionpreviewrequestdeliveryoptions). Fields, descriptions and enum values are shared with that model; request enums accept only the listed values.
 

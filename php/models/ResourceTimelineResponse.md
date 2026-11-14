@@ -21,7 +21,7 @@ Resource, collection, or operation result returned by this request. The activity
 | --- | --- | --- | --- |
 | `entries` | Required | Array of Alternative shapes (see declared variants) | Timeline entries for the resource, each tagged by `entry_type`. Narrowed by `include`, `occurred_after`, and `occurred_before`. `entries[]`: [declared alternatives](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries). |
 | `resource_id` | Required | string | ID of the resource this timeline is for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | string | Type of the resource this timeline is for. Example: `"order"`. Values: [154 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `test` | Required | boolean | `true` when the timeline is for test mode data and `false` for live data. |
 
 ### ResourceTimelineResponse.data.entries[]

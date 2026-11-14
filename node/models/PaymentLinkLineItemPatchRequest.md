@@ -22,6 +22,7 @@ A line item in a payment link update. Include its ID to change an existing line 
 | `min_unit_price_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Lowest unit price the buyer can enter when `allow_unit_price_adjustment` is true. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `min_unit_price_money`: [field definitions](../models/PaymentLinkLineItem.md#paymentlinklineitemmin_unit_price_money). |
 | `name` | Conditional | string | Name of an ad hoc line item. Catalog lines take the catalog name. minLength: `1`. maxLength: `255`. |
 | `payment_link_line_item_id` | Optional | string | Stable ID of an existing line item. Omit it to create a new line item. minLength: `1`. Example: `"plli_01KEZF7C004V7GVCCNMYYCBAJS"`. |
+| `product_type` | Optional | string | Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`. |
 | `quantity` | Optional | integer | Whole-number default quantity; fractional quantities are not supported. Omission uses 1. Must be at least 1 for standard links; event tiers also accept 0. Format: `int32`. Default: `1`. |
 | `suggested_unit_price_money_options` | Optional | Array of [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit prices offered as one-tap choices when the buyer sets the price. `suggested_unit_price_money_options[]`: [field definitions](../models/BuyerCheckoutSession.md#buyercheckoutsessiontipsmart_tip_money_options). |
 | `tax` | Optional | [OrderLineItemTax](../models/OrderLineItemTax.md#orderlineitemtax) | Tax settings for an ad hoc line item. Catalog lines use the catalog's. A line item's tax category and whether it is taxable. `tax`: [field definitions](../models/PaymentLinkLineItemInputBundle.md#paymentlinklineiteminputbundletax). |
@@ -34,7 +35,7 @@ A line item in a payment link update. Include its ID to change an existing line 
 
 oneOf with type: "variant": The `variant` variant of `PaymentLinkLineItemPatchInput`.; anyOf variant 1.
 
-- Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`variant_id`, `variant_ids`))).
+- Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`product_type`); present(`variant_id`, `variant_ids`))).
 - Required: `variant_id`.
 - Optional: `allow_unit_price_adjustment`, `bundle_id`, `name`, `unit_price_money`, `variant_ids`.
 - Constraints for `type`: Values: `"variant"`.
@@ -43,7 +44,7 @@ oneOf with type: "variant": The `variant` variant of `PaymentLinkLineItemPatchIn
 
 oneOf with type: "variant": The `variant` variant of `PaymentLinkLineItemPatchInput`.; anyOf variant 2.
 
-- Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`variant_id`, `variant_ids`))).
+- Condition: not (at least one(present(`bundle_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`product_type`); present(`variant_id`, `variant_ids`))).
 - Required: `variant_ids`.
 - Optional: `allow_unit_price_adjustment`, `bundle_id`, `name`, `unit_price_money`, `variant_id`.
 - Constraints for `type`: Values: `"variant"`.
@@ -52,7 +53,7 @@ oneOf with type: "variant": The `variant` variant of `PaymentLinkLineItemPatchIn
 
 oneOf with type: "bundle": The `bundle` variant of `PaymentLinkLineItemPatchInput`..
 
-- Condition: not (at least one(present(`variant_id`); present(`variant_ids`); present(`default_variant_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`))).
+- Condition: not (at least one(present(`variant_id`); present(`variant_ids`); present(`default_variant_id`); present(`name`); present(`unit_price_money`); present(`description`); present(`tax`); present(`allow_unit_price_adjustment`); present(`min_unit_price_money`); present(`max_unit_price_money`); present(`suggested_unit_price_money_options`); present(`product_type`))).
 - Required: `bundle_id`.
 - Optional: `allow_unit_price_adjustment`, `name`, `unit_price_money`, `variant_id`, `variant_ids`.
 - Constraints for `type`: Values: `"bundle"`.

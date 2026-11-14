@@ -345,7 +345,6 @@
   "listOrderPaymentAttempts": "orders.listPaymentAttempts",
   "getOrderPaymentAttempt": "orders.getPaymentAttempt",
   "cancelOrderPaymentAttempt": "orders.cancelPaymentAttempt",
-  "createOrderPaymentIntent": "orders.createPaymentIntent",
   "sendOrderReceipt": "orders.sendReceipt",
   "listPackages": "packages.list",
   "getPackage": "packages.get",
@@ -708,5 +707,15 @@
   "rotateMerchantSignupAuthorizationCodes": "merchantSignups.rotateAuthorizationCodes",
   "simulateReader": "readers.simulate",
   "updateReader": "readers.update",
-  "verifyMerchantSignup": "merchantSignups.verify"
+  "verifyMerchantSignup": "merchantSignups.verify",
+  "lookupRememberedBuyer": "rememberedBuyers.lookup",
+  "revokeRememberedBuyer": "rememberedBuyers.revoke",
+  "listMeRememberedBuyers": "me.listRememberedBuyers",
+  "revokeMeRememberedBuyer": "me.revokeRememberedBuyer",
+  "cancelCustomerEmailChangeRequest": "customers.cancelEmailChangeRequest",
+  "createCustomerEmailChangeRequest": "customers.createEmailChangeRequest",
+  "getCustomerEmailChangeRequest": "customers.getEmailChangeRequest",
+  "listCustomerEmailChangeRequests": "customers.listEmailChangeRequests",
+  "listInvoiceLateFees": "invoices.listLateFees",
+  "listSubscriptionLineItems": "subscriptions.listLineItems"
 }

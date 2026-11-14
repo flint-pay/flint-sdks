@@ -1,9 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-53.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { Ticket, TicketListResponse } from '../declarations/types-65.js';
 import type {
-    Ticket,
-    TicketListResponse,
     TicketResponse,
     TicketWithAdmissionCode,
     TicketWithAdmissionCodeResponse,
@@ -15,8 +14,8 @@ import type {
     TicketsUndoCheckInParams,
     TicketsUpdateParams,
     TicketsVoidParams
-} from '../declarations/types-65.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+} from '../declarations/types-66.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -33,11 +32,9 @@ export type {
 } from '../runtime.js';
 export type {
     TicketsCheckInParams,
-    Ticket,
     TicketResponse,
     TicketsGetParams,
     TicketsListParams,
-    TicketListResponse,
     TicketsLookupParams,
     TicketsRotateCodeParams,
     TicketWithAdmissionCode,
@@ -46,28 +43,28 @@ export type {
     TicketsUpdateParams,
     TicketsVoidParams,
     TicketVersionRequestInput
-} from '../declarations/types-65.js';
-export type { RequestOptions } from '../declarations/types-53.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+} from '../declarations/types-66.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { Ticket, TicketListResponse } from '../declarations/types-65.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CheckInTicketRequestInput, CheckoutBuyerContact, CheckInTicketRequest } from '../declarations/types-5.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { ExpandedOrderSummary } from '../declarations/types-24.js';
-export type { DeferredPromotion } from '../declarations/types-16.js';
+export type { DeferredPromotion } from '../declarations/types-17.js';
 export type { PricingAmounts } from '../declarations/types-49.js';
-export type { MoneyValue, NextAction } from '../declarations/types-38.js';
+export type { MoneyValue, NextAction } from '../declarations/types-39.js';
 export type { OrderSettlementAmounts } from '../declarations/types-41.js';
 export type { SettlementAmounts } from '../declarations/types-59.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { LookupTicketRequestInput, LookupTicketRequest } from '../declarations/types-35.js';
-export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-68.js';
-export { makeCheckInTicketRequest } from '../declarations/types-70.js';
-export { makeLookupTicketRequest } from '../declarations/types-77.js';
-export { makeMoneyValue } from '../declarations/types-78.js';
+export type { UpdateTicketRequestInput, UpdateTicketRequest } from '../declarations/types-69.js';
+export { makeCheckInTicketRequest } from '../declarations/types-71.js';
+export { makeLookupTicketRequest } from '../declarations/types-78.js';
+export { makeMoneyValue } from '../declarations/types-79.js';
 export { makeTicketVersionRequest } from '../declarations/types-83.js';
-export { makeUpdateTicketRequest } from '../declarations/types-84.js';
+export { makeUpdateTicketRequest } from '../declarations/types-85.js';
 export interface TicketsResource {
     /**
  * Admits an issued ticket. Concurrent check-ins of one ticket admit it once: the others return 409

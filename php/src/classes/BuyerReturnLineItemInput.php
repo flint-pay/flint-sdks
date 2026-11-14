@@ -28,6 +28,7 @@ namespace Flint;
  * @property-read string $merchandise_status
  * @property-read list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read string $product_id
  * @property-read int $received_quantity
@@ -54,7 +55,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnLineItemInput extends Model {
-    /** @param array{'accepted_quantity': int, 'allowed_resolution_types': list<string>, 'approved_quantity': int, 'automatic_resolution_type'?: string, 'available_resolution_quantity': int, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'buyer_note'?: string, 'canceled_quantity': int, 'created_at': string|\DateTimeInterface, 'decision_at'?: string|\DateTimeInterface, 'decline_reason'?: string, 'decline_reason_message'?: string, 'declined_quantity': int, 'description'?: string, 'dispositioned_quantity': int, 'eligibility': BuyerReturnLineItemEligibilityInput|array<array-key, mixed>|\stdClass, 'fulfillment_id': string, 'handed_off_quantity': int, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inspected_quantity': int, 'is_inspection_required'?: bool, 'is_policy_overridden': bool, 'merchandise_status': string, 'modifiers': list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'received_quantity': int, 'rejected_quantity': int, 'release_timing'?: string, 'requested_quantity': int, 'requested_resolution_type'?: string, 'resolution_status': string, 'resolved_quantity': int, 'return_id': string, 'return_line_item_id': string, 'return_reason_handle': string, 'return_reason_id': string, 'return_reason_name': string, 'return_required_quantity': int, 'return_resolution_ids': list<string>, 'return_value': ReturnLineItemValueInput|array<array-key, mixed>|\stdClass, 'review_required_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'accepted_quantity': int, 'allowed_resolution_types': list<string>, 'approved_quantity': int, 'automatic_resolution_type'?: string, 'available_resolution_quantity': int, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'buyer_note'?: string, 'canceled_quantity': int, 'created_at': string|\DateTimeInterface, 'decision_at'?: string|\DateTimeInterface, 'decline_reason'?: string, 'decline_reason_message'?: string, 'declined_quantity': int, 'description'?: string, 'dispositioned_quantity': int, 'eligibility': BuyerReturnLineItemEligibilityInput|array<array-key, mixed>|\stdClass, 'fulfillment_id': string, 'handed_off_quantity': int, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'inspected_quantity': int, 'is_inspection_required'?: bool, 'is_policy_overridden': bool, 'merchandise_status': string, 'modifiers': list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'product_id'?: string, 'received_quantity': int, 'rejected_quantity': int, 'release_timing'?: string, 'requested_quantity': int, 'requested_resolution_type'?: string, 'resolution_status': string, 'resolved_quantity': int, 'return_id': string, 'return_line_item_id': string, 'return_reason_handle': string, 'return_reason_id': string, 'return_reason_name': string, 'return_required_quantity': int, 'return_resolution_ids': list<string>, 'return_value': ReturnLineItemValueInput|array<array-key, mixed>|\stdClass, 'review_required_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnLineItemInput')); }
     /** Inspected units that were accepted. Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -80,7 +81,7 @@ final class BuyerReturnLineItemInput extends Model {
      */
     public function getAutomaticResolutionType(): string { return $this->get('automatic_resolution_type'); }
     public function hasAutomaticResolutionType(): bool { return $this->has('automatic_resolution_type'); }
-    /** Approved quantity that can still be assigned to a new resolution. Every non-canceled resolution reserves its line quantity, including proposed, pending, action-required, failed, and fulfilled resolutions. Whole-number quantity; fractional quantities are not supported. Format: int64.
+    /** Approved quantity that can still be assigned to a new resolution. Every non-canceled resolution reserves its line quantity, including proposed, pending, action-required, failed, and completed resolutions. Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
      * @throws SdkError When available_resolution_quantity is omitted; use hasAvailableResolutionQuantity() or valueOrDefault().
      */
@@ -212,6 +213,12 @@ final class BuyerReturnLineItemInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Order that owns order_line_item_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().
@@ -254,7 +261,7 @@ final class BuyerReturnLineItemInput extends Model {
      */
     public function getRequestedResolutionType(): string { return $this->get('requested_resolution_type'); }
     public function hasRequestedResolutionType(): bool { return $this->has('requested_resolution_type'); }
-    /** Whether the value for this line's approved quantity has been delivered. Value enum: "not_selected", "pending", "requires_action", "fulfilled", "failed".
+    /** Whether the value for this line's approved quantity has been delivered. Value enum: "not_selected", "pending", "requires_action", "completed", "failed".
      * @return string
      * @throws SdkError When resolution_status is omitted; use hasResolutionStatus() or valueOrDefault().
      */

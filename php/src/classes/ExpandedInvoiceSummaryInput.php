@@ -12,15 +12,15 @@ namespace Flint;
  * @property-read string $order_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $outstanding_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $paid_money
+ * @property-read PricingAmountsInput|array<array-key, mixed>|\stdClass $pricing_amounts
  * @property-read string $refund_status
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * @property-read string $status
  * @property-read list<string> $supported_actions
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedInvoiceSummaryInput extends Model {
-    /** @param array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'collection_block_status'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status'?: string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedInvoiceSummaryInput')); }
     /** Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
      * @return string
@@ -70,7 +70,7 @@ final class ExpandedInvoiceSummaryInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed, as outstanding_money on the full Invoice reports it: never below zero, 0 on paid, credited, uncollectible, and voided invoices, and equal to total_money on a draft. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What is still owed, as outstanding_money on the full Invoice reports it: never below zero, 0 on paid, credited, uncollectible, and voided invoices, and equal to pricing_amounts.total_money on a draft. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When outstanding_money is omitted; use hasOutstandingMoney() or valueOrDefault().
      */
@@ -82,6 +82,12 @@ final class ExpandedInvoiceSummaryInput extends Model {
      */
     public function getPaidMoney(): mixed { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
+    /** The invoice pricing totals, frozen at issue; a draft previews the backing order. Late fees are in late_fee_money on the full invoice. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmountsInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When pricing_amounts is omitted; use hasPricingAmounts() or valueOrDefault().
+     */
+    public function getPricingAmounts(): mixed { return $this->get('pricing_amounts'); }
+    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** How much of the collected money has been refunded. It doesn't change status. Value enum: "none", "partially_refunded", "refunded".
      * @return string
      * @throws SdkError When refund_status is omitted; use hasRefundStatus() or valueOrDefault().
@@ -106,12 +112,6 @@ final class ExpandedInvoiceSummaryInput extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** The invoice document total, equal to snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order total. Late fees are in late_fee_money on the full invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
-     */
-    public function getTotalMoney(): mixed { return $this->get('total_money'); }
-    public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

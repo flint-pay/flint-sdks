@@ -1,17 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
 import type { Promotion } from '../declarations/types-50.js';
+import type { PromotionListResponse, PromotionResponse } from '../declarations/types-51.js';
 import type {
-    PromotionListResponse,
-    PromotionResponse,
     PromotionsCreateParams,
     PromotionsDeleteParams,
     PromotionsGetParams,
     PromotionsListParams,
     PromotionsUpdateParams
-} from '../declarations/types-51.js';
-import type { RequestOptions } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+} from '../declarations/types-52.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -28,12 +27,26 @@ export type {
 } from '../runtime.js';
 export type {
     PromotionsCreateParams,
-    PromotionResponse,
     PromotionsDeleteParams,
     PromotionsGetParams,
     PromotionsListParams,
-    PromotionListResponse,
     PromotionsUpdateParams,
+    PromotionScheduleRequestInput,
+    ReadinessMerchantAccountSession
+} from '../declarations/types-52.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type {
+    Promotion,
+    PromotionApplicationMethodRequestInput,
+    PromotionAmountOffMethodRequestInput,
+    PromotionApplicationMethod,
+    PromotionAmountOffMethod,
+    PromotionBuyXGetYMethod,
+    PromotionApplicationMethodPatchInput
+} from '../declarations/types-50.js';
+export type {
+    PromotionResponse,
+    PromotionListResponse,
     PromotionPercentOffMethodRequestInput,
     PromotionRuleGroupRequestInput,
     PromotionRuleRequestInput,
@@ -42,9 +55,10 @@ export type {
     PromotionRecurrenceOnceRequestInput,
     PromotionRecurrenceRepeatingRequestInput,
     PromotionRecurrenceForeverRequestInput,
+    PromotionBuyXGetYMethodRequestInput,
+    PromotionCodeRequestInput,
     PromotionCombinesWithRequestInput,
     PromotionExclusivityRequestInput,
-    PromotionScheduleRequestInput,
     PromotionPercentOffMethod,
     PromotionRuleGroup,
     PromotionRule,
@@ -53,6 +67,7 @@ export type {
     PromotionRecurrenceOnce,
     PromotionRecurrenceRepeating,
     PromotionRecurrenceForever,
+    PromotionCode,
     PromotionCodesSummary,
     PromotionCombinesWith,
     PromotionExclusivity,
@@ -64,33 +79,18 @@ export type {
     PromotionExclusivityRequest,
     PromotionExclusivityPatch
 } from '../declarations/types-51.js';
-export type { RequestOptions } from '../declarations/types-53.js';
-export type {
-    Promotion,
-    PromotionApplicationMethodRequestInput,
-    PromotionAmountOffMethodRequestInput,
-    PromotionBuyXGetYMethodRequestInput,
-    PromotionCodeRequestInput,
-    PromotionApplicationMethod,
-    PromotionAmountOffMethod,
-    PromotionBuyXGetYMethod,
-    PromotionCode,
-    PromotionApplicationMethodPatchInput
-} from '../declarations/types-50.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreatePromotionRequestInput } from '../declarations/types-12.js';
-export type { MoneyValueInput, MetadataRequestInput, MoneyValue, NextAction } from '../declarations/types-38.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { UpdatePromotionRequestInput } from '../declarations/types-67.js';
+export type { UpdatePromotionRequestInput } from '../declarations/types-68.js';
 export type { CategoriesDeleteParams } from '../declarations/types-5.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreatePromotionRequest } from '../declarations/types-73.js';
-export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export type { DisputesAcceptParams } from '../declarations/types-24.js';
+export { makeCreatePromotionRequest } from '../declarations/types-74.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-79.js';
 export {
     makePromotionAmountOffMethodRequest,
     makePromotionApplicationMethodPatch,
@@ -99,7 +99,9 @@ export {
     makePromotionCodeRequest,
     makePromotionCombinesWithPatch,
     makePromotionCombinesWithRequest,
-    makePromotionExclusivityPatch,
+    makePromotionExclusivityPatch
+} from '../declarations/types-80.js';
+export {
     makePromotionExclusivityRequest,
     makePromotionPercentOffMethodRequest,
     makePromotionRecurrenceForeverRequest,
@@ -111,8 +113,8 @@ export {
     makePromotionRuleValueRequest,
     makePromotionSchedulePatch,
     makePromotionScheduleRequest
-} from '../declarations/types-80.js';
-export { makeUpdatePromotionRequest } from '../declarations/types-83.js';
+} from '../declarations/types-81.js';
+export { makeUpdatePromotionRequest } from '../declarations/types-84.js';
 export interface PromotionsResource {
     /**
  * Creates a promotion: a discount that applies to qualifying orders automatically or when the

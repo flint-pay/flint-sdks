@@ -10,6 +10,7 @@ Response model.
 | --- | --- | --- | --- |
 | `available_disposition_quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `return_id` | Required | string or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. |
 | `return_line_item_id` | Optional | string | ID of the Return line the units were matched to. Absent for unverified units. |
 | `return_receipt_id` | Required | string | ID of the receipt the line belongs to. |
 | `return_receipt_line_item_id` | Required | string | Unique identifier for this return receipt line item, prefixed `retrcli_`. |

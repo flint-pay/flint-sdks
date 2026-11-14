@@ -102,7 +102,7 @@ final class Product extends Model {
      */
     public function getModifierSet(): ModifierSet|null { return $this->get('modifier_set'); }
     public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** Attached modifier set. Send null on update to remove it.
+    /** Attached modifier set. Null when no modifier set is assigned. Send null on update to remove it.
      * @return string|null
      */
     public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }

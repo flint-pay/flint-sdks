@@ -1,20 +1,43 @@
-import type { DeliverySelectionInstructionsRequest, DeliverySelection } from './types-21.js';
-import type { ResponseMeta, ResetDemoSessionRequestInput } from './types-54.js';
-import type { BuyerAction } from './types-1.js';
-import type { CheckoutBuyerContact } from './types-5.js';
-import type { CustomFieldAnswer } from './types-15.js';
-import type { DeferredPromotion, DeliveryBusinessDayRange, DeliveryBusinessDayRangeRequestInput } from './types-16.js';
+import type { InputValue } from '../runtime.js';
+import type { CreateDeliveryRevocationRequestInput, CreateDeliverySelectionRequestInput } from './types-9.js';
 import type {
+    DisputesAcceptParams,
     ExpandedCustomerSummary,
     ExpandedPaymentIntentSummary,
     ExpandedSubscriptionPlanSummary,
-    ExpandedSubscriptionSummary,
-    Fulfillment
+    ExpandedSubscriptionSummary
 } from './types-24.js';
-import type { InventoryRoutingSource } from './types-30.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-37.js';
-import type { OrderAuthorizationAmounts, OrderCharge, OrderDeliveryDestination } from './types-39.js';
 import type {
+    DeliveryAvailability,
+    DeliveryAvailabilityRequestInput,
+    DeliveryBuyerLocationResource,
+    DeliveryInputRequirement,
+    DeferredPromotion,
+    DeliveryInventoryReservationSummary,
+    DeliveryBusinessDayRange,
+    DeliveryBusinessDayRangeRequestInput,
+    DeliveryCountryConditionRequestInput
+} from './types-17.js';
+import type { Address } from './types-0.js';
+import type { DeliveryRecipientResource } from './types-21.js';
+import type { MoneyValue, OrderAuthorizationAmounts, OrderCharge, MoneyValueInput } from './types-39.js';
+import type {
+    DeliveryPickupDetails,
+    DeliveryPlan,
+    DeliveryPricingTierBand,
+    DeliveryPostalCodeCondition,
+    DeliveryPostalCodeConditionRequestInput
+} from './types-19.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
+import type { PartnerWebhookEnvelope, PaymentCollection } from './types-44.js';
+import type { ResponseMeta } from './types-54.js';
+import type { BuyerAction } from './types-1.js';
+import type { CheckoutBuyerContact } from './types-5.js';
+import type { CustomFieldAnswer } from './types-15.js';
+import type { Fulfillment } from './types-25.js';
+import type { InventoryRoutingSource } from './types-30.js';
+import type {
+    OrderDeliveryDestination,
     OrderDeliverySummary,
     OrderDiscount,
     OrderGiftCardEstimate,
@@ -24,30 +47,1304 @@ import type {
     OrderLineItem
 } from './types-40.js';
 import type { OrderPaymentAttempt, OrderReturnCreditSettlement, OrderSettlementAmounts, OrderTax } from './types-41.js';
-import type { PaymentCollection, PartnerWebhookEnvelope } from './types-44.js';
 import type { PricingAmounts } from './types-49.js';
 import type { SetupCollection } from './types-59.js';
-import type { TicketedEvent, Tip } from './types-65.js';
+import type { TicketedEvent, Tip } from './types-66.js';
 import type { CheckoutSession } from './types-6.js';
 import type {
-    DeliveryInventoryReservationSummary,
-    DeliveryCountryConditionRequestInput,
-    DeliveryLocationSetsDeleteParams
-} from './types-17.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateDeliverySelectionRequestInput, CreateDeliveryZoneRequestInput } from './types-8.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type {
-    DeliveryPricingTierBand,
     DeliveryPricingTierBandRequestInput,
-    DeliveryPostalCodeConditionRequestInput
-} from './types-19.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { DeliveryPostalCodeCondition } from './types-18.js';
-import type { DeliveryRadiusCondition, DeliveryRadiusConditionRequestInput } from './types-20.js';
-import type { UpdateDeliveryZoneRequestInput } from './types-66.js';
-import type { CreateDemoSessionRequestInput } from './types-9.js';
-import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
+    DeliveryRadiusCondition,
+    DeliveryRadiusConditionRequestInput
+} from './types-20.js';
+/** The parent and exact child identity permanently fenced by this revocation. */
+export type DeliveryRevocationTarget = ({
+    /**
+     * ID of the delivery method that owns the targeted revision. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id"?: string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_method_id. Example:
+     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
+    "delivery_method_revision_id"?: string;
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id"?: string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example:
+     * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     */
+    "delivery_rate_callback_revision_id"?: string;
+    /**
+     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
+     * key; secret material is never returned. Example: "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact recorded geography version of location_id to fence. Future and unrecorded versions are
+     * not accepted. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /**
+     * ID of the Location that recorded the targeted geography version. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * The kind of exact dependency this revocation fences. Value enum: "location_geography",
+     * "delivery_rate_callback_signing_key", "delivery_rate_callback_revision",
+     * "delivery_method_revision".
+     */
+    "target_type": "location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision"
+        | (string & {});
+})
+    & ((Exclude<DeliveryRevocationTargetLocationGeography & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackSigningKey & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryRateCallbackRevision & object, readonly unknown[]>)
+    | (Exclude<DeliveryRevocationTargetDeliveryMethodRevision & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** Fences one immutable revision of the named delivery method. */
+export type DeliveryRevocationTargetDeliveryMethodRevision = {
+    /**
+     * ID of the delivery method that owns the targeted revision. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_method_id. Example:
+     * "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
+    "delivery_method_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery method. Value enum:
+     * "delivery_method_revision".
+     */
+    "target_type": "delivery_method_revision" | (string & {});
+};
+/** Fences one immutable revision of the named delivery rate callback. */
+export type DeliveryRevocationTargetDeliveryRateCallbackRevision = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id. Example:
+     * "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     */
+    "delivery_rate_callback_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery rate callback. Value enum:
+     * "delivery_rate_callback_revision".
+     */
+    "target_type": "delivery_rate_callback_revision" | (string & {});
+};
+/** Fences one current or previous HMAC signing key of the named delivery rate callback. */
+export type DeliveryRevocationTargetDeliveryRateCallbackSigningKey = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. Example:
+     * "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
+     * key; secret material is never returned. Example: "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Fences one current or previous HMAC signing key of the named delivery rate callback. Value
+     * enum: "delivery_rate_callback_signing_key".
+     */
+    "target_type": "delivery_rate_callback_signing_key" | (string & {});
+};
+/** Fences one geography version recorded by the named Location. */
+export type DeliveryRevocationTargetLocationGeography = {
+    /**
+     * Exact recorded geography version of location_id to fence. Future and unrecorded versions are
+     * not accepted. Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+    /**
+     * ID of the Location that recorded the targeted geography version. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /**
+     * Fences one geography version recorded by the named Location. Value enum:
+     * "location_geography".
+     */
+    "target_type": "location_geography" | (string & {});
+};
+export type DeliveryRevocationsCreateParams = (InputValue<CreateDeliveryRevocationRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type DeliveryRevocationsGetParams = DisputesAcceptParams;
+export type DeliveryRevocationsListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by revocation target type. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". Value enum:
+     * "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[1] (Value): Array of
+     * string. minItems: 1. [] enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[1][] (Value): string.
+     * Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision". anyOf[2] (Value): string.
+     * Value enum: "location_geography", "delivery_rate_callback_signing_key",
+     * "delivery_rate_callback_revision", "delivery_method_revision".
+     */
+    "target_type"?: InputValue<("location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision")
+        | readonly ("location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision")[]>;
+    /**
+     * Filter by revocation reason. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other". Value enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other". anyOf[1] (Value): Array of string.
+     * minItems: 1. [] enum: "unsafe_configuration", "location_unavailable",
+     * "credential_compromise", "legal_requirement", "other". anyOf[1][] (Value): string. Value
+     * enum: "unsafe_configuration", "location_unavailable", "credential_compromise",
+     * "legal_requirement", "other". anyOf[2] (Value): string. Value enum: "unsafe_configuration",
+     * "location_unavailable", "credential_compromise", "legal_requirement", "other".
+     */
+    "reason"?: InputValue<("unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other")
+        | readonly ("unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other")[]>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** Estimate rule for a scheduled-window delivery method, defined by its `availability` schedule. */
+export type DeliveryScheduleWindowRule = {
+    /**
+     * When windows can be offered. When a delivery method can be scheduled: weekly intervals,
+     * blackout intervals, lead time, and how far ahead a buyer can book.
+     */
+    "availability": DeliveryAvailability;
+};
+/**
+ * Scheduled-window estimate rule you supply for a delivery method, defined by its `availability`
+ * schedule.
+ */
+export type DeliveryScheduleWindowRuleRequestInput = {
+    /**
+     * When windows can be offered. When a delivery method can be scheduled: weekly intervals,
+     * blackout intervals, lead time, and how far ahead a buyer can book.
+     */
+    "availability": DeliveryAvailabilityRequestInput;
+};
+/**
+ * The delivery choice selected for a checkout or order. Poll GET
+ * /v1/delivery-selections/{delivery_selection_id} or list delivery selections to read its current
+ * status.
+ */
+export type DeliverySelection = {
+    /**
+     * Delivery charge committed by this selection. Monetary amount represented as integer minor
+     * units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or
+     * dashboard credential. The normalized buyer address or coordinate used for this quote.
+     */
+    "buyer_location"?: DeliveryBuyerLocationResource;
+    /**
+     * Deadline after which calculated pricing evidence is no longer valid. Always present with an
+     * API key or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "calculation_expires_at"?: string;
+    /**
+     * Checkout session that owns the selection. Always present with an API key or dashboard
+     * credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_id"?: string;
+    /**
+     * One chosen option for each required choice group. [] (Value): {@link
+     * DeliverySelectionChoiceResource}. A delivery option chosen for one choice group in a
+     * delivery selection, with its method, amounts, type-specific details, timezone, and any
+     * chosen delivery window.
+     */
+    "choices": Array<DeliverySelectionChoiceResource>;
+    /**
+     * Time the selection was created. Always present with an API key or dashboard credential.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "created_at"?: string;
+    /** Quote from which this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV". */
+    "delivery_quote_id": string;
+    /** Stable delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". */
+    "delivery_selection_id": string;
+    /**
+     * Destination address snapshot used for delivery evaluation. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. A postal address. Every
+     * address has country. Addresses Flint checked as complete (customer and saved addresses,
+     * merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient
+     * and pickup addresses) always have line1 and city, and US ones always have state and
+     * postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold
+     * only what was provided, such as postal_code and country.
+     */
+    "destination_address"?: Address;
+    /**
+     * Deadline after which this provisional selection can no longer be committed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Inputs this selection still needs before payment: each destination_address member a chosen
+     * shipment or local delivery needs that the stored address lacks (line1, city, and country,
+     * plus state and postal_code in the US), and each recipient field a chosen option requires
+     * that the selection does not include. Each entry repeats the quote's requirement for that
+     * option, with the same delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED,
+     * reason configuration_required, and the delivery_selection reference until a new delivery
+     * selection includes them. Empty when nothing is missing, and always empty unless status is
+     * selected. [] (Value): {@link DeliveryInputRequirement}. An input a delivery method needs,
+     * such as an address field or time window, with its `field_path`, purpose, and constraint.
+     */
+    "input_requirements": Array<DeliveryInputRequirement>;
+    /** Buyer-provided delivery instructions. Returned with an API key or dashboard credential. */
+    "instructions"?: string;
+    /**
+     * Ordered lifecycle events recorded for this selection. [] (Value): {@link
+     * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history,
+     * with the new `status`, the `reason`, and when it happened.
+     */
+    "lifecycle_events"?: Array<DeliverySelectionLifecycleEventResource>;
+    /**
+     * Time the selection lifecycle last changed. Always present with an API key or dashboard
+     * credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "lifecycle_updated_at"?: string;
+    /**
+     * The deadline that set expires_at: the earliest of the chosen options' guarantee, the
+     * calculation expiry, and the maximum selection lifetime. A tie between the calculation and
+     * the guarantee reports calculation_expiry. Always present with an API key or dashboard
+     * credential. - `selection_guarantee_expiry`: The earliest guarantee among the chosen options
+     * and delivery windows comes first. When the selection holds stock, the hold ends at this
+     * deadline too. - `calculation_expiry`: The calculation the selection was priced against
+     * expires first. It ends no later than the checkout session's expires_at, and earlier when an
+     * applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches the
+     * longest a provisional selection can last, 24 hours after it was created. Value enum:
+     * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+     */
+    "limiting_deadline_reason"?: "selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {});
+    /**
+     * Order affected by the selection. Always present with an API key or dashboard credential.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /**
+     * Availability state of merchant-private selection evidence. Value enum: "available",
+     * "redacted".
+     */
+    "private_data_status"?: "available" | "redacted" | (string & {});
+    /**
+     * Recipient details captured with the selection. Omitted for a checkout session credential
+     * that doesn't act for the customer the buyer verified. The person receiving a delivery
+     * selection, with optional `name`, `email`, and `phone`.
+     */
+    "recipient"?: DeliveryRecipientResource;
+    /**
+     * Time merchant-private selection evidence was redacted. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "redacted_at"?: string;
+    /**
+     * Current selection lifecycle status. - `selected`: These choices are provisional and can be
+     * replaced before payment. - `locked_for_payment`: A payment attempt owns these choices. They
+     * are frozen until payment finishes. - `committed`: Payment fixed these choices on the order.
+     * - `superseded`: A newer selection replaced these choices. - `expired`: The selection is no
+     * longer usable because its deadline passed. - `released`: These choices were withdrawn.
+     * Create a new selection before paying for delivery. Value enum: "selected",
+     * "locked_for_payment", "committed", "superseded", "expired", "released".
+     */
+    "status": "selected"
+        | "locked_for_payment"
+        | "committed"
+        | "superseded"
+        | "expired"
+        | "released"
+        | (string & {});
+    /**
+     * Contains release while status is selected and the selection belongs to a checkout session:
+     * POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+     * Empty in every other status. Independent of caller permissions. [] enum: "release". []
+     * (Value): string. Value enum: "release".
+     */
+    "supported_actions": Array<"release" | (string & {})>;
+};
+/**
+ * A delivery option chosen for one choice group in a delivery selection, with its method, amounts,
+ * type-specific details, timezone, and any chosen delivery window.
+ */
+export type DeliverySelectionChoiceResource = {
+    /**
+     * Delivery price before discounts and tax. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /**
+     * ID of the quote choice group these items belong to. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
+    "delivery_choice_group_id": string;
+    /**
+     * ID of the delivery method providing this choice. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string;
+    /** ID of the option chosen from the quote. Example: "dopt_01KEZF7C00JM9TDZQZ5KQJ6923". */
+    "delivery_option_id": string;
+    /**
+     * Whether this choice delivers the items together or in separate shipments. Whether a delivery
+     * option is fulfilled in one delivery or several, with the first arrival time, completion
+     * time, and delivery count.
+     */
+    "delivery_plan": DeliveryPlan;
+    /**
+     * ID of the chosen offered window. Omitted when no offered window was chosen. Example:
+     * "fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d".
+     */
+    "delivery_window_id"?: string;
+    /**
+     * Buyer-facing description captured from the chosen method. Omitted when the method had none.
+     */
+    "description"?: string;
+    /**
+     * Always present with an API key or dashboard credential. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "discount_money"?: MoneyValue;
+    /**
+     * Window choice and buyer instructions stored with this selection. Omitted when neither was
+     * supplied. Buyer input for a selected delivery option: a `delivery_window_id` where the
+     * option uses delivery windows, and optional `instructions`.
+     */
+    "input"?: DeliverySelectionInstructionsRequest;
+    /**
+     * Local delivery service details, present for local_delivery choices. Details of a local
+     * delivery option: instructions and service level.
+     */
+    "local_delivery"?: DeliveryShipmentDetails;
+    /**
+     * Reference supplied by the merchant's rate service for this option. Omitted when none was
+     * supplied.
+     */
+    "merchant_reference"?: string;
+    /** Buyer-facing name captured from the chosen method. */
+    "name": string;
+    /**
+     * Always present with an API key or dashboard credential. Null when the choice has no order
+     * charge. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
+     */
+    "order_charge_id"?: string | null;
+    /**
+     * ID of the order this delivery choice belongs to, including the parent of order_charge_id
+     * when a charge applies. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
+    /**
+     * Pickup Location and collection details, present for pickup choices. Pickup details of a
+     * delivery option: the pickup mode and the pickup location.
+     */
+    "pickup"?: DeliveryPickupDetails;
+    /**
+     * Shipping service details, present for shipment choices. Shipment-specific details of a
+     * delivery option or choice: the `service_level` and buyer `instructions`.
+     */
+    "shipment"?: DeliveryShipmentDetails;
+    /** Key identifying the same items and allowed delivery types across quotes. */
+    "stable_key": string;
+    /**
+     * Always present with an API key or dashboard credential. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "tax_money"?: MoneyValue;
+    /**
+     * IANA timezone for displaying window_start_at and window_end_at. Example: "America/New_York".
+     */
+    "timezone"?: string;
+    /**
+     * Delivery price after discounts and tax. Monetary amount represented as integer minor units
+     * plus an ISO 4217 currency code.
+     */
+    "total_money": MoneyValue;
+    /** How this choice delivers the items. Value enum: "shipment", "pickup", "local_delivery". */
+    "type": "shipment" | "pickup" | "local_delivery" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "window_end_at"?: string;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "window_start_at"?: string;
+};
+export type DeliverySelectionCommittedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "buyer_location"?: DeliveryBuyerLocationResource;
+            "calculation_expires_at"?: string;
+            "checkout_session_id"?: string;
+            "choices": Array<DeliverySelectionChoiceResource>;
+            "created_at"?: string;
+            "delivery_quote_id": string;
+            "delivery_selection_id": string;
+            "destination_address"?: Address;
+            "expires_at": string;
+            "input_requirements": Array<DeliveryInputRequirement>;
+            "instructions"?: string;
+            "lifecycle_events"?: Array<DeliverySelectionLifecycleEventResource>;
+            "lifecycle_updated_at"?: string;
+            "limiting_deadline_reason"?: "selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {});
+            "order_id"?: string;
+            "private_data_status"?: "available" | "redacted" | (string & {});
+            "recipient"?: DeliveryRecipientResource;
+            "redacted_at"?: string;
+            "status": "selected"
+                | "locked_for_payment"
+                | "committed"
+                | "superseded"
+                | "expired"
+                | "released"
+                | (string & {});
+            "supported_actions": Array<"release" | (string & {})>;
+        };
+        "previous_attributes"?: Partial<DeliverySelection>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "delivery_selection.committed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "amount_money": MoneyValue;
+            "buyer_location"?: DeliveryBuyerLocationResource;
+            "calculation_expires_at"?: string;
+            "checkout_session_id"?: string;
+            "choices": Array<DeliverySelectionChoiceResource>;
+            "created_at"?: string;
+            "delivery_quote_id": string;
+            "delivery_selection_id": string;
+            "destination_address"?: Address;
+            "expires_at": string;
+            "input_requirements": Array<DeliveryInputRequirement>;
+            "instructions"?: string;
+            "lifecycle_events"?: Array<DeliverySelectionLifecycleEventResource>;
+            "lifecycle_updated_at"?: string;
+            "limiting_deadline_reason"?: "selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {});
+            "order_id"?: string;
+            "private_data_status"?: "available" | "redacted" | (string & {});
+            "recipient"?: DeliveryRecipientResource;
+            "redacted_at"?: string;
+            "status": "selected"
+                | "locked_for_payment"
+                | "committed"
+                | "superseded"
+                | "expired"
+                | "released"
+                | (string & {});
+            "supported_actions": Array<"release" | (string & {})>;
+        };
+        "previous_attributes"?: Partial<DeliverySelection>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "delivery_selection.committed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "delivery_selection.committed";
+});
+/**
+ * The `delivery_selection.committed` webhook payload for the `installed_merchants` event source.
+ * Fields shared by partner webhook payloads.
+ */
+export type DeliverySelectionCommittedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Delivery charge
+     * committed by this selection. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.buyer_location (Optional): {@link DeliveryBuyerLocationResource}.
+     * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or
+     * dashboard credential. The normalized buyer address or coordinate used for this quote.
+     * object.calculation_expires_at (Optional): string. Deadline after which calculated pricing
+     * evidence is no longer valid. Always present with an API key or dashboard credential. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.checkout_session_id (Optional): string.
+     * Checkout session that owns the selection. Always present with an API key or dashboard
+     * credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN". object.choices (Required): Array of
+     * {@link DeliverySelectionChoiceResource}. One chosen option for each required choice group.
+     * object.choices[] (Value): {@link DeliverySelectionChoiceResource}. A delivery option chosen
+     * for one choice group in a delivery selection, with its method, amounts, type-specific
+     * details, timezone, and any chosen delivery window. object.created_at (Optional): string.
+     * Time the selection was created. Always present with an API key or dashboard credential.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.delivery_quote_id (Required):
+     * string. Quote from which this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+     * object.delivery_selection_id (Required): string. Stable delivery selection ID. Example:
+     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.destination_address (Optional): {@link Address}.
+     * Destination address snapshot used for delivery evaluation. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. A postal address. Every
+     * address has country. Addresses Flint checked as complete (customer and saved addresses,
+     * merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient
+     * and pickup addresses) always have line1 and city, and US ones always have state and
+     * postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold
+     * only what was provided, such as postal_code and country. object.expires_at (Required):
+     * string. Deadline after which this provisional selection can no longer be committed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.input_requirements (Required): Array of
+     * {@link DeliveryInputRequirement}. Inputs this selection still needs before payment: each
+     * destination_address member a chosen shipment or local delivery needs that the stored address
+     * lacks (line1, city, and country, plus state and postal_code in the US), and each recipient
+     * field a chosen option requires that the selection does not include. Each entry repeats the
+     * quote's requirement for that option, with the same delivery_input_requirement_id. Payment
+     * fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection
+     * reference until a new delivery selection includes them. Empty when nothing is missing, and
+     * always empty unless status is selected. object.input_requirements[] (Value): {@link
+     * DeliveryInputRequirement}. An input a delivery method needs, such as an address field or
+     * time window, with its `field_path`, purpose, and constraint. object.instructions (Optional):
+     * string. Buyer-provided delivery instructions. Returned with an API key or dashboard
+     * credential. object.lifecycle_events (Optional): Array of {@link
+     * DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded for this
+     * selection. object.lifecycle_events[] (Value): {@link
+     * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history,
+     * with the new `status`, the `reason`, and when it happened. object.lifecycle_updated_at
+     * (Optional): string. Time the selection lifecycle last changed. Always present with an API
+     * key or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.limiting_deadline_reason (Optional): string. The deadline that set expires_at: the
+     * earliest of the chosen options' guarantee, the calculation expiry, and the maximum selection
+     * lifetime. A tie between the calculation and the guarantee reports calculation_expiry. Always
+     * present with an API key or dashboard credential. - `selection_guarantee_expiry`: The
+     * earliest guarantee among the chosen options and delivery windows comes first. When the
+     * selection holds stock, the hold ends at this deadline too. - `calculation_expiry`: The
+     * calculation the selection was priced against expires first. It ends no later than the
+     * checkout session's expires_at, and earlier when an applied promotion ends first. -
+     * `selection_maximum_lifetime`: The selection reaches the longest a provisional selection can
+     * last, 24 hours after it was created. Value enum: "selection_guarantee_expiry",
+     * "calculation_expiry", "selection_maximum_lifetime". object.order_id (Optional): string.
+     * Order affected by the selection. Always present with an API key or dashboard credential.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.private_data_status (Optional): string.
+     * Availability state of merchant-private selection evidence. Value enum: "available",
+     * "redacted". object.recipient (Optional): {@link DeliveryRecipientResource}. Recipient
+     * details captured with the selection. Omitted for a checkout session credential that doesn't
+     * act for the customer the buyer verified. The person receiving a delivery selection, with
+     * optional `name`, `email`, and `phone`. object.redacted_at (Optional): string. Time
+     * merchant-private selection evidence was redacted. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. Current selection lifecycle
+     * status. - `selected`: These choices are provisional and can be replaced before payment. -
+     * `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment
+     * finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer
+     * selection replaced these choices. - `expired`: The selection is no longer usable because its
+     * deadline passed. - `released`: These choices were withdrawn. Create a new selection before
+     * paying for delivery. Value enum: "selected", "locked_for_payment", "committed",
+     * "superseded", "expired", "released". object.supported_actions (Required): Array of string.
+     * Contains release while status is selected and the selection belongs to a checkout session:
+     * POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+     * Empty in every other status. Independent of caller permissions. [] enum: "release".
+     * object.supported_actions[] (Value): string. Value enum: "release". previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Delivery charge committed by this
+         * selection. Monetary amount represented as integer minor units plus an ISO 4217 currency
+         * code. buyer_location (Optional): {@link DeliveryBuyerLocationResource}. Buyer location
+         * snapshot used to evaluate pickup proximity. Returned with an API key or dashboard
+         * credential. The normalized buyer address or coordinate used for this quote.
+         * calculation_expires_at (Optional): string. Deadline after which calculated pricing
+         * evidence is no longer valid. Always present with an API key or dashboard credential.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". checkout_session_id (Optional):
+         * string. Checkout session that owns the selection. Always present with an API key or
+         * dashboard credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN". choices (Required):
+         * Array of {@link DeliverySelectionChoiceResource}. One chosen option for each required
+         * choice group. choices[] (Value): {@link DeliverySelectionChoiceResource}. A delivery
+         * option chosen for one choice group in a delivery selection, with its method, amounts,
+         * type-specific details, timezone, and any chosen delivery window. created_at (Optional):
+         * string. Time the selection was created. Always present with an API key or dashboard
+         * credential. Format: date-time. Example: "2026-08-02T16:00:00Z". delivery_quote_id
+         * (Required): string. Quote from which this selection was made. Example:
+         * "dqt_01KEZF7C009EB1AVCDJBN4BBVV". delivery_selection_id (Required): string. Stable
+         * delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". destination_address
+         * (Optional): {@link Address}. Destination address snapshot used for delivery evaluation.
+         * Omitted for a checkout session credential that doesn't act for the customer the buyer
+         * verified. A postal address. Every address has country. Addresses Flint checked as
+         * complete (customer and saved addresses, merchant, location, invoice, order delivery
+         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
+         * and city, and US ones always have state and postal_code. Delivery quote destinations,
+         * buyer locations and postal-code tax locations hold only what was provided, such as
+         * postal_code and country. expires_at (Required): string. Deadline after which this
+         * provisional selection can no longer be committed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". input_requirements (Required): Array of {@link
+         * DeliveryInputRequirement}. Inputs this selection still needs before payment: each
+         * destination_address member a chosen shipment or local delivery needs that the stored
+         * address lacks (line1, city, and country, plus state and postal_code in the US), and each
+         * recipient field a chosen option requires that the selection does not include. Each entry
+         * repeats the quote's requirement for that option, with the same
+         * delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason
+         * configuration_required, and the delivery_selection reference until a new delivery
+         * selection includes them. Empty when nothing is missing, and always empty unless status
+         * is selected. input_requirements[] (Value): {@link DeliveryInputRequirement}. An input a
+         * delivery method needs, such as an address field or time window, with its `field_path`,
+         * purpose, and constraint. instructions (Optional): string. Buyer-provided delivery
+         * instructions. Returned with an API key or dashboard credential. lifecycle_events
+         * (Optional): Array of {@link DeliverySelectionLifecycleEventResource}. Ordered lifecycle
+         * events recorded for this selection. lifecycle_events[] (Value): {@link
+         * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's
+         * history, with the new `status`, the `reason`, and when it happened. lifecycle_updated_at
+         * (Optional): string. Time the selection lifecycle last changed. Always present with an
+         * API key or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * limiting_deadline_reason (Optional): string. The deadline that set expires_at: the
+         * earliest of the chosen options' guarantee, the calculation expiry, and the maximum
+         * selection lifetime. A tie between the calculation and the guarantee reports
+         * calculation_expiry. Always present with an API key or dashboard credential. -
+         * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and
+         * delivery windows comes first. When the selection holds stock, the hold ends at this
+         * deadline too. - `calculation_expiry`: The calculation the selection was priced against
+         * expires first. It ends no later than the checkout session's expires_at, and earlier when
+         * an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches
+         * the longest a provisional selection can last, 24 hours after it was created. Value enum:
+         * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+         * order_id (Optional): string. Order affected by the selection. Always present with an API
+         * key or dashboard credential. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * private_data_status (Optional): string. Availability state of merchant-private selection
+         * evidence. Value enum: "available", "redacted". recipient (Optional): {@link
+         * DeliveryRecipientResource}. Recipient details captured with the selection. Omitted for a
+         * checkout session credential that doesn't act for the customer the buyer verified. The
+         * person receiving a delivery selection, with optional `name`, `email`, and `phone`.
+         * redacted_at (Optional): string. Time merchant-private selection evidence was redacted.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required): string. Current
+         * selection lifecycle status. - `selected`: These choices are provisional and can be
+         * replaced before payment. - `locked_for_payment`: A payment attempt owns these choices.
+         * They are frozen until payment finishes. - `committed`: Payment fixed these choices on
+         * the order. - `superseded`: A newer selection replaced these choices. - `expired`: The
+         * selection is no longer usable because its deadline passed. - `released`: These choices
+         * were withdrawn. Create a new selection before paying for delivery. Value enum:
+         * "selected", "locked_for_payment", "committed", "superseded", "expired", "released".
+         * supported_actions (Required): Array of string. Contains release while status is selected
+         * and the selection belongs to a checkout session: POST
+         * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+         * Empty in every other status. Independent of caller permissions. [] enum: "release".
+         * supported_actions[] (Value): string. Value enum: "release".
+         */
+        "object": {
+            /**
+             * Delivery charge committed by this selection. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key
+             * or dashboard credential. The normalized buyer address or coordinate used for this
+             * quote.
+             */
+            "buyer_location"?: DeliveryBuyerLocationResource;
+            /**
+             * Deadline after which calculated pricing evidence is no longer valid. Always present
+             * with an API key or dashboard credential. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "calculation_expires_at"?: string;
+            /**
+             * Checkout session that owns the selection. Always present with an API key or
+             * dashboard credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+             */
+            "checkout_session_id"?: string;
+            /**
+             * One chosen option for each required choice group. [] (Value): {@link
+             * DeliverySelectionChoiceResource}. A delivery option chosen for one choice group in a
+             * delivery selection, with its method, amounts, type-specific details, timezone, and
+             * any chosen delivery window.
+             */
+            "choices": Array<DeliverySelectionChoiceResource>;
+            /**
+             * Time the selection was created. Always present with an API key or dashboard
+             * credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Quote from which this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+             */
+            "delivery_quote_id": string;
+            /** Stable delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". */
+            "delivery_selection_id": string;
+            /**
+             * Destination address snapshot used for delivery evaluation. Omitted for a checkout
+             * session credential that doesn't act for the customer the buyer verified. A postal
+             * address. Every address has country. Addresses Flint checked as complete (customer
+             * and saved addresses, merchant, location, invoice, order delivery destination, tax
+             * identity, fulfillment recipient and pickup addresses) always have line1 and city,
+             * and US ones always have state and postal_code. Delivery quote destinations, buyer
+             * locations and postal-code tax locations hold only what was provided, such as
+             * postal_code and country.
+             */
+            "destination_address"?: Address;
+            /**
+             * Deadline after which this provisional selection can no longer be committed. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string;
+            /**
+             * Inputs this selection still needs before payment: each destination_address member a
+             * chosen shipment or local delivery needs that the stored address lacks (line1, city,
+             * and country, plus state and postal_code in the US), and each recipient field a
+             * chosen option requires that the selection does not include. Each entry repeats the
+             * quote's requirement for that option, with the same delivery_input_requirement_id.
+             * Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the
+             * delivery_selection reference until a new delivery selection includes them. Empty
+             * when nothing is missing, and always empty unless status is selected. [] (Value):
+             * {@link DeliveryInputRequirement}. An input a delivery method needs, such as an
+             * address field or time window, with its `field_path`, purpose, and constraint.
+             */
+            "input_requirements": Array<DeliveryInputRequirement>;
+            /**
+             * Buyer-provided delivery instructions. Returned with an API key or dashboard
+             * credential.
+             */
+            "instructions"?: string;
+            /**
+             * Ordered lifecycle events recorded for this selection. [] (Value): {@link
+             * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's
+             * history, with the new `status`, the `reason`, and when it happened.
+             */
+            "lifecycle_events"?: Array<DeliverySelectionLifecycleEventResource>;
+            /**
+             * Time the selection lifecycle last changed. Always present with an API key or
+             * dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "lifecycle_updated_at"?: string;
+            /**
+             * The deadline that set expires_at: the earliest of the chosen options' guarantee, the
+             * calculation expiry, and the maximum selection lifetime. A tie between the
+             * calculation and the guarantee reports calculation_expiry. Always present with an API
+             * key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee
+             * among the chosen options and delivery windows comes first. When the selection holds
+             * stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation
+             * the selection was priced against expires first. It ends no later than the checkout
+             * session's expires_at, and earlier when an applied promotion ends first. -
+             * `selection_maximum_lifetime`: The selection reaches the longest a provisional
+             * selection can last, 24 hours after it was created. Value enum:
+             * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+             */
+            "limiting_deadline_reason"?: "selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {});
+            /**
+             * Order affected by the selection. Always present with an API key or dashboard
+             * credential. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id"?: string;
+            /**
+             * Availability state of merchant-private selection evidence. Value enum: "available",
+             * "redacted".
+             */
+            "private_data_status"?: "available" | "redacted" | (string & {});
+            /**
+             * Recipient details captured with the selection. Omitted for a checkout session
+             * credential that doesn't act for the customer the buyer verified. The person
+             * receiving a delivery selection, with optional `name`, `email`, and `phone`.
+             */
+            "recipient"?: DeliveryRecipientResource;
+            /**
+             * Time merchant-private selection evidence was redacted. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "redacted_at"?: string;
+            /**
+             * Current selection lifecycle status. - `selected`: These choices are provisional and
+             * can be replaced before payment. - `locked_for_payment`: A payment attempt owns these
+             * choices. They are frozen until payment finishes. - `committed`: Payment fixed these
+             * choices on the order. - `superseded`: A newer selection replaced these choices. -
+             * `expired`: The selection is no longer usable because its deadline passed. -
+             * `released`: These choices were withdrawn. Create a new selection before paying for
+             * delivery. Value enum: "selected", "locked_for_payment", "committed", "superseded",
+             * "expired", "released".
+             */
+            "status": "selected"
+                | "locked_for_payment"
+                | "committed"
+                | "superseded"
+                | "expired"
+                | "released"
+                | (string & {});
+            /**
+             * Contains release while status is selected and the selection belongs to a checkout
+             * session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from
+             * the checkout. Empty in every other status. Independent of caller permissions. []
+             * enum: "release". [] (Value): string. Value enum: "release".
+             */
+            "supported_actions": Array<"release" | (string & {})>;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<DeliverySelection>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "delivery_selection.committed". */
+    "event_type"?: "delivery_selection.committed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `delivery_selection.committed` webhook payload for the `merchant` event source. Fields
+ * shared by merchant webhook payloads.
+ */
+export type DeliverySelectionCommittedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.amount_money (Required): {@link MoneyValue}. Delivery charge
+     * committed by this selection. Monetary amount represented as integer minor units plus an ISO
+     * 4217 currency code. object.buyer_location (Optional): {@link DeliveryBuyerLocationResource}.
+     * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key or
+     * dashboard credential. The normalized buyer address or coordinate used for this quote.
+     * object.calculation_expires_at (Optional): string. Deadline after which calculated pricing
+     * evidence is no longer valid. Always present with an API key or dashboard credential. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.checkout_session_id (Optional): string.
+     * Checkout session that owns the selection. Always present with an API key or dashboard
+     * credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN". object.choices (Required): Array of
+     * {@link DeliverySelectionChoiceResource}. One chosen option for each required choice group.
+     * object.choices[] (Value): {@link DeliverySelectionChoiceResource}. A delivery option chosen
+     * for one choice group in a delivery selection, with its method, amounts, type-specific
+     * details, timezone, and any chosen delivery window. object.created_at (Optional): string.
+     * Time the selection was created. Always present with an API key or dashboard credential.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.delivery_quote_id (Required):
+     * string. Quote from which this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+     * object.delivery_selection_id (Required): string. Stable delivery selection ID. Example:
+     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.destination_address (Optional): {@link Address}.
+     * Destination address snapshot used for delivery evaluation. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. A postal address. Every
+     * address has country. Addresses Flint checked as complete (customer and saved addresses,
+     * merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient
+     * and pickup addresses) always have line1 and city, and US ones always have state and
+     * postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold
+     * only what was provided, such as postal_code and country. object.expires_at (Required):
+     * string. Deadline after which this provisional selection can no longer be committed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.input_requirements (Required): Array of
+     * {@link DeliveryInputRequirement}. Inputs this selection still needs before payment: each
+     * destination_address member a chosen shipment or local delivery needs that the stored address
+     * lacks (line1, city, and country, plus state and postal_code in the US), and each recipient
+     * field a chosen option requires that the selection does not include. Each entry repeats the
+     * quote's requirement for that option, with the same delivery_input_requirement_id. Payment
+     * fails with ACTION_NOT_ALLOWED, reason configuration_required, and the delivery_selection
+     * reference until a new delivery selection includes them. Empty when nothing is missing, and
+     * always empty unless status is selected. object.input_requirements[] (Value): {@link
+     * DeliveryInputRequirement}. An input a delivery method needs, such as an address field or
+     * time window, with its `field_path`, purpose, and constraint. object.instructions (Optional):
+     * string. Buyer-provided delivery instructions. Returned with an API key or dashboard
+     * credential. object.lifecycle_events (Optional): Array of {@link
+     * DeliverySelectionLifecycleEventResource}. Ordered lifecycle events recorded for this
+     * selection. object.lifecycle_events[] (Value): {@link
+     * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's history,
+     * with the new `status`, the `reason`, and when it happened. object.lifecycle_updated_at
+     * (Optional): string. Time the selection lifecycle last changed. Always present with an API
+     * key or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.limiting_deadline_reason (Optional): string. The deadline that set expires_at: the
+     * earliest of the chosen options' guarantee, the calculation expiry, and the maximum selection
+     * lifetime. A tie between the calculation and the guarantee reports calculation_expiry. Always
+     * present with an API key or dashboard credential. - `selection_guarantee_expiry`: The
+     * earliest guarantee among the chosen options and delivery windows comes first. When the
+     * selection holds stock, the hold ends at this deadline too. - `calculation_expiry`: The
+     * calculation the selection was priced against expires first. It ends no later than the
+     * checkout session's expires_at, and earlier when an applied promotion ends first. -
+     * `selection_maximum_lifetime`: The selection reaches the longest a provisional selection can
+     * last, 24 hours after it was created. Value enum: "selection_guarantee_expiry",
+     * "calculation_expiry", "selection_maximum_lifetime". object.order_id (Optional): string.
+     * Order affected by the selection. Always present with an API key or dashboard credential.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.private_data_status (Optional): string.
+     * Availability state of merchant-private selection evidence. Value enum: "available",
+     * "redacted". object.recipient (Optional): {@link DeliveryRecipientResource}. Recipient
+     * details captured with the selection. Omitted for a checkout session credential that doesn't
+     * act for the customer the buyer verified. The person receiving a delivery selection, with
+     * optional `name`, `email`, and `phone`. object.redacted_at (Optional): string. Time
+     * merchant-private selection evidence was redacted. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.status (Required): string. Current selection lifecycle
+     * status. - `selected`: These choices are provisional and can be replaced before payment. -
+     * `locked_for_payment`: A payment attempt owns these choices. They are frozen until payment
+     * finishes. - `committed`: Payment fixed these choices on the order. - `superseded`: A newer
+     * selection replaced these choices. - `expired`: The selection is no longer usable because its
+     * deadline passed. - `released`: These choices were withdrawn. Create a new selection before
+     * paying for delivery. Value enum: "selected", "locked_for_payment", "committed",
+     * "superseded", "expired", "released". object.supported_actions (Required): Array of string.
+     * Contains release while status is selected and the selection belongs to a checkout session:
+     * POST /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+     * Empty in every other status. Independent of caller permissions. [] enum: "release".
+     * object.supported_actions[] (Value): string. Value enum: "release". previous_attributes
+     * (Optional): object. Previous values of changed top-level fields in data.object, at this
+     * delivery's API version. Nested changes include the whole previous top-level value. A value
+     * is null when the field was absent before the change. Omitted when Flint did not record the
+     * previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * amount_money (Required): {@link MoneyValue}. Delivery charge committed by this
+         * selection. Monetary amount represented as integer minor units plus an ISO 4217 currency
+         * code. buyer_location (Optional): {@link DeliveryBuyerLocationResource}. Buyer location
+         * snapshot used to evaluate pickup proximity. Returned with an API key or dashboard
+         * credential. The normalized buyer address or coordinate used for this quote.
+         * calculation_expires_at (Optional): string. Deadline after which calculated pricing
+         * evidence is no longer valid. Always present with an API key or dashboard credential.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". checkout_session_id (Optional):
+         * string. Checkout session that owns the selection. Always present with an API key or
+         * dashboard credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN". choices (Required):
+         * Array of {@link DeliverySelectionChoiceResource}. One chosen option for each required
+         * choice group. choices[] (Value): {@link DeliverySelectionChoiceResource}. A delivery
+         * option chosen for one choice group in a delivery selection, with its method, amounts,
+         * type-specific details, timezone, and any chosen delivery window. created_at (Optional):
+         * string. Time the selection was created. Always present with an API key or dashboard
+         * credential. Format: date-time. Example: "2026-08-02T16:00:00Z". delivery_quote_id
+         * (Required): string. Quote from which this selection was made. Example:
+         * "dqt_01KEZF7C009EB1AVCDJBN4BBVV". delivery_selection_id (Required): string. Stable
+         * delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". destination_address
+         * (Optional): {@link Address}. Destination address snapshot used for delivery evaluation.
+         * Omitted for a checkout session credential that doesn't act for the customer the buyer
+         * verified. A postal address. Every address has country. Addresses Flint checked as
+         * complete (customer and saved addresses, merchant, location, invoice, order delivery
+         * destination, tax identity, fulfillment recipient and pickup addresses) always have line1
+         * and city, and US ones always have state and postal_code. Delivery quote destinations,
+         * buyer locations and postal-code tax locations hold only what was provided, such as
+         * postal_code and country. expires_at (Required): string. Deadline after which this
+         * provisional selection can no longer be committed. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". input_requirements (Required): Array of {@link
+         * DeliveryInputRequirement}. Inputs this selection still needs before payment: each
+         * destination_address member a chosen shipment or local delivery needs that the stored
+         * address lacks (line1, city, and country, plus state and postal_code in the US), and each
+         * recipient field a chosen option requires that the selection does not include. Each entry
+         * repeats the quote's requirement for that option, with the same
+         * delivery_input_requirement_id. Payment fails with ACTION_NOT_ALLOWED, reason
+         * configuration_required, and the delivery_selection reference until a new delivery
+         * selection includes them. Empty when nothing is missing, and always empty unless status
+         * is selected. input_requirements[] (Value): {@link DeliveryInputRequirement}. An input a
+         * delivery method needs, such as an address field or time window, with its `field_path`,
+         * purpose, and constraint. instructions (Optional): string. Buyer-provided delivery
+         * instructions. Returned with an API key or dashboard credential. lifecycle_events
+         * (Optional): Array of {@link DeliverySelectionLifecycleEventResource}. Ordered lifecycle
+         * events recorded for this selection. lifecycle_events[] (Value): {@link
+         * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's
+         * history, with the new `status`, the `reason`, and when it happened. lifecycle_updated_at
+         * (Optional): string. Time the selection lifecycle last changed. Always present with an
+         * API key or dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * limiting_deadline_reason (Optional): string. The deadline that set expires_at: the
+         * earliest of the chosen options' guarantee, the calculation expiry, and the maximum
+         * selection lifetime. A tie between the calculation and the guarantee reports
+         * calculation_expiry. Always present with an API key or dashboard credential. -
+         * `selection_guarantee_expiry`: The earliest guarantee among the chosen options and
+         * delivery windows comes first. When the selection holds stock, the hold ends at this
+         * deadline too. - `calculation_expiry`: The calculation the selection was priced against
+         * expires first. It ends no later than the checkout session's expires_at, and earlier when
+         * an applied promotion ends first. - `selection_maximum_lifetime`: The selection reaches
+         * the longest a provisional selection can last, 24 hours after it was created. Value enum:
+         * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+         * order_id (Optional): string. Order affected by the selection. Always present with an API
+         * key or dashboard credential. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+         * private_data_status (Optional): string. Availability state of merchant-private selection
+         * evidence. Value enum: "available", "redacted". recipient (Optional): {@link
+         * DeliveryRecipientResource}. Recipient details captured with the selection. Omitted for a
+         * checkout session credential that doesn't act for the customer the buyer verified. The
+         * person receiving a delivery selection, with optional `name`, `email`, and `phone`.
+         * redacted_at (Optional): string. Time merchant-private selection evidence was redacted.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". status (Required): string. Current
+         * selection lifecycle status. - `selected`: These choices are provisional and can be
+         * replaced before payment. - `locked_for_payment`: A payment attempt owns these choices.
+         * They are frozen until payment finishes. - `committed`: Payment fixed these choices on
+         * the order. - `superseded`: A newer selection replaced these choices. - `expired`: The
+         * selection is no longer usable because its deadline passed. - `released`: These choices
+         * were withdrawn. Create a new selection before paying for delivery. Value enum:
+         * "selected", "locked_for_payment", "committed", "superseded", "expired", "released".
+         * supported_actions (Required): Array of string. Contains release while status is selected
+         * and the selection belongs to a checkout session: POST
+         * /v1/delivery-selections/{delivery_selection_id}/release clears it from the checkout.
+         * Empty in every other status. Independent of caller permissions. [] enum: "release".
+         * supported_actions[] (Value): string. Value enum: "release".
+         */
+        "object": {
+            /**
+             * Delivery charge committed by this selection. Monetary amount represented as integer
+             * minor units plus an ISO 4217 currency code.
+             */
+            "amount_money": MoneyValue;
+            /**
+             * Buyer location snapshot used to evaluate pickup proximity. Returned with an API key
+             * or dashboard credential. The normalized buyer address or coordinate used for this
+             * quote.
+             */
+            "buyer_location"?: DeliveryBuyerLocationResource;
+            /**
+             * Deadline after which calculated pricing evidence is no longer valid. Always present
+             * with an API key or dashboard credential. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "calculation_expires_at"?: string;
+            /**
+             * Checkout session that owns the selection. Always present with an API key or
+             * dashboard credential. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+             */
+            "checkout_session_id"?: string;
+            /**
+             * One chosen option for each required choice group. [] (Value): {@link
+             * DeliverySelectionChoiceResource}. A delivery option chosen for one choice group in a
+             * delivery selection, with its method, amounts, type-specific details, timezone, and
+             * any chosen delivery window.
+             */
+            "choices": Array<DeliverySelectionChoiceResource>;
+            /**
+             * Time the selection was created. Always present with an API key or dashboard
+             * credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "created_at"?: string;
+            /**
+             * Quote from which this selection was made. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+             */
+            "delivery_quote_id": string;
+            /** Stable delivery selection ID. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". */
+            "delivery_selection_id": string;
+            /**
+             * Destination address snapshot used for delivery evaluation. Omitted for a checkout
+             * session credential that doesn't act for the customer the buyer verified. A postal
+             * address. Every address has country. Addresses Flint checked as complete (customer
+             * and saved addresses, merchant, location, invoice, order delivery destination, tax
+             * identity, fulfillment recipient and pickup addresses) always have line1 and city,
+             * and US ones always have state and postal_code. Delivery quote destinations, buyer
+             * locations and postal-code tax locations hold only what was provided, such as
+             * postal_code and country.
+             */
+            "destination_address"?: Address;
+            /**
+             * Deadline after which this provisional selection can no longer be committed. Format:
+             * date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "expires_at": string;
+            /**
+             * Inputs this selection still needs before payment: each destination_address member a
+             * chosen shipment or local delivery needs that the stored address lacks (line1, city,
+             * and country, plus state and postal_code in the US), and each recipient field a
+             * chosen option requires that the selection does not include. Each entry repeats the
+             * quote's requirement for that option, with the same delivery_input_requirement_id.
+             * Payment fails with ACTION_NOT_ALLOWED, reason configuration_required, and the
+             * delivery_selection reference until a new delivery selection includes them. Empty
+             * when nothing is missing, and always empty unless status is selected. [] (Value):
+             * {@link DeliveryInputRequirement}. An input a delivery method needs, such as an
+             * address field or time window, with its `field_path`, purpose, and constraint.
+             */
+            "input_requirements": Array<DeliveryInputRequirement>;
+            /**
+             * Buyer-provided delivery instructions. Returned with an API key or dashboard
+             * credential.
+             */
+            "instructions"?: string;
+            /**
+             * Ordered lifecycle events recorded for this selection. [] (Value): {@link
+             * DeliverySelectionLifecycleEventResource}. A status change in a delivery selection's
+             * history, with the new `status`, the `reason`, and when it happened.
+             */
+            "lifecycle_events"?: Array<DeliverySelectionLifecycleEventResource>;
+            /**
+             * Time the selection lifecycle last changed. Always present with an API key or
+             * dashboard credential. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "lifecycle_updated_at"?: string;
+            /**
+             * The deadline that set expires_at: the earliest of the chosen options' guarantee, the
+             * calculation expiry, and the maximum selection lifetime. A tie between the
+             * calculation and the guarantee reports calculation_expiry. Always present with an API
+             * key or dashboard credential. - `selection_guarantee_expiry`: The earliest guarantee
+             * among the chosen options and delivery windows comes first. When the selection holds
+             * stock, the hold ends at this deadline too. - `calculation_expiry`: The calculation
+             * the selection was priced against expires first. It ends no later than the checkout
+             * session's expires_at, and earlier when an applied promotion ends first. -
+             * `selection_maximum_lifetime`: The selection reaches the longest a provisional
+             * selection can last, 24 hours after it was created. Value enum:
+             * "selection_guarantee_expiry", "calculation_expiry", "selection_maximum_lifetime".
+             */
+            "limiting_deadline_reason"?: "selection_guarantee_expiry" | "calculation_expiry" | "selection_maximum_lifetime" | (string & {});
+            /**
+             * Order affected by the selection. Always present with an API key or dashboard
+             * credential. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id"?: string;
+            /**
+             * Availability state of merchant-private selection evidence. Value enum: "available",
+             * "redacted".
+             */
+            "private_data_status"?: "available" | "redacted" | (string & {});
+            /**
+             * Recipient details captured with the selection. Omitted for a checkout session
+             * credential that doesn't act for the customer the buyer verified. The person
+             * receiving a delivery selection, with optional `name`, `email`, and `phone`.
+             */
+            "recipient"?: DeliveryRecipientResource;
+            /**
+             * Time merchant-private selection evidence was redacted. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "redacted_at"?: string;
+            /**
+             * Current selection lifecycle status. - `selected`: These choices are provisional and
+             * can be replaced before payment. - `locked_for_payment`: A payment attempt owns these
+             * choices. They are frozen until payment finishes. - `committed`: Payment fixed these
+             * choices on the order. - `superseded`: A newer selection replaced these choices. -
+             * `expired`: The selection is no longer usable because its deadline passed. -
+             * `released`: These choices were withdrawn. Create a new selection before paying for
+             * delivery. Value enum: "selected", "locked_for_payment", "committed", "superseded",
+             * "expired", "released".
+             */
+            "status": "selected"
+                | "locked_for_payment"
+                | "committed"
+                | "superseded"
+                | "expired"
+                | "released"
+                | (string & {});
+            /**
+             * Contains release while status is selected and the selection belongs to a checkout
+             * session: POST /v1/delivery-selections/{delivery_selection_id}/release clears it from
+             * the checkout. Empty in every other status. Independent of caller permissions. []
+             * enum: "release". [] (Value): string. Value enum: "release".
+             */
+            "supported_actions": Array<"release" | (string & {})>;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<DeliverySelection>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "delivery_selection.committed". */
+    "event_type"?: "delivery_selection.committed";
+});
+/**
+ * Buyer input for a selected delivery option: a `delivery_window_id` where the option uses
+ * delivery windows, and optional `instructions`.
+ */
+export type DeliverySelectionInstructionsRequest = {
+    /**
+     * ID from the option's offered_windows. Required when window_selection is offered; omit it
+     * otherwise. minLength: 1. Example:
+     * "fwin_f3539d59e7d8e9ea803c681d0d155ecdce9de54aa27b90aec630cae8f086b31d".
+     */
+    "delivery_window_id"?: string;
+    /**
+     * Buyer instructions for the selected option, without leading or trailing whitespace. Send
+     * this field only when buyer_instructions.enabled is true. Omitted for a checkout session
+     * credential that doesn't act for the customer the buyer verified. minLength: 1. maxLength:
+     * 2000.
+     */
+    "instructions"?: string;
+};
 /**
  * Buyer input for a selected delivery option: a `delivery_window_id` where the option uses
  * delivery windows, and optional `instructions`.
@@ -2602,591 +3899,3 @@ export type DeliveryZoneUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhook
         "sandbox_id"?: string;
     });
 });
-/**
- * The `delivery_zone.updated` webhook payload for the `merchant` event source. Fields shared by
- * merchant webhook payloads.
- */
-export type DeliveryZoneUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.configuration (Required): {@link DeliveryZoneConfiguration}.
-     * Current geographic eligibility conditions. A reusable geographic predicate containing only
-     * country, state, postal_code, and radius conditions. object.created_at (Required): string.
-     * Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.current_delivery_zone_revision_id (Required): string. Immutable revision used for new
-     * quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". object.delivery_zone_id (Required):
-     * string. Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.metadata
-     * (Optional): {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored
-     * on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
-     * may not satisfy them. object.name (Required): string. Merchant-facing zone name.
-     * object.status (Required): string. Current zone lifecycle status. Value enum: "active",
-     * "archived". object.updated_at (Required): string. Time the zone last changed. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.version (Required): integer.
-     * Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1.
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * configuration (Required): {@link DeliveryZoneConfiguration}. Current geographic
-         * eligibility conditions. A reusable geographic predicate containing only country, state,
-         * postal_code, and radius conditions. created_at (Required): string. Time the zone was
-         * created. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * current_delivery_zone_revision_id (Required): string. Immutable revision used for new
-         * quotes. Example: "dzoner_01KEZF7C00DF2H9VW29JN861K6". delivery_zone_id (Required):
-         * string. Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". metadata (Optional):
-         * {@link MetadataMap}. Caller-owned metadata. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Merchant-facing zone name. status
-         * (Required): string. Current zone lifecycle status. Value enum: "active", "archived".
-         * updated_at (Required): string. Time the zone last changed. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". version (Required): integer. Optimistic-concurrency version for
-         * zone writes. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Current geographic eligibility conditions. A reusable geographic predicate
-             * containing only country, state, postal_code, and radius conditions.
-             */
-            "configuration": DeliveryZoneConfiguration;
-            /** Time the zone was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * Immutable revision used for new quotes. Example:
-             * "dzoner_01KEZF7C00DF2H9VW29JN861K6".
-             */
-            "current_delivery_zone_revision_id": string;
-            /** Stable delivery zone ID. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP". */
-            "delivery_zone_id": string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys
-             * starting with flint_ are reserved for Flint and are not returned. Writes follow the
-             * limits on MetadataInput and MetadataPatchInput; maps written before those limits may
-             * not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Merchant-facing zone name. */
-            "name": string;
-            /** Current zone lifecycle status. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /** Time the zone last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /** Optimistic-concurrency version for zone writes. Format: uint64. minimum: 1. */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<DeliveryZone>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "delivery_zone.updated". */
-    "event_type"?: "delivery_zone.updated";
-});
-export type DeliveryZonesCreateParams = (InputValue<CreateDeliveryZoneRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DeliveryZonesDeleteParams = DeliveryLocationSetsDeleteParams;
-export type DeliveryZonesGetParams = DisputesAcceptParams;
-export type DeliveryZonesListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Search across delivery_zone_id, name, and external_reference_id. Text fields match any part
-     * of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from the
-     * start and need the type prefix, such as dzone_01. maxLength: 255.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Filter by status. Omitted, the list leaves out archived rows; name archived to include them.
-     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
-     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "active",
-     * "archived". Value enum: "active", "archived". anyOf[1] (Value): Array of string. minItems:
-     * 1. [] enum: "active", "archived". anyOf[1][] (Value): string. Value enum: "active",
-     * "archived". anyOf[2] (Value): string. Value enum: "active", "archived".
-     */
-    "status"?: InputValue<("active" | "archived") | readonly ("active" | "archived")[]>;
-    /**
-     * Filter by an active current method that references this resource. pattern:
-     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "delivery_method_id"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type DeliveryZonesUpdateParams = (UpdateDeliveryZoneRequestInput)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** A demo session with its sandbox, API key, and expiry. */
-export type DemoSession = {
-    /** The API key issued for a demo session, with its `secret_key` and the scopes it grants. */
-    "api_key": DemoSessionAPIKey;
-    /**
-     * Unique identifier for this demo session, prefixed `demo_`. Example:
-     * "demo_01KEZF7C001S0675NAS5BPBS0V".
-     */
-    "demo_session_id": string;
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "expires_at": string;
-    /** ID of the sandbox this resource belongs to. Example: "test_01KEZF7C00JC77HTMTB2XHNPE0". */
-    "sandbox_id": string;
-};
-/** The API key issued for a demo session, with its `secret_key` and the scopes it grants. */
-export type DemoSessionAPIKey = {
-    /**
-     * [] enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
-     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
-     */
-    "scopes": Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.merchant_signups.read"
-        | "developer.merchant_signups.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payment_splits.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "money_movement.platform_fees.read"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.readers.read"
-        | "payments.readers.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    "secret_key": string;
-};
-/** A response containing `DemoSession` data. */
-export type DemoSessionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A demo session with its
-     * sandbox, API key, and expiry.
-     */
-    "data": DemoSession;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type DemoSessionsCreateParams = (InputValue<CreateDemoSessionRequestInput> | {
-    "template"?: never;
-})
-    & {
-    /**
-     * Challenge token from Flint's hosted bot check on the page that offers the demo. Flint
-     * identifies the demo client by its IP address.
-     */
-    "Flint-Challenge-Token": InputValue<string>;
-};
-export type DemoSessionsResetParams = (InputValue<ResetDemoSessionRequestInput> | {
-    "template"?: never;
-})
-    & {
-    /**
-     * Challenge token from Flint's hosted bot check on the page that offers the demo. Flint
-     * identifies the demo client by its IP address.
-     */
-    "Flint-Challenge-Token": InputValue<string>;
-};
-/** Takes stock off the origin location and puts it in transit. */
-export type DepartInventoryTransferRequest = {
-    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
-     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
-     * Transfer line this action changes. minLength: 1. Example:
-     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_departed_quantity (Required): integer.
-     * Cumulative quantity that should have departed the origin. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /**
-         * Transfer line this action changes. minLength: 1. Example:
-         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
-         */
-        "inventory_transfer_line_id": string;
-        /**
-         * Cumulative quantity that should have departed the origin. Whole-number quantity;
-         * fractional quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_departed_quantity": number;
-    }>;
-    /**
-     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
-     * received the command as occurred_at and a null source_system. Where and when an inventory
-     * event happened: the source system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequest;
-};
-/** Takes stock off the origin location and puts it in transit. */
-export type DepartInventoryTransferRequestInput = {
-    /** Transfer version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * Transfer lines this action changes, each with a cumulative target. 1 to 100 lines. minItems:
-     * 1. maxItems: 100. [] (Value): object. [].inventory_transfer_line_id (Required): string.
-     * Transfer line this action changes. minLength: 1. Example:
-     * "invtrln_01KEZF7C00CK297J6QVV5J0PFV". [].target_departed_quantity (Required): integer.
-     * Cumulative quantity that should have departed the origin. Whole-number quantity; fractional
-     * quantities are not supported. Format: int64. minimum: 0.
-     */
-    "lines": Array<{
-        /**
-         * Transfer line this action changes. minLength: 1. Example:
-         * "invtrln_01KEZF7C00CK297J6QVV5J0PFV".
-         */
-        "inventory_transfer_line_id": string;
-        /**
-         * Cumulative quantity that should have departed the origin. Whole-number quantity;
-         * fractional quantities are not supported. Format: int64. minimum: 0.
-         */
-        "target_departed_quantity": number;
-    }>;
-    /**
-     * When and where the stock moved. Optional; when omitted, the movements record the time Flint
-     * received the command as occurred_at and a null source_system. Where and when an inventory
-     * event happened: the source system, external actor, and time.
-     */
-    "provenance"?: InventoryProvenanceRequestInput;
-};
-/**
- * A device registered to the merchant account by hardware fingerprint, optionally assigned to a
- * location. Registering a device doesn't take payments; a reader does.
- */
-export type Device = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Stable identifier of the device. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". */
-    "device_id": string;
-    /**
-     * Identifier of the physical hardware, compared exactly. Only one active device can hold a
-     * fingerprint. Archiving the device releases it, so the field is omitted on archived devices
-     * and a new device can register the same hardware.
-     */
-    "hardware_fingerprint"?: string;
-    /**
-     * The Location the device is assigned to. Omitted when it has none. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: string;
-    /** The merchant that owns the device. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /**
-     * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /** Name you gave the device. */
-    "name": string;
-    /** Value enum: "active", "archived". */
-    "status": "active" | "archived" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Starts at 1 and goes up with each update and on archive. Send it as `expected_version` to
-     * apply an update only if nothing changed. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-/** A page of `Device` objects. */
-export type DeviceListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * Device}. A device registered to the merchant account by hardware fingerprint, optionally
-     * assigned to a location. Registering a device doesn't take payments; a reader does.
-     */
-    "data": Array<Device>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `Device` data. */
-export type DeviceResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A device registered to
-     * the merchant account by hardware fingerprint, optionally assigned to a location. Registering
-     * a device doesn't take payments; a reader does.
-     */
-    "data": Device;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};

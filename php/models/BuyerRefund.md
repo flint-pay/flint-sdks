@@ -13,7 +13,7 @@ Response model.
 | `credit_note_id` | Optional | string | ID of the credit note this refund paid out. Present only on refunds issued through a credit note. |
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | The customer summary for `customer_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. |
 | `customer_id` | Optional | string | ID of the customer on the refunded order or payment. Absent when neither has one. |
-| `failure_reason` | Optional | string | Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again, except a refund with reason payment_returned that failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Values: [10 declared values](BuyerPaymentRefundInput.md#buyerpaymentrefundinput-failure_reason-values). |
+| `failure_reason` | Optional | string | A coarse buyer-visible failure category. refund_abandoned means the refund could not be completed; contact the store to get your money back. refund_failed means the refund failed. Omitted when there is no failure. Values: `"refund_failed"`, `"refund_abandoned"`. |
 | `idempotency_key` | Optional | string | The caller's Idempotency-Key when this refund was created, including refunds created by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response. |
 | `invoice_id` | Optional | string | ID of the invoice whose credit note this refund paid out. Present only on refunds issued through a credit note. |
 | `line_item_allocations` | Optional | Array of [RefundLineItemAllocation](../models/RefundLineItemAllocation.md#refundlineitemallocation) | How the refund applied to each order line item it covered, with quantity, tax, and adjustments. `line_item_allocations[]`: [field definitions](../models/CancelReturnResponse.md#cancelreturnresponsedatareturn_resolutionsrefundsline_item_allocations). |
@@ -22,7 +22,7 @@ Response model.
 | `order_id` | Optional | string | ID of the order the refund was issued against. For a refund with `reason` `payment_returned`, the order the returned payment was for; the order never received this money. Absent for a refund of a payment that has no order, and for a standalone gift card refund. |
 | `payment_intent` | Optional | [ExpandedPaymentIntentSummary](../models/ExpandedPaymentIntentSummary.md#expandedpaymentintentsummary) or null | The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. |
 | `payment_intent_id` | Optional | string | ID of the payment the refund was issued against, when it targeted one payment. `payment_refunds` lists every payment it returned money through. |
-| `payment_refunds` | Optional | Array of [BuyerPaymentRefund](../models/BuyerPaymentRefund.md#buyerpaymentrefund) | The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. `payment_refunds[]`: [field definitions](../models/BuyerRefundResponse.md#buyerrefundresponsedatapayment_refunds). |
+| `payment_refunds` | Optional | Array of [BuyerPaymentRefund](../models/BuyerPaymentRefund.md#buyerpaymentrefund) | The part of the refund returned through each payment, with its own status. Absent when the refund was all gift card credit or store credit. `payment_refunds[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatarefundspayment_refunds). |
 | `pending_reason` | Required | string or null | Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the refund is on its way without review. Values: `"manual_review"`, `null`. |
 | `processed_by` | Required | string | Who moved or is moving the money for this refund. Flint processes refunds through a processor or a gift card; merchant means the merchant returned the money outside Flint and recorded it here. Existing refunds are processed by Flint. Values: `"flint"`, `"merchant"`. |
 | `reason` | Required | string or null | `payment_returned` when Flint refunded a payment it couldn't apply to the order. `null` when the store made the refund, because a store's reasons aren't shared with buyers. Values: `"payment_returned"`, `null`. |
@@ -46,7 +46,7 @@ Field definitions: [CancelReturnResponse.data.return_resolutions[].refunds[].lin
 
 ### BuyerRefund.payment_refunds[]
 
-Field definitions: [BuyerRefundResponse.data.payment_refunds[]](../models/BuyerRefundResponse.md#buyerrefundresponsedatapayment_refunds).
+Field definitions: [CheckoutSessionResponse.data.refunds[].payment_refunds[]](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatarefundspayment_refunds).
 
 ### BuyerRefund.tax_breakdown_refunds[]
 

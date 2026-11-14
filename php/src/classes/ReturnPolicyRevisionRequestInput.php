@@ -72,7 +72,7 @@ final class ReturnPolicyRevisionRequestInput extends Model {
      */
     public function getIsMerchandiseReturnRequired(): bool { return $this->get('is_merchandise_return_required'); }
     public function hasIsMerchandiseReturnRequired(): bool { return $this->has('is_merchandise_return_required'); }
-    /** Which policy wins when several cover an item: the highest priority applies. Zero or higher. Format: int32.
+    /** Which policy wins when several cover an item: the highest priority applies. Zero or higher. Format: int32. minimum: 0.
      * @return int
      * @throws SdkError When priority is omitted; use hasPriority() or valueOrDefault().
      */
@@ -108,7 +108,7 @@ final class ReturnPolicyRevisionRequestInput extends Model {
      */
     public function getResolutionSelectionMode(): string { return $this->get('resolution_selection_mode'); }
     public function hasResolutionSelectionMode(): bool { return $this->has('resolution_selection_mode'); }
-    /** Fee proposed for each eligible line. Leave out for no fee. A restocking fee in a return policy, charged as a flat amount or a percent.
+    /** Fee proposed for each eligible line. Omitted when no fee was supplied. On an ineligible revision, the fee is stored but ignored; the percent range is not enforced, but the four-decimal precision limit still applies. A restocking fee in a return policy, charged as a flat amount or a percent.
      * @return ReturnRestockingFeePolicyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When restocking_fee is omitted; use hasRestockingFee() or valueOrDefault().
      */

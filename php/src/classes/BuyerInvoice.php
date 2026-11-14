@@ -35,6 +35,7 @@ namespace Flint;
  * @property-read ?list<string> $payment_options
  * @property-read ?InvoicePaymentTermsSnapshot $payment_terms_snapshot
  * @property-read string|null $po_number
+ * @property-read PricingAmounts $pricing_amounts
  * @property-read string|null $recipient_email
  * @property-read string|null $reference
  * @property-read string $refund_status
@@ -49,14 +50,13 @@ namespace Flint;
  * @property-read string|null $subscription_id
  * @property-read ?CheckoutTheme $theme
  * @property-read ?string $timezone
- * @property-read MoneyValue $total_money
  * @property-read string $updated_at
  * @property-read int $version
  * @property-read ?string $viewed_at
  * @property-read ?string $voided_at
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerInvoice extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'balance_rows'?: list<mixed>, 'buyer_actions': list<mixed>, 'cc_emails': list<string>, 'closed_at'?: string, 'collection_block_status': string, 'collection_mode'?: string, 'created_at': string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer_id'?: string, 'due_date'?: string, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issue_rows'?: list<mixed>, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_icon'?: mixed, 'merchant_id': string, 'merchant_logo'?: mixed, 'merchant_support'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_option_cost_comparison'?: mixed, 'payment_options'?: list<string>, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'show_flint_mark'?: bool, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'theme'?: mixed, 'timezone'?: string, 'total_money': mixed, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'balance_rows'?: list<mixed>, 'buyer_actions': list<mixed>, 'cc_emails': list<string>, 'closed_at'?: string, 'collection_block_status': string, 'collection_mode'?: string, 'created_at': string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer_id'?: string, 'due_date'?: string, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issue_rows'?: list<mixed>, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_icon'?: mixed, 'merchant_id': string, 'merchant_logo'?: mixed, 'merchant_support'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_option_cost_comparison'?: mixed, 'payment_options'?: list<string>, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'pricing_amounts': mixed, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'show_flint_mark'?: bool, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'theme'?: mixed, 'timezone'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerInvoice')); }
     /** The payment attempt in progress for this invoice, such as a bank debit still processing. Omitted when none is open. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. An attempt to collect payment for an invoice.
      * @return ?InvoicePaymentAttempt
@@ -138,7 +138,7 @@ final class BuyerInvoice extends Model {
      */
     public function getIsOverdue(): bool { return $this->get('is_overdue'); }
     public function hasIsOverdue(): bool { return $this->has('is_overdue'); }
-    /** The rows of the invoice's totals as issued, in display order. Rows where `is_informational` is `false` sum to `snapshot.pricing_amounts.total_money`. A closing `total` row is informational and states that sum. Show the rows in order without merging or summing them. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] (Value): {@see InvoiceDocumentRow}. One row of an invoice document, such as a subtotal, discount, tax, late fee, payment, or amount due, with its amount.
+    /** The rows of the invoice's totals as issued, in display order. Rows where `is_informational` is `false` sum to `pricing_amounts.total_money`. A closing `total` row is informational and states that sum. Show the rows in order without merging or summing them. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET /v1/me/invoices` omits it. [] (Value): {@see InvoiceDocumentRow}. One row of an invoice document, such as a subtotal, discount, tax, late fee, payment, or amount due, with its amount.
      * @return ?list<InvoiceDocumentRow>
      */
     public function getIssueRows(): ?array { return $this->get('issue_rows'); }
@@ -188,7 +188,7 @@ final class BuyerInvoice extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What is still owed. On an open or partially_paid invoice it is pricing_amounts.total_money + late_fee_money - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
@@ -223,6 +223,11 @@ final class BuyerInvoice extends Model {
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
+    /** The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in late_fee_money. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmounts
+     */
+    public function getPricingAmounts(): PricingAmounts { return $this->get('pricing_amounts'); }
+    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset.
      * @return string|null
      */
@@ -268,7 +273,7 @@ final class BuyerInvoice extends Model {
      */
     public function getShowFlintMark(): ?bool { return $this->get('show_flint_mark'); }
     public function hasShowFlintMark(): bool { return $this->has('show_flint_mark'); }
-    /** The billing content of the invoice: line items, discounts, charges, tip, tax, and totals, frozen at issue. Invoice details captured at issue. Buyer views omit merchant exemption evidence references.
+    /** The billing content of the invoice: line items, discounts, charges, tip, and tax, frozen at issue. Invoice details captured at issue. Buyer views omit merchant exemption evidence references.
      * @return ?BuyerInvoiceSnapshot
      */
     public function getSnapshot(): ?BuyerInvoiceSnapshot { return $this->get('snapshot'); }
@@ -293,11 +298,6 @@ final class BuyerInvoice extends Model {
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** What the invoice bills, equal to snapshot.pricing_amounts.total_money and fixed at issue. Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
-    public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice last changed. Format: date-time.
      * @return string
      */

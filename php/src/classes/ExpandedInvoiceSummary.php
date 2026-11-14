@@ -12,15 +12,15 @@ namespace Flint;
  * @property-read ?string $order_id
  * @property-read MoneyValue $outstanding_money
  * @property-read MoneyValue $paid_money
+ * @property-read PricingAmounts $pricing_amounts
  * @property-read ?string $refund_status
  * @property-read MoneyValue $refunded_money
  * @property-read string $status
  * @property-read list<string> $supported_actions
- * @property-read MoneyValue $total_money
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedInvoiceSummary extends Model {
-    /** @param array{'collection_block_status'?: string, 'created_at'?: string, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': mixed, 'paid_money': mixed, 'refund_status'?: string, 'refunded_money': mixed, 'status': string, 'supported_actions': list<string>, 'total_money': mixed, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'collection_block_status'?: string, 'created_at'?: string, 'customer_id'?: string, 'due_date'?: string, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'order_id'?: string, 'outstanding_money': mixed, 'paid_money': mixed, 'pricing_amounts': mixed, 'refund_status'?: string, 'refunded_money': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedInvoiceSummary')); }
     /** Whether collection is blocked. While it is inventory_blocked, collection attempts return 409 ACTION_NOT_ALLOWED with details[0].reason inventory_wait. Value enum: "none", "inventory_blocked", "resolved".
      * @return ?string
@@ -62,7 +62,7 @@ final class ExpandedInvoiceSummary extends Model {
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed, as outstanding_money on the full Invoice reports it: never below zero, 0 on paid, credited, uncollectible, and voided invoices, and equal to total_money on a draft. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** What is still owed, as outstanding_money on the full Invoice reports it: never below zero, 0 on paid, credited, uncollectible, and voided invoices, and equal to pricing_amounts.total_money on a draft. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
@@ -72,6 +72,11 @@ final class ExpandedInvoiceSummary extends Model {
      */
     public function getPaidMoney(): MoneyValue { return $this->get('paid_money'); }
     public function hasPaidMoney(): bool { return $this->has('paid_money'); }
+    /** The invoice pricing totals, frozen at issue; a draft previews the backing order. Late fees are in late_fee_money on the full invoice. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmounts
+     */
+    public function getPricingAmounts(): PricingAmounts { return $this->get('pricing_amounts'); }
+    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** How much of the collected money has been refunded. It doesn't change status. Value enum: "none", "partially_refunded", "refunded".
      * @return ?string
      */
@@ -92,11 +97,6 @@ final class ExpandedInvoiceSummary extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** The invoice document total, equal to snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order total. Late fees are in late_fee_money on the full invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
-    public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice last changed. Format: date-time.
      * @return ?string
      */
