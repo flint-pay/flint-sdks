@@ -28,7 +28,7 @@ final class CheckoutSubscriptionTermsRequestInput extends Model {
      */
     public function getGiftRecipient(): mixed { return $this->get('gift_recipient'); }
     public function hasGiftRecipient(): bool { return $this->has('gift_recipient'); }
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
+    /** Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 1.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */

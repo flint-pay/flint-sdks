@@ -16,6 +16,7 @@ namespace Flint;
  * @property-read string $name
  * @property-read string $payment_link_line_item_id
  * @property-read string $product_id
+ * @property-read string|null $product_type
  * @property-read int $quantity
  * @property-read string $resolved_name
  * @property-read ProductPriceRangeInput|array<array-key, mixed>|\stdClass $resolved_price_range
@@ -114,6 +115,12 @@ final class PaymentLinkLineItemVariantInput extends Model {
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
+    /** Classification configured on a custom line for ACH debit. Null when unclassified or catalog-backed; catalog lines get their product classification when checkout starts. Value enum: "physical", "service", "fee", "digital", "gift_card", null.
+     * @return string|null
+     * @throws SdkError When product_type is omitted; use hasProductType() or valueOrDefault().
+     */
+    public function getProductType(): string|null { return $this->get('product_type'); }
+    public function hasProductType(): bool { return $this->has('product_type'); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int32.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().

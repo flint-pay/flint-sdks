@@ -11,7 +11,7 @@ const result = await client.subscriptions.updateLineItem(
   "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   {
-    quantity: 2,
+    quantity: 1,
   },
   { idempotencyKey: idempotencyKey },
 );

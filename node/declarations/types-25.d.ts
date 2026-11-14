@@ -1,46 +1,4514 @@
 import type {
+    FraudWarning,
+    ExpandedPaymentIntentSummary,
+    FraudWarningPaymentSummary,
     ExpandedOrderSummary,
     ExpandedPackageSummary,
     ExpandedShipmentSummary,
-    Fulfillment,
-    FulfillmentChargeLink,
     FailFulfillmentRequestInput
 } from './types-24.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { ResponseMeta } from './types-54.js';
+import type { Dispute, DigitalFulfillmentDetails, DispatchFulfillmentRequestInput } from './types-23.js';
+import type { MerchantWebhookEnvelope, MetadataMap, MetadataRequestInput } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { ResponseMeta, ReturnDisposition } from './types-54.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateFulfillmentEventRequestInput, CreateFulfillmentRequestInput } from './types-9.js';
 import type { DeliveryFulfillmentDetails } from './types-17.js';
-import type { DigitalFulfillmentDetails, DispatchFulfillmentRequestInput } from './types-23.js';
-import type { PickupFulfillmentDetails } from './types-48.js';
-import type {
-    ServiceFulfillmentDetails,
-    ShipmentFulfillmentDetails,
-    SinglePackageCreateRequest,
-    SinglePackageCreateRequestInput,
-    ScheduleFulfillmentRequestInput
-} from './types-59.js';
+import type { PickupFulfillmentDetails } from './types-49.js';
+import type { ServiceFulfillmentDetails } from './types-59.js';
+import type { ShipmentFulfillmentDetails, SinglePackageCreateRequest, SinglePackageCreateRequestInput } from './types-60.js';
+import type { CreateFulfillmentEventRequestInput, CreateFulfillmentRequestInput } from './types-9.js';
 import type { CreatePackageItemRequest, CreatePackageItemRequestInput } from './types-11.js';
-import type { PackageCreateRequest, PackageCreateRequestInput } from './types-42.js';
-import type { MetadataRequestInput } from './types-38.js';
-import type { OrderLineItemModifier } from './types-40.js';
+import type { PackageCreateRequest, PackageCreateRequestInput } from './types-43.js';
+import type { OrderLineItemModifier } from './types-41.js';
 import type { Address, AddressRequest, AddressRequestInput, AcceptFulfillmentRequestInput } from './types-0.js';
 import type { CancelFulfillmentRequestInput } from './types-4.js';
 import type { CompleteFulfillmentRequestInput } from './types-7.js';
-import type { HoldFulfillmentRequestInput } from './types-27.js';
-import type {
-    MarkFulfillmentNoShowRequestInput,
-    MarkFulfillmentPackedRequestInput,
-    MarkFulfillmentPickedRequestInput,
-    MarkFulfillmentPreparingRequestInput,
-    MarkFulfillmentReadyRequestInput
-} from './types-35.js';
-import type { ReleaseFulfillmentHoldRequestInput } from './types-53.js';
-import type { StartFulfillmentRequestInput } from './types-60.js';
-import type { UpdateFulfillmentRequestInput } from './types-66.js';
-import type { ReturnInspection, ReturnLineItem, ReturnPolicy, ReturnPolicyRevision } from './types-55.js';
-import type { ReturnReason, ReturnReceipt, ReturnResolution } from './types-56.js';
+/** A response containing `FraudWarning` data. */
+export type FraudWarningResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A notice that a payment
+     * may be fraudulent.
+     */
+    "data": FraudWarning;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type FraudWarningUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "dispute"?: ((Dispute) | (null));
+            "dispute_id": string | null;
+            "fraud_type": "card_never_received"
+                | "fraudulent_card_application"
+                | "made_with_counterfeit_card"
+                | "made_with_lost_card"
+                | "made_with_stolen_card"
+                | "unauthorized_use_of_card"
+                | "other"
+                | (string & {});
+            "fraud_warning_id": string;
+            "is_actionable": boolean;
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            "payment_intent_id": string;
+            "payment_summary": FraudWarningPaymentSummary;
+            "reported_at": string;
+            "updated_at": string;
+        };
+        "previous_attributes"?: Partial<FraudWarning>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "fraud_warning.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "created_at": string;
+            "dispute"?: ((Dispute) | (null));
+            "dispute_id": string | null;
+            "fraud_type": "card_never_received"
+                | "fraudulent_card_application"
+                | "made_with_counterfeit_card"
+                | "made_with_lost_card"
+                | "made_with_stolen_card"
+                | "unauthorized_use_of_card"
+                | "other"
+                | (string & {});
+            "fraud_warning_id": string;
+            "is_actionable": boolean;
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            "payment_intent_id": string;
+            "payment_summary": FraudWarningPaymentSummary;
+            "reported_at": string;
+            "updated_at": string;
+        };
+        "previous_attributes"?: Partial<FraudWarning>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "fraud_warning.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "fraud_warning.updated";
+});
+/**
+ * The `fraud_warning.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type FraudWarningUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.dispute (Optional): {@link Dispute} or
+     * null. Present only when `expand` includes `dispute`; `null` when expanded and there is no
+     * related dispute. object.dispute.anyOf[1] (Value): {@link Dispute}. A challenge to a
+     * collected payment. object.dispute.anyOf[2] (Value): null. object.dispute_id (Required):
+     * string or null. The dispute that opened on this payment after the warning. `null` when no
+     * dispute has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". object.fraud_type (Required):
+     * string. The kind of fraud the card network reported. Value enum: "card_never_received",
+     * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
+     * "made_with_stolen_card", "unauthorized_use_of_card", "other". object.fraud_warning_id
+     * (Required): string. Unique identifier for this fraud warning, prefixed `frw_`. Example:
+     * "frw_01KEZF7C00WD6W4TAFS0FH851W". object.is_actionable (Required): boolean. true until the
+     * payment is refunded in full, a dispute opens on it, or the card network marks the warning
+     * resolved; after that it stays false. A partial refund doesn't change it.
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
+     * ID of the payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_summary (Required): {@link FraudWarningPaymentSummary}. The payment's amount,
+     * buyer email, and card, for recognizing it. Payment details shown on a public fraud warning:
+     * amount, buyer email, card brand, and last four digits. object.reported_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". dispute (Optional): {@link Dispute} or null. Present only when
+         * `expand` includes `dispute`; `null` when expanded and there is no related dispute.
+         * dispute.anyOf[1] (Value): {@link Dispute}. A challenge to a collected payment.
+         * dispute.anyOf[2] (Value): null. dispute_id (Required): string or null. The dispute that
+         * opened on this payment after the warning. `null` when no dispute has opened. Example:
+         * "du_01KEZF7C00DEJSF1KTXRT4BBQD". fraud_type (Required): string. The kind of fraud the
+         * card network reported. Value enum: "card_never_received", "fraudulent_card_application",
+         * "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card",
+         * "unauthorized_use_of_card", "other". fraud_warning_id (Required): string. Unique
+         * identifier for this fraud warning, prefixed `frw_`. Example:
+         * "frw_01KEZF7C00WD6W4TAFS0FH851W". is_actionable (Required): boolean. true until the
+         * payment is refunded in full, a dispute opens on it, or the card network marks the
+         * warning resolved; after that it stays false. A partial refund doesn't change it.
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment the warning is about. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_summary (Required): {@link
+         * FraudWarningPaymentSummary}. The payment's amount, buyer email, and card, for
+         * recognizing it. Payment details shown on a public fraud warning: amount, buyer email,
+         * card brand, and last four digits. reported_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `dispute`; `null` when expanded and there is no
+             * related dispute. anyOf[1] (Value): {@link Dispute}. A challenge to a collected
+             * payment. anyOf[2] (Value): null.
+             */
+            "dispute"?: ((Dispute) | (null));
+            /**
+             * The dispute that opened on this payment after the warning. `null` when no dispute
+             * has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+             */
+            "dispute_id": string | null;
+            /**
+             * The kind of fraud the card network reported. Value enum: "card_never_received",
+             * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
+             * "made_with_stolen_card", "unauthorized_use_of_card", "other".
+             */
+            "fraud_type": "card_never_received"
+                | "fraudulent_card_application"
+                | "made_with_counterfeit_card"
+                | "made_with_lost_card"
+                | "made_with_stolen_card"
+                | "unauthorized_use_of_card"
+                | "other"
+                | (string & {});
+            /**
+             * Unique identifier for this fraud warning, prefixed `frw_`. Example:
+             * "frw_01KEZF7C00WD6W4TAFS0FH851W".
+             */
+            "fraud_warning_id": string;
+            /**
+             * true until the payment is refunded in full, a dispute opens on it, or the card
+             * network marks the warning resolved; after that it stays false. A partial refund
+             * doesn't change it.
+             */
+            "is_actionable": boolean;
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            /** ID of the payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            "payment_intent_id": string;
+            /**
+             * The payment's amount, buyer email, and card, for recognizing it. Payment details
+             * shown on a public fraud warning: amount, buyer email, card brand, and last four
+             * digits.
+             */
+            "payment_summary": FraudWarningPaymentSummary;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "reported_at": string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<FraudWarning>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "fraud_warning.updated". */
+    "event_type"?: "fraud_warning.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `fraud_warning.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type FraudWarningUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.created_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.dispute (Optional): {@link Dispute} or
+     * null. Present only when `expand` includes `dispute`; `null` when expanded and there is no
+     * related dispute. object.dispute.anyOf[1] (Value): {@link Dispute}. A challenge to a
+     * collected payment. object.dispute.anyOf[2] (Value): null. object.dispute_id (Required):
+     * string or null. The dispute that opened on this payment after the warning. `null` when no
+     * dispute has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD". object.fraud_type (Required):
+     * string. The kind of fraud the card network reported. Value enum: "card_never_received",
+     * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
+     * "made_with_stolen_card", "unauthorized_use_of_card", "other". object.fraud_warning_id
+     * (Required): string. Unique identifier for this fraud warning, prefixed `frw_`. Example:
+     * "frw_01KEZF7C00WD6W4TAFS0FH851W". object.is_actionable (Required): boolean. true until the
+     * payment is refunded in full, a dispute opens on it, or the card network marks the warning
+     * resolved; after that it stays false. A partial refund doesn't change it.
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
+     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
+     * ID of the payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_summary (Required): {@link FraudWarningPaymentSummary}. The payment's amount,
+     * buyer email, and card, for recognizing it. Payment details shown on a public fraud warning:
+     * amount, buyer email, card brand, and last four digits. object.reported_at (Required):
+     * string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
+     * top-level fields in data.object, at this delivery's API version. Nested changes include the
+     * whole previous top-level value. A value is null when the field was absent before the change.
+     * Omitted when Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * created_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". dispute (Optional): {@link Dispute} or null. Present only when
+         * `expand` includes `dispute`; `null` when expanded and there is no related dispute.
+         * dispute.anyOf[1] (Value): {@link Dispute}. A challenge to a collected payment.
+         * dispute.anyOf[2] (Value): null. dispute_id (Required): string or null. The dispute that
+         * opened on this payment after the warning. `null` when no dispute has opened. Example:
+         * "du_01KEZF7C00DEJSF1KTXRT4BBQD". fraud_type (Required): string. The kind of fraud the
+         * card network reported. Value enum: "card_never_received", "fraudulent_card_application",
+         * "made_with_counterfeit_card", "made_with_lost_card", "made_with_stolen_card",
+         * "unauthorized_use_of_card", "other". fraud_warning_id (Required): string. Unique
+         * identifier for this fraud warning, prefixed `frw_`. Example:
+         * "frw_01KEZF7C00WD6W4TAFS0FH851W". is_actionable (Required): boolean. true until the
+         * payment is refunded in full, a dispute opens on it, or the card network marks the
+         * warning resolved; after that it stays false. A partial refund doesn't change it.
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment the warning is about. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_summary (Required): {@link
+         * FraudWarningPaymentSummary}. The payment's amount, buyer email, and card, for
+         * recognizing it. Payment details shown on a public fraud warning: amount, buyer email,
+         * card brand, and last four digits. reported_at (Required): string. RFC3339 timestamp.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". updated_at (Required): string.
+         * RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         */
+        "object": {
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `dispute`; `null` when expanded and there is no
+             * related dispute. anyOf[1] (Value): {@link Dispute}. A challenge to a collected
+             * payment. anyOf[2] (Value): null.
+             */
+            "dispute"?: ((Dispute) | (null));
+            /**
+             * The dispute that opened on this payment after the warning. `null` when no dispute
+             * has opened. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+             */
+            "dispute_id": string | null;
+            /**
+             * The kind of fraud the card network reported. Value enum: "card_never_received",
+             * "fraudulent_card_application", "made_with_counterfeit_card", "made_with_lost_card",
+             * "made_with_stolen_card", "unauthorized_use_of_card", "other".
+             */
+            "fraud_type": "card_never_received"
+                | "fraudulent_card_application"
+                | "made_with_counterfeit_card"
+                | "made_with_lost_card"
+                | "made_with_stolen_card"
+                | "unauthorized_use_of_card"
+                | "other"
+                | (string & {});
+            /**
+             * Unique identifier for this fraud warning, prefixed `frw_`. Example:
+             * "frw_01KEZF7C00WD6W4TAFS0FH851W".
+             */
+            "fraud_warning_id": string;
+            /**
+             * true until the payment is refunded in full, a dispute opens on it, or the card
+             * network marks the warning resolved; after that it stays false. A partial refund
+             * doesn't change it.
+             */
+            "is_actionable": boolean;
+            /**
+             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
+             * is no related payment intent. anyOf[1] (Value): {@link
+             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
+             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
+             * (Value): null.
+             */
+            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
+            /** ID of the payment the warning is about. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            "payment_intent_id": string;
+            /**
+             * The payment's amount, buyer email, and card, for recognizing it. Payment details
+             * shown on a public fraud warning: amount, buyer email, card brand, and last four
+             * digits.
+             */
+            "payment_summary": FraudWarningPaymentSummary;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "reported_at": string;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<FraudWarning>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "fraud_warning.updated". */
+    "event_type"?: "fraud_warning.updated";
+});
+export type FraudWarningsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: dispute, payment_intent.
+     * Expansion requires risk.read plus the read scope for each expanded resource. Limits: at most
+     * 10 unique expand paths per request. [] enum: "dispute", "payment_intent". Value enum:
+     * "dispute", "payment_intent". anyOf[1] (Value): Array of string. [] enum: "dispute",
+     * "payment_intent". anyOf[1][] (Value): string. Value enum: "dispute", "payment_intent".
+     * anyOf[2] (Value): string. Value enum: "dispute", "payment_intent".
+     */
+    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type FraudWarningsListParams = {
+    /** Filter by whether a proactive fraudulent refund can still prevent a dispute. */
+    "is_actionable"?: InputValue<boolean>;
+    /**
+     * Filter by Flint payment intent ID. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: InputValue<string>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Include related objects in the response. Supported expansions: dispute, payment_intent.
+     * Include the requested related resources using scoped batch reads for this page. Each
+     * relationship requires its existing target read scopes. Expansion changes the representation
+     * without changing pagination tokens. Limits: at most 10 unique expand paths per request. []
+     * enum: "dispute", "payment_intent". Value enum: "dispute", "payment_intent". anyOf[1]
+     * (Value): Array of string. [] enum: "dispute", "payment_intent". anyOf[1][] (Value): string.
+     * Value enum: "dispute", "payment_intent". anyOf[2] (Value): string. Value enum: "dispute",
+     * "payment_intent".
+     */
+    "expand"?: InputValue<("dispute" | "payment_intent") | readonly ("dispute" | "payment_intent")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** The merchant freeze reason and an optional version fence for the gift card. */
+export type FreezeGiftCardRequest = {
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why the merchant is freezing spending. Value enum: "suspicious_activity",
+     * "customer_request", "support_issue".
+     */
+    "reason": "suspicious_activity" | "customer_request" | "support_issue" | (string & {});
+};
+/** The merchant freeze reason and an optional version fence for the gift card. */
+export type FreezeGiftCardRequestInput = {
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Why the merchant is freezing spending. Value enum: "suspicious_activity",
+     * "customer_request", "support_issue".
+     */
+    "reason": "suspicious_activity" | "customer_request" | "support_issue";
+};
+/** Work required to deliver an order's items. */
+export type Fulfillment = {
+    /**
+     * Current hold details. Present exactly when status is on_hold. A hold on a fulfillment, with
+     * its reason, who placed it, and when it became active.
+     */
+    "active_hold"?: FulfillmentHold;
+    /**
+     * Order charges associated with this fulfillment. [] (Value): {@link FulfillmentChargeLink}.
+     * Links a fulfillment to an order charge by `order_charge_id`.
+     */
+    "charges"?: Array<FulfillmentChargeLink>;
+    /**
+     * When the fulfillment was completed. Mirrors the completion time for its type: delivered_at
+     * for shipment, local delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "completed_at"?: string;
+    /**
+     * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /**
+     * Customer receiving this fulfillment, when one is set. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string;
+    /**
+     * Delivery choice group that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
+    "delivery_choice_group_id": string | null;
+    /**
+     * Execution leg of the selected delivery option that created this fulfillment. `null` when the
+     * merchant created the fulfillment or checkout created it without a delivery quote. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+     */
+    "delivery_execution_leg_id": string | null;
+    /**
+     * Delivery method chosen for this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
+     * before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string | null;
+    /**
+     * Delivery selection that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Example:
+     * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     */
+    "delivery_selection_id": string | null;
+    /**
+     * Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * Delivery URL and completion time for a digital fulfillment. Details of a digital
+     * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+     */
+    "digital_details"?: DigitalFulfillmentDetails;
+    /**
+     * First time this fulfillment reached dispatched. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "dispatched_at"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
+     * "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+    "fulfillment_id": string;
+    /**
+     * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+     * FulfillmentLineItem}. An order line item and quantity included in a fulfillment, with the
+     * modifiers applied to it.
+     */
+    "line_items": Array<FulfillmentLineItem>;
+    /**
+     * Courier, delivery window, and handoff details for a local delivery fulfillment. Details of a
+     * local delivery fulfillment: courier, timing window, instructions, and tracking. Some fields
+     * are omitted for credentials that don't act for the verified customer.
+     */
+    "local_delivery_details"?: DeliveryFulfillmentDetails;
+    /**
+     * Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. anyOf[1] (Value):
+     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
+     * refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * anyOf[2] (Value): null.
+     */
+    "order"?: ((ExpandedOrderSummary) | (null));
+    /** Order whose items this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+    /**
+     * Human-readable number of the order this fulfillment belongs to. Omitted when the order has
+     * no number.
+     */
+    "order_number"?: string;
+    /**
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     */
+    "outcome"?: FulfillmentOutcome;
+    /**
+     * Packages associated with this fulfillment. [] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded.
+     */
+    "packages"?: Array<ExpandedPackageSummary>;
+    /**
+     * First time this fulfillment reached packed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "packed_at"?: string;
+    /**
+     * First time this fulfillment reached picked. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "picked_at"?: string;
+    /**
+     * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup details. For
+     * a pickup that checkout creates, location_name, address, and instructions name the store the
+     * buyer chose and the delivery method's pickup instructions. The note the buyer left for the
+     * store is in recipient.instructions.
+     */
+    "pickup_details"?: PickupFulfillmentDetails;
+    /**
+     * Omitted for a checkout session credential that doesn't act for the customer the buyer
+     * verified. The recipient of a fulfillment, with name, email, phone, address, and handling
+     * instructions.
+     */
+    "recipient"?: FulfillmentRecipient;
+    /**
+     * Derived start of the service schedule or pickup, local delivery, or shipment window. Null
+     * when no schedule is booked, including digital fulfillments. Details remain the authoritative
+     * schedule inputs. Nulls sort first ascending and last descending, then by fulfillment_id in
+     * the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "scheduled_start_at": string | null;
+    /**
+     * Schedule and completion details for a service fulfillment. Details of a service fulfillment:
+     * the scheduled start and end, timezone, completion time, and notes.
+     */
+    "service_details"?: ServiceFulfillmentDetails;
+    /**
+     * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+     * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+     * window, timezone, and when the shipment was handed to the carrier.
+     */
+    "shipment_details"?: ShipmentFulfillmentDetails;
+    /**
+     * Shipments associated with this fulfillment. [] (Value): {@link ExpandedShipmentSummary}. A
+     * shipment's summary fields, including direction, status, and package count, returned when the
+     * shipment is expanded.
+     */
+    "shipments"?: Array<ExpandedShipmentSummary>;
+    /**
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show".
+     */
+    "status": "pending"
+        | "accepted"
+        | "on_hold"
+        | "in_progress"
+        | "ready"
+        | "completed"
+        | "canceled"
+        | "failed"
+        | "scheduled"
+        | "preparing"
+        | "picked"
+        | "packed"
+        | "dispatched"
+        | "no_show"
+        | (string & {});
+    /**
+     * Read-only lifecycle actions accepted now, based on the fulfillment, its order payment
+     * status, holds, and shipment progress. Empty when none are available. Values name the verb
+     * route with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete",
+     * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". [] (Value): string. Value enum: "accept",
+     * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+     * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+     */
+    "supported_actions": Array<"accept"
+        | "cancel"
+        | "complete"
+        | "dispatch"
+        | "fail"
+        | "hold"
+        | "mark_no_show"
+        | "mark_packed"
+        | "mark_picked"
+        | "mark_preparing"
+        | "mark_ready"
+        | "release_hold"
+        | "schedule"
+        | "start"
+        | (string & {})>;
+    /**
+     * When the fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+     * records the state transition; completed_at records completion evidence supplied for the
+     * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "terminal_at"?: string;
+    /**
+     * How the items are delivered: shipment, pickup, local delivery, digital delivery, or service.
+     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     */
+    "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+    /**
+     * When the fulfillment was last updated, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+    /** Monotonic fulfillment version for expected_version checks. Format: uint64. minimum: 1. */
+    "version": number;
+};
+export type FulfillmentCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_hold"?: FulfillmentHold;
+            "charges"?: Array<FulfillmentChargeLink>;
+            "completed_at"?: string;
+            "created_at": string;
+            "customer_id"?: string;
+            "delivery_choice_group_id": string | null;
+            "delivery_execution_leg_id": string | null;
+            "delivery_method_id": string | null;
+            "delivery_selection_id": string | null;
+            "device_id"?: string;
+            "digital_details"?: DigitalFulfillmentDetails;
+            "dispatched_at"?: string;
+            "external_reference_id"?: string;
+            "fulfillment_id": string;
+            "line_items": Array<FulfillmentLineItem>;
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            "location_id"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "order_number"?: string;
+            "outcome"?: FulfillmentOutcome;
+            "packages"?: Array<ExpandedPackageSummary>;
+            "packed_at"?: string;
+            "picked_at"?: string;
+            "pickup_details"?: PickupFulfillmentDetails;
+            "recipient"?: FulfillmentRecipient;
+            "scheduled_start_at": string | null;
+            "service_details"?: ServiceFulfillmentDetails;
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            "terminal_at"?: string;
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Fulfillment>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "fulfillment.canceled";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_hold"?: FulfillmentHold;
+            "charges"?: Array<FulfillmentChargeLink>;
+            "completed_at"?: string;
+            "created_at": string;
+            "customer_id"?: string;
+            "delivery_choice_group_id": string | null;
+            "delivery_execution_leg_id": string | null;
+            "delivery_method_id": string | null;
+            "delivery_selection_id": string | null;
+            "device_id"?: string;
+            "digital_details"?: DigitalFulfillmentDetails;
+            "dispatched_at"?: string;
+            "external_reference_id"?: string;
+            "fulfillment_id": string;
+            "line_items": Array<FulfillmentLineItem>;
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            "location_id"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "order_number"?: string;
+            "outcome"?: FulfillmentOutcome;
+            "packages"?: Array<ExpandedPackageSummary>;
+            "packed_at"?: string;
+            "picked_at"?: string;
+            "pickup_details"?: PickupFulfillmentDetails;
+            "recipient"?: FulfillmentRecipient;
+            "scheduled_start_at": string | null;
+            "service_details"?: ServiceFulfillmentDetails;
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            "terminal_at"?: string;
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Fulfillment>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "fulfillment.canceled";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "fulfillment.canceled";
+});
+/**
+ * The `fulfillment.canceled` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type FulfillmentCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.active_hold (Optional): {@link FulfillmentHold}. Current hold
+     * details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason,
+     * who placed it, and when it became active. object.charges (Optional): Array of {@link
+     * FulfillmentChargeLink}. Order charges associated with this fulfillment. object.charges[]
+     * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
+     * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.delivery_choice_group_id (Required): string or null. Delivery choice group that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Required): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id (Required): string or null.
+     * Delivery method chosen for this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
+     * before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_selection_id (Required): string or null. Delivery selection that created
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id
+     * (Optional): string. Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional): {@link
+     * DigitalFulfillmentDetails}. Delivery URL and completion time for a digital fulfillment.
+     * Details of a digital fulfillment: when it was delivered (`delivered_at`) and its
+     * `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment reached
+     * dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z". object.external_reference_id
+     * (Optional): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255. Example: "warehouse-1842". object.fulfillment_id (Required): string. Stable
+     * identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items
+     * (Required): Array of {@link FulfillmentLineItem}. Order lines and quantities allocated to
+     * this fulfillment. object.line_items[] (Value): {@link FulfillmentLineItem}. An order line
+     * item and quantity included in a fulfillment, with the modifiers applied to it.
+     * object.local_delivery_details (Optional): {@link DeliveryFulfillmentDetails}. Courier,
+     * delivery window, and handoff details for a local delivery fulfillment. Details of a local
+     * delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are
+     * omitted for credentials that don't act for the verified customer. object.location_id
+     * (Optional): string. Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
+     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
+     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
+     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
+     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
+     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded. object.packed_at (Optional): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. object.recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. object.shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. object.shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". object.supported_actions (Required): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. [] enum: "accept", "cancel", "complete", "dispatch",
+     * "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". object.supported_actions[] (Value):
+     * string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". object.terminal_at (Optional): string. When the
+     * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records
+     * the state transition; completed_at records completion evidence supplied for the fulfillment.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required): string. How the
+     * items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value
+     * enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * object.updated_at (Required): string. When the fulfillment was last updated, in RFC3339
+     * format. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+     * 1. previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * active_hold (Optional): {@link FulfillmentHold}. Current hold details. Present exactly
+         * when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and
+         * when it became active. charges (Optional): Array of {@link FulfillmentChargeLink}. Order
+         * charges associated with this fulfillment. charges[] (Value): {@link
+         * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+         * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
+         * completion time for its type: delivered_at for shipment, local delivery, and digital
+         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
+         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
+         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
+         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Required): string or null.
+         * Delivery choice group that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Example:
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_execution_leg_id (Required): string or
+         * null. Execution leg of the selected delivery option that created this fulfillment.
+         * `null` when the merchant created the fulfillment or checkout created it without a
+         * delivery quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". delivery_method_id
+         * (Required): string or null. Delivery method chosen for this fulfillment. `null` when the
+         * merchant created the fulfillment or checkout created it without a delivery quote. Also
+         * `null` when it was created before this field was added. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_selection_id (Required): string or null.
+         * Delivery selection that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". device_id (Optional): string. Device associated with
+         * the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+         * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+         * delivered (`delivered_at`) and its `delivery_url`. dispatched_at (Optional): string.
+         * First time this fulfillment reached dispatched. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
+         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+         * included in a fulfillment, with the modifiers applied to it. local_delivery_details
+         * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+         * details for a local delivery fulfillment. Details of a local delivery fulfillment:
+         * courier, timing window, instructions, and tracking. Some fields are omitted for
+         * credentials that don't act for the verified customer. location_id (Optional): string.
+         * Merchant location responsible for this fulfillment. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * key-value metadata associated with the fulfillment. Caller-owned key-value data stored
+         * on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+         * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before
+         * those limits may not satisfy them. order (Optional): {@link ExpandedOrderSummary} or
+         * null. Order summary returned when the order relationship is expanded. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_number (Optional): string. Human-readable number
+         * of the order this fulfillment belongs to. Omitted when the order has no number. outcome
+         * (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
+         * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show,
+         * with its reason, notes, and when it occurred. packages (Optional): Array of {@link
+         * ExpandedPackageSummary}. Packages associated with this fulfillment. packages[] (Value):
+         * {@link ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+         * status, and supported actions, returned when the package is expanded. packed_at
+         * (Optional): string. First time this fulfillment reached packed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". picked_at (Optional): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup mode,
+         * and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+         * creates, location_name, address, and instructions name the store the buyer chose and the
+         * delivery method's pickup instructions. The note the buyer left for the store is in
+         * recipient.instructions. recipient (Optional): {@link FulfillmentRecipient}. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified. The
+         * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+         * scheduled_start_at (Required): string or null. Derived start of the service schedule or
+         * pickup, local delivery, or shipment window. Null when no schedule is booked, including
+         * digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first
+         * ascending and last descending, then by fulfillment_id in the same direction. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". service_details (Optional): {@link
+         * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
+         * Details of a service fulfillment: the scheduled start and end, timezone, completion
+         * time, and notes. shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
+         * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+         * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+         * window, timezone, and when the shipment was handed to the carrier. shipments (Optional):
+         * Array of {@link ExpandedShipmentSummary}. Shipments associated with this fulfillment.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". supported_actions (Required): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete",
+         * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked",
+         * "mark_preparing", "mark_ready", "release_hold", "schedule", "start". supported_actions[]
+         * (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+         * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+         * "release_hold", "schedule", "start". terminal_at (Optional): string. When the
+         * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+         * records the state transition; completed_at records completion evidence supplied for the
+         * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". type (Required):
+         * string. How the items are delivered: shipment, pickup, local delivery, digital delivery,
+         * or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+         * "handover". updated_at (Required): string. When the fulfillment was last updated, in
+         * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Monotonic fulfillment version for expected_version checks. Format: uint64.
+         * minimum: 1.
+         */
+        "object": {
+            /**
+             * Current hold details. Present exactly when status is on_hold. A hold on a
+             * fulfillment, with its reason, who placed it, and when it became active.
+             */
+            "active_hold"?: FulfillmentHold;
+            /**
+             * Order charges associated with this fulfillment. [] (Value): {@link
+             * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+             */
+            "charges"?: Array<FulfillmentChargeLink>;
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "completed_at"?: string;
+            /**
+             * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id"?: string;
+            /**
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Example:
+             * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+             */
+            "delivery_choice_group_id": string | null;
+            /**
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+             */
+            "delivery_execution_leg_id": string | null;
+            /**
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_id": string | null;
+            /**
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+             */
+            "delivery_selection_id": string | null;
+            /**
+             * Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+             */
+            "device_id"?: string;
+            /**
+             * Delivery URL and completion time for a digital fulfillment. Details of a digital
+             * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+             */
+            "digital_details"?: DigitalFulfillmentDetails;
+            /**
+             * First time this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "dispatched_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+            "fulfillment_id": string;
+            /**
+             * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+             * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
+             * with the modifiers applied to it.
+             */
+            "line_items": Array<FulfillmentLineItem>;
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * Details of a local delivery fulfillment: courier, timing window, instructions, and
+             * tracking. Some fields are omitted for credentials that don't act for the verified
+             * customer.
+             */
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            /**
+             * Merchant location responsible for this fulfillment. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "location_id"?: string;
+            /**
+             * Caller-owned key-value metadata associated with the fulfillment. Caller-owned
+             * key-value data stored on a resource. Keys starting with flint_ are reserved for
+             * Flint and are not returned. Writes follow the limits on MetadataInput and
+             * MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * Order whose items this fulfillment delivers. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id": string;
+            /**
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number.
+             */
+            "order_number"?: string;
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. The terminal
+             * outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
+             * when it occurred.
+             */
+            "outcome"?: FulfillmentOutcome;
+            /**
+             * Packages associated with this fulfillment. [] (Value): {@link
+             * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+             * status, and supported actions, returned when the package is expanded.
+             */
+            "packages"?: Array<ExpandedPackageSummary>;
+            /**
+             * First time this fulfillment reached packed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "packed_at"?: string;
+            /**
+             * First time this fulfillment reached picked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "picked_at"?: string;
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup
+             * details. For a pickup that checkout creates, location_name, address, and
+             * instructions name the store the buyer chose and the delivery method's pickup
+             * instructions. The note the buyer left for the store is in recipient.instructions.
+             */
+            "pickup_details"?: PickupFulfillmentDetails;
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. The recipient of a fulfillment, with name, email, phone, address,
+             * and handling instructions.
+             */
+            "recipient"?: FulfillmentRecipient;
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "scheduled_start_at": string | null;
+            /**
+             * Schedule and completion details for a service fulfillment. Details of a service
+             * fulfillment: the scheduled start and end, timezone, completion time, and notes.
+             */
+            "service_details"?: ServiceFulfillmentDetails;
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. Details of a shipment fulfillment: the
+             * shipping window, timezone, and when the shipment was handed to the carrier.
+             */
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            /**
+             * Shipments associated with this fulfillment. [] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             */
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. [] enum: "accept",
+             * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+             * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+             * [] (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start".
+             */
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "terminal_at"?: string;
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover".
+             */
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+             * 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Fulfillment>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "fulfillment.canceled". */
+    "event_type"?: "fulfillment.canceled";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `fulfillment.canceled` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type FulfillmentCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.active_hold (Optional): {@link FulfillmentHold}. Current hold
+     * details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason,
+     * who placed it, and when it became active. object.charges (Optional): Array of {@link
+     * FulfillmentChargeLink}. Order charges associated with this fulfillment. object.charges[]
+     * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
+     * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.delivery_choice_group_id (Required): string or null. Delivery choice group that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Required): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id (Required): string or null.
+     * Delivery method chosen for this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
+     * before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_selection_id (Required): string or null. Delivery selection that created
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id
+     * (Optional): string. Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional): {@link
+     * DigitalFulfillmentDetails}. Delivery URL and completion time for a digital fulfillment.
+     * Details of a digital fulfillment: when it was delivered (`delivered_at`) and its
+     * `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment reached
+     * dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z". object.external_reference_id
+     * (Optional): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255. Example: "warehouse-1842". object.fulfillment_id (Required): string. Stable
+     * identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items
+     * (Required): Array of {@link FulfillmentLineItem}. Order lines and quantities allocated to
+     * this fulfillment. object.line_items[] (Value): {@link FulfillmentLineItem}. An order line
+     * item and quantity included in a fulfillment, with the modifiers applied to it.
+     * object.local_delivery_details (Optional): {@link DeliveryFulfillmentDetails}. Courier,
+     * delivery window, and handoff details for a local delivery fulfillment. Details of a local
+     * delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are
+     * omitted for credentials that don't act for the verified customer. object.location_id
+     * (Optional): string. Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
+     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
+     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
+     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
+     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
+     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded. object.packed_at (Optional): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. object.recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. object.shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. object.shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". object.supported_actions (Required): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. [] enum: "accept", "cancel", "complete", "dispatch",
+     * "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". object.supported_actions[] (Value):
+     * string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". object.terminal_at (Optional): string. When the
+     * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records
+     * the state transition; completed_at records completion evidence supplied for the fulfillment.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required): string. How the
+     * items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value
+     * enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * object.updated_at (Required): string. When the fulfillment was last updated, in RFC3339
+     * format. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+     * 1. previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * active_hold (Optional): {@link FulfillmentHold}. Current hold details. Present exactly
+         * when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and
+         * when it became active. charges (Optional): Array of {@link FulfillmentChargeLink}. Order
+         * charges associated with this fulfillment. charges[] (Value): {@link
+         * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+         * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
+         * completion time for its type: delivered_at for shipment, local delivery, and digital
+         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
+         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
+         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
+         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Required): string or null.
+         * Delivery choice group that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Example:
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_execution_leg_id (Required): string or
+         * null. Execution leg of the selected delivery option that created this fulfillment.
+         * `null` when the merchant created the fulfillment or checkout created it without a
+         * delivery quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". delivery_method_id
+         * (Required): string or null. Delivery method chosen for this fulfillment. `null` when the
+         * merchant created the fulfillment or checkout created it without a delivery quote. Also
+         * `null` when it was created before this field was added. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_selection_id (Required): string or null.
+         * Delivery selection that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". device_id (Optional): string. Device associated with
+         * the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+         * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+         * delivered (`delivered_at`) and its `delivery_url`. dispatched_at (Optional): string.
+         * First time this fulfillment reached dispatched. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
+         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+         * included in a fulfillment, with the modifiers applied to it. local_delivery_details
+         * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+         * details for a local delivery fulfillment. Details of a local delivery fulfillment:
+         * courier, timing window, instructions, and tracking. Some fields are omitted for
+         * credentials that don't act for the verified customer. location_id (Optional): string.
+         * Merchant location responsible for this fulfillment. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * key-value metadata associated with the fulfillment. Caller-owned key-value data stored
+         * on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+         * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before
+         * those limits may not satisfy them. order (Optional): {@link ExpandedOrderSummary} or
+         * null. Order summary returned when the order relationship is expanded. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_number (Optional): string. Human-readable number
+         * of the order this fulfillment belongs to. Omitted when the order has no number. outcome
+         * (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
+         * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show,
+         * with its reason, notes, and when it occurred. packages (Optional): Array of {@link
+         * ExpandedPackageSummary}. Packages associated with this fulfillment. packages[] (Value):
+         * {@link ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+         * status, and supported actions, returned when the package is expanded. packed_at
+         * (Optional): string. First time this fulfillment reached packed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". picked_at (Optional): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup mode,
+         * and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+         * creates, location_name, address, and instructions name the store the buyer chose and the
+         * delivery method's pickup instructions. The note the buyer left for the store is in
+         * recipient.instructions. recipient (Optional): {@link FulfillmentRecipient}. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified. The
+         * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+         * scheduled_start_at (Required): string or null. Derived start of the service schedule or
+         * pickup, local delivery, or shipment window. Null when no schedule is booked, including
+         * digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first
+         * ascending and last descending, then by fulfillment_id in the same direction. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". service_details (Optional): {@link
+         * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
+         * Details of a service fulfillment: the scheduled start and end, timezone, completion
+         * time, and notes. shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
+         * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+         * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+         * window, timezone, and when the shipment was handed to the carrier. shipments (Optional):
+         * Array of {@link ExpandedShipmentSummary}. Shipments associated with this fulfillment.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". supported_actions (Required): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete",
+         * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked",
+         * "mark_preparing", "mark_ready", "release_hold", "schedule", "start". supported_actions[]
+         * (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+         * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+         * "release_hold", "schedule", "start". terminal_at (Optional): string. When the
+         * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+         * records the state transition; completed_at records completion evidence supplied for the
+         * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". type (Required):
+         * string. How the items are delivered: shipment, pickup, local delivery, digital delivery,
+         * or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+         * "handover". updated_at (Required): string. When the fulfillment was last updated, in
+         * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Monotonic fulfillment version for expected_version checks. Format: uint64.
+         * minimum: 1.
+         */
+        "object": {
+            /**
+             * Current hold details. Present exactly when status is on_hold. A hold on a
+             * fulfillment, with its reason, who placed it, and when it became active.
+             */
+            "active_hold"?: FulfillmentHold;
+            /**
+             * Order charges associated with this fulfillment. [] (Value): {@link
+             * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+             */
+            "charges"?: Array<FulfillmentChargeLink>;
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "completed_at"?: string;
+            /**
+             * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id"?: string;
+            /**
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Example:
+             * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+             */
+            "delivery_choice_group_id": string | null;
+            /**
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+             */
+            "delivery_execution_leg_id": string | null;
+            /**
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_id": string | null;
+            /**
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+             */
+            "delivery_selection_id": string | null;
+            /**
+             * Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+             */
+            "device_id"?: string;
+            /**
+             * Delivery URL and completion time for a digital fulfillment. Details of a digital
+             * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+             */
+            "digital_details"?: DigitalFulfillmentDetails;
+            /**
+             * First time this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "dispatched_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+            "fulfillment_id": string;
+            /**
+             * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+             * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
+             * with the modifiers applied to it.
+             */
+            "line_items": Array<FulfillmentLineItem>;
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * Details of a local delivery fulfillment: courier, timing window, instructions, and
+             * tracking. Some fields are omitted for credentials that don't act for the verified
+             * customer.
+             */
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            /**
+             * Merchant location responsible for this fulfillment. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "location_id"?: string;
+            /**
+             * Caller-owned key-value metadata associated with the fulfillment. Caller-owned
+             * key-value data stored on a resource. Keys starting with flint_ are reserved for
+             * Flint and are not returned. Writes follow the limits on MetadataInput and
+             * MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * Order whose items this fulfillment delivers. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id": string;
+            /**
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number.
+             */
+            "order_number"?: string;
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. The terminal
+             * outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
+             * when it occurred.
+             */
+            "outcome"?: FulfillmentOutcome;
+            /**
+             * Packages associated with this fulfillment. [] (Value): {@link
+             * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+             * status, and supported actions, returned when the package is expanded.
+             */
+            "packages"?: Array<ExpandedPackageSummary>;
+            /**
+             * First time this fulfillment reached packed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "packed_at"?: string;
+            /**
+             * First time this fulfillment reached picked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "picked_at"?: string;
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup
+             * details. For a pickup that checkout creates, location_name, address, and
+             * instructions name the store the buyer chose and the delivery method's pickup
+             * instructions. The note the buyer left for the store is in recipient.instructions.
+             */
+            "pickup_details"?: PickupFulfillmentDetails;
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. The recipient of a fulfillment, with name, email, phone, address,
+             * and handling instructions.
+             */
+            "recipient"?: FulfillmentRecipient;
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "scheduled_start_at": string | null;
+            /**
+             * Schedule and completion details for a service fulfillment. Details of a service
+             * fulfillment: the scheduled start and end, timezone, completion time, and notes.
+             */
+            "service_details"?: ServiceFulfillmentDetails;
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. Details of a shipment fulfillment: the
+             * shipping window, timezone, and when the shipment was handed to the carrier.
+             */
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            /**
+             * Shipments associated with this fulfillment. [] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             */
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. [] enum: "accept",
+             * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+             * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+             * [] (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start".
+             */
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "terminal_at"?: string;
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover".
+             */
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+             * 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Fulfillment>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "fulfillment.canceled". */
+    "event_type"?: "fulfillment.canceled";
+});
+/** Links a fulfillment to an order charge by `order_charge_id`. */
+export type FulfillmentChargeLink = {
+    /** Order charge associated with this fulfillment. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT". */
+    "order_charge_id": string;
+    /** Order that owns the referenced charge. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
+};
+export type FulfillmentCompletedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_hold"?: FulfillmentHold;
+            "charges"?: Array<FulfillmentChargeLink>;
+            "completed_at"?: string;
+            "created_at": string;
+            "customer_id"?: string;
+            "delivery_choice_group_id": string | null;
+            "delivery_execution_leg_id": string | null;
+            "delivery_method_id": string | null;
+            "delivery_selection_id": string | null;
+            "device_id"?: string;
+            "digital_details"?: DigitalFulfillmentDetails;
+            "dispatched_at"?: string;
+            "external_reference_id"?: string;
+            "fulfillment_id": string;
+            "line_items": Array<FulfillmentLineItem>;
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            "location_id"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "order_number"?: string;
+            "outcome"?: FulfillmentOutcome;
+            "packages"?: Array<ExpandedPackageSummary>;
+            "packed_at"?: string;
+            "picked_at"?: string;
+            "pickup_details"?: PickupFulfillmentDetails;
+            "recipient"?: FulfillmentRecipient;
+            "scheduled_start_at": string | null;
+            "service_details"?: ServiceFulfillmentDetails;
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            "terminal_at"?: string;
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Fulfillment>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "fulfillment.completed";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_hold"?: FulfillmentHold;
+            "charges"?: Array<FulfillmentChargeLink>;
+            "completed_at"?: string;
+            "created_at": string;
+            "customer_id"?: string;
+            "delivery_choice_group_id": string | null;
+            "delivery_execution_leg_id": string | null;
+            "delivery_method_id": string | null;
+            "delivery_selection_id": string | null;
+            "device_id"?: string;
+            "digital_details"?: DigitalFulfillmentDetails;
+            "dispatched_at"?: string;
+            "external_reference_id"?: string;
+            "fulfillment_id": string;
+            "line_items": Array<FulfillmentLineItem>;
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            "location_id"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "order_number"?: string;
+            "outcome"?: FulfillmentOutcome;
+            "packages"?: Array<ExpandedPackageSummary>;
+            "packed_at"?: string;
+            "picked_at"?: string;
+            "pickup_details"?: PickupFulfillmentDetails;
+            "recipient"?: FulfillmentRecipient;
+            "scheduled_start_at": string | null;
+            "service_details"?: ServiceFulfillmentDetails;
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            "terminal_at"?: string;
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+        "previous_attributes"?: Partial<Fulfillment>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "fulfillment.completed";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "fulfillment.completed";
+});
+/**
+ * The `fulfillment.completed` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type FulfillmentCompletedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.active_hold (Optional): {@link FulfillmentHold}. Current hold
+     * details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason,
+     * who placed it, and when it became active. object.charges (Optional): Array of {@link
+     * FulfillmentChargeLink}. Order charges associated with this fulfillment. object.charges[]
+     * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
+     * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.delivery_choice_group_id (Required): string or null. Delivery choice group that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Required): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id (Required): string or null.
+     * Delivery method chosen for this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
+     * before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_selection_id (Required): string or null. Delivery selection that created
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id
+     * (Optional): string. Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional): {@link
+     * DigitalFulfillmentDetails}. Delivery URL and completion time for a digital fulfillment.
+     * Details of a digital fulfillment: when it was delivered (`delivered_at`) and its
+     * `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment reached
+     * dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z". object.external_reference_id
+     * (Optional): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255. Example: "warehouse-1842". object.fulfillment_id (Required): string. Stable
+     * identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items
+     * (Required): Array of {@link FulfillmentLineItem}. Order lines and quantities allocated to
+     * this fulfillment. object.line_items[] (Value): {@link FulfillmentLineItem}. An order line
+     * item and quantity included in a fulfillment, with the modifiers applied to it.
+     * object.local_delivery_details (Optional): {@link DeliveryFulfillmentDetails}. Courier,
+     * delivery window, and handoff details for a local delivery fulfillment. Details of a local
+     * delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are
+     * omitted for credentials that don't act for the verified customer. object.location_id
+     * (Optional): string. Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
+     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
+     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
+     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
+     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
+     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded. object.packed_at (Optional): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. object.recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. object.shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. object.shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". object.supported_actions (Required): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. [] enum: "accept", "cancel", "complete", "dispatch",
+     * "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". object.supported_actions[] (Value):
+     * string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". object.terminal_at (Optional): string. When the
+     * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records
+     * the state transition; completed_at records completion evidence supplied for the fulfillment.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required): string. How the
+     * items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value
+     * enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * object.updated_at (Required): string. When the fulfillment was last updated, in RFC3339
+     * format. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+     * 1. previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * active_hold (Optional): {@link FulfillmentHold}. Current hold details. Present exactly
+         * when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and
+         * when it became active. charges (Optional): Array of {@link FulfillmentChargeLink}. Order
+         * charges associated with this fulfillment. charges[] (Value): {@link
+         * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+         * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
+         * completion time for its type: delivered_at for shipment, local delivery, and digital
+         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
+         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
+         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
+         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Required): string or null.
+         * Delivery choice group that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Example:
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_execution_leg_id (Required): string or
+         * null. Execution leg of the selected delivery option that created this fulfillment.
+         * `null` when the merchant created the fulfillment or checkout created it without a
+         * delivery quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". delivery_method_id
+         * (Required): string or null. Delivery method chosen for this fulfillment. `null` when the
+         * merchant created the fulfillment or checkout created it without a delivery quote. Also
+         * `null` when it was created before this field was added. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_selection_id (Required): string or null.
+         * Delivery selection that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". device_id (Optional): string. Device associated with
+         * the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+         * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+         * delivered (`delivered_at`) and its `delivery_url`. dispatched_at (Optional): string.
+         * First time this fulfillment reached dispatched. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
+         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+         * included in a fulfillment, with the modifiers applied to it. local_delivery_details
+         * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+         * details for a local delivery fulfillment. Details of a local delivery fulfillment:
+         * courier, timing window, instructions, and tracking. Some fields are omitted for
+         * credentials that don't act for the verified customer. location_id (Optional): string.
+         * Merchant location responsible for this fulfillment. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * key-value metadata associated with the fulfillment. Caller-owned key-value data stored
+         * on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+         * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before
+         * those limits may not satisfy them. order (Optional): {@link ExpandedOrderSummary} or
+         * null. Order summary returned when the order relationship is expanded. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_number (Optional): string. Human-readable number
+         * of the order this fulfillment belongs to. Omitted when the order has no number. outcome
+         * (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
+         * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show,
+         * with its reason, notes, and when it occurred. packages (Optional): Array of {@link
+         * ExpandedPackageSummary}. Packages associated with this fulfillment. packages[] (Value):
+         * {@link ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+         * status, and supported actions, returned when the package is expanded. packed_at
+         * (Optional): string. First time this fulfillment reached packed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". picked_at (Optional): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup mode,
+         * and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+         * creates, location_name, address, and instructions name the store the buyer chose and the
+         * delivery method's pickup instructions. The note the buyer left for the store is in
+         * recipient.instructions. recipient (Optional): {@link FulfillmentRecipient}. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified. The
+         * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+         * scheduled_start_at (Required): string or null. Derived start of the service schedule or
+         * pickup, local delivery, or shipment window. Null when no schedule is booked, including
+         * digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first
+         * ascending and last descending, then by fulfillment_id in the same direction. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". service_details (Optional): {@link
+         * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
+         * Details of a service fulfillment: the scheduled start and end, timezone, completion
+         * time, and notes. shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
+         * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+         * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+         * window, timezone, and when the shipment was handed to the carrier. shipments (Optional):
+         * Array of {@link ExpandedShipmentSummary}. Shipments associated with this fulfillment.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". supported_actions (Required): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete",
+         * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked",
+         * "mark_preparing", "mark_ready", "release_hold", "schedule", "start". supported_actions[]
+         * (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+         * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+         * "release_hold", "schedule", "start". terminal_at (Optional): string. When the
+         * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+         * records the state transition; completed_at records completion evidence supplied for the
+         * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". type (Required):
+         * string. How the items are delivered: shipment, pickup, local delivery, digital delivery,
+         * or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+         * "handover". updated_at (Required): string. When the fulfillment was last updated, in
+         * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Monotonic fulfillment version for expected_version checks. Format: uint64.
+         * minimum: 1.
+         */
+        "object": {
+            /**
+             * Current hold details. Present exactly when status is on_hold. A hold on a
+             * fulfillment, with its reason, who placed it, and when it became active.
+             */
+            "active_hold"?: FulfillmentHold;
+            /**
+             * Order charges associated with this fulfillment. [] (Value): {@link
+             * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+             */
+            "charges"?: Array<FulfillmentChargeLink>;
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "completed_at"?: string;
+            /**
+             * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id"?: string;
+            /**
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Example:
+             * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+             */
+            "delivery_choice_group_id": string | null;
+            /**
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+             */
+            "delivery_execution_leg_id": string | null;
+            /**
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_id": string | null;
+            /**
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+             */
+            "delivery_selection_id": string | null;
+            /**
+             * Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+             */
+            "device_id"?: string;
+            /**
+             * Delivery URL and completion time for a digital fulfillment. Details of a digital
+             * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+             */
+            "digital_details"?: DigitalFulfillmentDetails;
+            /**
+             * First time this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "dispatched_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+            "fulfillment_id": string;
+            /**
+             * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+             * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
+             * with the modifiers applied to it.
+             */
+            "line_items": Array<FulfillmentLineItem>;
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * Details of a local delivery fulfillment: courier, timing window, instructions, and
+             * tracking. Some fields are omitted for credentials that don't act for the verified
+             * customer.
+             */
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            /**
+             * Merchant location responsible for this fulfillment. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "location_id"?: string;
+            /**
+             * Caller-owned key-value metadata associated with the fulfillment. Caller-owned
+             * key-value data stored on a resource. Keys starting with flint_ are reserved for
+             * Flint and are not returned. Writes follow the limits on MetadataInput and
+             * MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * Order whose items this fulfillment delivers. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id": string;
+            /**
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number.
+             */
+            "order_number"?: string;
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. The terminal
+             * outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
+             * when it occurred.
+             */
+            "outcome"?: FulfillmentOutcome;
+            /**
+             * Packages associated with this fulfillment. [] (Value): {@link
+             * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+             * status, and supported actions, returned when the package is expanded.
+             */
+            "packages"?: Array<ExpandedPackageSummary>;
+            /**
+             * First time this fulfillment reached packed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "packed_at"?: string;
+            /**
+             * First time this fulfillment reached picked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "picked_at"?: string;
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup
+             * details. For a pickup that checkout creates, location_name, address, and
+             * instructions name the store the buyer chose and the delivery method's pickup
+             * instructions. The note the buyer left for the store is in recipient.instructions.
+             */
+            "pickup_details"?: PickupFulfillmentDetails;
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. The recipient of a fulfillment, with name, email, phone, address,
+             * and handling instructions.
+             */
+            "recipient"?: FulfillmentRecipient;
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "scheduled_start_at": string | null;
+            /**
+             * Schedule and completion details for a service fulfillment. Details of a service
+             * fulfillment: the scheduled start and end, timezone, completion time, and notes.
+             */
+            "service_details"?: ServiceFulfillmentDetails;
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. Details of a shipment fulfillment: the
+             * shipping window, timezone, and when the shipment was handed to the carrier.
+             */
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            /**
+             * Shipments associated with this fulfillment. [] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             */
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. [] enum: "accept",
+             * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+             * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+             * [] (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start".
+             */
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "terminal_at"?: string;
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover".
+             */
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+             * 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Fulfillment>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "fulfillment.completed". */
+    "event_type"?: "fulfillment.completed";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `fulfillment.completed` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type FulfillmentCompletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.active_hold (Optional): {@link FulfillmentHold}. Current hold
+     * details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason,
+     * who placed it, and when it became active. object.charges (Optional): Array of {@link
+     * FulfillmentChargeLink}. Order charges associated with this fulfillment. object.charges[]
+     * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
+     * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.delivery_choice_group_id (Required): string or null. Delivery choice group that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Required): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id (Required): string or null.
+     * Delivery method chosen for this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
+     * before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_selection_id (Required): string or null. Delivery selection that created
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id
+     * (Optional): string. Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional): {@link
+     * DigitalFulfillmentDetails}. Delivery URL and completion time for a digital fulfillment.
+     * Details of a digital fulfillment: when it was delivered (`delivered_at`) and its
+     * `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment reached
+     * dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z". object.external_reference_id
+     * (Optional): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255. Example: "warehouse-1842". object.fulfillment_id (Required): string. Stable
+     * identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items
+     * (Required): Array of {@link FulfillmentLineItem}. Order lines and quantities allocated to
+     * this fulfillment. object.line_items[] (Value): {@link FulfillmentLineItem}. An order line
+     * item and quantity included in a fulfillment, with the modifiers applied to it.
+     * object.local_delivery_details (Optional): {@link DeliveryFulfillmentDetails}. Courier,
+     * delivery window, and handoff details for a local delivery fulfillment. Details of a local
+     * delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are
+     * omitted for credentials that don't act for the verified customer. object.location_id
+     * (Optional): string. Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
+     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
+     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
+     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
+     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
+     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded. object.packed_at (Optional): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. object.recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. object.shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. object.shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". object.supported_actions (Required): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. [] enum: "accept", "cancel", "complete", "dispatch",
+     * "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". object.supported_actions[] (Value):
+     * string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". object.terminal_at (Optional): string. When the
+     * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records
+     * the state transition; completed_at records completion evidence supplied for the fulfillment.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required): string. How the
+     * items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value
+     * enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * object.updated_at (Required): string. When the fulfillment was last updated, in RFC3339
+     * format. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+     * 1. previous_attributes (Optional): object. Previous values of changed top-level fields in
+     * data.object, at this delivery's API version. Nested changes include the whole previous
+     * top-level value. A value is null when the field was absent before the change. Omitted when
+     * Flint did not record the previous state, including synthetic test events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * active_hold (Optional): {@link FulfillmentHold}. Current hold details. Present exactly
+         * when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and
+         * when it became active. charges (Optional): Array of {@link FulfillmentChargeLink}. Order
+         * charges associated with this fulfillment. charges[] (Value): {@link
+         * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+         * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
+         * completion time for its type: delivered_at for shipment, local delivery, and digital
+         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
+         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
+         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
+         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Required): string or null.
+         * Delivery choice group that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Example:
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_execution_leg_id (Required): string or
+         * null. Execution leg of the selected delivery option that created this fulfillment.
+         * `null` when the merchant created the fulfillment or checkout created it without a
+         * delivery quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". delivery_method_id
+         * (Required): string or null. Delivery method chosen for this fulfillment. `null` when the
+         * merchant created the fulfillment or checkout created it without a delivery quote. Also
+         * `null` when it was created before this field was added. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_selection_id (Required): string or null.
+         * Delivery selection that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". device_id (Optional): string. Device associated with
+         * the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+         * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+         * delivered (`delivered_at`) and its `delivery_url`. dispatched_at (Optional): string.
+         * First time this fulfillment reached dispatched. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
+         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+         * included in a fulfillment, with the modifiers applied to it. local_delivery_details
+         * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+         * details for a local delivery fulfillment. Details of a local delivery fulfillment:
+         * courier, timing window, instructions, and tracking. Some fields are omitted for
+         * credentials that don't act for the verified customer. location_id (Optional): string.
+         * Merchant location responsible for this fulfillment. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * key-value metadata associated with the fulfillment. Caller-owned key-value data stored
+         * on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+         * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before
+         * those limits may not satisfy them. order (Optional): {@link ExpandedOrderSummary} or
+         * null. Order summary returned when the order relationship is expanded. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_number (Optional): string. Human-readable number
+         * of the order this fulfillment belongs to. Omitted when the order has no number. outcome
+         * (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
+         * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show,
+         * with its reason, notes, and when it occurred. packages (Optional): Array of {@link
+         * ExpandedPackageSummary}. Packages associated with this fulfillment. packages[] (Value):
+         * {@link ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+         * status, and supported actions, returned when the package is expanded. packed_at
+         * (Optional): string. First time this fulfillment reached packed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". picked_at (Optional): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup mode,
+         * and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+         * creates, location_name, address, and instructions name the store the buyer chose and the
+         * delivery method's pickup instructions. The note the buyer left for the store is in
+         * recipient.instructions. recipient (Optional): {@link FulfillmentRecipient}. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified. The
+         * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+         * scheduled_start_at (Required): string or null. Derived start of the service schedule or
+         * pickup, local delivery, or shipment window. Null when no schedule is booked, including
+         * digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first
+         * ascending and last descending, then by fulfillment_id in the same direction. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". service_details (Optional): {@link
+         * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
+         * Details of a service fulfillment: the scheduled start and end, timezone, completion
+         * time, and notes. shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
+         * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+         * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+         * window, timezone, and when the shipment was handed to the carrier. shipments (Optional):
+         * Array of {@link ExpandedShipmentSummary}. Shipments associated with this fulfillment.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". supported_actions (Required): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete",
+         * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked",
+         * "mark_preparing", "mark_ready", "release_hold", "schedule", "start". supported_actions[]
+         * (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+         * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+         * "release_hold", "schedule", "start". terminal_at (Optional): string. When the
+         * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+         * records the state transition; completed_at records completion evidence supplied for the
+         * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". type (Required):
+         * string. How the items are delivered: shipment, pickup, local delivery, digital delivery,
+         * or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+         * "handover". updated_at (Required): string. When the fulfillment was last updated, in
+         * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Monotonic fulfillment version for expected_version checks. Format: uint64.
+         * minimum: 1.
+         */
+        "object": {
+            /**
+             * Current hold details. Present exactly when status is on_hold. A hold on a
+             * fulfillment, with its reason, who placed it, and when it became active.
+             */
+            "active_hold"?: FulfillmentHold;
+            /**
+             * Order charges associated with this fulfillment. [] (Value): {@link
+             * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+             */
+            "charges"?: Array<FulfillmentChargeLink>;
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "completed_at"?: string;
+            /**
+             * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id"?: string;
+            /**
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Example:
+             * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+             */
+            "delivery_choice_group_id": string | null;
+            /**
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+             */
+            "delivery_execution_leg_id": string | null;
+            /**
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_id": string | null;
+            /**
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+             */
+            "delivery_selection_id": string | null;
+            /**
+             * Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+             */
+            "device_id"?: string;
+            /**
+             * Delivery URL and completion time for a digital fulfillment. Details of a digital
+             * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+             */
+            "digital_details"?: DigitalFulfillmentDetails;
+            /**
+             * First time this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "dispatched_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+            "fulfillment_id": string;
+            /**
+             * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+             * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
+             * with the modifiers applied to it.
+             */
+            "line_items": Array<FulfillmentLineItem>;
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * Details of a local delivery fulfillment: courier, timing window, instructions, and
+             * tracking. Some fields are omitted for credentials that don't act for the verified
+             * customer.
+             */
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            /**
+             * Merchant location responsible for this fulfillment. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "location_id"?: string;
+            /**
+             * Caller-owned key-value metadata associated with the fulfillment. Caller-owned
+             * key-value data stored on a resource. Keys starting with flint_ are reserved for
+             * Flint and are not returned. Writes follow the limits on MetadataInput and
+             * MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * Order whose items this fulfillment delivers. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id": string;
+            /**
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number.
+             */
+            "order_number"?: string;
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. The terminal
+             * outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
+             * when it occurred.
+             */
+            "outcome"?: FulfillmentOutcome;
+            /**
+             * Packages associated with this fulfillment. [] (Value): {@link
+             * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+             * status, and supported actions, returned when the package is expanded.
+             */
+            "packages"?: Array<ExpandedPackageSummary>;
+            /**
+             * First time this fulfillment reached packed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "packed_at"?: string;
+            /**
+             * First time this fulfillment reached picked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "picked_at"?: string;
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup
+             * details. For a pickup that checkout creates, location_name, address, and
+             * instructions name the store the buyer chose and the delivery method's pickup
+             * instructions. The note the buyer left for the store is in recipient.instructions.
+             */
+            "pickup_details"?: PickupFulfillmentDetails;
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. The recipient of a fulfillment, with name, email, phone, address,
+             * and handling instructions.
+             */
+            "recipient"?: FulfillmentRecipient;
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "scheduled_start_at": string | null;
+            /**
+             * Schedule and completion details for a service fulfillment. Details of a service
+             * fulfillment: the scheduled start and end, timezone, completion time, and notes.
+             */
+            "service_details"?: ServiceFulfillmentDetails;
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. Details of a shipment fulfillment: the
+             * shipping window, timezone, and when the shipment was handed to the carrier.
+             */
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            /**
+             * Shipments associated with this fulfillment. [] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             */
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. [] enum: "accept",
+             * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+             * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+             * [] (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start".
+             */
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "terminal_at"?: string;
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover".
+             */
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+             * 1.
+             */
+            "version": number;
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<Fulfillment>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "fulfillment.completed". */
+    "event_type"?: "fulfillment.completed";
+});
+export type FulfillmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_hold"?: FulfillmentHold;
+            "charges"?: Array<FulfillmentChargeLink>;
+            "completed_at"?: string;
+            "created_at": string;
+            "customer_id"?: string;
+            "delivery_choice_group_id": string | null;
+            "delivery_execution_leg_id": string | null;
+            "delivery_method_id": string | null;
+            "delivery_selection_id": string | null;
+            "device_id"?: string;
+            "digital_details"?: DigitalFulfillmentDetails;
+            "dispatched_at"?: string;
+            "external_reference_id"?: string;
+            "fulfillment_id": string;
+            "line_items": Array<FulfillmentLineItem>;
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            "location_id"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "order_number"?: string;
+            "outcome"?: FulfillmentOutcome;
+            "packages"?: Array<ExpandedPackageSummary>;
+            "packed_at"?: string;
+            "picked_at"?: string;
+            "pickup_details"?: PickupFulfillmentDetails;
+            "recipient"?: FulfillmentRecipient;
+            "scheduled_start_at": string | null;
+            "service_details"?: ServiceFulfillmentDetails;
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            "terminal_at"?: string;
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "fulfillment.created";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "active_hold"?: FulfillmentHold;
+            "charges"?: Array<FulfillmentChargeLink>;
+            "completed_at"?: string;
+            "created_at": string;
+            "customer_id"?: string;
+            "delivery_choice_group_id": string | null;
+            "delivery_execution_leg_id": string | null;
+            "delivery_method_id": string | null;
+            "delivery_selection_id": string | null;
+            "device_id"?: string;
+            "digital_details"?: DigitalFulfillmentDetails;
+            "dispatched_at"?: string;
+            "external_reference_id"?: string;
+            "fulfillment_id": string;
+            "line_items": Array<FulfillmentLineItem>;
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            "location_id"?: string;
+            "metadata"?: MetadataMap;
+            "order"?: ((ExpandedOrderSummary) | (null));
+            "order_id": string;
+            "order_number"?: string;
+            "outcome"?: FulfillmentOutcome;
+            "packages"?: Array<ExpandedPackageSummary>;
+            "packed_at"?: string;
+            "picked_at"?: string;
+            "pickup_details"?: PickupFulfillmentDetails;
+            "recipient"?: FulfillmentRecipient;
+            "scheduled_start_at": string | null;
+            "service_details"?: ServiceFulfillmentDetails;
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            "terminal_at"?: string;
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            "updated_at": string;
+            "version": number;
+        };
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "fulfillment.created";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "fulfillment.created";
+});
+/**
+ * The `fulfillment.created` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type FulfillmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.active_hold (Optional): {@link FulfillmentHold}. Current hold
+     * details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason,
+     * who placed it, and when it became active. object.charges (Optional): Array of {@link
+     * FulfillmentChargeLink}. Order charges associated with this fulfillment. object.charges[]
+     * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
+     * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.delivery_choice_group_id (Required): string or null. Delivery choice group that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Required): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id (Required): string or null.
+     * Delivery method chosen for this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
+     * before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_selection_id (Required): string or null. Delivery selection that created
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id
+     * (Optional): string. Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional): {@link
+     * DigitalFulfillmentDetails}. Delivery URL and completion time for a digital fulfillment.
+     * Details of a digital fulfillment: when it was delivered (`delivered_at`) and its
+     * `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment reached
+     * dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z". object.external_reference_id
+     * (Optional): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255. Example: "warehouse-1842". object.fulfillment_id (Required): string. Stable
+     * identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items
+     * (Required): Array of {@link FulfillmentLineItem}. Order lines and quantities allocated to
+     * this fulfillment. object.line_items[] (Value): {@link FulfillmentLineItem}. An order line
+     * item and quantity included in a fulfillment, with the modifiers applied to it.
+     * object.local_delivery_details (Optional): {@link DeliveryFulfillmentDetails}. Courier,
+     * delivery window, and handoff details for a local delivery fulfillment. Details of a local
+     * delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are
+     * omitted for credentials that don't act for the verified customer. object.location_id
+     * (Optional): string. Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
+     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
+     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
+     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
+     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
+     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded. object.packed_at (Optional): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. object.recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. object.shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. object.shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". object.supported_actions (Required): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. [] enum: "accept", "cancel", "complete", "dispatch",
+     * "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". object.supported_actions[] (Value):
+     * string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". object.terminal_at (Optional): string. When the
+     * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records
+     * the state transition; completed_at records completion evidence supplied for the fulfillment.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required): string. How the
+     * items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value
+     * enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * object.updated_at (Required): string. When the fulfillment was last updated, in RFC3339
+     * format. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+     * 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * active_hold (Optional): {@link FulfillmentHold}. Current hold details. Present exactly
+         * when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and
+         * when it became active. charges (Optional): Array of {@link FulfillmentChargeLink}. Order
+         * charges associated with this fulfillment. charges[] (Value): {@link
+         * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+         * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
+         * completion time for its type: delivered_at for shipment, local delivery, and digital
+         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
+         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
+         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
+         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Required): string or null.
+         * Delivery choice group that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Example:
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_execution_leg_id (Required): string or
+         * null. Execution leg of the selected delivery option that created this fulfillment.
+         * `null` when the merchant created the fulfillment or checkout created it without a
+         * delivery quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". delivery_method_id
+         * (Required): string or null. Delivery method chosen for this fulfillment. `null` when the
+         * merchant created the fulfillment or checkout created it without a delivery quote. Also
+         * `null` when it was created before this field was added. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_selection_id (Required): string or null.
+         * Delivery selection that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". device_id (Optional): string. Device associated with
+         * the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+         * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+         * delivered (`delivered_at`) and its `delivery_url`. dispatched_at (Optional): string.
+         * First time this fulfillment reached dispatched. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
+         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+         * included in a fulfillment, with the modifiers applied to it. local_delivery_details
+         * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+         * details for a local delivery fulfillment. Details of a local delivery fulfillment:
+         * courier, timing window, instructions, and tracking. Some fields are omitted for
+         * credentials that don't act for the verified customer. location_id (Optional): string.
+         * Merchant location responsible for this fulfillment. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * key-value metadata associated with the fulfillment. Caller-owned key-value data stored
+         * on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+         * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before
+         * those limits may not satisfy them. order (Optional): {@link ExpandedOrderSummary} or
+         * null. Order summary returned when the order relationship is expanded. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_number (Optional): string. Human-readable number
+         * of the order this fulfillment belongs to. Omitted when the order has no number. outcome
+         * (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
+         * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show,
+         * with its reason, notes, and when it occurred. packages (Optional): Array of {@link
+         * ExpandedPackageSummary}. Packages associated with this fulfillment. packages[] (Value):
+         * {@link ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+         * status, and supported actions, returned when the package is expanded. packed_at
+         * (Optional): string. First time this fulfillment reached packed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". picked_at (Optional): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup mode,
+         * and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+         * creates, location_name, address, and instructions name the store the buyer chose and the
+         * delivery method's pickup instructions. The note the buyer left for the store is in
+         * recipient.instructions. recipient (Optional): {@link FulfillmentRecipient}. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified. The
+         * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+         * scheduled_start_at (Required): string or null. Derived start of the service schedule or
+         * pickup, local delivery, or shipment window. Null when no schedule is booked, including
+         * digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first
+         * ascending and last descending, then by fulfillment_id in the same direction. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". service_details (Optional): {@link
+         * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
+         * Details of a service fulfillment: the scheduled start and end, timezone, completion
+         * time, and notes. shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
+         * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+         * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+         * window, timezone, and when the shipment was handed to the carrier. shipments (Optional):
+         * Array of {@link ExpandedShipmentSummary}. Shipments associated with this fulfillment.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". supported_actions (Required): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete",
+         * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked",
+         * "mark_preparing", "mark_ready", "release_hold", "schedule", "start". supported_actions[]
+         * (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+         * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+         * "release_hold", "schedule", "start". terminal_at (Optional): string. When the
+         * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+         * records the state transition; completed_at records completion evidence supplied for the
+         * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". type (Required):
+         * string. How the items are delivered: shipment, pickup, local delivery, digital delivery,
+         * or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+         * "handover". updated_at (Required): string. When the fulfillment was last updated, in
+         * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Monotonic fulfillment version for expected_version checks. Format: uint64.
+         * minimum: 1.
+         */
+        "object": {
+            /**
+             * Current hold details. Present exactly when status is on_hold. A hold on a
+             * fulfillment, with its reason, who placed it, and when it became active.
+             */
+            "active_hold"?: FulfillmentHold;
+            /**
+             * Order charges associated with this fulfillment. [] (Value): {@link
+             * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+             */
+            "charges"?: Array<FulfillmentChargeLink>;
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "completed_at"?: string;
+            /**
+             * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id"?: string;
+            /**
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Example:
+             * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+             */
+            "delivery_choice_group_id": string | null;
+            /**
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+             */
+            "delivery_execution_leg_id": string | null;
+            /**
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_id": string | null;
+            /**
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+             */
+            "delivery_selection_id": string | null;
+            /**
+             * Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+             */
+            "device_id"?: string;
+            /**
+             * Delivery URL and completion time for a digital fulfillment. Details of a digital
+             * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+             */
+            "digital_details"?: DigitalFulfillmentDetails;
+            /**
+             * First time this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "dispatched_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+            "fulfillment_id": string;
+            /**
+             * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+             * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
+             * with the modifiers applied to it.
+             */
+            "line_items": Array<FulfillmentLineItem>;
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * Details of a local delivery fulfillment: courier, timing window, instructions, and
+             * tracking. Some fields are omitted for credentials that don't act for the verified
+             * customer.
+             */
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            /**
+             * Merchant location responsible for this fulfillment. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "location_id"?: string;
+            /**
+             * Caller-owned key-value metadata associated with the fulfillment. Caller-owned
+             * key-value data stored on a resource. Keys starting with flint_ are reserved for
+             * Flint and are not returned. Writes follow the limits on MetadataInput and
+             * MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * Order whose items this fulfillment delivers. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id": string;
+            /**
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number.
+             */
+            "order_number"?: string;
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. The terminal
+             * outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
+             * when it occurred.
+             */
+            "outcome"?: FulfillmentOutcome;
+            /**
+             * Packages associated with this fulfillment. [] (Value): {@link
+             * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+             * status, and supported actions, returned when the package is expanded.
+             */
+            "packages"?: Array<ExpandedPackageSummary>;
+            /**
+             * First time this fulfillment reached packed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "packed_at"?: string;
+            /**
+             * First time this fulfillment reached picked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "picked_at"?: string;
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup
+             * details. For a pickup that checkout creates, location_name, address, and
+             * instructions name the store the buyer chose and the delivery method's pickup
+             * instructions. The note the buyer left for the store is in recipient.instructions.
+             */
+            "pickup_details"?: PickupFulfillmentDetails;
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. The recipient of a fulfillment, with name, email, phone, address,
+             * and handling instructions.
+             */
+            "recipient"?: FulfillmentRecipient;
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "scheduled_start_at": string | null;
+            /**
+             * Schedule and completion details for a service fulfillment. Details of a service
+             * fulfillment: the scheduled start and end, timezone, completion time, and notes.
+             */
+            "service_details"?: ServiceFulfillmentDetails;
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. Details of a shipment fulfillment: the
+             * shipping window, timezone, and when the shipment was handed to the carrier.
+             */
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            /**
+             * Shipments associated with this fulfillment. [] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             */
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. [] enum: "accept",
+             * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+             * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+             * [] (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start".
+             */
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "terminal_at"?: string;
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover".
+             */
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+             * 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "fulfillment.created". */
+    "event_type"?: "fulfillment.created";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `fulfillment.created` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type FulfillmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.active_hold (Optional): {@link FulfillmentHold}. Current hold
+     * details. Present exactly when status is on_hold. A hold on a fulfillment, with its reason,
+     * who placed it, and when it became active. object.charges (Optional): Array of {@link
+     * FulfillmentChargeLink}. Order charges associated with this fulfillment. object.charges[]
+     * (Value): {@link FulfillmentChargeLink}. Links a fulfillment to an order charge by
+     * `order_charge_id`. object.completed_at (Optional): string. When the fulfillment was
+     * completed. Mirrors the completion time for its type: delivered_at for shipment, local
+     * delivery, and digital fulfillments, picked_up_at for pickup, and
+     * service_details.completed_at for service fulfillments. Omitted until a completion time is
+     * recorded. Format: date-time. Example: "2026-08-02T16:00:00Z". object.created_at (Required):
+     * string. When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.customer_id (Optional): string. Customer receiving this
+     * fulfillment, when one is set. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.delivery_choice_group_id (Required): string or null. Delivery choice group that
+     * created this fulfillment. `null` when the merchant created the fulfillment or checkout
+     * created it without a delivery quote. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     * object.delivery_execution_leg_id (Required): string or null. Execution leg of the selected
+     * delivery option that created this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Example:
+     * "dleg_01KEZF7C00VB59BKTRC8W4KR4M". object.delivery_method_id (Required): string or null.
+     * Delivery method chosen for this fulfillment. `null` when the merchant created the
+     * fulfillment or checkout created it without a delivery quote. Also `null` when it was created
+     * before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     * object.delivery_selection_id (Required): string or null. Delivery selection that created
+     * this fulfillment. `null` when the merchant created the fulfillment or checkout created it
+     * without a delivery quote. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D". object.device_id
+     * (Optional): string. Device associated with the fulfillment, when one is recorded. Example:
+     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.digital_details (Optional): {@link
+     * DigitalFulfillmentDetails}. Delivery URL and completion time for a digital fulfillment.
+     * Details of a digital fulfillment: when it was delivered (`delivered_at`) and its
+     * `delivery_url`. object.dispatched_at (Optional): string. First time this fulfillment reached
+     * dispatched. Format: date-time. Example: "2026-08-02T16:00:00Z". object.external_reference_id
+     * (Optional): string. Caller-owned identifier for this resource in an external system.
+     * maxLength: 255. Example: "warehouse-1842". object.fulfillment_id (Required): string. Stable
+     * identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". object.line_items
+     * (Required): Array of {@link FulfillmentLineItem}. Order lines and quantities allocated to
+     * this fulfillment. object.line_items[] (Value): {@link FulfillmentLineItem}. An order line
+     * item and quantity included in a fulfillment, with the modifiers applied to it.
+     * object.local_delivery_details (Optional): {@link DeliveryFulfillmentDetails}. Courier,
+     * delivery window, and handoff details for a local delivery fulfillment. Details of a local
+     * delivery fulfillment: courier, timing window, instructions, and tracking. Some fields are
+     * omitted for credentials that don't act for the verified customer. object.location_id
+     * (Optional): string. Merchant location responsible for this fulfillment. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Optional): {@link MetadataMap}.
+     * Caller-owned key-value metadata associated with the fulfillment. Caller-owned key-value data
+     * stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+     * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those
+     * limits may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Order summary returned when the order relationship is expanded. Present only when `expand`
+     * includes `order`; `null` when expanded and there is no related order. object.order.anyOf[1]
+     * (Value): {@link ExpandedOrderSummary}. An order's summary fields, including status, payment
+     * and refund status, and pricing and settlement amounts, returned when the order is expanded.
+     * object.order.anyOf[2] (Value): null. object.order_id (Required): string. Order whose items
+     * this fulfillment delivers. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.order_number
+     * (Optional): string. Human-readable number of the order this fulfillment belongs to. Omitted
+     * when the order has no number. object.outcome (Optional): {@link FulfillmentOutcome}.
+     * Terminal outcome details. Present exactly when status is no_show. The terminal outcome
+     * recorded for a fulfillment, such as a no-show, with its reason, notes, and when it occurred.
+     * object.packages (Optional): Array of {@link ExpandedPackageSummary}. Packages associated
+     * with this fulfillment. object.packages[] (Value): {@link ExpandedPackageSummary}. A
+     * package's summary fields, including carrier, tracking, status, and supported actions,
+     * returned when the package is expanded. object.packed_at (Optional): string. First time this
+     * fulfillment reached packed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.picked_at (Optional): string. First time this fulfillment reached picked. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". object.pickup_details (Optional): {@link
+     * PickupFulfillmentDetails}. Pickup window, pickup mode, and handoff times for a pickup
+     * fulfillment. Pickup details. For a pickup that checkout creates, location_name, address, and
+     * instructions name the store the buyer chose and the delivery method's pickup instructions.
+     * The note the buyer left for the store is in recipient.instructions. object.recipient
+     * (Optional): {@link FulfillmentRecipient}. Omitted for a checkout session credential that
+     * doesn't act for the customer the buyer verified. The recipient of a fulfillment, with name,
+     * email, phone, address, and handling instructions. object.scheduled_start_at (Required):
+     * string or null. Derived start of the service schedule or pickup, local delivery, or shipment
+     * window. Null when no schedule is booked, including digital fulfillments. Details remain the
+     * authoritative schedule inputs. Nulls sort first ascending and last descending, then by
+     * fulfillment_id in the same direction. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.service_details (Optional): {@link ServiceFulfillmentDetails}. Schedule and
+     * completion details for a service fulfillment. Details of a service fulfillment: the
+     * scheduled start and end, timezone, completion time, and notes. object.shipment_details
+     * (Optional): {@link ShipmentFulfillmentDetails}. Shipping schedule and ship time for a
+     * shipment fulfillment. Present only on shipment fulfillments with at least one value. Details
+     * of a shipment fulfillment: the shipping window, timezone, and when the shipment was handed
+     * to the carrier. object.shipments (Optional): Array of {@link ExpandedShipmentSummary}.
+     * Shipments associated with this fulfillment. object.shipments[] (Value): {@link
+     * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status, and
+     * package count, returned when the shipment is expanded. object.status (Required): string.
+     * Current fulfillment lifecycle status. Read supported_actions for available transitions. -
+     * `pending`: Work has not started and has not been accepted. Approval may be required before
+     * work can begin. - `accepted`: The provider accepted the fulfillment; work has not started. -
+     * `on_hold`: Work is paused. Release the hold to restore active_hold.previous_status, or use a
+     * supported forward action. - `in_progress`: Work has started and is not yet ready or
+     * complete. - `ready`: The fulfillment is ready for pickup, handoff, or completion. -
+     * `completed`: All fulfillment work completed successfully. - `canceled`: The fulfillment was
+     * intentionally canceled and will not continue. - `failed`: The fulfillment could not be
+     * completed. Resolve the recorded reason before creating replacement work. - `scheduled`: The
+     * fulfillment is scheduled for its recorded service window. - `preparing`: Warehouse or
+     * provider preparation is underway. - `picked`: The assigned items have been picked. -
+     * `packed`: The assigned items have been packed. - `dispatched`: The fulfillment left its
+     * origin for delivery or handoff. - `no_show`: A service appointment was missed. Read outcome
+     * for the recorded reason. Value enum: "pending", "accepted", "on_hold", "in_progress",
+     * "ready", "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+     * "dispatched", "no_show". object.supported_actions (Required): Array of string. Read-only
+     * lifecycle actions accepted now, based on the fulfillment, its order payment status, holds,
+     * and shipment progress. Empty when none are available. Values name the verb route with
+     * hyphens replaced by underscores. [] enum: "accept", "cancel", "complete", "dispatch",
+     * "fail", "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+     * "mark_ready", "release_hold", "schedule", "start". object.supported_actions[] (Value):
+     * string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+     * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+     * "release_hold", "schedule", "start". object.terminal_at (Optional): string. When the
+     * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This records
+     * the state transition; completed_at records completion evidence supplied for the fulfillment.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.type (Required): string. How the
+     * items are delivered: shipment, pickup, local delivery, digital delivery, or service. Value
+     * enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
+     * object.updated_at (Required): string. When the fulfillment was last updated, in RFC3339
+     * format. Format: date-time. Example: "2026-08-02T16:00:00Z". object.version (Required):
+     * integer. Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+     * 1.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields.
+         * active_hold (Optional): {@link FulfillmentHold}. Current hold details. Present exactly
+         * when status is on_hold. A hold on a fulfillment, with its reason, who placed it, and
+         * when it became active. charges (Optional): Array of {@link FulfillmentChargeLink}. Order
+         * charges associated with this fulfillment. charges[] (Value): {@link
+         * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+         * completed_at (Optional): string. When the fulfillment was completed. Mirrors the
+         * completion time for its type: delivered_at for shipment, local delivery, and digital
+         * fulfillments, picked_up_at for pickup, and service_details.completed_at for service
+         * fulfillments. Omitted until a completion time is recorded. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". created_at (Required): string. When the fulfillment was created,
+         * in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". customer_id
+         * (Optional): string. Customer receiving this fulfillment, when one is set. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". delivery_choice_group_id (Required): string or null.
+         * Delivery choice group that created this fulfillment. `null` when the merchant created
+         * the fulfillment or checkout created it without a delivery quote. Example:
+         * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". delivery_execution_leg_id (Required): string or
+         * null. Execution leg of the selected delivery option that created this fulfillment.
+         * `null` when the merchant created the fulfillment or checkout created it without a
+         * delivery quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M". delivery_method_id
+         * (Required): string or null. Delivery method chosen for this fulfillment. `null` when the
+         * merchant created the fulfillment or checkout created it without a delivery quote. Also
+         * `null` when it was created before this field was added. Example:
+         * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0". delivery_selection_id (Required): string or null.
+         * Delivery selection that created this fulfillment. `null` when the merchant created the
+         * fulfillment or checkout created it without a delivery quote. Example:
+         * "dsel_01KEZF7C00QC35XBXVXQSCEB2D". device_id (Optional): string. Device associated with
+         * the fulfillment, when one is recorded. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+         * digital_details (Optional): {@link DigitalFulfillmentDetails}. Delivery URL and
+         * completion time for a digital fulfillment. Details of a digital fulfillment: when it was
+         * delivered (`delivered_at`) and its `delivery_url`. dispatched_at (Optional): string.
+         * First time this fulfillment reached dispatched. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". external_reference_id (Optional): string. Caller-owned
+         * identifier for this resource in an external system. maxLength: 255. Example:
+         * "warehouse-1842". fulfillment_id (Required): string. Stable identifier of the
+         * fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". line_items (Required): Array of
+         * {@link FulfillmentLineItem}. Order lines and quantities allocated to this fulfillment.
+         * line_items[] (Value): {@link FulfillmentLineItem}. An order line item and quantity
+         * included in a fulfillment, with the modifiers applied to it. local_delivery_details
+         * (Optional): {@link DeliveryFulfillmentDetails}. Courier, delivery window, and handoff
+         * details for a local delivery fulfillment. Details of a local delivery fulfillment:
+         * courier, timing window, instructions, and tracking. Some fields are omitted for
+         * credentials that don't act for the verified customer. location_id (Optional): string.
+         * Merchant location responsible for this fulfillment. Example:
+         * "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Optional): {@link MetadataMap}. Caller-owned
+         * key-value metadata associated with the fulfillment. Caller-owned key-value data stored
+         * on a resource. Keys starting with flint_ are reserved for Flint and are not returned.
+         * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before
+         * those limits may not satisfy them. order (Optional): {@link ExpandedOrderSummary} or
+         * null. Order summary returned when the order relationship is expanded. Present only when
+         * `expand` includes `order`; `null` when expanded and there is no related order.
+         * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+         * including status, payment and refund status, and pricing and settlement amounts,
+         * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
+         * string. Order whose items this fulfillment delivers. Example:
+         * "ord_01KEZF7C0054GQKJ142A8X367A". order_number (Optional): string. Human-readable number
+         * of the order this fulfillment belongs to. Omitted when the order has no number. outcome
+         * (Optional): {@link FulfillmentOutcome}. Terminal outcome details. Present exactly when
+         * status is no_show. The terminal outcome recorded for a fulfillment, such as a no-show,
+         * with its reason, notes, and when it occurred. packages (Optional): Array of {@link
+         * ExpandedPackageSummary}. Packages associated with this fulfillment. packages[] (Value):
+         * {@link ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+         * status, and supported actions, returned when the package is expanded. packed_at
+         * (Optional): string. First time this fulfillment reached packed. Format: date-time.
+         * Example: "2026-08-02T16:00:00Z". picked_at (Optional): string. First time this
+         * fulfillment reached picked. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * pickup_details (Optional): {@link PickupFulfillmentDetails}. Pickup window, pickup mode,
+         * and handoff times for a pickup fulfillment. Pickup details. For a pickup that checkout
+         * creates, location_name, address, and instructions name the store the buyer chose and the
+         * delivery method's pickup instructions. The note the buyer left for the store is in
+         * recipient.instructions. recipient (Optional): {@link FulfillmentRecipient}. Omitted for
+         * a checkout session credential that doesn't act for the customer the buyer verified. The
+         * recipient of a fulfillment, with name, email, phone, address, and handling instructions.
+         * scheduled_start_at (Required): string or null. Derived start of the service schedule or
+         * pickup, local delivery, or shipment window. Null when no schedule is booked, including
+         * digital fulfillments. Details remain the authoritative schedule inputs. Nulls sort first
+         * ascending and last descending, then by fulfillment_id in the same direction. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". service_details (Optional): {@link
+         * ServiceFulfillmentDetails}. Schedule and completion details for a service fulfillment.
+         * Details of a service fulfillment: the scheduled start and end, timezone, completion
+         * time, and notes. shipment_details (Optional): {@link ShipmentFulfillmentDetails}.
+         * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+         * fulfillments with at least one value. Details of a shipment fulfillment: the shipping
+         * window, timezone, and when the shipment was handed to the carrier. shipments (Optional):
+         * Array of {@link ExpandedShipmentSummary}. Shipments associated with this fulfillment.
+         * shipments[] (Value): {@link ExpandedShipmentSummary}. A shipment's summary fields,
+         * including direction, status, and package count, returned when the shipment is expanded.
+         * status (Required): string. Current fulfillment lifecycle status. Read supported_actions
+         * for available transitions. - `pending`: Work has not started and has not been accepted.
+         * Approval may be required before work can begin. - `accepted`: The provider accepted the
+         * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+         * restore active_hold.previous_status, or use a supported forward action. - `in_progress`:
+         * Work has started and is not yet ready or complete. - `ready`: The fulfillment is ready
+         * for pickup, handoff, or completion. - `completed`: All fulfillment work completed
+         * successfully. - `canceled`: The fulfillment was intentionally canceled and will not
+         * continue. - `failed`: The fulfillment could not be completed. Resolve the recorded
+         * reason before creating replacement work. - `scheduled`: The fulfillment is scheduled for
+         * its recorded service window. - `preparing`: Warehouse or provider preparation is
+         * underway. - `picked`: The assigned items have been picked. - `packed`: The assigned
+         * items have been packed. - `dispatched`: The fulfillment left its origin for delivery or
+         * handoff. - `no_show`: A service appointment was missed. Read outcome for the recorded
+         * reason. Value enum: "pending", "accepted", "on_hold", "in_progress", "ready",
+         * "completed", "canceled", "failed", "scheduled", "preparing", "picked", "packed",
+         * "dispatched", "no_show". supported_actions (Required): Array of string. Read-only
+         * lifecycle actions accepted now, based on the fulfillment, its order payment status,
+         * holds, and shipment progress. Empty when none are available. Values name the verb route
+         * with hyphens replaced by underscores. [] enum: "accept", "cancel", "complete",
+         * "dispatch", "fail", "hold", "mark_no_show", "mark_packed", "mark_picked",
+         * "mark_preparing", "mark_ready", "release_hold", "schedule", "start". supported_actions[]
+         * (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail", "hold",
+         * "mark_no_show", "mark_packed", "mark_picked", "mark_preparing", "mark_ready",
+         * "release_hold", "schedule", "start". terminal_at (Optional): string. When the
+         * fulfillment entered a terminal state: completed, canceled, failed, or no_show. This
+         * records the state transition; completed_at records completion evidence supplied for the
+         * fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z". type (Required):
+         * string. How the items are delivered: shipment, pickup, local delivery, digital delivery,
+         * or service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+         * "handover". updated_at (Required): string. When the fulfillment was last updated, in
+         * RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
+         * integer. Monotonic fulfillment version for expected_version checks. Format: uint64.
+         * minimum: 1.
+         */
+        "object": {
+            /**
+             * Current hold details. Present exactly when status is on_hold. A hold on a
+             * fulfillment, with its reason, who placed it, and when it became active.
+             */
+            "active_hold"?: FulfillmentHold;
+            /**
+             * Order charges associated with this fulfillment. [] (Value): {@link
+             * FulfillmentChargeLink}. Links a fulfillment to an order charge by `order_charge_id`.
+             */
+            "charges"?: Array<FulfillmentChargeLink>;
+            /**
+             * When the fulfillment was completed. Mirrors the completion time for its type:
+             * delivered_at for shipment, local delivery, and digital fulfillments, picked_up_at
+             * for pickup, and service_details.completed_at for service fulfillments. Omitted until
+             * a completion time is recorded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "completed_at"?: string;
+            /**
+             * When the fulfillment was created, in RFC3339 format. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "created_at": string;
+            /**
+             * Customer receiving this fulfillment, when one is set. Example:
+             * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id"?: string;
+            /**
+             * Delivery choice group that created this fulfillment. `null` when the merchant
+             * created the fulfillment or checkout created it without a delivery quote. Example:
+             * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+             */
+            "delivery_choice_group_id": string | null;
+            /**
+             * Execution leg of the selected delivery option that created this fulfillment. `null`
+             * when the merchant created the fulfillment or checkout created it without a delivery
+             * quote. Example: "dleg_01KEZF7C00VB59BKTRC8W4KR4M".
+             */
+            "delivery_execution_leg_id": string | null;
+            /**
+             * Delivery method chosen for this fulfillment. `null` when the merchant created the
+             * fulfillment or checkout created it without a delivery quote. Also `null` when it was
+             * created before this field was added. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+             */
+            "delivery_method_id": string | null;
+            /**
+             * Delivery selection that created this fulfillment. `null` when the merchant created
+             * the fulfillment or checkout created it without a delivery quote. Example:
+             * "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+             */
+            "delivery_selection_id": string | null;
+            /**
+             * Device associated with the fulfillment, when one is recorded. Example:
+             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
+             */
+            "device_id"?: string;
+            /**
+             * Delivery URL and completion time for a digital fulfillment. Details of a digital
+             * fulfillment: when it was delivered (`delivered_at`) and its `delivery_url`.
+             */
+            "digital_details"?: DigitalFulfillmentDetails;
+            /**
+             * First time this fulfillment reached dispatched. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "dispatched_at"?: string;
+            /**
+             * Caller-owned identifier for this resource in an external system. maxLength: 255.
+             * Example: "warehouse-1842".
+             */
+            "external_reference_id"?: string;
+            /** Stable identifier of the fulfillment. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T". */
+            "fulfillment_id": string;
+            /**
+             * Order lines and quantities allocated to this fulfillment. [] (Value): {@link
+             * FulfillmentLineItem}. An order line item and quantity included in a fulfillment,
+             * with the modifiers applied to it.
+             */
+            "line_items": Array<FulfillmentLineItem>;
+            /**
+             * Courier, delivery window, and handoff details for a local delivery fulfillment.
+             * Details of a local delivery fulfillment: courier, timing window, instructions, and
+             * tracking. Some fields are omitted for credentials that don't act for the verified
+             * customer.
+             */
+            "local_delivery_details"?: DeliveryFulfillmentDetails;
+            /**
+             * Merchant location responsible for this fulfillment. Example:
+             * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+             */
+            "location_id"?: string;
+            /**
+             * Caller-owned key-value metadata associated with the fulfillment. Caller-owned
+             * key-value data stored on a resource. Keys starting with flint_ are reserved for
+             * Flint and are not returned. Writes follow the limits on MetadataInput and
+             * MetadataPatchInput; maps written before those limits may not satisfy them.
+             */
+            "metadata"?: MetadataMap;
+            /**
+             * Order summary returned when the order relationship is expanded. Present only when
+             * `expand` includes `order`; `null` when expanded and there is no related order.
+             * anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields, including
+             * status, payment and refund status, and pricing and settlement amounts, returned when
+             * the order is expanded. anyOf[2] (Value): null.
+             */
+            "order"?: ((ExpandedOrderSummary) | (null));
+            /**
+             * Order whose items this fulfillment delivers. Example:
+             * "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
+            "order_id": string;
+            /**
+             * Human-readable number of the order this fulfillment belongs to. Omitted when the
+             * order has no number.
+             */
+            "order_number"?: string;
+            /**
+             * Terminal outcome details. Present exactly when status is no_show. The terminal
+             * outcome recorded for a fulfillment, such as a no-show, with its reason, notes, and
+             * when it occurred.
+             */
+            "outcome"?: FulfillmentOutcome;
+            /**
+             * Packages associated with this fulfillment. [] (Value): {@link
+             * ExpandedPackageSummary}. A package's summary fields, including carrier, tracking,
+             * status, and supported actions, returned when the package is expanded.
+             */
+            "packages"?: Array<ExpandedPackageSummary>;
+            /**
+             * First time this fulfillment reached packed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "packed_at"?: string;
+            /**
+             * First time this fulfillment reached picked. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "picked_at"?: string;
+            /**
+             * Pickup window, pickup mode, and handoff times for a pickup fulfillment. Pickup
+             * details. For a pickup that checkout creates, location_name, address, and
+             * instructions name the store the buyer chose and the delivery method's pickup
+             * instructions. The note the buyer left for the store is in recipient.instructions.
+             */
+            "pickup_details"?: PickupFulfillmentDetails;
+            /**
+             * Omitted for a checkout session credential that doesn't act for the customer the
+             * buyer verified. The recipient of a fulfillment, with name, email, phone, address,
+             * and handling instructions.
+             */
+            "recipient"?: FulfillmentRecipient;
+            /**
+             * Derived start of the service schedule or pickup, local delivery, or shipment window.
+             * Null when no schedule is booked, including digital fulfillments. Details remain the
+             * authoritative schedule inputs. Nulls sort first ascending and last descending, then
+             * by fulfillment_id in the same direction. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
+            "scheduled_start_at": string | null;
+            /**
+             * Schedule and completion details for a service fulfillment. Details of a service
+             * fulfillment: the scheduled start and end, timezone, completion time, and notes.
+             */
+            "service_details"?: ServiceFulfillmentDetails;
+            /**
+             * Shipping schedule and ship time for a shipment fulfillment. Present only on shipment
+             * fulfillments with at least one value. Details of a shipment fulfillment: the
+             * shipping window, timezone, and when the shipment was handed to the carrier.
+             */
+            "shipment_details"?: ShipmentFulfillmentDetails;
+            /**
+             * Shipments associated with this fulfillment. [] (Value): {@link
+             * ExpandedShipmentSummary}. A shipment's summary fields, including direction, status,
+             * and package count, returned when the shipment is expanded.
+             */
+            "shipments"?: Array<ExpandedShipmentSummary>;
+            /**
+             * Current fulfillment lifecycle status. Read supported_actions for available
+             * transitions. - `pending`: Work has not started and has not been accepted. Approval
+             * may be required before work can begin. - `accepted`: The provider accepted the
+             * fulfillment; work has not started. - `on_hold`: Work is paused. Release the hold to
+             * restore active_hold.previous_status, or use a supported forward action. -
+             * `in_progress`: Work has started and is not yet ready or complete. - `ready`: The
+             * fulfillment is ready for pickup, handoff, or completion. - `completed`: All
+             * fulfillment work completed successfully. - `canceled`: The fulfillment was
+             * intentionally canceled and will not continue. - `failed`: The fulfillment could not
+             * be completed. Resolve the recorded reason before creating replacement work. -
+             * `scheduled`: The fulfillment is scheduled for its recorded service window. -
+             * `preparing`: Warehouse or provider preparation is underway. - `picked`: The assigned
+             * items have been picked. - `packed`: The assigned items have been packed. -
+             * `dispatched`: The fulfillment left its origin for delivery or handoff. - `no_show`:
+             * A service appointment was missed. Read outcome for the recorded reason. Value enum:
+             * "pending", "accepted", "on_hold", "in_progress", "ready", "completed", "canceled",
+             * "failed", "scheduled", "preparing", "picked", "packed", "dispatched", "no_show".
+             */
+            "status": "pending"
+                | "accepted"
+                | "on_hold"
+                | "in_progress"
+                | "ready"
+                | "completed"
+                | "canceled"
+                | "failed"
+                | "scheduled"
+                | "preparing"
+                | "picked"
+                | "packed"
+                | "dispatched"
+                | "no_show"
+                | (string & {});
+            /**
+             * Read-only lifecycle actions accepted now, based on the fulfillment, its order
+             * payment status, holds, and shipment progress. Empty when none are available. Values
+             * name the verb route with hyphens replaced by underscores. [] enum: "accept",
+             * "cancel", "complete", "dispatch", "fail", "hold", "mark_no_show", "mark_packed",
+             * "mark_picked", "mark_preparing", "mark_ready", "release_hold", "schedule", "start".
+             * [] (Value): string. Value enum: "accept", "cancel", "complete", "dispatch", "fail",
+             * "hold", "mark_no_show", "mark_packed", "mark_picked", "mark_preparing",
+             * "mark_ready", "release_hold", "schedule", "start".
+             */
+            "supported_actions": Array<"accept"
+                | "cancel"
+                | "complete"
+                | "dispatch"
+                | "fail"
+                | "hold"
+                | "mark_no_show"
+                | "mark_packed"
+                | "mark_picked"
+                | "mark_preparing"
+                | "mark_ready"
+                | "release_hold"
+                | "schedule"
+                | "start"
+                | (string & {})>;
+            /**
+             * When the fulfillment entered a terminal state: completed, canceled, failed, or
+             * no_show. This records the state transition; completed_at records completion evidence
+             * supplied for the fulfillment. Format: date-time. Example: "2026-08-02T16:00:00Z".
+             */
+            "terminal_at"?: string;
+            /**
+             * How the items are delivered: shipment, pickup, local delivery, digital delivery, or
+             * service. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
+             * "handover".
+             */
+            "type": "shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover" | (string & {});
+            /**
+             * When the fulfillment was last updated, in RFC3339 format. Format: date-time.
+             * Example: "2026-08-02T16:00:00Z".
+             */
+            "updated_at": string;
+            /**
+             * Monotonic fulfillment version for expected_version checks. Format: uint64. minimum:
+             * 1.
+             */
+            "version": number;
+        };
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "fulfillment.created". */
+    "event_type"?: "fulfillment.created";
+});
 /** An action recorded during an order's fulfillment. */
 export type FulfillmentEvent = {
     /**
@@ -2616,25 +7084,25 @@ export type FulfillmentItemizedPackagesRequest = ({
      * maxProperties: 50. [].return_line_items (Optional): Array of {@link
      * ReturnResolutionLineItemRequest}. Required for a package on a return shipment: allocates
      * quantities from the shipment's return_line_items to this parcel. Rejected on outbound
-     * shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A return
-     * line and the quantity placed in a return shipment or package. [].service_code (Optional):
-     * string. Carrier's code for the shipping service used. minLength: 1. [].shipped_at
-     * (Optional): string. Package handoff time. Defaults to request time. Only allowed with status
-     * shipped. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". [].status
-     * (Required): string. Outbound packages can start as created or shipped. Return packages must
-     * start as created, omit items, and include return_line_items. Use mark_shipped after the
-     * buyer hands over the return package. Value enum: "created", "shipped". [].status_reason
-     * (Optional): string. Additional explanation of the package's starting status. minLength: 1.
-     * [].tracking_number (Optional): string. Carrier tracking number for the package. minLength:
-     * 1. [].tracking_url (Optional): string. Absolute HTTPS carrier tracking URL. Embedded URL
-     * credentials are rejected. minLength: 1. [].weight (Optional): {@link Weight}. Weight of the
-     * package. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
-     * configuration. [].oneOf[1] (Value): {@link PackageCreateInputCreated}. Package to create
-     * inline with its enclosing shipment or fulfillment. Set status to created before handoff, or
-     * shipped to report handoff during creation. [].oneOf[2] (Value): {@link
-     * PackageCreateInputShipped}. Package to create inline with its enclosing shipment or
+     * shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A Return
+     * line and the quantity to place in a return shipment or package. The enclosing Return or
+     * shipment determines its parent. [].service_code (Optional): string. Carrier's code for the
+     * shipping service used. minLength: 1. [].shipped_at (Optional): string. Package handoff time.
+     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start
+     * as created or shipped. Return packages must start as created, omit items, and include
+     * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
+     * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
+     * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
+     * tracking number for the package. minLength: 1. [].tracking_url (Optional): string. Absolute
+     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. [].weight
+     * (Optional): {@link Weight}. Weight of the package. A weight value in grams, kilograms,
+     * ounces, or pounds, used in delivery profile configuration. [].oneOf[1] (Value): {@link
+     * PackageCreateInputCreated}. Package to create inline with its enclosing shipment or
      * fulfillment. Set status to created before handoff, or shipped to report handoff during
-     * creation.
+     * creation. [].oneOf[2] (Value): {@link PackageCreateInputShipped}. Package to create inline
+     * with its enclosing shipment or fulfillment. Set status to created before handoff, or shipped
+     * to report handoff during creation.
      */
     "packages": Array<({
         /**
@@ -2708,12 +7176,13 @@ export type FulfillmentItemizedPackagesRequestInput = ({
      * (Optional): Array of {@link ReturnShipmentLineItemAllocationRequestInput}. Required for a
      * package on a return shipment: allocates quantities from the shipment's return_line_items to
      * this parcel. Rejected on outbound shipments. [].return_line_items[] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a
-     * return shipment or package. [].service_code (Optional): string. Carrier's code for the
-     * shipping service used. minLength: 1. [].shipped_at (Optional): string. Package handoff time.
-     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start
-     * as created or shipped. Return packages must start as created, omit items, and include
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     * [].service_code (Optional): string. Carrier's code for the shipping service used. minLength:
+     * 1. [].shipped_at (Optional): string. Package handoff time. Defaults to request time. Only
+     * allowed with status shipped. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start as created
+     * or shipped. Return packages must start as created, omit items, and include
      * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
      * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
      * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
@@ -3202,25 +7671,25 @@ export type FulfillmentPackagingRequest = ({
      * maxProperties: 50. [].return_line_items (Optional): Array of {@link
      * ReturnResolutionLineItemRequest}. Required for a package on a return shipment: allocates
      * quantities from the shipment's return_line_items to this parcel. Rejected on outbound
-     * shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A return
-     * line and the quantity placed in a return shipment or package. [].service_code (Optional):
-     * string. Carrier's code for the shipping service used. minLength: 1. [].shipped_at
-     * (Optional): string. Package handoff time. Defaults to request time. Only allowed with status
-     * shipped. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". [].status
-     * (Required): string. Outbound packages can start as created or shipped. Return packages must
-     * start as created, omit items, and include return_line_items. Use mark_shipped after the
-     * buyer hands over the return package. Value enum: "created", "shipped". [].status_reason
-     * (Optional): string. Additional explanation of the package's starting status. minLength: 1.
-     * [].tracking_number (Optional): string. Carrier tracking number for the package. minLength:
-     * 1. [].tracking_url (Optional): string. Absolute HTTPS carrier tracking URL. Embedded URL
-     * credentials are rejected. minLength: 1. [].weight (Optional): {@link Weight}. Weight of the
-     * package. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
-     * configuration. [].oneOf[1] (Value): {@link PackageCreateInputCreated}. Package to create
-     * inline with its enclosing shipment or fulfillment. Set status to created before handoff, or
-     * shipped to report handoff during creation. [].oneOf[2] (Value): {@link
-     * PackageCreateInputShipped}. Package to create inline with its enclosing shipment or
+     * shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A Return
+     * line and the quantity to place in a return shipment or package. The enclosing Return or
+     * shipment determines its parent. [].service_code (Optional): string. Carrier's code for the
+     * shipping service used. minLength: 1. [].shipped_at (Optional): string. Package handoff time.
+     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start
+     * as created or shipped. Return packages must start as created, omit items, and include
+     * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
+     * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
+     * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
+     * tracking number for the package. minLength: 1. [].tracking_url (Optional): string. Absolute
+     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. [].weight
+     * (Optional): {@link Weight}. Weight of the package. A weight value in grams, kilograms,
+     * ounces, or pounds, used in delivery profile configuration. [].oneOf[1] (Value): {@link
+     * PackageCreateInputCreated}. Package to create inline with its enclosing shipment or
      * fulfillment. Set status to created before handoff, or shipped to report handoff during
-     * creation.
+     * creation. [].oneOf[2] (Value): {@link PackageCreateInputShipped}. Package to create inline
+     * with its enclosing shipment or fulfillment. Set status to created before handoff, or shipped
+     * to report handoff during creation.
      */
     "packages"?: Array<({
         /**
@@ -3301,12 +7770,13 @@ export type FulfillmentPackagingRequestInput = ({
      * (Optional): Array of {@link ReturnShipmentLineItemAllocationRequestInput}. Required for a
      * package on a return shipment: allocates quantities from the shipment's return_line_items to
      * this parcel. Rejected on outbound shipments. [].return_line_items[] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a
-     * return shipment or package. [].service_code (Optional): string. Carrier's code for the
-     * shipping service used. minLength: 1. [].shipped_at (Optional): string. Package handoff time.
-     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start
-     * as created or shipped. Return packages must start as created, omit items, and include
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     * [].service_code (Optional): string. Carrier's code for the shipping service used. minLength:
+     * 1. [].shipped_at (Optional): string. Package handoff time. Defaults to request time. Only
+     * allowed with status shipped. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start as created
+     * or shipped. Return packages must start as created, omit items, and include
      * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
      * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
      * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
@@ -3497,25 +7967,25 @@ export type FulfillmentSinglePackageRequest = ({
      * maxProperties: 50. [].return_line_items (Optional): Array of {@link
      * ReturnResolutionLineItemRequest}. Required for a package on a return shipment: allocates
      * quantities from the shipment's return_line_items to this parcel. Rejected on outbound
-     * shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A return
-     * line and the quantity placed in a return shipment or package. [].service_code (Optional):
-     * string. Carrier's code for the shipping service used. minLength: 1. [].shipped_at
-     * (Optional): string. Package handoff time. Defaults to request time. Only allowed with status
-     * shipped. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". [].status
-     * (Required): string. Outbound packages can start as created or shipped. Return packages must
-     * start as created, omit items, and include return_line_items. Use mark_shipped after the
-     * buyer hands over the return package. Value enum: "created", "shipped". [].status_reason
-     * (Optional): string. Additional explanation of the package's starting status. minLength: 1.
-     * [].tracking_number (Optional): string. Carrier tracking number for the package. minLength:
-     * 1. [].tracking_url (Optional): string. Absolute HTTPS carrier tracking URL. Embedded URL
-     * credentials are rejected. minLength: 1. [].weight (Optional): {@link Weight}. Weight of the
-     * package. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile
-     * configuration. [].oneOf[1] (Value): {@link PackageCreateInputCreated}. Package to create
-     * inline with its enclosing shipment or fulfillment. Set status to created before handoff, or
-     * shipped to report handoff during creation. [].oneOf[2] (Value): {@link
-     * PackageCreateInputShipped}. Package to create inline with its enclosing shipment or
+     * shipments. [].return_line_items[] (Value): {@link ReturnResolutionLineItemRequest}. A Return
+     * line and the quantity to place in a return shipment or package. The enclosing Return or
+     * shipment determines its parent. [].service_code (Optional): string. Carrier's code for the
+     * shipping service used. minLength: 1. [].shipped_at (Optional): string. Package handoff time.
+     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
+     * Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start
+     * as created or shipped. Return packages must start as created, omit items, and include
+     * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
+     * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
+     * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
+     * tracking number for the package. minLength: 1. [].tracking_url (Optional): string. Absolute
+     * HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. [].weight
+     * (Optional): {@link Weight}. Weight of the package. A weight value in grams, kilograms,
+     * ounces, or pounds, used in delivery profile configuration. [].oneOf[1] (Value): {@link
+     * PackageCreateInputCreated}. Package to create inline with its enclosing shipment or
      * fulfillment. Set status to created before handoff, or shipped to report handoff during
-     * creation.
+     * creation. [].oneOf[2] (Value): {@link PackageCreateInputShipped}. Package to create inline
+     * with its enclosing shipment or fulfillment. Set status to created before handoff, or shipped
+     * to report handoff during creation.
      */
     "packages"?: Array<({
         /**
@@ -3589,12 +8059,13 @@ export type FulfillmentSinglePackageRequestInput = ({
      * (Optional): Array of {@link ReturnShipmentLineItemAllocationRequestInput}. Required for a
      * package on a return shipment: allocates quantities from the shipment's return_line_items to
      * this parcel. Rejected on outbound shipments. [].return_line_items[] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a
-     * return shipment or package. [].service_code (Optional): string. Carrier's code for the
-     * shipping service used. minLength: 1. [].shipped_at (Optional): string. Package handoff time.
-     * Defaults to request time. Only allowed with status shipped. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start
-     * as created or shipped. Return packages must start as created, omit items, and include
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
+     * [].service_code (Optional): string. Carrier's code for the shipping service used. minLength:
+     * 1. [].shipped_at (Optional): string. Package handoff time. Defaults to request time. Only
+     * allowed with status shipped. Format: date-time. minLength: 1. Example:
+     * "2026-08-02T16:00:00Z". [].status (Required): string. Outbound packages can start as created
+     * or shipped. Return packages must start as created, omit items, and include
      * return_line_items. Use mark_shipped after the buyer hands over the return package. Value
      * enum: "created", "shipped". [].status_reason (Optional): string. Additional explanation of
      * the package's starting status. minLength: 1. [].tracking_number (Optional): string. Carrier
@@ -5052,538 +9523,4 @@ export type FulfillmentsGetParams = {
      * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsHoldParams = (InputValue<HoldFulfillmentRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Include related objects in the response. Supported expansions: order. Expansion requires
-     * commerce.orders.read. Limits: at most 10 unique expand paths per request. [] enum: "order".
-     * Value enum: "order". anyOf[1] (Value): Array of string. [] enum: "order". anyOf[1][]
-     * (Value): string. Value enum: "order". anyOf[2] (Value): string. Value enum: "order".
-     */
-    "expand"?: InputValue<("order") | readonly ("order")[]>;
-    /**
-     * Filter by order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A".
-     */
-    "order_id"?: InputValue<string>;
-    /**
-     * Exact match on customer_id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: InputValue<string>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Search across fulfillment_id and external_reference_id. Also matches an exact order number.
-     * Text fields match any part of the value, and %, _ and \ are ordinary characters, not
-     * wildcards. IDs match from the start and need the type prefix, such as ful_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Filter by exact fulfillment status. Values within this filter are ORed; combined with other
-     * filters using AND. Values are trimmed and deduplicated in first-seen order; empty or unknown
-     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
-     * enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled", "failed",
-     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show". Value
-     * enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled", "failed",
-     * "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show". anyOf[1]
-     * (Value): Array of string. minItems: 1. [] enum: "pending", "on_hold", "in_progress",
-     * "ready", "completed", "canceled", "failed", "scheduled", "accepted", "preparing", "picked",
-     * "packed", "dispatched", "no_show". anyOf[1][] (Value): string. Value enum: "pending",
-     * "on_hold", "in_progress", "ready", "completed", "canceled", "failed", "scheduled",
-     * "accepted", "preparing", "picked", "packed", "dispatched", "no_show". anyOf[2] (Value):
-     * string. Value enum: "pending", "on_hold", "in_progress", "ready", "completed", "canceled",
-     * "failed", "scheduled", "accepted", "preparing", "picked", "packed", "dispatched", "no_show".
-     */
-    "status"?: InputValue<("pending"
-        | "on_hold"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show")
-        | readonly ("pending"
-        | "on_hold"
-        | "in_progress"
-        | "ready"
-        | "completed"
-        | "canceled"
-        | "failed"
-        | "scheduled"
-        | "accepted"
-        | "preparing"
-        | "picked"
-        | "packed"
-        | "dispatched"
-        | "no_show")[]>;
-    /**
-     * Filter by fulfillment type. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
-     * Value enum: "shipment", "pickup", "local_delivery", "digital", "service", "handover".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "shipment", "pickup",
-     * "local_delivery", "digital", "service", "handover". anyOf[1][] (Value): string. Value enum:
-     * "shipment", "pickup", "local_delivery", "digital", "service", "handover". anyOf[2] (Value):
-     * string. Value enum: "shipment", "pickup", "local_delivery", "digital", "service",
-     * "handover".
-     */
-    "type"?: InputValue<("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover")
-        | readonly ("shipment" | "pickup" | "local_delivery" | "digital" | "service" | "handover")[]>;
-    /**
-     * Filter by assigned Location ID. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
-     */
-    "location_id"?: InputValue<string>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "updated_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Field to sort by. Defaults to created_at; ties are broken by fulfillment_id. Default:
-     * "created_at". Value enum: "created_at", "scheduled_start_at", "terminal_at".
-     */
-    "sort_by"?: InputValue<"created_at" | "scheduled_start_at" | "terminal_at">;
-    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
-    "sort_direction"?: InputValue<"asc" | "desc">;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsMarkNoShowParams = (InputValue<MarkFulfillmentNoShowRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsMarkPackedParams = (InputValue<MarkFulfillmentPackedRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsMarkPickedParams = (InputValue<MarkFulfillmentPickedRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsMarkPreparingParams = (InputValue<MarkFulfillmentPreparingRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsMarkReadyParams = (InputValue<MarkFulfillmentReadyRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsReleaseHoldParams = (InputValue<ReleaseFulfillmentHoldRequestInput>
-    | {
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsScheduleParams = (InputValue<ScheduleFulfillmentRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsStartParams = (InputValue<StartFulfillmentRequestInput>
-    | {
-    "buyer_notification_behavior"?: never;
-    "expected_version"?: never;
-    "occurred_at"?: never;
-    "reason_message"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type FulfillmentsUpdateParams = (InputValue<UpdateFulfillmentRequestInput>)
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** A response containing `ReturnDisposition` data. */
-export type GetReturnDispositionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A decision about how
-     * returned merchandise will be handled.
-     */
-    "data": ReturnDisposition;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ReturnInspection` data. */
-export type GetReturnInspectionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An assessment of the
-     * condition of returned items.
-     */
-    "data": ReturnInspection;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ReturnLineItem` data. */
-export type GetReturnLineItemResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An item included in a
-     * return request.
-     */
-    "data": ReturnLineItem;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ReturnPolicy` data. */
-export type GetReturnPolicyResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. Rules governing whether
-     * and how purchased items can be returned.
-     */
-    "data": ReturnPolicy;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ReturnPolicyRevision` data. */
-export type GetReturnPolicyRevisionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A saved revision of a
-     * return policy.
-     */
-    "data": ReturnPolicyRevision;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ReturnReason` data. */
-export type GetReturnReasonResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A reason customers can
-     * select when requesting a return.
-     */
-    "data": ReturnReason;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ReturnReceipt` data. */
-export type GetReturnReceiptResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A record of returned
-     * items arriving at a location.
-     */
-    "data": ReturnReceipt;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `ReturnResolution` data. */
-export type GetReturnResolutionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The refund, exchange, or
-     * other outcome of a return.
-     */
-    "data": ReturnResolution;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
 };

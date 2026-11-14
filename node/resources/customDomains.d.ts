@@ -10,8 +10,8 @@ import type {
     CustomDomainsListParams,
     CustomDomainsValidateParams
 } from '../declarations/types-15.js';
-import type { RequestOptions } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,17 +37,16 @@ export type {
     CustomDomainsValidateParams,
     CustomDomainDNSRecord
 } from '../declarations/types-15.js';
-export type { RequestOptions } from '../declarations/types-53.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateCustomDomainRequestInput } from '../declarations/types-8.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreateCustomDomainRequest } from '../declarations/types-71.js';
+export type { DisputesAcceptParams } from '../declarations/types-24.js';
+export { makeCreateCustomDomainRequest } from '../declarations/types-72.js';
 export { makeMoneyValue } from '../declarations/types-78.js';
 export interface CustomDomainsResource {
     /**

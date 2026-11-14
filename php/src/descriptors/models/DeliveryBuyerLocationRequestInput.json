@@ -1,1 +1,1 @@
-{"shared":"DeliveryBuyerLocationRequest","dependencies":["DeliveryAddressRequest","DeliveryBuyerLocationRequest","DeliveryCoordinateRequest","SharedCodec504","SharedCodec505","SharedCodec506","SharedCodec507","SharedCodec508"]}
+{"shared":"DeliveryBuyerLocationRequest","dependencies":["DeliveryAddressRequest","DeliveryBuyerLocationRequest","DeliveryCoordinateRequest","SharedCodec506","SharedCodec507","SharedCodec508","SharedCodec509","SharedCodec510"]}

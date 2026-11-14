@@ -1,1 +1,1 @@
-{"shared":"CustomerDeletionRequest","dependencies":["CustomerDeletionRequest"]}
+{"shared":"CustomerDeletionRequest","dependencies":["CustomerDeletionRequest","ErrorResourceReference"]}

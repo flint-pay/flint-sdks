@@ -1,10 +1,17 @@
-import type { APIKey } from './types-0.js';
-import type { Sandbox } from './types-58.js';
-import type { MetadataMap } from './types-37.js';
-import type { MetadataRequestInput, MoneyValue, MoneyValueInput } from './types-38.js';
+import type {
+    DeliverySelectionInstructionsRequest,
+    DeliverySelectionInstructionsRequestInput,
+    DeliverySelectionRecipientRequest,
+    DeliverySelectionRecipientRequestInput,
+    DeliveryZoneConfigurationRequest,
+    DeliveryZoneConfigurationRequestInput
+} from './types-22.js';
+import type { AddressRequest, AddressRequestInput, APIKey } from './types-0.js';
+import type { MetadataMap, MetadataRequestInput } from './types-38.js';
+import type { Sandbox } from './types-59.js';
 import type { FeedbackReportingClient, FeedbackReportingClientRequestInput } from './types-24.js';
 import type { CreateDeliveryFulfillmentDetails, CreateDeliveryFulfillmentDetailsInput } from './types-8.js';
-import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-11.js';
+import type { CreatePickupFulfillmentDetails, CreatePickupFulfillmentDetailsInput } from './types-12.js';
 import type { CreateServiceFulfillmentDetails, CreateServiceFulfillmentDetailsInput } from './types-13.js';
 import type {
     FulfillmentLineItemRequest,
@@ -14,31 +21,355 @@ import type {
     FulfillmentPackagingRequestInput,
     FulfillmentRecipientRequestInput
 } from './types-25.js';
+import type { GiftCardFundingSource, GiftCardFundingSourceRequestInput, GiftCard, GiftCardLoad } from './types-26.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type {
-    GiftCardFundingSource,
-    GiftCardFundingSourceRequestInput,
-    GiftCard,
-    GiftCardLoad,
+    GiftCardTransaction,
+    GiftCardPurchaseRecipient,
     GiftCardNotificationRecipientInput,
     GiftCardNotification
-} from './types-26.js';
-import type { GiftCardTransaction, GiftCardPurchaseRecipient } from './types-27.js';
+} from './types-27.js';
 import type { ResponseMeta } from './types-54.js';
 import type {
     InitialGiftCardFunding,
     InitialGiftCardFundingInput,
-    InventoryAdjustmentConditionChangeLineRequest,
-    InventoryAdjustmentConditionChangeLineRequestInput,
-    InventoryAdjustmentSetLineRequest,
-    InventoryAdjustmentSetLineRequestInput,
-    InventoryAdjustmentQuantityLineRequest,
-    InventoryAdjustmentQuantityLineRequestInput,
-    InventoryAllocationConfigurationValue,
-    InventoryAllocationPolicyConfigurationRequestInput
+    InventoryAdjustmentConditionChangeLineRequest
 } from './types-28.js';
 import type { CreateModifierRequestInput } from './types-10.js';
 import type { TextModifierConfigRequestInput } from './types-65.js';
-import type { InventorySourceSystemRequest, InventorySourceSystemRequestInput } from './types-30.js';
+import type { InventorySourceSystemRequest } from './types-30.js';
+/** Creates a permanent fence for one exact delivery dependency in this merchant and environment. */
+export type CreateDeliveryRevocationRequestInput = {
+    /** Optional incident context retained with this revocation. minLength: 1. maxLength: 2048. */
+    "merchant_note"?: string;
+    /**
+     * Why this dependency must no longer be used. Value enum: "unsafe_configuration",
+     * "location_unavailable", "credential_compromise", "legal_requirement", "other".
+     */
+    "reason": "unsafe_configuration"
+        | "location_unavailable"
+        | "credential_compromise"
+        | "legal_requirement"
+        | "other";
+    /**
+     * The parent and exact child identity to fence. Each target_type accepts only its own IDs. The
+     * parent and exact child identity to fence. Targets never resolve an alias to a current
+     * revision.
+     */
+    "target": CreateDeliveryRevocationTargetInput;
+};
+/** Fences one immutable revision of the named delivery method. */
+export type CreateDeliveryRevocationTargetDeliveryMethodRevisionInput = {
+    /**
+     * ID of the delivery method that owns the targeted revision. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_method_id. minLength: 1.
+     * Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
+    "delivery_method_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery method. Value enum:
+     * "delivery_method_revision".
+     */
+    "target_type": ("delivery_method_revision") & ("delivery_method_revision");
+};
+/** Fences one immutable revision of the named delivery rate callback. */
+export type CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. minLength:
+     * 1. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id.
+     * minLength: 1. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     */
+    "delivery_rate_callback_revision_id": string;
+    /**
+     * Fences one immutable revision of the named delivery rate callback. Value enum:
+     * "delivery_rate_callback_revision".
+     */
+    "target_type": ("delivery_rate_callback_revision") & ("delivery_rate_callback_revision");
+};
+/** Fences one current or previous HMAC signing key of the named delivery rate callback. */
+export type CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput = {
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. minLength:
+     * 1. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id": string;
+    /**
+     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
+     * key; secret material is never returned. minLength: 1. Example:
+     * "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id": string;
+    /**
+     * Fences one current or previous HMAC signing key of the named delivery rate callback. Value
+     * enum: "delivery_rate_callback_signing_key".
+     */
+    "target_type": ("delivery_rate_callback_signing_key") & ("delivery_rate_callback_signing_key");
+};
+/**
+ * The parent and exact child identity to fence. Targets never resolve an alias to a current
+ * revision.
+ */
+export type CreateDeliveryRevocationTargetInput = ({
+    /**
+     * ID of the delivery method that owns the targeted revision. minLength: 1. Example:
+     * "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id"?: string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_method_id. minLength: 1.
+     * Example: "dmetr_01KEZF7C001ZF9D92DY1G51GV9".
+     */
+    "delivery_method_revision_id"?: string;
+    /**
+     * ID of the delivery rate callback that owns the targeted revision or signing key. minLength:
+     * 1. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+     */
+    "delivery_rate_callback_id"?: string;
+    /**
+     * ID of the immutable revision to fence. It must belong to delivery_rate_callback_id.
+     * minLength: 1. Example: "dcbr_01KEZF7C003QAPFXXMCHC59T5J".
+     */
+    "delivery_rate_callback_revision_id"?: string;
+    /**
+     * ID of the HMAC signing key to fence. It must be the named callback's current or previous
+     * key; secret material is never returned. minLength: 1. Example:
+     * "cbkey_00112233445566778899aabb".
+     */
+    "delivery_rate_callback_signing_key_id"?: string;
+    /**
+     * Exact recorded geography version of location_id to fence. Future and unrecorded versions are
+     * not accepted. Format: int64. minimum: 1.
+     */
+    "location_geography_version"?: number;
+    /**
+     * ID of the Location that recorded the targeted geography version. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id"?: string;
+    /**
+     * The kind of exact dependency this revocation fences. Value enum: "location_geography",
+     * "delivery_rate_callback_signing_key", "delivery_rate_callback_revision",
+     * "delivery_method_revision".
+     */
+    "target_type": "location_geography"
+        | "delivery_rate_callback_signing_key"
+        | "delivery_rate_callback_revision"
+        | "delivery_method_revision";
+})
+    & ((Exclude<CreateDeliveryRevocationTargetLocationGeographyInput & object, readonly unknown[]>)
+    | (Exclude<CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput & object, readonly unknown[]>)
+    | (Exclude<CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput & object, readonly unknown[]>)
+    | (Exclude<CreateDeliveryRevocationTargetDeliveryMethodRevisionInput & object, readonly unknown[]>));
+/** Fences one geography version recorded by the named Location. */
+export type CreateDeliveryRevocationTargetLocationGeographyInput = {
+    /**
+     * Exact recorded geography version of location_id to fence. Future and unrecorded versions are
+     * not accepted. Format: int64. minimum: 1.
+     */
+    "location_geography_version": number;
+    /**
+     * ID of the Location that recorded the targeted geography version. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /**
+     * Fences one geography version recorded by the named Location. Value enum:
+     * "location_geography".
+     */
+    "target_type": ("location_geography") & ("location_geography");
+};
+/**
+ * The delivery option to select for one choice group when creating a delivery selection, with
+ * optional delivery instructions.
+ */
+export type CreateDeliverySelectionChoiceRequest = {
+    /**
+     * ID of the choice group in the quote to select for. minLength: 1. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
+    "delivery_choice_group_id": string;
+    /**
+     * ID of an unexpired option in this choice group's options. minLength: 1. Example:
+     * "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
+     */
+    "delivery_option_id": string;
+    /**
+     * Delivery window choice and buyer instructions for this option. Buyer input for a selected
+     * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
+     * `instructions`.
+     */
+    "input"?: DeliverySelectionInstructionsRequest;
+};
+/**
+ * The delivery option to select for one choice group when creating a delivery selection, with
+ * optional delivery instructions.
+ */
+export type CreateDeliverySelectionChoiceRequestInput = {
+    /**
+     * ID of the choice group in the quote to select for. minLength: 1. Example:
+     * "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
+    "delivery_choice_group_id": string;
+    /**
+     * ID of an unexpired option in this choice group's options. minLength: 1. Example:
+     * "dopt_01KEZF7C00JM9TDZQZ5KQJ6923".
+     */
+    "delivery_option_id": string;
+    /**
+     * Delivery window choice and buyer instructions for this option. Buyer input for a selected
+     * delivery option: a `delivery_window_id` where the option uses delivery windows, and optional
+     * `instructions`.
+     */
+    "input"?: DeliverySelectionInstructionsRequestInput;
+};
+/** The request body for: Create delivery selection. */
+export type CreateDeliverySelectionRequest = {
+    /**
+     * One chosen option for every required choice group in the quote. Use group and option IDs
+     * from this quote, not an earlier quote. [] (Value): {@link
+     * CreateDeliverySelectionChoiceRequest}. The delivery option to select for one choice group
+     * when creating a delivery selection, with optional delivery instructions.
+     */
+    "choices": Array<CreateDeliverySelectionChoiceRequest>;
+    /**
+     * ID of the quote whose options to choose. The selection belongs to that quote's checkout
+     * session. minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+     */
+    "delivery_quote_id": string;
+    /**
+     * Destination address for shipment or local delivery. When sent, it must be a complete
+     * address. When omitted, Flint keeps the quote's address, even when partial; missing members
+     * appear in input_requirements and must be supplied before payment. A complete postal address.
+     * State and postal_code are required for US addresses and optional for other countries. Send
+     * null or omit line2, state, and postal_code when the address has none.
+     */
+    "destination_address"?: AddressRequest;
+    /**
+     * Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no
+     * assertion, send null to assert that no selection exists, or send an ID to assert that it is
+     * current. minLength: 1. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     */
+    "expected_delivery_selection_id"?: string | null;
+    /**
+     * Requires a merchant credential with delivery-write scope. Merchant-created cart reservations
+     * to adopt atomically into the selection hold at the selected inventory items and locations.
+     * Only matching held units are released; unused units stay held, and any remaining demand uses
+     * available stock. At most 100 unique IDs. Explicit IDs, including an empty array, replace the
+     * session binding for this request. When omitted, both merchant and buyer requests use
+     * eligible session-bound holds; ineligible bound holds are silently skipped. First adopter
+     * wins when sessions share a hold. Ineligible explicit IDs are refused as not found. maxItems:
+     * 100. [] (Value): string. minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_ids"?: Array<string>;
+    /**
+     * Recipient details the chosen options ask for. Missing required fields are returned in
+     * input_requirements and must be supplied before payment. Recipient details you supply with a
+     * delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
+     */
+    "recipient"?: DeliverySelectionRecipientRequest;
+};
+/** The request body for: Create delivery selection. */
+export type CreateDeliverySelectionRequestInput = {
+    /**
+     * One chosen option for every required choice group in the quote. Use group and option IDs
+     * from this quote, not an earlier quote. [] (Value): {@link
+     * CreateDeliverySelectionChoiceRequestInput}. The delivery option to select for one choice
+     * group when creating a delivery selection, with optional delivery instructions.
+     */
+    "choices": Array<CreateDeliverySelectionChoiceRequestInput>;
+    /**
+     * ID of the quote whose options to choose. The selection belongs to that quote's checkout
+     * session. minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
+     */
+    "delivery_quote_id": string;
+    /**
+     * Destination address for shipment or local delivery. When sent, it must be a complete
+     * address. When omitted, Flint keeps the quote's address, even when partial; missing members
+     * appear in input_requirements and must be supplied before payment. A complete postal address.
+     * State and postal_code are required for US addresses and optional for other countries. Send
+     * null or omit line2, state, and postal_code when the address has none.
+     */
+    "destination_address"?: AddressRequestInput;
+    /**
+     * Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no
+     * assertion, send null to assert that no selection exists, or send an ID to assert that it is
+     * current. minLength: 1. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
+     */
+    "expected_delivery_selection_id"?: string | null;
+    /**
+     * Requires a merchant credential with delivery-write scope. Merchant-created cart reservations
+     * to adopt atomically into the selection hold at the selected inventory items and locations.
+     * Only matching held units are released; unused units stay held, and any remaining demand uses
+     * available stock. At most 100 unique IDs. Explicit IDs, including an empty array, replace the
+     * session binding for this request. When omitted, both merchant and buyer requests use
+     * eligible session-bound holds; ineligible bound holds are silently skipped. First adopter
+     * wins when sessions share a hold. Ineligible explicit IDs are refused as not found. maxItems:
+     * 100. [] (Value): string. minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
+     */
+    "inventory_reservation_ids"?: Array<string>;
+    /**
+     * Recipient details the chosen options ask for. Missing required fields are returned in
+     * input_requirements and must be supplied before payment. Recipient details you supply with a
+     * delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
+     */
+    "recipient"?: DeliverySelectionRecipientRequestInput;
+};
+/** The request body for: Create delivery zone. */
+export type CreateDeliveryZoneRequest = {
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "configuration": DeliveryZoneConfigurationRequest;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Merchant-facing name. minLength: 1. */
+    "name": string;
+};
+/** The request body for: Create delivery zone. */
+export type CreateDeliveryZoneRequestInput = {
+    /**
+     * The settings that define this resource. Changing them publishes a new revision. A reusable
+     * geographic predicate containing only country, state, postal_code, and radius conditions.
+     */
+    "configuration": DeliveryZoneConfigurationRequestInput;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Merchant-facing name. minLength: 1. */
+    "name": string;
+};
 /** The request body for: Create demo session. */
 export type CreateDemoSessionRequestInput = {
     /**
@@ -119,7 +450,7 @@ export type CreateDigitalFulfillmentDetails = {
 };
 /** Digital fulfillment details you supply when creating a fulfillment: the delivery URL. */
 export type CreateDigitalFulfillmentDetailsInput = CreateDigitalFulfillmentDetails;
-/** The request body for: Request an email change. */
+/** The request body for: Request a customer email change; Request an email change. */
 export type CreateEmailChangeRequest = {
     /**
      * The address to change the email to. Flint emails a six-digit code to it. Format: email.
@@ -127,7 +458,7 @@ export type CreateEmailChangeRequest = {
      */
     "new_email": string;
 };
-/** The request body for: Request an email change. */
+/** The request body for: Request a customer email change; Request an email change. */
 export type CreateEmailChangeRequestInput = CreateEmailChangeRequest;
 /**
  * The `bug` variant of `CreateFeedbackReportRequest`. The `feature_request` variant of
@@ -3065,437 +3396,3 @@ export type CreateInventoryAdjustmentConditionChangeRequest = ({
      */
     "source_system"?: InventorySourceSystemRequest;
 });
-/** The `condition_changed` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentConditionChangeRequestInput = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentConditionChangeLineRequestInput}. One
-     * line of an inventory condition change: moves a `quantity` of an item at a Location from one
-     * condition to another.
-     */
-    "lines": Array<InventoryAdjustmentConditionChangeLineRequestInput>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     */
-    "note"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Why the stock changed. It decides which fields each line takes. Value enum:
-     * "condition_changed".
-     */
-    "reason": "condition_changed";
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-});
-/** The `correction` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentCorrectionRequest = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequest}. One line of an
-     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
-     * quantities stay unchanged.
-     */
-    "lines": Array<InventoryAdjustmentSetLineRequest>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     * pattern: \S.
-     */
-    "note": string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /** Why the stock changed. It decides which fields each line takes. Value enum: "correction". */
-    "reason": "correction" | (string & {});
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-})
-    & (({
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
-     * string. Value enum: "pos", "wms", "erp", "other".
-     */
-    "source_system": null
-        | boolean
-        | number
-        | string
-        | unknown[]
-        | ({
-        /** Value enum: "pos", "wms", "erp", "other". */
-        "type": "pos" | "wms" | "erp" | "other" | (string & {});
-        "external_source_id": unknown;
-    });
-})
-    | ({
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
-     * any.
-     */
-    "lines"?: unknown;
-})
-    | (Record<string, unknown>));
-/** The `correction` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentCorrectionRequestInput = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequestInput}. One line of an
-     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
-     * quantities stay unchanged.
-     */
-    "lines": Array<InventoryAdjustmentSetLineRequestInput>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     * pattern: \S.
-     */
-    "note": string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /** Why the stock changed. It decides which fields each line takes. Value enum: "correction". */
-    "reason": "correction";
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-})
-    & (({
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
-     * string. Value enum: "pos", "wms", "erp", "other".
-     */
-    "source_system": null
-        | boolean
-        | number
-        | string
-        | unknown[]
-        | ({
-        /** Value enum: "pos", "wms", "erp", "other". */
-        "type": "pos" | "wms" | "erp" | "other";
-        "external_source_id": unknown;
-    });
-})
-    | ({
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
-     * any.
-     */
-    "lines"?: unknown;
-}));
-/** The `counted` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentCountedRequest = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequest}. One line of an
-     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
-     * quantities stay unchanged.
-     */
-    "lines": Array<InventoryAdjustmentSetLineRequest>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     */
-    "note"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /** Why the stock changed. It decides which fields each line takes. Value enum: "counted". */
-    "reason": "counted" | (string & {});
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-})
-    & (({
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
-     * string. Value enum: "pos", "wms", "erp", "other".
-     */
-    "source_system": null
-        | boolean
-        | number
-        | string
-        | unknown[]
-        | ({
-        /** Value enum: "pos", "wms", "erp", "other". */
-        "type": "pos" | "wms" | "erp" | "other" | (string & {});
-        "external_source_id": unknown;
-    });
-})
-    | ({
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
-     * any.
-     */
-    "lines"?: unknown;
-})
-    | (Record<string, unknown>));
-/** The `counted` variant of `CreateInventoryAdjustmentRequest`. */
-export type CreateInventoryAdjustmentCountedRequestInput = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentSetLineRequestInput}. One line of an
-     * inventory adjustment that sets absolute quantities for an item at a Location. Omitted
-     * quantities stay unchanged.
-     */
-    "lines": Array<InventoryAdjustmentSetLineRequestInput>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     */
-    "note"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /** Why the stock changed. It decides which fields each line takes. Value enum: "counted". */
-    "reason": "counted";
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-})
-    & (({
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. type (Required):
-     * string. Value enum: "pos", "wms", "erp", "other".
-     */
-    "source_system": null
-        | boolean
-        | number
-        | string
-        | unknown[]
-        | ({
-        /** Value enum: "pos", "wms", "erp", "other". */
-        "type": "pos" | "wms" | "erp" | "other";
-        "external_source_id": unknown;
-    });
-})
-    | ({
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. [] (Value):
-     * any.
-     */
-    "lines"?: unknown;
-}));
-/**
- * The `loss` variant of `CreateInventoryAdjustmentRequest`. The `received` variant of
- * `CreateInventoryAdjustmentRequest`. The `returned` variant of
- * `CreateInventoryAdjustmentRequest`. The `sold` variant of `CreateInventoryAdjustmentRequest`.
- * The `theft` variant of `CreateInventoryAdjustmentRequest`.
- */
-export type CreateInventoryAdjustmentQuantityRequest = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentQuantityLineRequest}. One line of an
-     * inventory quantity adjustment: a `quantity` of an item at a Location, in the given
-     * `condition`.
-     */
-    "lines": Array<InventoryAdjustmentQuantityLineRequest>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     */
-    "note"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /**
-     * Why the stock changed. It decides which fields each line takes. Value enum: "received",
-     * "returned", "sold", "theft", "loss".
-     */
-    "reason": "received" | "returned" | "sold" | "theft" | "loss" | (string & {});
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequest;
-});
-/**
- * The `loss` variant of `CreateInventoryAdjustmentRequest`. The `received` variant of
- * `CreateInventoryAdjustmentRequest`. The `returned` variant of
- * `CreateInventoryAdjustmentRequest`. The `sold` variant of `CreateInventoryAdjustmentRequest`.
- * The `theft` variant of `CreateInventoryAdjustmentRequest`.
- */
-export type CreateInventoryAdjustmentQuantityRequestInput = ({
-    /**
-     * Your identifier for the actor who recorded the event. Don't put secrets in this field.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_actor_id"?: string;
-    /**
-     * Stock changes, one for each inventory item and Location, from 1 to 100 lines. minItems: 1.
-     * maxItems: 100. [] (Value): {@link InventoryAdjustmentQuantityLineRequestInput}. One line of
-     * an inventory quantity adjustment: a `quantity` of an item at a Location, in the given
-     * `condition`.
-     */
-    "lines": Array<InventoryAdjustmentQuantityLineRequestInput>;
-    /**
-     * Free-text note explaining the change. Required when `reason` is `correction`. minLength: 1.
-     */
-    "note"?: string;
-    /**
-     * When the event occurred, at most 5 minutes in the future. Required when source_system.type
-     * is pos, wms, erp, or other. Format: date-time. minLength: 1. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /**
-     * Why the stock changed. It decides which fields each line takes. Value enum: "received",
-     * "returned", "sold", "theft", "loss".
-     */
-    "reason": "received" | "returned" | "sold" | "theft" | "loss";
-    /**
-     * System the change came from, such as a point-of-sale or warehouse system. The source system
-     * you report for an inventory event, such as manual, pos, wms, erp, or other, with your
-     * identifier when it applies.
-     */
-    "source_system"?: InventorySourceSystemRequestInput;
-});
-/** The request body for: Create inventory adjustment. */
-export type CreateInventoryAdjustmentRequest = ((CreateInventoryAdjustmentQuantityRequest)
-    | (CreateInventoryAdjustmentConditionChangeRequest)
-    | (CreateInventoryAdjustmentCountedRequest)
-    | (CreateInventoryAdjustmentCorrectionRequest)
-    | (Record<string, unknown>));
-/** The request body for: Create inventory adjustment. */
-export type CreateInventoryAdjustmentRequestInput = ((CreateInventoryAdjustmentQuantityRequestInput)
-    | (CreateInventoryAdjustmentConditionChangeRequestInput)
-    | (CreateInventoryAdjustmentCountedRequestInput)
-    | (CreateInventoryAdjustmentCorrectionRequestInput));
-/** The request body for: Create inventory allocation policy. */
-export type CreateInventoryAllocationPolicyRequest = {
-    /**
-     * Routing rules: ranked groups of Locations, whether demand can be split, and the most
-     * Locations one assignment may use. Routing rules for an inventory allocation policy: ranked
-     * groups of Locations, whether demand can be split, and how many Locations one assignment may
-     * use.
-     */
-    "configuration": InventoryAllocationConfigurationValue;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Merchant-facing policy name. minLength: 1. */
-    "name": string;
-    /**
-     * Status the allocation policy starts in. Defaults to `active`. Default: "active". Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/** The request body for: Create inventory allocation policy. */
-export type CreateInventoryAllocationPolicyRequestInput = {
-    /**
-     * Routing rules: ranked groups of Locations, whether demand can be split, and the most
-     * Locations one assignment may use. Routing rules for an inventory allocation policy: ranked
-     * groups of Locations, whether demand can be split, and how many Locations one assignment may
-     * use.
-     */
-    "configuration": InventoryAllocationPolicyConfigurationRequestInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Merchant-facing policy name. minLength: 1. */
-    "name": string;
-    /**
-     * Status the allocation policy starts in. Defaults to `active`. Default: "active". Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-};
-/** Patch object: fields you send are applied, fields you omit are unchanged. minProperties: 1. */
-export type CreateInventoryBackorderPolicyRequestInput = {
-    /** Whether this inventory item allows backorders. Default: false. */
-    "enabled"?: boolean;
-    /**
-     * Expected shipping date. Send null to clear it. Format: date. minLength: 1. pattern:
-     * ^[0-9]{4}-[0-9]{2}-[0-9]{2}$. Example: "2026-08-02".
-     */
-    "expected_ship_date"?: string | null;
-    /**
-     * Maximum units on backorder across the item's levels. Send null for no cap. Format: int64.
-     * minimum: 1. maximum: 9007199254740991.
-     */
-    "limit_quantity"?: number | null;
-};

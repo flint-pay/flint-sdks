@@ -1,1 +1,1 @@
-{"shared":"CategoryCreatedMerchantEvent","dependencies":["Category","CategoryCreatedMerchantEvent","MetadataMap","SharedCodec10","SharedCodec143","SharedCodec144","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}
+{"shared":"CategoryCreatedMerchantEvent","dependencies":["Category","CategoryCreatedMerchantEvent","MetadataMap","SharedCodec10","SharedCodec144","SharedCodec145","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9"]}

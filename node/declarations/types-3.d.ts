@@ -1,45 +1,121 @@
+import type { MoneyValue } from './types-39.js';
 import type {
     BuyerErrorRemediation,
     BuyerExpandedOrderSummary,
     BuyerPaymentCollection,
-    BuyerPaymentCollectionStripeElements,
     BuyerExpandedSubscriptionPlanSummary,
-    BuyerOrderLineItemModifier,
-    BuyerOrder,
-    BuyerOrderPaymentAttempt
+    BuyerOrderLineItemModifier
 } from './types-2.js';
-import type { MoneyValue } from './types-38.js';
-import type { PaymentErrorSummary, PaymentFulfillmentHold } from './types-44.js';
+import type { PaymentErrorSummary, PaymentFulfillmentHold } from './types-45.js';
 import type { PaymentSourceSummary } from './types-47.js';
 import type { ResponseMeta } from './types-54.js';
 import type { CardDetails, CategoryReference } from './types-5.js';
-import type { StripeClientSetup, SubscriptionDelivery, SubscriptionDeliveryHold } from './types-60.js';
+import type { StripeClientSetup } from './types-60.js';
 import type { ExpandedPaymentIntentSummary, ExpandedCustomerSummary } from './types-24.js';
 import type { RefundLineItemAllocation, RefundTaxBreakdownRefund, RefundTenderAllocation } from './types-53.js';
 import type { BuyerAction, BundleComponent } from './types-1.js';
+import type { ReturnFinancialSummary, ReturnEligibilitySelection, ReturnHandoffRequirementLineItem } from './types-55.js';
+import type { ReturnRefundEstimate, ReturnReplacementLineItem, ReturnResolutionLineItem } from './types-57.js';
+import type { Image } from './types-28.js';
 import type {
-    ReturnFinancialSummary,
-    ReturnEligibilitySelection,
+    ReturnReasonSummary,
     ReturnLineItemValue,
     ReturnLineItemDecisionProposal,
     ReturnPolicyAdjustmentProposal
-} from './types-55.js';
-import type { ReturnRefundEstimate, ReturnReasonSummary, ReturnReplacementLineItem } from './types-56.js';
-import type { Image } from './types-27.js';
+} from './types-56.js';
 import type { SelectedProductOption } from './types-59.js';
 import type { Address } from './types-0.js';
-import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItem } from './types-57.js';
 import type {
+    BuyerSubscriptionPlanChangeOption,
     BuyerSubscriptionScheduledPlanChange,
-    BuyerSubscriptionServiceLocation,
-    BuyerSubscriptionPlanLineItemBundle,
-    BuyerSubscriptionPlanLineItemCustom,
-    BuyerSubscriptionPlanLineItemVariant
+    BuyerSubscriptionServiceLocation
 } from './types-4.js';
-import type { SubscriptionEndAfter, SubscriptionGiftRecipient, SubscriptionIntervalOption } from './types-61.js';
-import type { SubscriptionPromotion, SubscriptionPlanSwapVariant } from './types-62.js';
-import type { SubscriptionUpcomingDeliveryHold } from './types-63.js';
-import type { OrderLineItemTax } from './types-40.js';
+import type { SubscriptionDelivery, SubscriptionDeliveryHold, SubscriptionEndAfter } from './types-61.js';
+import type { SubscriptionGiftRecipient, SubscriptionIntervalOption } from './types-62.js';
+import type { SubscriptionPromotion } from './types-63.js';
+import type { SubscriptionUpcomingDeliveryHold } from './types-64.js';
+/**
+ * Stripe values for collecting payment on a buyer's order: the account ID, publishable key, return
+ * URL, and Elements settings.
+ */
+export type BuyerPaymentCollectionStripe = {
+    /**
+     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
+     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
+     * stripeAccount. Example: "acct_1234567890".
+     */
+    "account_id": string | null;
+    /**
+     * Stripe Elements configuration for the available payment methods and amounts. Stripe Elements
+     * collection guidance. Follow next_step in the browser, then submit the result to submit_to
+     * through Flint.
+     */
+    "elements"?: BuyerPaymentCollectionStripeElements;
+    /** Publishable Stripe key for initializing the payment client. */
+    "publishable_key"?: string;
+    /** URL the buyer returns to after a redirect payment step. */
+    "return_url"?: string;
+};
+/**
+ * Stripe Elements collection guidance. Follow next_step in the browser, then submit the result to
+ * submit_to through Flint.
+ */
+export type BuyerPaymentCollectionStripeElements = {
+    /**
+     * Amount and currency used to initialize the payment form. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money"?: MoneyValue;
+    /**
+     * Deprecated: use payment_options. Digital wallets that the payment form can offer. Removed in
+     * a later release. [] (Value): string.
+     */
+    "digital_wallets"?: Array<string>;
+    /**
+     * Whether Elements is collecting a payment source for an immediate payment or a setup source
+     * for future use. Value enum: "payment", "setup".
+     */
+    "mode": "payment" | "setup" | (string & {});
+    /**
+     * Browser collection operation to perform before calling submit_to. Value enum:
+     * "collect_setup_payment_source", "create_confirmation_token".
+     */
+    "next_step": "collect_setup_payment_source" | "create_confirmation_token" | (string & {});
+    /**
+     * Stripe Elements payment method creation mode. Follow next_step: payment collection creates a
+     * ConfirmationToken, and setup collection creates a PaymentMethod. Value enum: "manual".
+     */
+    "payment_method_creation": "manual" | (string & {});
+    /** Payment method settings passed to the payment form. */
+    "payment_method_options"?: {
+        [key: string]: unknown;
+    };
+    /**
+     * Deprecated: use payment_options. Processor payment method types that the payment form can
+     * offer. Removed in a later release. [] (Value): string.
+     */
+    "payment_method_types": Array<string>;
+    /**
+     * Payment options the payment form can offer, in display order. Skip values you don't
+     * recognize. Stripe Elements takes processor payment method types: pass card for card,
+     * apple_pay, and google_pay; us_bank_account for ach_debit; and affirm for affirm. Set the
+     * Payment Element's wallets option so it shows only the wallets listed. [] enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
+     * "apple_pay", "google_pay", "affirm", "ach_debit".
+     */
+    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
+    /**
+     * Order payment intents that the buyer can select for collection. [] (Value): {@link
+     * BuyerSelectableOrderPaymentIntent}. A payment intent a buyer can pay on an order, with its
+     * status, amounts, payment collection details, and last payment error.
+     */
+    "selectable_payment_intents"?: Array<BuyerSelectableOrderPaymentIntent>;
+    /**
+     * Flint operation that accepts the result of next_step. Value enum: "pay_order",
+     * "confirm_payment_intent".
+     */
+    "submit_to": "pay_order" | "confirm_payment_intent" | (string & {});
+};
 /**
  * Why a payment attempt failed: a normalized `code`, a message, when it failed, and recovery
  * guidance.
@@ -482,11 +558,13 @@ export type BuyerPaymentRefund = {
     /**
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
-     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix
-     * the cause, then create a new refund with a new idempotency key. Unknown provider values are
-     * returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted",
+     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
+     * payment_returned refund that failed with refund_abandoned cannot be retried through Flint;
+     * the store must arrange repayment outside Flint. Fix the cause, then create a new refund with
+     * a new idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
      * "refund_failed".
      */
     "failure_reason"?: "expired_or_canceled_card"
@@ -496,6 +574,7 @@ export type BuyerPaymentRefund = {
         | "declined"
         | "merchant_request"
         | "payment_disputed"
+        | "refund_abandoned"
         | "payment_refund_failed"
         | "payment_refund_not_attempted"
         | "refund_failed"
@@ -569,26 +648,11 @@ export type BuyerRefund = {
      */
     "customer_id"?: string;
     /**
-     * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
-     * refundable again, except a refund with reason payment_returned that failed with
-     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix
-     * the cause, then create a new refund with a new idempotency key. Unknown provider values are
-     * returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted",
-     * "refund_failed".
+     * A coarse buyer-visible failure category. refund_abandoned means the refund could not be
+     * completed; contact the store to get your money back. refund_failed means the refund failed.
+     * Omitted when there is no failure. Value enum: "refund_failed", "refund_abandoned".
      */
-    "failure_reason"?: "expired_or_canceled_card"
-        | "lost_or_stolen_card"
-        | "insufficient_funds"
-        | "insufficient_available_balance"
-        | "declined"
-        | "merchant_request"
-        | "payment_disputed"
-        | "payment_refund_failed"
-        | "payment_refund_not_attempted"
-        | "refund_failed"
-        | (string & {});
+    "failure_reason"?: "refund_failed" | "refund_abandoned" | (string & {});
     /**
      * The caller's Idempotency-Key when this refund was created, including refunds created by
      * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
@@ -776,6 +840,80 @@ export type BuyerRefundResponse = {
      */
     "request_id": string;
 };
+/**
+ * A store-reach remembered identity for the current customer at this business and environment.
+ * Customer sessions never receive code_channel.
+ */
+export type BuyerRememberedBuyer = {
+    /**
+     * When the buyer was first remembered on this device. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "created_at": string;
+    /** Always masked to the first character and domain, such as m•••@gmail.com. */
+    "email": string;
+    /**
+     * 90 days after the last confirmed code. Lookups and code requests do not renew it. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * When a code was last confirmed on the device or requested from it. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "last_used_at": string;
+    /**
+     * ID of the remembered identity. Token replacement keeps this ID. Example:
+     * "rbuy_01KEZF7C006G3NNTKE2C2ZTVM0".
+     */
+    "remembered_buyer_id": string;
+    /**
+     * Contains revoke while the identity works; empty in a revoke response. [] enum: "revoke". []
+     * (Value): string. Value enum: "revoke".
+     */
+    "supported_actions": Array<"revoke" | (string & {})>;
+};
+/**
+ * Every working store-reach remembered buyer for the current customer's email, at most ten. This
+ * bounded list has no pagination.
+ */
+export type BuyerRememberedBuyerListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. maxItems: 10. []
+     * (Value): {@link BuyerRememberedBuyer}. A store-reach remembered identity for the current
+     * customer at this business and environment. Customer sessions never receive code_channel.
+     */
+    "data": Array<BuyerRememberedBuyer>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `BuyerRememberedBuyer` data. */
+export type BuyerRememberedBuyerResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A store-reach remembered
+     * identity for the current customer at this business and environment. Customer sessions never
+     * receive code_channel.
+     */
+    "data": BuyerRememberedBuyer;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** The offer a buyer sees before canceling. Send at least one field. minProperties: 1. */
 export type BuyerRetentionOffer = {
     /**
@@ -924,14 +1062,14 @@ export type BuyerReturn = {
     "order_id": string;
     /**
      * Whether the buyer has received the value they are owed. Combines the Return's resolutions
-     * and its unsettled corrections. Value enum: "not_selected", "pending", "partially_fulfilled",
-     * "requires_action", "fulfilled", "failed".
+     * and its unsettled corrections. Value enum: "not_selected", "pending", "partially_completed",
+     * "requires_action", "completed", "failed".
      */
     "resolution_status": "not_selected"
         | "pending"
-        | "partially_fulfilled"
+        | "partially_completed"
         | "requires_action"
-        | "fulfilled"
+        | "completed"
         | "failed"
         | (string & {});
     /**
@@ -979,6 +1117,11 @@ export type BuyerReturnCompletionBlocker = {
         | (string & {});
     /** Explanation of what is still owed. */
     "message": string;
+    /**
+     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string | null;
     /** ID of the Return line the entry is about. Example: "retli_01KEZF7C00R813VR7ECXS062QG". */
     "return_line_item_id"?: string;
     /**
@@ -1008,11 +1151,12 @@ export type BuyerReturnEligibilityPreview = {
     "policy_evaluation": BuyerReturnPolicyEvaluation;
     /**
      * Estimate for selected eligible quantities requested as refund, or with no requested
-     * resolution when refund is allowed. Null when no selected line is eligible for a refund. The
-     * store's inspection and its final decision can change the refund. Nothing is reserved.
-     * anyOf[1] (Value): {@link ReturnRefundEstimate}. Estimated refund for the selected eligible
-     * quantities. The store's inspection and its final decision can change the refund. Nothing is
-     * reserved. anyOf[2] (Value): null.
+     * resolution when refund is allowed. Also includes explicitly requested eligible store credit.
+     * Null when no selected line qualifies for refund or store credit. The store's inspection and
+     * its final decision can change the refund. Nothing is reserved. anyOf[1] (Value): {@link
+     * ReturnRefundEstimate}. Estimated refund for the selected eligible quantities. The store's
+     * inspection and its final decision can change the refund. Nothing is reserved. anyOf[2]
+     * (Value): null.
      */
     "refund_estimate": ((ReturnRefundEstimate) | (null));
     /**
@@ -1066,6 +1210,8 @@ export type BuyerReturnEligibilityPreviewLineItem = {
     "modifiers": Array<BuyerReturnLineItemModifier>;
     /** Name of the item as sold. */
     "name": string;
+    /** Order that owns order_line_item_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
     /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
     "order_line_item_id": string;
     /**
@@ -1131,9 +1277,9 @@ export type BuyerReturnHandoffRequirement = {
     "instructions"?: string;
     /**
      * Return lines and the quantities still expected. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity the buyer must hand back.
+     * ReturnHandoffRequirementLineItem}. A return line and the quantity the buyer must hand back.
      */
-    "line_items": Array<ReturnResolutionLineItemRequest>;
+    "line_items": Array<ReturnHandoffRequirementLineItem>;
     /** Format: int64. */
     "shipment_count"?: number;
     /**
@@ -1170,7 +1316,7 @@ export type BuyerReturnLineItem = {
     /**
      * Approved quantity that can still be assigned to a new resolution. Every non-canceled
      * resolution reserves its line quantity, including proposed, pending, action-required, failed,
-     * and fulfilled resolutions. Whole-number quantity; fractional quantities are not supported.
+     * and completed resolutions. Whole-number quantity; fractional quantities are not supported.
      * Format: int64.
      */
     "available_resolution_quantity": number;
@@ -1272,6 +1418,8 @@ export type BuyerReturnLineItem = {
     "modifiers": Array<BuyerReturnLineItemModifier>;
     /** Name of the item as sold. */
     "name": string;
+    /** Order that owns order_line_item_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
     /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
     "order_line_item_id": string;
     /**
@@ -1311,9 +1459,9 @@ export type BuyerReturnLineItem = {
     "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
     /**
      * Whether the value for this line's approved quantity has been delivered. Value enum:
-     * "not_selected", "pending", "requires_action", "fulfilled", "failed".
+     * "not_selected", "pending", "requires_action", "completed", "failed".
      */
-    "resolution_status": "not_selected" | "pending" | "requires_action" | "fulfilled" | "failed" | (string & {});
+    "resolution_status": "not_selected" | "pending" | "requires_action" | "completed" | "failed" | (string & {});
     /**
      * Units whose resolution has finished. Whole-number quantity; fractional quantities are not
      * supported. Format: int64.
@@ -1623,6 +1771,8 @@ export type BuyerReturnPolicyEvaluationLineItem = {
     "modifiers": Array<BuyerReturnLineItemModifier>;
     /** Name of the item as sold. */
     "name": string;
+    /** Order that owns order_line_item_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    "order_id": string;
     /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31". */
     "order_line_item_id": string;
     /**
@@ -2039,7 +2189,7 @@ export type BuyerReturnResolution = {
         | (string & {});
     /** Explanation of a failed Return resolution, when available. */
     "failure_message"?: string;
-    /** When the resolution became fulfilled. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    /** When the resolution completed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "fulfilled_at"?: string;
     /**
      * Where the gift-card-paid portion is refunded. original credits the original gift card;
@@ -2102,11 +2252,11 @@ export type BuyerReturnResolution = {
      */
     "returned_total_money": MoneyValue;
     /**
-     * fulfilled means the buyer has the value: every linked Refund succeeded, any balance was
+     * completed means the buyer has the value: every linked Refund succeeded, any balance was
      * collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable.
-     * Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+     * Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
      */
-    "status": "proposed" | "pending" | "requires_action" | "fulfilled" | "failed" | "canceled" | (string & {});
+    "status": "proposed" | "pending" | "requires_action" | "completed" | "failed" | "canceled" | (string & {});
     /**
      * Lists checkout_session while the buyer owes buyer_payment_amount_money for a replacement and
      * the resolution is pending or requires_action. Pay it with POST /v1/me/checkout-sessions and
@@ -2164,6 +2314,11 @@ export type BuyerReturnResolutionAdjustment = {
     /** Optional detail about `reason`, kept with the record. */
     "reason_message"?: string;
     /**
+     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string | null;
+    /**
      * ID of the Return line a deduction applies to. Absent when it applies to the resolution as a
      * whole. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      */
@@ -2206,6 +2361,11 @@ export type BuyerReturnResolutionExecutionBlocker = {
         | "replacement_order_pending"
         | "fulfillment_pending"
         | (string & {});
+    /**
+     * Return that owns return_line_item_id. `null` when return_line_item_id is null. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string | null;
     /**
      * ID of the Return line the blocker gates. Absent when it applies to the whole resolution.
      * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
@@ -2438,10 +2598,10 @@ export type BuyerShipment = {
     "return_id"?: string;
     /**
      * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
+     * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
+     * shipment or package.
      */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
     /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
     "shipment_id": string;
     /**
@@ -2554,12 +2714,18 @@ export type BuyerSubscription = {
      */
     "billing_interval_count": number;
     /**
-     * Billing interval and count pairs frozen from the plan or shared by the subscription offers.
-     * Line prices are per delivery. Each option charges for all deliveries in its period. Changing
-     * the interval does not change the per-delivery price. maxItems: 12. uniqueItems: true. []
-     * (Value): {@link SubscriptionIntervalOption}. A billing cadence offered by a subscription
-     * plan or offer. Every option bills the same line prices once per period; prices are not
-     * scaled by the interval. For a different price per interval, create separate plans.
+     * Billing interval and count pairs the subscription can switch to. For a subscription on a
+     * plan, they follow the plan's current billing_interval_options. A subscription that came from
+     * an offer keeps the pairs the offer had at signup. Prices of lines that ship are per
+     * delivery. Each option charges for all deliveries in its period. Changing the interval does
+     * not change the per-delivery price. maxItems: 12. uniqueItems: true. [] (Value): {@link
+     * SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer,
+     * or subscription lets buyers choose. Prices of lines that ship are per delivery, and each
+     * option charges for all deliveries in its period. Without a delivery cadence there is one
+     * delivery per period, so every option bills the same line prices once per period. With a
+     * delivery cadence, a longer period bills more deliveries of the lines that ship; other lines
+     * bill once per period. For a different price per interval with no delivery cadence, create
+     * separate plans.
      */
     "billing_interval_options"?: Array<SubscriptionIntervalOption>;
     /**
@@ -2638,7 +2804,8 @@ export type BuyerSubscription = {
     "customer_id": string;
     /**
      * Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery
-     * cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+     * cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1.
+     * maximum: 24.
      */
     "deliveries_per_period": number;
     /**
@@ -2705,7 +2872,8 @@ export type BuyerSubscription = {
     "gift_recipient": ((SubscriptionGiftRecipient) | (null));
     /**
      * The next renewal is waiting for an item to come back in stock. The buyer isn't charged until
-     * it ships. Nothing is wrong with the card.
+     * it ships. Nothing is wrong with the card. Shows when a subscription renewal started waiting
+     * for inventory.
      */
     "inventory_wait"?: BuyerSubscriptionInventoryWait;
     /**
@@ -2878,7 +3046,14 @@ export type BuyerSubscription = {
      * Format: int32.
      */
     "quantity": number;
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
+    /**
+     * Quantities this subscription can be changed to, from 1 to 100, in ascending order. A change
+     * to quantity must send one of these values, and the request is refused otherwise. A buyer can
+     * change quantity only when more than one is listed. For a subscription on a plan, the list
+     * follows the plan's current quantity_options. A subscription that came from an offer keeps
+     * the choices the offer had at signup. [1] when no other quantity is offered. maxItems: 10.
+     * uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+     */
     "quantity_options"?: Array<number>;
     /**
      * What one billing period's items cost before discounts, shipping, and tax: each line's price
@@ -3021,6 +3196,7 @@ export type BuyerSubscriptionCancellationDetails = {
      */
     "requested_by": "buyer" | "merchant" | "integration" | (string & {});
 };
+/** Shows when a subscription renewal started waiting for inventory. */
 export type BuyerSubscriptionInventoryWait = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "started_at": string;
@@ -3173,168 +3349,3 @@ export type BuyerSubscriptionPaymentRetryListResponse = {
      */
     "request_id": string;
 };
-/** A response containing `BuyerSubscriptionPaymentRetry` data. */
-export type BuyerSubscriptionPaymentRetryResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A retry of a past-due
-     * payment on the buyer's subscription. Includes, when available, the buyer's order and a
-     * failure they can act on. Omits the store's idempotency keys and payment attempt IDs.
-     */
-    "data": BuyerSubscriptionPaymentRetry;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A subscription plan this buyer may choose, with the store's billing timing and the target plan's
- * summary.
- */
-export type BuyerSubscriptionPlanChangeOption = {
-    /**
-     * The store's billing timing for this target: now collects a new period with unused-time
-     * credit; next_renewal changes the plan now and keeps the current paid period and next billing
-     * date; period_end keeps the current plan until the next charged renewal; prorated_now charges
-     * the difference for the rest of the current period and keeps the period and anchor. Value
-     * enum: "now", "next_renewal", "period_end", "prorated_now".
-     */
-    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now" | (string & {});
-    /**
-     * The target plan's current summary. A subscription plan expanded on a buyer's order: billing
-     * interval, setup fee, trial length, status, and line items.
-     */
-    "subscription_plan": BuyerExpandedSubscriptionPlanSummary;
-    /**
-     * The target subscription plan. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "plan_01KEZF7C004CY5ZR33XST2AASV".
-     */
-    "subscription_plan_id": string;
-};
-/**
- * The subscription is the primary resource and expected_version target; the result uses the same
- * subscription and order fields as the corresponding /v1/me reads. The order and
- * order_payment_attempt are null when billing_starts is next_renewal or period_end, or the
- * prorated_now net charge is zero.
- */
-export type BuyerSubscriptionPlanChangeResult = {
-    /**
-     * The resolved billing timing for this plan change. Value enum: "now", "next_renewal",
-     * "period_end", "prorated_now".
-     */
-    "billing_starts": "now" | "next_renewal" | "period_end" | "prorated_now" | (string & {});
-    /**
-     * The new period or proration order when billing_starts is now or prorated_now, including a
-     * closed unpaid order when payment fails. Null when billing_starts is next_renewal or
-     * period_end, or a prorated_now net charge is zero. anyOf[1] (Value): {@link BuyerOrder}. A
-     * customer's purchase and its payment and fulfillment progress. anyOf[2] (Value): null.
-     */
-    "order": ((BuyerOrder) | (null));
-    /**
-     * The recorded payment attempt when billing_starts is now or prorated_now, including declines.
-     * Null when billing_starts is next_renewal or period_end, or a prorated_now net charge is
-     * zero. anyOf[1] (Value): {@link BuyerOrderPaymentAttempt}. An attempt to pay an order.
-     * anyOf[2] (Value): null.
-     */
-    "order_payment_attempt": ((BuyerOrderPaymentAttempt) | (null));
-    /**
-     * The subscription after this request, including any scheduled plan change, or the unchanged
-     * subscription when payment fails. A customer's recurring purchase.
-     */
-    "subscription": BuyerSubscription;
-};
-/** A response containing `BuyerSubscriptionPlanChangeResult` data. */
-export type BuyerSubscriptionPlanChangeResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The subscription is the
-     * primary resource and expected_version target; the result uses the same subscription and
-     * order fields as the corresponding /v1/me reads. The order and order_payment_attempt are null
-     * when billing_starts is next_renewal or period_end, or the prorated_now net charge is zero.
-     */
-    "data": BuyerSubscriptionPlanChangeResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A line item on a subscription plan. */
-export type BuyerSubscriptionPlanLineItem = ({
-    /**
-     * Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan
-     * may allow adjustment. Default: false.
-     */
-    "allow_quantity_adjustment"?: boolean;
-    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /**
-     *  [] (Value): {@link CategoryReference}. A reference to a product category by ID, handle, and
-     * name.
-     */
-    "categories"?: Array<CategoryReference>;
-    "description"?: string;
-    /** An image with its URL, size, and alt text. */
-    "image"?: Image;
-    /**
-     * Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to
-     * 9999. Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * minimum: 1. maximum: 9999. Default: 9999.
-     */
-    "max_quantity"?: number;
-    /**
-     * Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity.
-     * Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1.
-     * maximum: 9999. Default: 1.
-     */
-    "min_quantity"?: number;
-    "name"?: string;
-    /** Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
-    "product_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     *  [] (Value): {@link SelectedProductOption}. An option and value chosen for a product
-     * variant, such as size Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    "sku"?: string;
-    /**
-     * Unique identifier for this subscription plan line item, prefixed `spli_`. Example:
-     * "spli_01KEZF7C00H9FGC2KBRF82H87N".
-     */
-    "subscription_plan_line_item_id": string;
-    /**
-     * maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
-     */
-    "swap_variant_ids": Array<string>;
-    /**
-     * Current sellable alternatives in swap_variant_ids order, excluding the line's own variant
-     * and variants priced in a different currency. Present on variant lines, including an empty
-     * array. maxItems: 25. [] (Value): {@link SubscriptionPlanSwapVariant}. A variant a subscriber
-     * can swap to on a plan line, with its name, options, and price.
-     */
-    "swap_variants"?: Array<SubscriptionPlanSwapVariant>;
-    /** A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-    /** Value enum: "variant", "bundle", "custom". */
-    "type": "variant" | "bundle" | "custom" | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "unit_price_money"?: MoneyValue;
-    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-})
-    & ((Exclude<BuyerSubscriptionPlanLineItemVariant & object, readonly unknown[]>)
-    | (Exclude<BuyerSubscriptionPlanLineItemBundle & object, readonly unknown[]>)
-    | (Exclude<BuyerSubscriptionPlanLineItemCustom & object, readonly unknown[]>)
-    | (Record<string, unknown>));

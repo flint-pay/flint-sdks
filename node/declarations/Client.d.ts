@@ -1,8 +1,8 @@
 import type { Result, WithResponseInfo, InputValue, WebhookHeaders as _SdkWebhookHeaders } from '../runtime.js';
 import type { ClientOptions } from './types-6.js';
-import type { VerifiedWebhook } from './types-68.js';
-import type { WebhookVerificationOptions } from './types-69.js';
-import type { verifyWebhook, verifyWebhookAsync } from './types-84.js';
+import type { VerifiedWebhook } from './types-69.js';
+import type { WebhookVerificationOptions } from './types-70.js';
+import type { verifyWebhook, verifyWebhookAsync } from './types-85.js';
 /** API client; see README.md and RUNTIME.md#clientoptions. */
 export declare class Client {
     constructor(options?: ClientOptions);
@@ -101,6 +101,7 @@ export declare class Client {
     readonly promotions: import('../resources/promotions.js').PromotionsResource;
     readonly readers: import('../resources/readers.js').ReadersResource;
     readonly refunds: import('../resources/refunds.js').RefundsResource;
+    readonly rememberedBuyers: import('../resources/rememberedBuyers.js').RememberedBuyersResource;
     readonly reportDownloads: import('../resources/reportDownloads.js').ReportDownloadsResource;
     readonly reports: import('../resources/reports.js').ReportsResource;
     readonly resourceTimelines: import('../resources/resourceTimelines.js').ResourceTimelinesResource;

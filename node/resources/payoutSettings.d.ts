@@ -8,8 +8,8 @@ import type {
     PayoutSettingsUpdatedInstalledMerchantsEvent,
     PayoutSettingsUpdatedMerchantEvent
 } from '../declarations/types-48.js';
-import type { RequestOptions } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,20 +32,20 @@ export type {
     PayoutSettingsUpdatedInstalledMerchantsEvent,
     PayoutSettingsUpdatedMerchantEvent
 } from '../declarations/types-48.js';
-export type { _SdkWithoutIdempotency, WebhookEventSource } from '../declarations/types-69.js';
-export type { RequestOptions } from '../declarations/types-53.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MoneyMovementBlockedReason, MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-38.js';
+export type { MoneyMovementBlockedReason, MoneyValue, NextAction, MoneyValueInput } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
 export type { UpdatePayoutSettingsRequestInput } from '../declarations/types-67.js';
 export type { PartnerWebhookEnvelope } from '../declarations/types-44.js';
-export type { MerchantWebhookEnvelope } from '../declarations/types-37.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export type { WebhookEventSource } from '../declarations/types-69.js';
+export type { MerchantWebhookEnvelope } from '../declarations/types-38.js';
+export type { DisputesAcceptParams } from '../declarations/types-24.js';
 export { makeMoneyValue } from '../declarations/types-78.js';
-export { makeUpdatePayoutSettingsRequest } from '../declarations/types-83.js';
+export { makeUpdatePayoutSettingsRequest } from '../declarations/types-84.js';
 export interface PayoutSettingsResource {
     /**
  * Returns payout settings that control default payout behavior for the authenticated merchant.

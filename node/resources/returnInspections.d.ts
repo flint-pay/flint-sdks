@@ -1,16 +1,16 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
 import type { DecideReturnInspectionLineItemResponse } from '../declarations/types-16.js';
-import type { GetReturnInspectionResponse } from '../declarations/types-25.js';
+import type { GetReturnInspectionResponse } from '../declarations/types-26.js';
 import type { ListReturnInspectionsResponse } from '../declarations/types-35.js';
-import type { RequestOptions } from '../declarations/types-53.js';
+import type { RequestOptions } from '../declarations/types-54.js';
 import type {
     ReturnInspection,
     ReturnInspectionsDecideLineItemParams,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams
 } from '../declarations/types-55.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -30,23 +30,24 @@ export type {
     ReturnInspection,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams,
+    ReturnDisposition,
+    ReturnActor,
     ReturnInspectionLineItem
 } from '../declarations/types-55.js';
-export type { RequestOptions } from '../declarations/types-53.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
-export type { GetReturnInspectionResponse } from '../declarations/types-25.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type { GetReturnInspectionResponse } from '../declarations/types-26.js';
 export type { ListReturnInspectionsResponse } from '../declarations/types-35.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { ReturnDisposition, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
-export type { MetadataMap } from '../declarations/types-37.js';
+export type { MetadataMap } from '../declarations/types-38.js';
 export type { ReturnSourceSystem } from '../declarations/types-57.js';
-export type { NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
-export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-74.js';
+export type { DisputesAcceptParams } from '../declarations/types-24.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-75.js';
 export { makeMoneyValue } from '../declarations/types-78.js';
 export interface ReturnInspectionsResource {
     /**

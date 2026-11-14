@@ -1,10 +1,10 @@
-import { d8556 as c0, d8557 as c1 } from '../descriptors/data/417.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5599 as c2 } from '../descriptors/data/244.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5599 as d5599 } from '../descriptors/data/244.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8597 as c0, d8598 as c1 } from '../descriptors/data/421.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d5624 as c2 } from '../descriptors/data/245.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d5624 as d5624 } from '../descriptors/data/245.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5599;
+const read = d5624;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1668"]:c0(),["SharedCodec1669"]:c1(),["TaxSettingsRequest"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec1670"]:c0(),["SharedCodec1671"]:c1(),["TaxSettingsRequest"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeTaxSettingsRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

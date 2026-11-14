@@ -4,12 +4,13 @@ namespace Flint;
 /**
  * @property-read string $code
  * @property-read string $message
+ * @property-read string|null $return_id
  * @property-read string $return_line_item_id
  * @property-read string $return_receipt_id
  * @property-read string $return_resolution_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnCompletionBlockerInput extends Model {
-    /** @param array{'code': string, 'message': string, 'return_line_item_id'?: string, 'return_receipt_id'?: string, 'return_resolution_id'?: string, ...}|object $values */
+    /** @param array{'code': string, 'message': string, 'return_id': string|null, 'return_line_item_id'?: string, 'return_receipt_id'?: string, 'return_resolution_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnCompletionBlockerInput')); }
     /** What is still owed before this Return can complete. Each blocker names its Return line, except resolution_pending for a correction and merchandise_exception for unidentified units. resolution_* codes also name return_resolution_id when a resolution exists; merchandise_exception also names return_receipt_id. An empty completion_blockers array means nothing is outstanding. Value enum: "decision_pending", "handoff_pending", "receipt_pending", "inspection_pending", "inspection_review_required", "disposition_required", "resolution_not_selected", "resolution_pending", "resolution_requires_action", "resolution_failed", "merchandise_exception".
      * @return string
@@ -23,6 +24,12 @@ final class ReturnCompletionBlockerInput extends Model {
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string|null
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string|null { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the entry is about. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().

@@ -23,7 +23,7 @@ final class SubscriptionPlanTermsRequestInput extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 100. Default: 1.
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 1. Default: 1.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */

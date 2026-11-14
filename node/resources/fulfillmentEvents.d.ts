@@ -8,8 +8,8 @@ import type {
     FulfillmentEventsGetParams,
     FulfillmentEventsListParams
 } from '../declarations/types-25.js';
-import type { RequestOptions } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -32,20 +32,19 @@ export type {
     FulfillmentEventsListParams,
     FulfillmentEventListResponse
 } from '../declarations/types-25.js';
-export type { RequestOptions } from '../declarations/types-53.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateFulfillmentEventRequestInput } from '../declarations/types-9.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { ExpandedOrderSummary } from '../declarations/types-24.js';
 export type { CheckoutBuyerContact } from '../declarations/types-5.js';
-export type { DeferredPromotion } from '../declarations/types-16.js';
-export type { PricingAmounts } from '../declarations/types-49.js';
-export type { MoneyValue, NextAction } from '../declarations/types-38.js';
+export type { DeferredPromotion } from '../declarations/types-17.js';
+export type { PricingAmounts } from '../declarations/types-50.js';
+export type { MoneyValue, NextAction } from '../declarations/types-39.js';
 export type { OrderSettlementAmounts } from '../declarations/types-41.js';
 export type { SettlementAmounts } from '../declarations/types-59.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export { makeCreateFulfillmentEventRequest } from '../declarations/types-72.js';
 export { makeMoneyValue } from '../declarations/types-78.js';

@@ -34,7 +34,7 @@ final class SubscriptionsChangeQuantityInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Change subscription quantity. Example: {"billing_starts":"prorated_now","expected_version":1,"quantity":2}.
+    /** The request body for: Change subscription quantity. Example: {"billing_starts":"prorated_now","expected_version":1,"quantity":1}.
      * @return mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

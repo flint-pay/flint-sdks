@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/invoices.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/invoices.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelInvoicePaymentAttempt"]:r0,["collectInvoice"]:r0,["createInvoice"]:r0,["createInvoiceLateFee"]:r0,["createInvoiceManualPayment"]:r0,["getInvoice"]:r0,["getInvoiceManualPayment"]:r0,["getInvoicePaymentAttempt"]:r0,["getInvoicePDF"]:r0,["issueInvoice"]:r0,["listInvoiceActivities"]:r0,["listInvoiceDeliveryAttempts"]:r0,["listInvoiceLateFees"]:r0,["listInvoiceManualPayments"]:r0,["listInvoicePaymentAttempts"]:r0,["listInvoices"]:r0,["markInvoiceUncollectible"]:r0,["regenerateInvoicePublicLink"]:r0,["reverseInvoiceManualPayment"]:r0,["sendInvoiceReminder"]:r0,["updateInvoice"]:r0,["voidInvoice"]:r0,["waiveInvoiceLateFee"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -190,6 +190,42 @@ this.invoices = Object.freeze({
   "X-Request-Id"
 ]), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceDeliveryAttempts", result, path)),
       listDeliveryAttemptsItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceDeliveryAttempts", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listLateFees: async (invoice_id, params, options) => this.#runtime.request("listInvoiceLateFees", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listInvoiceLateFees", result, path))),
+      listLateFeesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listInvoiceLateFees", _sdkRequestInput([
+  "invoice_id"
+], [invoice_id], [
+  "page_size",
+  "page_token",
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listInvoiceLateFees", result, path)),
+      listLateFeesItems: (invoice_id, params, options) => this.#runtime.items("listInvoiceLateFees", _sdkRequestInput([
   "invoice_id"
 ], [invoice_id], [
   "page_size",

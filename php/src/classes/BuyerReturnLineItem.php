@@ -28,6 +28,7 @@ namespace Flint;
  * @property-read string $merchandise_status
  * @property-read list<BuyerReturnLineItemModifier> $modifiers
  * @property-read string $name
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read ?string $product_id
  * @property-read int $received_quantity
@@ -54,7 +55,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturnLineItem extends Model {
-    /** @param array{'accepted_quantity': int, 'allowed_resolution_types': list<string>, 'approved_quantity': int, 'automatic_resolution_type'?: string, 'available_resolution_quantity': int, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'buyer_note'?: string, 'canceled_quantity': int, 'created_at': string, 'decision_at'?: string, 'decline_reason'?: string, 'decline_reason_message'?: string, 'declined_quantity': int, 'description'?: string, 'dispositioned_quantity': int, 'eligibility': mixed, 'fulfillment_id': string, 'handed_off_quantity': int, 'image'?: mixed, 'inspected_quantity': int, 'is_inspection_required'?: bool, 'is_policy_overridden': bool, 'merchandise_status': string, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'received_quantity': int, 'rejected_quantity': int, 'release_timing'?: string, 'requested_quantity': int, 'requested_resolution_type'?: string, 'resolution_status': string, 'resolved_quantity': int, 'return_id': string, 'return_line_item_id': string, 'return_reason_handle': string, 'return_reason_id': string, 'return_reason_name': string, 'return_required_quantity': int, 'return_resolution_ids': list<string>, 'return_value': mixed, 'review_required_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'accepted_quantity': int, 'allowed_resolution_types': list<string>, 'approved_quantity': int, 'automatic_resolution_type'?: string, 'available_resolution_quantity': int, 'bundle_components': list<mixed>, 'bundle_id'?: string, 'buyer_note'?: string, 'canceled_quantity': int, 'created_at': string, 'decision_at'?: string, 'decline_reason'?: string, 'decline_reason_message'?: string, 'declined_quantity': int, 'description'?: string, 'dispositioned_quantity': int, 'eligibility': mixed, 'fulfillment_id': string, 'handed_off_quantity': int, 'image'?: mixed, 'inspected_quantity': int, 'is_inspection_required'?: bool, 'is_policy_overridden': bool, 'merchandise_status': string, 'modifiers': list<mixed>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'product_id'?: string, 'received_quantity': int, 'rejected_quantity': int, 'release_timing'?: string, 'requested_quantity': int, 'requested_resolution_type'?: string, 'resolution_status': string, 'resolved_quantity': int, 'return_id': string, 'return_line_item_id': string, 'return_reason_handle': string, 'return_reason_id': string, 'return_reason_name': string, 'return_required_quantity': int, 'return_resolution_ids': list<string>, 'return_value': mixed, 'review_required_quantity': int, 'selected_options': list<mixed>, 'sku'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnLineItem')); }
     /** Inspected units that were accepted. Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -76,7 +77,7 @@ final class BuyerReturnLineItem extends Model {
      */
     public function getAutomaticResolutionType(): ?string { return $this->get('automatic_resolution_type'); }
     public function hasAutomaticResolutionType(): bool { return $this->has('automatic_resolution_type'); }
-    /** Approved quantity that can still be assigned to a new resolution. Every non-canceled resolution reserves its line quantity, including proposed, pending, action-required, failed, and fulfilled resolutions. Whole-number quantity; fractional quantities are not supported. Format: int64.
+    /** Approved quantity that can still be assigned to a new resolution. Every non-canceled resolution reserves its line quantity, including proposed, pending, action-required, failed, and completed resolutions. Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
      */
     public function getAvailableResolutionQuantity(): int { return $this->get('available_resolution_quantity'); }
@@ -186,6 +187,11 @@ final class BuyerReturnLineItem extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Order that owns order_line_item_id.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item the units come from.
      * @return string
      */
@@ -221,7 +227,7 @@ final class BuyerReturnLineItem extends Model {
      */
     public function getRequestedResolutionType(): ?string { return $this->get('requested_resolution_type'); }
     public function hasRequestedResolutionType(): bool { return $this->has('requested_resolution_type'); }
-    /** Whether the value for this line's approved quantity has been delivered. Value enum: "not_selected", "pending", "requires_action", "fulfilled", "failed".
+    /** Whether the value for this line's approved quantity has been delivered. Value enum: "not_selected", "pending", "requires_action", "completed", "failed".
      * @return string
      */
     public function getResolutionStatus(): string { return $this->get('resolution_status'); }

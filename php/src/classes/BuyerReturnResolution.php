@@ -105,7 +105,7 @@ final class BuyerReturnResolution extends Model {
      */
     public function getFailureMessage(): ?string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** When the resolution became fulfilled. Format: date-time.
+    /** When the resolution completed. Format: date-time.
      * @return ?string
      */
     public function getFulfilledAt(): ?string { return $this->get('fulfilled_at'); }
@@ -160,7 +160,7 @@ final class BuyerReturnResolution extends Model {
      */
     public function getReturnedTotalMoney(): MoneyValue { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
-    /** fulfilled means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+    /** completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

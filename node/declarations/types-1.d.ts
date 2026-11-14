@@ -1,15 +1,13 @@
 import type { APIKeyAuthContext } from './types-0.js';
 import type { CLILoginAuthContext } from './types-4.js';
-import type { OnboardingSessionAuthContext } from './types-39.js';
+import type { OnboardingSessionAuthContext, MoneyValue, MoneyMovementListMeta } from './types-39.js';
 import type { PartnerAppAuthContext } from './types-43.js';
-import type { WorkloadIdentityAuthContext } from './types-69.js';
+import type { WorkloadIdentityAuthContext } from './types-70.js';
 import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams } from './types-23.js';
+import type { DisputesAcceptParams, ExpandedOrderSummary } from './types-24.js';
 import type { ResponseMeta, ResourceReference, ResolvePaymentLinkResponse } from './types-54.js';
 import type { Credentials } from './types-14.js';
-import type { MoneyValue, MoneyMovementListMeta, ModifierSet } from './types-38.js';
-import type { ExpandedOrderSummary } from './types-24.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { MerchantWebhookEnvelope, MetadataMap, ModifierSet } from './types-38.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type {
     CategoryReference,
@@ -23,10 +21,9 @@ import type {
     CheckoutPaymentConfig,
     CheckoutPaymentMethodSave,
     CheckoutPrefill,
-    CheckoutPromotionConfig,
-    CheckoutRedirects
+    CheckoutPromotionConfig
 } from './types-5.js';
-import type { ImageAttachment, Image } from './types-27.js';
+import type { ImageAttachment, Image } from './types-28.js';
 import type { SelectedProductOption } from './types-59.js';
 import type { CreateBundleRequestInput } from './types-7.js';
 import type { UpdateBundleRequestInput } from './types-66.js';
@@ -47,12 +44,19 @@ import type {
     BuyerSkipCapability,
     BuyerRetentionOfferRequestInput,
     BuyerSkipCapabilityInput,
+    BuyerRefund,
     BuyerSetupCollection
 } from './types-3.js';
-import type { CheckoutSessionTax, CheckoutSubscriptionTerms, CheckoutTheme, CheckoutTipConfig } from './types-6.js';
-import type { LegalSettings } from './types-34.js';
+import type {
+    CheckoutRedirects,
+    CheckoutSessionTax,
+    CheckoutSubscriptionTerms,
+    CheckoutTheme,
+    CheckoutTipConfig
+} from './types-6.js';
+import type { LegalSettings } from './types-35.js';
 import type { CreateReturnEligibilityPreviewRequest, CreateReturnEligibilityPreviewRequestInput } from './types-12.js';
-import type { ReturnLineItemRequest } from './types-55.js';
+import type { ReturnLineItemRequest } from './types-56.js';
 /** Non-secret metadata for the calling credential, selected by auth_type. */
 export type AuthContext = ({
     /**
@@ -1986,7 +1990,7 @@ export type BalanceTransactionsListParams = {
         | "payment_split")[]>;
     /**
      * Filter by related_resource.resource_id. pattern:
-     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
+     * ^((ad|afri|ba|bag|bal|bam|baoa|basa|bav|bepevt|betr|bses|btxn|bue|bun|bunc|bup|busrc|caddr|cagr|capsnap|catid|ccaevt|ccop|cdel|cdom|cecr|ch|clg|clla|cn|cna|cnart|cnlease|cnli|cnmut|cof|cpoc|cpop|cs|cscv|cses|cslimr|csrt|ctex|ctg|cus|cver|dca|dcb|dcbr|dcgrp|ddiag|defc|deff|demo|dev|dleg|dls|dlsr|dmet|dmetr|dms|dmsevt|dmslink|dmsopen|dopt|dp|dprof|dprofr|dqt|drate|drev|dreval|dsel|dsle|dti|du|dzone|dzoner|edat|edel|egrt|fbc|fbr|fev|file|fnt|frw|fsu|ful|fw|fwad|fwcmd|fwcon|fwpm|fwss|gc|gcg|gcl|gcn|gcpra|gcr|gct|gfd|hat|hce|hcr|hev|hin|hlk|hnt|hrp|hsl|hsr|hth|hwm|iacr|iaevt|iksevt|iksop|img|indel|inevt|inlf|inv|inv_cmd|invadj|invapp|invart|invc|invcln|invi|invl|invlease|invli|invm|invp|invpa|invpay|invpv|invr|invrea|invrec|invrecln|invrln|invse|invt|invtr|invtrln|iomevt|ipt|ivat|key|li|loc|mac|mace|mbbal|mbclaim|mbe|mbin|mbout|mca|mcdchg|mcdsub|mcfr|mcr|mcra|mcrecon|mcrve|menv|mer|mfa|mfce|mg|mod|mpafc|mpagr|mpfa|mpfc|mre|mrecv|mrp|ms|msa|msg|msinv|msinvl|mso|msu|mtac|ntc|ntf|oacr|oact|oalk|och|ocra|oed|olim|olimas|olra|omp|opahold|opaleg|opaobs|opaop|opard|oparp|opasd|opasgen|opasm|opasp|opat|opaum|opcred|opra|oprhold|opsa|opt|optv|ord|ordisp|org|orp|orr|otpial|otra|ovst|pac|pacr|pact|paog|papp|pasg|pat|patok|pava|pavc|pcae|pcal|pcb|pcfg|pchkr|pcode|pcri|pcrr|pcsch|pdest|peat|pendact|pfbal|pfbt|pfee|pfhi|pfhold|pfi|pfinc|pfloss|pflrec|pfpo|pfr|pfrb|pfrf|pfs|phold|pi|pia|pilm|pinst|piop|pipf|pkg|pki|pl|plan|plcf|ple|plli|plog|pm|pmcr|pmdom|po|poe|polog|ppac|ppd|pppa|pppr|ppta|pra|pref|prl|prlp|prod|promo|prrc|prt|prtn|psact|pses|pset|psetop|psinc|psplit|psrev|psu|pvimg|pvlaunch|pvscn|pvses|pvshare|pvw|ra|rbuy|rcs|rdl|rdr|rdrcfg|rdrpres|recon|ref|rep|ret|retact|retadj|retcmd|retdsp|retfx|retinli|retins|retli|retrc|retrcli|retrepli|retres|retresli|retshli|rev|rl|rli|rlia|rliar|rlima|rlog|rpoe|rpol|rpolv|rprev|rra|rrq|rrsn|rta|rtba|rule|sdmig|sdts|sdtu|set|sfba|sfpd|shp|sli|smf|soffer|spc|spcc|spli|spol|sppd|spr|ssu|sub|tac|tcae|tcb|tcbr|tce|tclk|tcn|test|tip|tkt|trg|txb|usr|var|watt|wdel|whcl|whep|whev|whout|whrc|wid|ws)_[0-9A-HJKMNP-TV-Z]{26}|fwa_[A-Z2-7]+|fwc_[A-Z2-7]+|fwin_[0-9a-f]+|req_([0-9a-f]+|caller_supplied_rate|pickup_distance_loc_[0-9A-HJKMNP-TV-Z]{26}))$.
      * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      */
     "related_resource_id"?: InputValue<string>;
@@ -4952,7 +4956,12 @@ export type BuyerCheckoutProblemResource = {
 };
 /** A session in which a buyer completes an order's payment. */
 export type BuyerCheckoutSession = {
-    /** An attempt to pay an order. */
+    /**
+     * The payment attempt now collecting this checkout's order, the same attempt as the order's
+     * active_payment_attempt. Read it to recover after losing a pay response, and resume it only
+     * when is_resumable is true. Omitted when no attempt is active. Pending actions that open a
+     * URL are left out; the pay response carries them. An attempt to pay an order.
+     */
     "active_payment_attempt"?: BuyerOrderPaymentAttempt;
     /**
      * Contact the buyer entered in checkout before paying, saved with the session's checkout
@@ -5106,6 +5115,16 @@ export type BuyerCheckoutSession = {
     /** Origin of the page that renders this headless checkout. Omitted when not set. */
     "page_origin"?: string;
     /**
+     * Whether at least one saved card this checkout lists would be refused for the current
+     * delivery destination because the paying credential last confirmed a code more than 15
+     * minutes ago. Request a code with purpose pay_to_new_address, without email or channel, and
+     * confirm it with this credential before paying. A Flint wallet card can still pay to an
+     * address in that wallet while this is true for a store saved card. Pickup and orders that
+     * ship nothing never require this verification. Returned only to the checkout credential.
+     * Returned only to the checkout credential; never in webhook payloads.
+     */
+    "pay_to_new_address_requires_verification"?: boolean;
+    /**
      * Guidance for collecting a payment source. Checkout-credential reads include it only while
      * the session is open. Returned only to the checkout credential; never in webhook payloads.
      * What a client needs to collect payment for a buyer's order. The `stripe` field holds the
@@ -5194,6 +5213,15 @@ export type BuyerCheckoutSession = {
      * payment_return_url.
      */
     "redirects"?: CheckoutRedirects;
+    /**
+     * All buyer-visible refunds on this session’s order, including refunds made by the store. Uses
+     * the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an
+     * array, with [] when there are none, and omitted from other responses and webhooks. A failed
+     * refund with failure_reason refund_abandoned could not be completed: tell the buyer to
+     * contact the store to get their money back. [] (Value): {@link BuyerRefund}. Money returned
+     * against a collected payment.
+     */
+    "refunds"?: Array<BuyerRefund>;
     /**
      * Whether saving a new card or using saved cards needs the buyer to confirm their email with a
      * code. A new card can be saved pending with the payment and confirmed on the receipt; using
@@ -5335,6 +5363,12 @@ export type BuyerCheckoutSessionWithSecret = (Exclude<BuyerCheckoutSession & obj
      * launch and when a saved-card confirmation keeps the current credential.
      */
     "checkout_auth_token"?: string;
+    /**
+     * One-time identity token returned only when a successful code confirmation remembered the
+     * buyer. Store it on your backend or in an HttpOnly cookie. It never opens saved cards.
+     * minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
 });
 /** The request body for: Preview Return eligibility or resolution amounts for the current buyer. */
 export type BuyerCreateReturnPreviewRequest = ({

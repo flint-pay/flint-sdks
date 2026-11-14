@@ -1,44 +1,52 @@
-import type { ResponseMeta } from './types-54.js';
 import type {
-    Order,
-    OrderCalculatedLineItemTax,
-    OrderDeliveryDestinationRequest,
-    OrderDeliveryRequest,
-    OrderDeliveryDestinationRequestInput
-} from './types-39.js';
+    CreateModifierGroupRequest,
+    CreateModifierSetGroupInputExisting,
+    CreateModifierSetGroupInputInline,
+    CreateModifierSetGroupInputExistingInput,
+    CreateModifierSetGroupInputInlineInput
+} from './types-10.js';
+import type { ModifierOverride, ModifierOverrideRequestInput, MetadataMap, MetadataRequestInput } from './types-38.js';
+import type { CreateInlineModifierGroupRequestInput } from './types-9.js';
 import type {
+    ManualDiscountRequest,
+    ManualDiscountRequestInput,
+    LineItemFulfillmentRequest,
+    LineItemFulfillmentRequestModelInput,
+    LegalSettings
+} from './types-35.js';
+import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.js';
+import type {
+    OrderEditRemovalRequest,
+    OrderEditRemovalRequestInput,
     OrderEdit,
     OrderDraftLineItemInventoryDemandRequest,
-    OrderLineItemModifierRequest,
     OrderDraftLineItemInventoryDemandRequestInput,
     OrderDraftLineItemTaxRequestModelInput,
-    OrderLineItemModifierRequestModelInput,
+    OrderDeliveryDestinationRequest,
+    OrderDeliveryRequest,
     OrderHandover,
+    OrderDeliveryDestinationRequestInput,
     OrderDeliveryRequestInput,
     OrderHandoverRequestInput
 } from './types-40.js';
-import type { Refund } from './types-52.js';
+import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput, Refund } from './types-53.js';
+import type { ResponseMeta } from './types-54.js';
+import type { Order, MoneyValue, OrderCalculatedLineItemTax, MoneyValueInput } from './types-39.js';
 import type { Dimensions, DimensionsRequestInput } from './types-23.js';
 import type { GiftCardPurchaseRequest, GiftCardPurchaseDetailsRequestInput } from './types-27.js';
 import type { ImageReferenceRequest, ImageReferenceRequestInput, ImageRequest, ImageRequestInput } from './types-28.js';
-import type { LineItemFulfillmentRequest, LineItemFulfillmentRequestModelInput } from './types-35.js';
-import type { MetadataMap } from './types-37.js';
-import type { MoneyValue, MetadataRequestInput, MoneyValueInput } from './types-38.js';
-import type { SubscribedLineRequest, SubscribedLineRequestModelInput } from './types-60.js';
-import type { Weight, WeightRequestInput } from './types-69.js';
-import type { OrderPaymentSourceSelection, OrderPaymentSourceSelectionInput, OrderTaxRequest } from './types-41.js';
-import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-47.js';
 import type {
-    PlatformFeeRequest,
-    PlatformFeeRequestInput,
-    PriceListPriceRequest,
-    PriceListPriceRequestInput,
-    PriceList,
-    PriceListPriceAddition
-} from './types-49.js';
-import type { CreateOrderDiscount, CreateOrderDiscountInput } from './types-10.js';
+    OrderLineItemModifierRequest,
+    OrderLineItemModifierRequestModelInput,
+    OrderPaymentSourceSelection,
+    OrderPaymentSourceSelectionInput
+} from './types-41.js';
+import type { SubscribedLineRequest, SubscribedLineRequestModelInput } from './types-60.js';
+import type { Weight, WeightRequestInput } from './types-70.js';
+import type { PaymentSplitRequest, PaymentSplitRequestInput } from './types-48.js';
+import type { PlatformFeeRequest, PlatformFeeRequestInput, PlatformFeeCap, PlatformFeeCapRequestInput } from './types-49.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-30.js';
-import type { OrderTaxRequestInput } from './types-42.js';
+import type { OrderTaxRequest, OrderTaxRequestInput } from './types-42.js';
 import type { ReturnResolutionLineItemRequest, ReturnShipmentLineItemAllocationRequestInput } from './types-57.js';
 import type {
     CheckoutGiftCardChallenge,
@@ -46,10 +54,8 @@ import type {
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
     CheckoutPromotionConfig,
-    CheckoutRedirects,
     CheckoutBuyerFieldsRequestInput,
-    CheckoutPromotionConfigRequestInput,
-    CheckoutRedirectsRequestInput
+    CheckoutPromotionConfigRequestInput
 } from './types-5.js';
 import type {
     PartnerAppCredentialJWKSURLRequestInput,
@@ -57,44 +63,502 @@ import type {
     PartnerAppCredentialPublicKeyRequestInput,
     PartnerAppCredentialWorkloadIdentityRequest,
     PartnerAppCredentialWorkloadIdentityRequestInput,
-    PartnerAppPaymentSplits,
+    PartnerAppPaymentSplits
+} from './types-43.js';
+import type {
     PartnerAppPermissionManifestEntry,
     PartnerAppPlatformProfile,
     PartnerAppPaymentSplitsRequestInput,
     PartnerAppPermissionManifestEntryRequestInput,
     PartnerAppPlatformProfileRequestInput
-} from './types-43.js';
-import type { PlatformFeeCap, PlatformFeeCapRequestInput } from './types-48.js';
+} from './types-44.js';
 import type {
+    CheckoutRedirects,
     CheckoutTaxConfig,
     CheckoutTipConfig,
+    CheckoutRedirectsRequestInput,
     CheckoutTaxConfigRequestInput,
     CheckoutTipConfigRequestInput
 } from './types-6.js';
-import type { LegalSettings } from './types-34.js';
 import type {
     PaymentLinkCustomFieldRequest,
     PaymentLinkEventConfig,
+    PaymentLinkLineItemRequest,
     PaymentLinkCustomFieldRequestInput,
     PaymentLinkCustomTextConfigInput,
     PaymentLinkEventConfigRequestInput,
-    PaymentLinkLegalConfigInput
-} from './types-45.js';
-import type {
-    PaymentLinkLineItemRequest,
+    PaymentLinkLegalConfigInput,
     PaymentLinkLineItemRequestInput,
     PaymentLinkPaymentConfigInput,
     PaymentLinkThemeConfigInput
 } from './types-46.js';
 import type { ThemeConfig } from './types-65.js';
-import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type {
-    CreateProductRequestOptioned,
-    CreateProductRequestSimple,
-    CreateProductRequestOptionedInput,
-    CreateProductRequestSimpleInput
-} from './types-12.js';
-import type { ProductVariantRequest, ProductVariantRequestInput } from './types-50.js';
+/**
+ * A modifier group to add to a modifier set, either an existing group by ID or one defined inline,
+ * chosen by `source`.
+ */
+export type CreateModifierSetGroupRequest = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group"?: CreateModifierGroupRequest;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverride}. Settings for one modifier that apply only within a modifier set group,
+     * overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverride>;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing", "inline".
+     */
+    "source": "existing" | "inline" | (string & {});
+})
+    & ((Exclude<CreateModifierSetGroupInputExisting & object, readonly unknown[]>)
+    | (Exclude<CreateModifierSetGroupInputInline & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A modifier group to add to a modifier set, either an existing group by ID or one defined inline,
+ * chosen by `source`.
+ */
+export type CreateModifierSetGroupRequestInput = ({
+    /**
+     * Overrides the group's name for this set. Omit it to use the group's name. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Overrides the group's max_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; if neither value is set, there is no limit. Format: int32.
+     */
+    "max_selected"?: number;
+    /**
+     * Overrides the group's min_selected for this set. Omit it to use the group's value. Accepted
+     * only for list groups; set min_selected: 1 to require a selection. If neither value is set,
+     * the minimum is 0. Format: int32.
+     */
+    "min_selected"?: number;
+    /**
+     * Modifier group owned by this set when source is inline. Read this group through GET
+     * /v1/modifier-sets/{modifier_set_id}; /v1/modifier-groups doesn't return it. A modifier group
+     * defined inline when creating a modifier set, with its selection limits, modifiers or text
+     * rules, and display flags.
+     */
+    "modifier_group"?: CreateInlineModifierGroupRequestInput;
+    /**
+     * Identifier of the independent modifier group referenced when source is existing. minLength:
+     * 1. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9".
+     */
+    "modifier_group_id"?: string;
+    /**
+     * Overrides for individual list modifiers in this set. A choice is offered only when its
+     * status is active and its override's available is not false. [] (Value): {@link
+     * ModifierOverrideRequestInput}. Settings for one modifier that apply only within a modifier
+     * set group, overriding the modifier group's own values.
+     */
+    "modifier_overrides"?: Array<ModifierOverrideRequestInput>;
+    /** Display position of this group within the set; lower values appear first. Format: int32. */
+    "position"?: number;
+    /**
+     * Overrides the group's text.required for this set. Omit it to use the group's value. Accepted
+     * only for text groups; for a list group, set min_selected: 1 to require a selection.
+     */
+    "required"?: boolean;
+    /** Overrides the group's show_on_fulfillment for this set. Omit it to use the group's value. */
+    "show_on_fulfillment"?: boolean;
+    /** Overrides the group's show_on_receipt for this set. Omit it to use the group's value. */
+    "show_on_receipt"?: boolean;
+    /**
+     * Use inline for a modifier group owned by this modifier set, or existing to reference an
+     * independent modifier group. Value enum: "existing", "inline".
+     */
+    "source": "existing" | "inline";
+})
+    & ((Exclude<CreateModifierSetGroupInputExistingInput & object, readonly unknown[]>)
+    | (Exclude<CreateModifierSetGroupInputInlineInput & object, readonly unknown[]>));
+/** The request body for: Create modifier set. */
+export type CreateModifierSetRequest = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Ordered group entries in this set, including references to reusable groups and groups owned
+     * by the set. [] (Value): {@link CreateModifierSetGroupRequest}. A modifier group to add to a
+     * modifier set, either an existing group by ID or one defined inline, chosen by `source`.
+     */
+    "modifier_groups"?: Array<CreateModifierSetGroupRequest>;
+    /** Name used to identify this modifier set. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Default: "active". Value enum: "active",
+     * "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+};
+/** The request body for: Create modifier set. */
+export type CreateModifierSetRequestInput = {
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Ordered group entries in this set, including references to reusable groups and groups owned
+     * by the set. [] (Value): {@link CreateModifierSetGroupRequestInput}. A modifier group to add
+     * to a modifier set, either an existing group by ID or one defined inline, chosen by `source`.
+     */
+    "modifier_groups"?: Array<CreateModifierSetGroupRequestInput>;
+    /** Name used to identify this modifier set. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Lifecycle status of the modifier set. Only active sets can be offered to buyers; archived
+     * sets remain readable and cannot be edited. Default: "active". Value enum: "active",
+     * "inactive".
+     */
+    "status"?: "active" | "inactive";
+};
+/**
+ * Where Flint's hosted onboarding page sends the person when they exit, finish, or open a used or
+ * expired link.
+ */
+export type CreateOnboardingAccessLinkRequest = {
+    /**
+     * An absolute https URL without credentials, up to 2,048 characters. Query strings and
+     * fragments are allowed. For a partner app install token, its origin must be the origin of the
+     * app's merchant_action_url or of one of its redirect URIs. Format: uri. minLength: 1.
+     * maxLength: 2048. Example: "https://example.com/receipt".
+     */
+    "return_url": string;
+};
+/**
+ * Where Flint's hosted onboarding page sends the person when they exit, finish, or open a used or
+ * expired link.
+ */
+export type CreateOnboardingAccessLinkRequestInput = CreateOnboardingAccessLinkRequest;
+/**
+ * A discount to apply when creating an order: either a manual discount or a reference to a
+ * promotion.
+ */
+export type CreateOrderDiscount = ({
+    /**
+     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequest;
+    /**
+     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
+     * ID.
+     */
+    "promotion"?: PromotionRefRequest;
+})
+    & ((Exclude<CreateOrderDiscountPromotion & object, readonly unknown[]>)
+    | (Exclude<CreateOrderDiscountManual & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A discount to apply when creating an order: either a manual discount or a reference to a
+ * promotion.
+ */
+export type CreateOrderDiscountInput = ({
+    /**
+     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequestInput;
+    /**
+     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
+     * ID.
+     */
+    "promotion"?: PromotionRefRequestInput;
+})
+    & ((Exclude<CreateOrderDiscountPromotionInput & object, readonly unknown[]>)
+    | (Exclude<CreateOrderDiscountManualInput & object, readonly unknown[]>));
+/** The `Manual` variant of `CreateOrderDiscount`. */
+export type CreateOrderDiscountManual = ({
+    /**
+     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual": ManualDiscountRequest;
+    /**
+     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
+     * ID.
+     */
+    "promotion"?: PromotionRefRequest;
+});
+/** The `Manual` variant of `CreateOrderDiscount`. */
+export type CreateOrderDiscountManualInput = ({
+    /**
+     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual": ManualDiscountRequestInput;
+    /**
+     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
+     * ID.
+     */
+    "promotion"?: PromotionRefRequestInput;
+})
+    & (({
+    "promotion"?: never;
+}));
+/** The `Promotion` variant of `CreateOrderDiscount`. */
+export type CreateOrderDiscountPromotion = ({
+    /**
+     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequest;
+    /**
+     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
+     * ID.
+     */
+    "promotion": PromotionRefRequest;
+});
+/** The `Promotion` variant of `CreateOrderDiscount`. */
+export type CreateOrderDiscountPromotionInput = ({
+    /**
+     * A discount you set by hand, with a name and an amount. A discount you apply by hand to an
+     * order, with a name, an amount, and the order, line items, or charges it applies to.
+     */
+    "manual"?: ManualDiscountRequestInput;
+    /**
+     * The promotion to apply. Identifies the promotion to apply, by promotion code or by promotion
+     * ID.
+     */
+    "promotion": PromotionRefRequestInput;
+})
+    & (({
+    "manual"?: never;
+}));
+/**
+ * Remove unassigned units from a paid order, add items the removed value and released charges pay
+ * for, or do both, and queue any remaining refund atomically.
+ */
+export type CreateOrderEditRequest = ({
+    /**
+     * Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items.
+     * Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines
+     * are priced and taxed as usual, without promotions, and do not join the order's delivery
+     * selection. minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequest}. A
+     * line item to add to an order: a catalog variant, a bundle, or a custom item with a name and
+     * unit price.
+     */
+    "add_line_items"?: Array<CreateOrderLineItemRequest>;
+    /**
+     * Charges to release. Released value pays for added lines first and the rest is refunded.
+     * Omitting amount_money releases the charge's remaining refundable amount. maxItems: 100. []
+     * (Value): {@link RefundCharge}. An order charge to refund when creating a refund, with an
+     * optional amount to refund.
+     */
+    "charge_refunds"?: Array<RefundCharge>;
+    /**
+     * Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations
+     * for payment intent and gift card redemption allocations planned by Flint. Each tender type
+     * defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinations;
+    /**
+     * The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch
+     * the order, preview again, and reconcile before committing with the new version and a new
+     * Idempotency-Key. Format: int64. minimum: 1.
+     */
+    "expected_order_version": number;
+    /**
+     * Internal merchant note. Omitted from buyer and webhook payloads and refund messages.
+     * minLength: 1. maxLength: 500.
+     */
+    "note"?: string;
+    /**
+     * Reason for the edit and any refund it creates. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock"
+        | (string & {});
+    /**
+     * Whole unassigned units to remove. Each line appears once. Original quantities and pricing
+     * stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100.
+     * [] (Value): {@link OrderEditRemovalRequest}. An order line and the whole units to take off
+     * it.
+     */
+    "remove_line_items"?: Array<OrderEditRemovalRequest>;
+})
+    & (({
+    /**
+     * Whole unassigned units to remove. Each line appears once. Original quantities and pricing
+     * stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100.
+     * [] (Value): {@link OrderEditRemovalRequest}. An order line and the whole units to take off
+     * it.
+     */
+    "remove_line_items": Array<OrderEditRemovalRequest>;
+})
+    | ({
+    /**
+     * Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items.
+     * Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines
+     * are priced and taxed as usual, without promotions, and do not join the order's delivery
+     * selection. minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequest}. A
+     * line item to add to an order: a catalog variant, a bundle, or a custom item with a name and
+     * unit price.
+     */
+    "add_line_items": Array<CreateOrderLineItemRequest>;
+})
+    | (Record<string, unknown>));
+/**
+ * Remove unassigned units from a paid order, add items the removed value and released charges pay
+ * for, or do both, and queue any remaining refund atomically.
+ */
+export type CreateOrderEditRequestInput = ({
+    /**
+     * Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items.
+     * Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines
+     * are priced and taxed as usual, without promotions, and do not join the order's delivery
+     * selection. minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequestInput}.
+     * A line item to add to an order: a catalog variant, a bundle, or a custom item with a name
+     * and unit price.
+     */
+    "add_line_items"?: Array<CreateOrderLineItemRequestInput>;
+    /**
+     * Charges to release. Released value pays for added lines first and the rest is refunded.
+     * Omitting amount_money releases the charge's remaining refundable amount. maxItems: 100. []
+     * (Value): {@link RefundChargeInput}. An order charge to refund when creating a refund, with
+     * an optional amount to refund.
+     */
+    "charge_refunds"?: Array<RefundChargeInput>;
+    /**
+     * Refund destinations, with the same defaults as POST /v1/refunds. Default refund destinations
+     * for payment intent and gift card redemption allocations planned by Flint. Each tender type
+     * defaults to original when omitted.
+     */
+    "destinations"?: RefundDestinationsInput;
+    /**
+     * The order.version the edit draft was based on. On VERSION_CONFLICT, keep the draft, fetch
+     * the order, preview again, and reconcile before committing with the new version and a new
+     * Idempotency-Key. Format: int64. minimum: 1.
+     */
+    "expected_order_version": number;
+    /**
+     * Internal merchant note. Omitted from buyer and webhook payloads and refund messages.
+     * minLength: 1. maxLength: 500.
+     */
+    "note"?: string;
+    /**
+     * Reason for the edit and any refund it creates. Value enum: "duplicate", "fraudulent",
+     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
+     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
+     * "accidental_order", "other", "out_of_stock".
+     */
+    "reason"?: "duplicate"
+        | "fraudulent"
+        | "requested_by_customer"
+        | "defective_product"
+        | "wrong_item_shipped"
+        | "never_received"
+        | "not_as_described"
+        | "arrived_too_late"
+        | "customer_changed_mind"
+        | "better_price_found"
+        | "accidental_order"
+        | "other"
+        | "out_of_stock";
+    /**
+     * Whole unassigned units to remove. Each line appears once. Original quantities and pricing
+     * stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100.
+     * [] (Value): {@link OrderEditRemovalRequestInput}. An order line and the whole units to take
+     * off it.
+     */
+    "remove_line_items"?: Array<OrderEditRemovalRequestInput>;
+})
+    & (({
+    /**
+     * Whole unassigned units to remove. Each line appears once. Original quantities and pricing
+     * stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100.
+     * [] (Value): {@link OrderEditRemovalRequestInput}. An order line and the whole units to take
+     * off it.
+     */
+    "remove_line_items": Array<OrderEditRemovalRequestInput>;
+})
+    | ({
+    /**
+     * Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items.
+     * Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines
+     * are priced and taxed as usual, without promotions, and do not join the order's delivery
+     * selection. minItems: 1. maxItems: 100. [] (Value): {@link CreateOrderLineItemRequestInput}.
+     * A line item to add to an order: a catalog variant, a bundle, or a custom item with a name
+     * and unit price.
+     */
+    "add_line_items": Array<CreateOrderLineItemRequestInput>;
+}));
 /** A response containing `CreateOrderEditResult` data. */
 export type CreateOrderEditResponse = {
     /**
@@ -213,6 +677,14 @@ export type CreateOrderLineItem = ({
      * "prod_01KEZF7C00BVSHCNWVH528HB66".
      */
     "product_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
@@ -339,6 +811,14 @@ export type CreateOrderLineItemBundle = ({
      * "prod_01KEZF7C00BVSHCNWVH528HB66".
      */
     "product_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
@@ -472,6 +952,14 @@ export type CreateOrderLineItemCustom = ({
      * "prod_01KEZF7C00BVSHCNWVH528HB66".
      */
     "product_id"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
@@ -612,6 +1100,14 @@ export type CreateOrderLineItemInputBundle = ({
     /** Name of the item as it appears on the order. minLength: 1. */
     "name"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
      */
@@ -744,6 +1240,14 @@ export type CreateOrderLineItemInputBundleInput = ({
     /** Name of the item as it appears on the order. minLength: 1. */
     "name"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
      */
@@ -802,6 +1306,9 @@ export type CreateOrderLineItemInputBundleInput = ({
 })
     & (({
     "variant_id"?: never;
+})
+    & ({
+    "product_type"?: never;
 })
     & ({
     "name"?: never;
@@ -905,6 +1412,14 @@ export type CreateOrderLineItemInputCustom = ({
     "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
     /** Name of the item as it appears on the order. minLength: 1. */
     "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
@@ -1048,6 +1563,14 @@ export type CreateOrderLineItemInputCustomInput = ({
     }))>;
     /** Name of the item as it appears on the order. minLength: 1. */
     "name": string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
     /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
@@ -1197,6 +1720,14 @@ export type CreateOrderLineItemInputVariant = ({
     /** Name of the item as it appears on the order. minLength: 1. */
     "name"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
      */
@@ -1329,6 +1860,14 @@ export type CreateOrderLineItemInputVariantInput = ({
     /** Name of the item as it appears on the order. minLength: 1. */
     "name"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
      */
@@ -1387,6 +1926,9 @@ export type CreateOrderLineItemInputVariantInput = ({
 })
     & (({
     "bundle_id"?: never;
+})
+    & ({
+    "product_type"?: never;
 })
     & ({
     "name"?: never;
@@ -1490,6 +2032,14 @@ export type CreateOrderLineItemRequest = ({
     "modifiers"?: Array<(Exclude<OrderLineItemModifierRequest & object, readonly unknown[]>)>;
     /** Name of the item as it appears on the order. minLength: 1. */
     "name"?: string;
+    /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
     /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
@@ -1619,6 +2169,14 @@ export type CreateOrderLineItemRequestInput = ({
     /** Name of the item as it appears on the order. minLength: 1. */
     "name"?: string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital";
+    /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
      */
@@ -1744,6 +2302,14 @@ export type CreateOrderLineItemVariant = ({
      */
     "product_id": string;
     /**
+     * Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to
+     * leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does
+     * not change tax, delivery, or inventory. On an order line PATCH, omission preserves the
+     * classification. Catalog lines use their product's type and reject this input. Value enum:
+     * "physical", "service", "fee", "digital".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | (string & {});
+    /**
      * Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must
      * satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
      */
@@ -1799,11 +2365,19 @@ export type CreateOrderLineItemVariant = ({
 /** The request body for: Create order payment intent. */
 export type CreateOrderPaymentIntentRequest = ({
     /**
-     * Amount to collect toward the order, in the order currency. The amount and every computed
-     * order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input
-     * or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code.
+     * Amount to collect toward the order, in the order currency. Omit it to collect the whole
+     * remaining balance: the amount still outstanding minus what the order's other open payments
+     * hold, meaning payments in requires_payment_method, requires_confirmation, requires_action,
+     * processing, or requires_capture. For a payment started from an invoice's checkout, the
+     * outstanding amount is the invoice's outstanding_money. A sent amount must use the order
+     * currency, otherwise the request fails with INVALID_REQUEST and NOT_ALLOWED on
+     * amount_money.currency. An amount above the remaining balance fails with LIMIT_EXCEEDED and
+     * maximum_money, and so does any amount when open payments already hold the whole balance,
+     * with a maximum of zero. The amount and every computed order amount must not exceed 99999999
+     * minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
     "amount_money"?: MoneyValue;
     /**
@@ -1826,9 +2400,15 @@ export type CreateOrderPaymentIntentRequest = ({
      */
     "metadata"?: MetadataMap;
     /**
-     * [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present". []
-     * (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
-     * "card_present".
+     * Payment options the buyer can use for this payment. Name at least one. Omit it, and
+     * payment_source_selection, to offer card where your payment option settings and the order
+     * allow it; a checkout credential uses its checkout session's options instead. Affirm is
+     * offered only when named here. card_present must be the only option; confirm it with a reader
+     * credential. payment_return_url is required with affirm and not accepted with card_present.
+     * Can't be combined with payment_source_selection: sending both fails with INVALID_REQUEST and
+     * NOT_ALLOWED. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
+     * "card_present". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", "card_present".
      */
     "payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {})>;
     /**
@@ -1844,7 +2424,14 @@ export type CreateOrderPaymentIntentRequest = ({
      * with card_present. minLength: 1. pattern: \S.
      */
     "payment_return_url"?: string;
-    /** The payment source options you choose when creating an order payment intent. */
+    /**
+     * Offer the card payment source, and choose which digital wallets appear with it, as an
+     * alternative to payment_options. Sending card with no digital_wallets offers card alone;
+     * apple_pay and google_pay add those wallets. Can't be combined with payment_options. If
+     * nothing in the selection is available for the order, the request fails with
+     * PAYMENT_OPTION_UNAVAILABLE. The payment source options you choose when creating an order
+     * payment intent.
+     */
     "payment_source_selection"?: OrderPaymentSourceSelection;
     /**
      * A platform fee your partner app charges on this payment, checked against amount_money. Only
@@ -1895,11 +2482,19 @@ export type CreateOrderPaymentIntentRequest = ({
 /** The request body for: Create order payment intent. */
 export type CreateOrderPaymentIntentRequestInput = ({
     /**
-     * Amount to collect toward the order, in the order currency. The amount and every computed
-     * order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input
-     * or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the
-     * responsible input field. Lower payment option limits can apply. Monetary amount represented
-     * as integer minor units plus an ISO 4217 currency code.
+     * Amount to collect toward the order, in the order currency. Omit it to collect the whole
+     * remaining balance: the amount still outstanding minus what the order's other open payments
+     * hold, meaning payments in requires_payment_method, requires_confirmation, requires_action,
+     * processing, or requires_capture. For a payment started from an invoice's checkout, the
+     * outstanding amount is the invoice's outstanding_money. A sent amount must use the order
+     * currency, otherwise the request fails with INVALID_REQUEST and NOT_ALLOWED on
+     * amount_money.currency. An amount above the remaining balance fails with LIMIT_EXCEEDED and
+     * maximum_money, and so does any amount when open payments already hold the whole balance,
+     * with a maximum of zero. The amount and every computed order amount must not exceed 99999999
+     * minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with
+     * INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment
+     * option limits can apply. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
      */
     "amount_money"?: MoneyValueInput;
     /**
@@ -1922,9 +2517,15 @@ export type CreateOrderPaymentIntentRequestInput = ({
      */
     "metadata"?: MetadataRequestInput;
     /**
-     * [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit", "card_present". []
-     * (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
-     * "card_present".
+     * Payment options the buyer can use for this payment. Name at least one. Omit it, and
+     * payment_source_selection, to offer card where your payment option settings and the order
+     * allow it; a checkout credential uses its checkout session's options instead. Affirm is
+     * offered only when named here. card_present must be the only option; confirm it with a reader
+     * credential. payment_return_url is required with affirm and not accepted with card_present.
+     * Can't be combined with payment_source_selection: sending both fails with INVALID_REQUEST and
+     * NOT_ALLOWED. [] enum: "card", "apple_pay", "google_pay", "affirm", "ach_debit",
+     * "card_present". [] (Value): string. Value enum: "card", "apple_pay", "google_pay", "affirm",
+     * "ach_debit", "card_present".
      */
     "payment_options"?: Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present">;
     /**
@@ -1940,7 +2541,14 @@ export type CreateOrderPaymentIntentRequestInput = ({
      * with card_present. minLength: 1. pattern: \S.
      */
     "payment_return_url"?: string;
-    /** The payment source options you choose when creating an order payment intent. */
+    /**
+     * Offer the card payment source, and choose which digital wallets appear with it, as an
+     * alternative to payment_options. Sending card with no digital_wallets offers card alone;
+     * apple_pay and google_pay add those wallets. Can't be combined with payment_options. If
+     * nothing in the selection is available for the order, the request fails with
+     * PAYMENT_OPTION_UNAVAILABLE. The payment source options you choose when creating an order
+     * payment intent.
+     */
     "payment_source_selection"?: OrderPaymentSourceSelectionInput;
     /**
      * A platform fee your partner app charges on this payment, checked against amount_money. Only
@@ -2641,8 +3249,8 @@ export type CreatePackageRequest = ({
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
      */
     "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
     /** Carrier's code for the shipping service used. minLength: 1. */
@@ -2734,8 +3342,8 @@ export type CreatePackageRequestCreated = ({
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
      */
     "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
     /** Carrier's code for the shipping service used. minLength: 1. */
@@ -2824,8 +3432,8 @@ export type CreatePackageRequestCreatedInput = ({
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a
-     * return shipment or package.
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
      */
     "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
     /** Carrier's code for the shipping service used. minLength: 1. */
@@ -2920,8 +3528,8 @@ export type CreatePackageRequestInput = ({
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a
-     * return shipment or package.
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
      */
     "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
     /** Carrier's code for the shipping service used. minLength: 1. */
@@ -3012,8 +3620,8 @@ export type CreatePackageRequestShipped = ({
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
+     * ReturnResolutionLineItemRequest}. A Return line and the quantity to place in a return
+     * shipment or package. The enclosing Return or shipment determines its parent.
      */
     "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
     /** Carrier's code for the shipping service used. minLength: 1. */
@@ -3102,8 +3710,8 @@ export type CreatePackageRequestShippedInput = ({
     /**
      * Required for a package on a return shipment: allocates quantities from the shipment's
      * return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@link
-     * ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a
-     * return shipment or package.
+     * ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a
+     * return shipment or package. The enclosing Return or shipment determines its parent.
      */
     "return_line_items"?: Array<ReturnShipmentLineItemAllocationRequestInput>;
     /** Carrier's code for the shipping service used. minLength: 1. */
@@ -4069,517 +4677,3 @@ export type CreatePayoutRequestInput = {
     /** Text shown on your bank statement for this deposit, 22 characters or fewer. minLength: 1. */
     "statement_descriptor"?: string;
 };
-/**
- * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
- * instructions, and curbside details.
- */
-export type CreatePickupFulfillmentDetails = {
-    /**
-     * Address where the buyer collects the order. A complete postal address. State and postal_code
-     * are required for US addresses and optional for other countries. Send null or omit line2,
-     * state, and postal_code when the address has none.
-     */
-    "address"?: AddressRequest;
-    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
-    "curbside_instructions"?: string;
-    /**
-     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "customer_arrived_at"?: string;
-    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
-    "instructions"?: string;
-    /** Name of the store or place where the buyer collects the order. minLength: 1. */
-    "location_name"?: string;
-    /**
-     * Time by which the buyer should collect the order. Passing it does not change status or emit
-     * an event automatically; the merchant decides how to follow up. Format: date-time. minLength:
-     * 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "pickup_due_at"?: string;
-    /**
-     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
-     * maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: number;
-    /**
-     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
-     * Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "ready_at"?: string;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone"?: string;
-    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
-    "vehicle_description"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_end_at"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_start_at"?: string;
-};
-/**
- * Pickup details you supply when creating a fulfillment: the pickup address, location, window,
- * instructions, and curbside details.
- */
-export type CreatePickupFulfillmentDetailsInput = {
-    /**
-     * Address where the buyer collects the order. A complete postal address. State and postal_code
-     * are required for US addresses and optional for other countries. Send null or omit line2,
-     * state, and postal_code when the address has none.
-     */
-    "address"?: AddressRequestInput;
-    /** Instructions specific to curbside handoff. minLength: 1. maxLength: 2048. */
-    "curbside_instructions"?: string;
-    /**
-     * Buyer-reported arrival time for curbside or counter pickup. Format: date-time. minLength: 1.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "customer_arrived_at"?: string | globalThis.Date;
-    /** Pickup instructions for the buyer, such as where to go on arrival. minLength: 1. */
-    "instructions"?: string;
-    /** Name of the store or place where the buyer collects the order. minLength: 1. */
-    "location_name"?: string;
-    /**
-     * Time by which the buyer should collect the order. Passing it does not change status or emit
-     * an event automatically; the merchant decides how to follow up. Format: date-time. minLength:
-     * 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "pickup_due_at"?: string | globalThis.Date;
-    /**
-     * Width of the promised pickup window, from 0 to 86400 seconds. Format: int64. minimum: 0.
-     * maximum: 86400.
-     */
-    "pickup_window_duration_seconds"?: number;
-    /**
-     * Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds.
-     * Format: int64. minimum: 0. maximum: 86400.
-     */
-    "prep_time_duration_seconds"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "ready_at"?: string | globalThis.Date;
-    /** Uses an IANA time zone name. minLength: 1. */
-    "timezone"?: string;
-    /** Buyer vehicle description used for curbside handoff. minLength: 1. maxLength: 500. */
-    "vehicle_description"?: string;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_end_at"?: string | globalThis.Date;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "window_start_at"?: string | globalThis.Date;
-};
-/** Add or update a batch of variant prices atomically. */
-export type CreatePriceListPricesRequest = {
-    /**
-     * Price list aggregate version last read. A mismatch rejects the entire batch. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_price_list_version"?: number;
-    /**
-     * Behavior when the list already prices a variant. Default: "return_existing". Value enum:
-     * "return_existing", "update".
-     */
-    "on_variant_conflict"?: "return_existing" | "update" | (string & {});
-    /**
-     * Between 1 and 500 variant prices. A price list holds at most 10,000 prices. minItems: 1.
-     * maxItems: 500. [] (Value): {@link PriceListPriceRequest}. A variant price to add to a price
-     * list.
-     */
-    "prices": Array<PriceListPriceRequest>;
-};
-/** Add or update a batch of variant prices atomically. */
-export type CreatePriceListPricesRequestInput = {
-    /**
-     * Price list aggregate version last read. A mismatch rejects the entire batch. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_price_list_version"?: number;
-    /**
-     * Behavior when the list already prices a variant. Default: "return_existing". Value enum:
-     * "return_existing", "update".
-     */
-    "on_variant_conflict"?: "return_existing" | "update";
-    /**
-     * Between 1 and 500 variant prices. A price list holds at most 10,000 prices. minItems: 1.
-     * maxItems: 500. [] (Value): {@link PriceListPriceRequestInput}. A variant price to add to a
-     * price list.
-     */
-    "prices": Array<PriceListPriceRequestInput>;
-};
-/** A response containing `CreatePriceListPricesResult` data. */
-export type CreatePriceListPricesResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The price list and
-     * individual outcomes after a bulk price write.
-     */
-    "data": CreatePriceListPricesResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The price list and individual outcomes after a bulk price write. */
-export type CreatePriceListPricesResult = {
-    /**
-     * One result for each requested variant price, in request order. [] (Value): {@link
-     * PriceListPriceAddition}. Outcome for one requested variant price.
-     */
-    "additions": Array<PriceListPriceAddition>;
-    /**
-     * The price list after the batch, including its new count and aggregate version. A
-     * merchant-only set of variant prices for individual customers or customer segments.
-     */
-    "price_list": PriceList;
-};
-/** Fields for a new price list. */
-export type CreatePriceListRequest = {
-    /**
-     * Currency of all list prices, as an uppercase ISO 4217 code. Must match the catalog currency;
-     * currently only USD is supported. Cannot be changed after creation. minLength: 3. maxLength:
-     * 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Customer.segment labels to assign, at most 20. Each label can belong to only one unarchived
-     * list, including inactive lists. Omit or send [] for no segment assignments. maxItems: 20.
-     * uniqueItems: true. [] (Value): string. minLength: 1.
-     */
-    "customer_segments"?: Array<string>;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata to store on this price list. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Name used to identify the price list. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Initial availability. Inactive lists remain assignable but do not provide prices. Default:
-     * "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-};
-/** Fields for a new price list. */
-export type CreatePriceListRequestInput = {
-    /**
-     * Currency of all list prices, as an uppercase ISO 4217 code. Must match the catalog currency;
-     * currently only USD is supported. Cannot be changed after creation. minLength: 3. maxLength:
-     * 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Customer.segment labels to assign, at most 20. Each label can belong to only one unarchived
-     * list, including inactive lists. Omit or send [] for no segment assignments. maxItems: 20.
-     * uniqueItems: true. [] (Value): string. minLength: 1.
-     */
-    "customer_segments"?: Array<string>;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata to store on this price list. Caller-owned key-value data for a new or
-     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
-     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
-     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Name used to identify the price list. minLength: 1. maxLength: 100. */
-    "name": string;
-    /**
-     * Initial availability. Inactive lists remain assignable but do not provide prices. Default:
-     * "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-};
-/**
- * A product option to create with a product, such as size, with its values, position, and status.
- */
-export type CreateProductOptionRequest = {
-    /**
-     * Value of this option given to every active variant that has no active value for it after
-     * this request, such as when you add an option to a product that already has active variants.
-     * It must match one of this option's active `values`, ignoring case and surrounding
-     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display order among the product's options, starting at zero. Defaults to the option's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the option is active or inactive. Active variants must select an active value for
-     * every active option. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
-     * {@link CreateProductOptionValueRequest}. One value of a product option to create, such as a
-     * specific size, with its position and status.
-     */
-    "values"?: Array<CreateProductOptionValueRequest>;
-};
-/**
- * A product option to create with a product, such as size, with its values, position, and status.
- */
-export type CreateProductOptionRequestInput = {
-    /**
-     * Value of this option given to every active variant that has no active value for it after
-     * this request, such as when you add an option to a product that already has active variants.
-     * It must match one of this option's active `values`, ignoring case and surrounding
-     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
-     */
-    "existing_variant_value"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Display order among the product's options, starting at zero. Defaults to the option's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the option is active or inactive. Active variants must select an active value for
-     * every active option. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
-     * {@link CreateProductOptionValueRequestInput}. One value of a product option to create, such
-     * as a specific size, with its position and status.
-     */
-    "values"?: Array<CreateProductOptionValueRequestInput>;
-};
-/**
- * One value of a product option to create, such as a specific size, with its position and status.
- */
-export type CreateProductOptionValueRequest = {
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Display order among the option's values, starting at zero. Defaults to the value's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the value is active or inactive. Active variants cannot newly select an inactive
-     * value. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
-    "value": string;
-};
-/**
- * One value of a product option to create, such as a specific size, with its position and status.
- */
-export type CreateProductOptionValueRequestInput = {
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Display order among the option's values, starting at zero. Defaults to the value's array
-     * index when omitted. Format: int32. minimum: 0.
-     */
-    "position"?: number;
-    /**
-     * Whether the value is active or inactive. Active variants cannot newly select an inactive
-     * value. Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
-    "value": string;
-};
-/** The request body for: Create product. */
-export type CreateProductRequest = ({
-    /**
-     * Relationship set of category handles that must already exist. Each handle has 1 to 100
-     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
-     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
-     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
-     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /**
-     * The single variant to create as the product's default. Send either default_variant or both
-     * options and variants. The request body for: Create product variant.
-     */
-    "default_variant"?: ProductVariantRequest;
-    /** Description of the product shown to buyers. minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
-     * by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     */
-    "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Options and values that distinguish this product's variants. Send with variants instead of
-     * default_variant. minItems: 1. [] (Value): {@link CreateProductOptionRequest}. A product
-     * option to create with a product, such as size, with its values, position, and status.
-     */
-    "options"?: Array<CreateProductOptionRequest>;
-    /**
-     * Kind of goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
-    /**
-     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
-     * Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Selects the variant mode branch. Value enum: "simple", "optioned". */
-    "variant_mode": "simple" | "optioned" | (string & {});
-    /**
-     * The variants of an optioned product, sent together with `options` and without
-     * `default_variant`. Each variant selects one active value for every option. At most 100; add
-     * more later with `POST /v1/products/{product_id}/variants`. minItems: 1. maxItems: 100. []
-     * (Value): {@link ProductVariantRequest}. The request body for: Create product variant.
-     */
-    "variants"?: Array<ProductVariantRequest>;
-})
-    & ((Exclude<CreateProductRequestSimple & object, readonly unknown[]>)
-    | (Exclude<CreateProductRequestOptioned & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/** The request body for: Create product. */
-export type CreateProductRequestInput = ({
-    /**
-     * Relationship set of category handles that must already exist. Each handle has 1 to 100
-     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
-     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
-     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
-     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
-     */
-    "category_handles"?: Array<string>;
-    /**
-     * The single variant to create as the product's default. Send either default_variant or both
-     * options and variants. The request body for: Create product variant.
-     */
-    "default_variant"?: ProductVariantRequestInput;
-    /** Description of the product shown to buyers. minLength: 1. maxLength: 2048. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
-     * supply by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /**
-     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
-     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
-     */
-    "modifier_set_id"?: string | null;
-    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
-    "name": string;
-    /**
-     * Options and values that distinguish this product's variants. Send with variants instead of
-     * default_variant. minItems: 1. [] (Value): {@link CreateProductOptionRequestInput}. A product
-     * option to create with a product, such as size, with its values, position, and status.
-     */
-    "options"?: Array<CreateProductOptionRequestInput>;
-    /**
-     * Kind of goods or service this product represents. New variants of digital products store
-     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
-     * Value enum: "physical", "service", "fee", "digital", "gift_card".
-     */
-    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card";
-    /**
-     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
-     * Default: "active". Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Selects the variant mode branch. Value enum: "simple", "optioned". */
-    "variant_mode": "simple" | "optioned";
-    /**
-     * The variants of an optioned product, sent together with `options` and without
-     * `default_variant`. Each variant selects one active value for every option. At most 100; add
-     * more later with `POST /v1/products/{product_id}/variants`. minItems: 1. maxItems: 100. []
-     * (Value): {@link ProductVariantRequestInput}. The request body for: Create product variant.
-     */
-    "variants"?: Array<ProductVariantRequestInput>;
-})
-    & ((Exclude<CreateProductRequestSimpleInput & object, readonly unknown[]>)
-    | (Exclude<CreateProductRequestOptionedInput & object, readonly unknown[]>));

@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# PriceListCreatedInstalledMerchantsEventInput to PromotionUpdatedMerchantEventInput
+# PlatformFeePayoutListResponseInput to PromotionRuleGroupRequestInput
 
+- [PlatformFeePayoutListResponseInput](PlatformFeePayoutListResponseInput.md)
+- [PlatformFeePayoutResponseInput](PlatformFeePayoutResponseInput.md)
+- [PlatformFeePayoutSucceededEventInput](PlatformFeePayoutSucceededEventInput.md)
+- [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
+- [PlatformFeeResponseInput](PlatformFeeResponseInput.md)
+- [PlatformFeeSucceededEventInput](PlatformFeeSucceededEventInput.md)
+- [PlatformFeeUpdatedEventInput](PlatformFeeUpdatedEventInput.md)
+- [PriceListInput](PriceListInput.md)
+- [PriceListArchivedInstalledMerchantsEventInput](PriceListArchivedInstalledMerchantsEventInput.md)
+- [PriceListArchivedMerchantEventInput](PriceListArchivedMerchantEventInput.md)
 - [PriceListCreatedInstalledMerchantsEventInput](PriceListCreatedInstalledMerchantsEventInput.md)
 - [PriceListCreatedMerchantEventInput](PriceListCreatedMerchantEventInput.md)
 - [PriceListListResponseInput](PriceListListResponseInput.md)
@@ -92,14 +102,4 @@
 - [PromotionRuleInput](PromotionRuleInput.md)
 - [PromotionRuleGroupInput](PromotionRuleGroupInput.md)
 - [PromotionRuleGroupRequestInput](PromotionRuleGroupRequestInput.md)
-- [PromotionRuleRequestInput](PromotionRuleRequestInput.md)
-- [PromotionRuleValueInput](PromotionRuleValueInput.md)
-- [PromotionRuleValueRequestInput](PromotionRuleValueRequestInput.md)
-- [PromotionScheduleInput](PromotionScheduleInput.md)
-- [PromotionSchedulePatchInput](PromotionSchedulePatchInput.md)
-- [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
-- [PromotionSettingsInput](PromotionSettingsInput.md)
-- [PromotionSettingsRequestInput](PromotionSettingsRequestInput.md)
-- [PromotionUpdatedInstalledMerchantsEventInput](PromotionUpdatedInstalledMerchantsEventInput.md)
-- [PromotionUpdatedMerchantEventInput](PromotionUpdatedMerchantEventInput.md)
 

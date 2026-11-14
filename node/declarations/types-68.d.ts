@@ -1,18 +1,39 @@
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
+import type { ImageRequest, ImageRequestInput } from './types-28.js';
+import type { MetadataPatchRequest, MetadataPatchRequestInput } from './types-38.js';
+import type { Dimensions, DimensionsRequestInput } from './types-23.js';
+import type { GiftCardProductConfiguration, GiftCardProductConfigurationRequestInput } from './types-27.js';
+import type { InventoryItemCreateRequest, InventoryItemCreateRequestInput } from './types-29.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type {
-    MetadataPatchRequest,
-    MetadataPatchRequestInput,
-    MerchantSignupTermsAcceptanceRequest,
-    MerchantSignupTermsAcceptanceRequestInput
-} from './types-37.js';
-import type { UpdateReturnReplacementLineItemRequest, UpdateReturnReplacementLineItemRequestInput } from './types-67.js';
+    ProductVariantSelectedOptionRequest,
+    ProductVariantSelectedOptionRequestInput,
+    PromotionApplicationMethodPatch,
+    PromotionApplicationMethodPatchInput
+} from './types-50.js';
 import type {
-    GetReturnResolutionResponse,
-    FulfillmentSettings,
-    FulfillmentSettingsRequestInput,
-    GetReturnReceiptResponse
-} from './types-25.js';
-import type { GetReturnResponse } from './types-26.js';
+    QuantityPriceBreak,
+    QuantityPriceBreakRequestInput,
+    PromotionSchedulePatch,
+    PromotionSchedulePatchInput,
+    PromotionSettings,
+    PromotionSettingsRequestInput
+} from './types-52.js';
+import type { Weight, WeightRequestInput } from './types-70.js';
+import type {
+    PromotionCombinesWithPatch,
+    PromotionExclusivityPatch,
+    PromotionRuleGroupRequest,
+    PromotionCombinesWithPatchInput,
+    PromotionExclusivityPatchInput,
+    PromotionRuleGroupRequestInput
+} from './types-51.js';
+import type { GetReturnResponse, GetReturnPolicyResponse, GetReturnReasonResponse, GetReturnResolutionResponse } from './types-26.js';
+import type {
+    LineItemFulfillmentRequest,
+    LineItemFulfillmentRequestModelInput,
+    LegalSettingsRequest,
+    LegalSettingsRequestInput
+} from './types-35.js';
 import type { RiskPredicateNodeRequest, RiskPredicateNodeRequestInput } from './types-58.js';
 import type { BrandingSettingsRequest, BrandingSettingsRequestInput } from './types-1.js';
 import type { CheckoutSettings, CheckoutSettingsRequestInput } from './types-6.js';
@@ -22,69 +43,1771 @@ import type {
     CustomerAccountSettingsRequestInput,
     CustomerEmailDeliverySettingsRequestInput
 } from './types-15.js';
-import type {
-    InventorySettingsRequest,
-    InventorySettingsRequestInput,
-    InventoryRoutingSourceRequest,
-    InventoryRoutingSourceRequestInput
-} from './types-30.js';
-import type {
-    InvoiceSettingsPatch,
-    LegalSettingsRequest,
-    InvoiceSettingsPatchInput,
-    LegalSettingsRequestInput,
-    KnownWebhookEvent
-} from './types-34.js';
+import type { FulfillmentSettings, FulfillmentSettingsRequestInput } from './types-25.js';
+import type { InventorySettingsRequest, InventorySettingsRequestInput } from './types-30.js';
+import type { InvoiceSettingsPatch, InvoiceSettingsPatchInput } from './types-34.js';
 import type { PaymentLimitSettingsPatch, PaymentLimitSettingsPatchInput } from './types-45.js';
 import type { PaymentSettingsPatch, PaymentSettingsPatchInput } from './types-47.js';
-import type { PromotionSettings, PromotionSettingsRequestInput } from './types-51.js';
-import type {
-    SubscriptionSettings,
-    SubscriptionSettingsRequestInput,
-    SubscriptionTaxRequest,
-    SubscriptionTaxRequestInput
-} from './types-63.js';
-import type {
-    TaxIdentityPatch,
-    TaxIdentityPatchInput,
-    TaxCalculationCallbackConfigurationPatchRequest,
-    TaxCalculationCallbackConfigurationPatchRequestInput
-} from './types-64.js';
-import type { TaxSettingsRequest, TippingSettingsPatch, TaxSettingsRequestInput, TippingSettingsPatchInput } from './types-65.js';
-import type {
-    SubscriptionIntervalOption,
-    SubscriptionIntervalOptionRequestInput,
-    SubscriptionEndAfterCycles,
-    SubscriptionEndAfterCyclesRequestInput,
-    SubscriptionDeliveryRequest,
-    SubscriptionEndAfterRequest,
-    SubscriptionGiftRecipientRequest,
-    SubscriptionDeliveryRequestInput,
-    SubscriptionEndAfterRequestInput,
-    SubscriptionGiftRecipientRequestInput
-} from './types-61.js';
+import type { SubscriptionSettings, SubscriptionSettingsRequestInput } from './types-63.js';
+import type { TaxIdentityPatch, TaxSettingsRequest, TaxIdentityPatchInput, TaxSettingsRequestInput } from './types-65.js';
+import type { TippingSettingsPatch, TippingSettingsPatchInput } from './types-66.js';
+import type { SubscriptionIntervalOption, SubscriptionIntervalOptionRequestInput } from './types-62.js';
 import type {
     OrderLineItemModifierRequest,
     OrderLineItemTax,
     OrderLineItemModifierRequestModelInput,
     OrderLineItemTaxRequestInput
-} from './types-40.js';
-import type { ImageRequest, ImageRequestInput } from './types-28.js';
-import type { SubscriptionPlanChangeOption, SubscriptionPlanChangeOptionRequestInput } from './types-62.js';
-import type { SubscriptionBillingScheduleUpdateRequest, SubscriptionBillingScheduleUpdateRequestInput } from './types-60.js';
-import type {
-    WebhookSigningMethod,
-    WebhookSigningMethodInput,
-    WorkloadIdentityClaimConditionRequest,
-    WorkloadIdentityClaimConditionRequestInput
-} from './types-69.js';
-import type { ResponseMeta } from './types-54.js';
-import type { Package } from './types-42.js';
-import type { Shipment } from './types-59.js';
-import type { InputValue } from '../runtime.js';
-import type { CreateWebhookDeliveryRequestInput } from './types-14.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { CustomersListAddressesParams } from './types-16.js';
+} from './types-41.js';
+/**
+ * A product option to keep or add when updating a product, with its name, position, status, and
+ * values.
+ */
+export type UpdateProductOptionRequest = {
+    /**
+     * Value of this option given to every active variant that has no active value for it after
+     * this request, such as when you add an option to a product that already has active variants.
+     * It must match one of this option's active `values`, ignoring case and surrounding
+     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
+     */
+    "existing_variant_value"?: string;
+    /**
+     * Complete caller-owned metadata for this option. Retained options are replaced as members of
+     * the options array, so omitting metadata, sending null, or sending {} clears it. A
+     * null-valued key is omitted from the replacement. Values can't be empty strings. Keys
+     * starting with flint_ are reserved and cannot be written through the public API. * (Value):
+     * string or null. minLength: 1.
+     */
+    "metadata"?: Record<string, string | null> | null;
+    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Identifier of an existing option to retain. Omit it to create a new option. minLength: 1.
+     * pattern: ^opt_[0-9A-HJKMNP-TV-Z]{26}$. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8".
+     */
+    "option_id"?: string;
+    /**
+     * Display order among the product's options, starting at zero. Defaults to the option's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the option is active or inactive. Active variants must select an active value for
+     * every active option. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
+     * {@link UpdateProductOptionValueRequest}. A value to keep or add on a product option when
+     * updating a product, with its position and status.
+     */
+    "values"?: Array<UpdateProductOptionValueRequest>;
+};
+/**
+ * A product option to keep or add when updating a product, with its name, position, status, and
+ * values.
+ */
+export type UpdateProductOptionRequestInput = {
+    /**
+     * Value of this option given to every active variant that has no active value for it after
+     * this request, such as when you add an option to a product that already has active variants.
+     * It must match one of this option's active `values`, ignoring case and surrounding
+     * whitespace. Not stored; the variants keep the value. minLength: 1. maxLength: 255.
+     */
+    "existing_variant_value"?: string;
+    /**
+     * Complete caller-owned metadata for this option. Retained options are replaced as members of
+     * the options array, so omitting metadata, sending null, or sending {} clears it. A
+     * null-valued key is omitted from the replacement. Values can't be empty strings. Keys
+     * starting with flint_ are reserved and cannot be written through the public API. * (Value):
+     * string or null. minLength: 1.
+     */
+    "metadata"?: Record<string, string | null> | null;
+    /** Option name, such as Size or Color. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Identifier of an existing option to retain. Omit it to create a new option. minLength: 1.
+     * pattern: ^opt_[0-9A-HJKMNP-TV-Z]{26}$. Example: "opt_01KEZF7C008R5Q9BG9B4B4KQH8".
+     */
+    "option_id"?: string;
+    /**
+     * Display order among the product's options, starting at zero. Defaults to the option's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the option is active or inactive. Active variants must select an active value for
+     * every active option. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * Values offered for this option, such as Small, Medium, and Large for Size. [] (Value):
+     * {@link UpdateProductOptionValueRequestInput}. A value to keep or add on a product option
+     * when updating a product, with its position and status.
+     */
+    "values"?: Array<UpdateProductOptionValueRequestInput>;
+};
+/**
+ * A value to keep or add on a product option when updating a product, with its position and
+ * status.
+ */
+export type UpdateProductOptionValueRequest = {
+    /**
+     * Complete caller-owned metadata for this option value. Retained option values are replaced as
+     * members of the options array, so omitting metadata, sending null, or sending {} clears it. A
+     * null-valued key is omitted from the replacement. Values can't be empty strings. Keys
+     * starting with flint_ are reserved and cannot be written through the public API. * (Value):
+     * string or null. minLength: 1.
+     */
+    "metadata"?: Record<string, string | null> | null;
+    /**
+     * Identifier of an existing option value to retain. Omit it to create a new value. minLength:
+     * 1. pattern: ^optv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F".
+     */
+    "option_value_id"?: string;
+    /**
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
+    "value": string;
+};
+/**
+ * A value to keep or add on a product option when updating a product, with its position and
+ * status.
+ */
+export type UpdateProductOptionValueRequestInput = {
+    /**
+     * Complete caller-owned metadata for this option value. Retained option values are replaced as
+     * members of the options array, so omitting metadata, sending null, or sending {} clears it. A
+     * null-valued key is omitted from the replacement. Values can't be empty strings. Keys
+     * starting with flint_ are reserved and cannot be written through the public API. * (Value):
+     * string or null. minLength: 1.
+     */
+    "metadata"?: Record<string, string | null> | null;
+    /**
+     * Identifier of an existing option value to retain. Omit it to create a new value. minLength:
+     * 1. pattern: ^optv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "optv_01KEZF7C0078SVZ1T7PVRXQK7F".
+     */
+    "option_value_id"?: string;
+    /**
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
+    "value": string;
+};
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE.
+ * Metadata merges by key, with at most 50 keys after merging. minProperties: 1.
+ */
+export type UpdateProductRequest = ({
+    /**
+     * Relationship set of category handles that must already exist. Each handle has 1 to 100
+     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
+     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
+     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
+     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /** Send null to clear it. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "default_variant_id"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "description"?: string | null;
+    /**
+     * Resource version last read by the caller. Required when options or images is present.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
+     * by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. This operation also limits the metadata object you send, before merging: at most 50
+     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
+     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
+     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
+     * value, a null value deletes the key, and an empty object makes no change; send null for the
+     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
+     * a key that does not exist is allowed, so the number of operations is not itself the
+     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
+     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
+     * object makes no change; send null for the whole field to clear all caller-owned metadata.
+     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
+     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
+     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
+     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
+     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
+     */
+    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
+    /**
+     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id"?: string | null;
+    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Replaces all product options and values atomically. Include existing option_id and
+     * option_value_id values to retain members. Omitted members are archived. Null is not
+     * accepted. [] (Value): {@link UpdateProductOptionRequest}. A product option to keep or add
+     * when updating a product, with its name, position, status, and values.
+     */
+    "options"?: Array<UpdateProductOptionRequest>;
+    /**
+     * Kind of goods or service this product represents. Changing to digital fills variants' unset
+     * line_item_tax_category with digital_goods and advances their versions. Explicit categories
+     * are preserved. Returns 409 ACTION_NOT_ALLOWED with reason mixed_tax_treatment and
+     * blocking_resources if a containing bundle would become mixed. Value enum: "physical",
+     * "service", "fee", "digital", "gift_card".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
+     * Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+});
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE.
+ * Metadata merges by key, with at most 50 keys after merging. minProperties: 1.
+ */
+export type UpdateProductRequestInput = ({
+    /**
+     * Relationship set of category handles that must already exist. Each handle has 1 to 100
+     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
+     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
+     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
+     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /** Send null to clear it. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "default_variant_id"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 2048. */
+    "description"?: string | null;
+    /**
+     * Resource version last read by the caller. Required when options or images is present.
+     * Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
+     * supply by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequestInput>;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. This operation also limits the metadata object you send, before merging: at most 50
+     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
+     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
+     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+     * sets a value, a null value deletes the key, and an empty object makes no change; send null
+     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
+     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
+     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
+     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
+     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
+     * are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the
+     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
+     * an empty object makes no change; send null for the whole field to clear all caller-owned
+     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
+     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
+     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
+     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
+     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value):
+     * string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
+     */
+    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
+    /**
+     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id"?: string | null;
+    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name"?: string;
+    /**
+     * Replaces all product options and values atomically. Include existing option_id and
+     * option_value_id values to retain members. Omitted members are archived. Null is not
+     * accepted. [] (Value): {@link UpdateProductOptionRequestInput}. A product option to keep or
+     * add when updating a product, with its name, position, status, and values.
+     */
+    "options"?: Array<UpdateProductOptionRequestInput>;
+    /**
+     * Kind of goods or service this product represents. Changing to digital fills variants' unset
+     * line_item_tax_category with digital_goods and advances their versions. Explicit categories
+     * are preserved. Returns 409 ACTION_NOT_ALLOWED with reason mixed_tax_treatment and
+     * blocking_resources if a containing bundle would become mixed. Value enum: "physical",
+     * "service", "fee", "digital", "gift_card".
+     */
+    "product_type"?: "physical" | "service" | "fee" | "digital" | "gift_card";
+    /**
+     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
+     * Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+});
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE.
+ * Metadata merges by key, with at most 50 keys after merging. minProperties: 1.
+ */
+export type UpdateProductVariantRequest = ({
+    /** Send null to clear it. minLength: 1. maxLength: 100. */
+    "barcode"?: string | null;
+    /**
+     * Omit to preserve the assignment. Send null to clear it. Clearing a digital or service
+     * variant restores not_applicable with no delivery requirement and never selects a default.
+     * Assigned profiles must be required/manual with allowed_types exactly [digital] or [service],
+     * matching the product type. Existing order delivery snapshots do not change. minLength: 1.
+     * Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+     */
+    "delivery_profile_id"?: string | null;
+    /**
+     * Resource version last read by the caller. Required when images is present. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Replaces the complete gift card configuration. Omission preserves it. Null is not accepted.
+     * Include expected_version to reject a concurrent variant change. Gift card settings on a
+     * product variant: its `face_value_money`, price mode (face value or discounted), and bounds
+     * for custom amounts.
+     */
+    "gift_card_configuration"?: GiftCardProductConfiguration;
+    /**
+     * Replaces the authored variant gallery atomically. Send [] to clear it and resume
+     * product-image inheritance. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An
+     * image you supply by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * New inventory item to create and track for this variant. Send either inventory_item or
+     * inventory_item_id. Inventory item details you supply when creating an inventory item for a
+     * product variant: `name`, `sku`, `barcode`, and metadata.
+     */
+    "inventory_item"?: InventoryItemCreateRequest;
+    /**
+     * Inventory item tracked by this variant. Send null to stop tracking inventory. minLength: 1.
+     * Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     */
+    "inventory_item_id"?: string | null;
+    /**
+     * Flint line-item tax category to store. Send null to clear it and use the merchant default.
+     * Returns 409 ACTION_NOT_ALLOWED with reason mixed_tax_treatment and blocking_resources if a
+     * containing bundle would become mixed. Value enum: "general", "physical_goods",
+     * "digital_goods", "software", "saas", "services", "professional_services", "food",
+     * "prepared_food", "clothing", "medical_goods", "admission", null.
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | null
+        | (string & {})
+        | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. This operation also limits the metadata object you send, before merging: at most 50
+     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
+     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
+     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
+     * value, a null value deletes the key, and an empty object makes no change; send null for the
+     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
+     * a key that does not exist is allowed, so the number of operations is not itself the
+     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
+     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
+     * object makes no change; send null for the whole field to clear all caller-owned metadata.
+     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
+     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
+     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
+     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
+     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
+     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
+     */
+    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
+    /**
+     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "name"?: string | null;
+    /** Display order among the product's variants, starting at zero. Format: int32. */
+    "position"?: number;
+    /**
+     * Complete array of up to 10 quantity price breaks. Replaces the whole array; [] clears it and
+     * omission preserves it on update. Minimum quantities start at 2 and strictly increase. Unit
+     * prices strictly decrease from the base unit price and use its currency. Gift card variants
+     * reject a nonempty array. null is invalid. Include expected_version on update to reject a
+     * concurrent variant change. maxItems: 10. [] (Value): {@link QuantityPriceBreak}. A net unit
+     * price that applies when one catalog line reaches minimum_quantity.
+     */
+    "quantity_price_breaks"?: Array<QuantityPriceBreak>;
+    /**
+     * Calendar release date in YYYY-MM-DD format. Omit to preserve it; send null to clear it.
+     * Existing order line dates do not change. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "release_date"?: string | null;
+    /**
+     * Option name and value selections for this variant. When present on an update, replaces the
+     * entire selection. Omit to leave unchanged. Select one active value for every active option.
+     * null is invalid. [] (Value): {@link ProductVariantSelectedOptionRequest}. An option name and
+     * value you choose to identify a product variant, such as Size and Large.
+     */
+    "selected_options"?: Array<ProductVariantSelectedOptionRequest>;
+    /** Send null to clear it. minLength: 1. maxLength: 100. */
+    "sku"?: string | null;
+    /**
+     * Whether the variant is active or inactive. An inactive variant cannot be sold. Value enum:
+     * "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Whether this item is subject to tax. */
+    "taxable"?: boolean;
+    /**
+     * Replaces the complete object. Send null to clear it. anyOf[1] (Value): {@link Dimensions}.
+     * Package or item dimensions as `length`, `width`, and `height` in the given `unit`. anyOf[2]
+     * (Value): null.
+     */
+    "unit_dimensions"?: ((Dimensions) | (null));
+    /**
+     * Base unit price in the currency's smallest unit. It applies below the first quantity price
+     * break. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * Replaces the complete object. Send null to clear it. anyOf[1] (Value): {@link Weight}. A
+     * weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration.
+     * anyOf[2] (Value): null.
+     */
+    "unit_weight"?: ((Weight) | (null));
+});
+/**
+ * Send only fields to change. Omitted fields keep their stored values. null clears nullable
+ * fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE.
+ * Metadata merges by key, with at most 50 keys after merging. minProperties: 1.
+ */
+export type UpdateProductVariantRequestInput = ({
+    /** Send null to clear it. minLength: 1. maxLength: 100. */
+    "barcode"?: string | null;
+    /**
+     * Omit to preserve the assignment. Send null to clear it. Clearing a digital or service
+     * variant restores not_applicable with no delivery requirement and never selects a default.
+     * Assigned profiles must be required/manual with allowed_types exactly [digital] or [service],
+     * matching the product type. Existing order delivery snapshots do not change. minLength: 1.
+     * Example: "dprof_01KEZF7C0020J13FQYNY9854R0".
+     */
+    "delivery_profile_id"?: string | null;
+    /**
+     * Resource version last read by the caller. Required when images is present. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Replaces the complete gift card configuration. Omission preserves it. Null is not accepted.
+     * Include expected_version to reject a concurrent variant change. Gift card settings on a
+     * product variant: its `face_value_money`, price mode (face value or discounted), and bounds
+     * for custom amounts.
+     */
+    "gift_card_configuration"?: GiftCardProductConfigurationRequestInput;
+    /**
+     * Replaces the authored variant gallery atomically. Send [] to clear it and resume
+     * product-image inheritance. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}.
+     * An image you supply by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequestInput>;
+    /**
+     * New inventory item to create and track for this variant. Send either inventory_item or
+     * inventory_item_id. Inventory item details you supply when creating an inventory item for a
+     * product variant: `name`, `sku`, `barcode`, and metadata.
+     */
+    "inventory_item"?: InventoryItemCreateRequestInput;
+    /**
+     * Inventory item tracked by this variant. Send null to stop tracking inventory. minLength: 1.
+     * Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+     */
+    "inventory_item_id"?: string | null;
+    /**
+     * Flint line-item tax category to store. Send null to clear it and use the merchant default.
+     * Returns 409 ACTION_NOT_ALLOWED with reason mixed_tax_treatment and blocking_resources if a
+     * containing bundle would become mixed. Value enum: "general", "physical_goods",
+     * "digital_goods", "software", "saas", "services", "professional_services", "food",
+     * "prepared_food", "clothing", "medical_goods", "admission", null.
+     */
+    "line_item_tax_category"?: "general"
+        | "physical_goods"
+        | "digital_goods"
+        | "software"
+        | "saas"
+        | "services"
+        | "professional_services"
+        | "food"
+        | "prepared_food"
+        | "clothing"
+        | "medical_goods"
+        | "admission"
+        | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. This operation also limits the metadata object you send, before merging: at most 50
+     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
+     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
+     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
+     * sets a value, a null value deletes the key, and an empty object makes no change; send null
+     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
+     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
+     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
+     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
+     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
+     * are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the
+     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
+     * an empty object makes no change; send null for the whole field to clear all caller-owned
+     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
+     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
+     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
+     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
+     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value):
+     * string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
+     */
+    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
+    /**
+     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id"?: string | null;
+    /** Send null to clear it. minLength: 1. maxLength: 255. */
+    "name"?: string | null;
+    /** Display order among the product's variants, starting at zero. Format: int32. */
+    "position"?: number;
+    /**
+     * Complete array of up to 10 quantity price breaks. Replaces the whole array; [] clears it and
+     * omission preserves it on update. Minimum quantities start at 2 and strictly increase. Unit
+     * prices strictly decrease from the base unit price and use its currency. Gift card variants
+     * reject a nonempty array. null is invalid. Include expected_version on update to reject a
+     * concurrent variant change. maxItems: 10. [] (Value): {@link QuantityPriceBreakRequestInput}.
+     * A net unit price that applies when one catalog line reaches minimum_quantity.
+     */
+    "quantity_price_breaks"?: Array<QuantityPriceBreakRequestInput>;
+    /**
+     * Calendar release date in YYYY-MM-DD format. Omit to preserve it; send null to clear it.
+     * Existing order line dates do not change. Format: date. minLength: 1. Example: "2026-08-02".
+     */
+    "release_date"?: string | null;
+    /**
+     * Option name and value selections for this variant. When present on an update, replaces the
+     * entire selection. Omit to leave unchanged. Select one active value for every active option.
+     * null is invalid. [] (Value): {@link ProductVariantSelectedOptionRequestInput}. An option
+     * name and value you choose to identify a product variant, such as Size and Large.
+     */
+    "selected_options"?: Array<ProductVariantSelectedOptionRequestInput>;
+    /** Send null to clear it. minLength: 1. maxLength: 100. */
+    "sku"?: string | null;
+    /**
+     * Whether the variant is active or inactive. An inactive variant cannot be sold. Value enum:
+     * "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Whether this item is subject to tax. */
+    "taxable"?: boolean;
+    /**
+     * Replaces the complete object. Send null to clear it. anyOf[1] (Value): {@link
+     * DimensionsRequestInput}. Package or item dimensions as `length`, `width`, and `height` in
+     * the given `unit`. anyOf[2] (Value): null.
+     */
+    "unit_dimensions"?: ((DimensionsRequestInput) | (null));
+    /**
+     * Base unit price in the currency's smallest unit. It applies below the first quantity price
+     * break. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * Replaces the complete object. Send null to clear it. anyOf[1] (Value): {@link
+     * WeightRequestInput}. A weight value in grams, kilograms, ounces, or pounds, used in delivery
+     * profile configuration. anyOf[2] (Value): null.
+     */
+    "unit_weight"?: ((WeightRequestInput) | (null));
+});
+/** The request body for: Update promotion code. minProperties: 1. */
+export type UpdatePromotionCodeRequest = {
+    /**
+     * Only this identified customer can redeem the code. The customer must belong to the same
+     * merchant and environment. A checkout may use its merchant-named or email-verified customer;
+     * a typed email does not identify a customer. Omit to preserve the binding; send a customer ID
+     * to bind or rebind the code, or null to remove the binding. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string | null;
+    /**
+     * Promotion code version last read by the caller. Optional for updates. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Absolute RFC3339 expiry timestamp. Omission keeps the stored value; null clears it. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | null;
+    /**
+     * Maximum number of times this code can be redeemed. Send null to remove the redemption limit.
+     * Format: int64.
+     */
+    "max_uses"?: number | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /** Lifecycle status: active or inactive. Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * IANA zone the code's times were entered in, used for display. expires_at is an absolute
+     * timestamp, so this does not change when the code expires. Send null to clear it. minLength:
+     * 1. maxLength: 255.
+     */
+    "timezone"?: string | null;
+};
+/** The request body for: Update promotion code. minProperties: 1. */
+export type UpdatePromotionCodeRequestInput = {
+    /**
+     * Only this identified customer can redeem the code. The customer must belong to the same
+     * merchant and environment. A checkout may use its merchant-named or email-verified customer;
+     * a typed email does not identify a customer. Omit to preserve the binding; send a customer ID
+     * to bind or rebind the code, or null to remove the binding. minLength: 1. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string | null;
+    /**
+     * Promotion code version last read by the caller. Optional for updates. Format: uint64.
+     * minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Absolute RFC3339 expiry timestamp. Omission keeps the stored value; null clears it. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | globalThis.Date | null;
+    /**
+     * Maximum number of times this code can be redeemed. Send null to remove the redemption limit.
+     * Format: int64.
+     */
+    "max_uses"?: number | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /** Lifecycle status: active or inactive. Value enum: "active", "inactive". */
+    "status"?: "active" | "inactive";
+    /**
+     * IANA zone the code's times were entered in, used for display. expires_at is an absolute
+     * timestamp, so this does not change when the code expires. Send null to clear it. minLength:
+     * 1. maxLength: 255.
+     */
+    "timezone"?: string | null;
+};
+/** The request body for: Update promotion. minProperties: 1. */
+export type UpdatePromotionRequest = ({
+    /**
+     * Fields of the discount effect to change. Omitted fields keep their stored values. Send only
+     * application_method fields to change. Omitted fields keep their stored values. Sending a
+     * different type replaces the effect with the supplied effect fields; allocation,
+     * calculation_basis, recurrence, and discounted_item_rules are preserved unless sent, and
+     * discounted_item_rules: null clears the stored rules. Money, recurrence, currency_options,
+     * and each rule group are replaced whole when present. null clears only nullable fields.
+     * discounted_item_rules cannot be null for buy_x_get_y. minProperties: 1.
+     */
+    "application_method"?: PromotionApplicationMethodPatch;
+    /**
+     * Send only the classes to change. Omitted classes keep their current value. null, an empty
+     * object, and null classes are invalid. Change which promotion discount classes this promotion
+     * can combine with. Omitted classes keep their current values. minProperties: 1.
+     */
+    "combines_with"?: PromotionCombinesWithPatch;
+    /**
+     * Description of the promotion for your own records. Send null to clear it. minLength: 1.
+     * maxLength: 500.
+     */
+    "description"?: string | null;
+    /** Promotion discount class. Value enum: "order", "line_item", "service_charge". */
+    "discount_class"?: "order" | "line_item" | "service_charge" | (string & {});
+    /**
+     * Buyer-facing promotion name shown in checkout and order discount surfaces. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Replaces the promotion's eligibility conditions. Send null to remove all eligibility
+     * conditions. anyOf[1] (Value): {@link PromotionRuleGroupRequest}. A rule group is an object
+     * with exactly one nonempty all (AND) or any (OR) array of rules or nested groups. Arrays,
+     * empty groups, and a rules key are invalid. Omit the field for no rules, or send null where
+     * the field is clearable. Responses list rules before nested groups. Under any, a nested group
+     * containing only one rule reads back as that rule. Under all, nested groups keep their
+     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
+     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
+     * line_item.* rules in the same all group, including its nested groups. anyOf[2] (Value):
+     * null.
+     */
+    "eligibility_rules"?: ((PromotionRuleGroupRequest) | (null) | (unknown));
+    /**
+     * Fields of the exclusivity group and priority to change. Send null to remove the promotion
+     * from its exclusivity group. anyOf[1] (Value): {@link PromotionExclusivityPatch}. Send only
+     * fields to change. Omitted fields keep their stored values. Send priority 0 to reset it. An
+     * empty object is invalid. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "exclusivity"?: ((PromotionExclusivityPatch) | (null));
+    /**
+     * Resource version last read by the caller. Required when application_method or
+     * eligibility_rules is present, including an empty collection or a supported null clear.
+     * Optional for scalar updates. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Maximum number of redemptions across all codes and automatic applications. Send null to
+     * remove the redemption limit. Format: int64.
+     */
+    "max_uses"?: number | null;
+    /**
+     * Maximum reserved and redeemed uses per identified customer across every code and automatic
+     * or ID-based application. Checked atomically when payment starts. Failed, canceled, or
+     * expired attempts release their reservation; refunds do not restore uses. Counts only within
+     * the same merchant and environment; live and test mode are separate. Without an identified
+     * customer, returns 409 PROMOTION_DECLINED with reason customer_required. Omit to keep the
+     * current limit; send null to remove it. Format: int64. minimum: 1.
+     */
+    "max_uses_per_customer"?: number | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /**
+     * Internal promotion name for dashboards, searching, and reporting. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Fields of the promotion schedule to change. Send null to remove the schedule. anyOf[1]
+     * (Value): {@link PromotionSchedulePatch}. Send only fields to change. Omitted fields keep
+     * their stored values. null clears nullable subfields. An empty object is invalid.
+     * minProperties: 1. anyOf[2] (Value): null.
+     */
+    "schedule"?: ((PromotionSchedulePatch) | (null));
+    /**
+     * Lifecycle status to set: active or inactive. Archived promotions cannot be updated. Value
+     * enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+});
+/** The request body for: Update promotion. minProperties: 1. */
+export type UpdatePromotionRequestInput = ({
+    /**
+     * Fields of the discount effect to change. Omitted fields keep their stored values. Send only
+     * application_method fields to change. Omitted fields keep their stored values. Sending a
+     * different type replaces the effect with the supplied effect fields; allocation,
+     * calculation_basis, recurrence, and discounted_item_rules are preserved unless sent, and
+     * discounted_item_rules: null clears the stored rules. Money, recurrence, currency_options,
+     * and each rule group are replaced whole when present. null clears only nullable fields.
+     * discounted_item_rules cannot be null for buy_x_get_y. minProperties: 1.
+     */
+    "application_method"?: PromotionApplicationMethodPatchInput;
+    /**
+     * Send only the classes to change. Omitted classes keep their current value. null, an empty
+     * object, and null classes are invalid. Change which promotion discount classes this promotion
+     * can combine with. Omitted classes keep their current values. minProperties: 1.
+     */
+    "combines_with"?: PromotionCombinesWithPatchInput;
+    /**
+     * Description of the promotion for your own records. Send null to clear it. minLength: 1.
+     * maxLength: 500.
+     */
+    "description"?: string | null;
+    /** Promotion discount class. Value enum: "order", "line_item", "service_charge". */
+    "discount_class"?: "order" | "line_item" | "service_charge";
+    /**
+     * Buyer-facing promotion name shown in checkout and order discount surfaces. minLength: 1.
+     * maxLength: 255.
+     */
+    "display_name"?: string;
+    /**
+     * Replaces the promotion's eligibility conditions. Send null to remove all eligibility
+     * conditions. anyOf[1] (Value): {@link PromotionRuleGroupRequestInput}. A rule group is an
+     * object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups.
+     * Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null
+     * where the field is clearable. Responses list rules before nested groups. Under any, a nested
+     * group containing only one rule reads back as that rule. Under all, nested groups keep their
+     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
+     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
+     * line_item.* rules in the same all group, including its nested groups. anyOf[2] (Value):
+     * null.
+     */
+    "eligibility_rules"?: ((PromotionRuleGroupRequestInput) | (null));
+    /**
+     * Fields of the exclusivity group and priority to change. Send null to remove the promotion
+     * from its exclusivity group. anyOf[1] (Value): {@link PromotionExclusivityPatchInput}. Send
+     * only fields to change. Omitted fields keep their stored values. Send priority 0 to reset it.
+     * An empty object is invalid. minProperties: 1. anyOf[2] (Value): null.
+     */
+    "exclusivity"?: ((PromotionExclusivityPatchInput) | (null));
+    /**
+     * Resource version last read by the caller. Required when application_method or
+     * eligibility_rules is present, including an empty collection or a supported null clear.
+     * Optional for scalar updates. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Maximum number of redemptions across all codes and automatic applications. Send null to
+     * remove the redemption limit. Format: int64.
+     */
+    "max_uses"?: number | null;
+    /**
+     * Maximum reserved and redeemed uses per identified customer across every code and automatic
+     * or ID-based application. Checked atomically when payment starts. Failed, canceled, or
+     * expired attempts release their reservation; refunds do not restore uses. Counts only within
+     * the same merchant and environment; live and test mode are separate. Without an identified
+     * customer, returns 409 PROMOTION_DECLINED with reason customer_required. Omit to keep the
+     * current limit; send null to remove it. Format: int64. minimum: 1.
+     */
+    "max_uses_per_customer"?: number | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /**
+     * Internal promotion name for dashboards, searching, and reporting. minLength: 1. maxLength:
+     * 255.
+     */
+    "name"?: string;
+    /**
+     * Fields of the promotion schedule to change. Send null to remove the schedule. anyOf[1]
+     * (Value): {@link PromotionSchedulePatchInput}. Send only fields to change. Omitted fields
+     * keep their stored values. null clears nullable subfields. An empty object is invalid.
+     * minProperties: 1. anyOf[2] (Value): null.
+     */
+    "schedule"?: ((PromotionSchedulePatchInput) | (null));
+    /**
+     * Lifecycle status to set: active or inactive. Archived promotions cannot be updated. Value
+     * enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+});
+/** A sparse reader update. A reader's type and location never change. minProperties: 1. */
+export type UpdateReaderRequest = {
+    /**
+     * The device the reader takes payments for. `null` clears it. Naming a device needs
+     * `accounts.devices.read` as well. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string | null;
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Keys to set, merged into the reader's metadata. A key with an empty value is removed; `null`
+     * clears all metadata. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a
+     * caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
+     * value, a null value deletes the key, and an empty object makes no change; send null for the
+     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
+     * a key that does not exist is allowed, so the number of operations is not itself the
+     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /** Your label for the reader. Can't be null. minLength: 1. maxLength: 255. */
+    "name"?: string;
+};
+/** A sparse reader update. A reader's type and location never change. minProperties: 1. */
+export type UpdateReaderRequestInput = {
+    /**
+     * The device the reader takes payments for. `null` clears it. Naming a device needs
+     * `accounts.devices.read` as well. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string | null;
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Keys to set, merged into the reader's metadata. A key with an empty value is removed; `null`
+     * clears all metadata. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a
+     * caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
+     * value, a null value deletes the key, and an empty object makes no change; send null for the
+     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
+     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
+     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
+     * a key that does not exist is allowed, so the number of operations is not itself the
+     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. anyOf[2] (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /** Your label for the reader. Can't be null. minLength: 1. maxLength: 255. */
+    "name"?: string;
+};
+/** The request body for: Update refund. minProperties: 1. */
+export type UpdateRefundRequest = {
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+};
+/** The request body for: Update refund. minProperties: 1. */
+export type UpdateRefundRequestInput = {
+    /**
+     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
+     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
+     * uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+};
+/** The request body for: Update return line item. */
+export type UpdateReturnLineItemRequest = {
+    /** Send null to clear it. minLength: 1. */
+    "buyer_note"?: string | null;
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "requested_quantity"?: number;
+    /**
+     * Send null to clear it. Value enum: "refund", "exchange", "replacement",
+     * "no_monetary_action", null.
+     */
+    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | null | (string & {}) | null;
+    /**
+     * ID of the return reason for this line. The reason must be active. minLength: 1. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id"?: string;
+};
+/** The request body for: Update return line item. */
+export type UpdateReturnLineItemRequestInput = {
+    /** Send null to clear it. minLength: 1. */
+    "buyer_note"?: string | null;
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "requested_quantity"?: number;
+    /**
+     * Send null to clear it. Value enum: "refund", "exchange", "replacement",
+     * "no_monetary_action", null.
+     */
+    "requested_resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | null;
+    /**
+     * ID of the return reason for this line. The reason must be active. minLength: 1. Example:
+     * "rrsn_01KEZF7C00SEE2T4EYP1NXAH3E".
+     */
+    "return_reason_id"?: string;
+};
+export type UpdateReturnLineItemResponse = GetReturnResponse;
+/** The request body for: Update return policy. */
+export type UpdateReturnPolicyRequest = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to a caller-owned metadata map.
+     * Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes the
+     * key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequest) | (null));
+    /** Name of the policy, from 1 to 255 characters. minLength: 1. */
+    "name"?: string;
+    /**
+     * Set `active` to evaluate the policy or `inactive` to stop. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+};
+/** The request body for: Update return policy. */
+export type UpdateReturnPolicyRequestInput = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+    /** Name of the policy, from 1 to 255 characters. minLength: 1. */
+    "name"?: string;
+    /**
+     * Set `active` to evaluate the policy or `inactive` to stop. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+};
+export type UpdateReturnPolicyResponse = GetReturnPolicyResponse;
+/** The request body for: Update return reason. */
+export type UpdateReturnReasonRequest = ({
+    /**
+     * Catalog category handles this reason applies to. A reason with categories is suggested, and
+     * accepted from a customer session, only for order lines whose product is in one of them. A
+     * reason with no categories applies to every line. Not product types or tags: use handles from
+     * GET /v1/categories. Repeated handles are dropped. Requires expected_version. maxItems: 100.
+     * [] (Value): string. minLength: 1.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * Description, limited to 2048 bytes after trimming surrounding whitespace. Send null to clear
+     * it. minLength: 1.
+     */
+    "description"?: string | null;
+    /**
+     * Required when any of these fields is present: category_handles. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /** Whether a Return line with this reason needs a buyer_note. */
+    "is_note_required"?: boolean;
+    /**
+     * Display name, limited to 1 through 255 bytes after trimming surrounding whitespace.
+     * minLength: 1.
+     */
+    "name"?: string;
+    /**
+     * Set active to offer the reason or inactive to stop offering it. To archive a merchant
+     * reason, use DELETE. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+});
+/** The request body for: Update return reason. */
+export type UpdateReturnReasonRequestInput = ({
+    /**
+     * Catalog category handles this reason applies to. A reason with categories is suggested, and
+     * accepted from a customer session, only for order lines whose product is in one of them. A
+     * reason with no categories applies to every line. Not product types or tags: use handles from
+     * GET /v1/categories. Repeated handles are dropped. Requires expected_version. maxItems: 100.
+     * [] (Value): string. minLength: 1.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * Description, limited to 2048 bytes after trimming surrounding whitespace. Send null to clear
+     * it. minLength: 1.
+     */
+    "description"?: string | null;
+    /**
+     * Required when any of these fields is present: category_handles. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /** Whether a Return line with this reason needs a buyer_note. */
+    "is_note_required"?: boolean;
+    /**
+     * Display name, limited to 1 through 255 bytes after trimming surrounding whitespace.
+     * minLength: 1.
+     */
+    "name"?: string;
+    /**
+     * Set active to offer the reason or inactive to stop offering it. To archive a merchant
+     * reason, use DELETE. Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+});
+export type UpdateReturnReasonResponse = GetReturnReasonResponse;
+/** The `bundle` variant of `UpdateReturnReplacementLineItemInput`. */
+export type UpdateReturnReplacementLineItemInputBundle = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /** Description of the replacement item. minLength: 1. */
+    "description"?: string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequest;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1.
+     * Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
+     */
+    "return_replacement_line_item_id"?: string;
+    /** SKU of the replacement item. minLength: 1. */
+    "sku"?: string;
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum: "bundle".
+     */
+    "type": "bundle" | (string & {});
+    /**
+     * Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is
+     * `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & (({
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum: "bundle".
+     */
+    "type": unknown;
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+}));
+/** The `bundle` variant of `UpdateReturnReplacementLineItemInput`. */
+export type UpdateReturnReplacementLineItemInputBundleInput = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+    /** Description of the replacement item. minLength: 1. */
+    "description"?: string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestModelInput;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1.
+     * Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
+     */
+    "return_replacement_line_item_id"?: string;
+    /** SKU of the replacement item. minLength: 1. */
+    "sku"?: string;
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum: "bundle".
+     */
+    "type": "bundle";
+    /**
+     * Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is
+     * `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & (({
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum: "bundle".
+     */
+    "type": "bundle";
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id": string;
+})
+    & (({
+    "variant_id"?: never;
+}) & ({
+    "name"?: never;
+}) & ({
+    "fulfillment"?: never;
+})));
+/** The `custom` variant of `UpdateReturnReplacementLineItemInput`. */
+export type UpdateReturnReplacementLineItemInputCustom = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the replacement item. minLength: 1. */
+    "description"?: string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequest;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1.
+     * Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
+     */
+    "return_replacement_line_item_id"?: string;
+    /** SKU of the replacement item. minLength: 1. */
+    "sku"?: string;
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum: "custom".
+     */
+    "type": "custom" | (string & {});
+    /**
+     * Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is
+     * `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & (({
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum: "custom".
+     */
+    "type": unknown;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name": string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequest;
+}));
+/** The `custom` variant of `UpdateReturnReplacementLineItemInput`. */
+export type UpdateReturnReplacementLineItemInputCustomInput = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the replacement item. minLength: 1. */
+    "description"?: string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequestModelInput;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name": string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1.
+     * Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
+     */
+    "return_replacement_line_item_id"?: string;
+    /** SKU of the replacement item. minLength: 1. */
+    "sku"?: string;
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum: "custom".
+     */
+    "type": "custom";
+    /**
+     * Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is
+     * `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & (({
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum: "custom".
+     */
+    "type": "custom";
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name": string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment": LineItemFulfillmentRequestModelInput;
+})
+    & (({
+    "variant_id"?: never;
+}) & ({
+    "bundle_id"?: never;
+})));
+/** The `variant` variant of `UpdateReturnReplacementLineItemInput`. */
+export type UpdateReturnReplacementLineItemInputVariant = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the replacement item. minLength: 1. */
+    "description"?: string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequest;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1.
+     * Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
+     */
+    "return_replacement_line_item_id"?: string;
+    /** SKU of the replacement item. minLength: 1. */
+    "sku"?: string;
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum:
+     * "variant".
+     */
+    "type": "variant" | (string & {});
+    /**
+     * Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is
+     * `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    & (({
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum:
+     * "variant".
+     */
+    "type": unknown;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+}));
+/** The `variant` variant of `UpdateReturnReplacementLineItemInput`. */
+export type UpdateReturnReplacementLineItemInputVariantInput = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the replacement item. minLength: 1. */
+    "description"?: string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestModelInput;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1.
+     * Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
+     */
+    "return_replacement_line_item_id"?: string;
+    /** SKU of the replacement item. minLength: 1. */
+    "sku"?: string;
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum:
+     * "variant".
+     */
+    "type": "variant";
+    /**
+     * Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is
+     * `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    & (({
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum:
+     * "variant".
+     */
+    "type": "variant";
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id": string;
+})
+    & (({
+    "bundle_id"?: never;
+}) & ({
+    "name"?: never;
+}) & ({
+    "fulfillment"?: never;
+})));
+/**
+ * A replacement item to keep or add when updating a return resolution. Include
+ * `return_replacement_line_item_id` to keep an existing one.
+ */
+export type UpdateReturnReplacementLineItemRequest = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the replacement item. minLength: 1. */
+    "description"?: string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequest;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1.
+     * Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
+     */
+    "return_replacement_line_item_id"?: string;
+    /** SKU of the replacement item. minLength: 1. */
+    "sku"?: string;
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum:
+     * "variant", "bundle", "custom".
+     */
+    "type": "variant" | "bundle" | "custom" | (string & {});
+    /**
+     * Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is
+     * `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValue;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & ((Exclude<UpdateReturnReplacementLineItemInputVariant & object, readonly unknown[]>)
+    | (Exclude<UpdateReturnReplacementLineItemInputBundle & object, readonly unknown[]>)
+    | (Exclude<UpdateReturnReplacementLineItemInputCustom & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * A replacement item to keep or add when updating a return resolution. Include
+ * `return_replacement_line_item_id` to keep an existing one.
+ */
+export type UpdateReturnReplacementLineItemRequestInput = ({
+    /**
+     * ID of the bundle to send. Used when `type` is `bundle`. minLength: 1. Example:
+     * "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+     */
+    "bundle_id"?: string;
+    /** Description of the replacement item. minLength: 1. */
+    "description"?: string;
+    /**
+     * Fulfillment requirements for custom replacement merchandise, using the same input as an
+     * order line. Required for custom lines; catalog lines use their catalog fulfillment profile.
+     * Fulfillment requirements you supply for an order line item, such as allowed fulfillment
+     * types, package size and weight, and origin.
+     */
+    "fulfillment"?: LineItemFulfillmentRequestModelInput;
+    /** Name of the replacement item. Required when `type` is `custom`. minLength: 1. */
+    "name"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "quantity": number;
+    /**
+     * ID of an existing replacement line to keep. Leave out to add a new line. minLength: 1.
+     * Example: "retrepli_01KEZF7C00F6P8VWG80G0JC8W2".
+     */
+    "return_replacement_line_item_id"?: string;
+    /** SKU of the replacement item. minLength: 1. */
+    "sku"?: string;
+    /**
+     * The source of the replacement merchandise: variant, bundle, or custom. Value enum:
+     * "variant", "bundle", "custom".
+     */
+    "type": "variant" | "bundle" | "custom";
+    /**
+     * Price of one replacement unit. Required when `type` is `custom` or `pricing_basis` is
+     * `merchant_agreed_price`. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "unit_price_money"?: MoneyValueInput;
+    /**
+     * ID of the variant to send. Used when `type` is `variant`. minLength: 1. Example:
+     * "var_01KEZF7C004GSH2KT8CNYVMHGX".
+     */
+    "variant_id"?: string;
+})
+    & ((Exclude<UpdateReturnReplacementLineItemInputVariantInput & object, readonly unknown[]>)
+    | (Exclude<UpdateReturnReplacementLineItemInputBundleInput & object, readonly unknown[]>)
+    | (Exclude<UpdateReturnReplacementLineItemInputCustomInput & object, readonly unknown[]>));
+/** The request body for: Update return. minProperties: 1. */
+export type UpdateReturnRequestInput = {
+    /**
+     * Optional version of the Return. A stale value returns VERSION_CONFLICT with the current
+     * Return version. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Caller-owned identifier for this resource in an external system. Send null to clear it.
+     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string | null;
+    /**
+     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
+     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
+     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
+     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
+     * API. anyOf[1] (Value): {@link MetadataPatchRequestInput}. Changes to a caller-owned metadata
+     * map. Omit the field to leave metadata unchanged. Each key sets a value, a null value deletes
+     * the key, and an empty object makes no change; send null for the whole field to clear all
+     * caller-owned metadata. The resulting map is limited the same way as MetadataInput: Up to 50
+     * key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code
+     * points, and keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not
+     * exist is allowed, so the number of operations is not itself the stored-map limit. Values
+     * can't be empty strings, and keys starting with flint_ are reserved for Flint. anyOf[2]
+     * (Value): null.
+     */
+    "metadata"?: ((MetadataPatchRequestInput) | (null));
+};
 /**
  * A fee or credit to keep or add when updating a return resolution. Include
  * `return_resolution_adjustment_id` to update an existing one.
@@ -895,10 +2618,13 @@ export type UpdateSubscriptionOfferRequest = {
     /**
      * Offered billing interval and count pairs. Every option bills the same catalog line prices
      * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
-     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing cadence offered
-     * by a subscription plan or offer. Every option bills the same line prices once per period;
-     * prices are not scaled by the interval. For a different price per interval, create separate
-     * plans.
+     * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such
+     * as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines
+     * that ship are per delivery, and each option charges for all deliveries in its period.
+     * Without a delivery cadence there is one delivery per period, so every option bills the same
+     * line prices once per period. With a delivery cadence, a longer period bills more deliveries
+     * of the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
      */
     "billing_interval_options"?: Array<SubscriptionIntervalOption>;
     /**
@@ -964,9 +2690,12 @@ export type UpdateSubscriptionOfferRequestInput = {
      * Offered billing interval and count pairs. Every option bills the same catalog line prices
      * once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12.
      * uniqueItems: true. [] (Value): {@link SubscriptionIntervalOptionRequestInput}. A billing
-     * cadence offered by a subscription plan or offer. Every option bills the same line prices
-     * once per period; prices are not scaled by the interval. For a different price per interval,
-     * create separate plans.
+     * interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose.
+     * Prices of lines that ship are per delivery, and each option charges for all deliveries in
+     * its period. Without a delivery cadence there is one delivery per period, so every option
+     * bills the same line prices once per period. With a delivery cadence, a longer period bills
+     * more deliveries of the lines that ship; other lines bill once per period. For a different
+     * price per interval with no delivery cadence, create separate plans.
      */
     "billing_interval_options"?: Array<SubscriptionIntervalOptionRequestInput>;
     /**
@@ -1746,1531 +3475,3 @@ export type UpdateSubscriptionPlanLineItemRequestInput = ({
     & ((Exclude<UpdateSubscriptionPlanLineItemInputVariantInput & object, readonly unknown[]>)
     | (Exclude<UpdateSubscriptionPlanLineItemInputBundleInput & object, readonly unknown[]>)
     | (Exclude<UpdateSubscriptionPlanLineItemInputCustomInput & object, readonly unknown[]>));
-/** The request body for: Update subscription plan. minProperties: 1. */
-export type UpdateSubscriptionPlanRequest = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Format: int32. */
-    "billing_interval_count"?: number;
-    /**
-     * Omission leaves the choices unchanged. Send [] to reset to the plan's default billing
-     * interval and count. Null is invalid. Line prices are per delivery. Each option charges for
-     * all deliveries in its period. Use separate plans or promotions for different prices per
-     * interval. maxItems: 12. uniqueItems: true. [] (Value): {@link SubscriptionIntervalOption}. A
-     * billing cadence offered by a subscription plan or offer. Every option bills the same line
-     * prices once per period; prices are not scaled by the interval. For a different price per
-     * interval, create separate plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOption>;
-    /**
-     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
-     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
-     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /**
-     * Delivery cadence, set together with delivery_interval_count. Null when no separate delivery
-     * cadence is set; one delivery is made per billing period. Each billing option must be a whole
-     * multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per
-     * period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep
-     * the cadence; send both as null to clear it. Value enum: "daily", "weekly", "monthly",
-     * "yearly", null.
-     */
-    "delivery_interval"?: "daily" | "weekly" | "monthly" | "yearly" | null | (string & {}) | null;
-    /**
-     * Positive number of delivery intervals between deliveries. Set or clear together with
-     * delivery_interval. Null when no separate delivery cadence is set; one delivery is made per
-     * billing period. Format: int32. minimum: 1.
-     */
-    "delivery_interval_count"?: number | null;
-    /** Omission leaves this field unchanged. Null clears it. minLength: 1. */
-    "description"?: string | null;
-    /**
-     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
-     * at checkout and records it on each new subscription, but never charges it. To collect it,
-     * charge the buyer yourself, for example with an order on their saved payment method. Requires
-     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "early_termination_fee_money"?: MoneyValue;
-    /**
-     * Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200.
-     * Send null for no automatic end. Existing subscriptions keep their recorded condition. Null
-     * when no default automatic end is set. anyOf[1] (Value): {@link SubscriptionEndAfterCycles}.
-     * A subscription automatic end measured by the total number of charged billing cycles.
-     * anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterCycles) | (null));
-    /**
-     * Resource version last read by the caller. Required when replacing an owned collection.
-     * Required when any of these fields is present: images, line_items, plan_change_options.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Omission leaves this field
-     * unchanged. Null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Whether checkout buyers can name a gift recipient. Checkout sessions that are already open
-     * keep the setting they were created with.
-     */
-    "gifts_enabled"?: boolean;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
-     * by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequest>;
-    /**
-     * Replaces the plan's routing source. Subscriptions and payment links that already exist keep
-     * the source they copied. It can't be cleared. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequest;
-    /**
-     * Replaces all owned plan line items atomically. Requires expected_version. Omission leaves
-     * items unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id
-     * to retain an item; omit it for a new server-generated ID. Omitted members are removed.
-     * Existing subscriptions keep their snapshots. Retained catalog items with the same source
-     * keep their catalog snapshot; omitted modifiers keep their recorded choices. minItems: 1. []
-     * (Value): {@link UpdateSubscriptionPlanLineItemRequest}. A line item to keep or add when
-     * updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing
-     * one.
-     */
-    "line_items"?: Array<UpdateSubscriptionPlanLineItemRequest>;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
-     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
-     * value, a null value deletes the key, and an empty object makes no change; send null for the
-     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
-     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
-     * a key that does not exist is allowed, so the number of operations is not itself the
-     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
-     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
-     * object makes no change; send null for the whole field to clear all caller-owned metadata.
-     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
-     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
-     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
-     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
-     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Plans subscribers may switch to, in display order, with the billing timing for each target.
-     * Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces
-     * them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. []
-     * (Value): {@link SubscriptionPlanChangeOption}. A target plan subscribers may switch to and
-     * the billing timing for that change.
-     */
-    "plan_change_options"?: Array<SubscriptionPlanChangeOption>;
-    /**
-     * Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems:
-     * 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "setup_fee_money"?: MoneyValue;
-    /**
-     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
-     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
-     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /**
-     * Omission leaves the delivery methods unchanged. Send [] to remove all delivery methods. Null
-     * is invalid. [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Days of free trial before the first charge, from 0 to 365; 0 means no trial. Send 0 to
-     * remove the trial. Not allowed on plans with lines that ship. Format: int32. minimum: 0.
-     * maximum: 365.
-     */
-    "trial_period_days"?: number;
-});
-/** The request body for: Update subscription plan. minProperties: 1. */
-export type UpdateSubscriptionPlanRequestInput = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** Format: int32. */
-    "billing_interval_count"?: number;
-    /**
-     * Omission leaves the choices unchanged. Send [] to reset to the plan's default billing
-     * interval and count. Null is invalid. Line prices are per delivery. Each option charges for
-     * all deliveries in its period. Use separate plans or promotions for different prices per
-     * interval. maxItems: 12. uniqueItems: true. [] (Value): {@link
-     * SubscriptionIntervalOptionRequestInput}. A billing cadence offered by a subscription plan or
-     * offer. Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
-     */
-    "billing_interval_options"?: Array<SubscriptionIntervalOptionRequestInput>;
-    /**
-     * A commitment period you agree with the buyer, 1 to 120 months. Flint shows it at checkout
-     * and records it on each new subscription (contract_start_at, contract_end_at). Flint does not
-     * stop the buyer from canceling earlier. Format: int32. minimum: 1. maximum: 120.
-     */
-    "contract_term_months"?: number;
-    /**
-     * Delivery cadence, set together with delivery_interval_count. Null when no separate delivery
-     * cadence is set; one delivery is made per billing period. Each billing option must be a whole
-     * multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per
-     * period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep
-     * the cadence; send both as null to clear it. Value enum: "daily", "weekly", "monthly",
-     * "yearly", null.
-     */
-    "delivery_interval"?: "daily" | "weekly" | "monthly" | "yearly" | null;
-    /**
-     * Positive number of delivery intervals between deliveries. Set or clear together with
-     * delivery_interval. Null when no separate delivery cadence is set; one delivery is made per
-     * billing period. Format: int32. minimum: 1.
-     */
-    "delivery_interval_count"?: number | null;
-    /** Omission leaves this field unchanged. Null clears it. minLength: 1. */
-    "description"?: string | null;
-    /**
-     * A fee you agree the buyer owes for canceling before the contract term ends. Flint shows it
-     * at checkout and records it on each new subscription, but never charges it. To collect it,
-     * charge the buyer yourself, for example with an order on their saved payment method. Requires
-     * contract_term_months. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "early_termination_fee_money"?: MoneyValueInput;
-    /**
-     * Default automatic end for new subscriptions. Counts charged billing cycles, from 1 to 1200.
-     * Send null for no automatic end. Existing subscriptions keep their recorded condition. Null
-     * when no default automatic end is set. anyOf[1] (Value): {@link
-     * SubscriptionEndAfterCyclesRequestInput}. A subscription automatic end measured by the total
-     * number of charged billing cycles. anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterCyclesRequestInput) | (null));
-    /**
-     * Resource version last read by the caller. Required when replacing an owned collection.
-     * Required when any of these fields is present: images, line_items, plan_change_options.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Omission leaves this field
-     * unchanged. Null clears it. minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Whether checkout buyers can name a gift recipient. Checkout sessions that are already open
-     * keep the setting they were created with.
-     */
-    "gifts_enabled"?: boolean;
-    /**
-     * The complete desired gallery in display order. The first image is primary. Send [] to clear
-     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
-     * supply by `source_url`, with optional `alt` text and external reference.
-     */
-    "images"?: Array<ImageRequestInput>;
-    /**
-     * Replaces the plan's routing source. Subscriptions and payment links that already exist keep
-     * the source they copied. It can't be cleared. Where you want inventory routed from: a fixed
-     * Location, an inventory allocation policy, or one policy revision, selected by `type`.
-     */
-    "inventory_routing_source"?: InventoryRoutingSourceRequestInput;
-    /**
-     * Replaces all owned plan line items atomically. Requires expected_version. Omission leaves
-     * items unchanged; an empty array or null is invalid. Include subscription_plan_line_item_id
-     * to retain an item; omit it for a new server-generated ID. Omitted members are removed.
-     * Existing subscriptions keep their snapshots. Retained catalog items with the same source
-     * keep their catalog snapshot; omitted modifiers keep their recorded choices. minItems: 1. []
-     * (Value): {@link UpdateSubscriptionPlanLineItemRequestInput}. A line item to keep or add when
-     * updating a subscription plan. Include `subscription_plan_line_item_id` to keep an existing
-     * one.
-     */
-    "line_items"?: Array<UpdateSubscriptionPlanLineItemRequestInput>;
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
-     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
-     * sets a value, a null value deletes the key, and an empty object makes no change; send null
-     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
-     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
-     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
-     * are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the
-     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
-     * an empty object makes no change; send null for the whole field to clear all caller-owned
-     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
-     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
-     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
-     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
-     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value):
-     * string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /** minLength: 1. */
-    "name"?: string;
-    /**
-     * Plans subscribers may switch to, in display order, with the billing timing for each target.
-     * Empty means plan changes are off. Omission on PATCH keeps the options; an array replaces
-     * them and requires expected_version. Send [] to clear. Null is invalid. maxItems: 25. []
-     * (Value): {@link SubscriptionPlanChangeOptionRequestInput}. A target plan subscribers may
-     * switch to and the billing timing for that change.
-     */
-    "plan_change_options"?: Array<SubscriptionPlanChangeOptionRequestInput>;
-    /**
-     * Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems:
-     * 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "setup_fee_money"?: MoneyValueInput;
-    /**
-     * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
-     * while existing subscriptions keep renewing. Archived plans are read-only and their status is
-     * set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Value enum: "active",
-     * "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /**
-     * Omission leaves the delivery methods unchanged. Send [] to remove all delivery methods. Null
-     * is invalid. [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
-     */
-    "subscription_delivery_method_ids"?: Array<string>;
-    /**
-     * Days of free trial before the first charge, from 0 to 365; 0 means no trial. Send 0 to
-     * remove the trial. Not allowed on plans with lines that ship. Format: int32. minimum: 0.
-     * maximum: 365.
-     */
-    "trial_period_days"?: number;
-});
-/** The request body for: Update subscription. minProperties: 1. */
-export type UpdateSubscriptionRequest = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /** A closed owner-specific billing schedule update. */
-    "billing_schedule"?: SubscriptionBillingScheduleUpdateRequest;
-    /** Value enum: false. */
-    "cancel_at_period_end"?: boolean;
-    /**
-     * The delivery preference to set on a subscription: delivery method, type, destination, and
-     * recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequest;
-    /**
-     * Replace the complete automatic end condition, or send null to clear it. Requires
-     * expected_version. Buyers cannot change this field. anyOf[1] (Value): {@link
-     * SubscriptionEndAfterRequest}. An automatic end condition to assign to a subscription,
-     * measured by charged billing cycles or a local calendar date. anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterRequest) | (null) | (unknown));
-    /**
-     * The current subscription version. Required when end_after is present. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Replace the whole gift recipient, or send null to clear it. There are no partial changes.
-     * Send expected_version to guard against concurrent changes. Buyers cannot change this field.
-     * anyOf[1] (Value): {@link SubscriptionGiftRecipientRequest}. Who receives a gift
-     * subscription. Sending it replaces the whole recipient. anyOf[2] (Value): null.
-     */
-    "gift_recipient"?: ((SubscriptionGiftRecipientRequest) | (null));
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequest}. Changes to
-     * a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key sets a
-     * value, a null value deletes the key, and an empty object makes no change; send null for the
-     * whole field to clear all caller-owned metadata. The resulting map is limited the same way as
-     * MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1
-     * to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Deleting
-     * a key that does not exist is allowed, so the number of operations is not itself the
-     * stored-map limit. Values can't be empty strings, and keys starting with flint_ are reserved
-     * for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the field to
-     * leave metadata unchanged. Each key sets a value, a null value deletes the key, and an empty
-     * object makes no change; send null for the whole field to clear all caller-owned metadata.
-     * The resulting map is limited the same way as MetadataInput: Up to 50 key-value pairs. Keys
-     * are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus
-     * values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is allowed, so
-     * the number of operations is not itself the stored-map limit. Values can't be empty strings,
-     * and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value): string or null.
-     * minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequest & object, readonly unknown[]>)) | (null) | (unknown));
-    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". */
-    "payment_method_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100. */
-    "quantity"?: number;
-    /**
-     * Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it
-     * unchanged. Schedule or replace through change-plan.
-     */
-    "scheduled_plan_change"?: null;
-    /**
-     * Replace the subscription's tax as a whole, or send null to clear it, so its orders follow
-     * your settings again. Orders Flint creates after the change use it; an open renewal order
-     * keeps the tax it was created with. Buyers cannot change this field. anyOf[1] (Value): {@link
-     * SubscriptionTaxRequest}. Replaced as a whole: send every field you want to keep. anyOf[2]
-     * (Value): null.
-     */
-    "tax"?: ((SubscriptionTaxRequest) | (null));
-});
-/** The request body for: Update subscription. minProperties: 1. */
-export type UpdateSubscriptionRequestInput = ({
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
-    "billing_interval"?: "daily" | "weekly" | "monthly" | "yearly";
-    /** minimum: 1. maximum: 365. */
-    "billing_interval_count"?: number;
-    /** A closed owner-specific billing schedule update. */
-    "billing_schedule"?: SubscriptionBillingScheduleUpdateRequestInput;
-    /** Value enum: false. */
-    "cancel_at_period_end"?: false;
-    /**
-     * The delivery preference to set on a subscription: delivery method, type, destination, and
-     * recipient.
-     */
-    "delivery"?: SubscriptionDeliveryRequestInput;
-    /**
-     * Replace the complete automatic end condition, or send null to clear it. Requires
-     * expected_version. Buyers cannot change this field. anyOf[1] (Value): {@link
-     * SubscriptionEndAfterRequestInput}. An automatic end condition to assign to a subscription,
-     * measured by charged billing cycles or a local calendar date. anyOf[2] (Value): null.
-     */
-    "end_after"?: ((SubscriptionEndAfterRequestInput) | (null));
-    /**
-     * The current subscription version. Required when end_after is present. Format: uint64.
-     * minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /**
-     * Replace the whole gift recipient, or send null to clear it. There are no partial changes.
-     * Send expected_version to guard against concurrent changes. Buyers cannot change this field.
-     * anyOf[1] (Value): {@link SubscriptionGiftRecipientRequestInput}. Who receives a gift
-     * subscription. Sending it replaces the whole recipient. anyOf[2] (Value): null.
-     */
-    "gift_recipient"?: ((SubscriptionGiftRecipientRequestInput) | (null));
-    /**
-     * Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge
-     * by key, set a key to null to remove it, or set metadata to null to clear all caller-owned
-     * metadata. An empty object makes no change. Values can't be empty strings. Keys starting with
-     * flint_ are reserved for Flint, are not returned, and cannot be written through the public
-     * API. This operation also limits the metadata object you send, before merging: at most 50
-     * keys, counting null deletions, each key 1 to 256 Unicode code points, and at most 32768
-     * UTF-8 bytes of keys plus values. anyOf[1] (Value): {@link MetadataPatchRequestInput}.
-     * Changes to a caller-owned metadata map. Omit the field to leave metadata unchanged. Each key
-     * sets a value, a null value deletes the key, and an empty object makes no change; send null
-     * for the whole field to clear all caller-owned metadata. The resulting map is limited the
-     * same way as MetadataInput: Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points,
-     * values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8
-     * bytes. Deleting a key that does not exist is allowed, so the number of operations is not
-     * itself the stored-map limit. Values can't be empty strings, and keys starting with flint_
-     * are reserved for Flint. maxProperties: 50. Changes to a caller-owned metadata map. Omit the
-     * field to leave metadata unchanged. Each key sets a value, a null value deletes the key, and
-     * an empty object makes no change; send null for the whole field to clear all caller-owned
-     * metadata. The resulting map is limited the same way as MetadataInput: Up to 50 key-value
-     * pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and
-     * keys plus values total at most 32768 UTF-8 bytes. Deleting a key that does not exist is
-     * allowed, so the number of operations is not itself the stored-map limit. Values can't be
-     * empty strings, and keys starting with flint_ are reserved for Flint. anyOf[1].* (Value):
-     * string or null. minLength: 1. maxLength: 4096. anyOf[2] (Value): null.
-     */
-    "metadata"?: (((Exclude<MetadataPatchRequestInput & object, readonly unknown[]>)) | (null));
-    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". */
-    "payment_method_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100. */
-    "quantity"?: number;
-    /**
-     * Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it
-     * unchanged. Schedule or replace through change-plan.
-     */
-    "scheduled_plan_change"?: null;
-    /**
-     * Replace the subscription's tax as a whole, or send null to clear it, so its orders follow
-     * your settings again. Orders Flint creates after the change use it; an open renewal order
-     * keeps the tax it was created with. Buyers cannot change this field. anyOf[1] (Value): {@link
-     * SubscriptionTaxRequestInput}. Replaced as a whole: send every field you want to keep.
-     * anyOf[2] (Value): null.
-     */
-    "tax"?: ((SubscriptionTaxRequestInput) | (null));
-});
-/** The request body for: Update a tax calculation callback. minProperties: 1. */
-export type UpdateTaxCalculationCallbackRequest = ({
-    /**
-     * Changes to the callback's configuration. Requires expected_version. Changes to a tax
-     * calculation callback's configuration. Only the keys you send change; keys you leave out keep
-     * their current values. Null restores an optional key's default. Requires expected_version.
-     * minProperties: 1.
-     */
-    "configuration"?: TaxCalculationCallbackConfigurationPatchRequest;
-    /**
-     * The `version` you last read. A stale value is refused with a version conflict. Required with
-     * `configuration` and `signing_methods`. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /** New label for the callback. minLength: 1. */
-    "name"?: string;
-    /**
-     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
-     * public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires
-     * expected_version. Removing hmac deletes the current and previous secrets. minItems: 1.
-     * uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethod}. How
-     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethod>;
-    /**
-     * Activates or deactivates the callback. Send it alone, with at most `expected_version`. -
-     * `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`:
-     * Stops the callback from being selected. Refused while your settings select it. Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-})
-    & (({
-    /** New label for the callback. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Changes to the callback's configuration. Requires expected_version. Changes to a tax
-     * calculation callback's configuration. Only the keys you send change; keys you leave out keep
-     * their current values. Null restores an optional key's default. Requires expected_version.
-     * minProperties: 1.
-     */
-    "configuration": TaxCalculationCallbackConfigurationPatchRequest;
-})
-    | ({
-    /**
-     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
-     * public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires
-     * expected_version. Removing hmac deletes the current and previous secrets. minItems: 1.
-     * uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethod}. How
-     * Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods": Array<WebhookSigningMethod>;
-})
-    | ({
-    /**
-     * Activates or deactivates the callback. Send it alone, with at most `expected_version`. -
-     * `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`:
-     * Stops the callback from being selected. Refused while your settings select it. Value enum:
-     * "active", "inactive".
-     */
-    "status": "active" | "inactive" | (string & {});
-})
-    | (Record<string, unknown>));
-/** The request body for: Update a tax calculation callback. minProperties: 1. */
-export type UpdateTaxCalculationCallbackRequestInput = ({
-    /**
-     * Changes to the callback's configuration. Requires expected_version. Changes to a tax
-     * calculation callback's configuration. Only the keys you send change; keys you leave out keep
-     * their current values. Null restores an optional key's default. Requires expected_version.
-     * minProperties: 1.
-     */
-    "configuration"?: TaxCalculationCallbackConfigurationPatchRequestInput;
-    /**
-     * The `version` you last read. A stale value is refused with a version conflict. Required with
-     * `configuration` and `signing_methods`. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string | null;
-    /** New label for the callback. minLength: 1. */
-    "name"?: string;
-    /**
-     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
-     * public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires
-     * expected_version. Removing hmac deletes the current and previous secrets. minItems: 1.
-     * uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethodInput}.
-     * How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethodInput>;
-    /**
-     * Activates or deactivates the callback. Send it alone, with at most `expected_version`. -
-     * `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`:
-     * Stops the callback from being selected. Refused while your settings select it. Value enum:
-     * "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-})
-    & (({
-    /** New label for the callback. minLength: 1. */
-    "name": string;
-})
-    | ({
-    /**
-     * Caller-owned identifier for this resource in an external system. Send null to clear it.
-     * minLength: 1. maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id": string | null;
-})
-    | ({
-    /**
-     * Changes to the callback's configuration. Requires expected_version. Changes to a tax
-     * calculation callback's configuration. Only the keys you send change; keys you leave out keep
-     * their current values. Null restores an optional key's default. Requires expected_version.
-     * minProperties: 1.
-     */
-    "configuration": TaxCalculationCallbackConfigurationPatchRequestInput;
-})
-    | ({
-    /**
-     * How Flint signs requests to your endpoint: `jwt` for a bearer JWT you verify with Flint's
-     * public keys, `hmac` for a shared secret, or both. Replaces the whole set. Requires
-     * expected_version. Removing hmac deletes the current and previous secrets. minItems: 1.
-     * uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link WebhookSigningMethodInput}.
-     * How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods": Array<WebhookSigningMethodInput>;
-})
-    | ({
-    /**
-     * Activates or deactivates the callback. Send it alone, with at most `expected_version`. -
-     * `active`: Makes the callback selectable in `tax.calculation_callback_id`. - `inactive`:
-     * Stops the callback from being selected. Refused while your settings select it. Value enum:
-     * "active", "inactive".
-     */
-    "status": "active" | "inactive";
-}));
-/**
- * Update at least one of registration_number, start_date or end_date. Pending and rejected
- * registrations allow all three fields; registration_number and start_date require a connection
- * that is not active. Scheduled and active registrations allow only end_date. A pending or
- * rejected registration whose tax-account copy exists or may have been created cannot change
- * start_date; delete it and create it again. Ended registrations cannot be changed. A version
- * fence by itself is not a change. minProperties: 1.
- */
-export type UpdateTaxRegistrationRequest = ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1. Example: "2026-08-02".
-     */
-    "end_date"?: string | null;
-    /**
-     * Resource version last read by the caller. Omit to apply the change to the current resource.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date"?: string;
-})
-    & ((unknown)
-    | ({
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date": string;
-})
-    | ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1. Example: "2026-08-02".
-     */
-    "end_date": string | null;
-})
-    | (Record<string, unknown>));
-/**
- * Update at least one of registration_number, start_date or end_date. Pending and rejected
- * registrations allow all three fields; registration_number and start_date require a connection
- * that is not active. Scheduled and active registrations allow only end_date. A pending or
- * rejected registration whose tax-account copy exists or may have been created cannot change
- * start_date; delete it and create it again. Ended registrations cannot be changed. A version
- * fence by itself is not a change. minProperties: 1.
- */
-export type UpdateTaxRegistrationRequestInput = ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1. Example: "2026-08-02".
-     */
-    "end_date"?: string | null;
-    /**
-     * Resource version last read by the caller. Omit to apply the change to the current resource.
-     * Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine
-     * digits. Write-only; responses return only its last four characters. minLength: 1. maxLength:
-     * 255.
-     */
-    "registration_number"?: string;
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date"?: string;
-})
-    & (({
-    /**
-     * Seller's tax registration number. For EU, the non-Union OSS number: EU followed by nine
-     * digits. Write-only; responses return only its last four characters. minLength: 1. maxLength:
-     * 255.
-     */
-    "registration_number": string;
-})
-    | ({
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. minLength: 1. Example: "2026-08-02".
-     */
-    "start_date": string;
-})
-    | ({
-    /**
-     * Last day the registration applies, inclusive. Must be on or after start_date and today
-     * (UTC). Send null to clear the end date before the registration has ended. Format: date.
-     * minLength: 1. Example: "2026-08-02".
-     */
-    "end_date": string | null;
-}));
-/** The attendee name to set or clear. minProperties: 1. */
-export type UpdateTicketRequest = {
-    /**
-     * The attendee name, 1 to 200 characters after surrounding whitespace is trimmed. Send null to
-     * clear it. minLength: 1. maxLength: 200.
-     */
-    "attendee_name": string | null;
-    /**
-     * The ticket version last read. The change applies only while the ticket is at this version; a
-     * stale value returns 409 VERSION_CONFLICT, even when the ticket's status would also refuse
-     * the change. Door scanners usually omit it. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-};
-/** The attendee name to set or clear. minProperties: 1. */
-export type UpdateTicketRequestInput = UpdateTicketRequest;
-/** The request body for: Update webhook endpoint. minProperties: 1. */
-export type UpdateWebhookEndpointRequest = ({
-    /**
-     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
-     * endpoint. Omit to leave unchanged. Null is not accepted. Switching between a pin and default
-     * clears the rollback offer. minLength: 1.
-     */
-    "api_version"?: string;
-    /**
-     * Endpoint description. Omit to leave unchanged; null clears it. Send null to clear it.
-     * minLength: 1. maxLength: 500.
-     */
-    "description"?: string | null;
-    /**
-     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
-     * including types added later; * must be the only entry and is not available with
-     * installed_merchants. At least one entry is required. Use only current event type names;
-     * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
-     */
-    "enabled_events"?: Array<string>;
-    /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants" | (string & {})>;
-    /**
-     * Apply api_version only if this matches the resource's current api_version. A mismatch
-     * returns HTTP 409. Requires api_version; null is not accepted. minLength: 1.
-     */
-    "expected_api_version"?: string;
-    /**
-     * Resource version last read by the caller. Required when enabled_events, event_sources,
-     * installed_merchant_modes, or signing_methods is present, including an empty array. Optional
-     * for scalar updates. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live" | (string & {})>;
-    /**
-     * Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
-     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: string;
-    /**
-     * Replaces the signing methods. Removing hmac deletes all shared secrets. Adding hmac when no
-     * secret exists issues the first secret and returns it once in this response. Omit to leave
-     * unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link
-     * WebhookSigningMethod}. How Flint signs requests to this endpoint. Value enum: "jwt", "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethod>;
-    /**
-     * Whether this endpoint receives events. Setting inactive suppresses pending deliveries. Omit
-     * to leave unchanged. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive" | (string & {});
-    /** Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: 1. */
-    "url"?: string;
-});
-/** The request body for: Update webhook endpoint. minProperties: 1. */
-export type UpdateWebhookEndpointRequestInput = ({
-    /**
-     * Set default to follow the merchant default, or a supported YYYY-MM-DD version to pin this
-     * endpoint. Omit to leave unchanged. Null is not accepted. Switching between a pin and default
-     * clears the rollback offer. minLength: 1.
-     */
-    "api_version"?: string;
-    /**
-     * Endpoint description. Omit to leave unchanged; null clears it. Send null to clear it.
-     * minLength: 1. maxLength: 500.
-     */
-    "description"?: string | null;
-    /**
-     * Event types to deliver. Send ["*"] for every type the endpoint's event_sources deliver,
-     * including types added later; * must be the only entry and is not available with
-     * installed_merchants. At least one entry is required. Use only current event type names;
-     * previous and removed names are rejected. Stored subscriptions map previous names permanently
-     * and drop removed names on read. See the [changelog](/docs/changelog). minItems: 1. []
-     * (Value): string. minLength: 1.
-     */
-    "enabled_events"?: Array<string>;
-    /**
-     * Event sources this endpoint receives. Defaults to merchant. Use partner_app for app
-     * lifecycle events and installed_merchants for events from merchants that installed the
-     * partner app. [] enum: "merchant", "partner_app", "installed_merchants". [] (Value): string.
-     * Value enum: "merchant", "partner_app", "installed_merchants".
-     */
-    "event_sources"?: Array<"merchant" | "partner_app" | "installed_merchants">;
-    /**
-     * Apply api_version only if this matches the resource's current api_version. A mismatch
-     * returns HTTP 409. Requires api_version; null is not accepted. minLength: 1.
-     */
-    "expected_api_version"?: string;
-    /**
-     * Resource version last read by the caller. Required when enabled_events, event_sources,
-     * installed_merchant_modes, or signing_methods is present, including an empty array. Optional
-     * for scalar updates. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Modes of installed-merchant events this endpoint receives. Required when event_sources
-     * includes installed_merchants and omitted otherwise. Partner app lifecycle events are
-     * delivered regardless of these modes. minItems: 1. maxItems: 2. uniqueItems: true. [] enum:
-     * "test", "live". [] (Value): string. Value enum: "test", "live".
-     */
-    "installed_merchant_modes"?: Array<"test" | "live">;
-    /**
-     * Partner app that owns partner_app or installed_merchants event sources. minLength: 1.
-     * Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
-     */
-    "partner_app_id"?: string;
-    /**
-     * Replaces the signing methods. Removing hmac deletes all shared secrets. Adding hmac when no
-     * secret exists issues the first secret and returns it once in this response. Omit to leave
-     * unchanged. minItems: 1. uniqueItems: true. [] enum: "jwt", "hmac". [] (Value): {@link
-     * WebhookSigningMethodInput}. How Flint signs requests to this endpoint. Value enum: "jwt",
-     * "hmac".
-     */
-    "signing_methods"?: Array<WebhookSigningMethodInput>;
-    /**
-     * Whether this endpoint receives events. Setting inactive suppresses pending deliveries. Omit
-     * to leave unchanged. Value enum: "active", "inactive".
-     */
-    "status"?: "active" | "inactive";
-    /** Public HTTPS URL to receive webhook deliveries. Omit to leave unchanged. minLength: 1. */
-    "url"?: string;
-});
-/** The request body for: Update a workload identity. minProperties: 1. */
-export type UpdateWorkloadIdentityRequest = ({
-    /**
-     * Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition;
-     * shared issuers require tenant pinning. maxItems: 10. uniqueItems: true. [] (Value): {@link
-     * WorkloadIdentityClaimConditionRequest}. A condition to match one top-level scalar claim in
-     * the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequest>;
-    /**
-     * Version most recently read. Required when claim_conditions or scopes is supplied; optional
-     * for scalar updates. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** minLength: 1. maxLength: 100. */
-    "name"?: string;
-    /**
-     * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
-     * scopes they hold in the same environment. Only a full-access key or a freshly verified user
-     * session can grant accounts.api_keys.write, accounts.workload_identities.write or
-     * commerce.gift_cards.secrets.write, in every mode. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
-     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.merchant_signups.read"
-        | "developer.merchant_signups.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payment_splits.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "money_movement.platform_fees.read"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.readers.read"
-        | "payments.readers.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write"
-        | (string & {})>;
-    /** Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive" | (string & {});
-    /** minLength: 1. maxLength: 1024. */
-    "subject"?: string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob" | (string & {});
-});
-/** The request body for: Update a workload identity. minProperties: 1. */
-export type UpdateWorkloadIdentityRequestInput = ({
-    /**
-     * Bounded value array, at most 10. Defaults to []. Any glob requires an exact claim condition;
-     * shared issuers require tenant pinning. maxItems: 10. uniqueItems: true. [] (Value): {@link
-     * WorkloadIdentityClaimConditionRequestInput}. A condition to match one top-level scalar claim
-     * in the workload's identity token. Omitted match defaults to exact.
-     */
-    "claim_conditions"?: Array<WorkloadIdentityClaimConditionRequestInput>;
-    /**
-     * Version most recently read. Required when claim_conditions or scopes is supplied; optional
-     * for scalar updates. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** minLength: 1. maxLength: 100. */
-    "name"?: string;
-    /**
-     * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
-     * scopes they hold in the same environment. Only a full-access key or a freshly verified user
-     * session can grant accounts.api_keys.write, accounts.workload_identities.write or
-     * commerce.gift_cards.secrets.write, in every mode. [] enum: "accounts.api_keys.read",
-     * "accounts.api_keys.write", "accounts.devices.read", "accounts.devices.write",
-     * "accounts.workload_identities.read", "accounts.workload_identities.write", "analytics.read",
-     * "checkouts.checkout_sessions.read", "checkouts.checkout_sessions.write",
-     * "checkouts.payment_links.read", "checkouts.payment_links.write", "commerce.bundles.read",
-     * "commerce.bundles.write", "commerce.catalog.read", "commerce.catalog.write",
-     * "commerce.credit_notes.read", "commerce.credit_notes.write", "commerce.delivery.read",
-     * "commerce.delivery.write", "commerce.gift_cards.adjustments.write",
-     * "commerce.gift_cards.read", "commerce.gift_cards.redemptions.write",
-     * "commerce.gift_cards.secrets.write", "commerce.gift_cards.write",
-     * "commerce.inventory.allocation.write", "commerce.inventory.policies.write",
-     * "commerce.inventory.read", "commerce.inventory.write", "commerce.invoices.read",
-     * "commerce.invoices.write", "commerce.orders.read", "commerce.orders.write",
-     * "commerce.products.read", "commerce.products.write", "commerce.promotions.read",
-     * "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write". [] (Value): string.
-     * Value enum: "accounts.api_keys.read", "accounts.api_keys.write", "accounts.devices.read",
-     * "accounts.devices.write", "accounts.workload_identities.read",
-     * "accounts.workload_identities.write", "analytics.read", "checkouts.checkout_sessions.read",
-     * "checkouts.checkout_sessions.write", "checkouts.payment_links.read",
-     * "checkouts.payment_links.write", "commerce.bundles.read", "commerce.bundles.write",
-     * "commerce.catalog.read", "commerce.catalog.write", "commerce.credit_notes.read",
-     * "commerce.credit_notes.write", "commerce.delivery.read", "commerce.delivery.write",
-     * "commerce.gift_cards.adjustments.write", "commerce.gift_cards.read",
-     * "commerce.gift_cards.redemptions.write", "commerce.gift_cards.secrets.write",
-     * "commerce.gift_cards.write", "commerce.inventory.allocation.write",
-     * "commerce.inventory.policies.write", "commerce.inventory.read", "commerce.inventory.write",
-     * "commerce.invoices.read", "commerce.invoices.write", "commerce.orders.read",
-     * "commerce.orders.write", "commerce.products.read", "commerce.products.write",
-     * "commerce.promotions.read", "commerce.promotions.write", "commerce.refunds.read",
-     * "commerce.refunds.tax_overrides.write", "commerce.refunds.write",
-     * "commerce.returns.operations.write", "commerce.returns.policies.write",
-     * "commerce.returns.read", "commerce.returns.reasons.write",
-     * "commerce.returns.resolutions.write", "commerce.returns.write",
-     * "commerce.subscription_plans.read", "commerce.subscription_plans.write",
-     * "commerce.subscriptions.read", "commerce.subscriptions.write", "commerce.tickets.read",
-     * "commerce.tickets.write", "customers.read", "customers.sessions.write", "customers.write",
-     * "developer.feedback_reports.read", "developer.feedback_reports.write",
-     * "developer.merchant_signups.read", "developer.merchant_signups.write",
-     * "developer.partner_apps.read", "developer.partner_apps.write",
-     * "developer.request_logs.read", "developer.request_logs.self.read",
-     * "developer.resource_timelines.read", "developer.sandboxes.read",
-     * "developer.sandboxes.write", "developer.test_clocks.read", "developer.test_clocks.write",
-     * "merchant_billing.read", "merchants.account_sessions.write", "merchants.locations.read",
-     * "merchants.locations.write", "merchants.onboarding.read", "merchants.onboarding.write",
-     * "merchants.profile.read", "merchants.profile.write",
-     * "money_movement.balance_transactions.read", "money_movement.balances.read",
-     * "money_movement.payment_splits.read", "money_movement.payout_settings.read",
-     * "money_movement.payout_settings.write", "money_movement.payouts.read",
-     * "money_movement.payouts.write", "money_movement.platform_fees.read",
-     * "payments.disputes.read", "payments.disputes.write", "payments.payment_intents.read",
-     * "payments.payment_intents.write", "payments.payment_method_domains.read",
-     * "payments.payment_method_domains.write", "payments.payment_methods.read",
-     * "payments.payment_methods.write", "payments.readers.read", "payments.readers.write",
-     * "reports.read", "reports.write", "risk.controls.write", "risk.read", "risk.reviews.write",
-     * "settings.read", "settings.write", "webhooks.read", "webhooks.write".
-     */
-    "scopes"?: Array<"accounts.api_keys.read"
-        | "accounts.api_keys.write"
-        | "accounts.devices.read"
-        | "accounts.devices.write"
-        | "accounts.workload_identities.read"
-        | "accounts.workload_identities.write"
-        | "analytics.read"
-        | "checkouts.checkout_sessions.read"
-        | "checkouts.checkout_sessions.write"
-        | "checkouts.payment_links.read"
-        | "checkouts.payment_links.write"
-        | "commerce.bundles.read"
-        | "commerce.bundles.write"
-        | "commerce.catalog.read"
-        | "commerce.catalog.write"
-        | "commerce.credit_notes.read"
-        | "commerce.credit_notes.write"
-        | "commerce.delivery.read"
-        | "commerce.delivery.write"
-        | "commerce.gift_cards.adjustments.write"
-        | "commerce.gift_cards.read"
-        | "commerce.gift_cards.redemptions.write"
-        | "commerce.gift_cards.secrets.write"
-        | "commerce.gift_cards.write"
-        | "commerce.inventory.allocation.write"
-        | "commerce.inventory.policies.write"
-        | "commerce.inventory.read"
-        | "commerce.inventory.write"
-        | "commerce.invoices.read"
-        | "commerce.invoices.write"
-        | "commerce.orders.read"
-        | "commerce.orders.write"
-        | "commerce.products.read"
-        | "commerce.products.write"
-        | "commerce.promotions.read"
-        | "commerce.promotions.write"
-        | "commerce.refunds.read"
-        | "commerce.refunds.tax_overrides.write"
-        | "commerce.refunds.write"
-        | "commerce.returns.operations.write"
-        | "commerce.returns.policies.write"
-        | "commerce.returns.read"
-        | "commerce.returns.reasons.write"
-        | "commerce.returns.resolutions.write"
-        | "commerce.returns.write"
-        | "commerce.subscription_plans.read"
-        | "commerce.subscription_plans.write"
-        | "commerce.subscriptions.read"
-        | "commerce.subscriptions.write"
-        | "commerce.tickets.read"
-        | "commerce.tickets.write"
-        | "customers.read"
-        | "customers.sessions.write"
-        | "customers.write"
-        | "developer.feedback_reports.read"
-        | "developer.feedback_reports.write"
-        | "developer.merchant_signups.read"
-        | "developer.merchant_signups.write"
-        | "developer.partner_apps.read"
-        | "developer.partner_apps.write"
-        | "developer.request_logs.read"
-        | "developer.request_logs.self.read"
-        | "developer.resource_timelines.read"
-        | "developer.sandboxes.read"
-        | "developer.sandboxes.write"
-        | "developer.test_clocks.read"
-        | "developer.test_clocks.write"
-        | "merchant_billing.read"
-        | "merchants.account_sessions.write"
-        | "merchants.locations.read"
-        | "merchants.locations.write"
-        | "merchants.onboarding.read"
-        | "merchants.onboarding.write"
-        | "merchants.profile.read"
-        | "merchants.profile.write"
-        | "money_movement.balance_transactions.read"
-        | "money_movement.balances.read"
-        | "money_movement.payment_splits.read"
-        | "money_movement.payout_settings.read"
-        | "money_movement.payout_settings.write"
-        | "money_movement.payouts.read"
-        | "money_movement.payouts.write"
-        | "money_movement.platform_fees.read"
-        | "payments.disputes.read"
-        | "payments.disputes.write"
-        | "payments.payment_intents.read"
-        | "payments.payment_intents.write"
-        | "payments.payment_method_domains.read"
-        | "payments.payment_method_domains.write"
-        | "payments.payment_methods.read"
-        | "payments.payment_methods.write"
-        | "payments.readers.read"
-        | "payments.readers.write"
-        | "reports.read"
-        | "reports.write"
-        | "risk.controls.write"
-        | "risk.read"
-        | "risk.reviews.write"
-        | "settings.read"
-        | "settings.write"
-        | "webhooks.read"
-        | "webhooks.write">;
-    /** Value enum: "active", "inactive". */
-    "status"?: "active" | "inactive";
-    /** minLength: 1. maxLength: 1024. */
-    "subject"?: string;
-    /** Default: "exact". Value enum: "exact", "glob". */
-    "subject_match"?: "exact" | "glob";
-});
-/** A user with access to merchant accounts. */
-export type User = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "default_merchant_id"?: string;
-    /** Email address the user signs in with. */
-    "email": string;
-    /** The user's first name. */
-    "first_name": string;
-    /** The user's last name. */
-    "last_name": string;
-    /** Value enum: "active", "deactivated". */
-    "status": "active" | "deactivated" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Unique identifier for this user, prefixed `usr_`. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
-     */
-    "user_id": string;
-};
-export type VerifiedWebhook = {
-    known: true;
-    event: KnownWebhookEvent;
-}
-    | {
-    known: false;
-    event: unknown;
-    reason: "unknown_event" | "unmatched_envelope";
-};
-/** The request body for: Verify a merchant signup. */
-export type VerifyMerchantSignupRequest = {
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * The owner's acceptance of Flint's merchant terms. Your statement that the owner ticked
-     * Flint's terms checkbox in your form, with Flint's wording. The platform terms oblige you to
-     * show it and to report real values.
-     */
-    "terms_acceptance": MerchantSignupTermsAcceptanceRequest;
-    /**
-     * The 8-character code Flint emailed the owner, such as `K7QM-4TXD`, with or without the
-     * hyphen, in either case. Request logs redact it. minLength: 8. maxLength: 9.
-     */
-    "verification_code": string;
-};
-/** The request body for: Verify a merchant signup. */
-export type VerifyMerchantSignupRequestInput = {
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * The owner's acceptance of Flint's merchant terms. Your statement that the owner ticked
-     * Flint's terms checkbox in your form, with Flint's wording. The platform terms oblige you to
-     * show it and to report real values.
-     */
-    "terms_acceptance": MerchantSignupTermsAcceptanceRequestInput;
-    /**
-     * The 8-character code Flint emailed the owner, such as `K7QM-4TXD`, with or without the
-     * hyphen, in either case. Request logs redact it. minLength: 8. maxLength: 9.
-     */
-    "verification_code": string;
-};
-/** The request body for: Verify return receipt line item. */
-export type VerifyReturnReceiptLineItemRequest = {
-    /**
-     * Optional version of the return receipt. A stale value returns VERSION_CONFLICT with the
-     * receipt ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason": "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other"
-        | (string & {});
-    /** Detail about `verification_reason`. minLength: 1. */
-    "verification_reason_message"?: string;
-};
-/** The request body for: Verify return receipt line item. */
-export type VerifyReturnReceiptLineItemRequestInput = {
-    /**
-     * Optional version of the return receipt. A stale value returns VERSION_CONFLICT with the
-     * receipt ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * ID of the Return line the units were matched to. Absent for unverified units. minLength: 1.
-     * Example: "retli_01KEZF7C00R813VR7ECXS062QG".
-     */
-    "return_line_item_id": string;
-    /**
-     * Why the units were verified against the line. Value enum: "order_match_confirmed",
-     * "sku_match_confirmed", "inspection_confirmed", "merchant_review", "other".
-     */
-    "verification_reason": "order_match_confirmed"
-        | "sku_match_confirmed"
-        | "inspection_confirmed"
-        | "merchant_review"
-        | "other";
-    /** Detail about `verification_reason`. minLength: 1. */
-    "verification_reason_message"?: string;
-};
-export type VerifyReturnReceiptLineItemResponse = GetReturnReceiptResponse;
-/** The request body for: Void package. */
-export type VoidPackageRequest = {
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** Void event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at"?: string;
-    /** Your note explaining this action. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Void package. */
-export type VoidPackageRequestInput = {
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Optional resource version last read by the caller. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /** Void event timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this action. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Void shipment. */
-export type VoidShipmentRequestInput = VoidPackageRequestInput;
-/** A response containing `VoidShipmentResult` data. */
-export type VoidShipmentResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The voided shipment and
-     * its affected packages. The shipment is the primary resource and expected_version target.
-     */
-    "data": VoidShipmentResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The voided shipment and its affected packages. The shipment is the primary resource and
- * expected_version target.
- */
-export type VoidShipmentResult = {
-    /**  [] (Value): {@link Package}. A package within a shipment. */
-    "packages": Array<Package>;
-    /** A shipment carrying fulfilled order items. */
-    "shipment": Shipment;
-};
-/** The request body for: Waive an unpaid invoice late fee. */
-export type WaiveInvoiceLateFeeRequest = {
-    /** Your note explaining this action. minLength: 1. maxLength: 4096. */
-    "reason_message": string;
-};
-/** The request body for: Waive an unpaid invoice late fee. */
-export type WaiveInvoiceLateFeeRequestInput = WaiveInvoiceLateFeeRequest;
-/** The request body for: Waive return line inspection. */
-export type WaiveReturnLineInspectionRequest = {
-    /**
-     * Optional. The Return's current version, not the line's; a stale value returns 409
-     * VERSION_CONFLICT. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Why inspection is being waived. Value enum: "policy_override", "trusted_in_store_handoff",
-     * "merchant_review", "other".
-     */
-    "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other" | (string & {});
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-/** The request body for: Waive return line inspection. */
-export type WaiveReturnLineInspectionRequestInput = {
-    /**
-     * Optional. The Return's current version, not the line's; a stale value returns 409
-     * VERSION_CONFLICT. Format: int64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Why inspection is being waived. Value enum: "policy_override", "trusted_in_store_handoff",
-     * "merchant_review", "other".
-     */
-    "reason": "policy_override" | "trusted_in_store_handoff" | "merchant_review" | "other";
-    /** Optional detail about `reason`, kept with the record. minLength: 1. */
-    "reason_message"?: string;
-};
-export type WaiveReturnLineInspectionResponse = GetReturnResponse;
-export type WebhookDeliveriesCreateParams = (InputValue<CreateWebhookDeliveryRequestInput>);
-export type WebhookDeliveriesGetParams = DisputesAcceptParams;
-export type WebhookDeliveriesListAttemptsParams = CustomersListAddressesParams;

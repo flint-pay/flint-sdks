@@ -9,7 +9,7 @@ namespace Flint;
 final class EmailChangeRequestResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailChangeRequestResponse')); }
-    /** Resource, collection, or operation result returned by this request. A request to change a customer's email address.
+    /** Resource, collection, or operation result returned by this request. Nested child of Customer. A request to change this customer's sign-in email. Only one request can be pending per customer.
      * @return EmailChangeRequest
      */
     public function getData(): EmailChangeRequest { return $this->get('data'); }

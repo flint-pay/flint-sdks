@@ -24,8 +24,10 @@ namespace Flint;
  * @property-read string $replaces_return_disposition_id
  * @property-read string $return_disposition_id
  * @property-read string $return_id
+ * @property-read string|null $return_inspection_id
  * @property-read string $return_inspection_line_item_id
  * @property-read string $return_line_item_id
+ * @property-read string|null $return_receipt_id
  * @property-read string $return_receipt_line_item_id
  * @property-read string $status
  * @property-read list<string> $supported_actions
@@ -33,7 +35,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnDispositionInput extends Model {
-    /** @param array{'canceled_at'?: string|\DateTimeInterface, 'canceled_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'created_by': ReturnActorInput|array<array-key, mixed>|\stdClass, 'disposition_type': string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'inventory_location_id'?: string, 'inventory_movement_ids': list<string>, 'inventory_receipt_id'?: string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'quantity': int, 'reason': string, 'reason_message'?: string, 'replaced_by_return_disposition_id'?: string, 'replaces_return_disposition_id'?: string, 'return_disposition_id': string, 'return_id': string, 'return_inspection_line_item_id'?: string, 'return_line_item_id'?: string, 'return_receipt_line_item_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'canceled_at'?: string|\DateTimeInterface, 'canceled_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'created_at': string|\DateTimeInterface, 'created_by': ReturnActorInput|array<array-key, mixed>|\stdClass, 'disposition_type': string, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'inventory_location_id'?: string, 'inventory_movement_ids': list<string>, 'inventory_receipt_id'?: string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'quantity': int, 'reason': string, 'reason_message'?: string, 'replaced_by_return_disposition_id'?: string, 'replaces_return_disposition_id'?: string, 'return_disposition_id': string, 'return_id': string, 'return_inspection_id': string|null, 'return_inspection_line_item_id'?: string, 'return_line_item_id'?: string, 'return_receipt_id': string|null, 'return_receipt_line_item_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnDispositionInput')); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -167,6 +169,12 @@ final class ReturnDispositionInput extends Model {
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
+    /** Inspection that owns return_inspection_line_item_id. `null` when return_inspection_line_item_id is null. Example: "retins_01KEZF7C00WPB0BR4WTT7CMSB8".
+     * @return string|null
+     * @throws SdkError When return_inspection_id is omitted; use hasReturnInspectionId() or valueOrDefault().
+     */
+    public function getReturnInspectionId(): string|null { return $this->get('return_inspection_id'); }
+    public function hasReturnInspectionId(): bool { return $this->has('return_inspection_id'); }
     /** ID of the inspection line the disposition covers. Absent when it covers a receipt line. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      * @return string
      * @throws SdkError When return_inspection_line_item_id is omitted; use hasReturnInspectionLineItemId() or valueOrDefault().
@@ -179,6 +187,12 @@ final class ReturnDispositionInput extends Model {
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
+    /** Receipt that owns return_receipt_line_item_id. `null` when return_receipt_line_item_id is null. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
+     * @return string|null
+     * @throws SdkError When return_receipt_id is omitted; use hasReturnReceiptId() or valueOrDefault().
+     */
+    public function getReturnReceiptId(): string|null { return $this->get('return_receipt_id'); }
+    public function hasReturnReceiptId(): bool { return $this->has('return_receipt_id'); }
     /** ID of the receipt line the disposition covers. Absent when it covers an inspection line. Example: "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE".
      * @return string
      * @throws SdkError When return_receipt_line_item_id is omitted; use hasReturnReceiptLineItemId() or valueOrDefault().

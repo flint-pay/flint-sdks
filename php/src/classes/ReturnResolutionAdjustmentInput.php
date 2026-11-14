@@ -7,7 +7,9 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $assessed_amount_money
  * @property-read string $reason
  * @property-read string $reason_message
+ * @property-read string|null $return_id
  * @property-read string $return_line_item_id
+ * @property-read string|null $return_policy_id
  * @property-read string $return_policy_revision_id
  * @property-read string $return_resolution_adjustment_id
  * @property-read string $status
@@ -18,7 +20,7 @@ namespace Flint;
  * @property-read string $waiver_reason_message
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionAdjustmentInput extends Model {
-    /** @param array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_line_item_id'?: string, 'return_policy_revision_id'?: string, 'return_resolution_adjustment_id': string, 'status': string, 'value_effect': string, 'waived_at'?: string|\DateTimeInterface, 'waived_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'waiver_reason'?: string, 'waiver_reason_message'?: string, ...}|object $values */
+    /** @param array{'adjustment_type': string, 'applied_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'assessed_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reason': string, 'reason_message'?: string, 'return_id': string|null, 'return_line_item_id'?: string, 'return_policy_id': string|null, 'return_policy_revision_id'?: string, 'return_resolution_adjustment_id': string, 'status': string, 'value_effect': string, 'waived_at'?: string|\DateTimeInterface, 'waived_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'waiver_reason'?: string, 'waiver_reason_message'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionAdjustmentInput')); }
     /** What the fee or credit is for. Value enum: "return_shipping_fee", "restocking_fee", "other_fee", "goodwill_credit", "price_correction", "other".
      * @return string
@@ -50,12 +52,24 @@ final class ReturnResolutionAdjustmentInput extends Model {
      */
     public function getReasonMessage(): string { return $this->get('reason_message'); }
     public function hasReasonMessage(): bool { return $this->has('reason_message'); }
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string|null
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string|null { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line a deduction applies to. Absent when it applies to the resolution as a whole. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
+    /** Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
+     * @return string|null
+     * @throws SdkError When return_policy_id is omitted; use hasReturnPolicyId() or valueOrDefault().
+     */
+    public function getReturnPolicyId(): string|null { return $this->get('return_policy_id'); }
+    public function hasReturnPolicyId(): bool { return $this->has('return_policy_id'); }
     /** Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
      * @return string
      * @throws SdkError When return_policy_revision_id is omitted; use hasReturnPolicyRevisionId() or valueOrDefault().

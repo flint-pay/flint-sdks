@@ -1,1 +1,1 @@
-{"shared":"FulfillmentEvent","dependencies":["CheckoutBuyerContact","DeferredPromotion","FulfillmentEvent","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1093","SharedCodec24","SharedCodec25"]}
+{"shared":"FulfillmentEvent","dependencies":["CheckoutBuyerContact","DeferredPromotion","FulfillmentEvent","MoneyValue","OrderSettlementAmounts","PricingAmounts","SharedCodec1095","SharedCodec24","SharedCodec25"]}

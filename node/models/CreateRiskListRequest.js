@@ -1,7 +1,7 @@
-import { d360 as c0 } from '../descriptors/data/22.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d360 as d360 } from '../descriptors/data/22.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d364 as c0 } from '../descriptors/data/23.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
+import { d364 as d364 } from '../descriptors/data/23.js?sdk=d093b90d83ab812fb89a9d00e94c4b7186bf257071ce16b0fb2235fc7de015a4';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d360;
+const read = d364;
 let prepared;
 function codec() { return prepared ??= preparedCodec(read(), {["CreateRiskListRequest"]:c0()}); }
 export { codec as _validate };

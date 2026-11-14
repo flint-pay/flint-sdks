@@ -17,7 +17,11 @@ Response model.
 
 A request to delete a customer's personal information.
 
-Field definitions: [shared fields](BuyerCustomerDeletionRequestInput.md#buyercustomerdeletionrequestinput).
+Field definitions: [shared fields](BuyerCustomerDeletionRequestResponse.md#buyercustomerdeletionrequestresponsedata).
+
+### BuyerCustomerDeletionRequestListResponse.data[].blocking_resources[]
+
+Field definitions: [CustomerDeletionRequestResponse.data.blocking_resources[]](../models/CustomerDeletionRequestResponse.md#customerdeletionrequestresponsedatablocking_resources).
 
 ### BuyerCustomerDeletionRequestListResponse.meta
 

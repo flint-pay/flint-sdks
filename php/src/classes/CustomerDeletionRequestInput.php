@@ -2,6 +2,8 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read int $blocking_resource_count
+ * @property-read list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass> $blocking_resources
  * @property-read list<string> $canceled_subscription_ids
  * @property-read string $customer_deletion_request_id
  * @property-read string $customer_id
@@ -17,8 +19,20 @@ namespace Flint;
  * @property-read list<string> $supported_actions
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerDeletionRequestInput extends Model {
-    /** @param array{'canceled_subscription_ids': list<string>, 'customer_deletion_request_id': string, 'customer_id': string, 'decided_at': string|\DateTimeInterface|null, 'decision_reason': string|null, 'removed_payment_method_ids': list<string>, 'requested_at': string|\DateTimeInterface, 'requested_by': string|null, 'resolved_at'?: string|\DateTimeInterface, 'response_due_at': string|\DateTimeInterface, 'retention_policy': string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
+    /** @param array{'blocking_resource_count'?: int, 'blocking_resources'?: list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass>, 'canceled_subscription_ids': list<string>, 'customer_deletion_request_id': string, 'customer_id': string, 'decided_at': string|\DateTimeInterface|null, 'decision_reason': string|null, 'removed_payment_method_ids': list<string>, 'requested_at': string|\DateTimeInterface, 'requested_by': string|null, 'resolved_at'?: string|\DateTimeInterface, 'response_due_at': string|\DateTimeInterface, 'retention_policy': string, 'status': string, 'supported_actions': list<string>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerDeletionRequestInput')); }
+    /** Total resources currently preventing approval, including resources beyond the blocking_resources cap. Present only for pending_review, including zero when nothing blocks approval. Computed at read time using the same rule as approval. Format: int64. minimum: 0.
+     * @return int
+     * @throws SdkError When blocking_resource_count is omitted; use hasBlockingResourceCount() or valueOrDefault().
+     */
+    public function getBlockingResourceCount(): int { return $this->get('blocking_resource_count'); }
+    public function hasBlockingResourceCount(): bool { return $this->has('blocking_resource_count'); }
+    /** Resources currently preventing approval, computed when the request is read. Present only for pending_review, including an empty array when nothing blocks approval. Uses the same references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment methods, ordered by resource_type then resource_id, capped at 25 of each type. List the customer's subscriptions and payment methods for the remaining resources when blocking_resource_count exceeds this array's length. Approval rechecks the blockers; cancel_subscriptions and remove_payment_methods can clear the matching resources before erasure. [] (Value): {@see ErrorResourceReferenceInput}. A reference to a public resource named in an error, with its type, ID, and current status when available.
+     * @return list<ErrorResourceReferenceInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When blocking_resources is omitted; use hasBlockingResources() or valueOrDefault().
+     */
+    public function getBlockingResources(): array { return $this->get('blocking_resources'); }
+    public function hasBlockingResources(): bool { return $this->has('blocking_resources'); }
     /** Subscription IDs whose immediate cancellation completed for this request, sorted by ID. Empty when none have completed. Read the request again while processing to see progress. [] (Value): string. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return list<string>
      * @throws SdkError When canceled_subscription_ids is omitted; use hasCanceledSubscriptionIds() or valueOrDefault().
