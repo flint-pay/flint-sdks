@@ -22,7 +22,7 @@ final class CreatePartnerAppCredentialPublicKeyRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** The public JSON Web Key to register for client authentication.
+    /** The public JSON Web Key to register. Required when type is public_key and not accepted otherwise. The public JSON Web Key to register for client authentication.
      * @return PartnerAppCredentialPublicKeyRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When public_key is omitted; use hasPublicKey() or valueOrDefault().
      */

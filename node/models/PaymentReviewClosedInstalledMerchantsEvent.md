@@ -36,9 +36,17 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](PaymentReview.md#paymentreview).
 
+### PaymentReviewClosedInstalledMerchantsEvent.data.object.closed_by
+
+Declared alternatives: [PaymentReview.closed_by](../models/PaymentReview.md#paymentreviewclosed_by).
+
 ### PaymentReviewClosedInstalledMerchantsEvent.data.object.refunded_money
 
 Declared alternatives: [PaymentReview.refunded_money](../models/PaymentReview.md#paymentreviewrefunded_money).
+
+### PaymentReviewClosedInstalledMerchantsEvent.data.object.resolution_started_by
+
+Declared alternatives: [PaymentReview.resolution_started_by](../models/PaymentReview.md#paymentreviewresolution_started_by).
 
 ### PaymentReviewClosedInstalledMerchantsEvent.source
 

@@ -9,5 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `resource_id` | Required | string | Public Flint ID of the referenced resource. |
-| `resource_type` | Required | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Required | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Values: [154 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 

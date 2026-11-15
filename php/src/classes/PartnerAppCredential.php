@@ -22,7 +22,7 @@ final class PartnerAppCredential extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** A registered JWKS URL and its most recent successful fetch.
+    /** The registered JWKS URL. Present only when type is jwks_url. A registered JWKS URL and its most recent successful fetch.
      * @return ?PartnerAppCredentialJWKSURL
      */
     public function getJwksUrl(): ?PartnerAppCredentialJWKSURL { return $this->get('jwks_url'); }
@@ -47,17 +47,17 @@ final class PartnerAppCredential extends Model {
      */
     public function getPartnerAppCredentialId(): string { return $this->get('partner_app_credential_id'); }
     public function hasPartnerAppCredentialId(): bool { return $this->has('partner_app_credential_id'); }
-    /** partner_app_id
+    /** ID of the partner app this credential authenticates.
      * @return string
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** A registered public JSON Web Key and its RFC 7638 SHA-256 thumbprint.
+    /** The registered public key. Present only when type is public_key. A registered public JSON Web Key and its RFC 7638 SHA-256 thumbprint.
      * @return ?PartnerAppCredentialPublicKey
      */
     public function getPublicKey(): ?PartnerAppCredentialPublicKey { return $this->get('public_key'); }
     public function hasPublicKey(): bool { return $this->has('public_key'); }
-    /** Value enum: "active", "removed".
+    /** Whether the credential can authenticate the app now. Value enum: "active", "removed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -67,7 +67,7 @@ final class PartnerAppCredential extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** The registered external OIDC issuer, exact subject, audience, and claim conditions.
+    /** The registered external OIDC identity. Present only when type is workload_identity. The registered external OIDC issuer, exact subject, audience, and claim conditions.
      * @return ?PartnerAppCredentialWorkloadIdentity
      */
     public function getWorkloadIdentity(): ?PartnerAppCredentialWorkloadIdentity { return $this->get('workload_identity'); }

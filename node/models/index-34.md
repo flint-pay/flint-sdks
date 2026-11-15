@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# UpdateInvoicePaymentTermRequest to UpdateSubscriptionPlanLineItemInputCustom
+# UpdateInventoryCountRequestInput to UpdateSettingsRequestInput
 
+- [UpdateInventoryCountRequestInput](UpdateInventoryCountRequestInput.md)
+- [UpdateInventoryItemRequest](UpdateInventoryItemRequest.md)
+- [UpdateInventoryItemRequestInput](UpdateInventoryItemRequestInput.md)
+- [UpdateInventoryLevelRequest](UpdateInventoryLevelRequest.md)
+- [UpdateInventoryLevelRequestInput](UpdateInventoryLevelRequestInput.md)
+- [UpdateInventoryReservationRequest](UpdateInventoryReservationRequest.md)
+- [UpdateInventoryReservationRequestInput](UpdateInventoryReservationRequestInput.md)
+- [UpdateInventoryTransferRequest](UpdateInventoryTransferRequest.md)
+- [UpdateInventoryTransferRequestInput](UpdateInventoryTransferRequestInput.md)
 - [UpdateInvoicePaymentTermRequest](UpdateInvoicePaymentTermRequest.md)
 - [UpdateInvoicePaymentTermRequestInput](UpdateInvoicePaymentTermRequestInput.md)
 - [UpdateInvoiceRequest](UpdateInvoiceRequest.md)
@@ -93,13 +102,4 @@
 - [UpdateServiceFulfillmentDetailsInput](UpdateServiceFulfillmentDetailsInput.md)
 - [UpdateSettingsRequest](UpdateSettingsRequest.md)
 - [UpdateSettingsRequestInput](UpdateSettingsRequestInput.md)
-- [UpdateShipmentRequest](UpdateShipmentRequest.md)
-- [UpdateShipmentRequestInput](UpdateShipmentRequestInput.md)
-- [UpdateSubscriptionLineItemRequest](UpdateSubscriptionLineItemRequest.md)
-- [UpdateSubscriptionLineItemRequestInput](UpdateSubscriptionLineItemRequestInput.md)
-- [UpdateSubscriptionOfferRequest](UpdateSubscriptionOfferRequest.md)
-- [UpdateSubscriptionOfferRequestInput](UpdateSubscriptionOfferRequestInput.md)
-- [UpdateSubscriptionPlanLineItemInputBundle](UpdateSubscriptionPlanLineItemInputBundle.md)
-- [UpdateSubscriptionPlanLineItemInputBundleInput](UpdateSubscriptionPlanLineItemInputBundleInput.md)
-- [UpdateSubscriptionPlanLineItemInputCustom](UpdateSubscriptionPlanLineItemInputCustom.md)
 

@@ -7,7 +7,7 @@ namespace Flint;
 final class PendingPaymentActionSetupPaymentSourceSubjectInput extends Model {
     /** @param array{'payment_method_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentActionSetupPaymentSourceSubjectInput')); }
-    /** Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** ID of the payment method being saved, which needs the buyer's authentication first. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

@@ -36,14 +36,13 @@ namespace Flint;
  * @property-read string $status
  * @property-read ?string $subscription_id
  * @property-read string $support_reference
- * @property-read list<string> $supported_actions
  * @property-read MoneyValue|null $tip_money
  * @property-read ?string $transaction_purpose
  * @property-read ?string $updated_at
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerPaymentIntent extends Model {
-    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer_id'?: string, 'customer_presence': string, 'fulfillment_hold'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'merchant_id'?: string, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'supported_actions': list<string>, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'authorization_expires_at'?: string, 'authorized_at'?: string, 'authorized_money'?: mixed, 'cancellation_reason'?: string, 'capturable_money'?: mixed, 'capture_method'?: string, 'captured_at'?: string, 'captured_money'?: mixed, 'captured_tip_money'?: mixed, 'checkout_session_id'?: string, 'created_at'?: string, 'customer_id'?: string, 'customer_presence': string, 'fulfillment_hold'?: mixed, 'invoice_id'?: string, 'last_payment_error': mixed, 'merchant_id'?: string, 'order_id'?: string, 'payment_flow': string, 'payment_intent_id': string, 'payment_options': list<string>, 'payment_source'?: mixed, 'receipt_email'?: string|null, 'refund_status'?: string, 'refunded_money'?: mixed, 'released_money'?: mixed, 'return_id'?: string, 'return_resolution_id'?: string, 'selected_payment_option'?: string, 'statement_descriptor': string|null, 'status': string, 'subscription_id'?: string, 'support_reference': string, 'tip_money'?: mixed, 'transaction_purpose'?: string, 'updated_at'?: string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerPaymentIntent')); }
     /** The amount requested from the buyer, including any tip_money. Capturing doesn't change it: after a partial capture it still shows the requested amount, and captured_money shows what was collected. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -160,7 +159,7 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getPaymentSource(): ?PaymentSourceSummary { return $this->get('payment_source'); }
     public function hasPaymentSource(): bool { return $this->has('payment_source'); }
-    /** Email address for this payment's receipt. When it isn't set, Flint uses the buyer's email. Format: email. maxLength: 255.
+    /** Email address for this payment's receipt. When it isn't set, Flint uses the buyer's email. `null` when no receipt email has been set on the payment. Format: email. maxLength: 255.
      * @return string|null
      */
     public function getReceiptEmail(): string|null { return $this->get('receipt_email'); }
@@ -215,12 +214,7 @@ final class BuyerPaymentIntent extends Model {
      */
     public function getSupportReference(): string { return $this->get('support_reference'); }
     public function hasSupportReference(): bool { return $this->has('support_reference'); }
-    /** Always empty for buyer credentials. maxItems: 0. [] enum: "confirm", "capture", "cancel". [] (Value): string.  Value enum: "confirm", "capture", "cancel".
-     * @return list<string>
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set, and for a payment that is part of a purchase until its payment attempt has moved past requires_payment_method and requires_confirmation. A payment that is part of a purchase without a tip can return an amount of 0 instead. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getTipMoney(): MoneyValue|null { return $this->get('tip_money'); }

@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnResolutions.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/returnResolutions.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnResolution"]:r0,["confirmReturnResolution"]:r0,["getReturnResolution"]:r0,["listReturnResolutions"]:r0,["releaseReturnResolution"]:r0,["retryReturnResolution"]:r0,["updateReturnResolution"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnResolution"]:r0,["confirmReturnResolution"]:r0,["createReturnResolution"]:r0,["getReturnResolution"]:r0,["listReturnResolutions"]:r0,["releaseReturnResolution"]:r0,["retryReturnResolution"]:r0,["updateReturnResolution"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -37,6 +37,15 @@ this.returnResolutions = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("confirmReturnResolution", result, path))),
+      create: async (params, options) => this.#runtime.request("createReturnResolution", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnResolution", result, path))),
       get: async (return_resolution_id, params, options) => this.#runtime.request("getReturnResolution", _sdkRequestInput([
   "return_resolution_id"
 ], [return_resolution_id], [
@@ -161,12 +170,22 @@ close() { return this.#runtime.close(); }
 export { makeCancelReturnRequest } from '../models/CancelReturnRequest.js';
 export { makeCancelReturnResolutionRequest } from '../models/CancelReturnResolutionRequest.js';
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
+export { makeCreateReturnResolutionRequest } from '../models/CreateReturnResolutionRequest.js';
+export { makeCreateReturnResolutionRequestCorrection } from '../models/CreateReturnResolutionRequestCorrection.js';
+export { makeCreateReturnResolutionRequestStandard } from '../models/CreateReturnResolutionRequestStandard.js';
 export { makeLineItemFulfillmentOriginRequestModel } from '../models/LineItemFulfillmentOriginRequestModel.js';
 export { makeLineItemFulfillmentRequestModel } from '../models/LineItemFulfillmentRequestModel.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeReleaseReturnResolutionRequest } from '../models/ReleaseReturnResolutionRequest.js';
 export { makeRetryReturnResolutionRequest } from '../models/RetryReturnResolutionRequest.js';
+export { makeReturnReplacementLineItemInputBundle } from '../models/ReturnReplacementLineItemInputBundle.js';
+export { makeReturnReplacementLineItemInputCustom } from '../models/ReturnReplacementLineItemInputCustom.js';
+export { makeReturnReplacementLineItemInputVariant } from '../models/ReturnReplacementLineItemInputVariant.js';
+export { makeReturnReplacementLineItemRequest } from '../models/ReturnReplacementLineItemRequest.js';
+export { makeReturnResolutionAdjustmentRequest } from '../models/ReturnResolutionAdjustmentRequest.js';
+export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
 export { makeUpdateReturnReplacementLineItemInputBundle } from '../models/UpdateReturnReplacementLineItemInputBundle.js';
 export { makeUpdateReturnReplacementLineItemInputCustom } from '../models/UpdateReturnReplacementLineItemInputCustom.js';
 export { makeUpdateReturnReplacementLineItemInputVariant } from '../models/UpdateReturnReplacementLineItemInputVariant.js';

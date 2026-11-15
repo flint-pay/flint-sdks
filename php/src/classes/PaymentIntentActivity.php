@@ -18,12 +18,12 @@ namespace Flint;
 final class PaymentIntentActivity extends Model {
     /** @param array{'activity_type': string, 'checkout_session_id'?: string, 'created_at': string, 'description': string, 'dispute_id'?: string, 'from_dispute_status'?: string, 'from_status'?: string, 'order_id'?: string, 'payment_intent_activity_id': string, 'refund_id'?: string, 'to_dispute_status'?: string, 'to_status'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentActivity')); }
-    /** Value enum: "other", "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent".
+    /** What kind of change this entry records. Value enum: "other", "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent".
      * @return string
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
-    /** checkout_session_id
+    /** ID of the checkout session that created the payment intent. Present only on `created` entries, when the payment intent has no order.
      * @return ?string
      */
     public function getCheckoutSessionId(): ?string { return $this->get('checkout_session_id'); }
@@ -33,7 +33,7 @@ final class PaymentIntentActivity extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** description
+    /** Short human-readable summary of the change. It doesn't carry processor diagnostics, so read the referenced resource for details.
      * @return string
      */
     public function getDescription(): string { return $this->get('description'); }
@@ -48,17 +48,17 @@ final class PaymentIntentActivity extends Model {
      */
     public function getFromDisputeStatus(): ?string { return $this->get('from_dispute_status'); }
     public function hasFromDisputeStatus(): bool { return $this->has('from_dispute_status'); }
-    /** Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
+    /** The payment intent's status before the change. Present on entries that record a status change. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
      * @return ?string
      */
     public function getFromStatus(): ?string { return $this->get('from_status'); }
     public function hasFromStatus(): bool { return $this->has('from_status'); }
-    /** order_id
+    /** ID of the order the payment intent belongs to. Present only on `created` entries, and only when the payment intent belongs to an order.
      * @return ?string
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** payment_intent_activity_id
+    /** Flint ID of this activity entry.
      * @return string
      */
     public function getPaymentIntentActivityId(): string { return $this->get('payment_intent_activity_id'); }
@@ -73,7 +73,7 @@ final class PaymentIntentActivity extends Model {
      */
     public function getToDisputeStatus(): ?string { return $this->get('to_dispute_status'); }
     public function hasToDisputeStatus(): bool { return $this->has('to_dispute_status'); }
-    /** Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
+    /** The payment intent's status after the change. Present on entries that record a status change. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
      * @return ?string
      */
     public function getToStatus(): ?string { return $this->get('to_status'); }

@@ -2,7 +2,7 @@
 
 ## BuyerSubscriptionInventoryWait
 
-
+Shows when a subscription renewal started waiting for inventory.
 
 Response model.
 

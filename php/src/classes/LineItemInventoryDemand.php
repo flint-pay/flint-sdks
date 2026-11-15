@@ -10,12 +10,12 @@ namespace Flint;
 final class LineItemInventoryDemand extends Model {
     /** @param array{'bundle_component_id'?: string, 'component_snapshot_id'?: string, 'inventory_item_id': string, 'quantity_per_line_item_unit': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('LineItemInventoryDemand')); }
-    /** bundle_component_id
+    /** ID of the bundle component this demand comes from. Present only on a line item that sells a bundle.
      * @return ?string
      */
     public function getBundleComponentId(): ?string { return $this->get('bundle_component_id'); }
     public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
-    /** component_snapshot_id
+    /** Identifier of the bundle component as it was frozen on the line item. Present only when the bundle component has one. Inventory reservations for the demand use it in place of `bundle_component_id`.
      * @return ?string
      */
     public function getComponentSnapshotId(): ?string { return $this->get('component_snapshot_id'); }

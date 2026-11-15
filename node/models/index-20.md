@@ -1,7 +1,18 @@
 [Model index](../MODELS.md)
 
-# MerchantReadinessUpdatedMerchantEvent to OrderChargeInputPercent
+# MerchantBillingBalanceUpdatedEvent to Order
 
+- [MerchantBillingBalanceUpdatedEvent](MerchantBillingBalanceUpdatedEvent.md)
+- [MerchantBillingEntry](MerchantBillingEntry.md)
+- [MerchantBillingEntryListResponse](MerchantBillingEntryListResponse.md)
+- [MerchantBillingInvoice](MerchantBillingInvoice.md)
+- [MerchantBillingInvoiceIssuedEvent](MerchantBillingInvoiceIssuedEvent.md)
+- [MerchantBillingInvoiceLineItem](MerchantBillingInvoiceLineItem.md)
+- [MerchantBillingInvoiceListResponse](MerchantBillingInvoiceListResponse.md)
+- [MerchantBillingInvoiceResponse](MerchantBillingInvoiceResponse.md)
+- [MerchantBillingInvoiceUpdatedEvent](MerchantBillingInvoiceUpdatedEvent.md)
+- [MerchantReadiness](MerchantReadiness.md)
+- [MerchantReadinessUpdatedInstalledMerchantsEvent](MerchantReadinessUpdatedInstalledMerchantsEvent.md)
 - [MerchantReadinessUpdatedMerchantEvent](MerchantReadinessUpdatedMerchantEvent.md)
 - [MerchantResponse](MerchantResponse.md)
 - [MerchantSignup](MerchantSignup.md)
@@ -91,15 +102,4 @@
 - [OnboardingVerifyEmailResponse](OnboardingVerifyEmailResponse.md)
 - [OnboardingVerifyEmailResult](OnboardingVerifyEmailResult.md)
 - [Order](Order.md)
-- [OrderActivity](OrderActivity.md)
-- [OrderActivityListResponse](OrderActivityListResponse.md)
-- [OrderAuthorizationAmounts](OrderAuthorizationAmounts.md)
-- [OrderCalculatedChargeTax](OrderCalculatedChargeTax.md)
-- [OrderCalculatedChargeTaxRequestInput](OrderCalculatedChargeTaxRequestInput.md)
-- [OrderCalculatedLineItemTax](OrderCalculatedLineItemTax.md)
-- [OrderCalculatedLineItemTaxRequestInput](OrderCalculatedLineItemTaxRequestInput.md)
-- [OrderCharge](OrderCharge.md)
-- [OrderChargeInputAmount](OrderChargeInputAmount.md)
-- [OrderChargeInputAmountInput](OrderChargeInputAmountInput.md)
-- [OrderChargeInputPercent](OrderChargeInputPercent.md)
 

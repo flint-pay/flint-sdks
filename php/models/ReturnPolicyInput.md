@@ -17,5 +17,5 @@ Request input.
 | `return_policy_id` | Required | string | Unique identifier for this return policy, prefixed `rpol_`. Example: `"rpol_01KEZF7C00H8C042BEK6HBRANX"`. |
 | `status` | Required | string | active policies apply to new Returns; inactive policies do not. Toggle active and inactive with PATCH status. Retire either with DELETE /v1/return-policies/{return_policy_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `version` | Required | integer | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: `int64`. minimum: `0`. |
+| `version` | Required | integer | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: `int64`. minimum: `1`. |
 

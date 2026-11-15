@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# PublicDownloadInput to ResolvePaymentLinkResponseInput
+# PromotionSchedulePatchInput to ReportSucceededEventInput
 
+- [PromotionSchedulePatchInput](PromotionSchedulePatchInput.md)
+- [PromotionScheduleRequestInput](PromotionScheduleRequestInput.md)
+- [PromotionSettingsInput](PromotionSettingsInput.md)
+- [PromotionSettingsRequestInput](PromotionSettingsRequestInput.md)
+- [PromotionUpdatedInstalledMerchantsEventInput](PromotionUpdatedInstalledMerchantsEventInput.md)
+- [PromotionUpdatedMerchantEventInput](PromotionUpdatedMerchantEventInput.md)
 - [PublicDownloadInput](PublicDownloadInput.md)
 - [PublicPaymentLinkInput](PublicPaymentLinkInput.md)
 - [PublicPaymentLinkResponseInput](PublicPaymentLinkResponseInput.md)
@@ -79,6 +85,9 @@
 - [ReleaseInventoryReservationRequestInput](ReleaseInventoryReservationRequestInput.md)
 - [ReleaseReturnResolutionRequestInput](ReleaseReturnResolutionRequestInput.md)
 - [ReleaseReturnResolutionResponseInput](ReleaseReturnResolutionResponseInput.md)
+- [RememberedBuyerInput](RememberedBuyerInput.md)
+- [RememberedBuyerResponseInput](RememberedBuyerResponseInput.md)
+- [RememberedBuyerTokenRequestInput](RememberedBuyerTokenRequestInput.md)
 - [RemoveDiscountsRequestInput](RemoveDiscountsRequestInput.md)
 - [RemoveSubscriptionPromotionsRequestInput](RemoveSubscriptionPromotionsRequestInput.md)
 - [RenewSubscriptionRequestInput](RenewSubscriptionRequestInput.md)
@@ -93,13 +102,4 @@
 - [ReportResponseInput](ReportResponseInput.md)
 - [ReportSucceededInput](ReportSucceededInput.md)
 - [ReportSucceededEventInput](ReportSucceededEventInput.md)
-- [RepriceDiscountsRequestInput](RepriceDiscountsRequestInput.md)
-- [ResendWebhookDeliveryRequestInput](ResendWebhookDeliveryRequestInput.md)
-- [ResetDemoSessionRequestInput](ResetDemoSessionRequestInput.md)
-- [ResolveCustomerDeletionRequestInput](ResolveCustomerDeletionRequestInput.md)
-- [ResolveOrderInventoryExceptionRequestInput](ResolveOrderInventoryExceptionRequestInput.md)
-- [ResolvePaymentLinkLineItemModifierRequestInput](ResolvePaymentLinkLineItemModifierRequestInput.md)
-- [ResolvePaymentLinkLineItemModifiersInput](ResolvePaymentLinkLineItemModifiersInput.md)
-- [ResolvePaymentLinkRequestInput](ResolvePaymentLinkRequestInput.md)
-- [ResolvePaymentLinkResponseInput](ResolvePaymentLinkResponseInput.md)
 

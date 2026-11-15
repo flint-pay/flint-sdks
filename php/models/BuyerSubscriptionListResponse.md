@@ -21,7 +21,7 @@ Field definitions: [shared fields](BuyerSubscriptionResponse.md#buyersubscriptio
 
 ### BuyerSubscriptionListResponse.data[].buyer_actions[]
 
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
+Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
 
 ### BuyerSubscriptionListResponse.data[].cancellation_details
 

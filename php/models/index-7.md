@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreditNoteAllocationListResponseInput to DeliveryAddressAdvisoryResourceInput
+# CreditNoteInput to DecideReturnInspectionLineItemResponseInput
 
+- [CreditNoteInput](CreditNoteInput.md)
+- [CreditNoteAllocationInput](CreditNoteAllocationInput.md)
+- [CreditNoteAllocationCreatedInstalledMerchantsEventInput](CreditNoteAllocationCreatedInstalledMerchantsEventInput.md)
+- [CreditNoteAllocationCreatedMerchantEventInput](CreditNoteAllocationCreatedMerchantEventInput.md)
 - [CreditNoteAllocationListResponseInput](CreditNoteAllocationListResponseInput.md)
 - [CreditNoteAllocationResponseInput](CreditNoteAllocationResponseInput.md)
 - [CreditNoteAllocationResultInput](CreditNoteAllocationResultInput.md)
@@ -35,6 +39,10 @@
 - [CustomDomainResponseInput](CustomDomainResponseInput.md)
 - [CustomDomainUpdatedEventInput](CustomDomainUpdatedEventInput.md)
 - [CustomerInput](CustomerInput.md)
+- [CustomerAccessLinkInput](CustomerAccessLinkInput.md)
+- [CustomerAccessLinkEmailedInput](CustomerAccessLinkEmailedInput.md)
+- [CustomerAccessLinkResponseInput](CustomerAccessLinkResponseInput.md)
+- [CustomerAccessLinkReturnedInput](CustomerAccessLinkReturnedInput.md)
 - [CustomerAccountPresentationInput](CustomerAccountPresentationInput.md)
 - [CustomerAccountPresentationRequestInput](CustomerAccountPresentationRequestInput.md)
 - [CustomerAccountRouteTemplatesInput](CustomerAccountRouteTemplatesInput.md)
@@ -94,12 +102,4 @@
 - [CustomFieldAnswerTextareaInput](CustomFieldAnswerTextareaInput.md)
 - [DecideReturnInspectionLineItemRequestInput](DecideReturnInspectionLineItemRequestInput.md)
 - [DecideReturnInspectionLineItemResponseInput](DecideReturnInspectionLineItemResponseInput.md)
-- [DecideReturnRequestInput](DecideReturnRequestInput.md)
-- [DecideReturnResponseInput](DecideReturnResponseInput.md)
-- [DeclinePaymentReviewRequestInput](DeclinePaymentReviewRequestInput.md)
-- [DeferredPromotionInput](DeferredPromotionInput.md)
-- [DeleteReturnLineItemResponseInput](DeleteReturnLineItemResponseInput.md)
-- [DeleteReturnPolicyResponseInput](DeleteReturnPolicyResponseInput.md)
-- [DeleteReturnReasonResponseInput](DeleteReturnReasonResponseInput.md)
-- [DeliveryAddressAdvisoryResourceInput](DeliveryAddressAdvisoryResourceInput.md)
 

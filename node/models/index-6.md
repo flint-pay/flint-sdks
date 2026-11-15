@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateDeliveryRateCallbackRequestInput to CreateInvoiceRequestOrderInput
+# CreateDeliveryPreviewRequestInput to CreateInvoiceQuickPayRequestInput
 
+- [CreateDeliveryPreviewRequestInput](CreateDeliveryPreviewRequestInput.md)
+- [CreateDeliveryProfileRequest](CreateDeliveryProfileRequest.md)
+- [CreateDeliveryProfileRequestInput](CreateDeliveryProfileRequestInput.md)
+- [CreateDeliveryRateCallbackRequest](CreateDeliveryRateCallbackRequest.md)
 - [CreateDeliveryRateCallbackRequestInput](CreateDeliveryRateCallbackRequestInput.md)
 - [CreateDeliveryRevocationRequest](CreateDeliveryRevocationRequest.md)
 - [CreateDeliveryRevocationRequestInput](CreateDeliveryRevocationRequestInput.md)
@@ -98,8 +102,4 @@
 - [CreateInvoicePaymentTermRequestInput](CreateInvoicePaymentTermRequestInput.md)
 - [CreateInvoiceQuickPayRequest](CreateInvoiceQuickPayRequest.md)
 - [CreateInvoiceQuickPayRequestInput](CreateInvoiceQuickPayRequestInput.md)
-- [CreateInvoiceRequest](CreateInvoiceRequest.md)
-- [CreateInvoiceRequestInput](CreateInvoiceRequestInput.md)
-- [CreateInvoiceRequestOrder](CreateInvoiceRequestOrder.md)
-- [CreateInvoiceRequestOrderInput](CreateInvoiceRequestOrderInput.md)
 

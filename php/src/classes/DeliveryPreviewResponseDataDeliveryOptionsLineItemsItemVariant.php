@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read list<DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantModifiersItemCatalog|DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantModifiersItemText|\stdClass>|null $modifiers
  * @property-read ?string $name
  * @property-read string $product_id
+ * @property-read ?string $product_type
  * @property-read ?int $quantity
  * @property-read ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantSubscription $subscription
  * @property-read ?DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantTax $tax
@@ -22,7 +23,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariant extends Model {
-    /** @param array{'bundle_id'?: string, 'description'?: string, 'fulfillment'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_demands'?: list<mixed>, 'metadata'?: mixed, 'modifiers'?: list<\stdClass>, 'name'?: string, 'product_id': string, 'quantity'?: int, 'subscription'?: mixed, 'tax'?: mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'variant_id': string, ...}|object $values */
+    /** @param array{'bundle_id'?: string, 'description'?: string, 'fulfillment'?: mixed, 'gift_card_purchase'?: mixed, 'image'?: mixed, 'inventory_demands'?: list<mixed>, 'metadata'?: mixed, 'modifiers'?: list<\stdClass>, 'name'?: string, 'product_id': string, 'product_type'?: string, 'quantity'?: int, 'subscription'?: mixed, 'tax'?: mixed, 'type': string, 'unit_dimensions'?: mixed, 'unit_price_money'?: mixed, 'unit_weight'?: mixed, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariant')); }
     /** ID of the bundle to add. A catalog line item sends this or `variant_id`; a custom line item sends neither.
      * @return ?string
@@ -74,6 +75,11 @@ final class DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariant exten
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
+    /** Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Value enum: "physical", "service", "fee", "digital".
+     * @return ?string
+     */
+    public function getProductType(): ?string { return $this->get('product_type'); }
+    public function hasProductType(): bool { return $this->has('product_type'); }
     /** Number of units, from 1 through 9999. The extended line subtotal, including modifiers, must satisfy the order money ceiling. Format: int64. minimum: 1. maximum: 9999. Default: 1.
      * @return ?int
      */

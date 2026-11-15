@@ -143,6 +143,7 @@ Present only when `expand` includes `payment_intent`; `null` when expanded and t
 | `payment_source` | Conditional | [PaymentSourceSummary](../models/PaymentSourceSummary.md#paymentsourcesummary) | Summary of the card or bank account used for the payment. Absent until a payment source is attached. A summary of the payment source used for a payment, by funding-method family, with card or bank account display details. |
 | `refund_status` | Conditional | string | How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
 | `status` | Conditional | string | Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
+| `supported_actions` | Conditional | Array of string | Verbs this payment intent accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and can change without a payment intent version change. Order legs list confirm when a single leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance require pay_order instead. Invoice payments list only cancel; subscription payments list none. Order edit payments list confirm while awaiting payment details or action. A listed action can still be refused due to an open risk review, an order payment attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner and its command in remediation.next_actions. Always empty for buyer credentials. New actions may be added. Items values: `"confirm"`, `"capture"`, `"cancel"`. |
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Conditional | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 
@@ -163,14 +164,14 @@ Present only when `expand` includes `payment_intent`; `null` when expanded and t
 
 anyOf ExpandedPaymentIntentSummary: A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded..
 
-- Required: `amount_money`, `dispute_status`, `payment_intent_id`, `status`, `version`.
+- Required: `amount_money`, `dispute_status`, `payment_intent_id`, `status`, `supported_actions`, `version`.
 - Optional: `capture_method`, `created_at`, `customer_id`, `order_id`, `payment_source`, `refund_status`, `updated_at`.
 
 ### DisputeResponse.data.payment_intent variant 2
 
 anyOf variant 2.
 
-- Undeclared: `amount_money`, `capture_method`, `created_at`, `customer_id`, `dispute_status`, `order_id`, `payment_intent_id`, `payment_source`, `refund_status`, `status`, `updated_at`, `version`.
+- Undeclared: `amount_money`, `capture_method`, `created_at`, `customer_id`, `dispute_status`, `order_id`, `payment_intent_id`, `payment_source`, `refund_status`, `status`, `supported_actions`, `updated_at`, `version`.
 - Value shape: null. Present only when `expand` includes `payment_intent`; `null` when expanded and there is no related payment intent. 
 
 ### DisputeResponse.data.split_reversals[]
@@ -211,7 +212,7 @@ A non-blocking condition reported with a response. The `code` identifies the con
 | `reason` | Optional | string | Stable Flint reason code. On a promotion_declined or promotion_removed warning this is the promotion decline reason (for example superseded_by_better_offer); an unrecognized value falls back to not_eligible. See the Promotions reference for the full list. Allowed for `promotion_declined`, `promotion_removed` warnings. Values: [24 declared values](PromotionCandidateInput.md#promotioncandidateinput-promotion_decline_reason-values). |
 | `resets_at` | Optional | string | End of the original order reservation's usage period, at the start of a New York calendar month, as an RFC 3339 UTC timestamp. Replays preserve this original reset time. Allowed for `external_paid_orders_over_allowance` warnings. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `resource_id` | Optional | string | Resource ID, paired with resource_type when the warning identifies a resource. Allowed for `billing_interval_options_same_price`, `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`, `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Optional | string | Type of the resource identified by resource_id. Allowed for `billing_interval_options_same_price`, `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`, `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example: `"order"`. Values: [153 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
+| `resource_type` | Optional | string | Type of the resource identified by resource_id. Allowed for `billing_interval_options_same_price`, `merchant_onboarding_past_due`, `merchant_onboarding_deadline`, `merchant_capability_pending`, `merchant_capability_inactive`, `payout_settings_reconciling`, `promotion_declined`, `promotion_removed`, `risk_rule_limit_reached`, `rule_evaluation_stage_changed`, `external_paid_orders_over_allowance`, `replacement_codes_unavailable` warnings. Example: `"order"`. Values: [154 declared values](APIRequestLogInput.md#apirequestloginput-resource_type-values). |
 | `severity` | Required | string | Warning severity. Values: `"warning"`, `"critical"`. |
 | `stage` | Optional | string | New risk rule evaluation stage for rule_evaluation_stage_changed. Allowed for `rule_evaluation_stage_changed` warnings. Values: `"pre_authorization"`, `"post_authorization"`. |
 | `would_have_applied_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Discount amount this promotion would have applied had it won, on a promotion_declined warning, or the amount a removed promotion discount applied before removal, on a promotion_removed warning. Allowed for `promotion_declined`, `promotion_removed` warnings. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -233,9 +234,10 @@ A follow-up action. When target_resource is present, send its resource_id in the
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [34 declared values](NextActionInput.md#nextactioninput-action_type-values). |
+| `action_type` | Required | string | Action to take next. Use its target resource and required_fields to prepare the request. Values: [161 declared values](NextActionInput.md#nextactioninput-action_type-values). |
 | `expires_at` | Optional | string | When this suggested action expires, in RFC3339 format. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `merchant_account_session` | Optional | [ReadinessMerchantAccountSession](../models/ReadinessMerchantAccountSession.md#readinessmerchantaccountsession) | Request body to send unchanged to POST /v1/merchant-account-sessions when action_type is create_merchant_account_session. When absent, GET merchant readiness and use its recommended session body. Shared request body for `create_merchant_account_session` next actions in readiness, onboarding, errors, and warnings. Send unchanged to POST /v1/merchant-account-sessions; components and collection policy describe which requirements to collect. |
+| `method` | Optional | string | HTTP method for the recovery read. Values: `"GET"`. |
 | `reason_code` | Optional | string | Machine-readable reason this action is suggested. |
 | `reason_message` | Optional | string | Explanation of why this action is suggested. |
 | `required_fields` | Optional | Array of string | Field names that must be supplied to perform this action. |

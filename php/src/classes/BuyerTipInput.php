@@ -49,13 +49,13 @@ final class BuyerTipInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Example: "tip_01KEZF7C00JRPYP11RTMB97MYH".
+    /** ID of the tip, prefixed `tip_`. Example: "tip_01KEZF7C00JRPYP11RTMB97MYH".
      * @return string
      * @throws SdkError When order_tip_id is omitted; use hasOrderTipId() or valueOrDefault().
      */
     public function getOrderTipId(): string { return $this->get('order_tip_id'); }
     public function hasOrderTipId(): bool { return $this->has('order_tip_id'); }
-    /**  [] (Value): {@see TipPaymentIntentAllocationInput}. The part of a tip paid through one payment intent.
+    /** How much of the tip each payment intent paid, one entry per payment intent. Flint adds an entry when it records that payment's tip on the order. [] (Value): {@see TipPaymentIntentAllocationInput}. The part of a tip paid through one payment intent.
      * @return list<TipPaymentIntentAllocationInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When payment_intent_allocations is omitted; use hasPaymentIntentAllocations() or valueOrDefault().
      */
@@ -91,7 +91,7 @@ final class BuyerTipInput extends Model {
      */
     public function getUpdatedAt(): string|\DateTimeInterface { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /**  [] (Value): {@see TipValueSettlementAllocationInput}. The part of a tip paid through one value settlement.
+    /** How much of the tip gift cards paid, one entry per gift card redemption that included tip money. Empty when no gift card paid any of the tip. [] (Value): {@see TipValueSettlementAllocationInput}. The part of a tip paid through one value settlement.
      * @return list<TipValueSettlementAllocationInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When value_settlement_allocations is omitted; use hasValueSettlementAllocations() or valueOrDefault().
      */

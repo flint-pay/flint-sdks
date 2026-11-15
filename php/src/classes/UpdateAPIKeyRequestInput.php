@@ -29,7 +29,7 @@ final class UpdateAPIKeyRequestInput extends Model {
      */
     public function getExpiresAt(): string|\DateTimeInterface|null { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** minLength: 1. maxLength: 100.
+    /** A label that helps you tell keys apart, 1 to 100 characters. Omit to keep the current name; `null` is rejected. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateInvoiceRequestQuickPay to CreatePriceListRequestInput
+# CreateInvoiceRequest to CreatePriceListPricesRequestInput
 
+- [CreateInvoiceRequest](CreateInvoiceRequest.md)
+- [CreateInvoiceRequestInput](CreateInvoiceRequestInput.md)
+- [CreateInvoiceRequestOrder](CreateInvoiceRequestOrder.md)
+- [CreateInvoiceRequestOrderInput](CreateInvoiceRequestOrderInput.md)
 - [CreateInvoiceRequestQuickPay](CreateInvoiceRequestQuickPay.md)
 - [CreateInvoiceRequestQuickPayInput](CreateInvoiceRequestQuickPayInput.md)
 - [CreateLocationRequest](CreateLocationRequest.md)
@@ -16,7 +20,9 @@
 - [CreateMerchantSignupRequestInput](CreateMerchantSignupRequestInput.md)
 - [CreateMeSubscriptionPreviewRequest](CreateMeSubscriptionPreviewRequest.md)
 - [CreateMeSubscriptionPreviewRequestInput](CreateMeSubscriptionPreviewRequestInput.md)
+- [CreateMeSubscriptionPreviewRequestDeliveryOptions](CreateMeSubscriptionPreviewRequestDeliveryOptions.md)
 - [CreateMeSubscriptionPreviewRequestDeliveryOptionsInput](CreateMeSubscriptionPreviewRequestDeliveryOptionsInput.md)
+- [CreateMeSubscriptionPreviewRequestNextRenewal](CreateMeSubscriptionPreviewRequestNextRenewal.md)
 - [CreateMeSubscriptionPreviewRequestNextRenewalInput](CreateMeSubscriptionPreviewRequestNextRenewalInput.md)
 - [CreateMeSubscriptionPreviewRequestPlanChange](CreateMeSubscriptionPreviewRequestPlanChange.md)
 - [CreateMeSubscriptionPreviewRequestPlanChangeInput](CreateMeSubscriptionPreviewRequestPlanChangeInput.md)
@@ -58,8 +64,6 @@
 - [CreateOrderLineItemRequest](CreateOrderLineItemRequest.md)
 - [CreateOrderLineItemRequestInput](CreateOrderLineItemRequestInput.md)
 - [CreateOrderLineItemVariant](CreateOrderLineItemVariant.md)
-- [CreateOrderPaymentIntentRequest](CreateOrderPaymentIntentRequest.md)
-- [CreateOrderPaymentIntentRequestInput](CreateOrderPaymentIntentRequestInput.md)
 - [CreateOrderRequest](CreateOrderRequest.md)
 - [CreateOrderRequestInput](CreateOrderRequestInput.md)
 - [CreateOrderTip](CreateOrderTip.md)
@@ -98,8 +102,4 @@
 - [CreatePickupFulfillmentDetailsInput](CreatePickupFulfillmentDetailsInput.md)
 - [CreatePriceListPricesRequest](CreatePriceListPricesRequest.md)
 - [CreatePriceListPricesRequestInput](CreatePriceListPricesRequestInput.md)
-- [CreatePriceListPricesResponse](CreatePriceListPricesResponse.md)
-- [CreatePriceListPricesResult](CreatePriceListPricesResult.md)
-- [CreatePriceListRequest](CreatePriceListRequest.md)
-- [CreatePriceListRequestInput](CreatePriceListRequestInput.md)
 

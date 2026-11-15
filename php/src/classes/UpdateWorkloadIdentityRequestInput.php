@@ -25,7 +25,7 @@ final class UpdateWorkloadIdentityRequestInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minLength: 1. maxLength: 100.
+    /** A label that helps you tell workload identities apart, 1 to 100 characters. Omit to keep the current name. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -37,19 +37,19 @@ final class UpdateWorkloadIdentityRequestInput extends Model {
      */
     public function getScopes(): array { return $this->get('scopes'); }
     public function hasScopes(): bool { return $this->has('scopes'); }
-    /** Value enum: "active", "inactive".
+    /** Turns the identity on or off. Archiving is a separate DELETE. Omit to keep the current status. Value enum: "active", "inactive".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** minLength: 1. maxLength: 1024.
+    /** The subject (`sub`) a token must carry, 1 to 1,024 characters, compared as subject_match says. Omit to keep the current subject. minLength: 1. maxLength: 1024.
      * @return string
      * @throws SdkError When subject is omitted; use hasSubject() or valueOrDefault().
      */
     public function getSubject(): string { return $this->get('subject'); }
     public function hasSubject(): bool { return $this->has('subject'); }
-    /** Default: "exact". Value enum: "exact", "glob".
+    /** How `subject` is compared with a token's `sub` claim. Omit to keep the current setting. Default: "exact". Value enum: "exact", "glob".
      * @return string
      * @throws SdkError When subject_match is omitted; use hasSubjectMatch() or valueOrDefault().
      */

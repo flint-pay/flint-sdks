@@ -11,6 +11,7 @@ namespace Flint;
  * @property-read ?BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage $image
  * @property-read list<BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemModifiersItem> $modifiers
  * @property-read string $name
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read ?string $product_id
  * @property-read ?int $requested_quantity
@@ -20,7 +21,7 @@ namespace Flint;
  * @property-read ?string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItem extends Model {
-    /** @param array{'bundle_components': list<mixed>, 'bundle_id'?: string, 'can_buyer_request': bool, 'description'?: string, 'eligibility': mixed, 'fulfillment_id': string, 'image'?: mixed, 'modifiers': list<mixed>, 'name': string, 'order_line_item_id': string, 'product_id'?: string, 'requested_quantity'?: int, 'selected_options': list<mixed>, 'sku'?: string, 'suggested_return_reasons': list<mixed>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'bundle_components': list<mixed>, 'bundle_id'?: string, 'can_buyer_request': bool, 'description'?: string, 'eligibility': mixed, 'fulfillment_id': string, 'image'?: mixed, 'modifiers': list<mixed>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'product_id'?: string, 'requested_quantity'?: int, 'selected_options': list<mixed>, 'sku'?: string, 'suggested_return_reasons': list<mixed>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItem')); }
     /** Components of the bundle the line was sold from. [] (Value): {@see BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemBundleComponentsItem}. An item included in a bundle.
      * @return list<BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemBundleComponentsItem>
@@ -67,6 +68,11 @@ final class BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItem ex
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Order that owns order_line_item_id.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item the units come from.
      * @return string
      */

@@ -26,7 +26,7 @@ namespace Flint;
 final class CheckoutSubscriptionTerms extends Model {
     /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_required': bool, 'early_termination_fee_money'?: mixed, 'gift_recipient': mixed, 'gifts_enabled': bool, 'line_items': list<object{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': mixed}>, 'plan_name': string, 'quantity': int, 'quantity_options': list<int>, 'recurring_shipping'?: mixed, 'recurring_total_money': mixed, 'setup_fee_money'?: mixed, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTerms')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the billing period this checkout currently charges on. It starts as the interval chosen when the checkout session was created, or the plan's default when none was chosen, and changes when the buyer picks another option. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
@@ -36,7 +36,7 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** minItems: 1. [] (Value): {@see SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Billing intervals the buyer can choose from, frozen from the plan when the session was created. minItems: 1. [] (Value): {@see SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans.
      * @return list<SubscriptionIntervalOption>
      */
     public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
@@ -46,7 +46,7 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getContractTermMonths(): ?int { return $this->get('contract_term_months'); }
     public function hasContractTermMonths(): bool { return $this->has('contract_term_months'); }
-    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1. maximum: 24.
      * @return int
      */
     public function getDeliveriesPerPeriod(): int { return $this->get('deliveries_per_period'); }
@@ -96,12 +96,12 @@ final class CheckoutSubscriptionTerms extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minItems: 1. [] (Value): integer. Format: int32.
+    /** Quantities the plan offered when the session was created, in ascending order. The same values as the plan's `quantity_options`. Flint accepts only a subscription quantity of 1. minItems: 1. [] (Value): integer. Format: int32.
      * @return list<int>
      */
     public function getQuantityOptions(): array { return $this->get('quantity_options'); }
     public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
-    /** Recurring shipping charged on a checkout's subscription: the delivery method name, whether the price is fixed or quoted, and the amount.
+    /** Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. Recurring shipping charged on a checkout's subscription: the delivery method name, whether the price is fixed or quoted, and the amount.
      * @return ?CheckoutSubscriptionRecurringShipping
      */
     public function getRecurringShipping(): ?CheckoutSubscriptionRecurringShipping { return $this->get('recurring_shipping'); }

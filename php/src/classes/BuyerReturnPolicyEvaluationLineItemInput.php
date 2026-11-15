@@ -15,6 +15,7 @@ namespace Flint;
  * @property-read bool $is_merchandise_return_required
  * @property-read list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass> $modifiers
  * @property-read string $name
+ * @property-read string $order_id
  * @property-read string $order_line_item_id
  * @property-read list<ReturnPolicyAdjustmentProposalInput|array<array-key, mixed>|\stdClass> $policy_adjustment_proposals
  * @property-read string $product_id
@@ -29,7 +30,7 @@ namespace Flint;
  * @property-read string $variant_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnPolicyEvaluationLineItemInput extends Model {
-    /** @param array{'allowed_resolution_types': list<string>, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'description'?: string, 'eligible_quantity': int, 'expires_at'?: string|\DateTimeInterface, 'fulfillment_id': string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'ineligibility_reason'?: string, 'is_inspection_required': bool, 'is_merchandise_return_required': bool, 'modifiers': list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_line_item_id': string, 'policy_adjustment_proposals': list<ReturnPolicyAdjustmentProposalInput|array<array-key, mixed>|\stdClass>, 'product_id'?: string, 'reason': string, 'receiving_location_id'?: string, 'release_timing': string, 'requested_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status': string, 'suggested_return_reason_ids': list<string>, 'variant_id'?: string, ...}|object $values */
+    /** @param array{'allowed_resolution_types': list<string>, 'bundle_components': list<BundleComponentInput|array<array-key, mixed>|\stdClass>, 'bundle_id'?: string, 'description'?: string, 'eligible_quantity': int, 'expires_at'?: string|\DateTimeInterface, 'fulfillment_id': string, 'image'?: ImageInput|array<array-key, mixed>|\stdClass, 'ineligibility_reason'?: string, 'is_inspection_required': bool, 'is_merchandise_return_required': bool, 'modifiers': list<BuyerReturnLineItemModifierInput|array<array-key, mixed>|\stdClass>, 'name': string, 'order_id': string, 'order_line_item_id': string, 'policy_adjustment_proposals': list<ReturnPolicyAdjustmentProposalInput|array<array-key, mixed>|\stdClass>, 'product_id'?: string, 'reason': string, 'receiving_location_id'?: string, 'release_timing': string, 'requested_quantity': int, 'selected_options': list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>, 'sku'?: string, 'status': string, 'suggested_return_reason_ids': list<string>, 'variant_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnPolicyEvaluationLineItemInput')); }
     /** Resolution types the policy allows for this line. [] enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit". [] (Value): string.  Value enum: "refund", "exchange", "replacement", "no_monetary_action", "store_credit".
      * @return list<string>
@@ -109,6 +110,12 @@ final class BuyerReturnPolicyEvaluationLineItemInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Order that owns order_line_item_id. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item the units come from. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
      * @return string
      * @throws SdkError When order_line_item_id is omitted; use hasOrderLineItemId() or valueOrDefault().

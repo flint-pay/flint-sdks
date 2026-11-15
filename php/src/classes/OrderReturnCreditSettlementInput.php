@@ -10,7 +10,7 @@ namespace Flint;
 final class OrderReturnCreditSettlementInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'return_id': string, 'return_resolution_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderReturnCreditSettlementInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount of the credit applied to this order. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -22,13 +22,13 @@ final class OrderReturnCreditSettlementInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+    /** ID of the return that created this replacement order, the return the credit comes from. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
      * @return string
      * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+    /** ID of the return resolution that issued the credit. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      * @return string
      * @throws SdkError When return_resolution_id is omitted; use hasReturnResolutionId() or valueOrDefault().
      */

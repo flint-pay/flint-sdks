@@ -21,7 +21,7 @@ final class SubscriptionBillingScheduleUpdateInputFlintInput extends Model {
      */
     public function getNextBillingAt(): string|\DateTimeInterface { return $this->get('next_billing_at'); }
     public function hasNextBillingAt(): bool { return $this->has('next_billing_at'); }
-    /** Value enum: "flint".
+    /** Who supplies billing dates after this update. Value enum: "flint".
      * @return string
      * @throws SdkError When owner is omitted; use hasOwner() or valueOrDefault().
      */

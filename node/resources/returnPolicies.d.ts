@@ -2,10 +2,10 @@ import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
 import type { CreateReturnPolicyResponse } from '../declarations/types-12.js';
 import type { DeleteReturnPolicyResponse } from '../declarations/types-16.js';
-import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-25.js';
+import type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-26.js';
 import type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-35.js';
 import type { PublishReturnPolicyRevisionResponse } from '../declarations/types-52.js';
-import type { RequestOptions } from '../declarations/types-53.js';
+import type { RequestOptions } from '../declarations/types-54.js';
 import type {
     ReturnPoliciesCreateParams,
     ReturnPoliciesCreateRevisionParams,
@@ -14,12 +14,11 @@ import type {
     ReturnPoliciesGetRevisionParams,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
-    ReturnPoliciesUpdateParams,
-    ReturnPolicy,
-    ReturnPolicyRevision
+    ReturnPoliciesUpdateParams
 } from '../declarations/types-55.js';
-import type { UpdateReturnPolicyResponse } from '../declarations/types-67.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { ReturnPolicy, ReturnPolicyRevision } from '../declarations/types-56.js';
+import type { UpdateReturnPolicyResponse } from '../declarations/types-68.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -36,15 +35,18 @@ export type {
 } from '../runtime.js';
 export type {
     ReturnPoliciesCreateParams,
-    ReturnPolicy,
     ReturnPoliciesCreateRevisionParams,
     ReturnPoliciesDeleteParams,
     ReturnPoliciesGetParams,
     ReturnPoliciesGetRevisionParams,
-    ReturnPolicyRevision,
     ReturnPoliciesListParams,
     ReturnPoliciesListRevisionsParams,
-    ReturnPoliciesUpdateParams,
+    ReturnPoliciesUpdateParams
+} from '../declarations/types-55.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type {
+    ReturnPolicy,
+    ReturnPolicyRevision,
     ReturnPolicyRevisionRequestInput,
     ReturnPolicyScopeRequestInput,
     ReturnPolicyScopeAllRequestInput,
@@ -54,8 +56,7 @@ export type {
     ReturnPolicyScope,
     ReturnPolicyScopeAll,
     ReturnPolicyScopeInclude
-} from '../declarations/types-55.js';
-export type { RequestOptions } from '../declarations/types-53.js';
+} from '../declarations/types-56.js';
 export type { CreateReturnPolicyResponse, CreateReturnPolicyRequestInput } from '../declarations/types-12.js';
 export type {
     PublishReturnPolicyRevisionResponse,
@@ -63,12 +64,12 @@ export type {
     ReadinessMerchantAccountSession
 } from '../declarations/types-52.js';
 export type { DeleteReturnPolicyResponse } from '../declarations/types-16.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
-export type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-25.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type { GetReturnPolicyResponse, GetReturnPolicyRevisionResponse } from '../declarations/types-26.js';
 export type { ListReturnPoliciesResponse, ListReturnPolicyRevisionsResponse } from '../declarations/types-35.js';
-export type { UpdateReturnPolicyResponse, UpdateReturnPolicyRequestInput } from '../declarations/types-67.js';
+export type { UpdateReturnPolicyResponse, UpdateReturnPolicyRequestInput } from '../declarations/types-68.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { MetadataRequestInput, MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-38.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
 export type {
     ReturnRestockingFeePolicyRequestInput,
     ReturnShippingPolicyRequestInput,
@@ -77,12 +78,11 @@ export type {
     ReturnShippingPolicy,
     ReturnWindow
 } from '../declarations/types-57.js';
+export type { MoneyValueInput, NextAction, MoneyValue } from '../declarations/types-39.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
-export { makeCreateReturnPolicyRequest } from '../declarations/types-73.js';
+export { makeCreateReturnPolicyRequest } from '../declarations/types-74.js';
 export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
 export { makePublishReturnPolicyRevisionRequest } from '../declarations/types-80.js';
 export {
@@ -93,10 +93,10 @@ export {
     makeReturnPolicyScopeIncludeRequest,
     makeReturnPolicyScopeRequest,
     makeReturnRestockingFeePolicyRequest,
-    makeReturnShippingPolicyRequest,
-    makeReturnWindowRequest
+    makeReturnShippingPolicyRequest
 } from '../declarations/types-81.js';
-export { makeUpdateReturnPolicyRequest } from '../declarations/types-83.js';
+export { makeReturnWindowRequest } from '../declarations/types-82.js';
+export { makeUpdateReturnPolicyRequest } from '../declarations/types-84.js';
 export interface ReturnPoliciesResource {
     /**
  * Create a Return policy with its first revision. The policy ID is stable across revisions, and
@@ -109,7 +109,7 @@ export interface ReturnPoliciesResource {
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
  * client.returnPolicies.create({name: "example", revision: {approval_mode: "automatic",
- * eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope:
+ * eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 0, scope:
  * {match_type: "all"}, ineligibility_reason: "final_sale"}}, { idempotencyKey: idempotencyKey })
  */
     create(params: ReturnPoliciesCreateParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnPolicy, CreateReturnPolicyResponse>>;
@@ -124,9 +124,9 @@ export interface ReturnPoliciesResource {
  * @example
  * // Persist this key with the action before sending; reuse it for every resubmission.
  * const idempotencyKey = crypto.randomUUID();
- * client.returnPolicies.createRevision("rpol_01KEZF7C00H8C042BEK6HBRANX", {expected_version: 1,
- * revision: {approval_mode: "automatic", eligibility_result: "ineligible",
- * is_merchandise_return_required: true, priority: 1, scope: {match_type: "all"},
+ * client.returnPolicies.createRevision("rpol_01KEZF7C00H8C042BEK6HBRANX",
+ * {expected_return_policy_version: 1, revision: {approval_mode: "automatic", eligibility_result:
+ * "ineligible", is_merchandise_return_required: true, priority: 0, scope: {match_type: "all"},
  * ineligibility_reason: "final_sale"}}, { idempotencyKey: idempotencyKey })
  */
     createRevision(return_policy_id: InputValue<string>, params: ReturnPoliciesCreateRevisionParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<ReturnPolicy, PublishReturnPolicyRevisionResponse>>;

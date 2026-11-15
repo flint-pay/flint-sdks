@@ -23,7 +23,7 @@ Resource, collection, or operation result returned by this request. The location
 | `current_delivery_location_set_revision_id` | Required | string | Immutable revision used for new quotes. Example: `"dlsr_01KEZF7C00HN2NT80H5VNQSVFJ"`. |
 | `delivery_location_set_id` | Required | string | Stable delivery location set ID. Example: `"dls_01KEZF7C00C4WWN7RYTRF55C4H"`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata). |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata). |
 | `name` | Required | string | Merchant-facing location set name. |
 | `status` | Required | string | Current location set lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the location set last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -37,7 +37,7 @@ Field definitions: [shared fields](DeliveryLocationSetConfigurationInput.md#deli
 
 ### DeliveryLocationSetResponse.data.metadata
 
-Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
+Value shape: Map of string. Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. 
 
 ### DeliveryLocationSetResponse.meta
 

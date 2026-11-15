@@ -12,7 +12,7 @@ namespace Flint;
 final class PaymentFulfillmentHold extends Model {
     /** @param array{'reason': string, 'released_at'?: string, 'requested_at': string, 'required_action': string, 'status': string, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentFulfillmentHold')); }
-    /** Value enum: "external_payment_hold", "external_payment_hold_released".
+    /** Why the hold exists, which follows its status. Value enum: "external_payment_hold", "external_payment_hold_released".
      * @return string
      */
     public function getReason(): string { return $this->get('reason'); }
@@ -27,12 +27,12 @@ final class PaymentFulfillmentHold extends Model {
      */
     public function getRequestedAt(): string { return $this->get('requested_at'); }
     public function hasRequestedAt(): bool { return $this->has('requested_at'); }
-    /** Value enum: "pause_fulfillment", "reevaluate_fulfillment".
+    /** What to do with fulfillment for this payment now. It follows the hold's status. Value enum: "pause_fulfillment", "reevaluate_fulfillment".
      * @return string
      */
     public function getRequiredAction(): string { return $this->get('required_action'); }
     public function hasRequiredAction(): bool { return $this->has('required_action'); }
-    /** Value enum: "active", "released".
+    /** Whether the hold is in force. Value enum: "active", "released".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

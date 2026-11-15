@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -9,6 +9,36 @@ const scanner = resolve(
   import.meta.dirname,
   "../scripts/scan-public-artifacts.py",
 );
+
+test("public artifact scanner allows only the exact reviewed PEM parser in nested archives", () => {
+  const directory = mkdtempSync(join(tmpdir(), "flint-public-parser-scan-"));
+  try {
+    const parser = readFileSync(resolve(import.meta.dirname, "../php/custom/Partner/PrivateKeyJwt.php"), "utf8");
+    const scan = (member, contents) => {
+      const fixture = spawnSync("python3", ["-c", `
+import sys,zipfile
+with zipfile.ZipFile(sys.argv[1]+'/public.zip','w') as archive:
+    archive.writestr(sys.argv[2],sys.argv[3])
+`, directory, member, contents], { encoding: "utf8" });
+      assert.equal(fixture.status, 0, fixture.stderr);
+      return spawnSync("python3", [scanner, directory], { encoding: "utf8" });
+    };
+    const member = "php/custom/Partner/PrivateKeyJwt.php";
+    assert.equal(scan(member, parser).status, 0);
+    assert.equal(scan("other.php", parser).status, 1);
+    // Even an unrelated edit invalidates the reviewed-byte exception.
+    assert.equal(scan(member, parser + "\n").status, 1);
+    const header = "-----BEGIN " + "PRIVATE KEY-----";
+    const footer = "-----END " + "PRIVATE KEY-----";
+    const secret = header + "\n" + "A".repeat(64) + "\n" + footer;
+    const result = scan(member, parser + "\n" + secret);
+    assert.equal(result.status, 1);
+    assert.ok(JSON.parse(result.stdout).findings.some(([, kind]) => kind === "private key"));
+    assert.ok(!result.stdout.includes(secret));
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
 
 test("public artifact scanner scans nested archives and redacts findings", () => {
   const directory = mkdtempSync(join(tmpdir(), "flint-public-scan-"));

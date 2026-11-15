@@ -15,13 +15,13 @@ final class SubscriptionOfferLineItemRequestInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minLength: 1. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+    /** ID of the active subscription offer that covers the variant. minLength: 1. Example: "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
      * @return string
      * @throws SdkError When subscription_offer_id is omitted; use hasSubscriptionOfferId() or valueOrDefault().
      */
     public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }
     public function hasSubscriptionOfferId(): bool { return $this->has('subscription_offer_id'); }
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** ID of the catalog variant to subscribe to. It must be one the offer covers, and no two lines can name the same variant. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

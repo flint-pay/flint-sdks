@@ -35,7 +35,7 @@ final class BuyerPaymentAttemptPaymentIntent extends Model {
      */
     public function getCapturedMoney(): ?MoneyValue { return $this->get('captured_money'); }
     public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
-    /** Why a payment attempt failed: a normalized `code`, a message, when it failed, and recovery guidance.
+    /** The most recent payment error recorded on this payment, when it has a public error code. Absent when none is recorded. Why a payment attempt failed: a normalized `code`, a message, when it failed, and recovery guidance.
      * @return ?BuyerPaymentErrorSummary
      */
     public function getLastPaymentError(): ?BuyerPaymentErrorSummary { return $this->get('last_payment_error'); }
@@ -55,7 +55,7 @@ final class BuyerPaymentAttemptPaymentIntent extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of `amount_money` that is a tip. Zero when the payment carries no tip. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTipMoney(): MoneyValue { return $this->get('tip_money'); }

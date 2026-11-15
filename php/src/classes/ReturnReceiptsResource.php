@@ -3,6 +3,11 @@ declare(strict_types=1);
 namespace Flint;
 final class ReturnReceiptsResource {
     public function __construct(private readonly Runtime $runtime) {}
+    /** Record an immutable merchandise receipt observation. Corrections supersede an earlier receipt instead of editing physical history. Read receipts with `GET /v1/return-receipts?return_id=` or expand `return_receipts` on `GET /v1/returns/{return_id}`.
+     * @param ReturnReceiptsCreateParams|array<array-key, mixed>|Model $params Flat body fields and query/header parameters; path arguments follow URL order.
+     * @return ReturnReceipt
+     */
+    public function create(array|Model $params, ?RequestOptions $options = null): ReturnReceipt { $input = []; $params = $params instanceof Model ? $params->toInputArray() : $params; $rest = $params ?? []; if ($rest && array_is_list($rest)) throw SdkError::create('validation', 'body must be an object', 'not_sent', errorCode: 'INVALID_REQUEST', details: [['code' => 'INVALID_VALUE', 'param' => 'body']]); foreach (array_keys($rest) as $name) { foreach (['Idempotency-Key', 'Flint-Version', 'X-Request-Id'] as $header) { if (strtolower((string)$name) === strtolower($header)) throw SdkError::create('validation', $header . " can't be sent: supply this header through request options", errorCode: 'INVALID_REQUEST', details: [['code' => 'NOT_ALLOWED', 'param' => $header]]); } } if (array_key_exists('Flint-Merchant-Id', $rest)) { $input['Flint-Merchant-Id'] = $rest['Flint-Merchant-Id']; unset($rest['Flint-Merchant-Id']); } if (array_key_exists('Flint-Mode', $rest)) { $input['Flint-Mode'] = $rest['Flint-Mode']; unset($rest['Flint-Mode']); } if (array_key_exists('Flint-Sandbox-Id', $rest)) { $input['Flint-Sandbox-Id'] = $rest['Flint-Sandbox-Id']; unset($rest['Flint-Sandbox-Id']); } if (true) $input['body'] = (object) $rest; return Runtime::responsePayload($this->runtime->request('createReturnReceipt', $input, $options), ['data']); }
     /** Retrieve one merchandise receipt with its line items and its current or superseded observation status.
      * @param string|Model $return_receipt_id Flint return receipt id.
      * @param ReturnReceiptsGetParams|array<array-key, mixed>|Model|null $params Flat body fields and query/header parameters; path arguments follow URL order.

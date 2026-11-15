@@ -53,7 +53,7 @@ final class APIKeyInput extends Model {
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** key_prefix
+    /** The start of the secret key: its `flint_` mode prefix and the first 8 characters of the random part. It identifies the key in a list without revealing the secret, which only the create response returns.
      * @return string
      * @throws SdkError When key_prefix is omitted; use hasKeyPrefix() or valueOrDefault().
      */
@@ -71,7 +71,7 @@ final class APIKeyInput extends Model {
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** maxLength: 100.
+    /** The label the key was given, 1 to 100 characters. maxLength: 100.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

@@ -24,5 +24,6 @@ anyOf SubscriptionDeliveryDestinationInputCustomerAddress: Declared schema Subsc
 
 anyOf SubscriptionServiceLocationInputCustomerAddress: Declared schema SubscriptionServiceLocationInputCustomerAddress. The `customer_address` variant of `SubscriptionServiceLocationInput`..
 
-- Constraints for `customer_address_id`: minLength: `1`.
+- Constraints for `customer_address_id`: ID of a saved address of the subscription's customer. Flint copies the address. minLength: `1`.
+- Constraints for `type`: How the service location is given: a saved customer address or an inline address. Values: `"customer_address"`.
 

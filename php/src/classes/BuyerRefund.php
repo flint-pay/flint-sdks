@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read BuyerExpandedOrderSummary|null $order
  * @property-read ?string $order_edit_id
  * @property-read ?string $order_id
- * @property-read ExpandedPaymentIntentSummary|null $payment_intent
+ * @property-read BuyerExpandedPaymentIntentSummary|null $payment_intent
  * @property-read ?string $payment_intent_id
  * @property-read ?list<BuyerPaymentRefund> $payment_refunds
  * @property-read string|null $pending_reason
@@ -62,7 +62,7 @@ final class BuyerRefund extends Model {
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Why a refund failed or a payment refund was canceled. Failed and canceled amounts become refundable again, except a refund with reason payment_returned that failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider values are returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request", "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+    /** A coarse buyer-visible failure category. refund_abandoned means the refund could not be completed; contact the store to get your money back. refund_failed means the refund failed. Omitted when there is no failure. Value enum: "refund_failed", "refund_abandoned".
      * @return ?string
      */
     public function getFailureReason(): ?string { return $this->get('failure_reason'); }
@@ -97,10 +97,10 @@ final class BuyerRefund extends Model {
      */
     public function getOrderId(): ?string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): {@see ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded. anyOf[2] (Value): null.
-     * @return ExpandedPaymentIntentSummary|null
+    /** The payment summary for `payment_intent_id`. Buyer refund endpoints take no `expand` parameter, so it is never expanded here. `null` when the refund is not expanded. anyOf[1] (Value): {@see BuyerExpandedPaymentIntentSummary}. A payment intent summary in a buyer response, with its amount, status, payment source, and capture method. anyOf[2] (Value): null.
+     * @return BuyerExpandedPaymentIntentSummary|null
      */
-    public function getPaymentIntent(): ExpandedPaymentIntentSummary|null { return $this->get('payment_intent'); }
+    public function getPaymentIntent(): BuyerExpandedPaymentIntentSummary|null { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
     /** ID of the payment the refund was issued against, when it targeted one payment. `payment_refunds` lists every payment it returned money through.
      * @return ?string

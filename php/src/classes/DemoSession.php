@@ -10,7 +10,7 @@ namespace Flint;
 final class DemoSession extends Model {
     /** @param array{'api_key': mixed, 'demo_session_id': string, 'expires_at': string, 'sandbox_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DemoSession')); }
-    /** The API key issued for a demo session, with its `secret_key` and the scopes it grants.
+    /** The test API key for the session's sandbox. It expires when the session does. The API key issued for a demo session, with its `secret_key` and the scopes it grants.
      * @return DemoSessionAPIKey
      */
     public function getApiKey(): DemoSessionAPIKey { return $this->get('api_key'); }

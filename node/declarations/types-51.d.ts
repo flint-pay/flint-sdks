@@ -1,21 +1,254 @@
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-38.js';
+import type { PromotionCode, Promotion } from './types-50.js';
+import type { ResponseMeta } from './types-54.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { WebhookPromotionCode } from './types-70.js';
 import type { InputValue } from '../runtime.js';
+import type { CreatePromotionCodeRequestInput, CreatePromotionRequestInput } from './types-12.js';
+import type { CategoriesDeleteParams } from './types-5.js';
 import type { DisputesAcceptParams } from './types-23.js';
 import type { UpdatePromotionCodeRequestInput, UpdatePromotionRequestInput } from './types-67.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { PromotionApplicationMethod, PromotionCode, Promotion } from './types-50.js';
-import type { ResponseMeta } from './types-54.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { CreatePromotionRequestInput } from './types-12.js';
-import type { CategoriesDeleteParams, CheckoutCustomTextConfig, CheckoutPaymentConfig, CheckoutMerchantSupport } from './types-5.js';
-import type { Image } from './types-27.js';
-import type { LegalSettings } from './types-34.js';
-import type { PaymentLinkCustomField, PaymentLinkEventConfig, PaymentLinkLineItem, PaymentLinkAvailableVariant } from './types-45.js';
-import type { ThemeConfig, TextModifierConfigRequest } from './types-65.js';
-import type { CheckoutTheme } from './types-6.js';
-import type { PaymentLinkSubscriptionPreview, PaymentLinkProductOption } from './types-46.js';
-import type { SelectedProductOption } from './types-59.js';
-import type { QuantityPriceBreak, PublicResolvedModifierOption } from './types-52.js';
+import type { WebhookPromotion } from './types-69.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+/** A promotion code to create inline with its promotion. The promotion supplies its parent ID. */
+export type PromotionCodeRequest = {
+    /** Code a buyer enters to redeem the promotion. minLength: 1. maxLength: 100. */
+    "code": string;
+    /**
+     * Only this identified customer can redeem the code. The customer must belong to the same
+     * merchant and environment. A checkout may use its merchant-named or email-verified customer;
+     * a typed email does not identify a customer. Omit or send null to create an unbound code.
+     * minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string | null;
+    /**
+     * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omit for no expiry.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string;
+    /**
+     * Maximum number of times this code can be redeemed. Omit for no redemption limit. Format:
+     * int64.
+     */
+    "max_uses"?: number;
+    /**
+     * Key-value data you attach to the promotion code. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Lifecycle status. Defaults to active; send inactive to create a code that cannot be
+     * redeemed. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /**
+     * IANA zone the code's times were entered in, used for display. expires_at is an absolute
+     * timestamp, so this does not change when the code expires. minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string;
+};
+/** A promotion code to create inline with its promotion. The promotion supplies its parent ID. */
+export type PromotionCodeRequestInput = {
+    /** Code a buyer enters to redeem the promotion. minLength: 1. maxLength: 100. */
+    "code": string;
+    /**
+     * Only this identified customer can redeem the code. The customer must belong to the same
+     * merchant and environment. A checkout may use its merchant-named or email-verified customer;
+     * a typed email does not identify a customer. Omit or send null to create an unbound code.
+     * minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: string | null;
+    /**
+     * When the code stops being redeemable, as an absolute RFC3339 timestamp. Omit for no expiry.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string | globalThis.Date;
+    /**
+     * Maximum number of times this code can be redeemed. Omit for no redemption limit. Format:
+     * int64.
+     */
+    "max_uses"?: number;
+    /**
+     * Key-value data you attach to the promotion code. Caller-owned key-value data for a new or
+     * replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode
+     * code points, values are 1 to 4096 Unicode code points, and keys plus values total at most
+     * 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved
+     * for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Lifecycle status. Defaults to active; send inactive to create a code that cannot be
+     * redeemed. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /**
+     * IANA zone the code's times were entered in, used for display. expires_at is an absolute
+     * timestamp, so this does not change when the code expires. minLength: 1. maxLength: 255.
+     */
+    "timezone"?: string;
+};
+/** A response containing `PromotionCode` data. */
+export type PromotionCodeResponse = {
+    /** The requested promotion code. A code a buyer enters to claim a promotion. */
+    "data": PromotionCode;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, useful when contacting support. maxLength: 128. pattern:
+     * ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PromotionCodeUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookPromotionCode;
+        "previous_attributes"?: Partial<WebhookPromotionCode>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "promotion_code.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": WebhookPromotionCode;
+        "previous_attributes"?: Partial<WebhookPromotionCode>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "promotion_code.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "promotion_code.updated";
+});
+/**
+ * The `promotion_code.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PromotionCodeUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
+        "object": WebhookPromotionCode;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookPromotionCode>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "promotion_code.updated". */
+    "event_type"?: "promotion_code.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `promotion_code.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PromotionCodeUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): {@link WebhookPromotionCode}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `promotion`. previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
+     */
+    "data"?: {
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `promotion`. */
+        "object": WebhookPromotionCode;
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<WebhookPromotionCode>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "promotion_code.updated". */
+    "event_type"?: "promotion_code.updated";
+});
+export type PromotionCodesCreateParams = (InputValue<CreatePromotionCodeRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type PromotionCodesDeleteParams = CategoriesDeleteParams;
 export type PromotionCodesGetParams = DisputesAcceptParams;
 export type PromotionCodesListParams = {
     /**
@@ -186,39 +419,7 @@ export type PromotionCombinesWithRequestInput = PromotionCombinesWithPatch;
 export type PromotionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "application_method": PromotionApplicationMethod;
-            "available": boolean;
-            "codes"?: Array<PromotionCode>;
-            "codes_summary"?: PromotionCodesSummary;
-            "combines_with": PromotionCombinesWith;
-            "created_at"?: string;
-            "description"?: string;
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            "display_name": string;
-            "eligibility_rules"?: PromotionRuleGroup;
-            "exclusivity"?: PromotionExclusivity;
-            "external_reference_id"?: string;
-            "max_uses"?: number;
-            "max_uses_per_customer": number | null;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "promotion_id": string;
-            "redemption_type": "automatic" | "code" | (string & {});
-            "schedule"?: PromotionSchedule;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            "updated_at"?: string;
-            "uses_count": number;
-            "version": number;
-        };
+        "object": WebhookPromotion;
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "promotion.created";
@@ -226,39 +427,7 @@ export type PromotionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "application_method": PromotionApplicationMethod;
-            "available": boolean;
-            "codes"?: Array<PromotionCode>;
-            "codes_summary"?: PromotionCodesSummary;
-            "combines_with": PromotionCombinesWith;
-            "created_at"?: string;
-            "description"?: string;
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            "display_name": string;
-            "eligibility_rules"?: PromotionRuleGroup;
-            "exclusivity"?: PromotionExclusivity;
-            "external_reference_id"?: string;
-            "max_uses"?: number;
-            "max_uses_per_customer": number | null;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "promotion_id": string;
-            "redemption_type": "automatic" | "code" | (string & {});
-            "schedule"?: PromotionSchedule;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            "updated_at"?: string;
-            "uses_count": number;
-            "version": number;
-        };
+        "object": WebhookPromotion;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "promotion.created";
@@ -280,288 +449,12 @@ export type PromotionCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
 export type PromotionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `codes`. object.application_method (Required): {@link PromotionApplicationMethod}.
-     * Discount effect and how it applies to eligible items or charges. A flat application method
-     * whose type selects its effect fields. object.available (Required): boolean. Whether the
-     * promotion can apply right now: it is active, inside its schedule, under its max_uses, and,
-     * when code-gated, has at least one redeemable code. object.codes (Optional): Array of {@link
-     * PromotionCode}. The codes this request created, in request order. Present only on the `POST
-     * /v1/promotions` response, where it is `[]` for a promotion created without codes. Read codes
-     * later with `GET /v1/promotion-codes?promotion_id=`. object.codes[] (Value): {@link
-     * PromotionCode}. A code a buyer enters to claim a promotion. object.codes_summary (Optional):
-     * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only on
-     * code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-     * including how many are redeemable now and the newest redeemable code. object.combines_with
-     * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this promotion
-     * may share an order with. Both promotions must allow each other's class. Manual discounts are
-     * ignored. See Promotion for the evaluation order. Which kinds of discounts a promotion can
-     * combine with: line item, order, and service charge discounts. object.created_at (Optional):
-     * string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.description (Optional): string. Optional description of the
-     * promotion for your own records. object.discount_class (Required): string. Whether the
-     * promotion discounts the order, individual line items, or service charges. Value enum:
-     * "order", "line_item", "service_charge". object.display_name (Required): string. Buyer-facing
-     * promotion name shown in checkout and order discount surfaces. object.eligibility_rules
-     * (Optional): {@link PromotionRuleGroup}. Conditions an order must satisfy for the promotion
-     * to apply. Omitted when the promotion has no eligibility conditions. A rule group is an
-     * object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups.
-     * Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null
-     * where the field is clearable. Responses list rules before nested groups. Under any, a nested
-     * group containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups. object.exclusivity
-     * (Optional): {@link PromotionExclusivity}. Optional group and priority used to choose one
-     * promotion from competing promotions in the same group. See Promotion for the evaluation
-     * order. Only one promotion in an exclusivity group continues. See Promotion for the
-     * evaluation order. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.max_uses (Optional): integer. Maximum number of redemptions across all codes and
-     * automatic applications. Omitted when there is no redemption limit. Format: int64.
-     * object.max_uses_per_customer (Required): integer or null. Maximum reserved and redeemed uses
-     * per identified customer across every code and automatic or ID-based application. Checked
-     * atomically when payment starts. Failed, canceled, or expired attempts release their
-     * reservation; refunds do not restore uses. Counts only within the same merchant and
-     * environment; live and test mode are separate. Without an identified customer, returns 409
-     * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit.
-     * Format: int64. minimum: 1. object.merchant_id (Optional): string. Identifier of the merchant
-     * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata
-     * (Optional): {@link MetadataMap}. Key-value data you attach to the promotion. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.name (Required): string. Internal
-     * promotion name for dashboards, searching, and reporting. object.promotion_id (Required):
-     * string. Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * object.redemption_type (Required): string. Whether the promotion applies automatically when
-     * its rules match or requires a promotion code. Value enum: "automatic", "code".
-     * object.schedule (Optional): {@link PromotionSchedule}. Optional start and end times that
-     * limit when the promotion can apply. When a promotion is active, with a start time, an end
-     * time, and the time zone it was entered in. object.status (Required): string. Lifecycle
-     * status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can
-     * still be unavailable: read available. Value enum: "active", "inactive", "archived".
-     * object.unavailable_reason (Optional): string. Why available is false. Present only when
-     * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-     * "exhausted", "no_active_codes". object.updated_at (Optional): string. When the promotion was
-     * last updated, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.uses_count (Required): integer. Number of times the promotion has been redeemed.
-     * Format: int64. object.version (Required): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1.
+     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `codes`.
      */
     "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
-         * application_method (Required): {@link PromotionApplicationMethod}. Discount effect and
-         * how it applies to eligible items or charges. A flat application method whose type
-         * selects its effect fields. available (Required): boolean. Whether the promotion can
-         * apply right now: it is active, inside its schedule, under its max_uses, and, when
-         * code-gated, has at least one redeemable code. codes (Optional): Array of {@link
-         * PromotionCode}. The codes this request created, in request order. Present only on the
-         * `POST /v1/promotions` response, where it is `[]` for a promotion created without codes.
-         * Read codes later with `GET /v1/promotion-codes?promotion_id=`. codes[] (Value): {@link
-         * PromotionCode}. A code a buyer enters to claim a promotion. codes_summary (Optional):
-         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
-         * on code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-         * including how many are redeemable now and the newest redeemable code. combines_with
-         * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this
-         * promotion may share an order with. Both promotions must allow each other's class. Manual
-         * discounts are ignored. See Promotion for the evaluation order. Which kinds of discounts
-         * a promotion can combine with: line item, order, and service charge discounts. created_at
-         * (Optional): string. When the promotion was created, as an RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". description (Optional): string. Optional
-         * description of the promotion for your own records. discount_class (Required): string.
-         * Whether the promotion discounts the order, individual line items, or service charges.
-         * Value enum: "order", "line_item", "service_charge". display_name (Required): string.
-         * Buyer-facing promotion name shown in checkout and order discount surfaces.
-         * eligibility_rules (Optional): {@link PromotionRuleGroup}. Conditions an order must
-         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
-         * conditions. A rule group is an object with exactly one nonempty all (AND) or any (OR)
-         * array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit
-         * the field for no rules, or send null where the field is clearable. Responses list rules
-         * before nested groups. Under any, a nested group containing only one rule reads back as
-         * that rule. Under all, nested groups keep their boundaries to preserve
-         * matched_items.subtotal scope. These deterministic normalizations stabilize after one
-         * round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-         * in the same all group, including its nested groups. exclusivity (Optional): {@link
-         * PromotionExclusivity}. Optional group and priority used to choose one promotion from
-         * competing promotions in the same group. See Promotion for the evaluation order. Only one
-         * promotion in an exclusivity group continues. See Promotion for the evaluation order.
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_uses (Optional):
-         * integer. Maximum number of redemptions across all codes and automatic applications.
-         * Omitted when there is no redemption limit. Format: int64. max_uses_per_customer
-         * (Required): integer or null. Maximum reserved and redeemed uses per identified customer
-         * across every code and automatic or ID-based application. Checked atomically when payment
-         * starts. Failed, canceled, or expired attempts release their reservation; refunds do not
-         * restore uses. Counts only within the same merchant and environment; live and test mode
-         * are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-         * customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1.
-         * merchant_id (Optional): string. Identifier of the merchant that owns the promotion.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}.
-         * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Internal promotion name for
-         * dashboards, searching, and reporting. promotion_id (Required): string. Unique identifier
-         * for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". redemption_type
-         * (Required): string. Whether the promotion applies automatically when its rules match or
-         * requires a promotion code. Value enum: "automatic", "code". schedule (Optional): {@link
-         * PromotionSchedule}. Optional start and end times that limit when the promotion can
-         * apply. When a promotion is active, with a start time, an end time, and the time zone it
-         * was entered in. status (Required): string. Lifecycle status. Set active or inactive with
-         * PATCH; DELETE sets archived. An active promotion can still be unavailable: read
-         * available. Value enum: "active", "inactive", "archived". unavailable_reason (Optional):
-         * string. Why available is false. Present only when available is false. Value enum:
-         * "inactive", "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * updated_at (Optional): string. When the promotion was last updated, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". uses_count (Required):
-         * integer. Number of times the promotion has been redeemed. Format: int64. version
-         * (Required): integer. Persisted owned-state version. Clock-based availability and
-         * expanded resources do not advance this counter. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Discount effect and how it applies to eligible items or charges. A flat application
-             * method whose type selects its effect fields.
-             */
-            "application_method": PromotionApplicationMethod;
-            /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code.
-             */
-            "available": boolean;
-            /**
-             * The codes this request created, in request order. Present only on the `POST
-             * /v1/promotions` response, where it is `[]` for a promotion created without codes.
-             * Read codes later with `GET /v1/promotion-codes?promotion_id=`. [] (Value): {@link
-             * PromotionCode}. A code a buyer enters to claim a promotion.
-             */
-            "codes"?: Array<PromotionCode>;
-            /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. A count of a promotion's codes, including how many are
-             * redeemable now and the newest redeemable code.
-             */
-            "codes_summary"?: PromotionCodesSummary;
-            /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. Which kinds of discounts a promotion can combine
-             * with: line item, order, and service charge discounts.
-             */
-            "combines_with": PromotionCombinesWith;
-            /**
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /** Optional description of the promotion for your own records. */
-            "description"?: string;
-            /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge".
-             */
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            /** Buyer-facing promotion name shown in checkout and order discount surfaces. */
-            "display_name": string;
-            /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. A rule group is an object with exactly one
-             * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-             * groups, and a rules key are invalid. Omit the field for no rules, or send null where
-             * the field is clearable. Responses list rules before nested groups. Under any, a
-             * nested group containing only one rule reads back as that rule. Under all, nested
-             * groups keep their boundaries to preserve matched_items.subtotal scope. These
-             * deterministic normalizations stabilize after one round trip. matched_items.subtotal
-             * sums the line items matched by the line_item.* rules in the same all group,
-             * including its nested groups.
-             */
-            "eligibility_rules"?: PromotionRuleGroup;
-            /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. Only one promotion in an
-             * exclusivity group continues. See Promotion for the evaluation order.
-             */
-            "exclusivity"?: PromotionExclusivity;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. Format: int64.
-             */
-            "max_uses"?: number;
-            /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. Format: int64. minimum:
-             * 1.
-             */
-            "max_uses_per_customer": number | null;
-            /**
-             * Identifier of the merchant that owns the promotion. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Internal promotion name for dashboards, searching, and reporting. */
-            "name": string;
-            /** Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-            "promotion_id": string;
-            /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code".
-             */
-            "redemption_type": "automatic" | "code" | (string & {});
-            /**
-             * Optional start and end times that limit when the promotion can apply. When a
-             * promotion is active, with a start time, an end time, and the time zone it was
-             * entered in.
-             */
-            "schedule"?: PromotionSchedule;
-            /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes".
-             */
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            /**
-             * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of times the promotion has been redeemed. Format: int64. */
-            "uses_count": number;
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
+        "object": WebhookPromotion;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -609,288 +502,12 @@ export type PromotionCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
 export type PromotionCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `codes`. object.application_method (Required): {@link PromotionApplicationMethod}.
-     * Discount effect and how it applies to eligible items or charges. A flat application method
-     * whose type selects its effect fields. object.available (Required): boolean. Whether the
-     * promotion can apply right now: it is active, inside its schedule, under its max_uses, and,
-     * when code-gated, has at least one redeemable code. object.codes (Optional): Array of {@link
-     * PromotionCode}. The codes this request created, in request order. Present only on the `POST
-     * /v1/promotions` response, where it is `[]` for a promotion created without codes. Read codes
-     * later with `GET /v1/promotion-codes?promotion_id=`. object.codes[] (Value): {@link
-     * PromotionCode}. A code a buyer enters to claim a promotion. object.codes_summary (Optional):
-     * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only on
-     * code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-     * including how many are redeemable now and the newest redeemable code. object.combines_with
-     * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this promotion
-     * may share an order with. Both promotions must allow each other's class. Manual discounts are
-     * ignored. See Promotion for the evaluation order. Which kinds of discounts a promotion can
-     * combine with: line item, order, and service charge discounts. object.created_at (Optional):
-     * string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.description (Optional): string. Optional description of the
-     * promotion for your own records. object.discount_class (Required): string. Whether the
-     * promotion discounts the order, individual line items, or service charges. Value enum:
-     * "order", "line_item", "service_charge". object.display_name (Required): string. Buyer-facing
-     * promotion name shown in checkout and order discount surfaces. object.eligibility_rules
-     * (Optional): {@link PromotionRuleGroup}. Conditions an order must satisfy for the promotion
-     * to apply. Omitted when the promotion has no eligibility conditions. A rule group is an
-     * object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups.
-     * Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null
-     * where the field is clearable. Responses list rules before nested groups. Under any, a nested
-     * group containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups. object.exclusivity
-     * (Optional): {@link PromotionExclusivity}. Optional group and priority used to choose one
-     * promotion from competing promotions in the same group. See Promotion for the evaluation
-     * order. Only one promotion in an exclusivity group continues. See Promotion for the
-     * evaluation order. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.max_uses (Optional): integer. Maximum number of redemptions across all codes and
-     * automatic applications. Omitted when there is no redemption limit. Format: int64.
-     * object.max_uses_per_customer (Required): integer or null. Maximum reserved and redeemed uses
-     * per identified customer across every code and automatic or ID-based application. Checked
-     * atomically when payment starts. Failed, canceled, or expired attempts release their
-     * reservation; refunds do not restore uses. Counts only within the same merchant and
-     * environment; live and test mode are separate. Without an identified customer, returns 409
-     * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit.
-     * Format: int64. minimum: 1. object.merchant_id (Optional): string. Identifier of the merchant
-     * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata
-     * (Optional): {@link MetadataMap}. Key-value data you attach to the promotion. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.name (Required): string. Internal
-     * promotion name for dashboards, searching, and reporting. object.promotion_id (Required):
-     * string. Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * object.redemption_type (Required): string. Whether the promotion applies automatically when
-     * its rules match or requires a promotion code. Value enum: "automatic", "code".
-     * object.schedule (Optional): {@link PromotionSchedule}. Optional start and end times that
-     * limit when the promotion can apply. When a promotion is active, with a start time, an end
-     * time, and the time zone it was entered in. object.status (Required): string. Lifecycle
-     * status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can
-     * still be unavailable: read available. Value enum: "active", "inactive", "archived".
-     * object.unavailable_reason (Optional): string. Why available is false. Present only when
-     * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-     * "exhausted", "no_active_codes". object.updated_at (Optional): string. When the promotion was
-     * last updated, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.uses_count (Required): integer. Number of times the promotion has been redeemed.
-     * Format: int64. object.version (Required): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1.
+     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `codes`.
      */
     "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
-         * application_method (Required): {@link PromotionApplicationMethod}. Discount effect and
-         * how it applies to eligible items or charges. A flat application method whose type
-         * selects its effect fields. available (Required): boolean. Whether the promotion can
-         * apply right now: it is active, inside its schedule, under its max_uses, and, when
-         * code-gated, has at least one redeemable code. codes (Optional): Array of {@link
-         * PromotionCode}. The codes this request created, in request order. Present only on the
-         * `POST /v1/promotions` response, where it is `[]` for a promotion created without codes.
-         * Read codes later with `GET /v1/promotion-codes?promotion_id=`. codes[] (Value): {@link
-         * PromotionCode}. A code a buyer enters to claim a promotion. codes_summary (Optional):
-         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
-         * on code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-         * including how many are redeemable now and the newest redeemable code. combines_with
-         * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this
-         * promotion may share an order with. Both promotions must allow each other's class. Manual
-         * discounts are ignored. See Promotion for the evaluation order. Which kinds of discounts
-         * a promotion can combine with: line item, order, and service charge discounts. created_at
-         * (Optional): string. When the promotion was created, as an RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". description (Optional): string. Optional
-         * description of the promotion for your own records. discount_class (Required): string.
-         * Whether the promotion discounts the order, individual line items, or service charges.
-         * Value enum: "order", "line_item", "service_charge". display_name (Required): string.
-         * Buyer-facing promotion name shown in checkout and order discount surfaces.
-         * eligibility_rules (Optional): {@link PromotionRuleGroup}. Conditions an order must
-         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
-         * conditions. A rule group is an object with exactly one nonempty all (AND) or any (OR)
-         * array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit
-         * the field for no rules, or send null where the field is clearable. Responses list rules
-         * before nested groups. Under any, a nested group containing only one rule reads back as
-         * that rule. Under all, nested groups keep their boundaries to preserve
-         * matched_items.subtotal scope. These deterministic normalizations stabilize after one
-         * round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-         * in the same all group, including its nested groups. exclusivity (Optional): {@link
-         * PromotionExclusivity}. Optional group and priority used to choose one promotion from
-         * competing promotions in the same group. See Promotion for the evaluation order. Only one
-         * promotion in an exclusivity group continues. See Promotion for the evaluation order.
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_uses (Optional):
-         * integer. Maximum number of redemptions across all codes and automatic applications.
-         * Omitted when there is no redemption limit. Format: int64. max_uses_per_customer
-         * (Required): integer or null. Maximum reserved and redeemed uses per identified customer
-         * across every code and automatic or ID-based application. Checked atomically when payment
-         * starts. Failed, canceled, or expired attempts release their reservation; refunds do not
-         * restore uses. Counts only within the same merchant and environment; live and test mode
-         * are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-         * customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1.
-         * merchant_id (Optional): string. Identifier of the merchant that owns the promotion.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}.
-         * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Internal promotion name for
-         * dashboards, searching, and reporting. promotion_id (Required): string. Unique identifier
-         * for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". redemption_type
-         * (Required): string. Whether the promotion applies automatically when its rules match or
-         * requires a promotion code. Value enum: "automatic", "code". schedule (Optional): {@link
-         * PromotionSchedule}. Optional start and end times that limit when the promotion can
-         * apply. When a promotion is active, with a start time, an end time, and the time zone it
-         * was entered in. status (Required): string. Lifecycle status. Set active or inactive with
-         * PATCH; DELETE sets archived. An active promotion can still be unavailable: read
-         * available. Value enum: "active", "inactive", "archived". unavailable_reason (Optional):
-         * string. Why available is false. Present only when available is false. Value enum:
-         * "inactive", "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * updated_at (Optional): string. When the promotion was last updated, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". uses_count (Required):
-         * integer. Number of times the promotion has been redeemed. Format: int64. version
-         * (Required): integer. Persisted owned-state version. Clock-based availability and
-         * expanded resources do not advance this counter. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Discount effect and how it applies to eligible items or charges. A flat application
-             * method whose type selects its effect fields.
-             */
-            "application_method": PromotionApplicationMethod;
-            /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code.
-             */
-            "available": boolean;
-            /**
-             * The codes this request created, in request order. Present only on the `POST
-             * /v1/promotions` response, where it is `[]` for a promotion created without codes.
-             * Read codes later with `GET /v1/promotion-codes?promotion_id=`. [] (Value): {@link
-             * PromotionCode}. A code a buyer enters to claim a promotion.
-             */
-            "codes"?: Array<PromotionCode>;
-            /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. A count of a promotion's codes, including how many are
-             * redeemable now and the newest redeemable code.
-             */
-            "codes_summary"?: PromotionCodesSummary;
-            /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. Which kinds of discounts a promotion can combine
-             * with: line item, order, and service charge discounts.
-             */
-            "combines_with": PromotionCombinesWith;
-            /**
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /** Optional description of the promotion for your own records. */
-            "description"?: string;
-            /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge".
-             */
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            /** Buyer-facing promotion name shown in checkout and order discount surfaces. */
-            "display_name": string;
-            /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. A rule group is an object with exactly one
-             * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-             * groups, and a rules key are invalid. Omit the field for no rules, or send null where
-             * the field is clearable. Responses list rules before nested groups. Under any, a
-             * nested group containing only one rule reads back as that rule. Under all, nested
-             * groups keep their boundaries to preserve matched_items.subtotal scope. These
-             * deterministic normalizations stabilize after one round trip. matched_items.subtotal
-             * sums the line items matched by the line_item.* rules in the same all group,
-             * including its nested groups.
-             */
-            "eligibility_rules"?: PromotionRuleGroup;
-            /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. Only one promotion in an
-             * exclusivity group continues. See Promotion for the evaluation order.
-             */
-            "exclusivity"?: PromotionExclusivity;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. Format: int64.
-             */
-            "max_uses"?: number;
-            /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. Format: int64. minimum:
-             * 1.
-             */
-            "max_uses_per_customer": number | null;
-            /**
-             * Identifier of the merchant that owns the promotion. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Internal promotion name for dashboards, searching, and reporting. */
-            "name": string;
-            /** Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-            "promotion_id": string;
-            /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code".
-             */
-            "redemption_type": "automatic" | "code" | (string & {});
-            /**
-             * Optional start and end times that limit when the promotion can apply. When a
-             * promotion is active, with a start time, an end time, and the time zone it was
-             * entered in.
-             */
-            "schedule"?: PromotionSchedule;
-            /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes".
-             */
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            /**
-             * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of times the promotion has been redeemed. Format: int64. */
-            "uses_count": number;
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
+        "object": WebhookPromotion;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1751,40 +1368,8 @@ export type PromotionSettingsRequestInput = PromotionSettings;
 export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "application_method": PromotionApplicationMethod;
-            "available": boolean;
-            "codes"?: Array<PromotionCode>;
-            "codes_summary"?: PromotionCodesSummary;
-            "combines_with": PromotionCombinesWith;
-            "created_at"?: string;
-            "description"?: string;
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            "display_name": string;
-            "eligibility_rules"?: PromotionRuleGroup;
-            "exclusivity"?: PromotionExclusivity;
-            "external_reference_id"?: string;
-            "max_uses"?: number;
-            "max_uses_per_customer": number | null;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "promotion_id": string;
-            "redemption_type": "automatic" | "code" | (string & {});
-            "schedule"?: PromotionSchedule;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            "updated_at"?: string;
-            "uses_count": number;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Promotion>;
+        "object": WebhookPromotion;
+        "previous_attributes"?: Partial<WebhookPromotion>;
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "promotion.updated";
@@ -1792,40 +1377,8 @@ export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "application_method": PromotionApplicationMethod;
-            "available": boolean;
-            "codes"?: Array<PromotionCode>;
-            "codes_summary"?: PromotionCodesSummary;
-            "combines_with": PromotionCombinesWith;
-            "created_at"?: string;
-            "description"?: string;
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            "display_name": string;
-            "eligibility_rules"?: PromotionRuleGroup;
-            "exclusivity"?: PromotionExclusivity;
-            "external_reference_id"?: string;
-            "max_uses"?: number;
-            "max_uses_per_customer": number | null;
-            "merchant_id"?: string;
-            "metadata"?: MetadataMap;
-            "name": string;
-            "promotion_id": string;
-            "redemption_type": "automatic" | "code" | (string & {});
-            "schedule"?: PromotionSchedule;
-            "status": "active" | "inactive" | "archived" | (string & {});
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            "updated_at"?: string;
-            "uses_count": number;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Promotion>;
+        "object": WebhookPromotion;
+        "previous_attributes"?: Partial<WebhookPromotion>;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "promotion.updated";
@@ -1847,298 +1400,23 @@ export type PromotionUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object
 export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `codes`. object.application_method (Required): {@link PromotionApplicationMethod}.
-     * Discount effect and how it applies to eligible items or charges. A flat application method
-     * whose type selects its effect fields. object.available (Required): boolean. Whether the
-     * promotion can apply right now: it is active, inside its schedule, under its max_uses, and,
-     * when code-gated, has at least one redeemable code. object.codes (Optional): Array of {@link
-     * PromotionCode}. The codes this request created, in request order. Present only on the `POST
-     * /v1/promotions` response, where it is `[]` for a promotion created without codes. Read codes
-     * later with `GET /v1/promotion-codes?promotion_id=`. object.codes[] (Value): {@link
-     * PromotionCode}. A code a buyer enters to claim a promotion. object.codes_summary (Optional):
-     * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only on
-     * code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-     * including how many are redeemable now and the newest redeemable code. object.combines_with
-     * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this promotion
-     * may share an order with. Both promotions must allow each other's class. Manual discounts are
-     * ignored. See Promotion for the evaluation order. Which kinds of discounts a promotion can
-     * combine with: line item, order, and service charge discounts. object.created_at (Optional):
-     * string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.description (Optional): string. Optional description of the
-     * promotion for your own records. object.discount_class (Required): string. Whether the
-     * promotion discounts the order, individual line items, or service charges. Value enum:
-     * "order", "line_item", "service_charge". object.display_name (Required): string. Buyer-facing
-     * promotion name shown in checkout and order discount surfaces. object.eligibility_rules
-     * (Optional): {@link PromotionRuleGroup}. Conditions an order must satisfy for the promotion
-     * to apply. Omitted when the promotion has no eligibility conditions. A rule group is an
-     * object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups.
-     * Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null
-     * where the field is clearable. Responses list rules before nested groups. Under any, a nested
-     * group containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups. object.exclusivity
-     * (Optional): {@link PromotionExclusivity}. Optional group and priority used to choose one
-     * promotion from competing promotions in the same group. See Promotion for the evaluation
-     * order. Only one promotion in an exclusivity group continues. See Promotion for the
-     * evaluation order. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.max_uses (Optional): integer. Maximum number of redemptions across all codes and
-     * automatic applications. Omitted when there is no redemption limit. Format: int64.
-     * object.max_uses_per_customer (Required): integer or null. Maximum reserved and redeemed uses
-     * per identified customer across every code and automatic or ID-based application. Checked
-     * atomically when payment starts. Failed, canceled, or expired attempts release their
-     * reservation; refunds do not restore uses. Counts only within the same merchant and
-     * environment; live and test mode are separate. Without an identified customer, returns 409
-     * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit.
-     * Format: int64. minimum: 1. object.merchant_id (Optional): string. Identifier of the merchant
-     * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata
-     * (Optional): {@link MetadataMap}. Key-value data you attach to the promotion. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.name (Required): string. Internal
-     * promotion name for dashboards, searching, and reporting. object.promotion_id (Required):
-     * string. Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * object.redemption_type (Required): string. Whether the promotion applies automatically when
-     * its rules match or requires a promotion code. Value enum: "automatic", "code".
-     * object.schedule (Optional): {@link PromotionSchedule}. Optional start and end times that
-     * limit when the promotion can apply. When a promotion is active, with a start time, an end
-     * time, and the time zone it was entered in. object.status (Required): string. Lifecycle
-     * status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can
-     * still be unavailable: read available. Value enum: "active", "inactive", "archived".
-     * object.unavailable_reason (Optional): string. Why available is false. Present only when
-     * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-     * "exhausted", "no_active_codes". object.updated_at (Optional): string. When the promotion was
-     * last updated, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.uses_count (Required): integer. Number of times the promotion has been redeemed.
-     * Format: int64. object.version (Required): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `codes`. previous_attributes (Optional): object. Previous values
+     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
      */
     "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
-         * application_method (Required): {@link PromotionApplicationMethod}. Discount effect and
-         * how it applies to eligible items or charges. A flat application method whose type
-         * selects its effect fields. available (Required): boolean. Whether the promotion can
-         * apply right now: it is active, inside its schedule, under its max_uses, and, when
-         * code-gated, has at least one redeemable code. codes (Optional): Array of {@link
-         * PromotionCode}. The codes this request created, in request order. Present only on the
-         * `POST /v1/promotions` response, where it is `[]` for a promotion created without codes.
-         * Read codes later with `GET /v1/promotion-codes?promotion_id=`. codes[] (Value): {@link
-         * PromotionCode}. A code a buyer enters to claim a promotion. codes_summary (Optional):
-         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
-         * on code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-         * including how many are redeemable now and the newest redeemable code. combines_with
-         * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this
-         * promotion may share an order with. Both promotions must allow each other's class. Manual
-         * discounts are ignored. See Promotion for the evaluation order. Which kinds of discounts
-         * a promotion can combine with: line item, order, and service charge discounts. created_at
-         * (Optional): string. When the promotion was created, as an RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". description (Optional): string. Optional
-         * description of the promotion for your own records. discount_class (Required): string.
-         * Whether the promotion discounts the order, individual line items, or service charges.
-         * Value enum: "order", "line_item", "service_charge". display_name (Required): string.
-         * Buyer-facing promotion name shown in checkout and order discount surfaces.
-         * eligibility_rules (Optional): {@link PromotionRuleGroup}. Conditions an order must
-         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
-         * conditions. A rule group is an object with exactly one nonempty all (AND) or any (OR)
-         * array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit
-         * the field for no rules, or send null where the field is clearable. Responses list rules
-         * before nested groups. Under any, a nested group containing only one rule reads back as
-         * that rule. Under all, nested groups keep their boundaries to preserve
-         * matched_items.subtotal scope. These deterministic normalizations stabilize after one
-         * round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-         * in the same all group, including its nested groups. exclusivity (Optional): {@link
-         * PromotionExclusivity}. Optional group and priority used to choose one promotion from
-         * competing promotions in the same group. See Promotion for the evaluation order. Only one
-         * promotion in an exclusivity group continues. See Promotion for the evaluation order.
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_uses (Optional):
-         * integer. Maximum number of redemptions across all codes and automatic applications.
-         * Omitted when there is no redemption limit. Format: int64. max_uses_per_customer
-         * (Required): integer or null. Maximum reserved and redeemed uses per identified customer
-         * across every code and automatic or ID-based application. Checked atomically when payment
-         * starts. Failed, canceled, or expired attempts release their reservation; refunds do not
-         * restore uses. Counts only within the same merchant and environment; live and test mode
-         * are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-         * customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1.
-         * merchant_id (Optional): string. Identifier of the merchant that owns the promotion.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}.
-         * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Internal promotion name for
-         * dashboards, searching, and reporting. promotion_id (Required): string. Unique identifier
-         * for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". redemption_type
-         * (Required): string. Whether the promotion applies automatically when its rules match or
-         * requires a promotion code. Value enum: "automatic", "code". schedule (Optional): {@link
-         * PromotionSchedule}. Optional start and end times that limit when the promotion can
-         * apply. When a promotion is active, with a start time, an end time, and the time zone it
-         * was entered in. status (Required): string. Lifecycle status. Set active or inactive with
-         * PATCH; DELETE sets archived. An active promotion can still be unavailable: read
-         * available. Value enum: "active", "inactive", "archived". unavailable_reason (Optional):
-         * string. Why available is false. Present only when available is false. Value enum:
-         * "inactive", "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * updated_at (Optional): string. When the promotion was last updated, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". uses_count (Required):
-         * integer. Number of times the promotion has been redeemed. Format: int64. version
-         * (Required): integer. Persisted owned-state version. Clock-based availability and
-         * expanded resources do not advance this counter. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Discount effect and how it applies to eligible items or charges. A flat application
-             * method whose type selects its effect fields.
-             */
-            "application_method": PromotionApplicationMethod;
-            /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code.
-             */
-            "available": boolean;
-            /**
-             * The codes this request created, in request order. Present only on the `POST
-             * /v1/promotions` response, where it is `[]` for a promotion created without codes.
-             * Read codes later with `GET /v1/promotion-codes?promotion_id=`. [] (Value): {@link
-             * PromotionCode}. A code a buyer enters to claim a promotion.
-             */
-            "codes"?: Array<PromotionCode>;
-            /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. A count of a promotion's codes, including how many are
-             * redeemable now and the newest redeemable code.
-             */
-            "codes_summary"?: PromotionCodesSummary;
-            /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. Which kinds of discounts a promotion can combine
-             * with: line item, order, and service charge discounts.
-             */
-            "combines_with": PromotionCombinesWith;
-            /**
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /** Optional description of the promotion for your own records. */
-            "description"?: string;
-            /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge".
-             */
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            /** Buyer-facing promotion name shown in checkout and order discount surfaces. */
-            "display_name": string;
-            /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. A rule group is an object with exactly one
-             * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-             * groups, and a rules key are invalid. Omit the field for no rules, or send null where
-             * the field is clearable. Responses list rules before nested groups. Under any, a
-             * nested group containing only one rule reads back as that rule. Under all, nested
-             * groups keep their boundaries to preserve matched_items.subtotal scope. These
-             * deterministic normalizations stabilize after one round trip. matched_items.subtotal
-             * sums the line items matched by the line_item.* rules in the same all group,
-             * including its nested groups.
-             */
-            "eligibility_rules"?: PromotionRuleGroup;
-            /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. Only one promotion in an
-             * exclusivity group continues. See Promotion for the evaluation order.
-             */
-            "exclusivity"?: PromotionExclusivity;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. Format: int64.
-             */
-            "max_uses"?: number;
-            /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. Format: int64. minimum:
-             * 1.
-             */
-            "max_uses_per_customer": number | null;
-            /**
-             * Identifier of the merchant that owns the promotion. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Internal promotion name for dashboards, searching, and reporting. */
-            "name": string;
-            /** Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-            "promotion_id": string;
-            /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code".
-             */
-            "redemption_type": "automatic" | "code" | (string & {});
-            /**
-             * Optional start and end times that limit when the promotion can apply. When a
-             * promotion is active, with a start time, an end time, and the time zone it was
-             * entered in.
-             */
-            "schedule"?: PromotionSchedule;
-            /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes".
-             */
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            /**
-             * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of times the promotion has been redeemed. Format: int64. */
-            "uses_count": number;
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
+        "object": WebhookPromotion;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Promotion>;
+        "previous_attributes"?: Partial<WebhookPromotion>;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -2186,298 +1464,23 @@ export type PromotionUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnv
 export type PromotionUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `codes`. object.application_method (Required): {@link PromotionApplicationMethod}.
-     * Discount effect and how it applies to eligible items or charges. A flat application method
-     * whose type selects its effect fields. object.available (Required): boolean. Whether the
-     * promotion can apply right now: it is active, inside its schedule, under its max_uses, and,
-     * when code-gated, has at least one redeemable code. object.codes (Optional): Array of {@link
-     * PromotionCode}. The codes this request created, in request order. Present only on the `POST
-     * /v1/promotions` response, where it is `[]` for a promotion created without codes. Read codes
-     * later with `GET /v1/promotion-codes?promotion_id=`. object.codes[] (Value): {@link
-     * PromotionCode}. A code a buyer enters to claim a promotion. object.codes_summary (Optional):
-     * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only on
-     * code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-     * including how many are redeemable now and the newest redeemable code. object.combines_with
-     * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this promotion
-     * may share an order with. Both promotions must allow each other's class. Manual discounts are
-     * ignored. See Promotion for the evaluation order. Which kinds of discounts a promotion can
-     * combine with: line item, order, and service charge discounts. object.created_at (Optional):
-     * string. When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.description (Optional): string. Optional description of the
-     * promotion for your own records. object.discount_class (Required): string. Whether the
-     * promotion discounts the order, individual line items, or service charges. Value enum:
-     * "order", "line_item", "service_charge". object.display_name (Required): string. Buyer-facing
-     * promotion name shown in checkout and order discount surfaces. object.eligibility_rules
-     * (Optional): {@link PromotionRuleGroup}. Conditions an order must satisfy for the promotion
-     * to apply. Omitted when the promotion has no eligibility conditions. A rule group is an
-     * object with exactly one nonempty all (AND) or any (OR) array of rules or nested groups.
-     * Arrays, empty groups, and a rules key are invalid. Omit the field for no rules, or send null
-     * where the field is clearable. Responses list rules before nested groups. Under any, a nested
-     * group containing only one rule reads back as that rule. Under all, nested groups keep their
-     * boundaries to preserve matched_items.subtotal scope. These deterministic normalizations
-     * stabilize after one round trip. matched_items.subtotal sums the line items matched by the
-     * line_item.* rules in the same all group, including its nested groups. object.exclusivity
-     * (Optional): {@link PromotionExclusivity}. Optional group and priority used to choose one
-     * promotion from competing promotions in the same group. See Promotion for the evaluation
-     * order. Only one promotion in an exclusivity group continues. See Promotion for the
-     * evaluation order. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.max_uses (Optional): integer. Maximum number of redemptions across all codes and
-     * automatic applications. Omitted when there is no redemption limit. Format: int64.
-     * object.max_uses_per_customer (Required): integer or null. Maximum reserved and redeemed uses
-     * per identified customer across every code and automatic or ID-based application. Checked
-     * atomically when payment starts. Failed, canceled, or expired attempts release their
-     * reservation; refunds do not restore uses. Counts only within the same merchant and
-     * environment; live and test mode are separate. Without an identified customer, returns 409
-     * PROMOTION_DECLINED with reason customer_required. Null when there is no per-customer limit.
-     * Format: int64. minimum: 1. object.merchant_id (Optional): string. Identifier of the merchant
-     * that owns the promotion. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata
-     * (Optional): {@link MetadataMap}. Key-value data you attach to the promotion. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.name (Required): string. Internal
-     * promotion name for dashboards, searching, and reporting. object.promotion_id (Required):
-     * string. Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
-     * object.redemption_type (Required): string. Whether the promotion applies automatically when
-     * its rules match or requires a promotion code. Value enum: "automatic", "code".
-     * object.schedule (Optional): {@link PromotionSchedule}. Optional start and end times that
-     * limit when the promotion can apply. When a promotion is active, with a start time, an end
-     * time, and the time zone it was entered in. object.status (Required): string. Lifecycle
-     * status. Set active or inactive with PATCH; DELETE sets archived. An active promotion can
-     * still be unavailable: read available. Value enum: "active", "inactive", "archived".
-     * object.unavailable_reason (Optional): string. Why available is false. Present only when
-     * available is false. Value enum: "inactive", "archived", "not_yet_started", "expired",
-     * "exhausted", "no_active_codes". object.updated_at (Optional): string. When the promotion was
-     * last updated, as an RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.uses_count (Required): integer. Number of times the promotion has been redeemed.
-     * Format: int64. object.version (Required): integer. Persisted owned-state version.
-     * Clock-based availability and expanded resources do not advance this counter. Format: uint64.
-     * minimum: 1. previous_attributes (Optional): object. Previous values of changed top-level
-     * fields in data.object, at this delivery's API version. Nested changes include the whole
-     * previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     *  object (Required): {@link WebhookPromotion}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `codes`. previous_attributes (Optional): object. Previous values
+     * of changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
      */
     "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
-         * application_method (Required): {@link PromotionApplicationMethod}. Discount effect and
-         * how it applies to eligible items or charges. A flat application method whose type
-         * selects its effect fields. available (Required): boolean. Whether the promotion can
-         * apply right now: it is active, inside its schedule, under its max_uses, and, when
-         * code-gated, has at least one redeemable code. codes (Optional): Array of {@link
-         * PromotionCode}. The codes this request created, in request order. Present only on the
-         * `POST /v1/promotions` response, where it is `[]` for a promotion created without codes.
-         * Read codes later with `GET /v1/promotion-codes?promotion_id=`. codes[] (Value): {@link
-         * PromotionCode}. A code a buyer enters to claim a promotion. codes_summary (Optional):
-         * {@link PromotionCodesSummary}. Read-only rollup of this promotion's codes. Present only
-         * on code-gated promotions; automatic promotions omit it. A count of a promotion's codes,
-         * including how many are redeemable now and the newest redeemable code. combines_with
-         * (Required): {@link PromotionCombinesWith}. Which promotion discount classes this
-         * promotion may share an order with. Both promotions must allow each other's class. Manual
-         * discounts are ignored. See Promotion for the evaluation order. Which kinds of discounts
-         * a promotion can combine with: line item, order, and service charge discounts. created_at
-         * (Optional): string. When the promotion was created, as an RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". description (Optional): string. Optional
-         * description of the promotion for your own records. discount_class (Required): string.
-         * Whether the promotion discounts the order, individual line items, or service charges.
-         * Value enum: "order", "line_item", "service_charge". display_name (Required): string.
-         * Buyer-facing promotion name shown in checkout and order discount surfaces.
-         * eligibility_rules (Optional): {@link PromotionRuleGroup}. Conditions an order must
-         * satisfy for the promotion to apply. Omitted when the promotion has no eligibility
-         * conditions. A rule group is an object with exactly one nonempty all (AND) or any (OR)
-         * array of rules or nested groups. Arrays, empty groups, and a rules key are invalid. Omit
-         * the field for no rules, or send null where the field is clearable. Responses list rules
-         * before nested groups. Under any, a nested group containing only one rule reads back as
-         * that rule. Under all, nested groups keep their boundaries to preserve
-         * matched_items.subtotal scope. These deterministic normalizations stabilize after one
-         * round trip. matched_items.subtotal sums the line items matched by the line_item.* rules
-         * in the same all group, including its nested groups. exclusivity (Optional): {@link
-         * PromotionExclusivity}. Optional group and priority used to choose one promotion from
-         * competing promotions in the same group. See Promotion for the evaluation order. Only one
-         * promotion in an exclusivity group continues. See Promotion for the evaluation order.
-         * external_reference_id (Optional): string. Caller-owned identifier for this resource in
-         * an external system. maxLength: 255. Example: "warehouse-1842". max_uses (Optional):
-         * integer. Maximum number of redemptions across all codes and automatic applications.
-         * Omitted when there is no redemption limit. Format: int64. max_uses_per_customer
-         * (Required): integer or null. Maximum reserved and redeemed uses per identified customer
-         * across every code and automatic or ID-based application. Checked atomically when payment
-         * starts. Failed, canceled, or expired attempts release their reservation; refunds do not
-         * restore uses. Counts only within the same merchant and environment; live and test mode
-         * are separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-         * customer_required. Null when there is no per-customer limit. Format: int64. minimum: 1.
-         * merchant_id (Optional): string. Identifier of the merchant that owns the promotion.
-         * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}.
-         * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-         * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
-         * follow the limits on MetadataInput and MetadataPatchInput; maps written before those
-         * limits may not satisfy them. name (Required): string. Internal promotion name for
-         * dashboards, searching, and reporting. promotion_id (Required): string. Unique identifier
-         * for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". redemption_type
-         * (Required): string. Whether the promotion applies automatically when its rules match or
-         * requires a promotion code. Value enum: "automatic", "code". schedule (Optional): {@link
-         * PromotionSchedule}. Optional start and end times that limit when the promotion can
-         * apply. When a promotion is active, with a start time, an end time, and the time zone it
-         * was entered in. status (Required): string. Lifecycle status. Set active or inactive with
-         * PATCH; DELETE sets archived. An active promotion can still be unavailable: read
-         * available. Value enum: "active", "inactive", "archived". unavailable_reason (Optional):
-         * string. Why available is false. Present only when available is false. Value enum:
-         * "inactive", "archived", "not_yet_started", "expired", "exhausted", "no_active_codes".
-         * updated_at (Optional): string. When the promotion was last updated, as an RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". uses_count (Required):
-         * integer. Number of times the promotion has been redeemed. Format: int64. version
-         * (Required): integer. Persisted owned-state version. Clock-based availability and
-         * expanded resources do not advance this counter. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Discount effect and how it applies to eligible items or charges. A flat application
-             * method whose type selects its effect fields.
-             */
-            "application_method": PromotionApplicationMethod;
-            /**
-             * Whether the promotion can apply right now: it is active, inside its schedule, under
-             * its max_uses, and, when code-gated, has at least one redeemable code.
-             */
-            "available": boolean;
-            /**
-             * The codes this request created, in request order. Present only on the `POST
-             * /v1/promotions` response, where it is `[]` for a promotion created without codes.
-             * Read codes later with `GET /v1/promotion-codes?promotion_id=`. [] (Value): {@link
-             * PromotionCode}. A code a buyer enters to claim a promotion.
-             */
-            "codes"?: Array<PromotionCode>;
-            /**
-             * Read-only rollup of this promotion's codes. Present only on code-gated promotions;
-             * automatic promotions omit it. A count of a promotion's codes, including how many are
-             * redeemable now and the newest redeemable code.
-             */
-            "codes_summary"?: PromotionCodesSummary;
-            /**
-             * Which promotion discount classes this promotion may share an order with. Both
-             * promotions must allow each other's class. Manual discounts are ignored. See
-             * Promotion for the evaluation order. Which kinds of discounts a promotion can combine
-             * with: line item, order, and service charge discounts.
-             */
-            "combines_with": PromotionCombinesWith;
-            /**
-             * When the promotion was created, as an RFC3339 timestamp. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "created_at"?: string;
-            /** Optional description of the promotion for your own records. */
-            "description"?: string;
-            /**
-             * Whether the promotion discounts the order, individual line items, or service
-             * charges. Value enum: "order", "line_item", "service_charge".
-             */
-            "discount_class": "order" | "line_item" | "service_charge" | (string & {});
-            /** Buyer-facing promotion name shown in checkout and order discount surfaces. */
-            "display_name": string;
-            /**
-             * Conditions an order must satisfy for the promotion to apply. Omitted when the
-             * promotion has no eligibility conditions. A rule group is an object with exactly one
-             * nonempty all (AND) or any (OR) array of rules or nested groups. Arrays, empty
-             * groups, and a rules key are invalid. Omit the field for no rules, or send null where
-             * the field is clearable. Responses list rules before nested groups. Under any, a
-             * nested group containing only one rule reads back as that rule. Under all, nested
-             * groups keep their boundaries to preserve matched_items.subtotal scope. These
-             * deterministic normalizations stabilize after one round trip. matched_items.subtotal
-             * sums the line items matched by the line_item.* rules in the same all group,
-             * including its nested groups.
-             */
-            "eligibility_rules"?: PromotionRuleGroup;
-            /**
-             * Optional group and priority used to choose one promotion from competing promotions
-             * in the same group. See Promotion for the evaluation order. Only one promotion in an
-             * exclusivity group continues. See Promotion for the evaluation order.
-             */
-            "exclusivity"?: PromotionExclusivity;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Maximum number of redemptions across all codes and automatic applications. Omitted
-             * when there is no redemption limit. Format: int64.
-             */
-            "max_uses"?: number;
-            /**
-             * Maximum reserved and redeemed uses per identified customer across every code and
-             * automatic or ID-based application. Checked atomically when payment starts. Failed,
-             * canceled, or expired attempts release their reservation; refunds do not restore
-             * uses. Counts only within the same merchant and environment; live and test mode are
-             * separate. Without an identified customer, returns 409 PROMOTION_DECLINED with reason
-             * customer_required. Null when there is no per-customer limit. Format: int64. minimum:
-             * 1.
-             */
-            "max_uses_per_customer": number | null;
-            /**
-             * Identifier of the merchant that owns the promotion. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id"?: string;
-            /**
-             * Key-value data you attach to the promotion. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /** Internal promotion name for dashboards, searching, and reporting. */
-            "name": string;
-            /** Unique identifier for the promotion. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V". */
-            "promotion_id": string;
-            /**
-             * Whether the promotion applies automatically when its rules match or requires a
-             * promotion code. Value enum: "automatic", "code".
-             */
-            "redemption_type": "automatic" | "code" | (string & {});
-            /**
-             * Optional start and end times that limit when the promotion can apply. When a
-             * promotion is active, with a start time, an end time, and the time zone it was
-             * entered in.
-             */
-            "schedule"?: PromotionSchedule;
-            /**
-             * Lifecycle status. Set active or inactive with PATCH; DELETE sets archived. An active
-             * promotion can still be unavailable: read available. Value enum: "active",
-             * "inactive", "archived".
-             */
-            "status": "active" | "inactive" | "archived" | (string & {});
-            /**
-             * Why available is false. Present only when available is false. Value enum:
-             * "inactive", "archived", "not_yet_started", "expired", "exhausted",
-             * "no_active_codes".
-             */
-            "unavailable_reason"?: "inactive"
-                | "archived"
-                | "not_yet_started"
-                | "expired"
-                | "exhausted"
-                | "no_active_codes"
-                | (string & {});
-            /**
-             * When the promotion was last updated, as an RFC3339 timestamp. Format: date-time.
-             * Example: "2026-08-02T16:00:00Z".
-             */
-            "updated_at"?: string;
-            /** Number of times the promotion has been redeemed. Format: int64. */
-            "uses_count": number;
-            /**
-             * Persisted owned-state version. Clock-based availability and expanded resources do
-             * not advance this counter. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        /** The resource snapshot, without expansions. Webhooks omit these fields: `codes`. */
+        "object": WebhookPromotion;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Promotion>;
+        "previous_attributes"?: Partial<WebhookPromotion>;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2666,389 +1669,4 @@ export type PromotionsUpdateParams = (InputValue<UpdatePromotionRequestInput>)
      * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
-};
-/** A temporary link for downloading a generated report. */
-export type PublicDownload = {
-    /**
-     * When the download stops working: 24 hours after the report succeeded. The report keeps
-     * status succeeded and this download object afterward; create a new report to get the file
-     * again. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /**
-     * Identifier of this download, the last segment of url. pattern: ^rdl_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "rdl_01KEZF7C003GGGDW1N5QT46JDZ".
-     */
-    "report_download_id": string;
-    /**
-     * Flint API URL for the file, not the file itself. Call it with the same API key; Flint
-     * answers 307 with a redirect to a private file URL that works for a few minutes. Request url
-     * again each time you need the file.
-     */
-    "url": string;
-};
-/**
- * The buyer-facing view of a payment link, with its line items, custom fields, legal and payment
- * settings, and status.
- */
-export type PublicPaymentLink = {
-    /** Number of paid checkout sessions started from this link. Format: int32. */
-    "completed_count": number;
-    /**
-     * Questions buyers answer before paying. Answers are recorded on the order and checkout
-     * session in `custom_field_answers`. [] (Value): {@link PaymentLinkCustomField}. A custom
-     * field on a payment link that collects an answer from the buyer.
-     */
-    "custom_fields"?: Array<PaymentLinkCustomField>;
-    /**
-     * Custom text for checkouts started from this link. Custom text shown in checkout: an order
-     * summary message and a shipping address label.
-     */
-    "custom_text"?: CheckoutCustomTextConfig;
-    /** Text about what the link sells, returned to buyers when they open it. */
-    "description"?: string;
-    /**
-     * Largest amount a buyer can give on a donation link. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "donation_max_amount_money"?: MoneyValue;
-    /**
-     * Smallest amount a buyer can give on a donation link. Monetary amount represented as integer
-     * minor units plus an ISO 4217 currency code.
-     */
-    "donation_min_amount_money"?: MoneyValue;
-    /**
-     * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "donation_suggested_amount_money_options"?: Array<MoneyValue>;
-    /**
-     * Event details for an `event` link: when and where it takes place and how many tickets it
-     * sells. Event settings on an event payment link, such as its date, venue, ticket limit, and
-     * ticket emails.
-     */
-    "event_config"?: PaymentLinkEventConfig;
-    /** Image shown to buyers with the link. An image with its URL, size, and alt text. */
-    "image"?: Image;
-    /** Message to show the buyer when the link is inactive. */
-    "inactive_message"?: string;
-    /**
-     * The terms and policy links checkouts started from this link show the buyer. Legal settings
-     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
-     * shipping policy, and contract.
-     */
-    "legal"?: LegalSettings;
-    /**
-     * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a payment link.
-     */
-    "line_items"?: Array<PaymentLinkLineItem>;
-    /**
-     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
-     * the limit is reached, resolving the link fails with a request error. It can't be set below
-     * `completed_count`. Format: int32.
-     */
-    "max_completions"?: number;
-    /** Name of the payment link. */
-    "name": string;
-    /** ID of the payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
-    "payment_link_id": string;
-    /** What kind of link this is. Value enum: "standard", "donation", "event". */
-    "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
-    /**
-     * Payment options for checkouts started from this link. Payment settings for a checkout: the
-     * enabled payment options and a note shown with payment.
-     */
-    "payments"?: CheckoutPaymentConfig;
-    /**
-     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
-     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
-     * except that an event link without sales_end_at stops selling at event_config.event_at. A
-     * checkout opened before the end can still start payment for up to 15 minutes after it.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "sales_end_at"?: string;
-    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
-    "status": "active" | "inactive" | (string & {});
-    /** ID of the subscription plan the link sells. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
-    "subscription_plan_id"?: string;
-    /**
-     * The title and colors for checkouts started from this link, over your branding settings.
-     * Colors and title applied to a payment link's checkout page.
-     */
-    "theme"?: ThemeConfig;
-    /**
-     * Current version of this resource's owned state. Send it as `expected_version` when changing
-     * the resource to reject a stale write. Format: int64.
-     */
-    "version": number;
-};
-/** A response containing `PublicPaymentLinkResult` data. */
-export type PublicPaymentLinkResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The result of resolving
-     * a public payment link: the link, merchant branding, availability, resolved line items, and a
-     * resolution context for starting checkout.
-     */
-    "data": PublicPaymentLinkResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * The result of resolving a public payment link: the link, merchant branding, availability,
- * resolved line items, and a resolution context for starting checkout.
- */
-export type PublicPaymentLinkResult = {
-    /**
-     * Start a new checkout before this instant. At or after it, read the public payment link again
-     * for a new resolution_context; its credential expiry is resolution_context_expires_at.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "checkout_start_due_at": string;
-    /**
-     * The theme a checkout opened from this link uses: your checkout branding settings, with the
-     * link's own `theme` over them. Use it to style a page that leads to the checkout.
-     * `payment_link.theme` is the link's own theme alone. Omitted when neither sets a value. It
-     * includes the branding settings' `background_color`, `text_color`, `font_family`, and
-     * `corner_radius`. Colors, corner radius, font family, and title that style a checkout, taken
-     * from the session or link theme or the merchant's branding settings.
-     */
-    "checkout_theme"?: CheckoutTheme;
-    /**
-     * True when the link's sales end has passed: payment_link.sales_end_at, or
-     * event_config.event_at for an event link without sales_end_at. Resolve then fails with
-     * `ACTION_NOT_ALLOWED` and reason `not_offered`.
-     */
-    "is_past_sales_end": boolean;
-    /**
-     * True for an event with no tickets remaining. For other active links with
-     * inventory_routing_source, true when any catalog line cannot be bought at its minimum
-     * quantity from that source. Untracked and ad hoc lines do not count. A choice line counts
-     * only when every offered variant is sold out. Fixed locations use available stock; policies
-     * use their allocatable locations. Stock is not reserved by this read.
-     */
-    "is_sold_out": boolean;
-    /** The merchant's icon. An image with its URL, size, and alt text. */
-    "merchant_icon"?: Image;
-    /** The merchant's logo. An image with its URL, size, and alt text. */
-    "merchant_logo"?: Image;
-    /** The merchant's name. */
-    "merchant_name"?: string;
-    /**
-     * How the buyer can reach the merchant for help: the support email, phone, and URL the
-     * merchant set. Omitted when the merchant set none. The merchant's support contact. Each field
-     * is omitted when the merchant has not set it.
-     */
-    "merchant_support"?: CheckoutMerchantSupport;
-    /**
-     * The payment link that was resolved. The buyer-facing view of a payment link, with its line
-     * items, custom fields, legal and payment settings, and status.
-     */
-    "payment_link": PublicPaymentLink;
-    /**
-     * Event links with a ticket limit: tickets left after tickets sold and tickets held by
-     * payments in progress. Absent when the event has no ticket limit. Whole-number quantity;
-     * fractional quantities are not supported. Format: int32.
-     */
-    "remaining_quantity"?: number;
-    /**
-     * Private resolution context for this payment link. Send it unchanged to resolve the same link
-     * before checkout_start_due_at. The credential expires at resolution_context_expires_at. Keep
-     * the context private and do not cache this response; it is returned with Cache-Control:
-     * private, no-store.
-     */
-    "resolution_context": string;
-    /**
-     * RFC3339 timestamp when the resolution_context credential expires. The earlier
-     * checkout_start_due_at governs starting new checkouts; committed replay remains available
-     * until this expiry. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "resolution_context_expires_at": string;
-    /**
-     * The link's line items with their current catalog values. [] (Value): {@link
-     * PublicResolvedLineItemInfo}. Current catalog details for a payment link line item, such as
-     * its name, price, image, available modifiers, and bundle components.
-     */
-    "resolved_line_items"?: Array<PublicResolvedLineItemInfo>;
-    /**
-     * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
-     * the merchant's agreement with Flint removes it.
-     */
-    "show_flint_mark": boolean;
-    /**
-     * Present for active plan-backed payment links when authoritative subscription terms are
-     * available. Subscription terms shown before an active plan-backed payment link creates a
-     * checkout session.
-     */
-    "subscription_preview"?: PaymentLinkSubscriptionPreview;
-};
-/**
- * One component of a bundle on a resolved payment link line item, with its variant and quantity.
- */
-export type PublicResolvedBundleComponent = {
-    /** Position of the component within the bundle. Format: int32. */
-    "position": number;
-    /**
-     * ID of the product the component's variant belongs to. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_id"?: string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
-    "quantity": number;
-    /**
-     * Summary of the component's variant. A summary of a bundle component's variant, with its
-     * name, SKU, selected options, and whether it is available for sale.
-     */
-    "variant"?: PublicResolvedBundleVariantSummary;
-    /** ID of the component's variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id": string;
-};
-/**
- * A summary of a bundle component's variant, with its name, SKU, selected options, and whether it
- * is available for sale.
- */
-export type PublicResolvedBundleVariantSummary = {
-    /** Whether the variant can be sold now. */
-    "is_available_for_sale": boolean;
-    /** Name of the variant. */
-    "name"?: string;
-    /**
-     * Identifier of the product this resolved bundle component variant belongs to. Example:
-     * "prod_01KEZF7C00BVSHCNWVH528HB66".
-     */
-    "product_id": string;
-    /**
-     * The product options the variant selects, such as size or color. [] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    /** SKU of the variant. */
-    "sku"?: string;
-    /** ID of the variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id": string;
-};
-/**
- * Current catalog details for a payment link line item, such as its name, price, image, available
- * modifiers, and bundle components.
- */
-export type PublicResolvedLineItemInfo = {
-    /**
-     * Modifier groups the buyer can choose from for this item. [] (Value): {@link
-     * PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item,
-     * with its selection limits, display flags, and options or text settings.
-     */
-    "available_modifiers"?: Array<PublicResolvedModifierGroup>;
-    /**
-     * Listed variants that can currently be sold in the line currency, in variant_ids order.
-     * Inactive, archived, unsellable, and other-currency variants are omitted. Each variant
-     * includes its advisory sold-out state and its own modifiers. Present only on variant_ids
-     * lines. [] (Value): {@link PaymentLinkAvailableVariant}. A listed payment link variant that
-     * can be sold in the line currency, with its current price, options, image, modifiers, and
-     * advisory stock state.
-     */
-    "available_variants"?: Array<PaymentLinkAvailableVariant>;
-    /**
-     * The components of the bundle. Present for a bundle line item. [] (Value): {@link
-     * PublicResolvedBundleComponent}. One component of a bundle on a resolved payment link line
-     * item, with its variant and quantity.
-     */
-    "bundle_components"?: Array<PublicResolvedBundleComponent>;
-    /** ID of the bundle this line item sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
-    "bundle_id"?: string;
-    /** What the line item sells. Value enum: "variant", "bundle". */
-    "catalog_object_type"?: "variant" | "bundle" | (string & {});
-    /** Image of the variant or bundle. An image with its URL, size, and alt text. */
-    "image"?: Image;
-    /** Whether Flint tracks stock for the item. */
-    "is_inventory_tracked"?: boolean;
-    /**
-     * True when the fixed variant or bundle components cannot be bought at the line minimum
-     * quantity from the link inventory_routing_source. The minimum is min_quantity when quantity
-     * adjustment is enabled, otherwise quantity. For variant choice lines, true only when every
-     * available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes
-     * no stock counts and reserves no stock.
-     */
-    "is_sold_out": boolean;
-    /** Key of the payment link line item this entry describes. */
-    "key": string;
-    /** ID of the product the variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
-    "product_id"?: string;
-    /**
-     * Active product options for a variant_ids line, in option position order. Values include only
-     * those used by available_variants and retain value position order. Empty when the product has
-     * no options; omitted on fixed variant and bundle lines. [] (Value): {@link
-     * PaymentLinkProductOption}. An active product option offered on a payment link, with values
-     * used by its available variants.
-     */
-    "product_options"?: Array<PaymentLinkProductOption>;
-    /**
-     * Default quantity breaks for a fixed variant. Empty for bundles, variant choice lines, and ad
-     * hoc lines. Each offered variant on a variant choice line has its own schedule in
-     * available_variants. [] (Value): {@link QuantityPriceBreak}. A net unit price that applies
-     * when one catalog line reaches minimum_quantity.
-     */
-    "quantity_price_breaks": Array<QuantityPriceBreak>;
-    /** Current catalog description of the variant or bundle, as of this read. */
-    "resolved_description"?: string;
-    /** Current catalog name of the variant or bundle, as of this read. */
-    "resolved_name"?: string;
-    /**
-     * Current catalog unit price of the variant or bundle, as of this read. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "resolved_unit_price_money"?: MoneyValue;
-    /**
-     * The product options the variant selects, such as size or color. [] (Value): {@link
-     * SelectedProductOption}. An option and value chosen for a product variant, such as size
-     * Large.
-     */
-    "selected_options"?: Array<SelectedProductOption>;
-    /** ID of the variant this line item sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
-    "variant_id"?: string;
-};
-/**
- * A modifier group as resolved for a payment link line item, with its selection limits, display
- * flags, and options or text settings.
- */
-export type PublicResolvedModifierGroup = {
-    "allow_quantities"?: boolean;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "max_quantity"?: number;
-    /** Format: int32. */
-    "max_selected"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "max_total_quantity"?: number;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "min_quantity"?: number;
-    /** Format: int32. */
-    "min_selected"?: number;
-    /** Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". */
-    "modifier_group_id": string;
-    /** Value enum: "list", "text". */
-    "modifier_group_type": "list" | "text" | (string & {});
-    "name": string;
-    /**
-     *  [] (Value): {@link PublicResolvedModifierOption}. One selectable option in a resolved
-     * modifier group, with its price change, tax category, and whether it is available.
-     */
-    "options"?: Array<PublicResolvedModifierOption>;
-    /** Format: int32. */
-    "position"?: number;
-    /** Value enum: "per_item". */
-    "pricing_scope"?: "per_item" | (string & {});
-    "show_on_fulfillment"?: boolean;
-    "show_on_receipt"?: boolean;
-    /**
-     * Input rules for a free-text modifier group on a payment link line item: required, multiline,
-     * and length limits.
-     */
-    "text"?: TextModifierConfigRequest;
 };

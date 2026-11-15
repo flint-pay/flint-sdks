@@ -27,7 +27,7 @@ final class PartnerEnvironmentGrantInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+    /** Unique identifier for this environment grant, prefixed `egrt_`. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
      * @return string
      * @throws SdkError When environment_grant_id is omitted; use hasEnvironmentGrantId() or valueOrDefault().
      */
@@ -39,7 +39,7 @@ final class PartnerEnvironmentGrantInput extends Model {
      */
     public function getGrantedPermissions(): array { return $this->get('granted_permissions'); }
     public function hasGrantedPermissions(): bool { return $this->has('granted_permissions'); }
-    /**  [] (Value): string.
+    /** The Flint API scopes the grant allows: the union of the required scopes of its granted permissions. Narrowed at once when the app removes scopes from a permission. [] (Value): string.
      * @return list<string>
      * @throws SdkError When granted_scopes is omitted; use hasGrantedScopes() or valueOrDefault().
      */
@@ -81,7 +81,7 @@ final class PartnerEnvironmentGrantInput extends Model {
      */
     public function getRevokedAt(): string|\DateTimeInterface { return $this->get('revoked_at'); }
     public function hasRevokedAt(): bool { return $this->has('revoked_at'); }
-    /** Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
+    /** ID of the user who revoked the grant, or the install it belongs to. Omitted when the grant isn't revoked or no user performed the revoke. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
      * @return string
      * @throws SdkError When revoked_by_user_id is omitted; use hasRevokedByUserId() or valueOrDefault().
      */
@@ -93,7 +93,7 @@ final class PartnerEnvironmentGrantInput extends Model {
      */
     public function getSandboxId(): string { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
-    /** Value enum: "pending_exchange", "active", "revoked".
+    /** Where the grant is in its lifecycle. Only an active grant gives the app access to its environment. Value enum: "pending_exchange", "active", "revoked".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

@@ -1,12 +1,12 @@
-import { d5764 as c0 } from '../descriptors/data/255.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d8047 as c1, d8048 as c2, d8049 as c3, d8050 as c4, d8051 as c5, d8052 as c6 } from '../descriptors/data/387.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d6646 as c7 } from '../descriptors/data/305.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5665 as c8 } from '../descriptors/data/249.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5665 as d5665 } from '../descriptors/data/249.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d5784 as c0 } from '../descriptors/data/258.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d8082 as c1, d8083 as c2, d8084 as c3, d8085 as c4, d8086 as c5, d8087 as c6 } from '../descriptors/data/392.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6937 as c7 } from '../descriptors/data/326.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5672 as c8 } from '../descriptors/data/249.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5672 as d5672 } from '../descriptors/data/249.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5665;
+const read = d5672;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec1776"]:c1(),["SharedCodec1777"]:c2(),["SharedCodec1778"]:c3(),["SharedCodec1779"]:c4(),["SharedCodec1780"]:c5(),["SharedCodec1781"]:c6(),["SharedCodec84"]:c7(),["UpdatePayoutSettingsRequest"]:c8()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["MoneyValue"]:c0(),["SharedCodec1761"]:c1(),["SharedCodec1762"]:c2(),["SharedCodec1763"]:c3(),["SharedCodec1764"]:c4(),["SharedCodec1765"]:c5(),["SharedCodec1766"]:c6(),["SharedCodec79"]:c7(),["UpdatePayoutSettingsRequest"]:c8()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdatePayoutSettingsRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

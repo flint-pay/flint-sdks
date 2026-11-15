@@ -1,21 +1,173 @@
 import type { InputValue } from '../runtime.js';
-import type { UpdateCreditNoteRequestInput } from './types-66.js';
+import type { IssueCreditNoteRequestInput } from './types-35.js';
 import type { InvoicesMarkUncollectibleParams } from './types-34.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { UpdateCreditNoteRequestInput } from './types-66.js';
+import type { MerchantWebhookEnvelope, MetadataMap } from './types-38.js';
 import type { ResponseMeta, ResolveCustomerDeletionRequestInput } from './types-54.js';
-import type {
-    CreateCustomDomainRequestInput,
-    CreateCustomerDeletionRequestInput,
-    CreateCustomerSessionRequestInput
-} from './types-8.js';
+import type { CreateCustomDomainRequestInput, CreateCustomerDeletionRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-23.js';
 import type { Address } from './types-0.js';
-import type { ExpandedPaymentMethodSummary } from './types-24.js';
-import type { TaxIdentity } from './types-64.js';
+import type { ExpandedPaymentMethodSummary, ErrorResourceReference } from './types-24.js';
+import type { TaxIdentity } from './types-65.js';
 import type { BuyerCapabilities, BuyerCapabilitiesRequestInput } from './types-1.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
-import type { MoneyValue } from './types-38.js';
-import type { RefreshCustomerSessionRequestInput } from './types-52.js';
+import type { MoneyValue } from './types-39.js';
+export type CreditNotesIssueParams = (InputValue<IssueCreditNoteRequestInput>
+    | {
+    "allocation"?: never;
+    "expected_version"?: never;
+    "refund"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type CreditNotesListAllocationsParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type CreditNotesListParams = {
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Filter by invoice. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
+     */
+    "invoice_id"?: InputValue<string>;
+    /**
+     * Filter by the source invoice's current customer_id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Filter by credit note reason. Values are trimmed and deduplicated in first-seen order; empty
+     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
+     * ANDed. [] enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
+     * Value enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "returned_goods",
+     * "order_adjustment", "billing_error", "goodwill", "other". anyOf[1][] (Value): string. Value
+     * enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". anyOf[2]
+     * (Value): string. Value enum: "returned_goods", "order_adjustment", "billing_error",
+     * "goodwill", "other".
+     */
+    "reason"?: InputValue<("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other")
+        | readonly ("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other")[]>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Search across credit note ID, credit note number, memo, and external reference ID. Text
+     * fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards.
+     * IDs match from the start and need the type prefix, such as cn_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
+     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
+     * enum: "draft", "issued", "voided". Value enum: "draft", "issued", "voided". anyOf[1]
+     * (Value): Array of string. minItems: 1. [] enum: "draft", "issued", "voided". anyOf[1][]
+     * (Value): string. Value enum: "draft", "issued", "voided". anyOf[2] (Value): string. Value
+     * enum: "draft", "issued", "voided".
+     */
+    "status"?: InputValue<("draft" | "issued" | "voided") | readonly ("draft" | "issued" | "voided")[]>;
+    /**
+     * Include related objects in the response. Supported expansions: invoice. Include the
+     * requested related resources using scoped batch reads for this page. Each relationship
+     * requires its existing target read scopes. Expansion changes the representation without
+     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
+     * "invoice". Value enum: "invoice". anyOf[1] (Value): Array of string. [] enum: "invoice".
+     * anyOf[1][] (Value): string. Value enum: "invoice". anyOf[2] (Value): string. Value enum:
+     * "invoice".
+     */
+    "expand"?: InputValue<("invoice") | readonly ("invoice")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type CreditNotesReverseAllocationParams = InvoicesMarkUncollectibleParams;
 export type CreditNotesUpdateParams = (InputValue<UpdateCreditNoteRequestInput>)
     & {
     /**
@@ -625,6 +777,148 @@ export type Customer = {
      */
     "version": number;
 };
+/**
+ * The result of creating a customer account link. With link delivery it carries the single-use
+ * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
+ * the response carries only a masked recipient address.
+ */
+export type CustomerAccessLink = ({
+    /** Whether the credential was returned or emailed. Value enum: "link", "email". */
+    "delivery": "link" | "email" | (string & {});
+    /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /** The returned link opens the customer's account. Value enum: "customer_account". */
+    "purpose"?: "customer_account" | (string & {});
+    /**
+     * Masked customer address receiving the account link. No credential is returned with email
+     * delivery.
+     */
+    "recipient_email"?: string;
+    /** The return_url from the request. Null when the request omitted it. */
+    "return_url": string | null;
+    /**
+     * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
+     * asynchronously. Value enum: true.
+     */
+    "sent"?: boolean;
+    /**
+     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
+     * "https://example.com/receipt".
+     */
+    "url"?: string;
+})
+    & ((Exclude<CustomerAccessLinkReturned & object, readonly unknown[]>)
+    | (Exclude<CustomerAccessLinkEmailed & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * The result of creating a customer account link. With link delivery it carries the single-use
+ * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
+ * the response carries only a masked recipient address.
+ */
+export type CustomerAccessLinkEmailed = ({
+    /** Whether the credential was returned or emailed. Value enum: "email". */
+    "delivery": "email" | (string & {});
+    /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at"?: string;
+    /** The returned link opens the customer's account. Value enum: "customer_account". */
+    "purpose"?: "customer_account" | (string & {});
+    /**
+     * Masked customer address receiving the account link. No credential is returned with email
+     * delivery.
+     */
+    "recipient_email": string;
+    /** The return_url from the request. Null when the request omitted it. */
+    "return_url": string | null;
+    /**
+     * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
+     * asynchronously. Value enum: true.
+     */
+    "sent": boolean;
+    /**
+     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
+     * "https://example.com/receipt".
+     */
+    "url"?: string;
+})
+    & (({
+    /** Value enum: "email". */
+    "delivery": unknown;
+    /**
+     * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
+     * asynchronously. Value enum: true.
+     */
+    "sent": boolean;
+    /**
+     * Masked customer address receiving the account link. No credential is returned with email
+     * delivery.
+     */
+    "recipient_email": string;
+}));
+/** A response containing `CustomerAccessLink` data. */
+export type CustomerAccessLinkResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The result of creating a
+     * customer account link. With link delivery it carries the single-use sign-in link. With email
+     * delivery Flint has queued that link in an email to the customer, and the response carries
+     * only a masked recipient address.
+     */
+    "data": CustomerAccessLink;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The result of creating a customer account link. With link delivery it carries the single-use
+ * sign-in link. With email delivery Flint has queued that link in an email to the customer, and
+ * the response carries only a masked recipient address.
+ */
+export type CustomerAccessLinkReturned = ({
+    /** Whether the credential was returned or emailed. Value enum: "link". */
+    "delivery": "link" | (string & {});
+    /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string;
+    /** The returned link opens the customer's account. Value enum: "customer_account". */
+    "purpose": "customer_account" | (string & {});
+    /**
+     * Masked customer address receiving the account link. No credential is returned with email
+     * delivery.
+     */
+    "recipient_email"?: string;
+    /** The return_url from the request. Null when the request omitted it. */
+    "return_url": string | null;
+    /**
+     * True when Flint accepted the email into its durable delivery queue. Provider delivery runs
+     * asynchronously. Value enum: true.
+     */
+    "sent"?: boolean;
+    /**
+     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
+     * "https://example.com/receipt".
+     */
+    "url": string;
+})
+    & (({
+    /** Value enum: "link". */
+    "delivery": unknown;
+    /**
+     * The single-use bearer URL, present only with link delivery. Format: uri. Example:
+     * "https://example.com/receipt".
+     */
+    "url": string;
+    /** When a returned link expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "expires_at": string;
+    /** The returned link opens the customer's account. Value enum: "customer_account". */
+    "purpose": "customer_account" | (string & {});
+    /** The return_url from the request. Null when the request omitted it. */
+    "return_url": string | null;
+}));
 /**
  * How the Flint-hosted customer account is presented. The account's hostname is a custom domain;
  * manage it with /v1/custom-domains. Send null to clear a value.
@@ -2374,6 +2668,24 @@ export type CustomerDeletedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
 /** A request to delete a customer's personal information. */
 export type CustomerDeletionRequest = {
     /**
+     * Total resources currently preventing approval, including resources beyond the
+     * blocking_resources cap. Present only for pending_review, including zero when nothing blocks
+     * approval. Computed at read time using the same rule as approval. Format: int64. minimum: 0.
+     */
+    "blocking_resource_count"?: number;
+    /**
+     * Resources currently preventing approval, computed when the request is read. Present only for
+     * pending_review, including an empty array when nothing blocks approval. Uses the same
+     * references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment
+     * methods, ordered by resource_type then resource_id, capped at 25 of each type. List the
+     * customer's subscriptions and payment methods for the remaining resources when
+     * blocking_resource_count exceeds this array's length. Approval rechecks the blockers;
+     * cancel_subscriptions and remove_payment_methods can clear the matching resources before
+     * erasure. [] (Value): {@link ErrorResourceReference}. A reference to a public resource named
+     * in an error, with its type, ID, and current status when available.
+     */
+    "blocking_resources"?: Array<ErrorResourceReference>;
+    /**
      * Subscription IDs whose immediate cancellation completed for this request, sorted by ID.
      * Empty when none have completed. Read the request again while processing to see progress. []
      * (Value): string. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
@@ -2452,6 +2764,8 @@ export type CustomerDeletionRequestCompletedEvent = ((Exclude<MerchantWebhookEnv
     & ({
     "data"?: {
         "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
             "canceled_subscription_ids": Array<string>;
             "customer_deletion_request_id": string;
             "customer_id": string;
@@ -2478,6 +2792,8 @@ export type CustomerDeletionRequestCreatedEvent = ((Exclude<MerchantWebhookEnvel
     & ({
     "data"?: {
         "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
             "canceled_subscription_ids": Array<string>;
             "customer_deletion_request_id": string;
             "customer_id": string;
@@ -2503,6 +2819,8 @@ export type CustomerDeletionRequestFailedEvent = ((Exclude<MerchantWebhookEnvelo
     & ({
     "data"?: {
         "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
             "canceled_subscription_ids": Array<string>;
             "customer_deletion_request_id": string;
             "customer_id": string;
@@ -2553,6 +2871,8 @@ export type CustomerDeletionRequestProcessingEvent = ((Exclude<MerchantWebhookEn
     & ({
     "data"?: {
         "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
             "canceled_subscription_ids": Array<string>;
             "customer_deletion_request_id": string;
             "customer_id": string;
@@ -2579,6 +2899,8 @@ export type CustomerDeletionRequestRejectedEvent = ((Exclude<MerchantWebhookEnve
     & ({
     "data"?: {
         "object": {
+            "blocking_resource_count"?: number;
+            "blocking_resources"?: Array<ErrorResourceReference>;
             "canceled_subscription_ids": Array<string>;
             "customer_deletion_request_id": string;
             "customer_id": string;
@@ -3100,137 +3422,4 @@ export type CustomerReceivables = {
     "balances": Array<CustomerReceivableBalance>;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "observed_at": string;
-};
-/** A response containing `Customer` data. */
-export type CustomerResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A merchant's customer
-     * profile.
-     */
-    "data": Customer;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A credential for the /v1/me routes that acts as one customer. Unless it came from an access
- * link, its secret can read and change that customer's orders, payments, subscriptions, saved
- * payment methods, addresses, returns, and invoices, and request account deletion.
- */
-export type CustomerSession = {
-    /** When the session was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** ID of the customer the session acts as. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
-    "customer_id": string;
-    /**
-     * ID of this session. Use it to tell sessions apart; it is not a credential. Example:
-     * "cses_01KEZF7C00FBVRP25FZTW7KWZV".
-     */
-    "customer_session_id": string;
-    /**
-     * When the current secret stops authenticating account calls. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "expires_at": string;
-    /** When the refresh token expires. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "refresh_token_expires_at": string;
-    /**
-     * When the session was first revoked. Present exactly when status is revoked. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "revoked_at"?: string;
-    /**
-     * active means the session can be refreshed and its secret works until expires_at; revoked
-     * means none of its credentials work. Value enum: "active", "revoked".
-     */
-    "status": "active" | "revoked" | (string & {});
-    /**
-     * Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains
-     * revoke for active and revoked sessions because repeating a revocation succeeds. [] enum:
-     * "revoke". [] (Value): string. Value enum: "revoke".
-     */
-    "supported_actions": Array<"revoke" | (string & {})>;
-};
-/** A customer session's state without its authentication credentials. */
-export type CustomerSessionResponse = {
-    /**
-     * The customer session, including its status and credential expiry times. A credential for the
-     * /v1/me routes that acts as one customer. Unless it came from an access link, its secret can
-     * read and change that customer's orders, payments, subscriptions, saved payment methods,
-     * addresses, returns, and invoices, and request account deletion.
-     */
-    "data": CustomerSession;
-    /**
-     * Metadata about this response, including idempotency replay and warnings when present.
-     * Metadata returned with a response: the `api_version`, `trace_id`, whether an idempotent
-     * request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * ID of this API request. Include it when asking Flint to investigate the response. maxLength:
-     * 128. pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/**
- * A customer session with its `secret` and `refresh_token`, returned only when the session is
- * created or refreshed. A credential for the /v1/me routes that acts as one customer. Unless it
- * came from an access link, its secret can read and change that customer's orders, payments,
- * subscriptions, saved payment methods, addresses, returns, and invoices, and request account
- * deletion.
- */
-export type CustomerSessionWithSecret = (Exclude<CustomerSession & object, readonly unknown[]>)
-    & ({
-    /**
-     * Single-use refresh token. Returned only on create and refresh; retry rotation with the same
-     * Idempotency-Key.
-     */
-    "refresh_token": string;
-    /** Current server-held customer session secret. Returned only on create and refresh. */
-    "secret": string;
-});
-/** A response containing `CustomerSessionWithSecret` data. */
-export type CustomerSessionWithSecretResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A customer session with
-     * its `secret` and `refresh_token`, returned only when the session is created or refreshed. A
-     * credential for the /v1/me routes that acts as one customer. Unless it came from an access
-     * link, its secret can read and change that customer's orders, payments, subscriptions, saved
-     * payment methods, addresses, returns, and invoices, and request account deletion.
-     */
-    "data": CustomerSessionWithSecret;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type CustomerSessionsCreateParams = (InputValue<CreateCustomerSessionRequestInput>);
-export type CustomerSessionsRefreshParams = (InputValue<RefreshCustomerSessionRequestInput>);
-/**
- * The result of revoking a customer's sessions: the customer ID and how many sessions were
- * revoked.
- */
-export type CustomerSessionsRevocation = {
-    /**
-     * ID of the customer whose sessions were revoked. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id": string;
-    /**
-     * Number of sessions this call revoked. Sessions that were already revoked are not counted.
-     * Format: int64.
-     */
-    "revoked_count": number;
 };

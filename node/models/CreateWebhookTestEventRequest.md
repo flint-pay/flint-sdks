@@ -147,7 +147,7 @@ The request body for: Create webhook test event.
 - `"invoice_payment_attempt.expired"`
 - `"invoice_payment_attempt.failed"`
 - `"invoice_payment_attempt.processing"`
-- `"invoice_payment_attempt.settled"`
+- `"invoice_payment_attempt.succeeded"`
 - `"merchant.readiness_updated"`
 - `"merchant.updated"`
 - `"merchant_billing_balance.updated"`

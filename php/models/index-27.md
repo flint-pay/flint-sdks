@@ -1,7 +1,18 @@
 [Model index](../MODELS.md)
 
-# TaxCalculationCallbackConfigurationPatchRequestInput to UpdateInventoryLevelRequestInput
+# SubscriptionUpcomingDeliveryHoldInput to UpdateDeliveryMethodRequestInput
 
+- [SubscriptionUpcomingDeliveryHoldInput](SubscriptionUpcomingDeliveryHoldInput.md)
+- [SubscriptionUpdatedInstalledMerchantsEventInput](SubscriptionUpdatedInstalledMerchantsEventInput.md)
+- [SubscriptionUpdatedMerchantEventInput](SubscriptionUpdatedMerchantEventInput.md)
+- [SubscriptionWindowMetricsInput](SubscriptionWindowMetricsInput.md)
+- [TaxBreakdownInput](TaxBreakdownInput.md)
+- [TaxBreakdownFlatAmountInput](TaxBreakdownFlatAmountInput.md)
+- [TaxBreakdownPercentageInput](TaxBreakdownPercentageInput.md)
+- [TaxCalculationCallbackInput](TaxCalculationCallbackInput.md)
+- [TaxCalculationCallbackActivatedEventInput](TaxCalculationCallbackActivatedEventInput.md)
+- [TaxCalculationCallbackArchivedEventInput](TaxCalculationCallbackArchivedEventInput.md)
+- [TaxCalculationCallbackConfigurationInput](TaxCalculationCallbackConfigurationInput.md)
 - [TaxCalculationCallbackConfigurationPatchRequestInput](TaxCalculationCallbackConfigurationPatchRequestInput.md)
 - [TaxCalculationCallbackConfigurationRequestInput](TaxCalculationCallbackConfigurationRequestInput.md)
 - [TaxCalculationCallbackConnectionCheckInput](TaxCalculationCallbackConnectionCheckInput.md)
@@ -91,15 +102,4 @@
 - [UpdateDeliveryFulfillmentDetailsInput](UpdateDeliveryFulfillmentDetailsInput.md)
 - [UpdateDeliveryLocationSetRequestInput](UpdateDeliveryLocationSetRequestInput.md)
 - [UpdateDeliveryMethodRequestInput](UpdateDeliveryMethodRequestInput.md)
-- [UpdateDeliveryProfileRequestInput](UpdateDeliveryProfileRequestInput.md)
-- [UpdateDeliveryRateCallbackRequestInput](UpdateDeliveryRateCallbackRequestInput.md)
-- [UpdateDeliveryZoneRequestInput](UpdateDeliveryZoneRequestInput.md)
-- [UpdateDeviceRequestInput](UpdateDeviceRequestInput.md)
-- [UpdateDigitalFulfillmentDetailsInput](UpdateDigitalFulfillmentDetailsInput.md)
-- [UpdateFulfillmentRequestInput](UpdateFulfillmentRequestInput.md)
-- [UpdateGiftCardRequestInput](UpdateGiftCardRequestInput.md)
-- [UpdateInventoryAllocationPolicyRequestInput](UpdateInventoryAllocationPolicyRequestInput.md)
-- [UpdateInventoryCountRequestInput](UpdateInventoryCountRequestInput.md)
-- [UpdateInventoryItemRequestInput](UpdateInventoryItemRequestInput.md)
-- [UpdateInventoryLevelRequestInput](UpdateInventoryLevelRequestInput.md)
 

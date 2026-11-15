@@ -59,7 +59,7 @@ final class InventoryCountInput extends Model {
      */
     public function getObservationProvenance(): mixed { return $this->get('observation_provenance'); }
     public function hasObservationProvenance(): bool { return $this->has('observation_provenance'); }
-    /** Value enum: "draft", "applied", "canceled".
+    /** Whether the count is still open. Applying or canceling a `draft` count ends it. Value enum: "draft", "applied", "canceled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

@@ -26,7 +26,7 @@ final class EnvironmentGrantUpdatedEventDataObject extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** environment_grant_id
+    /** Unique identifier for this environment grant, prefixed `egrt_`.
      * @return string
      */
     public function getEnvironmentGrantId(): string { return $this->get('environment_grant_id'); }
@@ -36,7 +36,7 @@ final class EnvironmentGrantUpdatedEventDataObject extends Model {
      */
     public function getGrantedPermissions(): array { return $this->get('granted_permissions'); }
     public function hasGrantedPermissions(): bool { return $this->has('granted_permissions'); }
-    /**  [] (Value): string.
+    /** The Flint API scopes the grant allows: the union of the required scopes of its granted permissions. Narrowed at once when the app removes scopes from a permission. [] (Value): string.
      * @return list<string>
      */
     public function getGrantedScopes(): array { return $this->get('granted_scopes'); }
@@ -71,7 +71,7 @@ final class EnvironmentGrantUpdatedEventDataObject extends Model {
      */
     public function getRevokedAt(): ?string { return $this->get('revoked_at'); }
     public function hasRevokedAt(): bool { return $this->has('revoked_at'); }
-    /** revoked_by_user_id
+    /** ID of the user who revoked the grant, or the install it belongs to. Omitted when the grant isn't revoked or no user performed the revoke.
      * @return ?string
      */
     public function getRevokedByUserId(): ?string { return $this->get('revoked_by_user_id'); }
@@ -81,7 +81,7 @@ final class EnvironmentGrantUpdatedEventDataObject extends Model {
      */
     public function getSandboxId(): ?string { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
-    /** Value enum: "pending_exchange", "active", "revoked".
+    /** Where the grant is in its lifecycle. Only an active grant gives the app access to its environment. Value enum: "pending_exchange", "active", "revoked".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

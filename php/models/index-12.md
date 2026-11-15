@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# GiftCardCustomAmountBoundsRequestInput to InventoryAllocationPolicyConfigurationRequestInput
+# GetReturnPolicyRevisionResponseInput to InventoryAdjustmentLineInput
 
+- [GetReturnPolicyRevisionResponseInput](GetReturnPolicyRevisionResponseInput.md)
+- [GetReturnReasonResponseInput](GetReturnReasonResponseInput.md)
+- [GetReturnReceiptResponseInput](GetReturnReceiptResponseInput.md)
+- [GetReturnResolutionResponseInput](GetReturnResolutionResponseInput.md)
+- [GetReturnResponseInput](GetReturnResponseInput.md)
+- [GiftCardInput](GiftCardInput.md)
+- [GiftCardCreatedInstalledMerchantsEventInput](GiftCardCreatedInstalledMerchantsEventInput.md)
+- [GiftCardCreatedMerchantEventInput](GiftCardCreatedMerchantEventInput.md)
+- [GiftCardCustomAmountBoundsInput](GiftCardCustomAmountBoundsInput.md)
 - [GiftCardCustomAmountBoundsRequestInput](GiftCardCustomAmountBoundsRequestInput.md)
 - [GiftCardFundingDispositionInput](GiftCardFundingDispositionInput.md)
 - [GiftCardFundingDispositionListResponseInput](GiftCardFundingDispositionListResponseInput.md)
@@ -93,13 +102,4 @@
 - [InventoryAdjustmentInput](InventoryAdjustmentInput.md)
 - [InventoryAdjustmentConditionChangeLineRequestInput](InventoryAdjustmentConditionChangeLineRequestInput.md)
 - [InventoryAdjustmentLineInput](InventoryAdjustmentLineInput.md)
-- [InventoryAdjustmentListResponseInput](InventoryAdjustmentListResponseInput.md)
-- [InventoryAdjustmentQuantityLineRequestInput](InventoryAdjustmentQuantityLineRequestInput.md)
-- [InventoryAdjustmentResponseInput](InventoryAdjustmentResponseInput.md)
-- [InventoryAdjustmentResultInput](InventoryAdjustmentResultInput.md)
-- [InventoryAdjustmentResultResponseInput](InventoryAdjustmentResultResponseInput.md)
-- [InventoryAdjustmentSetLineRequestInput](InventoryAdjustmentSetLineRequestInput.md)
-- [InventoryAllocationConfigurationValueInput](InventoryAllocationConfigurationValueInput.md)
-- [InventoryAllocationPolicyInput](InventoryAllocationPolicyInput.md)
-- [InventoryAllocationPolicyConfigurationRequestInput](InventoryAllocationPolicyConfigurationRequestInput.md)
 

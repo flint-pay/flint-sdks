@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $billing_starts
- * @property-read array{'amount': string, 'currency': string}|object|null $credit_money
+ * @property-read array{'amount': string, 'currency': string}|object|null $credit_adjustment_money
  * @property-read int $deliveries_per_period
  * @property-read string|null $delivery_interval
  * @property-read int|null $delivery_interval_count
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $subscription_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionQuantityChangePreviewInput extends Model {
-    /** @param array{'billing_starts': string, 'credit_money': array{'amount': string, 'currency': string}|object|null, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|\DateTimeInterface|null, 'interval': string, 'interval_count': int, 'mode': string, 'quantity': int, 'recurring_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'renewal': SubscriptionRenewalEstimateInput|array<array-key, mixed>|\stdClass, 'subscription_id': string, ...}|object $values */
+    /** @param array{'billing_starts': string, 'credit_adjustment_money': array{'amount': string, 'currency': string}|object|null, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|\DateTimeInterface|null, 'interval': string, 'interval_count': int, 'mode': string, 'quantity': int, 'recurring_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'renewal': SubscriptionRenewalEstimateInput|array<array-key, mixed>|\stdClass, 'subscription_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionQuantityChangePreviewInput')); }
     /** When this quantity change is billed. Value enum: "prorated_now".
      * @return string
@@ -27,11 +27,11 @@ final class SubscriptionQuantityChangePreviewInput extends Model {
     public function hasBillingStarts(): bool { return $this->has('billing_starts'); }
     /** Credit for unused paid subscription time. Null when there is no paid period to credit. anyOf[1] (Value): {@see MoneyValueInput}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return array{'amount': string, 'currency': string}|object|null
-     * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
+     * @throws SdkError When credit_adjustment_money is omitted; use hasCreditAdjustmentMoney() or valueOrDefault().
      */
-    public function getCreditMoney(): mixed { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
-    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+    public function getCreditAdjustmentMoney(): mixed { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1. maximum: 24.
      * @return int
      * @throws SdkError When deliveries_per_period is omitted; use hasDeliveriesPerPeriod() or valueOrDefault().
      */

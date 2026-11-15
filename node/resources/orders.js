@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/orders.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/orders.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderEdit"]:r0,["createOrderLineItems"]:r0,["createOrderPaymentIntent"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderEdit"]:r0,["getOrderPaymentAttempt"]:r0,["getOrderReceiptPDF"]:r0,["listOrderActivities"]:r0,["listOrderCharges"]:r0,["listOrderEdits"]:r0,["listOrderLineItems"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["retryOrderEditRefund"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["applyOrderDiscount"]:r0,["applyOrderGiftCard"]:r0,["cancelOrderPaymentAttempt"]:r0,["closeOrder"]:r0,["createOrder"]:r0,["createOrderAccessLink"]:r0,["createOrderCharge"]:r0,["createOrderEdit"]:r0,["createOrderLineItems"]:r0,["deleteOrderCharge"]:r0,["deleteOrderLineItem"]:r0,["getOrder"]:r0,["getOrderEdit"]:r0,["getOrderPaymentAttempt"]:r0,["getOrderReceiptPDF"]:r0,["listOrderActivities"]:r0,["listOrderCharges"]:r0,["listOrderEdits"]:r0,["listOrderLineItems"]:r0,["listOrderPaymentAttempts"]:r0,["listOrders"]:r0,["payOrder"]:r0,["removeOrderDiscounts"]:r0,["removeOrderGiftCard"]:r0,["repriceOrderDiscounts"]:r0,["resolveOrderInventoryException"]:r0,["retryOrderEditRefund"]:r0,["sendOrderReceipt"]:r0,["updateOrder"]:r0,["updateOrderCharge"]:r0,["updateOrderLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -114,17 +114,6 @@ this.orders = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrderLineItems", result, path))),
-      createPaymentIntent: async (order_id, params, options) => this.#runtime.request("createOrderPaymentIntent", _sdkRequestInput([
-  "order_id"
-], [order_id], [
-  "Flint-Merchant-Id",
-  "Flint-Mode",
-  "Flint-Sandbox-Id"
-], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createOrderPaymentIntent", result, path))),
       deleteCharge: async (order_id, order_charge_id, params, options) => this.#runtime.request("deleteOrderCharge", _sdkRequestInput([
   "order_id",
   "order_charge_id"
@@ -657,7 +646,6 @@ export { makeCreateOrderLineItemInputBundle } from '../models/CreateOrderLineIte
 export { makeCreateOrderLineItemInputCustom } from '../models/CreateOrderLineItemInputCustom.js';
 export { makeCreateOrderLineItemInputVariant } from '../models/CreateOrderLineItemInputVariant.js';
 export { makeCreateOrderLineItemRequest } from '../models/CreateOrderLineItemRequest.js';
-export { makeCreateOrderPaymentIntentRequest } from '../models/CreateOrderPaymentIntentRequest.js';
 export { makeCreateOrderRequest } from '../models/CreateOrderRequest.js';
 export { makeCreateOrderTip } from '../models/CreateOrderTip.js';
 export { makeCreateOrderTipAmount } from '../models/CreateOrderTipAmount.js';
@@ -704,13 +692,6 @@ export { makeOrderLineItemModifierInputTextRequest } from '../models/OrderLineIt
 export { makeOrderLineItemModifierRequestModel } from '../models/OrderLineItemModifierRequestModel.js';
 export { makeOrderLineItemTaxAssignment } from '../models/OrderLineItemTaxAssignment.js';
 export { makeOrderPaymentIntentSelection } from '../models/OrderPaymentIntentSelection.js';
-export { makeOrderPaymentIntentSelectionAttached } from '../models/OrderPaymentIntentSelectionAttached.js';
-export { makeOrderPaymentIntentSelectionPaymentMethod } from '../models/OrderPaymentIntentSelectionPaymentMethod.js';
-export { makeOrderPaymentIntentSelectionReader } from '../models/OrderPaymentIntentSelectionReader.js';
-export { makeOrderPaymentIntentSelectionStripeConfirmationToken } from '../models/OrderPaymentIntentSelectionStripeConfirmationToken.js';
-export { makeOrderPaymentIntentSelectionToken } from '../models/OrderPaymentIntentSelectionToken.js';
-export { makeOrderPaymentSourceCardSelection } from '../models/OrderPaymentSourceCardSelection.js';
-export { makeOrderPaymentSourceSelection } from '../models/OrderPaymentSourceSelection.js';
 export { makeOrderTaxCalculationInputAutomatic } from '../models/OrderTaxCalculationInputAutomatic.js';
 export { makeOrderTaxCalculationInputExternal } from '../models/OrderTaxCalculationInputExternal.js';
 export { makeOrderTaxCalculationRequest } from '../models/OrderTaxCalculationRequest.js';
@@ -731,7 +712,7 @@ export { makePaymentSourceCredential } from '../models/PaymentSourceCredential.j
 export { makePaymentSourceCredentialPaymentMethod } from '../models/PaymentSourceCredentialPaymentMethod.js';
 export { makePaymentSourceCredentialReader } from '../models/PaymentSourceCredentialReader.js';
 export { makePaymentSourceCredentialStripeConfirmationToken } from '../models/PaymentSourceCredentialStripeConfirmationToken.js';
-export { makePaymentSourceCredentialToken } from '../models/PaymentSourceCredentialToken.js';
+export { makePaymentSourceCredentialStripePaymentMethod } from '../models/PaymentSourceCredentialStripePaymentMethod.js';
 export { makePaymentSplitRequest } from '../models/PaymentSplitRequest.js';
 export { makePayOrderRequest } from '../models/PayOrderRequest.js';
 export { makePayOrderRequestConfirmPaymentIntents } from '../models/PayOrderRequestConfirmPaymentIntents.js';

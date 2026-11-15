@@ -10,7 +10,7 @@ namespace Flint;
 final class PaymentSourceCardSummary extends Model {
     /** @param array{'brand'?: string, 'card_present'?: mixed, 'last4'?: string, 'payment_method_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCardSummary')); }
-    /** Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
+    /** The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
      * @return ?string
      */
     public function getBrand(): ?string { return $this->get('brand'); }
@@ -20,12 +20,12 @@ final class PaymentSourceCardSummary extends Model {
      */
     public function getCardPresent(): ?PaymentSourceCardPresentDetails { return $this->get('card_present'); }
     public function hasCardPresent(): bool { return $this->has('card_present'); }
-    /** last4
+    /** Last four digits of the card number.
      * @return ?string
      */
     public function getLast4(): ?string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** payment_method_id
+    /** ID of the saved Flint payment method for this card. Absent when the card isn't saved, as with a card read on a reader.
      * @return ?string
      */
     public function getPaymentMethodId(): ?string { return $this->get('payment_method_id'); }

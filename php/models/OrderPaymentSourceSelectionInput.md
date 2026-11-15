@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `card` | Optional | [OrderPaymentSourceCardSelectionInput](../models/OrderPaymentSourceCardSelectionInput.md#orderpaymentsourcecardselectioninput) | Card options for the payment source selected on an order payment intent, including which digital wallets to offer. |
+| `card` | Optional | [OrderPaymentSourceCardSelectionInput](../models/OrderPaymentSourceCardSelectionInput.md#orderpaymentsourcecardselectioninput) | Offer the card payment source. Its `digital_wallets` add Apple Pay or Google Pay to it. Card options for the payment source selected on an order payment intent, including which digital wallets to offer. |
 

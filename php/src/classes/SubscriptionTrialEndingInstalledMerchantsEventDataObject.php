@@ -8,7 +8,6 @@ namespace Flint;
  * @property-read ?list<SubscriptionIntervalOption> $billing_interval_options
  * @property-read string $billing_schedule_owner
  * @property-read ?string $billing_schedule_waiting_started_at
- * @property-read list<BuyerAction> $buyer_actions
  * @property-read bool $cancel_at_period_end
  * @property-read ?string $canceled_at
  * @property-read ?SubscriptionCancellationDetails $cancellation_details
@@ -76,7 +75,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionTrialEndingInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'billing_anchor_day'?: int, 'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'billing_schedule_owner': string, 'billing_schedule_waiting_started_at'?: string, 'buyer_actions': list<mixed>, 'cancel_at_period_end': bool, 'canceled_at'?: string, 'cancellation_details'?: mixed, 'cancellation_reason'?: string, 'completed_cycles': int, 'contract_end_at'?: string, 'contract_start_at'?: string, 'created_at': string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer'?: mixed, 'customer_id': string, 'deliveries_per_period': int, 'delivery'?: mixed, 'delivery_hold'?: mixed, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'early_termination_fee_money'?: mixed, 'end_after': mixed, 'expires_at': string|null, 'external_reference_id'?: string, 'gift_recipient': mixed, 'inventory_wait'?: mixed, 'is_awaiting_billing_schedule'?: bool, 'last_payment_error'?: mixed, 'line_items': list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'missed_billing_at'?: string, 'next_billing_at'?: string, 'next_delivery_at': string|null, 'next_retry_at': string|null, 'open_renewal_order_id'?: string, 'outstanding_money'?: mixed, 'pause_reason'?: string, 'paused_at'?: string, 'payment_method'?: mixed, 'payment_method_due_at': string|null, 'payment_method_id': string|null, 'promotions': list<mixed>, 'prorate_first_period': bool, 'quantity': int, 'quantity_options'?: list<int>, 'recurring_subtotal_money': mixed, 'remaining_cycles': int|null, 'remaining_prepaid_deliveries': int, 'resume_requested_at': string|null, 'scheduled_cancel_at': string|null, 'scheduled_plan_change': mixed, 'scheduled_promotions': list<mixed>, 'scheduled_resume_at': string|null, 'service_location'?: mixed, 'starts_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'supported_actions': list<string>, 'tax': mixed, 'terms_type': string, 'test_clock_id'?: string, 'trial_end_at'?: string, 'upcoming_delivery_hold'?: mixed, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'billing_anchor_day'?: int, 'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'billing_schedule_owner': string, 'billing_schedule_waiting_started_at'?: string, 'cancel_at_period_end': bool, 'canceled_at'?: string, 'cancellation_details'?: mixed, 'cancellation_reason'?: string, 'completed_cycles': int, 'contract_end_at'?: string, 'contract_start_at'?: string, 'created_at': string, 'current_period_end_at'?: string, 'current_period_start_at'?: string, 'customer'?: mixed, 'customer_id': string, 'deliveries_per_period': int, 'delivery'?: mixed, 'delivery_hold'?: mixed, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'early_termination_fee_money'?: mixed, 'end_after': mixed, 'expires_at': string|null, 'external_reference_id'?: string, 'gift_recipient': mixed, 'inventory_wait'?: mixed, 'is_awaiting_billing_schedule'?: bool, 'last_payment_error'?: mixed, 'line_items': list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'missed_billing_at'?: string, 'next_billing_at'?: string, 'next_delivery_at': string|null, 'next_retry_at': string|null, 'open_renewal_order_id'?: string, 'outstanding_money'?: mixed, 'pause_reason'?: string, 'paused_at'?: string, 'payment_method'?: mixed, 'payment_method_due_at': string|null, 'payment_method_id': string|null, 'promotions': list<mixed>, 'prorate_first_period': bool, 'quantity': int, 'quantity_options'?: list<int>, 'recurring_subtotal_money': mixed, 'remaining_cycles': int|null, 'remaining_prepaid_deliveries': int, 'resume_requested_at': string|null, 'scheduled_cancel_at': string|null, 'scheduled_plan_change': mixed, 'scheduled_promotions': list<mixed>, 'scheduled_resume_at': string|null, 'service_location'?: mixed, 'starts_at'?: string, 'status': string, 'subscription_id': string, 'subscription_plan'?: mixed, 'subscription_plan_id'?: string, 'supported_actions': list<string>, 'tax': mixed, 'terms_type': string, 'test_clock_id'?: string, 'trial_end_at'?: string, 'upcoming_delivery_hold'?: mixed, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionTrialEndingInstalledMerchantsEventDataObject')); }
     /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. Format: int32. minimum: 1. maximum: 31.
      * @return ?int
@@ -93,7 +92,7 @@ final class SubscriptionTrialEndingInstalledMerchantsEventDataObject extends Mod
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Billing interval and count pairs frozen from the plan or shared by the subscription offers. Line prices are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Billing interval and count pairs the subscription can switch to. For a subscription on a plan, they follow the plan's current billing_interval_options. A subscription that came from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans.
      * @return ?list<SubscriptionIntervalOption>
      */
     public function getBillingIntervalOptions(): ?array { return $this->get('billing_interval_options'); }
@@ -108,11 +107,6 @@ final class SubscriptionTrialEndingInstalledMerchantsEventDataObject extends Mod
      */
     public function getBillingScheduleWaitingStartedAt(): ?string { return $this->get('billing_schedule_waiting_started_at'); }
     public function hasBillingScheduleWaitingStartedAt(): bool { return $this->has('billing_schedule_waiting_started_at'); }
-    /** What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment, update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change, then renew, under the store's buyer policy. The available cancel and pause actions carry the choices they accept. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due without an inventory_wait, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. [] (Value): {@see BuyerAction}. One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
-     * @return list<BuyerAction>
-     */
-    public function getBuyerActions(): array { return $this->get('buyer_actions'); }
-    public function hasBuyerActions(): bool { return $this->has('buyer_actions'); }
     /** True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false.
      * @return bool
      */
@@ -128,7 +122,7 @@ final class SubscriptionTrialEndingInstalledMerchantsEventDataObject extends Mod
      */
     public function getCancellationDetails(): ?SubscriptionCancellationDetails { return $this->get('cancellation_details'); }
     public function hasCancellationDetails(): bool { return $this->has('cancellation_details'); }
-    /** Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when the automatic ending agreement is reached, cancellation_details.requested_by when recorded, payment_failed for other canceled subscriptions without a requester, and other for a scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration", "payment_failed", "other", "end_after_reached".
+    /** Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory refund fully refunds the signup order, end_after_reached when the automatic ending agreement is reached, cancellation_details.requested_by when recorded, payment_failed for other canceled subscriptions without a requester, and other for a scheduled cancellation without a requester. Omitted otherwise. Value enum: "buyer", "merchant", "integration", "payment_failed", "other", "end_after_reached", "signup_order_refunded".
      * @return ?string
      */
     public function getCancellationReason(): ?string { return $this->get('cancellation_reason'); }
@@ -173,7 +167,7 @@ final class SubscriptionTrialEndingInstalledMerchantsEventDataObject extends Mod
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1. maximum: 24.
      * @return int
      */
     public function getDeliveriesPerPeriod(): int { return $this->get('deliveries_per_period'); }
@@ -323,12 +317,12 @@ final class SubscriptionTrialEndingInstalledMerchantsEventDataObject extends Mod
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+    /** Quantities this subscription can be changed to, from 1 to 100, in ascending order. A change to quantity must send one of these values, and the request is refused otherwise. A buyer can change quantity only when more than one is listed. For a subscription on a plan, the list follows the plan's current quantity_options. A subscription that came from an offer keeps the choices the offer had at signup. [1] when no other quantity is offered. maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
      * @return ?list<int>
      */
     public function getQuantityOptions(): ?array { return $this->get('quantity_options'); }
     public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
-    /** What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getRecurringSubtotalMoney(): MoneyValue|null { return $this->get('recurring_subtotal_money'); }
@@ -343,7 +337,7 @@ final class SubscriptionTrialEndingInstalledMerchantsEventDataObject extends Mod
      */
     public function getRemainingPrepaidDeliveries(): int { return $this->get('remaining_prepaid_deliveries'); }
     public function hasRemainingPrepaidDeliveries(): bool { return $this->has('remaining_prepaid_deliveries'); }
-    /** When Flint accepted a pending resume request. Set only while paused with a resume Flint has not applied yet. Clears when Flint resumes the subscription or refuses the request. Format: date-time.
+    /** When Flint accepted a pending resume request. Set only while paused with a resume Flint has not applied yet. Clears when Flint resumes the subscription or refuses the request. `null` when the subscription isn't paused or no resume request is pending. Format: date-time.
      * @return string|null
      */
     public function getResumeRequestedAt(): string|null { return $this->get('resume_requested_at'); }
@@ -398,7 +392,7 @@ final class SubscriptionTrialEndingInstalledMerchantsEventDataObject extends Mod
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Merchant actions allowed by the subscription's state. A route can still refuse a listed action for a transient reason, such as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity". [] (Value): string.  Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "retry_payment", "change_plan", "change_quantity".
+    /** Merchant actions allowed by the subscription's state. A route can still refuse a listed action for a transient reason, such as a renewal already in progress, with its own error. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value): string.  Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
      * @return list<string>
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }

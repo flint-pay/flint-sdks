@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read InvoiceScheduleAmountSpecificationInput|array<array-key, mixed>|\stdClass $amount_specification
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_money
+ * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credited_money
  * @property-read InvoiceScheduleDueInput|array<array-key, mixed>|\stdClass $due
  * @property-read string $invoice_schedule_entry_id
  * @property-read string $kind
@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $written_off_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceScheduleEntryInput extends Model {
-    /** @param array{'amount_specification': InvoiceScheduleAmountSpecificationInput|array<array-key, mixed>|\stdClass, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due': InvoiceScheduleDueInput|array<array-key, mixed>|\stdClass, 'invoice_schedule_entry_id': string, 'kind': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'amount_specification': InvoiceScheduleAmountSpecificationInput|array<array-key, mixed>|\stdClass, 'credited_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'due': InvoiceScheduleDueInput|array<array-key, mixed>|\stdClass, 'invoice_schedule_entry_id': string, 'kind': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceScheduleEntryInput')); }
     /** How the entry's amount is set: a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance.
      * @return InvoiceScheduleAmountSpecificationInput|array<array-key, mixed>|\stdClass
@@ -24,10 +24,10 @@ final class InvoiceScheduleEntryInput extends Model {
     public function hasAmountSpecification(): bool { return $this->has('amount_specification'); }
     /** Credit note credit allocated to this entry, minus reversed allocations. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
+     * @throws SdkError When credited_money is omitted; use hasCreditedMoney() or valueOrDefault().
      */
-    public function getCreditMoney(): mixed { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    public function getCreditedMoney(): mixed { return $this->get('credited_money'); }
+    public function hasCreditedMoney(): bool { return $this->has('credited_money'); }
     /** When the entry is due. When a payment schedule entry on an invoice is due: at issue, on a set date, or on the invoice due date.
      * @return InvoiceScheduleDueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When due is omitted; use hasDue() or valueOrDefault().
@@ -64,7 +64,7 @@ final class InvoiceScheduleEntryInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** The entry's share of the invoice total, resolved from amount_specification against snapshot.pricing_amounts.total_money. Recomputed on draft edits and fixed at issue. Excludes late fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The entry's share of the invoice total, resolved from amount_specification against pricing_amounts.total_money. Recomputed on draft edits and fixed at issue. Excludes late fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
      */

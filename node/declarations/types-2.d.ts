@@ -1,58 +1,63 @@
-import type { ReturnLineItemRequestInput } from './types-55.js';
+import type { ReturnLineItemRequestInput, ReturnHandoffRequirementLineItem } from './types-55.js';
 import type {
     BuyerReturnReplacementLineItemRequest,
     BuyerReturnReplacementLineItemRequestInput,
-    BuyerSubscriptionPlanLineItem,
-    BuyerSetupCollection,
     BuyerPaymentErrorSummary,
-    BuyerSelectableOrderPaymentIntent
+    BuyerPaymentCollection,
+    BuyerSetupCollection,
+    BuyerPaymentAttemptPaymentIntent
 } from './types-3.js';
 import type { ReturnResolutionLineItemRequest, ReturnResolutionLineItemRequestInput } from './types-57.js';
 import type { CreditNoteLineItem } from './types-14.js';
-import type { MoneyValue } from './types-38.js';
-import type { TaxCurrencyConversion, TaxIdentity, TaxBreakdown } from './types-64.js';
+import type {
+    MoneyValue,
+    OrderCharge,
+    OrderAuthorizationAmounts,
+    OrderCalculatedChargeTax,
+    OrderCalculatedLineItemTax
+} from './types-39.js';
+import type { TaxCurrencyConversion, TaxIdentity, TaxReverseCharge, TicketedEvent, TextModifierRequest } from './types-65.js';
 import type { ResponseMeta } from './types-54.js';
 import type { Address } from './types-0.js';
+import type { ErrorResourceReference } from './types-24.js';
 import type { DeferredPromotion, CustomerTaxExemptionCoverage } from './types-16.js';
-import type { OrderSettlementAmounts, OrderReturnCreditSettlement, OrderPaymentAttemptPaymentMethodSave } from './types-41.js';
+import type {
+    OrderSettlementAmounts,
+    OrderReturnCreditSettlement,
+    OrderLineItemFulfillmentQuantities,
+    OrderLineItemFulfillmentRequirements,
+    OrderLineSubscriptionOfferSummary,
+    OrderPaymentAttemptPaymentMethodSave
+} from './types-41.js';
 import type { PricingAmounts } from './types-49.js';
+import type { PaymentSourceSummary } from './types-47.js';
+import type { BuyerSubscriptionPlanLineItem, BuyerTip } from './types-4.js';
 import type { SubscriptionIntervalOption } from './types-61.js';
 import type { CardDetails, CheckoutMerchantSupport, CheckoutBuyerContact, CategoryReference } from './types-5.js';
 import type { StripeClientSetup, SubscribedLine } from './types-60.js';
-import type { FulfillmentChargeLink } from './types-24.js';
-import type { FulfillmentRecipient } from './types-25.js';
+import type { FulfillmentChargeLink, FulfillmentRecipient } from './types-25.js';
 import type { PickupFulfillmentDetails, PendingPaymentAction } from './types-48.js';
 import type { ServiceFulfillmentDetails, ShipmentFulfillmentDetails, SelectedProductOption } from './types-59.js';
 import type { BuyerAction, BundleComponent } from './types-1.js';
 import type { CheckoutTheme } from './types-6.js';
-import type { Image, GiftCardPurchaseSnapshot } from './types-27.js';
-import type { InvoiceDocumentRow, InvoiceDiscount } from './types-31.js';
-import type { InvoicePaymentAttempt, InvoiceLateFeePolicy, InvoiceLineItem } from './types-32.js';
+import type { Image } from './types-28.js';
+import type { InvoiceDocumentRow, InvoiceLateFeePolicy, InvoiceDiscount, InvoiceLineItem } from './types-32.js';
 import type { InvoicePaymentOptionCostComparison, InvoicePaymentTermsSnapshot } from './types-33.js';
-import type { InvoiceScheduleEntry, InvoiceTip } from './types-34.js';
+import type { InvoiceScheduleEntry, InvoiceSettlementAmounts, InvoiceTip } from './types-34.js';
+import type { TaxBreakdown } from './types-64.js';
 import type {
-    OrderCharge,
-    OrderAuthorizationAmounts,
     OrderDeliveryDestination,
-    OrderCalculatedChargeTax,
-    OrderCalculatedLineItemTax
-} from './types-39.js';
-import type { TaxReverseCharge, TicketedEvent, TextModifierRequest } from './types-65.js';
-import type { BuyerTip } from './types-4.js';
-import type {
     OrderDeliverySummary,
     OrderDiscount,
     OrderGiftCardEstimate,
     OrderGiftCardSelection,
-    OrderGiftCardSettlement,
-    OrderLineItemFulfillmentQuantities,
-    OrderLineItemFulfillmentRequirements,
-    OrderLineSubscriptionOfferSummary
+    OrderGiftCardSettlement
 } from './types-40.js';
 import type { Dimensions } from './types-23.js';
+import type { GiftCardPurchaseSnapshot } from './types-27.js';
 import type { LineItemInventorySnapshot } from './types-35.js';
 import type { PurchasedGiftCard } from './types-52.js';
-import type { Weight } from './types-69.js';
+import type { Weight } from './types-70.js';
 import type { PaymentAttemptGiftCardRedemption } from './types-44.js';
 import type { DeliveryChargeTaxCalculationRequest } from './types-17.js';
 /** The request body for: Create a Return for the current buyer. */
@@ -329,6 +334,24 @@ export type BuyerCustomer = {
 };
 /** A request to delete a customer's personal information. */
 export type BuyerCustomerDeletionRequest = {
+    /**
+     * Total resources currently preventing approval, including resources beyond the
+     * blocking_resources cap. Present only for pending_review, including zero when nothing blocks
+     * approval. Computed at read time using the same rule as approval. Format: int64. minimum: 0.
+     */
+    "blocking_resource_count"?: number;
+    /**
+     * Resources currently preventing approval, computed when the request is read. Present only for
+     * pending_review, including an empty array when nothing blocks approval. Uses the same
+     * references as RESOURCE_IN_USE: non-canceled subscriptions and active or pending payment
+     * methods, ordered by resource_type then resource_id, capped at 25 of each type. List the
+     * customer's subscriptions and payment methods for the remaining resources when
+     * blocking_resource_count exceeds this array's length. Approval rechecks the blockers;
+     * cancel_subscriptions and remove_payment_methods can clear the matching resources before
+     * erasure. [] (Value): {@link ErrorResourceReference}. A reference to a public resource named
+     * in an error, with its type, ID, and current status when available.
+     */
+    "blocking_resources"?: Array<ErrorResourceReference>;
     /**
      * Subscription IDs whose immediate cancellation completed for this request, sorted by ID.
      * Empty when none have completed. Read the request again while processing to see progress. []
@@ -610,6 +633,82 @@ export type BuyerDigitalFulfillmentDetails = {
     "delivery_url"?: string | null;
 };
 /**
+ * Nested child of Customer. A request to change this customer's sign-in email. Only one request
+ * can be pending per customer.
+ */
+export type BuyerEmailChangeRequest = {
+    /**
+     * When a person canceled this request or a newer request replaced it. Null when it has not
+     * been canceled or replaced. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "canceled_at": string | null;
+    /**
+     * When the customer email changed. Null when the request has not been confirmed. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "confirmed_at": string | null;
+    /** When Flint recorded the request. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * Whether the customer must also confirm a code sent to their current address. False for
+     * requests started by store staff or integrations.
+     */
+    "current_email_confirmation_required": boolean;
+    /**
+     * Flint ID of the customer whose email would change. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Flint ID of this customer's email change request. Example:
+     * "cecr_01KEZF7C00B8VJX4M828K0430H".
+     */
+    "email_change_request_id": string;
+    /**
+     * When the request expires if it has not been confirmed or canceled. Format: date-time.
+     * Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Returned only by confirm, to customer sessions that can access cards saved with Flint after
+     * a live email-code sign-in at a Flint-hosted account. Omitted when the previous email had no
+     * saved cards. Never returned to merchant credentials. Value enum: "moved", "kept",
+     * "new_email_has_wallet".
+     */
+    "flint_wallet_outcome"?: "moved" | "kept" | "new_email_has_wallet" | (string & {});
+    /**
+     * The proposed email address. Null when the request is confirmed, canceled, or expired.
+     * Format: email. Example: "buyer@example.com".
+     */
+    "new_email": string | null;
+    /** Who started this email change request. Value enum: "buyer", "merchant", "integration". */
+    "requested_by": "buyer" | "merchant" | "integration" | (string & {});
+    /**
+     * The request's current confirmation state. Value enum: "pending", "confirmed", "canceled",
+     * "expired".
+     */
+    "status": "pending" | "confirmed" | "canceled" | "expired" | (string & {});
+};
+/** A response containing `BuyerEmailChangeRequest` data. */
+export type BuyerEmailChangeRequestResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. Nested child of
+     * Customer. A request to change this customer's sign-in email. Only one request can be pending
+     * per customer.
+     */
+    "data": BuyerEmailChangeRequest;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
  * Guidance for recovering from a payment error: whether and how to retry (`retry`), and optional
  * next steps.
  */
@@ -810,6 +909,89 @@ export type BuyerExpandedPackageSummary = {
     /** Monotonic package version for expected_version checks. Format: uint64. minimum: 1. */
     "version": number;
 };
+/**
+ * A payment intent summary in a buyer response, with its amount, status, payment source, and
+ * capture method.
+ */
+export type BuyerExpandedPaymentIntentSummary = {
+    /**
+     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
+     * after a partial capture it still shows the requested amount, and captured_money shows what
+     * was collected. On a standalone payment intent, PATCH can change it only before the first
+     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
+     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "amount_money": MoneyValue;
+    /** When money is collected. Defaults to automatic. Value enum: "automatic", "manual". */
+    "capture_method"?: "automatic" | "manual" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at"?: string;
+    /** Customer linked to this payment intent. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    "customer_id"?: string;
+    /**
+     * Dispute state of this payment. none means no dispute or inquiry is open or recorded. The
+     * inquiry_ values track an issuer inquiry or early warning that isn't a chargeback. Read the
+     * dispute with GET /v1/disputes for its deadline and evidence. Value enum: "none",
+     * "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response",
+     * "under_review", "won", "lost", "prevented", "other".
+     */
+    "dispute_status": "none"
+        | "inquiry_needs_response"
+        | "inquiry_under_review"
+        | "inquiry_closed"
+        | "needs_response"
+        | "under_review"
+        | "won"
+        | "lost"
+        | "prevented"
+        | "other"
+        | (string & {});
+    /**
+     * Order this payment intent belongs to. Create it through the order and confirm it with POST
+     * /v1/orders/{order_id}/pay. Capture and cancel use POST
+     * /v1/payment-intents/{payment_intent_id}/capture or /cancel for every payment intent.
+     * Order-owned intents accept PATCH for metadata and external_reference_id. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id"?: string;
+    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    "payment_intent_id": string;
+    /**
+     * Summary of the card or bank account used for the payment. Absent until a payment source is
+     * attached. A summary of the payment source used for a payment, by funding-method family, with
+     * card or bank account display details.
+     */
+    "payment_source"?: PaymentSourceSummary;
+    /**
+     * How much of captured_money has been refunded, including value issued as store credit, based
+     * on refunded_money. Value enum: "none", "partially_refunded", "refunded".
+     */
+    "refund_status"?: "none" | "partially_refunded" | "refunded" | (string & {});
+    /**
+     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
+     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
+     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
+     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
+     * "succeeded", "expired".
+     */
+    "status": "requires_payment_method"
+        | "requires_confirmation"
+        | "requires_action"
+        | "processing"
+        | "requires_capture"
+        | "canceled"
+        | "succeeded"
+        | "expired"
+        | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at"?: string;
+    /**
+     * Persisted version of this resource's owned state. Expanded resources and external
+     * observations can change independently. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
 /** A buyer-visible shipment summary, with its direction, status, and package count. */
 export type BuyerExpandedShipmentSummary = {
     /**
@@ -886,30 +1068,58 @@ export type BuyerExpandedShipmentSummary = {
  * status, and line items.
  */
 export type BuyerExpandedSubscriptionPlanSummary = {
-    /** Value enum: "daily", "weekly", "monthly", "yearly". */
+    /**
+     * Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with
+     * a count of 3 bills every three months. A new subscription starts on the pair the buyer chose
+     * from `billing_interval_options`, or on this one when they chose none. Value enum: "daily",
+     * "weekly", "monthly", "yearly".
+     */
     "billing_interval": "daily" | "weekly" | "monthly" | "yearly" | (string & {});
-    /** Format: int32. */
+    /**
+     * Number of `billing_interval` units between charges on the plan's default pair. Format:
+     * int32.
+     */
     "billing_interval_count": number;
     /**
-     * Offered billing interval and count pairs, including the plan's default pair. Line prices are
-     * per delivery. Each option charges for all deliveries in its period. Use separate plans or
-     * promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value):
-     * {@link SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or
-     * offer. Every option bills the same line prices once per period; prices are not scaled by the
-     * interval. For a different price per interval, create separate plans.
+     * Offered billing interval and count pairs, including the plan's default pair. Prices of lines
+     * that ship are per delivery. Each option charges for all deliveries in its period. Use
+     * separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems:
+     * true. [] (Value): {@link SubscriptionIntervalOption}. A billing interval, such as every 2
+     * months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship
+     * are per delivery, and each option charges for all deliveries in its period. Without a
+     * delivery cadence there is one delivery per period, so every option bills the same line
+     * prices once per period. With a delivery cadence, a longer period bills more deliveries of
+     * the lines that ship; other lines bill once per period. For a different price per interval
+     * with no delivery cadence, create separate plans.
      */
     "billing_interval_options"?: Array<SubscriptionIntervalOption>;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at"?: string;
     /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
     "currency": string;
+    /** Description of the plan. Omitted when none is set. */
     "description"?: string;
-    /**  [] (Value): {@link BuyerSubscriptionPlanLineItem}. A line item on a subscription plan. */
+    /**
+     * The lines a subscription on this plan bills each period, in the order you set them. Flint
+     * copied each catalog line's details from the catalog when it added the line. [] (Value):
+     * {@link BuyerSubscriptionPlanLineItem}. A line item on a subscription plan.
+     */
     "line_items"?: Array<BuyerSubscriptionPlanLineItem>;
+    /** Name of the plan. Buyers see it at checkout and on their subscription. */
     "name": string;
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100. */
+    /**
+     * Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending
+     * order. Flint accepts only a subscription quantity of 1, so you can set this list only to
+     * `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line
+     * item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10.
+     * uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+     */
     "quantity_options"?: Array<number>;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * One-time fee charged with the first payment of a new subscription, except one that continues
+     * an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented
+     * as integer minor units plus an ISO 4217 currency code.
+     */
     "setup_fee_money"?: MoneyValue;
     /**
      * Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED
@@ -923,7 +1133,10 @@ export type BuyerExpandedSubscriptionPlanSummary = {
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
      */
     "subscription_plan_id": string;
-    /** Format: int32. */
+    /**
+     * Days of free trial before the first recurring charge. Omitted or 0 when the plan has no
+     * trial. Format: int32.
+     */
     "trial_period_days"?: number;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at"?: string;
@@ -974,11 +1187,11 @@ export type BuyerFlintWalletCardListResponse = {
  */
 export type BuyerFlintWalletStoreSetup = {
     /**
-     *  anyOf[1] (Value): {@link StripeClientSetup}. Stripe.js setup authority returned while
-     * saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead
-     * and never carries a secret. anyOf[2] (Value): null.
+     * Stripe.js setup authority for saving this card at the store. Follow its stripe_js_call to
+     * finish the setup. Stripe.js setup authority returned while saving a payment method. Follow
+     * its stripe_js_call now. setup_collection is guidance instead and never carries a secret.
      */
-    "client_setup": ((StripeClientSetup) | (null));
+    "client_setup": StripeClientSetup;
     /**
      * ID of the store's card copy this setup creates. The copy can be used for payments once
      * `status` is `active`. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
@@ -1604,16 +1817,16 @@ export type BuyerInvoice = {
      * checkout session result; `GET /v1/me/invoices` omits it. An attempt to collect payment for
      * an invoice.
      */
-    "active_payment_attempt"?: InvoicePaymentAttempt;
+    "active_payment_attempt"?: BuyerInvoicePaymentAttempt;
     /**
      * What changed after the invoice was issued, in display order, such as late fees, payments,
      * credit notes, and write-offs. When present, rows where `is_informational` is `false` sum to
-     * `outstanding_money`. The opening `total` row contributes to the sum; the closing
-     * `amount_due` row is informational and states it. `[]` when nothing changed or the invoice is
-     * voided. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session
-     * result; `GET /v1/me/invoices` omits it. [] (Value): {@link InvoiceDocumentRow}. One row of
-     * an invoice document, such as a subtotal, discount, tax, late fee, payment, or amount due,
-     * with its amount.
+     * `settlement_amounts.outstanding_money`. The opening `total` row contributes to the sum; the
+     * closing `amount_due` row is informational and states it. `[]` when nothing changed or the
+     * invoice is voided. Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice
+     * checkout session result; `GET /v1/me/invoices` omits it. [] (Value): {@link
+     * InvoiceDocumentRow}. One row of an invoice document, such as a subtotal, discount, tax, late
+     * fee, payment, or amount due, with its amount.
      */
     "balance_rows"?: Array<InvoiceDocumentRow>;
     /**
@@ -1648,22 +1861,6 @@ export type BuyerInvoice = {
     /** When the invoice was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "created_at": string;
     /**
-     * Credit note credit allocated to this invoice, minus reversed allocations. Unallocated credit
-     * isn't included. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "credit_money": MoneyValue;
-    /**
-     * The part of the balance due now. Without schedule_entries, it equals outstanding_money. With
-     * schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose
-     * due date has started and that still has a balance, or 0 when there is none. It is the amount
-     * the next collect call or checkout session charges. To total everything overdue, add the
-     * outstanding_money of the entries whose status is overdue. Always 0 unless the invoice is
-     * open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "currently_due_money": MoneyValue;
-    /**
      * Customer billed by this invoice. Absent when the invoice has no customer. Example:
      * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      */
@@ -1695,12 +1892,12 @@ export type BuyerInvoice = {
     "is_overdue": boolean;
     /**
      * The rows of the invoice's totals as issued, in display order. Rows where `is_informational`
-     * is `false` sum to `snapshot.pricing_amounts.total_money`. A closing `total` row is
-     * informational and states that sum. Show the rows in order without merging or summing them.
-     * Returned by `GET /v1/me/invoices/{invoice_id}` and in the invoice checkout session result;
-     * `GET /v1/me/invoices` omits it. [] (Value): {@link InvoiceDocumentRow}. One row of an
-     * invoice document, such as a subtotal, discount, tax, late fee, payment, or amount due, with
-     * its amount.
+     * is `false` sum to `pricing_amounts.total_money`. A closing `total` row is informational and
+     * states that sum. Show the rows in order without merging or summing them. Returned by `GET
+     * /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET
+     * /v1/me/invoices` omits it. [] (Value): {@link InvoiceDocumentRow}. One row of an invoice
+     * document, such as a subtotal, discount, tax, late fee, payment, or amount due, with its
+     * amount.
      */
     "issue_rows"?: Array<InvoiceDocumentRow>;
     /**
@@ -1709,15 +1906,10 @@ export type BuyerInvoice = {
      */
     "issued_at"?: string;
     /**
-     * Late fees assessed after issue, minus waivers, including amounts since paid or written off.
-     * Itemized in late_fees. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "late_fee_money": MoneyValue;
-    /**
      * Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding
-     * amounts. late_fee_money is their assessed total minus waivers. [] (Value): {@link
-     * BuyerInvoiceLateFee}. A charge assessed because an invoice payment is overdue.
+     * amounts. settlement_amounts.late_fee_money is their assessed total minus waivers. []
+     * (Value): {@link BuyerInvoiceLateFee}. A charge assessed because an invoice payment is
+     * overdue.
      */
     "late_fees": Array<BuyerInvoiceLateFee>;
     /**
@@ -1752,24 +1944,10 @@ export type BuyerInvoice = {
      */
     "order_id": string;
     /**
-     * What is still owed. On an open or partially_paid invoice it is total_money + late_fee_money
-     * - paid_money - credit_money, never below zero. 0 on paid, credited, uncollectible, and
-     * voided invoices. Refunds and dispute losses don't change it. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "outstanding_money": MoneyValue;
-    /**
      * When the invoice most recently became paid. Cleared when status leaves paid and set again on
      * a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
      */
     "paid_at"?: string;
-    /**
-     * Payments collected toward this invoice, online or as recorded manual payments, minus
-     * reversed payments, including payments toward late fees. Never below zero. Disputes,
-     * including losses, don't reduce it. Refunds don't reduce it; they are in refunded_money.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "paid_money": MoneyValue;
     /**
      * A payment option that costs the merchant less to accept for this invoice, with the estimated
      * savings. Present when the invoice's payment policy turns on `show_cost_comparison` and Flint
@@ -1798,6 +1976,12 @@ export type BuyerInvoice = {
      */
     "po_number": string | null;
     /**
+     * The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money
+     * excludes late fees, which are in settlement_amounts.late_fee_money. The money totals for an
+     * order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     */
+    "pricing_amounts": PricingAmounts;
+    /**
      * Where Flint emails the invoice and its reminders. Email delivery requires it at issue.
      * `null` when unset.
      */
@@ -1812,12 +1996,6 @@ export type BuyerInvoice = {
      * "none", "partially_refunded", "refunded".
      */
     "refund_status": "none" | "partially_refunded" | "refunded" | (string & {});
-    /**
-     * Money refunded to the buyer after collection. Refunds don't reopen the balance;
-     * refund_status summarizes them. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
     /**
      * Where the buyer sends offline payments, shown on the invoice. Defaults to the invoice
      * settings remit-to address. A postal address. Every address has country. Addresses Flint
@@ -1848,6 +2026,18 @@ export type BuyerInvoice = {
      */
     "service_date": string | null;
     /**
+     * Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice
+     * balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money -
+     * credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible,
+     * and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute
+     * losses don't change it. The bill settlement amounts plus credit notes, the amount due now,
+     * and late fees. Invoice paid_money includes late-fee payments and excludes reversed payments.
+     * Refunds and dispute losses do not reopen outstanding_money or reduce paid_money.
+     * net_collected_money is paid_money minus refunded_money, never below zero. Money collected,
+     * returned, waived, and still owed on a bill.
+     */
+    "settlement_amounts": InvoiceSettlementAmounts;
+    /**
      * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
      * the merchant's agreement with Flint removes it. Returned by `GET
      * /v1/me/invoices/{invoice_id}` and in the invoice checkout session result; `GET
@@ -1855,9 +2045,9 @@ export type BuyerInvoice = {
      */
     "show_flint_mark"?: boolean;
     /**
-     * The billing content of the invoice: line items, discounts, charges, tip, tax, and totals,
-     * frozen at issue. Invoice details captured at issue. Buyer views omit merchant exemption
-     * evidence references.
+     * The billing content of the invoice: line items, discounts, charges, tip, and tax, frozen at
+     * issue. Invoice details captured at issue. Buyer views omit merchant exemption evidence
+     * references.
      */
     "snapshot"?: BuyerInvoiceSnapshot;
     /**
@@ -1889,12 +2079,6 @@ export type BuyerInvoice = {
      * changes do not alter this invoice's calendar.
      */
     "timezone"?: string;
-    /**
-     * What the invoice bills, equal to snapshot.pricing_amounts.total_money and fixed at issue.
-     * Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an
-     * ISO 4217 currency code.
-     */
-    "total_money": MoneyValue;
     /** When the invoice last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "updated_at": string;
     /**
@@ -1992,6 +2176,78 @@ export type BuyerInvoiceListResponse = {
      */
     "request_id": string;
 };
+/** An attempt to collect payment for an invoice. */
+export type BuyerInvoicePaymentAttempt = {
+    /**
+     * When the attempt was canceled. An attempt canceled with its checkout session before payment
+     * started may not have it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "canceled_at"?: string;
+    /**
+     * When cancellation of this attempt was last requested. It stays set when the payment
+     * processor refuses the cancellation or the payment settles first, so read status and
+     * canceled_at for the outcome. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "cancellation_requested_at"?: string;
+    /**
+     * The hosted or headless checkout session the buyer pays through. Absent for automatic
+     * charges. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+     */
+    "checkout_session_id"?: string;
+    /**
+     * The amount this attempt collects: the outstanding balance, or the targeted schedule entry's
+     * outstanding amount. Monetary amount represented as integer minor units plus an ISO 4217
+     * currency code.
+     */
+    "expected_amount_money": MoneyValue;
+    /**
+     * When a checkout attempt expires, matching its checkout session. Absent for automatic
+     * charges. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at"?: string;
+    /** The invoice this attempt collects. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". */
+    "invoice_id": string;
+    /** Flint invoice payment attempt ID. Example: "invpa_01KEZF7C00PMWEDPAYYEKDTPBX". */
+    "invoice_payment_attempt_id": string;
+    /**
+     * The schedule entry this attempt collects. Absent when the attempt collects the invoice
+     * balance. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
+     * Why the payment failed. Present only when status is failed. Why a payment attempt failed: a
+     * normalized `code`, a message, when it failed, and recovery guidance.
+     */
+    "last_payment_error"?: BuyerPaymentErrorSummary;
+    /**
+     * The payment intent behind this attempt. Absent until payment starts, such as a hosted
+     * attempt the buyer hasn't paid yet. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     */
+    "payment_intent_id"?: string;
+    /**
+     * How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit.
+     * Value enum: "card", "ach_debit".
+     */
+    "rail": "card" | "ach_debit" | (string & {});
+    /**
+     * When this attempt first settled successfully. Duplicate payment notifications preserve this
+     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "settled_at"?: string;
+    /** When the attempt was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "started_at"?: string;
+    /**
+     * Current payment attempt status. succeeded means this attempt completed successfully, even if
+     * the invoice still has an outstanding balance. invoice_payment_attempt.succeeded reports that
+     * completion. Value enum: "open", "succeeded", "failed", "canceled", "expired", "processing".
+     */
+    "status": "open" | "succeeded" | "failed" | "canceled" | "expired" | "processing" | (string & {});
+    /**
+     * When this attempt last changed. Duplicate payment notifications preserve this timestamp.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "updated_at": string;
+};
 /** A response containing `BuyerInvoice` data. */
 export type BuyerInvoiceResponse = {
     /**
@@ -2068,12 +2324,6 @@ export type BuyerInvoiceSnapshot = {
      */
     "merchant_display_name"?: string;
     /**
-     * The invoice's pricing totals. Its total_money is the invoice total that the top-level
-     * total_money reports. The money totals for an order or invoice: subtotal, discounts, charges,
-     * tax, requested tip, and total.
-     */
-    "pricing_amounts": PricingAmounts;
-    /**
      * The tip requested on the backing order, frozen at issue. Absent when none was requested. A
      * tip requested on an invoice, set as a fixed amount or a percentage, with an optional name
      * and description.
@@ -2092,12 +2342,13 @@ export type BuyerInvoiceSnapshot = {
     /**
      * Tax jurisdiction rows for this invoice. A draft previews the backing order's current rows;
      * issue freezes them, and the API, hosted invoice, and PDF share the frozen rows. External tax
-     * produces these rows. Automatic tax doesn't, so an automatic-tax invoice reports its tax in
+     * produces these rows, and so does automatic tax outside the US, one per national or
+     * provincial tax. US automatic tax doesn't, so a US automatic-tax invoice reports its tax in
      * pricing_amounts and each line's tax_money. On a newly issued external-tax invoice, rows sum
-     * to pricing_amounts.tax_money, and rows with price_mode inclusive sum to
-     * pricing_amounts.inclusive_tax_money. A row's order_line_item_id matches the same field on
-     * InvoiceLineItem; order_charge_id names a charge in charges. Always [] when no tax rows
-     * apply. Some older external-tax invoices have no frozen rows. [] (Value): {@link
+     * to Invoice.pricing_amounts.tax_money, and rows with price_mode inclusive sum to
+     * Invoice.pricing_amounts.inclusive_tax_money. A row's order_line_item_id matches the same
+     * field on InvoiceLineItem; order_charge_id names a charge in charges. Always [] when no tax
+     * rows apply. Some older external-tax invoices have no frozen rows. [] (Value): {@link
      * TaxBreakdown}. The tax calculated for one jurisdiction on an order, line item, or charge,
      * with the taxable amount, rate or flat amount, and tax.
      */
@@ -2657,6 +2908,14 @@ export type BuyerOrderLineItem = ({
      */
     "product_id"?: string;
     /**
+     * Product classification frozen on this line. Null when the line is unclassified. Custom lines
+     * accept physical, digital, service, or fee; catalog lines use the product's type when added.
+     * Unclassified non-goods lines keep ACH debit unavailable. Issued invoices retain their frozen
+     * classification; void and reissue to change it. Value enum: "physical", "service", "fee",
+     * "digital", "gift_card", null.
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | null | (string & {}) | null;
+    /**
      * Masked card identities for fully funded units of this purchase line. Partial consideration
      * does not issue a card. [] (Value): {@link PurchasedGiftCard}. A gift card issued for one
      * unit of a purchased order line item, with its last four code characters and any card it
@@ -2829,11 +3088,20 @@ export type BuyerOrderListResponse = {
 export type BuyerOrderPaymentAttempt = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "completed_at"?: string;
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * The outstanding balance this attempt was started to collect, fixed when it started. For an
+     * order that gift cards partly cover, it includes the gift card part. Later changes to the
+     * order's balance don't change it, and a resume request that sends
+     * `expected_outstanding_money` is compared with this amount. Monetary amount represented as
+     * integer minor units plus an ISO 4217 currency code.
+     */
     "expected_outstanding_money": MoneyValue;
     /**
-     *  [] (Value): {@link PaymentAttemptGiftCardRedemption}. A gift card redemption made as part
-     * of an order payment attempt, with the amount, tip, and gift card.
+     * Gift cards this attempt holds or has redeemed, one entry per card. Each amount is reserved
+     * while the attempt is open and is taken from the card when the attempt succeeds. A failed or
+     * canceled attempt releases it. Empty when no gift card is used. [] (Value): {@link
+     * PaymentAttemptGiftCardRedemption}. A gift card redemption made as part of an order payment
+     * attempt, with the amount, tip, and gift card.
      */
     "gift_card_redemptions": Array<PaymentAttemptGiftCardRedemption>;
     /**
@@ -2848,16 +3116,28 @@ export type BuyerOrderPaymentAttempt = {
      * recovery guidance.
      */
     "last_payment_error"?: BuyerPaymentErrorSummary;
-    /** Value enum: "payment", "setup", "settlement". */
+    /**
+     * Whether the attempt collects the order's balance, saves a payment method without charging
+     * it, or settles the order without a processor payment. Value enum: "payment", "setup",
+     * "settlement".
+     */
     "mode": "payment" | "setup" | "settlement" | (string & {});
+    /**
+     * The order this payment attempt collects money for or saves a payment method for. Example:
+     * "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
+    "order_id": string;
     /**
      * Unique identifier for this order payment attempt, prefixed `opat_`. Example:
      * "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
      */
     "order_payment_attempt_id": string;
     /**
-     *  [] (Value): {@link BuyerPaymentAttemptPaymentIntent}. The payment intent behind an order
-     * payment attempt, with its status, amounts, authorization expiry, and last payment error.
+     * The payment intents this attempt collects through, each with its amount, status, tip, and
+     * latest error. Empty for an attempt that collects no processor payment, such as a setup, or
+     * an order that gift cards or return credit settle alone. [] (Value): {@link
+     * BuyerPaymentAttemptPaymentIntent}. The payment intent behind an order payment attempt, with
+     * its status, amounts, authorization expiry, and last payment error.
      */
     "payment_intents": Array<BuyerPaymentAttemptPaymentIntent>;
     /**
@@ -2868,7 +3148,9 @@ export type BuyerOrderPaymentAttempt = {
      */
     "payment_method_save"?: OrderPaymentAttemptPaymentMethodSave;
     /**
-     *  [] (Value): {@link PendingPaymentAction}. Client-side action required before continuing a
+     * Steps the buyer must finish in your client before the attempt can continue, such as
+     * authentication. Empty when none is pending. Complete them, then resume the attempt. []
+     * (Value): {@link PendingPaymentAction}. Client-side action required before continuing a
      * payment. Resume an order through PayOrder with order_payment_attempt_id, or continue a
      * standalone PaymentIntent through its confirm endpoint without a replacement credential.
      */
@@ -2876,7 +3158,9 @@ export type BuyerOrderPaymentAttempt = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "started_at"?: string;
     /**
-     * Value enum: "processing", "requires_action", "requires_capture", "partially_succeeded",
+     * Where the attempt is in collecting payment or saving a payment method.
+     * `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Value
+     * enum: "processing", "requires_action", "requires_capture", "partially_succeeded",
      * "requires_retry", "finalizing", "succeeded", "failed", "expired", "canceled".
      */
     "status": "processing"
@@ -3187,10 +3471,10 @@ export type BuyerPackage = {
     "return_id"?: string;
     /**
      * Return line quantities allocated to this parcel. Present only on packages of return
-     * shipments. [] (Value): {@link ReturnResolutionLineItemRequest}. A return line and the
+     * shipments. [] (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the
      * quantity placed in a return shipment or package.
      */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
     /** Carrier service used for the package. */
     "service_code"?: string;
     /** Shipment carrying this package. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
@@ -3317,172 +3601,4 @@ export type BuyerPayBalanceActionOptions = {
      * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      */
     "return_resolution_ids": Array<string>;
-};
-/**
- * The payment intent behind an order payment attempt, with its status, amounts, authorization
- * expiry, and last payment error.
- */
-export type BuyerPaymentAttemptPaymentIntent = {
-    /**
-     * The amount requested from the buyer, including any tip_money. Capturing doesn't change it:
-     * after a partial capture it still shows the requested amount, and captured_money shows what
-     * was collected. On a standalone payment intent, PATCH can change it only before the first
-     * confirmation attempt. An amount_money or tip_money change that leaves too little for stored
-     * splits returns LIMIT_EXCEEDED at the changed field with minimum_money. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Effective Flint capture deadline, equal to the earlier of the provider capture deadline and
-     * this attempt's sealed resource guarantee. Capture is refused at or after this time, even
-     * while status is requires_capture. Omitted until a hold is placed. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z".
-     */
-    "authorization_expires_at"?: string;
-    /**
-     * Payment intent's stored capturable amount. A positive amount does not override
-     * authorization_expires_at or the payment status. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "capturable_money"?: MoneyValue;
-    /**
-     * Money collected through this payment, once nothing more can be collected. Positive when
-     * money was collected, including a payment Flint couldn't accept and is refunding (the payment
-     * intent's cancellation_reason is payment_returned). Zero when nothing was collected, for
-     * example after a decline or a released authorization. Absent while the outcome can still
-     * change, such as an ACH debit that hasn't settled or an open hold. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "captured_money"?: MoneyValue;
-    /**
-     * Why a payment attempt failed: a normalized `code`, a message, when it failed, and recovery
-     * guidance.
-     */
-    "last_payment_error"?: BuyerPaymentErrorSummary;
-    /** Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
-    "payment_intent_id": string;
-    /**
-     * Payment option used by this leg, using the same values as
-     * PaymentIntent.selected_payment_option. Fixed when the attempt becomes terminal. Omitted when
-     * no payment option has been selected. Value enum: "card", "apple_pay", "google_pay",
-     * "affirm", "ach_debit", "card_present".
-     */
-    "selected_payment_option"?: "card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | "card_present" | (string & {});
-    /**
-     * Lifecycle status. requires_payment_method covers both a new payment intent and one whose
-     * last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired
-     * are final. Refunds and disputes never change status. Value enum: "requires_payment_method",
-     * "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled",
-     * "succeeded", "expired".
-     */
-    "status": "requires_payment_method"
-        | "requires_confirmation"
-        | "requires_action"
-        | "processing"
-        | "requires_capture"
-        | "canceled"
-        | "succeeded"
-        | "expired"
-        | (string & {});
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
-    "tip_money": MoneyValue;
-};
-/**
- * What a client needs to collect payment for a buyer's order. The `stripe` field holds the Stripe
- * values.
- */
-export type BuyerPaymentCollection = {
-    /**
-     * Client configuration for collecting the payment through Stripe. Stripe values for collecting
-     * payment on a buyer's order: the account ID, publishable key, return URL, and Elements
-     * settings.
-     */
-    "stripe"?: BuyerPaymentCollectionStripe;
-};
-/**
- * Stripe values for collecting payment on a buyer's order: the account ID, publishable key, return
- * URL, and Elements settings.
- */
-export type BuyerPaymentCollectionStripe = {
-    /**
-     * Stripe connected account ID to pass as stripeAccount when initializing Stripe.js. Null when
-     * the payment has splits: initialize Stripe.js with publishable_key alone and omit
-     * stripeAccount. Example: "acct_1234567890".
-     */
-    "account_id": string | null;
-    /**
-     * Stripe Elements configuration for the available payment methods and amounts. Stripe Elements
-     * collection guidance. Follow next_step in the browser, then submit the result to submit_to
-     * through Flint.
-     */
-    "elements"?: BuyerPaymentCollectionStripeElements;
-    /** Publishable Stripe key for initializing the payment client. */
-    "publishable_key"?: string;
-    /** URL the buyer returns to after a redirect payment step. */
-    "return_url"?: string;
-};
-/**
- * Stripe Elements collection guidance. Follow next_step in the browser, then submit the result to
- * submit_to through Flint.
- */
-export type BuyerPaymentCollectionStripeElements = {
-    /**
-     * Amount and currency used to initialize the payment form. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * Deprecated: use payment_options. Digital wallets that the payment form can offer. Removed in
-     * a later release. [] (Value): string.
-     */
-    "digital_wallets"?: Array<string>;
-    /**
-     * Whether Elements is collecting a payment source for an immediate payment or a setup source
-     * for future use. Value enum: "payment", "setup".
-     */
-    "mode": "payment" | "setup" | (string & {});
-    /**
-     * Browser collection operation to perform before calling submit_to. Value enum:
-     * "collect_payment_source", "collect_setup_payment_source", "create_confirmation_token".
-     */
-    "next_step": "collect_payment_source"
-        | "collect_setup_payment_source"
-        | "create_confirmation_token"
-        | (string & {});
-    /**
-     * Stripe Elements payment method creation mode. Follow next_step: standalone PaymentIntents
-     * and checkout-authenticated order collection create a ConfirmationToken, while
-     * merchant-authenticated order collection and setup collection create a PaymentMethod. Value
-     * enum: "manual".
-     */
-    "payment_method_creation": "manual" | (string & {});
-    /** Payment method settings passed to the payment form. */
-    "payment_method_options"?: {
-        [key: string]: unknown;
-    };
-    /**
-     * Deprecated: use payment_options. Processor payment method types that the payment form can
-     * offer. Removed in a later release. [] (Value): string.
-     */
-    "payment_method_types": Array<string>;
-    /**
-     * Payment options the payment form can offer, in display order. Skip values you don't
-     * recognize. Stripe Elements takes processor payment method types: pass card for card,
-     * apple_pay, and google_pay; us_bank_account for ach_debit; and affirm for affirm. Set the
-     * Payment Element's wallets option so it shows only the wallets listed. [] enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit". [] (Value): string. Value enum: "card",
-     * "apple_pay", "google_pay", "affirm", "ach_debit".
-     */
-    "payment_options": Array<"card" | "apple_pay" | "google_pay" | "affirm" | "ach_debit" | (string & {})>;
-    /**
-     * Order payment intents that the buyer can select for collection. [] (Value): {@link
-     * BuyerSelectableOrderPaymentIntent}. A payment intent a buyer can pay on an order, with its
-     * status, amounts, payment collection details, and last payment error.
-     */
-    "selectable_payment_intents"?: Array<BuyerSelectableOrderPaymentIntent>;
-    /**
-     * Flint operation that accepts the result of next_step. Value enum: "pay_order",
-     * "confirm_payment_intent".
-     */
-    "submit_to": "pay_order" | "confirm_payment_intent" | (string & {});
 };

@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# PaymentErrorSummaryInput to PaymentReviewListResponseInput
+# PaymentClientActionInput to PaymentMethodUpdatedMerchantEventInput
 
+- [PaymentClientActionInput](PaymentClientActionInput.md)
+- [PaymentClientActionStripeInput](PaymentClientActionStripeInput.md)
+- [PaymentClientActionURLInput](PaymentClientActionURLInput.md)
+- [PaymentCollectionInput](PaymentCollectionInput.md)
+- [PaymentCollectionStripeInput](PaymentCollectionStripeInput.md)
+- [PaymentCollectionStripeElementsInput](PaymentCollectionStripeElementsInput.md)
 - [PaymentErrorSummaryInput](PaymentErrorSummaryInput.md)
 - [PaymentFulfillmentHoldInput](PaymentFulfillmentHoldInput.md)
 - [PaymentIntentInput](PaymentIntentInput.md)
@@ -96,10 +102,4 @@
 - [PaymentMethodResponseInput](PaymentMethodResponseInput.md)
 - [PaymentMethodUpdatedInstalledMerchantsEventInput](PaymentMethodUpdatedInstalledMerchantsEventInput.md)
 - [PaymentMethodUpdatedMerchantEventInput](PaymentMethodUpdatedMerchantEventInput.md)
-- [PaymentMethodWithSetupInput](PaymentMethodWithSetupInput.md)
-- [PaymentRefundInput](PaymentRefundInput.md)
-- [PaymentReviewInput](PaymentReviewInput.md)
-- [PaymentReviewClosedInstalledMerchantsEventInput](PaymentReviewClosedInstalledMerchantsEventInput.md)
-- [PaymentReviewClosedMerchantEventInput](PaymentReviewClosedMerchantEventInput.md)
-- [PaymentReviewListResponseInput](PaymentReviewListResponseInput.md)
 

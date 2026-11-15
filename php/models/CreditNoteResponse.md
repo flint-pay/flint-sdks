@@ -35,10 +35,10 @@ Resource, collection, or operation result returned by this request. A correction
 | `pending_refund_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit reserved by linked refunds that have not resolved yet. Released if a refund fails or is canceled. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `reason` | Required | string | Why the invoice is being corrected. Shown on the credit note document. Values: `"returned_goods"`, `"order_adjustment"`, `"billing_error"`, `"goodwill"`, `"other"`. |
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit consumed by linked refunds that succeeded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `seller_tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. `seller_tax_identity`: [declared alternatives](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotseller_tax_identity). |
+| `seller_tax_identity` | Required | [TaxIdentity](../models/TaxIdentity.md#taxidentity) or null | Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. `seller_tax_identity`: [declared alternatives](../models/CreditNoteResponse.md#creditnoteresponsedataseller_tax_identity). |
 | `status` | Required | string | draft while the credit note is editable, issued once it is numbered and frozen, voided once withdrawn. Values: `"draft"`, `"issued"`, `"voided"`. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. Items values: `"issue"`, `"void"`. |
-| `tax_currency_conversions` | Required | Array of [TaxCurrencyConversion](../models/TaxCurrencyConversion.md#taxcurrencyconversion) | The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures. `tax_currency_conversions[]`: [field definitions](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshottax_currency_conversions). |
+| `tax_currency_conversions` | Required | Array of [TaxCurrencyConversion](../models/TaxCurrencyConversion.md#taxcurrencyconversion) | The credit note's VAT stated in the currency of the country that charges it, frozen at issue. Each entry reuses the invoice's currency, exchange_rate, rate_date, and rate_source from snapshot.tax_currency_conversions, with this note's credited VAT and taxable amount converted the same way. Always [] on drafts and when the invoice froze no conversion. The credit note PDF prints the same figures. `tax_currency_conversions[]`: [field definitions](../models/CreditNoteResponse.md#creditnoteresponsedatatax_currency_conversions). |
 | `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The face value of the credit note, the sum of its lines. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `updated_at` | Required | string | When the credit note last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Current credit note version. Send this as expected_version when updating the draft. Format: `int64`. minimum: `1`. |
@@ -48,7 +48,11 @@ Resource, collection, or operation result returned by this request. A correction
 
 Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no buyer tax identity was captured on the source invoice. Customer deletion preserves identities captured on issued invoices and credit notes.
 
-Field definitions: [shared fields](CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `legal_name` | Conditional | string or null | The merchant's legal name, printed on invoices and credit notes. `null` when no legal name is set. minLength: `1`. maxLength: `255`. |
+| `registered_address` | Conditional | [Address](../models/Address.md#address) or null | The merchant's registered business address, printed on invoices and credit notes. `null` when no address is set. `registered_address`: [declared alternatives](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1registered_address). |
+| `tax_ids` | Conditional | Array of [DocumentTaxID](../models/DocumentTaxID.md#documenttaxid) | Tax IDs printed on invoices and credit notes, in display order. Empty when none are set. maxItems: `20`. `tax_ids[]`: [field definitions](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1tax_ids). |
 
 ### CreditNoteResponse.data.buyer_tax_identity variant 1
 
@@ -65,11 +69,29 @@ anyOf variant 2.
 
 ### CreditNoteResponse.data.buyer_tax_identity variant 1.registered_address
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.snapshot.buyer_tax_identity variant 1.registered_address](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity-variant-1registered_address).
+The merchant's registered business address, printed on invoices and credit notes. `null` when no address is set.
+
+Field definitions: [shared fields](SubscriptionResponse.md#subscriptionresponsedatadeliverydestinationaddress).
+
+### CreditNoteResponse.data.buyer_tax_identity variant 1.registered_address variant 1
+
+anyOf Address: A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country..
+
+- Required: `country`.
+- Optional: `city`, `line1`, `line2`, `postal_code`, `state`.
+
+### CreditNoteResponse.data.buyer_tax_identity variant 1.registered_address variant 2
+
+anyOf variant 2.
+
+- Undeclared: `city`, `country`, `line1`, `line2`, `postal_code`, `state`.
+- Value shape: null. The merchant's registered business address, printed on invoices and credit notes. `null` when no address is set. 
 
 ### CreditNoteResponse.data.buyer_tax_identity variant 1.tax_ids[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot.buyer_tax_identity variant 1.tax_ids[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity-variant-1tax_ids).
+A tax identifier printed on documents, with its country, optional region, identifier type, and value. Flint does not verify the value.
+
+Field definitions: [shared fields](DocumentTaxIDRequestInput.md#documenttaxidrequestinput).
 
 ### CreditNoteResponse.data.invoice
 
@@ -85,13 +107,11 @@ Summary of the source invoice. Returned only with expand=invoice. An invoice's s
 | `invoice_number` | Optional | string | Sequential document number assigned when the invoice is issued. Absent on a draft. |
 | `is_overdue` | Required | boolean | Whether the invoice is open or partially_paid and past due with a balance remaining, as is_overdue on the full Invoice reports it. |
 | `order_id` | Optional | string | The order the invoice bills. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What is still owed, as outstanding_money on the full Invoice reports it: never below zero, 0 on paid, credited, uncollectible, and voided invoices, and equal to total_money on a draft. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `paid_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Payments collected toward this invoice, online or as recorded manual payments, minus reversed payments, including payments toward late fees. Never below zero. Disputes, including losses, don't reduce it. Refunds don't reduce it; they are in refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `pricing_amounts` | Required | [PricingAmounts](../models/PricingAmounts.md#pricingamounts) | The invoice pricing totals, frozen at issue; a draft previews the backing order. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total. |
 | `refund_status` | Optional | string | How much of the collected money has been refunded. It doesn't change status. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
-| `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money refunded to the buyer after collection. Refunds don't reopen the balance; refund_status summarizes them. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `settlement_amounts` | Required | [InvoiceSettlementAmounts](../models/InvoiceSettlementAmounts.md#invoicesettlementamounts) | The same settlement amounts as the full Invoice. The bill settlement amounts plus credit notes, the amount due now, and late fees. Invoice paid_money includes late-fee payments and excludes reversed payments. Refunds and dispute losses do not reopen outstanding_money or reduce paid_money. net_collected_money is paid_money minus refunded_money, never below zero. Money collected, returned, waived, and still owed on a bill. Money collected, returned, waived, and still owed on a bill. |
 | `status` | Required | string | Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again requires a new invoice. Values: `"draft"`, `"open"`, `"partially_paid"`, `"paid"`, `"voided"`, `"uncollectible"`, `"credited"`. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. Items values: `"collect"`, `"issue"`, `"mark_uncollectible"`, `"void"`. |
-| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The invoice document total, equal to snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order total. Late fees are in late_fee_money on the full invoice. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `updated_at` | Optional | string | When the invoice last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
 ### CreditNoteResponse.data.line_items[]
@@ -139,11 +159,43 @@ oneOf with type: "amount": The `amount` variant of `CreditNoteCorrectionRequest`
 
 ### CreditNoteResponse.data.seller_tax_identity
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.snapshot.seller_tax_identity](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotseller_tax_identity).
+Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured.
+
+Field definitions: [shared fields](#creditnoteresponsedatabuyer_tax_identity).
+
+### CreditNoteResponse.data.seller_tax_identity variant 1
+
+anyOf TaxIdentity: Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one..
+
+- Required: `legal_name`, `registered_address`, `tax_ids`.
+
+### CreditNoteResponse.data.seller_tax_identity variant 2
+
+anyOf variant 2.
+
+- Undeclared: `legal_name`, `registered_address`, `tax_ids`.
+- Value shape: null. Identity frozen on the source invoice at issue. Later profile edits do not change this document. `null` when no seller tax identity was captured. 
+
+### CreditNoteResponse.data.seller_tax_identity variant 1.registered_address
+
+Declared alternatives: [CreditNoteResponse.data.buyer_tax_identity variant 1.registered_address](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1registered_address).
+
+### CreditNoteResponse.data.seller_tax_identity variant 1.tax_ids[]
+
+Field definitions: [CreditNoteResponse.data.buyer_tax_identity variant 1.tax_ids[]](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1tax_ids).
 
 ### CreditNoteResponse.data.tax_currency_conversions[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot.tax_currency_conversions[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshottax_currency_conversions).
+VAT on an issued document converted into the currency of the country whose VAT is charged.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `currency` | Required | string | ISO 4217 code of the currency the VAT is stated in: the euro or the member state's national currency in the EU, sterling in the UK. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
+| `exchange_rate` | Required | number | Units of currency for one unit of the invoice currency, rounded half up to at most 10 decimal places. tax_money and taxable_money are calculated from this value. exclusiveMinimum: `0`. |
+| `rate_date` | Required | string | The ECB reference day, or the first day of the month an HMRC rate covers. Format: `date`. Example: `"2026-08-02"`. |
+| `rate_source` | Required | string | Who published the rate. Ignore values you don't recognize. Values: `"ecb"`, `"hmrc"`. |
+| `tax_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The document's VAT for this currency: VAT summed in the invoice currency, times exchange_rate, rounded half up to the currency's minor units. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `taxable_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount the VAT was charged on, converted the same way. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 ### CreditNoteResponse.meta
 

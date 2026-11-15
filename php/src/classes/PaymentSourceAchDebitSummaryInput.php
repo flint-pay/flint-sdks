@@ -9,19 +9,19 @@ namespace Flint;
 final class PaymentSourceAchDebitSummaryInput extends Model {
     /** @param array{'account_type'?: string, 'bank_name'?: string, 'last4'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceAchDebitSummaryInput')); }
-    /** Value enum: "checking", "savings", "other".
+    /** The kind of bank account. Value enum: "checking", "savings", "other".
      * @return string
      * @throws SdkError When account_type is omitted; use hasAccountType() or valueOrDefault().
      */
     public function getAccountType(): string { return $this->get('account_type'); }
     public function hasAccountType(): bool { return $this->has('account_type'); }
-    /** bank_name
+    /** Name of the bank that holds the account.
      * @return string
      * @throws SdkError When bank_name is omitted; use hasBankName() or valueOrDefault().
      */
     public function getBankName(): string { return $this->get('bank_name'); }
     public function hasBankName(): bool { return $this->has('bank_name'); }
-    /** last4
+    /** Last four digits of the bank account number.
      * @return string
      * @throws SdkError When last4 is omitted; use hasLast4() or valueOrDefault().
      */

@@ -19,7 +19,7 @@ namespace Flint;
 final class SubscriptionRenewalEstimate extends Model {
     /** @param array{'billing_at': string|null, 'currency': string, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'discount_money': mixed, 'discounts': list<mixed>, 'line_items': list<mixed>, 'shipping_money': mixed, 'subscription_cycle': int, 'subtotal_money': mixed, 'tax_money': mixed, 'total_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionRenewalEstimate')); }
-    /** Expected billing time, or null when billing is not scheduled. Format: date-time.
+    /** Expected billing time. `null` when no renewal charge is scheduled, such as when the subscription is set to cancel at the end of its period, is in its final `end_after` cycle, is paused with no resume time, or is on an external billing schedule with no next billing date. Format: date-time.
      * @return string|null
      */
     public function getBillingAt(): string|null { return $this->get('billing_at'); }
@@ -29,7 +29,7 @@ final class SubscriptionRenewalEstimate extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1. maximum: 24.
      * @return int
      */
     public function getDeliveriesPerPeriod(): int { return $this->get('deliveries_per_period'); }
@@ -44,42 +44,42 @@ final class SubscriptionRenewalEstimate extends Model {
      */
     public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
     public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Estimated discount total. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getDiscountMoney(): MoneyValue { return $this->get('discount_money'); }
     public function hasDiscountMoney(): bool { return $this->has('discount_money'); }
-    /**  [] (Value): {@see SubscriptionRenewalEstimateDiscount}. An estimated renewal discount from a promotion or credit for a subscription plan change.
+    /** Promotions and credits applied to this estimated renewal; [] when none apply. [] (Value): {@see SubscriptionRenewalEstimateDiscount}. An estimated renewal discount from a promotion or credit for a subscription plan change.
      * @return list<SubscriptionRenewalEstimateDiscount>
      */
     public function getDiscounts(): array { return $this->get('discounts'); }
     public function hasDiscounts(): bool { return $this->has('discounts'); }
-    /**  [] (Value): {@see SubscriptionRenewalEstimateLineItem}. A subscription item's quantity, subtotal, and discount in an estimated renewal.
+    /** Items and quantities included in this estimated renewal. [] (Value): {@see SubscriptionRenewalEstimateLineItem}. A subscription item's quantity, subtotal, and discount in an estimated renewal.
      * @return list<SubscriptionRenewalEstimateLineItem>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Estimated shipping; null for a digital subscription. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Estimated shipping. `null` when the estimate prices no delivery: the subscription has none, such as a digital subscription, or the preview is of a change billed `prorated_now`. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getShippingMoney(): MoneyValue|null { return $this->get('shipping_money'); }
     public function hasShippingMoney(): bool { return $this->has('shipping_money'); }
-    /** Format: uint64. minimum: 0.
+    /** The billing cycle this estimate would charge, continuing imported completed_cycles. Format: uint64. minimum: 0.
      * @return int
      */
     public function getSubscriptionCycle(): int { return $this->get('subscription_cycle'); }
     public function hasSubscriptionCycle(): bool { return $this->has('subscription_cycle'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Estimated item subtotal before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getSubtotalMoney(): MoneyValue { return $this->get('subtotal_money'); }
     public function hasSubtotalMoney(): bool { return $this->has('subtotal_money'); }
-    /** Estimated tax; null when tax can't be calculated yet. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Estimated tax. `null` when tax is enabled for the subscription but can't be calculated yet. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getTaxMoney(): MoneyValue|null { return $this->get('tax_money'); }
     public function hasTaxMoney(): bool { return $this->has('tax_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Estimated renewal total, excluding unresolved tax when tax_money is null. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }

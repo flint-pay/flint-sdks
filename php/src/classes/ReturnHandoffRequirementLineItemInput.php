@@ -3,10 +3,11 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int $quantity
+ * @property-read string $return_id
  * @property-read string $return_line_item_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnHandoffRequirementLineItemInput extends Model {
-    /** @param array{'quantity': int, 'return_line_item_id': string, ...}|object $values */
+    /** @param array{'quantity': int, 'return_id': string, 'return_line_item_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnHandoffRequirementLineItemInput')); }
     /** Whole-number quantity; fractional quantities are not supported. Format: int64.
      * @return int
@@ -14,6 +15,12 @@ final class ReturnHandoffRequirementLineItemInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
+    /** Return that owns return_line_item_id. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line the entry is about. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().

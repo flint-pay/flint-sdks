@@ -97,7 +97,7 @@ final class Bundle extends Model {
      */
     public function getModifierSet(): ModifierSet|null { return $this->get('modifier_set'); }
     public function hasModifierSet(): bool { return $this->has('modifier_set'); }
-    /** Attached modifier set. Send null on update to remove it.
+    /** ID of the modifier set attached to the bundle. `null` when no modifier set is attached.
      * @return string|null
      */
     public function getModifierSetId(): string|null { return $this->get('modifier_set_id'); }

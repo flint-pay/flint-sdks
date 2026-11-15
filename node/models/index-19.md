@@ -1,7 +1,17 @@
 [Model index](../MODELS.md)
 
-# InvoiceScheduleEntryWriteBalance to MerchantReadinessUpdatedInstalledMerchantsEvent
+# InvoiceScheduleDueWrite to MerchantBillingBalanceResponse
 
+- [InvoiceScheduleDueWrite](InvoiceScheduleDueWrite.md)
+- [InvoiceScheduleDueWriteInput](InvoiceScheduleDueWriteInput.md)
+- [InvoiceScheduleDueWriteAtIssue](InvoiceScheduleDueWriteAtIssue.md)
+- [InvoiceScheduleDueWriteAtIssueInput](InvoiceScheduleDueWriteAtIssueInput.md)
+- [InvoiceScheduleDueWriteDateInput](InvoiceScheduleDueWriteDateInput.md)
+- [InvoiceScheduleDueWriteInvoiceDueDate](InvoiceScheduleDueWriteInvoiceDueDate.md)
+- [InvoiceScheduleDueWriteInvoiceDueDateInput](InvoiceScheduleDueWriteInvoiceDueDateInput.md)
+- [InvoiceScheduleEntry](InvoiceScheduleEntry.md)
+- [InvoiceScheduleEntryWrite](InvoiceScheduleEntryWrite.md)
+- [InvoiceScheduleEntryWriteInput](InvoiceScheduleEntryWriteInput.md)
 - [InvoiceScheduleEntryWriteBalance](InvoiceScheduleEntryWriteBalance.md)
 - [InvoiceScheduleEntryWriteBalanceInput](InvoiceScheduleEntryWriteBalanceInput.md)
 - [InvoiceScheduleEntryWriteDeposit](InvoiceScheduleEntryWriteDeposit.md)
@@ -13,6 +23,7 @@
 - [InvoiceSettings](InvoiceSettings.md)
 - [InvoiceSettingsPatch](InvoiceSettingsPatch.md)
 - [InvoiceSettingsPatchInput](InvoiceSettingsPatchInput.md)
+- [InvoiceSettlementAmounts](InvoiceSettlementAmounts.md)
 - [InvoiceSnapshot](InvoiceSnapshot.md)
 - [InvoiceTip](InvoiceTip.md)
 - [InvoiceUpdatedInstalledMerchantsEvent](InvoiceUpdatedInstalledMerchantsEvent.md)
@@ -91,15 +102,4 @@
 - [MerchantBillingBalance](MerchantBillingBalance.md)
 - [MerchantBillingBalanceListResponse](MerchantBillingBalanceListResponse.md)
 - [MerchantBillingBalanceResponse](MerchantBillingBalanceResponse.md)
-- [MerchantBillingBalanceUpdatedEvent](MerchantBillingBalanceUpdatedEvent.md)
-- [MerchantBillingEntry](MerchantBillingEntry.md)
-- [MerchantBillingEntryListResponse](MerchantBillingEntryListResponse.md)
-- [MerchantBillingInvoice](MerchantBillingInvoice.md)
-- [MerchantBillingInvoiceIssuedEvent](MerchantBillingInvoiceIssuedEvent.md)
-- [MerchantBillingInvoiceLineItem](MerchantBillingInvoiceLineItem.md)
-- [MerchantBillingInvoiceListResponse](MerchantBillingInvoiceListResponse.md)
-- [MerchantBillingInvoiceResponse](MerchantBillingInvoiceResponse.md)
-- [MerchantBillingInvoiceUpdatedEvent](MerchantBillingInvoiceUpdatedEvent.md)
-- [MerchantReadiness](MerchantReadiness.md)
-- [MerchantReadinessUpdatedInstalledMerchantsEvent](MerchantReadinessUpdatedInstalledMerchantsEvent.md)
 

@@ -24,7 +24,7 @@ final class CreateAPIKeyRequestReadOnlyInput extends Model {
      */
     public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** minLength: 1. maxLength: 100.
+    /** A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */

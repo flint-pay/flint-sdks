@@ -26,13 +26,13 @@ final class UpdateSubscriptionPlanLineItemInputBundleInput extends Model {
      */
     public function getAllowQuantityAdjustment(): bool { return $this->get('allow_quantity_adjustment'); }
     public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
-    /** minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+    /** ID of the catalog bundle to sell on this line. Send it with `type` bundle and without `variant_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from the bundle. Changing it on a retained line needs `modifiers`. minLength: 1. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** minLength: 1.
+    /** Description of the line. Optional on a custom line, and not allowed on a variant or bundle line, which take the catalog description. minLength: 1.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -50,13 +50,13 @@ final class UpdateSubscriptionPlanLineItemInputBundleInput extends Model {
      */
     public function getMinQuantity(): int { return $this->get('min_quantity'); }
     public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
-    /**  [] (Value): {@see OrderLineItemModifierRequestModelInput}. A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@see MetadataRequestInput}. Caller-owned metadata for this selection, returned on the order line item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. [].text (Optional): {@see TextModifierRequestInput}. The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier group on an order line item. [].type (Required): string. Selects the type branch. Value enum: "catalog", "text". [].oneOf[1] (Value): {@see OrderLineItemModifierInputCatalogRequestInput}. The `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@see OrderLineItemModifierInputTextRequestInput}. The `text` variant of `OrderLineItemModifierInput`.
+    /** Modifiers for a variant or bundle line. On a new line, omit to apply the catalog item's default modifiers. On a retained line with the same variant or bundle, omit to keep its recorded choices. Changing `variant_id` or `bundle_id` requires `modifiers`. Not allowed on a custom line, and `null` is rejected. [] (Value): {@see OrderLineItemModifierRequestModelInput}. A modifier selection you supply on a line item: a catalog modifier by ID or a text modifier, with a quantity. [].metadata (Optional): {@see MetadataRequestInput}. Caller-owned metadata for this selection, returned on the order line item's modifier. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: 50. [].modifier_id (Optional): string. ID of the existing modifier. Treated as an opaque resource reference; accepted spellings follow resource ID validation. Its resolved price and the resulting line subtotal must satisfy the order money ceiling. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply. minLength: 1. Example: "mod_01KEZF7C00SAWDZBQJX5H0XW1S". [].order_line_item_modifier_id (Optional): string. Existing selection ID to retain during replacement. minLength: 1. pattern: ^olim_[0-9A-HJKMNP-TV-Z]{26}$. Example: "olim_01KEZF7C00YP0WSZGRAD25EB1Z". [].quantity (Optional): integer. Whole-number quantity; fractional quantities are not supported. Format: int64. [].text (Optional): {@see TextModifierRequestInput}. The text to use. Send it with a `text` modifier. Text a buyer entered for a text modifier group on an order line item. [].type (Required): string. Selects the type branch. Value enum: "catalog", "text". [].oneOf[1] (Value): {@see OrderLineItemModifierInputCatalogRequestInput}. The `catalog` variant of `OrderLineItemModifierInput`. [].oneOf[2] (Value): {@see OrderLineItemModifierInputTextRequestInput}. The `text` variant of `OrderLineItemModifierInput`.
      * @return list<array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id': string, 'order_line_item_modifier_id'?: string, 'quantity'?: int, 'text'?: TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object|array{'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'modifier_id'?: string, 'order_line_item_modifier_id'?: string, 'quantity'?: int, 'text': TextModifierRequestInput|array<array-key, mixed>|\stdClass, 'type': string}|object>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** minLength: 1.
+    /** Name of the line. Required for a custom line, and not allowed on a variant or bundle line, which take the catalog name. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -74,31 +74,31 @@ final class UpdateSubscriptionPlanLineItemInputBundleInput extends Model {
      */
     public function getSubscriptionPlanLineItemId(): string { return $this->get('subscription_plan_line_item_id'); }
     public function hasSubscriptionPlanLineItemId(): bool { return $this->has('subscription_plan_line_item_id'); }
-    /** maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** Variants a subscriber can swap this line to. Only for a variant line. At most 25, with no repeats, none equal to the line's own variant, and all from the same product. On a retained line with the same variant, omit to keep its current choices. maxItems: 25. uniqueItems: true. [] (Value): string. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return list<string>
      * @throws SdkError When swap_variant_ids is omitted; use hasSwapVariantIds() or valueOrDefault().
      */
     public function getSwapVariantIds(): array { return $this->get('swap_variant_ids'); }
     public function hasSwapVariantIds(): bool { return $this->has('swap_variant_ids'); }
-    /** A line item's tax category and whether it is taxable.
+    /** Whether the line is taxable and its tax category. A custom line needs `taxable` when it sends `tax`. Not allowed on a variant or bundle line, which take the catalog tax settings. A line item's tax category and whether it is taxable.
      * @return OrderLineItemTaxRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Value enum: "bundle".
+    /** The kind of line to keep or add. It must match the other fields: `variant` needs `variant_id`, `bundle` needs `bundle_id`, and `custom` needs `name` and `unit_price_money`. Value enum: "bundle".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of one unit, in the plan's currency. Required for a custom line, with an amount above zero, and not allowed on a variant or bundle line, which take the catalog price. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** ID of the catalog variant to sell on this line. Send it with `type` variant and without `bundle_id`, `name`, `unit_price_money`, `description`, or `tax`: Flint takes those from the variant. Changing it on a retained line needs `modifiers`. minLength: 1. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

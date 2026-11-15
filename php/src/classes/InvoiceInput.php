@@ -7,8 +7,6 @@ namespace Flint;
  * @property-read InvoiceCollectionInput|array<array-key, mixed>|\stdClass $collection
  * @property-read string $collection_block_status
  * @property-read string|\DateTimeInterface $created_at
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $credit_money
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $currently_due_money
  * @property-read array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $customer
  * @property-read string $customer_id
  * @property-read string $delivery_mode
@@ -19,45 +17,41 @@ namespace Flint;
  * @property-read string $invoice_number
  * @property-read bool $is_overdue
  * @property-read string|\DateTimeInterface $issued_at
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $late_fee_money
  * @property-read list<InvoiceLateFeeInput|array<array-key, mixed>|\stdClass> $late_fees
  * @property-read string|null $memo
  * @property-read string $merchant_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null $order
  * @property-read string $order_id
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $outstanding_money
  * @property-read string|\DateTimeInterface $paid_at
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $paid_money
  * @property-read InvoicePaymentDueInput|array<array-key, mixed>|\stdClass $payment_due
  * @property-read InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass $payment_terms_snapshot
  * @property-read string|null $po_number
+ * @property-read PricingAmountsInput|array<array-key, mixed>|\stdClass $pricing_amounts
  * @property-read string $public_url
  * @property-read string|null $recipient_email
  * @property-read string|null $reference
  * @property-read string $refund_status
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $refunded_money
  * @property-read bool $reminders_paused
  * @property-read string|\DateTimeInterface $reminders_paused_at
  * @property-read AddressInput|array<array-key, mixed>|\stdClass $remit_to_address
  * @property-read list<InvoiceScheduleEntryInput|array<array-key, mixed>|\stdClass> $schedule_entries
  * @property-read string|\DateTimeInterface|null $scheduled_issue_at
  * @property-read string|null $service_date
+ * @property-read InvoiceSettlementAmountsInput|array<array-key, mixed>|\stdClass $settlement_amounts
  * @property-read InvoiceSnapshotInput|array<array-key, mixed>|\stdClass $snapshot
  * @property-read string $status
  * @property-read string|null $subscription_id
  * @property-read list<string> $supported_actions
  * @property-read string $timezone
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $total_money
  * @property-read string|\DateTimeInterface $uncollectible_at
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * @property-read string|\DateTimeInterface $viewed_at
  * @property-read string|\DateTimeInterface $voided_at
- * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $written_off_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoiceInput extends Model {
-    /** @param array{'cc_emails': list<string>, 'closed_at'?: string|\DateTimeInterface, 'collection': InvoiceCollectionInput|array<array-key, mixed>|\stdClass, 'collection_block_status': string, 'created_at': string|\DateTimeInterface, 'credit_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'currently_due_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string|\DateTimeInterface, 'late_fee_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'late_fees': list<InvoiceLateFeeInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'outstanding_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'paid_at'?: string|\DateTimeInterface, 'paid_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'payment_due': InvoicePaymentDueInput|array<array-key, mixed>|\stdClass, 'payment_terms_snapshot'?: InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass, 'po_number': string|null, 'public_url'?: string, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'reminders_paused': bool, 'reminders_paused_at'?: string|\DateTimeInterface, 'remit_to_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'schedule_entries': list<InvoiceScheduleEntryInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at': string|\DateTimeInterface|null, 'service_date': string|null, 'snapshot'?: InvoiceSnapshotInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'uncollectible_at'?: string|\DateTimeInterface, 'updated_at': string|\DateTimeInterface, 'version': int, 'viewed_at'?: string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, 'written_off_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'cc_emails': list<string>, 'closed_at'?: string|\DateTimeInterface, 'collection': InvoiceCollectionInput|array<array-key, mixed>|\stdClass, 'collection_block_status': string, 'created_at': string|\DateTimeInterface, 'customer'?: array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string|\DateTimeInterface, 'late_fees': list<InvoiceLateFeeInput|array<array-key, mixed>|\stdClass>, 'memo': string|null, 'merchant_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'paid_at'?: string|\DateTimeInterface, 'payment_due': InvoicePaymentDueInput|array<array-key, mixed>|\stdClass, 'payment_terms_snapshot'?: InvoicePaymentTermsSnapshotInput|array<array-key, mixed>|\stdClass, 'po_number': string|null, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'public_url'?: string, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'reminders_paused': bool, 'reminders_paused_at'?: string|\DateTimeInterface, 'remit_to_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'schedule_entries': list<InvoiceScheduleEntryInput|array<array-key, mixed>|\stdClass>, 'scheduled_issue_at': string|\DateTimeInterface|null, 'service_date': string|null, 'settlement_amounts': InvoiceSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'snapshot'?: InvoiceSnapshotInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'uncollectible_at'?: string|\DateTimeInterface, 'updated_at': string|\DateTimeInterface, 'version': int, 'viewed_at'?: string|\DateTimeInterface, 'voided_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceInput')); }
     /** Additional recipients copied on the invoice email and every reminder. [] (Value): string.
      * @return list<string>
@@ -89,18 +83,6 @@ final class InvoiceInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Credit note credit allocated to this invoice, minus reversed allocations. Unallocated credit isn't included. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When credit_money is omitted; use hasCreditMoney() or valueOrDefault().
-     */
-    public function getCreditMoney(): mixed { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
-    /** The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due date has started and that still has a balance, or 0 when there is none. It is the amount the next collect call or checkout session charges. To total everything overdue, add the outstanding_money of the entries whose status is overdue. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When currently_due_money is omitted; use hasCurrentlyDueMoney() or valueOrDefault().
-     */
-    public function getCurrentlyDueMoney(): mixed { return $this->get('currently_due_money'); }
-    public function hasCurrentlyDueMoney(): bool { return $this->has('currently_due_money'); }
     /** Summary of the billed customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummaryInput}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
      * @return array{'created_at'?: string|\DateTimeInterface, 'customer_id': string, 'email': string|null, 'name': string|null, 'phone': string|null, 'status': string, 'updated_at'?: string|\DateTimeInterface, ...}|object|null
      * @throws SdkError When customer is omitted; use hasCustomer() or valueOrDefault().
@@ -161,13 +143,7 @@ final class InvoiceInput extends Model {
      */
     public function getIssuedAt(): string|\DateTimeInterface { return $this->get('issued_at'); }
     public function hasIssuedAt(): bool { return $this->has('issued_at'); }
-    /** Late fees assessed after issue, minus waivers, including amounts since paid or written off. Itemized in late_fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When late_fee_money is omitted; use hasLateFeeMoney() or valueOrDefault().
-     */
-    public function getLateFeeMoney(): mixed { return $this->get('late_fee_money'); }
-    public function hasLateFeeMoney(): bool { return $this->has('late_fee_money'); }
-    /** Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. late_fee_money is their assessed total minus waivers. [] (Value): {@see InvoiceLateFeeInput}. A charge assessed because an invoice payment is overdue.
+    /** Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus waivers. [] (Value): {@see InvoiceLateFeeInput}. A charge assessed because an invoice payment is overdue.
      * @return list<InvoiceLateFeeInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When late_fees is omitted; use hasLateFees() or valueOrDefault().
      */
@@ -203,24 +179,12 @@ final class InvoiceInput extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed: total_money + late_fee_money - paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to total_money on a draft. Refunds and dispute losses don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When outstanding_money is omitted; use hasOutstandingMoney() or valueOrDefault().
-     */
-    public function getOutstandingMoney(): mixed { return $this->get('outstanding_money'); }
-    public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
     /** When the invoice most recently became paid. Cleared when status leaves paid and set again on a later paid transition. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When paid_at is omitted; use hasPaidAt() or valueOrDefault().
      */
     public function getPaidAt(): string|\DateTimeInterface { return $this->get('paid_at'); }
     public function hasPaidAt(): bool { return $this->has('paid_at'); }
-    /** Payments collected toward this invoice, online or as recorded manual payments, minus reversed payments, including payments toward late fees. Never below zero. Disputes, including losses, don't reduce it. Refunds don't reduce it; they are in refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When paid_money is omitted; use hasPaidMoney() or valueOrDefault().
-     */
-    public function getPaidMoney(): mixed { return $this->get('paid_money'); }
-    public function hasPaidMoney(): bool { return $this->has('paid_money'); }
     /** The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. The invoice due-date policy resolved at write time. The object can be sent back when updating a draft.
      * @return InvoicePaymentDueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_due is omitted; use hasPaymentDue() or valueOrDefault().
@@ -239,6 +203,12 @@ final class InvoiceInput extends Model {
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
+    /** The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in settlement_amounts.late_fee_money. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmountsInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When pricing_amounts is omitted; use hasPricingAmounts() or valueOrDefault().
+     */
+    public function getPricingAmounts(): mixed { return $this->get('pricing_amounts'); }
+    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** The hosted invoice link where the buyer views and pays the invoice. Present after issue on API reads, except a list filtered by idempotency_key; webhook payloads leave it out. regenerate-public-link replaces it. Anyone with the link can open the invoice, so treat it as a secret.
      * @return string
      * @throws SdkError When public_url is omitted; use hasPublicUrl() or valueOrDefault().
@@ -263,12 +233,6 @@ final class InvoiceInput extends Model {
      */
     public function getRefundStatus(): string { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** Money refunded to the buyer after collection. Refunds don't reopen the balance; refund_status summarizes them. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When refunded_money is omitted; use hasRefundedMoney() or valueOrDefault().
-     */
-    public function getRefundedMoney(): mixed { return $this->get('refunded_money'); }
-    public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
     /** Whether automatic reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
      * @return bool
      * @throws SdkError When reminders_paused is omitted; use hasRemindersPaused() or valueOrDefault().
@@ -305,7 +269,13 @@ final class InvoiceInput extends Model {
      */
     public function getServiceDate(): string|null { return $this->get('service_date'); }
     public function hasServiceDate(): bool { return $this->has('service_date'); }
-    /** The billing content of the invoice: line items, discounts, charges, tip, tax, and totals. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts.
+    /** Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't change it. The bill settlement amounts plus credit notes, the amount due now, and late fees. Invoice paid_money includes late-fee payments and excludes reversed payments. Refunds and dispute losses do not reopen outstanding_money or reduce paid_money. net_collected_money is paid_money minus refunded_money, never below zero. Money collected, returned, waived, and still owed on a bill.
+     * @return InvoiceSettlementAmountsInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When settlement_amounts is omitted; use hasSettlementAmounts() or valueOrDefault().
+     */
+    public function getSettlementAmounts(): mixed { return $this->get('settlement_amounts'); }
+    public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
+    /** The billing content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts.
      * @return InvoiceSnapshotInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When snapshot is omitted; use hasSnapshot() or valueOrDefault().
      */
@@ -335,12 +305,6 @@ final class InvoiceInput extends Model {
      */
     public function getTimezone(): string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** What the issued invoice bills, equal to snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order total. Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When total_money is omitted; use hasTotalMoney() or valueOrDefault().
-     */
-    public function getTotalMoney(): mixed { return $this->get('total_money'); }
-    public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice was marked uncollectible. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When uncollectible_at is omitted; use hasUncollectibleAt() or valueOrDefault().
@@ -371,10 +335,4 @@ final class InvoiceInput extends Model {
      */
     public function getVoidedAt(): string|\DateTimeInterface { return $this->get('voided_at'); }
     public function hasVoidedAt(): bool { return $this->has('voided_at'); }
-    /** The balance written off when the invoice was marked uncollectible, including unpaid late fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValueInput|array<array-key, mixed>|\stdClass
-     * @throws SdkError When written_off_money is omitted; use hasWrittenOffMoney() or valueOrDefault().
-     */
-    public function getWrittenOffMoney(): mixed { return $this->get('written_off_money'); }
-    public function hasWrittenOffMoney(): bool { return $this->has('written_off_money'); }
 }

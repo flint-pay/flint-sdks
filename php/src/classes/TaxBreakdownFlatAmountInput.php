@@ -33,7 +33,7 @@ final class TaxBreakdownFlatAmountInput extends Model {
      */
     public function getFlatMoney(): mixed { return $this->get('flat_money'); }
     public function hasFlatMoney(): bool { return $this->has('flat_money'); }
-    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+    /** ID of the delivery choice group whose delivery this row's tax covers. On a line item row, the row taxes the share of the line item that group delivers. On a charge row, it taxes that group's delivery charge. Set only on automatic tax rows outside the US, and only when delivery was chosen from a delivery quote. A delivery charge's row gets it only when the `delivery_charge_tax_basis` setting applied as the row was calculated, and a row frozen by payment or by issuing an invoice keeps the value it had. A delivery charge priced with `taxable_items_share` after its delivery choice is no longer available can carry the ID of the fulfillment that holds the charge instead. Omitted on external tax rows and on every other row. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
      * @return string
      * @throws SdkError When fulfillment_choice_group_id is omitted; use hasFulfillmentChoiceGroupId() or valueOrDefault().
      */
@@ -45,7 +45,7 @@ final class TaxBreakdownFlatAmountInput extends Model {
      */
     public function getJurisdiction(): mixed { return $this->get('jurisdiction'); }
     public function hasJurisdiction(): bool { return $this->has('jurisdiction'); }
-    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the location whose address was the seller origin for this row's tax: the location the goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for goods and charges that a fulfillment sends from one location. Separate shares of a line item can have different origin locations. Omitted when the tax was sourced from the merchant's legal origin, which covers services, goods with no fulfilling location yet, goods whose fulfillments can't be split by location, a charge whose fulfillments leave from more than one location, and every external tax row. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

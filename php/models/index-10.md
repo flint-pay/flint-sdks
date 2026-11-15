@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateEvaluationPricingInput to DisputeResponseSessionStripeInput
+# DeliveryRateEvaluationAllocationInput to DisputeNeedsResponseInstalledMerchantsEventInput
 
+- [DeliveryRateEvaluationAllocationInput](DeliveryRateEvaluationAllocationInput.md)
+- [DeliveryRateEvaluationCandidateInput](DeliveryRateEvaluationCandidateInput.md)
+- [DeliveryRateEvaluationExecutionLegInput](DeliveryRateEvaluationExecutionLegInput.md)
+- [DeliveryRateEvaluationMethodOutcomeInput](DeliveryRateEvaluationMethodOutcomeInput.md)
+- [DeliveryRateEvaluationOutcomeInput](DeliveryRateEvaluationOutcomeInput.md)
+- [DeliveryRateEvaluationOutcomeAvailableInput](DeliveryRateEvaluationOutcomeAvailableInput.md)
+- [DeliveryRateEvaluationOutcomeCannotCalculateInput](DeliveryRateEvaluationOutcomeCannotCalculateInput.md)
+- [DeliveryRateEvaluationOutcomeUnavailableInput](DeliveryRateEvaluationOutcomeUnavailableInput.md)
 - [DeliveryRateEvaluationPricingInput](DeliveryRateEvaluationPricingInput.md)
 - [DeliveryRateEvaluationRequestInput](DeliveryRateEvaluationRequestInput.md)
 - [DeliveryRateEvaluationResponseInput](DeliveryRateEvaluationResponseInput.md)
@@ -94,12 +102,4 @@
 - [DisputeLostInstalledMerchantsEventInput](DisputeLostInstalledMerchantsEventInput.md)
 - [DisputeLostMerchantEventInput](DisputeLostMerchantEventInput.md)
 - [DisputeNeedsResponseInstalledMerchantsEventInput](DisputeNeedsResponseInstalledMerchantsEventInput.md)
-- [DisputeNeedsResponseMerchantEventInput](DisputeNeedsResponseMerchantEventInput.md)
-- [DisputePreventedInstalledMerchantsEventInput](DisputePreventedInstalledMerchantsEventInput.md)
-- [DisputePreventedMerchantEventInput](DisputePreventedMerchantEventInput.md)
-- [DisputeResponseInput](DisputeResponseInput.md)
-- [DisputeResponseSessionInput](DisputeResponseSessionInput.md)
-- [DisputeResponseSessionClientSessionInput](DisputeResponseSessionClientSessionInput.md)
-- [DisputeResponseSessionResponseInput](DisputeResponseSessionResponseInput.md)
-- [DisputeResponseSessionStripeInput](DisputeResponseSessionStripeInput.md)
 

@@ -9,7 +9,7 @@ namespace Flint;
  * @property-read string|null $customer_id
  * @property-read string|null $ip_address
  * @property-read PaymentReviewResolutionFailure|null $last_resolution_failure
- * @property-read string|null $matched_risk_rule_id
+ * @property-read string $matched_risk_rule_id
  * @property-read string $opened_at
  * @property-read string $opened_reason
  * @property-read ExpandedOrderSummary|null $order
@@ -30,9 +30,9 @@ namespace Flint;
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'closed_at': string|null, 'closed_by': mixed, 'closed_reason': string|null, 'customer'?: mixed, 'customer_id': string|null, 'ip_address': string|null, 'last_resolution_failure': mixed, 'matched_risk_rule_id': string|null, 'opened_at': string, 'opened_reason': string, 'order'?: mixed, 'order_id': string|null, 'payment_flow': string, 'payment_intent'?: mixed, 'payment_intent_id': string, 'payment_review_id': string, 'payment_summary': mixed, 'pending_action': string|null, 'refund_id': string|null, 'refunded_money': mixed, 'resolution_started_at': string|null, 'resolution_started_by': mixed, 'risk': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
+    /** @param array{'closed_at': string|null, 'closed_by': mixed, 'closed_reason': string|null, 'customer'?: mixed, 'customer_id': string|null, 'ip_address': string|null, 'last_resolution_failure': mixed, 'matched_risk_rule_id': string, 'opened_at': string, 'opened_reason': string, 'order'?: mixed, 'order_id': string|null, 'payment_flow': string, 'payment_intent'?: mixed, 'payment_intent_id': string, 'payment_review_id': string, 'payment_summary': mixed, 'pending_action': string|null, 'refund_id': string|null, 'refunded_money': mixed, 'resolution_started_at': string|null, 'resolution_started_by': mixed, 'risk': mixed, 'status': string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewReopenedInstalledMerchantsEventDataObject')); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when the review isn't closed. Format: date-time.
      * @return string|null
      */
     public function getClosedAt(): string|null { return $this->get('closed_at'); }
@@ -42,7 +42,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getClosedBy(): ResourceReference|null { return $this->get('closed_by'); }
     public function hasClosedBy(): bool { return $this->has('closed_by'); }
-    /** Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
+    /** How the review was resolved. `null` when the review isn't closed. Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
      * @return string|null
      */
     public function getClosedReason(): string|null { return $this->get('closed_reason'); }
@@ -52,12 +52,12 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getCustomer(): ExpandedCustomerSummary|null { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
-    /** customer_id
+    /** ID of the customer the payment was made for. `null` when the payment has no customer.
      * @return string|null
      */
     public function getCustomerId(): string|null { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** ip_address
+    /** The buyer's IP address recorded for the payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
      * @return string|null
      */
     public function getIpAddress(): string|null { return $this->get('ip_address'); }
@@ -67,17 +67,17 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getLastResolutionFailure(): PaymentReviewResolutionFailure|null { return $this->get('last_resolution_failure'); }
     public function hasLastResolutionFailure(): bool { return $this->has('last_resolution_failure'); }
-    /** matched_risk_rule_id
-     * @return string|null
+    /** ID of the risk rule with the review action that opened this review.
+     * @return string
      */
-    public function getMatchedRiskRuleId(): string|null { return $this->get('matched_risk_rule_id'); }
+    public function getMatchedRiskRuleId(): string { return $this->get('matched_risk_rule_id'); }
     public function hasMatchedRiskRuleId(): bool { return $this->has('matched_risk_rule_id'); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getOpenedAt(): string { return $this->get('opened_at'); }
     public function hasOpenedAt(): bool { return $this->has('opened_at'); }
-    /** Value enum: "rule".
+    /** Why Flint opened the review. Value enum: "rule".
      * @return string
      */
     public function getOpenedReason(): string { return $this->get('opened_reason'); }
@@ -87,12 +87,12 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getOrder(): ExpandedOrderSummary|null { return $this->get('order'); }
     public function hasOrder(): bool { return $this->has('order'); }
-    /** order_id
+    /** ID of the order the payment belongs to. `null` when the payment doesn't belong to an order.
      * @return string|null
      */
     public function getOrderId(): string|null { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+    /** How the reviewed payment was started. Value enum: "checkout", "payment_link", "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
      * @return string
      */
     public function getPaymentFlow(): string { return $this->get('payment_flow'); }
@@ -102,7 +102,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getPaymentIntent(): ExpandedPaymentIntentSummary|null { return $this->get('payment_intent'); }
     public function hasPaymentIntent(): bool { return $this->has('payment_intent'); }
-    /** payment_intent_id
+    /** ID of the payment intent under review.
      * @return string
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
@@ -112,7 +112,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getPaymentReviewId(): string { return $this->get('payment_review_id'); }
     public function hasPaymentReviewId(): bool { return $this->has('payment_review_id'); }
-    /** The payment details shown on a review: amount, capture method, authorization expiry, card brand and last four digits, and buyer email.
+    /** A snapshot of the payment as it was when the review opened. The payment details shown on a review: amount, capture method, authorization expiry, card brand and last four digits, and buyer email.
      * @return PaymentReviewPaymentSummary
      */
     public function getPaymentSummary(): PaymentReviewPaymentSummary { return $this->get('payment_summary'); }
@@ -122,7 +122,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getPendingAction(): string|null { return $this->get('pending_action'); }
     public function hasPendingAction(): bool { return $this->has('pending_action'); }
-    /** The refund that closed this review. Null otherwise.
+    /** The refund created when the payment was declined. It can be set while status is resolving, before the refund finishes and the review closes. `null` when no refund exists for the review, including after a decline that needed none or when the review is open.
      * @return string|null
      */
     public function getRefundId(): string|null { return $this->get('refund_id'); }
@@ -132,7 +132,7 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getRefundedMoney(): MoneyValue|null { return $this->get('refunded_money'); }
     public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** RFC3339 timestamp. `null` when nobody has started approving or declining the review and Flint hasn't started expiring it. Format: date-time.
      * @return string|null
      */
     public function getResolutionStartedAt(): string|null { return $this->get('resolution_started_at'); }
@@ -142,12 +142,12 @@ final class PaymentReviewReopenedInstalledMerchantsEventDataObject extends Model
      */
     public function getResolutionStartedBy(): ResourceReference|null { return $this->get('resolution_started_by'); }
     public function hasResolutionStartedBy(): bool { return $this->has('resolution_started_by'); }
-    /** The risk assessment shown on a review: a `level` and, when available, a numeric `score`.
+    /** The payment's risk level and score when the review opened. The risk assessment shown on a review: a `level` and, when available, a numeric `score`.
      * @return PaymentReviewRisk
      */
     public function getRisk(): PaymentReviewRisk { return $this->get('risk'); }
     public function hasRisk(): bool { return $this->has('risk'); }
-    /** Value enum: "open", "resolving", "closed".
+    /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

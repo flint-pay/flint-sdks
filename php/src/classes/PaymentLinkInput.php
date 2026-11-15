@@ -231,7 +231,7 @@ final class PaymentLinkInput extends Model {
      */
     public function getSubscriptionPlan(): mixed { return $this->get('subscription_plan'); }
     public function hasSubscriptionPlan(): bool { return $this->has('subscription_plan'); }
-    /** Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+    /** ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */

@@ -14,7 +14,7 @@ final class PaymentReviewResolutionFailureInput extends Model {
      */
     public function getFailedAt(): string|\DateTimeInterface { return $this->get('failed_at'); }
     public function hasFailedAt(): bool { return $this->has('failed_at'); }
-    /** Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+    /** ID of the refund that failed and reopened the review. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      * @return string
      * @throws SdkError When refund_id is omitted; use hasRefundId() or valueOrDefault().
      */

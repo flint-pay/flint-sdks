@@ -25,13 +25,13 @@ final class SandboxesCreateParams extends Model {
      */
     public function getInitialOnboarding(): string { return $this->get('initial_onboarding'); }
     public function hasInitialOnboarding(): bool { return $this->has('initial_onboarding'); }
-    /** issue_test_key
+    /** Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the response includes the key and its one-time `secret_key`, and `access`, `scopes`, `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns 400 NOT_ALLOWED.
      * @return bool
      * @throws SdkError When issue_test_key is omitted; use hasIssueTestKey() or valueOrDefault().
      */
     public function getIssueTestKey(): bool { return $this->get('issue_test_key'); }
     public function hasIssueTestKey(): bool { return $this->has('issue_test_key'); }
-    /** minLength: 1.
+    /** Name of the new sandbox. Required. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -49,7 +49,7 @@ final class SandboxesCreateParams extends Model {
      */
     public function getTestKeyExpiresAt(): string|\DateTimeInterface { return $this->get('test_key_expires_at'); }
     public function hasTestKeyExpiresAt(): bool { return $this->has('test_key_expires_at'); }
-    /** minLength: 1. maxLength: 100.
+    /** Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true. Defaults to the sandbox name followed by `Test Key`. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When test_key_name is omitted; use hasTestKeyName() or valueOrDefault().
      */

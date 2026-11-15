@@ -28,7 +28,7 @@ final class CreatePartnerAppCredentialWorkloadIdentityRequestInput extends Model
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** An external OIDC identity whose subject and claim conditions must match exactly the registered policy.
+    /** The external OIDC identity to register. Required when type is workload_identity and not accepted otherwise. An external OIDC identity whose subject and claim conditions must match exactly the registered policy.
      * @return PartnerAppCredentialWorkloadIdentityRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When workload_identity is omitted; use hasWorkloadIdentity() or valueOrDefault().
      */

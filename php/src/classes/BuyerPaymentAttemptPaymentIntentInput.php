@@ -39,7 +39,7 @@ final class BuyerPaymentAttemptPaymentIntentInput extends Model {
      */
     public function getCapturedMoney(): mixed { return $this->get('captured_money'); }
     public function hasCapturedMoney(): bool { return $this->has('captured_money'); }
-    /** Why a payment attempt failed: a normalized `code`, a message, when it failed, and recovery guidance.
+    /** The most recent payment error recorded on this payment, when it has a public error code. Absent when none is recorded. Why a payment attempt failed: a normalized `code`, a message, when it failed, and recovery guidance.
      * @return BuyerPaymentErrorSummaryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When last_payment_error is omitted; use hasLastPaymentError() or valueOrDefault().
      */
@@ -63,7 +63,7 @@ final class BuyerPaymentAttemptPaymentIntentInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of `amount_money` that is a tip. Zero when the payment carries no tip. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip_money is omitted; use hasTipMoney() or valueOrDefault().
      */

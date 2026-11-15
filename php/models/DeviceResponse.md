@@ -25,7 +25,7 @@ Resource, collection, or operation result returned by this request. A device reg
 | `merchant_id` | Required | string | The merchant that owns the device. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `metadata` | Optional | Map of string | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/OrderResponse.md#orderresponsedatachargesmetadata). |
 | `name` | Required | string | Name you gave the device. |
-| `status` | Required | string | Values: `"active"`, `"archived"`. |
+| `status` | Required | string | Whether the device is in use or retired. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Starts at 1 and goes up with each update and on archive. Send it as `expected_version` to apply an update only if nothing changed. Format: `uint64`. minimum: `1`. |
 

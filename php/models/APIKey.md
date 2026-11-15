@@ -13,10 +13,10 @@ Response model.
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `created_by` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Who created this key: the API key or workload identity whose credential made the request, or else the user, including through the Dashboard, a CLI login, or an onboarding session. An API key creator can belong to another mode, such as a live key that creates a sandbox key. Keys a workload token created before Flint recorded workload identity creators name the user who set up that workload identity. Filter the list with `created_by_type` and `created_by_id`. Absent when the creator is unavailable. A reference to another resource by `resource_type` and `resource_id`. `created_by`: [field definitions](../models/CreateAPIKeyResponse.md#createapikeyresponsedatacreated_by). |
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
-| `key_prefix` | Required | string |  |
+| `key_prefix` | Required | string | The start of the secret key: its `flint_` mode prefix and the first 8 characters of the random part. It identifies the key in a list without revealing the secret, which only the create response returns. |
 | `last_used_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. |
-| `name` | Required | string | maxLength: `100`. |
+| `name` | Required | string | The label the key was given, 1 to 100 characters. maxLength: `100`. |
 | `partner_app_install_id` | Required | string or null | The connected app install this key is linked to. The key is revoked when that install is revoked or loses its grant for this key's environment. Null when the key is unlinked. Never changes. pattern: `^pinst_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `revoked_at` | Optional | string | When this key was revoked, in RFC 3339 format. Present only for revoked keys. For keys revoked before revocation timestamps were recorded, this is the last update time. Format: `date-time`. |
 | `sandbox_id` | Optional | string | ID of the sandbox this resource belongs to. |

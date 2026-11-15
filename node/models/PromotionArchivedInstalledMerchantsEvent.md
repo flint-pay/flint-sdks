@@ -27,14 +27,14 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. `object`: [field definitions](../models/PromotionArchivedInstalledMerchantsEvent.md#promotionarchivedinstalledmerchantseventdataobject). |
+| `object` | Required | object and [WebhookPromotion](../models/WebhookPromotion.md#webhookpromotion) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`. `object`: [field definitions](../models/PromotionArchivedInstalledMerchantsEvent.md#promotionarchivedinstalledmerchantseventdataobject). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### PromotionArchivedInstalledMerchantsEvent.data.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `codes`.
 
-Field definitions: [shared fields](Promotion.md#promotion).
+Field definitions: [shared fields](WebhookPromotion.md#webhookpromotion).
 
 ### PromotionArchivedInstalledMerchantsEvent.data.object.metadata
 

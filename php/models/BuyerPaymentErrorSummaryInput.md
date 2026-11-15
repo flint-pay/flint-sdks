@@ -11,7 +11,7 @@ Request input.
 | `code` | Required | string | Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Values: [22 declared values](#buyerpaymenterrorsummaryinput-code-values). |
 | `failed_at` | Required | string | Time the payment attempt concluded in failure. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `message` | Required | string | Flint-authored payment failure message written for the buyer. This is stable explanatory text, not raw provider copy. |
-| `remediation` | Required | [BuyerErrorRemediationInput](../models/BuyerErrorRemediationInput.md#buyererrorremediationinput) or null | Guidance for resolving the payment failure before trying to collect again. |
+| `remediation` | Required | [BuyerErrorRemediationInput](../models/BuyerErrorRemediationInput.md#buyererrorremediationinput) | Guidance for resolving the payment failure before trying to collect again. Guidance for recovering from a payment error: whether and how to retry (`retry`), and optional next steps. |
 
 #### BuyerPaymentErrorSummaryInput code values
 

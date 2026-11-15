@@ -11,7 +11,7 @@ Full detail for one logged API request visible to the calling credential: header
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_request_log_id` | Required | string | Stable identifier of this log entry. Example: `"rlog_01KEZF7C008XJCH6BHA224X46F"`. |
-| `caller` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Who made this request. An API key, workload token, or partner app token records that API key, workload identity, or partner app installation. A Dashboard write, CLI login, or onboarding session records the user. A buyer checkout request records the checkout session. A buyer account request records the customer session. A request made with invoice access records the invoice. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`. |
+| `caller` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Who made this request. An API key, workload token, or partner app token records that API key, workload identity, or partner app installation. A Dashboard write, CLI login, or onboarding session records the user. A buyer checkout request records the checkout session. A buyer account request records the customer session. A request made with invoice access records the invoice. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`. `caller`: [field definitions](../models/APIRequestLog.md#apirequestlogcaller). |
 | `client_request_id` | Optional | string | The caller's X-Request-Id, matched exactly and case-sensitively. Absent when the caller sent none. minLength: `1`. maxLength: `128`. pattern: `^[\x21-\x7E]+$`. Example: `"checkout-1842"`. |
 | `client_trace_id` | Optional | string | The trace ID from a valid W3C traceparent, for correlation with the caller's tracing. Flint starts its own trace. Absent when no valid traceparent was sent. pattern: `^[0-9a-f]{32}$`. Example: `"0123456789abcdef0123456789abcdef"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -35,7 +35,7 @@ Full detail for one logged API request visible to the calling credential: header
 | `requested_api_version` | Optional | string | The API version Flint resolved for the request. |
 | `requested_api_version_source` | Optional | string | Where `requested_api_version` came from. Absent when Flint did not record one. Values: `"header"`, `"partner_app"`, `"merchant"`, `"current"`. |
 | `resource_id` | Optional | string | The ID of the resource the request is about, when Flint can attribute it to one. A failed create can have a `resource_type` and no ID. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resource_type` | Optional | string | The kind of resource the request is about, when Flint can attribute it to one. Example: `"order"`. Values: [153 declared values](APIRequestLog.md#apirequestlog-resource_type-values). |
+| `resource_type` | Optional | string | The kind of resource the request is about, when Flint can attribute it to one. Example: `"order"`. Values: [154 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
 | `response_body` | Optional | Alternative shapes (see declared variants) | The captured body. A JSON object or array body is returned as redacted JSON. Any other body, or a body Flint truncated or could not parse, is returned as a string. Absent when there was no body or the route does not capture bodies. Requests under /v1/me never store bodies. `response_body`: [declared alternatives](../models/APIRequestLogDetail.md#apirequestlogdetailrequest_body). |
 | `response_content_type` | Optional | string | Content-Type of the response. |
 | `retry` | Optional | string | Whether sending this request again can succeed, and how. It depends only on code and details[0].reason; the errors reference lists the value for each. Values: `"same_request"`, `"after_refresh"`, `"none"`. |
@@ -43,6 +43,10 @@ Full detail for one logged API request visible to the calling credential: header
 | `served_api_version` | Optional | string | The API version Flint used to encode the response. |
 | `status_code` | Required | integer | HTTP status Flint returned. Format: `int32`. |
 | `user_agent` | Optional | string | The User-Agent header the request sent. For a buyer-side caller it is kept for 30 days and removed when the customer is deleted. Absent when the request sent none or `caller` is absent. |
+
+### APIRequestLogDetail.caller
+
+Field definitions: [APIRequestLog.caller](../models/APIRequestLog.md#apirequestlogcaller).
 
 ### APIRequestLogDetail.request_body
 

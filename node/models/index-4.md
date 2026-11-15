@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# ChangeSubscriptionQuantityRequest to ConfirmPaymentIntentRequest
+# CategoryUpdatedMerchantEvent to CompleteReturnRequest
 
+- [CategoryUpdatedMerchantEvent](CategoryUpdatedMerchantEvent.md)
+- [ChangeMeSubscriptionPlanRequest](ChangeMeSubscriptionPlanRequest.md)
+- [ChangeMeSubscriptionPlanRequestInput](ChangeMeSubscriptionPlanRequestInput.md)
+- [ChangeMeSubscriptionQuantityRequest](ChangeMeSubscriptionQuantityRequest.md)
+- [ChangeMeSubscriptionQuantityRequestInput](ChangeMeSubscriptionQuantityRequestInput.md)
+- [ChangeSubscriptionPlanRequest](ChangeSubscriptionPlanRequest.md)
+- [ChangeSubscriptionPlanRequestInput](ChangeSubscriptionPlanRequestInput.md)
 - [ChangeSubscriptionQuantityRequest](ChangeSubscriptionQuantityRequest.md)
 - [ChangeSubscriptionQuantityRequestInput](ChangeSubscriptionQuantityRequestInput.md)
 - [CheckInTicketRequest](CheckInTicketRequest.md)
@@ -95,11 +102,4 @@
 - [CommitInventoryReservationRequestInput](CommitInventoryReservationRequestInput.md)
 - [CompleteFulfillmentRequestInput](CompleteFulfillmentRequestInput.md)
 - [CompleteReturnRequest](CompleteReturnRequest.md)
-- [CompleteReturnRequestInput](CompleteReturnRequestInput.md)
-- [ConfigurationVersionRequestInput](ConfigurationVersionRequestInput.md)
-- [ConfirmCheckoutSessionCustomerVerificationRequestInput](ConfirmCheckoutSessionCustomerVerificationRequestInput.md)
-- [ConfirmCustomerVerificationRequestInput](ConfirmCustomerVerificationRequestInput.md)
-- [ConfirmEmailChangeRequest](ConfirmEmailChangeRequest.md)
-- [ConfirmEmailChangeRequestInput](ConfirmEmailChangeRequestInput.md)
-- [ConfirmPaymentIntentRequest](ConfirmPaymentIntentRequest.md)
 

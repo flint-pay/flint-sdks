@@ -910,7 +910,7 @@ Body model: [UpdatePartnerAppRequestInput](../models/UpdatePartnerAppRequestInpu
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -931,7 +931,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Required | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -950,7 +950,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -969,7 +969,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -988,7 +988,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -1007,7 +1007,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Required | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -1026,7 +1026,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Required | string | minLength: `1`. |
+| `api_version` | Required | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -1045,7 +1045,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -1064,7 +1064,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -1083,7 +1083,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |
@@ -1102,7 +1102,7 @@ Fields: [partnerApps.update body fields](#partnerappsupdate-body-fields).
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `api_version` | Optional | string | minLength: `1`. |
+| `api_version` | Optional | string | The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: `1`. |
 | `client_secret_enabled` | Optional | boolean | Set true to issue a client secret when secret authentication is disabled. The response returns the secret once; setting true when already enabled does not rotate or reveal it. Set false to end current and previous secrets immediately. |
 | `default_requested_permissions` | Optional | Array of string | Replaces the default requested permission IDs. Each ID must exist in the manifest. Items: minLength: `1`. |
 | `expected_api_version` | Optional | string | Apply api_version only if this matches the resource's current api_version. A mismatch returns HTTP 409. Requires api_version; null is not accepted. minLength: `1`. |

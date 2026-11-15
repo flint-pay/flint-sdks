@@ -12,7 +12,7 @@ namespace Flint;
 final class PayOrderRequestResumeInput extends Model {
     /** @param array{'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'client_action_type'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'order_payment_attempt_id': string, 'payment_return_url'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayOrderRequestResumeInput')); }
-    /** Value enum: "resume".
+    /** Continue a payment attempt after the buyer finishes its pending actions. Value enum: "resume".
      * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
@@ -36,7 +36,7 @@ final class PayOrderRequestResumeInput extends Model {
      */
     public function getExpectedOutstandingMoney(): mixed { return $this->get('expected_outstanding_money'); }
     public function hasExpectedOutstandingMoney(): bool { return $this->has('expected_outstanding_money'); }
-    /** minLength: 1. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
+    /** ID of the payment attempt to resume, prefixed `opat_`. Resume it only when its `is_resumable` is true. minLength: 1. Example: "opat_01KEZF7C00B5PW9F2R8A4YSH5D".
      * @return string
      * @throws SdkError When order_payment_attempt_id is omitted; use hasOrderPaymentAttemptId() or valueOrDefault().
      */

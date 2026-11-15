@@ -5,9 +5,6 @@ import type {
     CheckoutPaymentConfigRequestInput,
     CheckoutPrefillRequestInput,
     CheckoutPromotionConfigRequestInput,
-    CheckoutQuickPayItemRequestInput,
-    CheckoutRedirectsRequestInput,
-    CheckoutRedirects,
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
@@ -15,9 +12,12 @@ import type {
     CheckoutPromotionConfig
 } from './types-5.js';
 import type {
+    CheckoutQuickPayItemRequestInput,
+    CheckoutRedirectsRequestInput,
     CheckoutSubscriptionTermsRequestInput,
     CheckoutTaxConfigRequestInput,
     CheckoutTipConfigRequestInput,
+    CheckoutRedirects,
     CheckoutSubscriptionTermsRequest,
     CheckoutTaxConfig,
     CheckoutTipConfig
@@ -29,24 +29,20 @@ import type {
     CreateCheckoutSessionQuickPayInput,
     CreateCheckoutSessionDiscount
 } from './types-7.js';
-import type { MetadataRequestInput, MoneyValue, MoneyValueInput } from './types-38.js';
+import type { MetadataRequestInput, MetadataMap } from './types-38.js';
 import type { PlatformFeeRequestInput, PlatformFeeRequest } from './types-49.js';
-import type { ThemeConfigRequestInput, ThemeConfig } from './types-65.js';
-import type { LegalSettings } from './types-34.js';
-import type { MetadataMap } from './types-37.js';
+import type { ThemeConfigRequestInput, ThemeConfig, TaxIdentityPatch, TaxIdentityRequestInput } from './types-65.js';
+import type { LegalSettings } from './types-35.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { CreditNoteLineItemRequest, CreditNoteLineItemRequestInput } from './types-14.js';
 import type { AddressRequest, AddressRequestInput } from './types-0.js';
-import type { TaxIdentityPatch, TaxIdentityRequestInput } from './types-64.js';
-import type {
-    CustomerTaxExemptionCoverage,
-    CustomerTaxExemptionCoverageRequestInput,
-    DeliveryAddressRequest,
-    DeliveryAddressRequestInput
-} from './types-16.js';
+import type { CustomerTaxExemptionCoverage, CustomerTaxExemptionCoverageRequestInput } from './types-16.js';
 import type {
     DeliveryLocationSetConfiguration,
     DeliveryLocationSetConfigurationInput,
+    DeliveryAddressRequest,
     DeliveryBuyerLocationRequest,
+    DeliveryAddressRequestInput,
     DeliveryBuyerLocationRequestInput,
     DeliveryDistance
 } from './types-17.js';
@@ -56,26 +52,20 @@ import type {
     DeliveryMethodConfigurationRequest,
     DeliveryMethodConfigurationRequestInput,
     DeliveryMethodOriginSelectorRequest,
-    DeliveryMethodOriginSelectorRequestInput,
-    DeliveryPickupAvailabilityMaximumDistanceRequestInput
+    DeliveryMethodOriginSelectorRequestInput
 } from './types-18.js';
 import type { CreateOrderLineItemRequest, CreateOrderLineItemRequestInput } from './types-11.js';
 import type { InventoryRoutingSourceRequest, InventoryRoutingSourceRequestInput } from './types-30.js';
+import type { DeliveryPickupAvailabilityMaximumDistanceRequestInput } from './types-19.js';
 import type {
     DeliveryProfileConfigurationRequest,
     DeliveryProfileConfigurationRequestInput,
     DeliveryRateCallbackConfiguration,
     DeliveryRateCallbackConfigurationRequestInput
 } from './types-20.js';
-import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-69.js';
-import type { DeliveryRevocationTarget, DeliverySelectionInstructionsRequest } from './types-21.js';
-import type {
-    DeliverySelectionInstructionsRequestInput,
-    DeliverySelectionRecipientRequest,
-    DeliverySelectionRecipientRequestInput,
-    DeliveryZoneConfigurationRequest,
-    DeliveryZoneConfigurationRequestInput
-} from './types-22.js';
+import type { WebhookSigningMethod, WebhookSigningMethodInput } from './types-70.js';
+import type { DeliveryRevocationTarget } from './types-21.js';
+import type { DeliverySelectionInstructionsRequest, DeliverySelectionInstructionsRequestInput } from './types-22.js';
 /** The request body for: Create checkout session. */
 export type CreateCheckoutSessionRequestInput = ({
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
@@ -184,8 +174,11 @@ export type CreateCheckoutSessionRequestInput = ({
      */
     "payment_return_url"?: string;
     /**
-     * Payment settings you supply when creating a checkout session: the enabled payment options
-     * and a note shown with payment.
+     * Payment settings for this session: the payment options it offers and a note shown with them.
+     * Omit `enabled_payment_options` to use the merchant's
+     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
+     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
+     * payment options and a note shown with payment.
      */
     "payments"?: CheckoutPaymentConfigRequestInput;
     /**
@@ -264,8 +257,12 @@ export type CreateCheckoutSessionRequestInput = ({
     /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
     "subscription_plan_id"?: string;
     /**
-     * Subscription terms you set on a checkout session: billing interval, interval count, and
-     * quantity.
+     * The billing interval, quantity, and gift recipient for a `subscription_plan` session. Other
+     * types refuse it, and `null` is invalid. Omit it to use the plan's default billing interval
+     * and a quantity of 1. The billing interval must be one the plan offers in
+     * `billing_interval_options`, and the quantity one of its `quantity_options`. Subscription
+     * choices for a checkout session: billing interval, interval count, line quantities, and gift
+     * recipient.
      */
     "subscription_terms"?: CheckoutSubscriptionTermsRequestInput;
     /**
@@ -654,8 +651,11 @@ export type CreateCheckoutSessionSubscriptionPlan = ({
      */
     "payment_return_url"?: string;
     /**
-     * Payment settings you supply when creating a checkout session: the enabled payment options
-     * and a note shown with payment.
+     * Payment settings for this session: the payment options it offers and a note shown with them.
+     * Omit `enabled_payment_options` to use the merchant's
+     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
+     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
+     * payment options and a note shown with payment.
      */
     "payments"?: CheckoutPaymentConfig;
     /**
@@ -701,8 +701,12 @@ export type CreateCheckoutSessionSubscriptionPlan = ({
     /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
     "subscription_plan_id": string;
     /**
-     * Subscription terms you set on a checkout session: billing interval, interval count, and
-     * quantity.
+     * The billing interval, quantity, and gift recipient for a `subscription_plan` session. Other
+     * types refuse it, and `null` is invalid. Omit it to use the plan's default billing interval
+     * and a quantity of 1. The billing interval must be one the plan offers in
+     * `billing_interval_options`, and the quantity one of its `quantity_options`. Subscription
+     * choices for a checkout session: billing interval, interval count, line quantities, and gift
+     * recipient.
      */
     "subscription_terms"?: CheckoutSubscriptionTermsRequest;
     /**
@@ -742,7 +746,10 @@ export type CreateCheckoutSessionSubscriptionPlan = ({
     "type": "subscription_plan" | (string & {});
 })
     & (({
-    /**  require_email (Optional): boolean.  Value enum: true. */
+    /**
+     * What checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * require_email (Optional): boolean. Value enum: true.
+     */
     "buyer_fields"?: null
         | boolean
         | number
@@ -752,7 +759,17 @@ export type CreateCheckoutSessionSubscriptionPlan = ({
         /** Value enum: true. */
         "require_email"?: boolean;
     });
-    /** Value enum: "subscription_plan". */
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "subscription_plan".
+     */
     "type": "subscription_plan" | (string & {});
     /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
     "subscription_plan_id": string;
@@ -834,8 +851,11 @@ export type CreateCheckoutSessionSubscriptionPlanInput = ({
      */
     "payment_return_url"?: string;
     /**
-     * Payment settings you supply when creating a checkout session: the enabled payment options
-     * and a note shown with payment.
+     * Payment settings for this session: the payment options it offers and a note shown with them.
+     * Omit `enabled_payment_options` to use the merchant's
+     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
+     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
+     * payment options and a note shown with payment.
      */
     "payments"?: CheckoutPaymentConfigRequestInput;
     /**
@@ -881,8 +901,12 @@ export type CreateCheckoutSessionSubscriptionPlanInput = ({
     /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
     "subscription_plan_id": string;
     /**
-     * Subscription terms you set on a checkout session: billing interval, interval count, and
-     * quantity.
+     * The billing interval, quantity, and gift recipient for a `subscription_plan` session. Other
+     * types refuse it, and `null` is invalid. Omit it to use the plan's default billing interval
+     * and a quantity of 1. The billing interval must be one the plan offers in
+     * `billing_interval_options`, and the quantity one of its `quantity_options`. Subscription
+     * choices for a checkout session: billing interval, interval count, line quantities, and gift
+     * recipient.
      */
     "subscription_terms"?: CheckoutSubscriptionTermsRequestInput;
     /**
@@ -922,7 +946,10 @@ export type CreateCheckoutSessionSubscriptionPlanInput = ({
     "type": "subscription_plan";
 })
     & (({
-    /**  require_email (Optional): boolean.  Value enum: true. */
+    /**
+     * What checkout asks the buyer for. Each field you leave out uses your checkout settings.
+     * require_email (Optional): boolean. Value enum: true.
+     */
     "buyer_fields"?: null
         | boolean
         | number
@@ -932,7 +959,17 @@ export type CreateCheckoutSessionSubscriptionPlanInput = ({
         /** Value enum: true. */
         "require_email"?: true;
     });
-    /** Value enum: "subscription_plan". */
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "subscription_plan".
+     */
     "type": "subscription_plan";
     /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
     "subscription_plan_id": string;
@@ -972,7 +1009,7 @@ export type CreateCheckoutSessionSubscriptionPlanInput = ({
  * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
  * cards saved with that number; an emailed code opens only cards saved by email.
  */
-export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest = {
+export type CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest = {
     /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
     "channel"?: "email" | "sms" | "auto" | (string & {});
     /**
@@ -997,7 +1034,7 @@ export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest = {
  * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
  * cards saved with that number; an emailed code opens only cards saved by email.
  */
-export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput = {
+export type CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput = {
     /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
     "channel"?: "email" | "sms" | "auto";
     /**
@@ -1011,6 +1048,133 @@ export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput 
      */
     "purpose": "use_saved_payment_methods";
 };
+/**
+ * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
+ * number saved with the email's details, or emails a code when they have cards saved by email and
+ * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered. The response's channel says which. By email, Flint sends a code only when the email
+ * has saved details and an active card saved by email or with a number; the response is the same
+ * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
+ * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
+ * cards saved with that number; an emailed code opens only cards saved by email.
+ */
+export type CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest = {
+    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
+    "channel"?: "email" | "sms" | "auto" | (string & {});
+    /**
+     * What the buyer is confirming their email or number for. Value enum:
+     * "use_saved_payment_methods".
+     */
+    "purpose": "use_saved_payment_methods" | (string & {});
+    /**
+     * Use this remembered identity instead of email, only with purpose use_saved_payment_methods.
+     * It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern:
+     * ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token": string;
+};
+/**
+ * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
+ * number saved with the email's details, or emails a code when they have cards saved by email and
+ * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered. The response's channel says which. By email, Flint sends a code only when the email
+ * has saved details and an active card saved by email or with a number; the response is the same
+ * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
+ * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
+ * cards saved with that number; an emailed code opens only cards saved by email.
+ */
+export type CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput = {
+    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
+    "channel"?: "email" | "sms" | "auto";
+    /**
+     * What the buyer is confirming their email or number for. Value enum:
+     * "use_saved_payment_methods".
+     */
+    "purpose": "use_saved_payment_methods";
+    /**
+     * Use this remembered identity instead of email, only with purpose use_saved_payment_methods.
+     * It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern:
+     * ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token": string;
+};
+/**
+ * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
+ * number saved with the email's details, or emails a code when they have cards saved by email and
+ * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered. The response's channel says which. By email, Flint sends a code only when the email
+ * has saved details and an active card saved by email or with a number; the response is the same
+ * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
+ * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
+ * cards saved with that number; an emailed code opens only cards saved by email. Send exactly one
+ * of email or remembered_buyer_token. A token request always uses recognition's caps and masks the
+ * email, and returns not_offered when nothing is sent. With explicit email, the token has the same
+ * send eligibility and email caps as a typed email, forces a resend, and also uses recognition's
+ * network caps. With auto it keeps recognition's routing and reuse.
+ */
+export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest = ({
+    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
+    "channel"?: "email" | "sms" | "auto" | (string & {});
+    /**
+     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
+     * regard to case. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "email"?: string;
+    /**
+     * What the buyer is confirming their email or number for. Value enum:
+     * "use_saved_payment_methods".
+     */
+    "purpose": "use_saved_payment_methods" | (string & {});
+    /**
+     * Use this remembered identity instead of email, only with purpose use_saved_payment_methods.
+     * It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern:
+     * ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
+})
+    & ((Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequest & object, readonly unknown[]>)
+    | (Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequest & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/**
+ * The buyer asked to use details saved at this merchant. By auto, the default, Flint texts the
+ * number saved with the email's details, or emails a code when they have cards saved by email and
+ * no number; otherwise it sends nothing and returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered. The response's channel says which. By email, Flint sends a code only when the email
+ * has saved details and an active card saved by email or with a number; the response is the same
+ * either way. By sms, Flint texts the saved number or returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered and param channel. Auto and sms reveal whether the email has saved details; sms also
+ * reveals the number's last two digits. Always offer email alongside sms. A texted code opens only
+ * cards saved with that number; an emailed code opens only cards saved by email. Send exactly one
+ * of email or remembered_buyer_token. A token request always uses recognition's caps and masks the
+ * email, and returns not_offered when nothing is sent. With explicit email, the token has the same
+ * send eligibility and email caps as a typed email, forces a resend, and also uses recognition's
+ * network caps. With auto it keeps recognition's routing and reuse.
+ */
+export type CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput = ({
+    /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto". */
+    "channel"?: "email" | "sms" | "auto";
+    /**
+     * Email the buyer typed, with no surrounding spaces. Customers are matched by email without
+     * regard to case. Format: email. minLength: 1. maxLength: 255. Example: "buyer@example.com".
+     */
+    "email"?: string;
+    /**
+     * What the buyer is confirming their email or number for. Value enum:
+     * "use_saved_payment_methods".
+     */
+    "purpose": "use_saved_payment_methods";
+    /**
+     * Use this remembered identity instead of email, only with purpose use_saved_payment_methods.
+     * It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern:
+     * ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
+})
+    & ((Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByEmailRequestInput & object, readonly unknown[]>)
+    | (Exclude<CreateCheckoutSessionUseSavedPaymentMethodsByRememberedBuyerRequestInput & object, readonly unknown[]>));
 /** The request body for: Allocate credit note. */
 export type CreateCreditNoteAllocationRequest = {
     /**
@@ -1022,7 +1186,7 @@ export type CreateCreditNoteAllocationRequest = {
      * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
      * int64. minimum: 1.
      */
-    "expected_version"?: number;
+    "expected_credit_note_version"?: number;
 };
 /** The request body for: Allocate credit note. */
 export type CreateCreditNoteAllocationRequestInput = {
@@ -1035,7 +1199,7 @@ export type CreateCreditNoteAllocationRequestInput = {
      * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
      * int64. minimum: 1.
      */
-    "expected_version"?: number;
+    "expected_credit_note_version"?: number;
 };
 /** The request body for: Create credit note. */
 export type CreateCreditNoteRequest = {
@@ -1119,8 +1283,20 @@ export type CreateCustomDomainRequestInput = {
      */
     "type": "checkout" | "customer_account";
 };
-/** Optional destination to return to from the hosted customer account. */
-export type CreateCustomerAccessLinkRequest = {
+/** Delivery mode, link lifetime, and return destination for a customer account link. */
+export type CreateCustomerAccessLinkRequest = ({
+    /**
+     * link returns the credential for your server to relay. email asks Flint to enqueue a
+     * store-branded email to the customer's current address and returns only a delivery
+     * acknowledgement and masked recipient. Default: "link". Value enum: "link", "email".
+     */
+    "delivery"?: "link" | "email" | (string & {});
+    /**
+     * 900 (15 minutes) or 259200 (72 hours). Omission keeps 900 for link delivery; email delivery
+     * always uses 259200. Both links are single-use. An idempotent replay keeps the original
+     * expiry. Value enum: 900, 259200.
+     */
+    "expires_in_seconds"?: number;
     /**
      * Where the buyer can return to on your site. Kept for the browser session this link starts,
      * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
@@ -1129,9 +1305,30 @@ export type CreateCustomerAccessLinkRequest = {
      * "https://example.com/receipt".
      */
     "return_url"?: string;
-};
-/** Optional destination to return to from the hosted customer account. */
-export type CreateCustomerAccessLinkRequestInput = CreateCustomerAccessLinkRequest;
+});
+/** Delivery mode, link lifetime, and return destination for a customer account link. */
+export type CreateCustomerAccessLinkRequestInput = ({
+    /**
+     * link returns the credential for your server to relay. email asks Flint to enqueue a
+     * store-branded email to the customer's current address and returns only a delivery
+     * acknowledgement and masked recipient. Default: "link". Value enum: "link", "email".
+     */
+    "delivery"?: "link" | "email";
+    /**
+     * 900 (15 minutes) or 259200 (72 hours). Omission keeps 900 for link delivery; email delivery
+     * always uses 259200. Both links are single-use. An idempotent replay keeps the original
+     * expiry. Value enum: 900, 259200.
+     */
+    "expires_in_seconds"?: 900 | 259200;
+    /**
+     * Where the buyer can return to on your site. Kept for the browser session this link starts,
+     * until sign-out or session end. Absolute HTTPS URL without credentials; test mode also
+     * accepts HTTP loopback URLs. Up to 2,048 characters. Query strings and fragments are allowed.
+     * Omit it for no return destination. Format: uri. minLength: 1. maxLength: 2048. Example:
+     * "https://example.com/receipt".
+     */
+    "return_url"?: string;
+});
 /** The request body for: Create a customer address; Create an address for the current buyer. */
 export type CreateCustomerAddressRequest = {
     /**
@@ -3322,144 +3519,4 @@ export type CreateDeliverySelectionChoiceRequestInput = {
      * `instructions`.
      */
     "input"?: DeliverySelectionInstructionsRequestInput;
-};
-/** The request body for: Create delivery selection. */
-export type CreateDeliverySelectionRequest = {
-    /**
-     * One chosen option for every required choice group in the quote. Use group and option IDs
-     * from this quote, not an earlier quote. [] (Value): {@link
-     * CreateDeliverySelectionChoiceRequest}. The delivery option to select for one choice group
-     * when creating a delivery selection, with optional delivery instructions.
-     */
-    "choices": Array<CreateDeliverySelectionChoiceRequest>;
-    /**
-     * ID of the quote whose options to choose. The selection belongs to that quote's checkout
-     * session. minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
-     */
-    "delivery_quote_id": string;
-    /**
-     * Destination address for shipment or local delivery. When sent, it must be a complete
-     * address. When omitted, Flint keeps the quote's address, even when partial; missing members
-     * appear in input_requirements and must be supplied before payment. A complete postal address.
-     * State and postal_code are required for US addresses and optional for other countries. Send
-     * null or omit line2, state, and postal_code when the address has none.
-     */
-    "destination_address"?: AddressRequest;
-    /**
-     * Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no
-     * assertion, send null to assert that no selection exists, or send an ID to assert that it is
-     * current. minLength: 1. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     */
-    "expected_delivery_selection_id"?: string | null;
-    /**
-     * Requires a merchant credential with delivery-write scope. Merchant-created cart reservations
-     * to adopt atomically into the selection hold at the selected inventory items and locations.
-     * Only matching held units are released; unused units stay held, and any remaining demand uses
-     * available stock. At most 100 unique IDs. Explicit IDs, including an empty array, replace the
-     * session binding for this request. When omitted, both merchant and buyer requests use
-     * eligible session-bound holds; ineligible bound holds are silently skipped. First adopter
-     * wins when sessions share a hold. Ineligible explicit IDs are refused as not found. maxItems:
-     * 100. [] (Value): string. minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "inventory_reservation_ids"?: Array<string>;
-    /**
-     * Recipient details the chosen options ask for. Missing required fields are returned in
-     * input_requirements and must be supplied before payment. Recipient details you supply with a
-     * delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
-     */
-    "recipient"?: DeliverySelectionRecipientRequest;
-};
-/** The request body for: Create delivery selection. */
-export type CreateDeliverySelectionRequestInput = {
-    /**
-     * One chosen option for every required choice group in the quote. Use group and option IDs
-     * from this quote, not an earlier quote. [] (Value): {@link
-     * CreateDeliverySelectionChoiceRequestInput}. The delivery option to select for one choice
-     * group when creating a delivery selection, with optional delivery instructions.
-     */
-    "choices": Array<CreateDeliverySelectionChoiceRequestInput>;
-    /**
-     * ID of the quote whose options to choose. The selection belongs to that quote's checkout
-     * session. minLength: 1. Example: "dqt_01KEZF7C009EB1AVCDJBN4BBVV".
-     */
-    "delivery_quote_id": string;
-    /**
-     * Destination address for shipment or local delivery. When sent, it must be a complete
-     * address. When omitted, Flint keeps the quote's address, even when partial; missing members
-     * appear in input_requirements and must be supplied before payment. A complete postal address.
-     * State and postal_code are required for US addresses and optional for other countries. Send
-     * null or omit line2, state, and postal_code when the address has none.
-     */
-    "destination_address"?: AddressRequestInput;
-    /**
-     * Optional assertion on CheckoutSession.delivery.delivery_selection_id. Omit to make no
-     * assertion, send null to assert that no selection exists, or send an ID to assert that it is
-     * current. minLength: 1. Example: "dsel_01KEZF7C00QC35XBXVXQSCEB2D".
-     */
-    "expected_delivery_selection_id"?: string | null;
-    /**
-     * Requires a merchant credential with delivery-write scope. Merchant-created cart reservations
-     * to adopt atomically into the selection hold at the selected inventory items and locations.
-     * Only matching held units are released; unused units stay held, and any remaining demand uses
-     * available stock. At most 100 unique IDs. Explicit IDs, including an empty array, replace the
-     * session binding for this request. When omitted, both merchant and buyer requests use
-     * eligible session-bound holds; ineligible bound holds are silently skipped. First adopter
-     * wins when sessions share a hold. Ineligible explicit IDs are refused as not found. maxItems:
-     * 100. [] (Value): string. minLength: 1. Example: "invr_01KEZF7C0041ENRR0C2NF3AP12".
-     */
-    "inventory_reservation_ids"?: Array<string>;
-    /**
-     * Recipient details the chosen options ask for. Missing required fields are returned in
-     * input_requirements and must be supplied before payment. Recipient details you supply with a
-     * delivery selection or subscription delivery: optional `name`, `email`, and `phone`.
-     */
-    "recipient"?: DeliverySelectionRecipientRequestInput;
-};
-/** The request body for: Create delivery zone. */
-export type CreateDeliveryZoneRequest = {
-    /**
-     * The settings that define this resource. Changing them publishes a new revision. A reusable
-     * geographic predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "configuration": DeliveryZoneConfigurationRequest;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Merchant-facing name. minLength: 1. */
-    "name": string;
-};
-/** The request body for: Create delivery zone. */
-export type CreateDeliveryZoneRequestInput = {
-    /**
-     * The settings that define this resource. Changing them publishes a new revision. A reusable
-     * geographic predicate containing only country, state, postal_code, and radius conditions.
-     */
-    "configuration": DeliveryZoneConfigurationRequestInput;
-    /**
-     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
-     * 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Merchant-facing name. minLength: 1. */
-    "name": string;
 };

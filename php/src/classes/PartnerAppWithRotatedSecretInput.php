@@ -74,7 +74,7 @@ final class PartnerAppWithRotatedSecretInput extends Model {
      */
     public function getClientSecretEnabled(): bool { return $this->get('client_secret_enabled'); }
     public function hasClientSecretEnabled(): bool { return $this->has('client_secret_enabled'); }
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** When a client secret last authenticated the app, updated at most once an hour, so it can lag the latest use by up to an hour. `null` when no client secret use has been recorded, including for an app that authenticates only with credentials. It isn't cleared when you disable the secret. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface|null
      * @throws SdkError When client_secret_last_used_at is omitted; use hasClientSecretLastUsedAt() or valueOrDefault().
      */
@@ -158,7 +158,7 @@ final class PartnerAppWithRotatedSecretInput extends Model {
      */
     public function getRedirectUris(): array { return $this->get('redirect_uris'); }
     public function hasRedirectUris(): bool { return $this->has('redirect_uris'); }
-    /** Value enum: "active", "archived".
+    /** Where the app is in its lifecycle. Only an active app can be installed or used. Value enum: "active", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

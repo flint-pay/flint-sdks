@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# ReturnReceiptLineItemInputMatched to RotatePartnerAppSecretResponse
+# ReturnReceipt to RiskRuleResponse
 
+- [ReturnReceipt](ReturnReceipt.md)
+- [ReturnReceiptCreatedInstalledMerchantsEvent](ReturnReceiptCreatedInstalledMerchantsEvent.md)
+- [ReturnReceiptCreatedMerchantEvent](ReturnReceiptCreatedMerchantEvent.md)
+- [ReturnReceiptLineItem](ReturnReceiptLineItem.md)
+- [ReturnReceiptLineItemInputExcess](ReturnReceiptLineItemInputExcess.md)
+- [ReturnReceiptLineItemInputExcessInput](ReturnReceiptLineItemInputExcessInput.md)
 - [ReturnReceiptLineItemInputMatched](ReturnReceiptLineItemInputMatched.md)
 - [ReturnReceiptLineItemInputMatchedInput](ReturnReceiptLineItemInputMatchedInput.md)
 - [ReturnReceiptLineItemInputUnverified](ReturnReceiptLineItemInputUnverified.md)
@@ -96,10 +102,4 @@
 - [RiskRuleIssue](RiskRuleIssue.md)
 - [RiskRuleListResponse](RiskRuleListResponse.md)
 - [RiskRuleResponse](RiskRuleResponse.md)
-- [RotateGiftCardCodeRequest](RotateGiftCardCodeRequest.md)
-- [RotateGiftCardCodeRequestInput](RotateGiftCardCodeRequestInput.md)
-- [RotateGiftCardCodeResult](RotateGiftCardCodeResult.md)
-- [RotateGiftCardCodeResultResponse](RotateGiftCardCodeResultResponse.md)
-- [RotatePartnerAppSecretRequestInput](RotatePartnerAppSecretRequestInput.md)
-- [RotatePartnerAppSecretResponse](RotatePartnerAppSecretResponse.md)
 

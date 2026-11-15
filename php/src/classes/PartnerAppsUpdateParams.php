@@ -18,7 +18,7 @@ namespace Flint;
 final class PartnerAppsUpdateParams extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppsUpdateParams')); }
-    /** minLength: 1.
+    /** The API version to use for requests the app's tokens make without a Flint-Version header, as a supported release date. A retired or unknown version is rejected, and `null` is rejected. A change starts a 72-hour window in which `api_version_previous` offers a rollback. Send expected_api_version to apply the change only if the current version is the one you read. minLength: 1.
      * @return string
      * @throws SdkError When api_version is omitted; use hasApiVersion() or valueOrDefault().
      */

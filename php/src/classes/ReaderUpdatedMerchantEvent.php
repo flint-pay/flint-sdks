@@ -16,7 +16,7 @@ namespace Flint;
  * @property-read string $webhook_event_id
  * Presence-aware response; omitted optional fields return null. */
 final class ReaderUpdatedMerchantEvent extends Model {
-    /** @param array{'api_version': string, 'created_at': string, 'data': object{'object': object{'active_payment_intent_id'?: string, 'connectivity'?: mixed, 'created_at': string, 'device_id'?: string, 'is_simulated': bool, 'location_id': string, 'metadata': mixed, 'model'?: string, 'name': string, 'reader_id': string, 'serial_number'?: string, 'status': string, 'type': string, 'updated_at': string, 'version': int}, 'previous_attributes'?: \stdClass}, 'event_source': string, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': object{'id': string, 'idempotency_key'?: string}|null, 'sandbox_id'?: string, 'test': bool, 'webhook_event_id': string, ...}|object $values */
+    /** @param array{'api_version': string, 'created_at': string, 'data': object{'object': \stdClass, 'previous_attributes'?: \stdClass}, 'event_source': string, 'event_type': string, 'merchant_id': string, 'mode': string, 'payload_version': int, 'request': object{'id': string, 'idempotency_key'?: string}|null, 'sandbox_id'?: string, 'test': bool, 'webhook_event_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReaderUpdatedMerchantEvent')); }
     /** API version used to render this delivery attempt. The older of the event version and the endpoint version when the attempt runs, with default resolved to the merchant pin. Format: date.
      * @return string

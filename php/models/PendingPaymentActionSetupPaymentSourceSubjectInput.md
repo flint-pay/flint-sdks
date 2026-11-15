@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_id` | Required | string | Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
+| `payment_method_id` | Required | string | ID of the payment method being saved, which needs the buyer's authentication first. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 

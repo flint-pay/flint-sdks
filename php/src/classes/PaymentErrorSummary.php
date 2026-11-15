@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read string $code
  * @property-read string $failed_at
  * @property-read string $message
- * @property-read ErrorRemediation|null $remediation
+ * @property-read ErrorRemediation $remediation
  * Presence-aware response; omitted optional fields return null. */
 final class PaymentErrorSummary extends Model {
     /** @param array{'code': string, 'failed_at': string, 'message': string, 'remediation': mixed, ...}|object $values */
@@ -25,9 +25,9 @@ final class PaymentErrorSummary extends Model {
      */
     public function getMessage(): string { return $this->get('message'); }
     public function hasMessage(): bool { return $this->has('message'); }
-    /** Guidance for resolving the payment failure before trying to collect again. anyOf[1] (Value): {@see ErrorRemediation}. Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested actions. anyOf[2] (Value): null.
-     * @return ErrorRemediation|null
+    /** Guidance for resolving the payment failure before trying to collect again. Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested actions.
+     * @return ErrorRemediation
      */
-    public function getRemediation(): ErrorRemediation|null { return $this->get('remediation'); }
+    public function getRemediation(): ErrorRemediation { return $this->get('remediation'); }
     public function hasRemediation(): bool { return $this->has('remediation'); }
 }

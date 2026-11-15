@@ -7,12 +7,14 @@ namespace Flint;
  * @property-read list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass> $delivery_methods
  * @property-read AddressInput|array<array-key, mixed>|\stdClass $destination_address
  * @property-read string $mode
+ * @property-read list<string> $shipping_countries
+ * @property-read bool $shipping_countries_complete
  * @property-read string $subscription_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPreviewInput extends Model {
-    /** @param array{'address_verification'?: SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass, 'currency'?: string, 'delivery_methods': list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass>, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'mode': string, 'subscription_id'?: string, ...}|object $values */
+    /** @param array{'address_verification'?: SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass, 'currency'?: string, 'delivery_methods': list<SubscriptionDeliveryOptionInput|array<array-key, mixed>|\stdClass>, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'mode': string, 'shipping_countries': list<string>, 'shipping_countries_complete': bool, 'subscription_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewInput')); }
-    /** The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
+    /** How far verification of the destination address got. Omitted when no verification state applies. The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`.
      * @return SubscriptionAddressVerificationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When address_verification is omitted; use hasAddressVerification() or valueOrDefault().
      */
@@ -30,19 +32,31 @@ final class SubscriptionPreviewInput extends Model {
      */
     public function getDeliveryMethods(): array { return $this->get('delivery_methods'); }
     public function hasDeliveryMethods(): bool { return $this->has('delivery_methods'); }
-    /** A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** The destination address the delivery methods were evaluated for: the address you sent, or the saved customer address you chose. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return AddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** Value enum: "delivery_options".
+    /** The kind of subscription preview. Value enum: "delivery_options".
      * @return string
      * @throws SdkError When mode is omitted; use hasMode() or valueOrDefault().
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+    /** Sorted ISO 3166-1 alpha-2 countries potentially served by this subscription's shipping methods, based on their delivery configuration and shipping zones. Restrict a country selector with this list only when shipping_countries_complete is true. Empty when no shipping coverage is available. Other address, cart, customer and rate checks still apply. [] (Value): string.
+     * @return list<string>
+     * @throws SdkError When shipping_countries is omitted; use hasShippingCountries() or valueOrDefault().
+     */
+    public function getShippingCountries(): array { return $this->get('shipping_countries'); }
+    public function hasShippingCountries(): bool { return $this->has('shipping_countries'); }
+    /** Whether shipping_countries is safe to use as a country restriction. False when a radius without an explicit country boundary may serve addresses across a border; clients must not restrict the country selector in that case. Other address, cart, customer and rate checks still apply when true.
+     * @return bool
+     * @throws SdkError When shipping_countries_complete is omitted; use hasShippingCountriesComplete() or valueOrDefault().
+     */
+    public function getShippingCountriesComplete(): bool { return $this->get('shipping_countries_complete'); }
+    public function hasShippingCountriesComplete(): bool { return $this->has('shipping_countries_complete'); }
+    /** ID of the subscription the delivery methods were listed for. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

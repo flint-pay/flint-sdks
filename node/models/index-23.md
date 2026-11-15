@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PartnerAppResponse to PaymentLinkLineItemRequest
+# PartnerAppPlatformUsage to PaymentLinkLineItemPatchRequestInput
 
+- [PartnerAppPlatformUsage](PartnerAppPlatformUsage.md)
 - [PartnerAppResponse](PartnerAppResponse.md)
 - [PartnerAppUpdatedEvent](PartnerAppUpdatedEvent.md)
 - [PartnerAppWithRotatedSecret](PartnerAppWithRotatedSecret.md)
@@ -101,5 +102,4 @@
 - [PaymentLinkLineItemPatchInputVariantInput](PaymentLinkLineItemPatchInputVariantInput.md)
 - [PaymentLinkLineItemPatchRequest](PaymentLinkLineItemPatchRequest.md)
 - [PaymentLinkLineItemPatchRequestInput](PaymentLinkLineItemPatchRequestInput.md)
-- [PaymentLinkLineItemRequest](PaymentLinkLineItemRequest.md)
 

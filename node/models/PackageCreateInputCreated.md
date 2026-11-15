@@ -23,7 +23,7 @@ Package to create inline with its enclosing shipment or fulfillment. Set status 
 | `service_code` | Optional | string | Carrier's code for the shipping service used. minLength: `1`. |
 | `shipped_at` | Optional | string | Package handoff time. Defaults to request time. Only allowed with status shipped. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `status` | Required | string | Outbound packages can start as created or shipped. Return packages must start as created, omit items, and include return_line_items. Use mark_shipped after the buyer hands over the return package. Values: `"created"`. |
-| `status_reason` | Optional | string | minLength: `1`. |
+| `status_reason` | Optional | string | Explanation of the package's status, kept as the package's `status_reason`. At most 500 characters. `null` is the same as omitting the field. minLength: `1`. |
 | `tracking_number` | Optional | string | Carrier tracking number for the package. minLength: `1`. |
 | `tracking_url` | Optional | string | Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: `1`. |
 | `weight` | Optional | [Weight](../models/Weight.md#weight) | Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in delivery profile configuration. `weight`: [field definitions](../models/CreatePackageRequest.md#createpackagerequestweight). |

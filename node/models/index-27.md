@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ReaderResponse to ResourceTimelineImageMutationEntry
+# ReaderPaymentSourceTipInput to ResolvePaymentLinkTextModifierRequestInput
 
+- [ReaderPaymentSourceTipInput](ReaderPaymentSourceTipInput.md)
 - [ReaderResponse](ReaderResponse.md)
 - [ReaderUpdatedInstalledMerchantsEvent](ReaderUpdatedInstalledMerchantsEvent.md)
 - [ReaderUpdatedMerchantEvent](ReaderUpdatedMerchantEvent.md)
@@ -64,6 +65,10 @@
 - [ReleaseInventoryReservationRequestInput](ReleaseInventoryReservationRequestInput.md)
 - [ReleaseReturnResolutionRequest](ReleaseReturnResolutionRequest.md)
 - [ReleaseReturnResolutionRequestInput](ReleaseReturnResolutionRequestInput.md)
+- [RememberedBuyer](RememberedBuyer.md)
+- [RememberedBuyerResponse](RememberedBuyerResponse.md)
+- [RememberedBuyerTokenRequest](RememberedBuyerTokenRequest.md)
+- [RememberedBuyerTokenRequestInput](RememberedBuyerTokenRequestInput.md)
 - [RemoveDiscountsRequest](RemoveDiscountsRequest.md)
 - [RemoveDiscountsRequestInput](RemoveDiscountsRequestInput.md)
 - [RemoveSubscriptionPromotionsRequest](RemoveSubscriptionPromotionsRequest.md)
@@ -97,9 +102,4 @@
 - [ResolvePaymentLinkRequestInput](ResolvePaymentLinkRequestInput.md)
 - [ResolvePaymentLinkResponse](ResolvePaymentLinkResponse.md)
 - [ResolvePaymentLinkTextModifierRequestInput](ResolvePaymentLinkTextModifierRequestInput.md)
-- [ResourceReference](ResourceReference.md)
-- [ResourceTimeline](ResourceTimeline.md)
-- [ResourceTimelineAPIRequestEntry](ResourceTimelineAPIRequestEntry.md)
-- [ResourceTimelineEntry](ResourceTimelineEntry.md)
-- [ResourceTimelineImageMutationEntry](ResourceTimelineImageMutationEntry.md)
 

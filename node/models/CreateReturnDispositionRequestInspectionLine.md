@@ -19,6 +19,7 @@ The `Inspection line` variant of `CreateReturnDispositionRequest`.
 | `reason` | Required | string | Why the disposition was made. Values: `"inspection_result"`, `"return_policy"`, `"warehouse_override"`, `"safety_requirement"`, `"other"`. |
 | `reason_message` | Optional | string | Optional detail about `reason`, kept with the record. minLength: `1`. |
 | `replaces_return_disposition_id` | Optional | string | ID of the `failed` or `canceled` disposition this one replaces. It takes over that disposition's unused capacity. minLength: `1`. Example: `"retdsp_01KEZF7C007H87J66PH2EEK1VW"`. |
+| `return_id` | Required | string | ID of the Return the disposition belongs to. minLength: `1`. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `return_inspection_line_item_id` | Required | string | ID of the inspection line the disposition covers. Absent when it covers a receipt line. minLength: `1`. Example: `"retinli_01KEZF7C0039VC3XNJ3ZTX8PV4"`. |
 | `return_receipt_line_item_id` | Optional | string | ID of the receipt line the disposition covers. Absent when it covers an inspection line. minLength: `1`. Example: `"retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE"`. |
 

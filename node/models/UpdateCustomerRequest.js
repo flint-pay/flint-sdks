@@ -1,14 +1,14 @@
-import { d6288 as c0, d6289 as c6, d6290 as c7 } from '../descriptors/data/285.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5979 as c1, d5980 as c2 } from '../descriptors/data/269.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5895 as c3, d5896 as c4, d5894 as c5 } from '../descriptors/data/264.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d6255 as c8, d6256 as c9, d6257 as c10 } from '../descriptors/data/283.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d6277 as c11, d6278 as c12 } from '../descriptors/data/284.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5629 as c13 } from '../descriptors/data/245.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5629 as d5629 } from '../descriptors/data/245.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6328 as c0, d6329 as c7, d6330 as c8 } from '../descriptors/data/290.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6009 as c1, d6010 as c2 } from '../descriptors/data/273.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6317 as c3, d6318 as c12 } from '../descriptors/data/289.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5913 as c4, d5914 as c5, d5912 as c6 } from '../descriptors/data/267.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6286 as c9, d6287 as c10, d6288 as c11 } from '../descriptors/data/288.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5636 as c13 } from '../descriptors/data/246.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5636 as d5636 } from '../descriptors/data/246.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5629;
+const read = d5636;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["DocumentTaxIDRequest"]:c0(),["SharedCodec0"]:c1(),["SharedCodec1"]:c2(),["SharedCodec1693"]:c3(),["SharedCodec1694"]:c4(),["SharedCodec1695"]:c5(),["SharedCodec1700"]:c6(),["SharedCodec1701"]:c7(),["SharedCodec1702"]:c8(),["SharedCodec1703"]:c9(),["SharedCodec1704"]:c10(),["SharedCodec997"]:c11(),["SharedCodec998"]:c12(),["UpdateCustomerRequest"]:c13()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["DocumentTaxIDRequest"]:c0(),["SharedCodec0"]:c1(),["SharedCodec1"]:c2(),["SharedCodec1000"]:c3(),["SharedCodec1678"]:c4(),["SharedCodec1679"]:c5(),["SharedCodec1680"]:c6(),["SharedCodec1685"]:c7(),["SharedCodec1686"]:c8(),["SharedCodec1687"]:c9(),["SharedCodec1688"]:c10(),["SharedCodec1689"]:c11(),["SharedCodec999"]:c12(),["UpdateCustomerRequest"]:c13()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeUpdateCustomerRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

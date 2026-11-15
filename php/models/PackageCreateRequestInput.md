@@ -33,6 +33,7 @@ oneOf with status: "created": Package to create inline with its enclosing shipme
 - Condition: not (present(`shipped_at`)).
 - Condition: not (present(`buyer_notification_behavior`)).
 - Constraints for `status`: Values: `"created"`.
+- Constraints for `status_reason`: Explanation of the package's status, kept as the package's `status_reason`. At most 500 characters. `null` is the same as omitting the field.
 
 ### PackageCreateRequestInput variant 2: `status` = `"shipped"`
 
@@ -40,4 +41,5 @@ oneOf with status: "shipped": Package to create inline with its enclosing shipme
 
 - Condition: not (present(`return_line_items`)).
 - Constraints for `status`: Values: `"shipped"`.
+- Constraints for `status_reason`: Explanation of the package's status, kept as the package's `status_reason` and recorded as the reason on the shipped status change. At most 500 characters. `null` is the same as omitting the field.
 

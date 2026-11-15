@@ -8,12 +8,12 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $expected_outstanding_money
  * @property-read int $expected_version
  * @property-read string $payment_return_url
- * @property-read PaymentSourceCredentialTokenInput|array<array-key, mixed>|\stdClass $setup_payment_source
+ * @property-read PaymentSourceCredentialStripePaymentMethodInput|array<array-key, mixed>|\stdClass $setup_payment_source
  * Presence-aware input; omitted fields throw when accessed. */
 final class PayOrderRequestSetupInput extends Model {
-    /** @param array{'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'client_action_type'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_return_url'?: string, 'setup_payment_source': PaymentSourceCredentialTokenInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'client_action_type'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_return_url'?: string, 'setup_payment_source': PaymentSourceCredentialStripePaymentMethodInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayOrderRequestSetupInput')); }
-    /** Value enum: "setup".
+    /** Save a payment method on an order with no balance, without charging it. Value enum: "setup".
      * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
@@ -49,8 +49,8 @@ final class PayOrderRequestSetupInput extends Model {
      */
     public function getPaymentReturnUrl(): string { return $this->get('payment_return_url'); }
     public function hasPaymentReturnUrl(): bool { return $this->has('payment_return_url'); }
-    /** The `token` variant of `PaymentSourceCredential`.
-     * @return PaymentSourceCredentialTokenInput|array<array-key, mixed>|\stdClass
+    /** The one-time token for the payment method to save. Nothing is charged. The `stripe_payment_method` variant of `PaymentSourceCredential`.
+     * @return PaymentSourceCredentialStripePaymentMethodInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_payment_source is omitted; use hasSetupPaymentSource() or valueOrDefault().
      */
     public function getSetupPaymentSource(): mixed { return $this->get('setup_payment_source'); }

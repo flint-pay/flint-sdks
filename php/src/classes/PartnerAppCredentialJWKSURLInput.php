@@ -14,7 +14,7 @@ final class PartnerAppCredentialJWKSURLInput extends Model {
      */
     public function getLastFetchedAt(): string|\DateTimeInterface { return $this->get('last_fetched_at'); }
     public function hasLastFetchedAt(): bool { return $this->has('last_fetched_at'); }
-    /** url
+    /** The registered HTTPS URL of the JSON Web Key Set Flint fetches to verify the app's client assertions.
      * @return string
      * @throws SdkError When url is omitted; use hasUrl() or valueOrDefault().
      */

@@ -1,16 +1,531 @@
 import type { InputValue } from '../runtime.js';
 import type {
+    CancelSubscriptionRequestInput,
+    ChangeSubscriptionPlanRequestInput,
+    ChangeSubscriptionQuantityRequestInput
+} from './types-5.js';
+import type { CreateSubscriptionAccessLinkRequestInput, CreateSubscriptionLineItemRequestInput } from './types-13.js';
+import type {
+    CreateSubscriptionRequestInput,
+    CreateTaxCalculationCallbackRequestInput,
+    CreateTaxRegistrationRequestInput
+} from './types-14.js';
+import type { FilesCompleteParams } from './types-24.js';
+import type { DisputesAcceptParams, DisconnectTaxConnectionRequestInput } from './types-23.js';
+import type { CustomersListAddressesParams } from './types-16.js';
+import type { CreditNotesListAllocationsParams } from './types-15.js';
+import type { PauseSubscriptionRequestInput } from './types-44.js';
+import type { RemoveSubscriptionPromotionsRequestInput, RenewSubscriptionRequestInput } from './types-53.js';
+import type { InvoicesMarkUncollectibleParams } from './types-34.js';
+import type { SkipSubscriptionCycleRequestInput } from './types-60.js';
+import type {
+    UpdateSubscriptionLineItemRequestInput,
     UpdateSubscriptionRequestInput,
-    UpdateTaxCalculationCallbackRequestInput,
-    UpdateTaxRegistrationRequestInput
+    UpdateTaxCalculationCallbackRequestInput
 } from './types-68.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { MerchantWebhookEnvelope } from './types-37.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type {
+    TaxJurisdiction,
+    TaxJurisdictionRequestModelInput,
+    TaxJurisdictionRequestInput,
+    TaxConnectionSellerAttestation,
+    TaxCountryCoverage,
+    TaxDisclosureStatement
+} from './types-65.js';
+import type { MerchantWebhookEnvelope } from './types-38.js';
 import type { ResponseMeta } from './types-54.js';
-import type { CreateTaxCalculationCallbackRequestInput, CreateTaxRegistrationRequestInput } from './types-14.js';
-import type { Address, AddressRequest, AddressRequestInput } from './types-0.js';
+import type { Address } from './types-0.js';
 import type { ConnectTaxConnectionRequestInput } from './types-7.js';
-import type { DisconnectTaxConnectionRequestInput, DocumentTaxID, DocumentTaxIDRequestInput } from './types-23.js';
+export type SubscriptionsCancelParams = (InputValue<CancelSubscriptionRequestInput>
+    | {
+    "cancel_immediately"?: never;
+    "cancellation_comment"?: never;
+    "cancellation_reason_code"?: never;
+    "expected_version"?: never;
+    "initiated_by"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsChangePlanParams = (InputValue<ChangeSubscriptionPlanRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsChangeQuantityParams = (ChangeSubscriptionQuantityRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsCreateAccessLinkParams = (InputValue<CreateSubscriptionAccessLinkRequestInput>
+    | {
+    "purpose"?: never;
+    "return_url"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsCreateLineItemParams = (CreateSubscriptionLineItemRequestInput)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsCreateParams = (InputValue<CreateSubscriptionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsCreatePaymentRetryParams = FilesCompleteParams;
+export type SubscriptionsDeleteLineItemParams = {
+    /**
+     * Reject the deletion if the subscription version has changed. Format: uint64. minimum: 1.
+     * maximum: 9007199254740991.
+     */
+    "expected_version"?: InputValue<number>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsGetParams = {
+    /**
+     * Include related objects in the response. Supported expansions: customer, payment_method,
+     * subscription_plan. Expansion requires commerce.subscriptions.read plus the read scope for
+     * each expanded resource. Limits: at most 10 unique expand paths per request. [] enum:
+     * "customer", "payment_method", "subscription_plan". Value enum: "customer", "payment_method",
+     * "subscription_plan". anyOf[1] (Value): Array of string. [] enum: "customer",
+     * "payment_method", "subscription_plan". anyOf[1][] (Value): string. Value enum: "customer",
+     * "payment_method", "subscription_plan". anyOf[2] (Value): string. Value enum: "customer",
+     * "payment_method", "subscription_plan".
+     */
+    "expand"?: InputValue<("customer" | "payment_method" | "subscription_plan")
+        | readonly ("customer" | "payment_method" | "subscription_plan")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsGetPaymentRetryParams = DisputesAcceptParams;
+export type SubscriptionsListLineItemsParams = CustomersListAddressesParams;
+export type SubscriptionsListParams = {
+    /**
+     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
+     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
+     * pending resource does not prove that the operation succeeded, and an empty list does not
+     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
+     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
+     */
+    "idempotency_key"?: InputValue<string>;
+    /**
+     * Filter by where the subscription terms come from: a subscription plan or subscription
+     * offers. Values are trimmed and deduplicated in first-seen order; empty or unknown entries
+     * are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "subscription_plan", "subscription_offer". Value enum: "subscription_plan",
+     * "subscription_offer". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "subscription_plan", "subscription_offer". anyOf[1][] (Value): string. Value enum:
+     * "subscription_plan", "subscription_offer". anyOf[2] (Value): string. Value enum:
+     * "subscription_plan", "subscription_offer".
+     */
+    "terms_type"?: InputValue<("subscription_plan" | "subscription_offer")
+        | readonly ("subscription_plan" | "subscription_offer")[]>;
+    /**
+     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
+     * 100. Default: 20.
+     */
+    "page_size"?: InputValue<number>;
+    /**
+     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
+     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
+     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
+     * invalid, expired, or mismatched token returns a validation error.
+     */
+    "page_token"?: InputValue<string>;
+    /**
+     * Filter by subscription status. Values are trimmed and deduplicated in first-seen order;
+     * empty or unknown entries are rejected. Values within this filter are ORed; separate filters
+     * are ANDed. [] enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete",
+     * "scheduled". Value enum: "trialing", "active", "paused", "past_due", "canceled",
+     * "incomplete", "scheduled". anyOf[1] (Value): Array of string. minItems: 1. [] enum:
+     * "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+     * anyOf[1][] (Value): string. Value enum: "trialing", "active", "paused", "past_due",
+     * "canceled", "incomplete", "scheduled". anyOf[2] (Value): string. Value enum: "trialing",
+     * "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+     */
+    "status"?: InputValue<("trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled")
+        | readonly ("trialing" | "active" | "paused" | "past_due" | "canceled" | "incomplete" | "scheduled")[]>;
+    /**
+     * Filter by the system that supplies billing dates. Values are trimmed and deduplicated in
+     * first-seen order; empty or unknown entries are rejected. Values within this filter are ORed;
+     * separate filters are ANDed. [] enum: "flint", "external". Value enum: "flint", "external".
+     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "flint", "external". anyOf[1][]
+     * (Value): string. Value enum: "flint", "external". anyOf[2] (Value): string. Value enum:
+     * "flint", "external".
+     */
+    "billing_schedule_owner"?: InputValue<("flint" | "external") | readonly ("flint" | "external")[]>;
+    /** Filter external schedules by whether they need another billing date. */
+    "is_awaiting_billing_schedule"?: InputValue<boolean>;
+    /**
+     * When true, returns subscriptions scheduled to cancel at the end of the current period that
+     * are not yet canceled. When false, returns every other subscription.
+     */
+    "cancel_at_period_end"?: InputValue<boolean>;
+    /**
+     * Filter by Flint customer ID. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id"?: InputValue<string>;
+    /**
+     * Filter by the subscription's selected delivery method. pattern:
+     * ^dmet_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+     */
+    "delivery_method_id"?: InputValue<string>;
+    /**
+     * Filter by the reason of the current delivery_hold. Does not match upcoming delivery issues.
+     * Values are trimmed and deduplicated in first-seen order; empty or unknown entries are
+     * rejected. Values within this filter are ORed; separate filters are ANDed. [] enum:
+     * "method_unavailable", "destination_not_served", "rate_unavailable". Value enum:
+     * "method_unavailable", "destination_not_served", "rate_unavailable". anyOf[1] (Value): Array
+     * of string. minItems: 1. [] enum: "method_unavailable", "destination_not_served",
+     * "rate_unavailable". anyOf[1][] (Value): string. Value enum: "method_unavailable",
+     * "destination_not_served", "rate_unavailable". anyOf[2] (Value): string. Value enum:
+     * "method_unavailable", "destination_not_served", "rate_unavailable".
+     */
+    "hold_reason"?: InputValue<("method_unavailable" | "destination_not_served" | "rate_unavailable")
+        | readonly ("method_unavailable" | "destination_not_served" | "rate_unavailable")[]>;
+    /**
+     * Filter by Flint subscription offer ID. pattern: ^soffer_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "soffer_01KEZF7C00KAA9Y1X1KM70YFAA".
+     */
+    "subscription_offer_id"?: InputValue<string>;
+    /**
+     * Filter by Flint subscription plan ID. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * "plan_01KEZF7C004CY5ZR33XST2AASV".
+     */
+    "subscription_plan_id"?: InputValue<string>;
+    /**
+     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
+     * Example: "warehouse-1842".
+     */
+    "external_reference_id"?: InputValue<string>;
+    /**
+     * Sandbox only. Exact-match filter on `test_clock_id`. A live credential gets `403 FORBIDDEN`
+     * with reason `test_mode_required`. minLength: 1. pattern: ^tclk_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ".
+     */
+    "test_clock_id"?: InputValue<string>;
+    /**
+     * Search across subscription ID, external reference ID, customer, and plan. Text fields match
+     * any part of the value, and %, _ and \ are ordinary characters, not wildcards. IDs match from
+     * the start and need the type prefix, such as sub_01.
+     */
+    "query"?: InputValue<string>;
+    /**
+     * Field to sort by. Defaults to created_at; ties are broken by subscription_id. Default:
+     * "created_at". Value enum: "created_at", "updated_at", "next_billing_at".
+     */
+    "sort_by"?: InputValue<"created_at" | "updated_at" | "next_billing_at">;
+    /** Sort direction. Defaults to desc. Default: "desc". Value enum: "asc", "desc". */
+    "sort_direction"?: InputValue<"asc" | "desc">;
+    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "created_before"?: InputValue<string | globalThis.Date>;
+    /** Inclusive lower bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_after"?: InputValue<string | globalThis.Date>;
+    /** Exclusive upper bound on updated_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
+    "updated_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * Inclusive lower bound on next_billing_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "next_billing_after"?: InputValue<string | globalThis.Date>;
+    /**
+     * Exclusive upper bound on next_billing_at. Format: date-time. Example:
+     * "2026-03-17T14:30:00Z".
+     */
+    "next_billing_before"?: InputValue<string | globalThis.Date>;
+    /**
+     * True matches subscriptions with a delivery hold, an upcoming delivery hold, an inventory
+     * wait, or a delivery-action-required pause, plus past_due subscriptions and active or
+     * incomplete subscriptions whose billing date passed more than 24 hours ago without payment.
+     * False is the exact complement. Other filters still apply.
+     */
+    "needs_attention"?: InputValue<boolean>;
+    /**
+     * Include related objects in the response. Supported expansions: customer, payment_method,
+     * subscription_plan. Include the requested related resources using scoped batch reads for this
+     * page. Each relationship requires its existing target read scopes. Expansion changes the
+     * representation without changing pagination tokens. Limits: at most 10 unique expand paths
+     * per request. [] enum: "customer", "payment_method", "subscription_plan". Value enum:
+     * "customer", "payment_method", "subscription_plan". anyOf[1] (Value): Array of string. []
+     * enum: "customer", "payment_method", "subscription_plan". anyOf[1][] (Value): string. Value
+     * enum: "customer", "payment_method", "subscription_plan". anyOf[2] (Value): string. Value
+     * enum: "customer", "payment_method", "subscription_plan".
+     */
+    "expand"?: InputValue<("customer" | "payment_method" | "subscription_plan")
+        | readonly ("customer" | "payment_method" | "subscription_plan")[]>;
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsListPaymentRetriesParams = CreditNotesListAllocationsParams;
+export type SubscriptionsPauseParams = (InputValue<PauseSubscriptionRequestInput>
+    | {
+    "expected_version"?: never;
+    "pause_duration_cycles"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsRemovePromotionsParams = (InputValue<RemoveSubscriptionPromotionsRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsRenewParams = (InputValue<RenewSubscriptionRequestInput> | {
+    "expected_version"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsResumeParams = InvoicesMarkUncollectibleParams;
+export type SubscriptionsSkipCycleParams = (InputValue<SkipSubscriptionCycleRequestInput>
+    | {
+    "expected_version"?: never;
+    "initiated_by"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type SubscriptionsUpdateLineItemParams = (InputValue<UpdateSubscriptionLineItemRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type SubscriptionsUpdateParams = (InputValue<UpdateSubscriptionRequestInput>)
     & {
     /**
@@ -47,14 +562,32 @@ export type TaxBreakdown = ({
      * minor units plus an ISO 4217 currency code.
      */
     "flat_money"?: MoneyValue;
-    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    /**
+     * ID of the delivery choice group whose delivery this row's tax covers. On a line item row,
+     * the row taxes the share of the line item that group delivers. On a charge row, it taxes that
+     * group's delivery charge. Set only on automatic tax rows outside the US, and only when
+     * delivery was chosen from a delivery quote. A delivery charge's row gets it only when the
+     * `delivery_charge_tax_basis` setting applied as the row was calculated, and a row frozen by
+     * payment or by issuing an invoice keeps the value it had. A delivery charge priced with
+     * `taxable_items_share` after its delivery choice is no longer available can carry the ID of
+     * the fulfillment that holds the charge instead. Omitted on external tax rows and on every
+     * other row. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
     "fulfillment_choice_group_id"?: string;
     /**
      * The taxing authority this row's tax is owed to. A taxing jurisdiction with its level, such
      * as state or city, name, state, and country.
      */
     "jurisdiction": TaxJurisdiction;
-    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    /**
+     * ID of the location whose address was the seller origin for this row's tax: the location the
+     * goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for
+     * goods and charges that a fulfillment sends from one location. Separate shares of a line item
+     * can have different origin locations. Omitted when the tax was sourced from the merchant's
+     * legal origin, which covers services, goods with no fulfilling location yet, goods whose
+     * fulfillments can't be split by location, a charge whose fulfillments leave from more than
+     * one location, and every external tax row. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
     "location_id"?: string;
     /**
      * ID of the order charge this row taxes. Absent on rows for a line item or a flat order tax.
@@ -141,14 +674,32 @@ export type TaxBreakdownFlatAmount = ({
      * minor units plus an ISO 4217 currency code.
      */
     "flat_money": MoneyValue;
-    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    /**
+     * ID of the delivery choice group whose delivery this row's tax covers. On a line item row,
+     * the row taxes the share of the line item that group delivers. On a charge row, it taxes that
+     * group's delivery charge. Set only on automatic tax rows outside the US, and only when
+     * delivery was chosen from a delivery quote. A delivery charge's row gets it only when the
+     * `delivery_charge_tax_basis` setting applied as the row was calculated, and a row frozen by
+     * payment or by issuing an invoice keeps the value it had. A delivery charge priced with
+     * `taxable_items_share` after its delivery choice is no longer available can carry the ID of
+     * the fulfillment that holds the charge instead. Omitted on external tax rows and on every
+     * other row. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
     "fulfillment_choice_group_id"?: string;
     /**
      * The taxing authority this row's tax is owed to. A taxing jurisdiction with its level, such
      * as state or city, name, state, and country.
      */
     "jurisdiction": TaxJurisdiction;
-    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    /**
+     * ID of the location whose address was the seller origin for this row's tax: the location the
+     * goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for
+     * goods and charges that a fulfillment sends from one location. Separate shares of a line item
+     * can have different origin locations. Omitted when the tax was sourced from the merchant's
+     * legal origin, which covers services, goods with no fulfilling location yet, goods whose
+     * fulfillments can't be split by location, a charge whose fulfillments leave from more than
+     * one location, and every external tax row. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
     "location_id"?: string;
     /**
      * ID of the order charge this row taxes. Absent on rows for a line item or a flat order tax.
@@ -244,14 +795,32 @@ export type TaxBreakdownPercentage = ({
      * minor units plus an ISO 4217 currency code.
      */
     "flat_money"?: MoneyValue;
-    /** Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8". */
+    /**
+     * ID of the delivery choice group whose delivery this row's tax covers. On a line item row,
+     * the row taxes the share of the line item that group delivers. On a charge row, it taxes that
+     * group's delivery charge. Set only on automatic tax rows outside the US, and only when
+     * delivery was chosen from a delivery quote. A delivery charge's row gets it only when the
+     * `delivery_charge_tax_basis` setting applied as the row was calculated, and a row frozen by
+     * payment or by issuing an invoice keeps the value it had. A delivery charge priced with
+     * `taxable_items_share` after its delivery choice is no longer available can carry the ID of
+     * the fulfillment that holds the charge instead. Omitted on external tax rows and on every
+     * other row. Example: "dcgrp_01KEZF7C00KYKJQ897HWM86AT8".
+     */
     "fulfillment_choice_group_id"?: string;
     /**
      * The taxing authority this row's tax is owed to. A taxing jurisdiction with its level, such
      * as state or city, name, state, and country.
      */
     "jurisdiction": TaxJurisdiction;
-    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". */
+    /**
+     * ID of the location whose address was the seller origin for this row's tax: the location the
+     * goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for
+     * goods and charges that a fulfillment sends from one location. Separate shares of a line item
+     * can have different origin locations. Omitted when the tax was sourced from the merchant's
+     * legal origin, which covers services, goods with no fulfilling location yet, goods whose
+     * fulfillments can't be split by location, a charge whose fulfillments leave from more than
+     * one location, and every external tax row. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
     "location_id"?: string;
     /**
      * ID of the order charge this row taxes. Absent on rows for a line item or a flat order tax.
@@ -1373,470 +1942,4 @@ export type TaxConnectionListRegistrationsParams = {
         | "WV"
         | "WI"
         | "WY")[]>;
-};
-/** A response containing `TaxConnection` data. */
-export type TaxConnectionResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The environment's
-     * automatic sales tax connection. Before a record exists, identity, version and timestamps are
-     * omitted. Read-time business-detail changes and provider pauses do not advance version or
-     * send webhooks. Status_reason and supported_actions can also change with the clock as
-     * registrations end, without a version change or webhook.
-     */
-    "data": TaxConnection;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The disclosure the seller agreed to and when Flint recorded that agreement. */
-export type TaxConnectionSellerAttestation = {
-    /**
-     * When Flint recorded the seller's agreement. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z".
-     */
-    "attested_at": string;
-    /** Opaque version of the disclosure the seller agreed to. */
-    "disclosure_version": string;
-};
-export type TaxConnectionUpdateRegistrationParams = (UpdateTaxRegistrationRequestInput);
-export type TaxConnectionUpdatedEvent = ((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "coverage": Array<TaxCountryCoverage>;
-            "created_at"?: string;
-            "disclosure": TaxConnectionDisclosure;
-            "legal_address": ((Address) | (null));
-            "legal_business_name"?: string;
-            "seller_attestation": ((TaxConnectionSellerAttestation) | (null));
-            "status": "not_connected" | "provisioning" | "active" | "attention_required" | "disabled" | (string & {});
-            "status_reason": "not_offered"
-                | "onboarding_required"
-                | "tax_category_required"
-                | "registration_required"
-                | "temporarily_unavailable"
-                | "setup_incomplete"
-                | "registration_rejected"
-                | "business_details_changed"
-                | "support_required"
-                | "disconnected"
-                | "other"
-                | null
-                | (string & {})
-                | null;
-            "supported_actions": Array<"connect" | "disconnect" | (string & {})>;
-            "tax_connection_id"?: string;
-            "updated_at"?: string;
-            "version"?: number;
-        };
-        "previous_attributes"?: Partial<TaxConnection>;
-    };
-    "event_source"?: "merchant" | (string & {});
-    "event_type"?: "tax_connection.updated";
-})
-    & {
-    "event_type": "tax_connection.updated";
-});
-/** A country and the categories automatic tax can calculate there. */
-export type TaxCountryCoverage = {
-    /**
-     * all covers supported line and charge categories; digital covers digital_goods, software and
-     * saas. Canada, EU member states, GB, AU and NZ use digital, so they do not cover services,
-     * professional_services or taxable charges. Value enum: "all", "digital".
-     */
-    "category_scope": "all" | "digital" | (string & {});
-    /**
-     * ISO 3166-1 alpha-2 destination country. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$.
-     * Example: "US".
-     */
-    "country": string;
-};
-/** VAT on an issued document converted into the currency of the country whose VAT is charged. */
-export type TaxCurrencyConversion = {
-    /**
-     * ISO 4217 code of the currency the VAT is stated in: the euro or the member state's national
-     * currency in the EU, sterling in the UK. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$.
-     * Example: "USD".
-     */
-    "currency": string;
-    /**
-     * Units of currency for one unit of the invoice currency, rounded half up to at most 10
-     * decimal places. tax_money and taxable_money are calculated from this value.
-     * exclusiveMinimum: 0.
-     */
-    "exchange_rate": number;
-    /**
-     * The ECB reference day, or the first day of the month an HMRC rate covers. Format: date.
-     * Example: "2026-08-02".
-     */
-    "rate_date": string;
-    /** Who published the rate. Ignore values you don't recognize. Value enum: "ecb", "hmrc". */
-    "rate_source": "ecb" | "hmrc" | (string & {});
-    /**
-     * The document's VAT for this currency: VAT summed in the invoice currency, times
-     * exchange_rate, rounded half up to the currency's minor units. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "tax_money": MoneyValue;
-    /**
-     * The amount the VAT was charged on, converted the same way. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "taxable_money": MoneyValue;
-};
-/** The calculation an order uses when its request leaves `tax.calculation` unset. */
-export type TaxDefaultCalculation = {
-    /**
-     * Where an external order's components come from: `provided` (the default) when you send them,
-     * or `callback` when Flint asks the selected tax calculation callback. Present only with mode
-     * `external`. Value enum: "provided", "callback".
-     */
-    "components_source"?: "provided" | "callback" | (string & {});
-    /**
-     * `automatic` calculates tax through the tax connection. `external` uses tax components from
-     * `components_source`. Value enum: "automatic", "external".
-     */
-    "mode": "automatic" | "external" | (string & {});
-};
-/** The calculation an order uses when its request leaves `tax.calculation` unset. */
-export type TaxDefaultCalculationRequestInput = {
-    /**
-     * Where an external order's components come from: `provided` (the default) when you send them,
-     * or `callback` when Flint asks the selected tax calculation callback. Present only with mode
-     * `external`. Value enum: "provided", "callback".
-     */
-    "components_source"?: "provided" | "callback";
-    /**
-     * `automatic` calculates tax through the tax connection. `external` uses tax components from
-     * `components_source`. Value enum: "automatic", "external".
-     */
-    "mode": "automatic" | "external";
-};
-/** One statement of the seller disclosure. */
-export type TaxDisclosureStatement = {
-    /** Text to show the seller verbatim. */
-    "text": string;
-};
-/**
- * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify
- * IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
- * tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs
- * are an owned collection in display order; replacing the array requires the parent's
- * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or
- * omit its ID to add one.
- */
-export type TaxIdentity = {
-    /**
-     * The merchant's legal name, printed on invoices and credit notes. `null` when no legal name
-     * is set. minLength: 1. maxLength: 255.
-     */
-    "legal_name": string | null;
-    /**
-     * The merchant's registered business address, printed on invoices and credit notes. `null`
-     * when no address is set. anyOf[1] (Value): {@link Address}. A postal address. Every address
-     * has country. Addresses Flint checked as complete (customer and saved addresses, merchant,
-     * location, invoice, order delivery destination, tax identity, fulfillment recipient and
-     * pickup addresses) always have line1 and city, and US ones always have state and postal_code.
-     * Delivery quote destinations, buyer locations and postal-code tax locations hold only what
-     * was provided, such as postal_code and country. anyOf[2] (Value): null.
-     */
-    "registered_address": ((Address) | (null));
-    /**
-     * Tax IDs printed on invoices and credit notes, in display order. Empty when none are set.
-     * maxItems: 20. [] (Value): {@link DocumentTaxID}. A tax identifier printed on documents, with
-     * its country, optional region, identifier type, and value. Flint does not verify the value.
-     */
-    "tax_ids": Array<DocumentTaxID>;
-};
-/**
- * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify
- * IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
- * tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs
- * are an owned collection in display order; replacing the array requires the parent's
- * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or
- * omit its ID to add one.
- */
-export type TaxIdentityPatch = {
-    /**
-     * The merchant's legal name, printed on invoices and credit notes. minLength: 1. maxLength:
-     * 255.
-     */
-    "legal_name"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. The merchant's registered business
-     * address, printed on invoices and credit notes. anyOf[1] (Value): {@link AddressRequest}. A
-     * complete postal address. State and postal_code are required for US addresses and optional
-     * for other countries. Send null or omit line2, state, and postal_code when the address has
-     * none. anyOf[2] (Value): null.
-     */
-    "registered_address"?: ((AddressRequest) | (null));
-    /**
-     * Tax IDs printed on invoices and credit notes, in display order. The list you send replaces
-     * the stored one: keep an entry by sending its `document_tax_id`, add one by omitting it, and
-     * remove one by leaving the entry out. Send `[]` to remove every tax ID. maxItems: 20. []
-     * (Value): {@link DocumentTaxID}. A tax identifier printed on documents, with its country,
-     * optional region, identifier type, and value. Flint does not verify the value.
-     */
-    "tax_ids"?: Array<DocumentTaxID>;
-};
-/**
- * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify
- * IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
- * tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs
- * are an owned collection in display order; replacing the array requires the parent's
- * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or
- * omit its ID to add one.
- */
-export type TaxIdentityPatchInput = {
-    /**
-     * The merchant's legal name, printed on invoices and credit notes. minLength: 1. maxLength:
-     * 255.
-     */
-    "legal_name"?: string | null;
-    /**
-     * Replaced as a whole: send every field you want to keep. The merchant's registered business
-     * address, printed on invoices and credit notes. anyOf[1] (Value): {@link
-     * AddressRequestInput}. A complete postal address. State and postal_code are required for US
-     * addresses and optional for other countries. Send null or omit line2, state, and postal_code
-     * when the address has none. anyOf[2] (Value): null.
-     */
-    "registered_address"?: ((AddressRequestInput) | (null));
-    /**
-     * Tax IDs printed on invoices and credit notes, in display order. The list you send replaces
-     * the stored one: keep an entry by sending its `document_tax_id`, add one by omitting it, and
-     * remove one by leaving the entry out. Send `[]` to remove every tax ID. maxItems: 20. []
-     * (Value): {@link DocumentTaxIDRequestInput}. A tax identifier printed on documents, with its
-     * country, optional region, identifier type, and value. Flint does not verify the value.
-     */
-    "tax_ids"?: Array<DocumentTaxIDRequestInput>;
-};
-/**
- * Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify
- * IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its
- * tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs
- * are an owned collection in display order; replacing the array requires the parent's
- * expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or
- * omit its ID to add one.
- */
-export type TaxIdentityRequestInput = TaxIdentityPatchInput;
-/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
-export type TaxJurisdiction = {
-    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
-    "code": string;
-    /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province" | (string & {});
-    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     */
-    "state"?: string;
-};
-/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
-export type TaxJurisdictionRequestInput = {
-    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
-    "code": string;
-    /** ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province";
-    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     */
-    "state"?: string;
-};
-/** A taxing jurisdiction with its level, such as state or city, name, state, and country. */
-export type TaxJurisdictionRequestModelInput = {
-    /** Stable opaque Flint jurisdiction key used for equality and report grouping. minLength: 1. */
-    "code": string;
-    /**
-     * ISO 3166-1 alpha-2 country code. minLength: 2. maxLength: 2. pattern: ^[A-Z]{2}$. Example:
-     * "US".
-     */
-    "country": string;
-    /**
-     * The level of government that imposes the tax. Value enum: "state", "county", "city",
-     * "district", "country", "province".
-     */
-    "level": "state" | "county" | "city" | "district" | "country" | "province";
-    /** Name of the jurisdiction, up to 200 characters. minLength: 1. */
-    "name": string;
-    /**
-     * Two-letter US state at every level. Elsewhere, the ISO 3166-2 suffix (1 to 3 uppercase
-     * letters or digits), required below country level and omitted at country level. minLength: 1.
-     */
-    "state"?: string;
-};
-/**
- * An independent registration for a country and optional subdivision, with a non-overlapping date
- * window. Scheduled and ended are derived from the UTC date at read time without advancing version
- * or sending a webhook. Removed is a final DELETE snapshot and is never listed.
- */
-export type TaxRegistration = {
-    /**
-     * Country of registration: US, CA, GB, AU or NZ, or EU for a non-Union OSS registration that
-     * covers all 27 member states. Uses ISO 3166-1 alpha-2 country codes. minLength: 2. maxLength:
-     * 2. pattern: ^[A-Z]{2}$. Example: "US". Value enum: "US", "CA", "EU", "GB", "AU", "NZ".
-     */
-    "country": "US" | "CA" | "EU" | "GB" | "AU" | "NZ" | (string & {});
-    /** When this registration was saved. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * Last day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. `null` when the registration has no end date.
-     * Format: date. Example: "2026-08-02".
-     */
-    "end_date": string | null;
-    /** Last four characters of the registration number. The complete number is never returned. */
-    "registration_number_last4": string;
-    /**
-     * First day the registration applies, inclusive. Flint checks it against each sale's local
-     * date. Status and validation use the UTC date. May be up to 365 days in the future. Format:
-     * date. Example: "2026-08-02".
-     */
-    "start_date": string;
-    /**
-     * US state code or DC, or CA province BC, MB, QC or SK. Null when the registration is a
-     * Canadian federal GST/HST registration or an EU, GB, AU or NZ registration. Date windows must
-     * not overlap for the same country and state. Uses the US postal abbreviation from ISO
-     * 3166-2:US (without the US- prefix). Value enum: "BC", "MB", "QC", "SK", "AL", "AK", "AZ",
-     * "AR", "CA", "CO", "CT", "DC", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA",
-     * "ME", "MD", "MA", "MI", "MN", "MS", "MO", "NE", "NV", "NJ", "NM", "NY", "NC", "ND", "OH",
-     * "OK", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", null.
-     */
-    "state": "BC"
-        | "MB"
-        | "QC"
-        | "SK"
-        | "AL"
-        | "AK"
-        | "AZ"
-        | "AR"
-        | "CA"
-        | "CO"
-        | "CT"
-        | "DC"
-        | "FL"
-        | "GA"
-        | "HI"
-        | "ID"
-        | "IL"
-        | "IN"
-        | "IA"
-        | "KS"
-        | "KY"
-        | "LA"
-        | "ME"
-        | "MD"
-        | "MA"
-        | "MI"
-        | "MN"
-        | "MS"
-        | "MO"
-        | "NE"
-        | "NV"
-        | "NJ"
-        | "NM"
-        | "NY"
-        | "NC"
-        | "ND"
-        | "OH"
-        | "OK"
-        | "PA"
-        | "RI"
-        | "SC"
-        | "SD"
-        | "TN"
-        | "TX"
-        | "UT"
-        | "VT"
-        | "VA"
-        | "WA"
-        | "WV"
-        | "WI"
-        | "WY"
-        | null
-        | (string & {})
-        | null;
-    /**
-     * Pending until confirmed; then scheduled before start_date, active within the inclusive date
-     * window, and ended after end_date. Rejected when verification fails. Removed is returned only
-     * by DELETE in its final snapshot. Value enum: "pending", "scheduled", "active", "ended",
-     * "rejected", "removed".
-     */
-    "status": "pending" | "scheduled" | "active" | "ended" | "rejected" | "removed" | (string & {});
-    /** Flint tax registration ID. Example: "trg_01KEZF7C008JBM8XMQB3J1FK7J". */
-    "tax_registration_id": string;
-    /** When this registration last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-    /**
-     * Current resource version. Send as expected_version to reject a write based on an older
-     * version. Format: uint64. minimum: 1.
-     */
-    "version": number;
-};
-/** A page of `TaxRegistration` objects. */
-export type TaxRegistrationListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * TaxRegistration}. An independent registration for a country and optional subdivision, with a
-     * non-overlapping date window. Scheduled and ended are derived from the UTC date at read time
-     * without advancing version or sending a webhook. Removed is a final DELETE snapshot and is
-     * never listed.
-     */
-    "data": Array<TaxRegistration>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `TaxRegistration` data. */
-export type TaxRegistrationResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An independent
-     * registration for a country and optional subdivision, with a non-overlapping date window.
-     * Scheduled and ended are derived from the UTC date at read time without advancing version or
-     * sending a webhook. Removed is a final DELETE snapshot and is never listed.
-     */
-    "data": TaxRegistration;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
 };

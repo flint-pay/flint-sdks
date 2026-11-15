@@ -1,20 +1,19 @@
+import type { MetadataMap, MetadataRequestInput } from './types-38.js';
 import type { CreateProductOptionRequest, CreateProductOptionRequestInput } from './types-11.js';
 import type { ImageRequest, ImageRequestInput } from './types-28.js';
-import type { MetadataMap } from './types-37.js';
 import type {
     ProductVariantRequest,
     ProductVariantRequestInput,
     PromotionApplicationMethodRequest,
-    PromotionCodeRequest,
-    PromotionApplicationMethodRequestInput,
-    PromotionCodeRequestInput
+    PromotionApplicationMethodRequestInput
 } from './types-50.js';
-import type { MetadataRequestInput, MoneyValue, MoneyValueInput } from './types-38.js';
 import type {
+    PromotionCodeRequest,
     PromotionCombinesWithPatch,
     PromotionExclusivityRequest,
     PromotionRuleGroupRequest,
     PromotionSchedule,
+    PromotionCodeRequestInput,
     PromotionCombinesWithRequestInput,
     PromotionExclusivityRequestInput,
     PromotionRuleGroupRequestInput,
@@ -22,12 +21,15 @@ import type {
 } from './types-51.js';
 import type {
     CreateSmartReaderRequest,
-    CreateTapToPayReaderRequest,
     CreateSmartReaderRequestInput,
-    CreateTapToPayReaderRequestInput
+    CreateReturnResolutionPreviewRequestInput,
+    CreateReturnResolutionPreviewRequestStandard
 } from './types-13.js';
-import type { RefundCharge, RefundDestinations, RefundLineItem, RefundChargeInput, RefundDestinationsInput } from './types-52.js';
+import type { CreateTapToPayReaderRequest, CreateTapToPayReaderRequestInput } from './types-14.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { RefundCharge, RefundDestinations, RefundChargeInput, RefundDestinationsInput } from './types-52.js';
 import type {
+    RefundLineItem,
     RefundTaxBreakdownRefundIn,
     RefundTenderAllocationRequest,
     RefundLineItemInput,
@@ -44,14 +46,12 @@ import type {
     GetReturnPolicyResponse,
     GetReturnReasonResponse,
     GetReturnReceiptResponse
-} from './types-25.js';
+} from './types-26.js';
 import type {
     ReturnEligibilitySelection,
     ReturnEligibilitySelectionRequestInput,
     ReturnInspectionLineItemRequest,
     ReturnInspectionLineItemRequestInput,
-    ReturnPolicyRevisionRequest,
-    ReturnPolicyRevisionRequestInput,
     ReturnEligibilityPreview,
     ReturnLineItemRequest,
     ReturnLineItemRequestInput
@@ -60,17 +60,215 @@ import type {
     ReturnSourceSystemRequest,
     ReturnSourceSystemRequestInput,
     ReturnResolutionPreview,
-    ReturnResolutionLineItemRequest,
-    ReturnResolutionLineItemRequestInput
-} from './types-57.js';
-import type {
-    ReturnReceiptLineItemRequest,
-    ReturnReceiptLineItemRequestInput,
     ReturnReplacementLineItemRequest,
     ReturnResolutionAdjustmentRequest,
-    ReturnResolutionAdjustmentRequestInput,
-    ReturnReplacementLineItemRequestInput
+    ReturnResolutionLineItemRequest
+} from './types-57.js';
+import type {
+    ReturnPolicyRevisionRequest,
+    ReturnPolicyRevisionRequestInput,
+    ReturnReceiptLineItemRequest,
+    ReturnReceiptLineItemRequestInput
 } from './types-56.js';
+/**
+ * One value of a product option to create, such as a specific size, with its position and status.
+ */
+export type CreateProductOptionValueRequest = {
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
+    "value": string;
+};
+/**
+ * One value of a product option to create, such as a specific size, with its position and status.
+ */
+export type CreateProductOptionValueRequestInput = {
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Display order among the option's values, starting at zero. Defaults to the value's array
+     * index when omitted. Format: int32. minimum: 0.
+     */
+    "position"?: number;
+    /**
+     * Whether the value is active or inactive. Active variants cannot newly select an inactive
+     * value. Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Option value shown to buyers, such as Medium. minLength: 1. maxLength: 255. */
+    "value": string;
+};
+/** The request body for: Create product. */
+export type CreateProductRequest = ({
+    /**
+     * Relationship set of category handles that must already exist. Each handle has 1 to 100
+     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
+     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
+     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
+     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * The single variant to create as the product's default. Send either default_variant or both
+     * options and variants. The request body for: Create product variant.
+     */
+    "default_variant"?: ProductVariantRequest;
+    /** Description of the product shown to buyers. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequest}. An image you supply
+     * by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequest>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id"?: string | null;
+    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Options and values that distinguish this product's variants. Send with variants instead of
+     * default_variant. minItems: 1. [] (Value): {@link CreateProductOptionRequest}. A product
+     * option to create with a product, such as size, with its values, position, and status.
+     */
+    "options"?: Array<CreateProductOptionRequest>;
+    /**
+     * Kind of goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card" | (string & {});
+    /**
+     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
+     * Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive" | (string & {});
+    /** Selects the variant mode branch. Value enum: "simple", "optioned". */
+    "variant_mode": "simple" | "optioned" | (string & {});
+    /**
+     * The variants of an optioned product, sent together with `options` and without
+     * `default_variant`. Each variant selects one active value for every option. At most 100; add
+     * more later with `POST /v1/products/{product_id}/variants`. minItems: 1. maxItems: 100. []
+     * (Value): {@link ProductVariantRequest}. The request body for: Create product variant.
+     */
+    "variants"?: Array<ProductVariantRequest>;
+})
+    & ((Exclude<CreateProductRequestSimple & object, readonly unknown[]>)
+    | (Exclude<CreateProductRequestOptioned & object, readonly unknown[]>)
+    | (Record<string, unknown>));
+/** The request body for: Create product. */
+export type CreateProductRequestInput = ({
+    /**
+     * Relationship set of category handles that must already exist. Each handle has 1 to 100
+     * characters (Unicode code points). Unknown handles return RESOURCE_NOT_FOUND. Replaces the
+     * whole set when present; send [] to clear it. On PATCH, omission leaves it unchanged. Does
+     * not require expected_version. maxItems: 100. uniqueItems: true. [] (Value): string.
+     * minLength: 1. maxLength: 100. pattern: ^[a-z0-9]+(-[a-z0-9]+)*$.
+     */
+    "category_handles"?: Array<string>;
+    /**
+     * The single variant to create as the product's default. Send either default_variant or both
+     * options and variants. The request body for: Create product variant.
+     */
+    "default_variant"?: ProductVariantRequestInput;
+    /** Description of the product shown to buyers. minLength: 1. maxLength: 2048. */
+    "description"?: string;
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * The complete desired gallery in display order. The first image is primary. Send [] to clear
+     * the gallery. minItems: 0. maxItems: 8. [] (Value): {@link ImageRequestInput}. An image you
+     * supply by `source_url`, with optional `alt` text and external reference.
+     */
+    "images"?: Array<ImageRequestInput>;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Attached modifier set. Send null on update to remove it. minLength: 1. Example:
+     * "ms_01KEZF7C007EWZVVFAWVJJM8NR".
+     */
+    "modifier_set_id"?: string | null;
+    /** Product name shown to buyers. minLength: 1. maxLength: 255. */
+    "name": string;
+    /**
+     * Options and values that distinguish this product's variants. Send with variants instead of
+     * default_variant. minItems: 1. [] (Value): {@link CreateProductOptionRequestInput}. A product
+     * option to create with a product, such as size, with its values, position, and status.
+     */
+    "options"?: Array<CreateProductOptionRequestInput>;
+    /**
+     * Kind of goods or service this product represents. New variants of digital products store
+     * digital_goods when line_item_tax_category is omitted; explicit categories are preserved.
+     * Value enum: "physical", "service", "fee", "digital", "gift_card".
+     */
+    "product_type": "physical" | "service" | "fee" | "digital" | "gift_card";
+    /**
+     * Whether the product is active or inactive. An inactive product's variants cannot be sold.
+     * Default: "active". Value enum: "active", "inactive".
+     */
+    "status"?: "active" | "inactive";
+    /** Selects the variant mode branch. Value enum: "simple", "optioned". */
+    "variant_mode": "simple" | "optioned";
+    /**
+     * The variants of an optioned product, sent together with `options` and without
+     * `default_variant`. Each variant selects one active value for every option. At most 100; add
+     * more later with `POST /v1/products/{product_id}/variants`. minItems: 1. maxItems: 100. []
+     * (Value): {@link ProductVariantRequestInput}. The request body for: Create product variant.
+     */
+    "variants"?: Array<ProductVariantRequestInput>;
+})
+    & ((Exclude<CreateProductRequestSimpleInput & object, readonly unknown[]>)
+    | (Exclude<CreateProductRequestOptionedInput & object, readonly unknown[]>));
 /** The `optioned` variant of `CreateProductRequest`. */
 export type CreateProductRequestOptioned = ({
     /**
@@ -2701,6 +2899,11 @@ export type CreateReturnDispositionRequest = ({
      */
     "replaces_return_disposition_id"?: string;
     /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
      * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
      * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      */
@@ -2768,6 +2971,11 @@ export type CreateReturnDispositionRequestInput = ({
      * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      */
     "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
     /**
      * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
      * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
@@ -2842,6 +3050,11 @@ export type CreateReturnDispositionRequestInspectionLine = ({
      */
     "replaces_return_disposition_id"?: string;
     /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
      * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
      * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      */
@@ -2906,6 +3119,11 @@ export type CreateReturnDispositionRequestInspectionLineInput = ({
      * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      */
     "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
     /**
      * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
      * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
@@ -2981,6 +3199,11 @@ export type CreateReturnDispositionRequestReceiptLine = ({
      */
     "replaces_return_disposition_id"?: string;
     /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
      * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
      * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      */
@@ -3045,6 +3268,11 @@ export type CreateReturnDispositionRequestReceiptLineInput = ({
      * disposition's unused capacity. minLength: 1. Example: "retdsp_01KEZF7C007H87J66PH2EEK1VW".
      */
     "replaces_return_disposition_id"?: string;
+    /**
+     * ID of the Return the disposition belongs to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
     /**
      * ID of the inspection line the disposition covers. Absent when it covers a receipt line.
      * minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
@@ -3127,6 +3355,11 @@ export type CreateReturnInspectionRequest = {
      */
     "line_items": Array<ReturnInspectionLineItemRequest>;
     /**
+     * ID of the Return the goods belong to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
      * ID of the receipt being inspected. minLength: 1. Example:
      * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      */
@@ -3184,6 +3417,11 @@ export type CreateReturnInspectionRequestInput = {
      */
     "line_items": Array<ReturnInspectionLineItemRequestInput>;
     /**
+     * ID of the Return the goods belong to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
      * ID of the receipt being inspected. minLength: 1. Example:
      * "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      */
@@ -3217,7 +3455,10 @@ export type CreateReturnPolicyRequest = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataMap;
-    /** Name of the policy, from 1 to 255 characters. minLength: 1. */
+    /**
+     * Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace.
+     * minLength: 1.
+     */
     "name": string;
     /**
      * The revision with the complete rules. A field you leave out doesn't carry over from the
@@ -3248,7 +3489,10 @@ export type CreateReturnPolicyRequestInput = {
      * starting with flint_ are reserved for Flint. maxProperties: 50.
      */
     "metadata"?: MetadataRequestInput;
-    /** Name of the policy, from 1 to 255 characters. minLength: 1. */
+    /**
+     * Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace.
+     * minLength: 1.
+     */
     "name": string;
     /**
      * The revision with the complete rules. A field you leave out doesn't carry over from the
@@ -3583,6 +3827,11 @@ export type CreateReturnReceiptRequest = {
      */
     "receiving_location_id": string;
     /**
+     * ID of the Return the goods belong to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
+    /**
      * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
      * shipment. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      */
@@ -3638,6 +3887,11 @@ export type CreateReturnReceiptRequestInput = {
      * "loc_01KEZF7C00CMHRRYA3MV996JB2".
      */
     "receiving_location_id": string;
+    /**
+     * ID of the Return the goods belong to. minLength: 1. Example:
+     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     */
+    "return_id": string;
     /**
      * ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a
      * shipment. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
@@ -3810,232 +4064,4 @@ export type CreateReturnResolutionPreviewRequestCorrection = ({
      * minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
      */
     "corrects_return_resolution_id": string;
-}));
-/** The `correction` variant of `CreateReturnResolutionPreviewRequest`. */
-export type CreateReturnResolutionPreviewRequestCorrectionInput = ({
-    /**
-     * Fees and credits to apply to the resolution, at most 50. [] (Value): {@link
-     * ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution,
-     * with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments": Array<ReturnResolutionAdjustmentRequestInput>;
-    /**
-     * ID of the settled resolution to correct. Send only with `resolution_type: correction`.
-     * minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "corrects_return_resolution_id": string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /** What the buyer gets for the approved quantity. Value enum: "correction". */
-    "resolution_type": "correction";
-    /**
-     * ID of the Return the resolution is for. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-})
-    & (({
-    /** Fees and credits to apply to the resolution, at most 50. minItems: 1. */
-    "adjustments": unknown;
-    /** What the buyer gets for the approved quantity. Value enum: "correction". */
-    "resolution_type"?: "correction";
-    /**
-     * ID of the settled resolution to correct. Send only with `resolution_type: correction`.
-     * minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "corrects_return_resolution_id": string;
-})
-    & (({
-    "line_items"?: never;
-})
-    & ({
-    "replacement_line_items"?: never;
-})
-    & ({
-    "pricing_basis"?: never;
-})));
-/**
- * A request to preview the amounts of a return resolution for a return, selected by
- * `resolution_type`: refund, exchange, replacement, no monetary action, or correction.
- */
-export type CreateReturnResolutionPreviewRequestInput = ({
-    /**
-     * Fees and credits to apply to the resolution, at most 50. [] (Value): {@link
-     * ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution,
-     * with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
-    /**
-     * ID of the settled resolution to correct. Send only with `resolution_type: correction`.
-     * minLength: 1. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-     */
-    "corrects_return_resolution_id"?: string;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
-     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
-     * return resolution.
-     */
-    "line_items"?: Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
-     * (Value): {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a
-     * return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /**
-     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
-     * "replacement", "store_credit", "no_monetary_action", "correction".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "store_credit" | "no_monetary_action" | "correction";
-    /**
-     * ID of the Return the resolution is for. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-})
-    & ((Exclude<CreateReturnResolutionPreviewRequestStandardInput & object, readonly unknown[]>)
-    | (Exclude<CreateReturnResolutionPreviewRequestCorrectionInput & object, readonly unknown[]>));
-/**
- * The `exchange` variant of `CreateReturnResolutionPreviewRequest`. The `no_monetary_action`
- * variant of `CreateReturnResolutionPreviewRequest`. The `refund` variant of
- * `CreateReturnResolutionPreviewRequest`. The `replacement` variant of
- * `CreateReturnResolutionPreviewRequest`. The `store_credit` variant of
- * `CreateReturnResolutionPreviewRequest`.
- */
-export type CreateReturnResolutionPreviewRequestStandard = ({
-    /**
-     * Fees and credits to apply to the resolution, at most 50. [] (Value): {@link
-     * ReturnResolutionAdjustmentRequest}. A fee or credit to apply to a return resolution, with
-     * the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequest>;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
-     * {@link ReturnResolutionLineItemRequest}. A return line and quantity to include in a return
-     * resolution.
-     */
-    "line_items": Array<ReturnResolutionLineItemRequest>;
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price" | (string & {});
-    /**
-     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
-     * (Value): {@link ReturnReplacementLineItemRequest}. A replacement item to include in a return
-     * resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequest>;
-    /**
-     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", "store_credit".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit" | (string & {});
-    /**
-     * ID of the Return the resolution is for. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-})
-    & (({
-    /**
-     * Return lines and quantities to cover, up to 100. Not allowed on a correction. minItems: 1.
-     */
-    "line_items": unknown;
-    /**
-     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", "store_credit".
-     */
-    "resolution_type"?: unknown;
-}));
-/**
- * The `exchange` variant of `CreateReturnResolutionPreviewRequest`. The `no_monetary_action`
- * variant of `CreateReturnResolutionPreviewRequest`. The `refund` variant of
- * `CreateReturnResolutionPreviewRequest`. The `replacement` variant of
- * `CreateReturnResolutionPreviewRequest`. The `store_credit` variant of
- * `CreateReturnResolutionPreviewRequest`.
- */
-export type CreateReturnResolutionPreviewRequestStandardInput = ({
-    /**
-     * Fees and credits to apply to the resolution, at most 50. [] (Value): {@link
-     * ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution,
-     * with the assessed and applied amounts and whether it is applied or waived.
-     */
-    "adjustments"?: Array<ReturnResolutionAdjustmentRequestInput>;
-    /**
-     * Optional version of the parent Return. A stale value returns VERSION_CONFLICT with the
-     * Return ID and its current version. Format: int64. minimum: 1.
-     */
-    "expected_return_version"?: number;
-    /**
-     * Return lines and quantities to cover, up to 100. Not allowed on a correction. [] (Value):
-     * {@link ReturnResolutionLineItemRequestInput}. A return line and quantity to include in a
-     * return resolution.
-     */
-    "line_items": Array<ReturnResolutionLineItemRequestInput>;
-    /**
-     * Required for merchant exchange and replacement requests. original_price preserves the
-     * selected units' net paid amounts using refund allocation; current_price uses catalog prices;
-     * merchant_agreed_price uses each supplied unit_price_money. Buyer requests must omit
-     * pricing_basis: replacements use original_price; exchanges use original_price when every
-     * replacement matches selected returned merchandise by variant, bundle, or product, otherwise
-     * current_price. Value enum: "original_price", "current_price", "merchant_agreed_price".
-     */
-    "pricing_basis"?: "original_price" | "current_price" | "merchant_agreed_price";
-    /**
-     * Merchandise the buyer receives instead, up to 100. Send with `exchange` or `replacement`. []
-     * (Value): {@link ReturnReplacementLineItemRequestInput}. A replacement item to include in a
-     * return resolution, from a variant, a bundle, or a custom name and price.
-     */
-    "replacement_line_items"?: Array<ReturnReplacementLineItemRequestInput>;
-    /**
-     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", "store_credit".
-     */
-    "resolution_type": "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-    /**
-     * ID of the Return the resolution is for. minLength: 1. Example:
-     * "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     */
-    "return_id": string;
-})
-    & (({
-    /**
-     * Return lines and quantities to cover, up to 100. Not allowed on a correction. minItems: 1.
-     */
-    "line_items": unknown;
-    /**
-     * What the buyer gets for the approved quantity. Value enum: "refund", "exchange",
-     * "replacement", "no_monetary_action", "store_credit".
-     */
-    "resolution_type"?: "refund" | "exchange" | "replacement" | "no_monetary_action" | "store_credit";
-})
-    & ({
-    "corrects_return_resolution_id"?: never;
 }));

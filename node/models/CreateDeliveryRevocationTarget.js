@@ -1,9 +1,10 @@
-import { d6621 as c0, d6628 as c1, d6629 as c2, d6630 as c3, d6631 as c4 } from '../descriptors/data/303.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d6621 as d6621 } from '../descriptors/data/303.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d6661 as c0, d6668 as c1, d6669 as c2, d6670 as c3 } from '../descriptors/data/308.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6671 as c4 } from '../descriptors/data/309.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6661 as d6661 } from '../descriptors/data/308.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d6621;
+const read = d6661;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliveryRevocationTarget"]:c0(),["SharedCodec261"]:c1(),["SharedCodec262"]:c2(),["SharedCodec263"]:c3(),["SharedCodec264"]:c4()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["CreateDeliveryRevocationTarget"]:c0(),["SharedCodec255"]:c1(),["SharedCodec256"]:c2(),["SharedCodec257"]:c3(),["SharedCodec258"]:c4()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeCreateDeliveryRevocationTarget(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `client_id` | Required | string | Example: `"flint-cli"`. Values: `"flint-cli"`. |
+| `client_id` | Required | string | The public client ID, always `flint-cli`. The client has no secret: a client_secret field or an Authorization header returns invalid_client. Example: `"flint-cli"`. Values: `"flint-cli"`. |
 | `device_name` | Optional | string | Optional compatibility field for the computer name sent by released Flint CLI versions. Accepted and ignored. |
 | `merchant_id` | Optional | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `mode` | Optional | string | Environment used for this resource or request. Values: `"test"`, `"live"`. |

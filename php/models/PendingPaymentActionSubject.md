@@ -17,7 +17,7 @@ PaymentIntent that requires buyer authentication or card presentment. It can be 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_intent_id` | Required | string | Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
+| `payment_intent_id` | Required | string | ID of the payment intent that needs the buyer's action. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 
 ### PendingPaymentActionSubject.setup_payment_source
 
@@ -25,5 +25,5 @@ Future-billing payment method setup that requires buyer authentication. The paym
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `payment_method_id` | Required | string | Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
+| `payment_method_id` | Required | string | ID of the payment method being saved, which needs the buyer's authentication first. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
 

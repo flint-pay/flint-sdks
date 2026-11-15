@@ -12,7 +12,7 @@ namespace Flint;
 final class PaymentReviewPaymentSummaryInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'authorization_expires_at': string|\DateTimeInterface|null, 'capture_method': string, 'email': string, 'last4': string, 'payment_method_brand': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewPaymentSummaryInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The payment's requested amount when it was confirmed. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
@@ -24,25 +24,25 @@ final class PaymentReviewPaymentSummaryInput extends Model {
      */
     public function getAuthorizationExpiresAt(): string|\DateTimeInterface|null { return $this->get('authorization_expires_at'); }
     public function hasAuthorizationExpiresAt(): bool { return $this->has('authorization_expires_at'); }
-    /** Value enum: "automatic", "manual".
+    /** Whether the payment collects when confirmed or holds the funds for a later capture. Value enum: "automatic", "manual".
      * @return string
      * @throws SdkError When capture_method is omitted; use hasCaptureMethod() or valueOrDefault().
      */
     public function getCaptureMethod(): string { return $this->get('capture_method'); }
     public function hasCaptureMethod(): bool { return $this->has('capture_method'); }
-    /** email
+    /** The buyer's email address used for screening: the payment's receipt email, or else the email on the payment method, in lowercase. Empty when neither is known.
      * @return string
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
     public function getEmail(): string { return $this->get('email'); }
     public function hasEmail(): bool { return $this->has('email'); }
-    /** last4
+    /** Last four digits of the card number. Empty when the payment has no card details.
      * @return string
      * @throws SdkError When last4 is omitted; use hasLast4() or valueOrDefault().
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa", "unknown".
+    /** The card network, as recorded when the payment was confirmed. Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa".
      * @return string
      * @throws SdkError When payment_method_brand is omitted; use hasPaymentMethodBrand() or valueOrDefault().
      */

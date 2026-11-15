@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# SubscriptionCanceledMerchantEvent to SubscriptionPlanLineItemInputCustomInput
+# SubscriptionBillingStartInputImportedInput to SubscriptionPlanChangeScheduledMerchantEvent
 
+- [SubscriptionBillingStartInputImportedInput](SubscriptionBillingStartInputImportedInput.md)
+- [SubscriptionBillingStartInputScheduled](SubscriptionBillingStartInputScheduled.md)
+- [SubscriptionBillingStartInputScheduledInput](SubscriptionBillingStartInputScheduledInput.md)
+- [SubscriptionBillingStartRequest](SubscriptionBillingStartRequest.md)
+- [SubscriptionBillingStartRequestInput](SubscriptionBillingStartRequestInput.md)
+- [SubscriptionCanceledInstalledMerchantsEvent](SubscriptionCanceledInstalledMerchantsEvent.md)
 - [SubscriptionCanceledMerchantEvent](SubscriptionCanceledMerchantEvent.md)
 - [SubscriptionCancellationDetails](SubscriptionCancellationDetails.md)
 - [SubscriptionCancellationScheduledInstalledMerchantsEvent](SubscriptionCancellationScheduledInstalledMerchantsEvent.md)
@@ -58,6 +64,7 @@
 - [SubscriptionIntervalOptionRequestInput](SubscriptionIntervalOptionRequestInput.md)
 - [SubscriptionInventoryWait](SubscriptionInventoryWait.md)
 - [SubscriptionLineItem](SubscriptionLineItem.md)
+- [SubscriptionLineItemsListResponse](SubscriptionLineItemsListResponse.md)
 - [SubscriptionListResponse](SubscriptionListResponse.md)
 - [SubscriptionOffer](SubscriptionOffer.md)
 - [SubscriptionOfferLineItemRequest](SubscriptionOfferLineItemRequest.md)
@@ -95,11 +102,4 @@
 - [SubscriptionPlanChangeResultResponse](SubscriptionPlanChangeResultResponse.md)
 - [SubscriptionPlanChangeScheduledInstalledMerchantsEvent](SubscriptionPlanChangeScheduledInstalledMerchantsEvent.md)
 - [SubscriptionPlanChangeScheduledMerchantEvent](SubscriptionPlanChangeScheduledMerchantEvent.md)
-- [SubscriptionPlanLineItem](SubscriptionPlanLineItem.md)
-- [SubscriptionPlanLineItemBundle](SubscriptionPlanLineItemBundle.md)
-- [SubscriptionPlanLineItemCustom](SubscriptionPlanLineItemCustom.md)
-- [SubscriptionPlanLineItemInputBundle](SubscriptionPlanLineItemInputBundle.md)
-- [SubscriptionPlanLineItemInputBundleInput](SubscriptionPlanLineItemInputBundleInput.md)
-- [SubscriptionPlanLineItemInputCustom](SubscriptionPlanLineItemInputCustom.md)
-- [SubscriptionPlanLineItemInputCustomInput](SubscriptionPlanLineItemInputCustomInput.md)
 

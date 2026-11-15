@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# DeliveryInventoryAssignmentRequestInput to DeliveryPricingStrategyInputCallback
+# DeliveryEstimateRuleRequestInput to DeliveryPricingStrategyCreateInputRateTableInput
 
+- [DeliveryEstimateRuleRequestInput](DeliveryEstimateRuleRequestInput.md)
+- [DeliveryExternalPricingStrategy](DeliveryExternalPricingStrategy.md)
+- [DeliveryFixedPricingStrategy](DeliveryFixedPricingStrategy.md)
+- [DeliveryFixedPricingStrategyRequestInput](DeliveryFixedPricingStrategyRequestInput.md)
+- [DeliveryFulfillmentDetails](DeliveryFulfillmentDetails.md)
+- [DeliveryInputConstraint](DeliveryInputConstraint.md)
+- [DeliveryInputRequirement](DeliveryInputRequirement.md)
+- [DeliveryInventoryAssignmentRequest](DeliveryInventoryAssignmentRequest.md)
 - [DeliveryInventoryAssignmentRequestInput](DeliveryInventoryAssignmentRequestInput.md)
 - [DeliveryInventoryReservationSummary](DeliveryInventoryReservationSummary.md)
 - [DeliveryLocationSet](DeliveryLocationSet.md)
@@ -94,12 +102,4 @@
 - [DeliveryPricingStrategyCreateInputFixedInput](DeliveryPricingStrategyCreateInputFixedInput.md)
 - [DeliveryPricingStrategyCreateInputRateTable](DeliveryPricingStrategyCreateInputRateTable.md)
 - [DeliveryPricingStrategyCreateInputRateTableInput](DeliveryPricingStrategyCreateInputRateTableInput.md)
-- [DeliveryPricingStrategyCreateInputTiered](DeliveryPricingStrategyCreateInputTiered.md)
-- [DeliveryPricingStrategyCreateInputTieredInput](DeliveryPricingStrategyCreateInputTieredInput.md)
-- [DeliveryPricingStrategyCreateRequest](DeliveryPricingStrategyCreateRequest.md)
-- [DeliveryPricingStrategyCreateRequestInput](DeliveryPricingStrategyCreateRequestInput.md)
-- [DeliveryPricingStrategyFixed](DeliveryPricingStrategyFixed.md)
-- [DeliveryPricingStrategyInputCalculated](DeliveryPricingStrategyInputCalculated.md)
-- [DeliveryPricingStrategyInputCalculatedInput](DeliveryPricingStrategyInputCalculatedInput.md)
-- [DeliveryPricingStrategyInputCallback](DeliveryPricingStrategyInputCallback.md)
 

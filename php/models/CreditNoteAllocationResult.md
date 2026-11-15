@@ -32,11 +32,11 @@ Field definitions: [CreditNoteResponse.data.line_items[]](../models/CreditNoteRe
 
 ### CreditNoteAllocationResult.credit_note.seller_tax_identity
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.snapshot.seller_tax_identity](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotseller_tax_identity).
+Declared alternatives: [CreditNoteResponse.data.seller_tax_identity](../models/CreditNoteResponse.md#creditnoteresponsedataseller_tax_identity).
 
 ### CreditNoteAllocationResult.credit_note.tax_currency_conversions[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot.tax_currency_conversions[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshottax_currency_conversions).
+Field definitions: [CreditNoteResponse.data.tax_currency_conversions[]](../models/CreditNoteResponse.md#creditnoteresponsedatatax_currency_conversions).
 
 ### CreditNoteAllocationResult.credit_note_allocation
 
@@ -48,45 +48,45 @@ Field definitions: [shared fields](CreditNoteAllocationResponse.md#creditnoteall
 
 The invoice with its recomputed outstanding balance and status. A bill issued to a customer.
 
-Field definitions: [shared fields](CollectInvoiceResponse.md#collectinvoiceresponsedatainvoice).
+Field definitions: [shared fields](InvoiceResponse.md#invoiceresponsedata).
 
 ### CreditNoteAllocationResult.invoice.collection
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.collection](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicecollection).
+Declared alternatives: [InvoiceResponse.data.collection](../models/InvoiceResponse.md#invoiceresponsedatacollection).
 
 ### CreditNoteAllocationResult.invoice.customer
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.customer](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicecustomer).
+Declared alternatives: [InvoiceResponse.data.customer](../models/InvoiceResponse.md#invoiceresponsedatacustomer).
 
 ### CreditNoteAllocationResult.invoice.late_fees[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.late_fees[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicelate_fees).
+Field definitions: [InvoiceResponse.data.late_fees[]](../models/InvoiceResponse.md#invoiceresponsedatalate_fees).
 
 ### CreditNoteAllocationResult.invoice.metadata
 
-Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
+Field definitions: [DeliveryLocationSetResponse.data.metadata](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata).
 
 ### CreditNoteAllocationResult.invoice.order
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.order](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceorder).
+Declared alternatives: [InvoiceResponse.data.order](../models/InvoiceResponse.md#invoiceresponsedataorder).
 
 ### CreditNoteAllocationResult.invoice.payment_due
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.payment_due](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_due).
+Declared alternatives: [InvoiceResponse.data.payment_due](../models/InvoiceResponse.md#invoiceresponsedatapayment_due).
 
 ### CreditNoteAllocationResult.invoice.payment_terms_snapshot
 
-Field definitions: [CollectInvoiceResponse.data.invoice.payment_terms_snapshot](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_terms_snapshot).
+Field definitions: [InvoiceResponse.data.payment_terms_snapshot](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshot).
 
 ### CreditNoteAllocationResult.invoice.remit_to_address
 
-Field definitions: [CollectInvoiceResponse.data.invoice.remit_to_address](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceremit_to_address).
+Field definitions: [InvoiceResponse.data.remit_to_address](../models/InvoiceResponse.md#invoiceresponsedataremit_to_address).
 
 ### CreditNoteAllocationResult.invoice.schedule_entries[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.schedule_entries[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entries).
+Field definitions: [InvoiceResponse.data.schedule_entries[]](../models/InvoiceResponse.md#invoiceresponsedataschedule_entries).
 
 ### CreditNoteAllocationResult.invoice.snapshot
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshot).
+Field definitions: [InvoiceResponse.data.snapshot](../models/InvoiceResponse.md#invoiceresponsedatasnapshot).
 

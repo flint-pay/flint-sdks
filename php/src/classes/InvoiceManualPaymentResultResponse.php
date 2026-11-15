@@ -9,7 +9,7 @@ namespace Flint;
 final class InvoiceManualPaymentResultResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceManualPaymentResultResponse')); }
-    /** Resource, collection, or operation result returned by this request. The recorded or reversed payment and the updated invoice. expected_version on either write fences the invoice; use the returned invoice version for the next write.
+    /** Resource, collection, or operation result returned by this request. The recorded or reversed payment and the updated invoice. expected_invoice_version on create and expected_version on reversal fence the invoice; use the returned invoice version for the next write.
      * @return InvoiceManualPaymentResult
      */
     public function getData(): InvoiceManualPaymentResult { return $this->get('data'); }

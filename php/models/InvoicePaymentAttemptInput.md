@@ -21,6 +21,7 @@ Request input.
 | `rail` | Required | string | How the attempt collects: card, including Apple Pay, Google Pay, and Affirm, or ACH debit. Values: `"card"`, `"ach_debit"`. |
 | `settled_at` | Optional | string | When this attempt first settled successfully. Duplicate payment notifications preserve this timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `started_at` | Optional | string | When the attempt was created. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `status` | Required | string | Current payment attempt status. settled means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.settled reports that completion. Values: `"open"`, `"settled"`, `"failed"`, `"canceled"`, `"expired"`, `"processing"`. |
+| `status` | Required | string | Current payment attempt status. succeeded means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.succeeded reports that completion. Values: `"open"`, `"succeeded"`, `"failed"`, `"canceled"`, `"expired"`, `"processing"`. |
+| `supported_actions` | Required | Array of string | Lifecycle actions accepted now. An open or processing attempt can be canceled; the payment processor can still refuse cancellation. Items values: `"cancel"`. |
 | `updated_at` | Required | string | When this attempt last changed. Duplicate payment notifications preserve this timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 

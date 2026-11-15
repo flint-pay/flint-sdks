@@ -10,7 +10,7 @@ namespace Flint;
 final class CreatePartnerAppCredentialJWKSURLRequestInput extends Model {
     /** @param array{'jwks_url': PartnerAppCredentialJWKSURLRequestInput|array<array-key, mixed>|\stdClass, 'modes'?: list<string>, 'name'?: string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreatePartnerAppCredentialJWKSURLRequestInput')); }
-    /** A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before registering the credential.
+    /** The JSON Web Key Set URL to register. Required when type is jwks_url and not accepted otherwise. A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before registering the credential.
      * @return PartnerAppCredentialJWKSURLRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When jwks_url is omitted; use hasJwksUrl() or valueOrDefault().
      */

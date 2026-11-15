@@ -39,6 +39,34 @@ echo json_encode(['action' => $pending->getClientAction(), 'expires_at' => $pend
   });
 
   for (const operation of ["getOrderPaymentAttempt", "payOrder", "confirmPaymentIntent"]) {
+    test(`PHP ${operation} decodes the ${clientAction.type} client action`, async () => {
+      const body = example(operation);
+      const pending = pendingAction(clientAction);
+      if (operation === "getOrderPaymentAttempt") body.data.pending_actions = [pending];
+      if (operation === "payOrder") body.data.order_payment_attempt.pending_actions = [pending];
+      if (operation === "confirmPaymentIntent") {
+        body.data.status = "requires_action";
+        body.data.current_payment_action = pending;
+      }
+      const model = {
+        getOrderPaymentAttempt: "OrderPaymentAttemptResponse",
+        payOrder: "PayOrderResponse",
+        confirmPaymentIntent: "ConfirmPaymentIntentResponse",
+      }[operation];
+      const result = await promisify(execFile)("php", ["-r", String.raw`
+require 'php/src/autoload.php';
+$class = '\\Flint\\' . $argv[1];
+$response = new $class(json_decode($argv[2], false, 512, JSON_THROW_ON_ERROR));
+$data = $response->getData();
+$pending = match ($argv[3]) {
+    'getOrderPaymentAttempt' => $data->getPendingActions()[0],
+    'payOrder' => $data->getOrderPaymentAttempt()->getPendingActions()[0],
+    'confirmPaymentIntent' => $data->getCurrentPaymentAction(),
+};
+echo json_encode(['action' => $pending->getClientAction(), 'expires_at' => $pending->getExpiresAt()], JSON_THROW_ON_ERROR);
+`, model, JSON.stringify(body), operation], { cwd: root, timeout: 30000 });
+      assert.deepEqual(JSON.parse(result.stdout), { action: clientAction, expires_at: expiresAt });
+    });
     test(`${operation} decodes the ${clientAction.type} client action`, async (t) => {
       const body = example(operation);
       const pending = pendingAction(clientAction);
@@ -59,7 +87,7 @@ echo json_encode(['action' => $pending->getClientAction(), 'expires_at' => $pend
         result = (await client.orders.pay("ord_synthetic", { action: "resume", order_payment_attempt_id: "opat_synthetic" }, { idempotencyKey: "synthetic-pay" }))
           .order_payment_attempt.pending_actions[0];
       } else {
-        result = (await client.paymentIntents.confirm("pi_synthetic", { credential_type: "attached" }, { idempotencyKey: "synthetic-confirm" }))
+        result = (await client.paymentIntents.confirm("pi_synthetic", {}, { idempotencyKey: "synthetic-confirm" }))
           .current_payment_action;
       }
       assert.deepEqual(JSON.parse(JSON.stringify(result.client_action)), clientAction);
@@ -81,7 +109,7 @@ const client = new Client({ apiKey: "synthetic-api-key" });
 async function probe() {
   const attempt = await client.orders.getPaymentAttempt("ord_synthetic", "opat_synthetic");
   const paid = await client.orders.pay("ord_synthetic", { action: "resume", order_payment_attempt_id: "opat_synthetic" }, { idempotencyKey: "synthetic-pay" });
-  const confirmed = await client.paymentIntents.confirm("pi_synthetic", { credential_type: "attached" }, { idempotencyKey: "synthetic-confirm" });
+  const confirmed = await client.paymentIntents.confirm("pi_synthetic", {}, { idempotencyKey: "synthetic-confirm" });
   for (const pending of [attempt.pending_actions[0], paid.order_payment_attempt?.pending_actions[0], confirmed.current_payment_action]) {
     if (!pending) continue;
     const expiry: string = pending.expires_at;

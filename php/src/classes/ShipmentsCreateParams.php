@@ -56,7 +56,7 @@ final class ShipmentsCreateParams extends Model {
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a return shipment or package.
+    /** Return lines and quantities the shipment carries. minItems: 1. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a return shipment or package. The enclosing Return or shipment determines its parent.
      * @return list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When return_line_items is omitted; use hasReturnLineItems() or valueOrDefault().
      */

@@ -15,7 +15,7 @@ A merchant webhook endpoint belongs to the live mode or sandbox of the credentia
 | `api_version_previous` | Optional | string | Version this endpoint used before its last upgrade. Present while a rollback is available. To roll back, send it as api_version. |
 | `api_version_rollback_expires_at` | Optional | string | When the rollback offer for api_version_previous ends. You can still set any supported version afterward. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `created_by` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The API key, user, partner app, or workload identity that created this endpoint. An API key creator can belong to another mode, such as a live key that creates a sandbox endpoint. Absent when the creator is unavailable, including endpoints created before attribution was recorded. A reference to another resource by `resource_type` and `resource_id`. |
+| `created_by` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The API key, user, partner app, or workload identity that created this endpoint. An API key creator can belong to another mode, such as a live key that creates a sandbox endpoint. Absent when the creator is unavailable, including endpoints created before attribution was recorded. A reference to another resource by `resource_type` and `resource_id`. `created_by`: [field definitions](../models/WebhookEndpoint.md#webhookendpointcreated_by). |
 | `description` | Optional | string | Your description of this endpoint. Omitted when none is set. |
 | `enabled_events` | Required | Array of string | Subscribed event types. ["*"] includes every type the endpoint's event_sources deliver, including types added later; * is not available with installed_merchants. Stored subscriptions map previous names permanently and drop removed names on read. Empty when no current subscriptions remain. See the changelog. Items: minLength: `1`. |
 | `event_sources` | Optional | Array of string | Event sources this endpoint receives. Defaults to merchant. Use partner_app for app lifecycle events and installed_merchants for events from merchants that installed the partner app. Items values: `"merchant"`, `"partner_app"`, `"installed_merchants"`. |
@@ -30,4 +30,8 @@ A merchant webhook endpoint belongs to the live mode or sandbox of the credentia
 | `version` | Required | integer | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: `uint64`. minimum: `1`. |
 | `webhook_endpoint_id` | Required | string | Unique identifier for this webhook endpoint, prefixed `whep_`. Example: `"whep_01KEZF7C006FXYTAJRZCGCBJTN"`. |
 | `secret` | Optional | string | One-time signing secret. Present on create when hmac is enabled, on PATCH when hmac is first enabled, and on rotation; omitted on an idempotent replay after the secret retention period. |
+
+### WebhookEndpointWithSecret.created_by
+
+Field definitions: [WebhookEndpoint.created_by](../models/WebhookEndpoint.md#webhookendpointcreated_by).
 

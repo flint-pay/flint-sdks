@@ -16,5 +16,5 @@ Field definitions: [DeliveryLocationSetResponse.data.configuration](../models/De
 
 ### DeliveryLocationSetArchivedMerchantEventDataObject.metadata
 
-Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
+Field definitions: [DeliveryLocationSetResponse.data.metadata](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata).
 

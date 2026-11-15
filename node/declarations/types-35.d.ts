@@ -1,23 +1,895 @@
-import type { ResponseMeta, ReturnActivity, ReturnDisposition } from './types-54.js';
-import type { ReturnInspection, ReturnLineItem, ReturnPolicy, ReturnPolicyRevision } from './types-55.js';
-import type { ReturnReason, ReturnReceipt, ReturnResolution } from './types-56.js';
-import type { ReturnResource } from './types-57.js';
-import type { Address, AcceptFulfillmentRequestInput } from './types-0.js';
-import type { MetadataMap } from './types-37.js';
 import type { InputValue } from '../runtime.js';
-import type { CreateLocationRequestInput, CreateMeCheckoutSessionRequestInput } from './types-10.js';
-import type { InventoryAllocationPoliciesDeleteParams } from './types-28.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type { UpdateLocationRequestInput } from './types-66.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { BuyerCancelReturnRequestInput } from './types-1.js';
-import type { CancelMeSubscriptionRequestInput } from './types-4.js';
-import type { ChangeMeSubscriptionPlanRequestInput, ChangeMeSubscriptionQuantityRequestInput } from './types-5.js';
-import type { ConfirmEmailChangeRequestInput } from './types-7.js';
-import type { CreateCustomerAddressRequestInput } from './types-8.js';
-import type { CreateEmailChangeRequestInput } from './types-9.js';
-import type { SaveMePaymentMethodRequestInput } from './types-59.js';
-import type { BuyerCreateReturnRequestInput } from './types-2.js';
+import type { InvoicesMarkUncollectibleParams, InvoiceSentEvent, InvoiceUpdatedEvent, InvoiceVoidedEvent } from './types-34.js';
+import type { ReverseInvoiceManualPaymentRequestInput } from './types-58.js';
+import type {
+    DisputesAcceptParams,
+    DisputeCreatedEvent,
+    DisputeInquiryClosedEvent,
+    DisputeLostEvent,
+    DisputeNeedsResponseEvent,
+    DisputePreventedEvent,
+    DisputeUpdatedEvent,
+    DisputeWonEvent
+} from './types-23.js';
+import type { UpdateInvoiceRequestInput, UpdateLocationRequestInput } from './types-67.js';
+import type { WaiveInvoiceLateFeeRequestInput } from './types-69.js';
+import type {
+    CreditNoteIssueAllocationRequest,
+    CreditNoteRefundRequest,
+    CreditNoteIssueAllocationRequestInput,
+    CreditNoteRefundRequestInput,
+    CreditNote,
+    CreditNoteAllocation,
+    CreditNoteAllocationCreatedEvent,
+    CreditNoteAllocationReversedEvent,
+    CreditNoteCreatedEvent,
+    CreditNoteIssuedEvent,
+    CreditNoteUpdatedEvent,
+    CreditNoteVoidedEvent
+} from './types-14.js';
+import type {
+    ResponseMeta,
+    ReportFailedEvent,
+    ReportSucceededEvent,
+    ReturnCanceledEvent,
+    ReturnCompletedEvent,
+    ReturnCreatedEvent,
+    ReturnActivity
+} from './types-54.js';
+import type {
+    Invoice,
+    InventoryTransferLostEvent,
+    InventoryTransferReceivedEvent,
+    InventoryTransferReturnedEvent,
+    InventoryTransferUpdatedEvent,
+    InvoiceCollectionBlockResolvedEvent,
+    InvoiceCollectionBlockedEvent,
+    InvoiceCreatedEvent,
+    InvoiceCreditedEvent,
+    InvoiceDeliveryAttemptFailedEvent
+} from './types-31.js';
+import type {
+    Refund,
+    ReaderArchivedEvent,
+    ReaderCreatedEvent,
+    ReaderUpdatedEvent,
+    RefundCreatedEvent,
+    RefundFailedEvent
+} from './types-52.js';
+import type {
+    ApiKeyCreatedEvent,
+    ApiKeyRevokedEvent,
+    ApiKeyUpdatedEvent,
+    Address,
+    AcceptFulfillmentRequestInput
+} from './types-0.js';
+import type {
+    BalanceTransactionCreatedEvent,
+    BalanceTransactionUpdatedEvent,
+    BalanceUpdatedEvent,
+    BundleArchivedEvent,
+    BundleCreatedEvent,
+    BundleUpdatedEvent
+} from './types-1.js';
+import type { CategoryCreatedEvent, CategoryDeletedEvent, CategoryUpdatedEvent } from './types-5.js';
+import type {
+    CheckoutSessionClosedEvent,
+    CheckoutSessionCreatedEvent,
+    CheckoutSessionExpiredEvent,
+    CheckoutSessionInvalidatedEvent,
+    CheckoutSessionPaidEvent,
+    CheckoutSessionPartiallyPaidEvent,
+    CheckoutSessionUpdatedEvent
+} from './types-6.js';
+import type {
+    CustomDomainArchivedEvent,
+    CustomDomainUpdatedEvent,
+    CustomerCreatedEvent,
+    CustomerDeletedEvent,
+    CustomerDeletionRequestCompletedEvent,
+    CustomerDeletionRequestCreatedEvent,
+    CustomerDeletionRequestFailedEvent,
+    CustomerDeletionRequestProcessingEvent,
+    CustomerDeletionRequestRejectedEvent,
+    CustomerEmailPreferencesUpdatedEvent
+} from './types-15.js';
+import type { CustomerUpdatedEvent } from './types-16.js';
+import type { DeliveryLocationSetArchivedEvent, DeliveryLocationSetCreatedEvent } from './types-17.js';
+import type {
+    DeliveryLocationSetUpdatedEvent,
+    DeliveryMethodActivatedEvent,
+    DeliveryMethodArchivedEvent,
+    DeliveryMethodCreatedEvent,
+    DeliveryMethodDeactivatedEvent,
+    DeliveryMethodUpdatedEvent
+} from './types-18.js';
+import type { DeliveryProfileArchivedEvent } from './types-19.js';
+import type {
+    DeliveryProfileCreatedEvent,
+    DeliveryProfileUpdatedEvent,
+    DeliveryRateCallbackActivatedEvent,
+    DeliveryRateCallbackArchivedEvent
+} from './types-20.js';
+import type {
+    DeliveryRateCallbackCreatedEvent,
+    DeliveryRateCallbackDeactivatedEvent,
+    DeliveryRateCallbackUpdatedEvent,
+    DeliveryRevocationCreatedEvent
+} from './types-21.js';
+import type {
+    DeliverySelectionCommittedEvent,
+    DeliveryZoneArchivedEvent,
+    DeliveryZoneCreatedEvent,
+    DeliveryZoneUpdatedEvent
+} from './types-22.js';
+import type {
+    EnvironmentGrantCreatedEvent,
+    EnvironmentGrantRevokedEvent,
+    EnvironmentGrantUpdatedEvent,
+    FraudWarningCreatedEvent,
+    FraudWarningUpdatedEvent
+} from './types-24.js';
+import type {
+    FulfillmentCanceledEvent,
+    FulfillmentCompletedEvent,
+    FulfillmentCreatedEvent,
+    FulfillmentEventCreatedEvent,
+    FulfillmentFailedEvent,
+    FulfillmentUpdatedEvent
+} from './types-25.js';
+import type {
+    GiftCardCreatedEvent,
+    GiftCardLoadCreatedEvent,
+    GiftCardLoadUpdatedEvent,
+    GiftCardNotificationCreatedEvent
+} from './types-26.js';
+import type {
+    GiftCardNotificationUpdatedEvent,
+    GiftCardRedemptionCreatedEvent,
+    GiftCardRedemptionUpdatedEvent,
+    GiftCardTransactionCreatedEvent,
+    GiftCardUpdatedEvent
+} from './types-27.js';
+import type { InventoryCountAppliedEvent, InventoryAllocationPoliciesDeleteParams } from './types-28.js';
+import type {
+    InventoryCountUpdatedEvent,
+    InventoryLevelShortageDetectedEvent,
+    InventoryLevelUpdatedEvent,
+    InventoryReceiptCreatedEvent,
+    InventoryReservationActionRequiredEvent,
+    InventoryReservationAtRiskEvent
+} from './types-29.js';
+import type {
+    InventoryReservationClosedEvent,
+    InventoryReservationCommittedEvent,
+    InventoryReservationConsumedEvent,
+    InventoryReservationCreatedEvent,
+    InventoryReservationHoldExpiredEvent,
+    InventoryReservationReleasedEvent,
+    InventoryReservationUpdatedEvent,
+    InventoryTransferClosedEvent,
+    InventoryTransferDepartedEvent
+} from './types-30.js';
+import type {
+    InvoiceDeliveryAttemptSentEvent,
+    InvoiceDeliveryAttemptSuppressedEvent,
+    InvoiceIssueFailedEvent,
+    InvoiceIssuedEvent,
+    InvoiceLateFeeAssessedEvent,
+    InvoiceLateFeeDueEvent,
+    InvoiceLateFeeWaivedEvent,
+    InvoiceManualPaymentCreatedEvent,
+    InvoiceManualPaymentReversedEvent,
+    InvoiceMarkedUncollectibleEvent,
+    InvoiceOverdueEvent,
+    InvoicePaidEvent,
+    InvoicePartiallyPaidEvent,
+    InvoicePartiallyRefundedEvent,
+    InvoicePaymentAttemptCanceledEvent
+} from './types-32.js';
+import type {
+    InvoicePaymentAttemptExpiredEvent,
+    InvoicePaymentAttemptFailedEvent,
+    InvoicePaymentAttemptProcessingEvent,
+    InvoicePaymentAttemptSucceededEvent,
+    InvoiceRefundedEvent,
+    InvoiceReminderDueEvent,
+    InvoiceReopenedEvent
+} from './types-33.js';
+import type {
+    MerchantBillingBalanceUpdatedEvent,
+    MerchantBillingInvoiceIssuedEvent,
+    MerchantBillingInvoiceUpdatedEvent,
+    MerchantReadinessUpdatedEvent
+} from './types-37.js';
+import type {
+    MerchantUpdatedEvent,
+    ModifierGroupArchivedEvent,
+    ModifierGroupCreatedEvent,
+    ModifierGroupUpdatedEvent,
+    ModifierSetArchivedEvent,
+    ModifierSetCreatedEvent,
+    ModifierSetUpdatedEvent,
+    MetadataMap
+} from './types-38.js';
+import type {
+    OrderClosedEvent,
+    OrderCreatedEvent,
+    OrderEditCreatedEvent,
+    OrderInventoryExceptionCreatedEvent,
+    OrderInventoryExceptionResolvedEvent
+} from './types-40.js';
+import type { OrderPaidEvent, OrderPartiallyPaidEvent, OrderPartiallyRefundedEvent, OrderRefundedEvent } from './types-41.js';
+import type { OrderUpdatedEvent, PackageCreatedEvent, PackageUpdatedEvent } from './types-42.js';
+import type {
+    PartnerAppInstallCreatedEvent,
+    PartnerAppInstallPermissionsUpdatedEvent,
+    PartnerAppInstallRevokedEvent,
+    PartnerAppInstallUpdatedEvent,
+    PartnerAppPlatformApprovedEvent,
+    PartnerAppPlatformLimitedEvent,
+    PartnerAppPlatformRejectedEvent
+} from './types-43.js';
+import type {
+    PartnerAppUpdatedEvent,
+    PaymentIntentAuthorizationExpiringEvent,
+    PaymentIntentCanceledEvent,
+    PaymentIntentCreatedEvent,
+    PaymentIntentExpiredEvent
+} from './types-44.js';
+import type {
+    PaymentIntentFulfillmentHoldUpdatedEvent,
+    PaymentIntentPaymentFailedEvent,
+    PaymentIntentProcessingEvent,
+    PaymentIntentRequiresActionEvent,
+    PaymentIntentRequiresCaptureEvent,
+    PaymentIntentSucceededEvent,
+    PaymentIntentUpdatedEvent,
+    PaymentLinkCreatedEvent
+} from './types-45.js';
+import type {
+    PaymentLinkUpdatedEvent,
+    PaymentMethodActivatedEvent,
+    PaymentMethodArchivedEvent,
+    PaymentMethodFailedEvent
+} from './types-46.js';
+import type {
+    PaymentMethodUpdatedEvent,
+    PaymentReviewClosedEvent,
+    PaymentReviewOpenedEvent,
+    PaymentReviewReopenedEvent,
+    PaymentSplitCanceledEvent,
+    PaymentSplitCreatedEvent,
+    PaymentSplitFailedEvent,
+    PaymentSplitSucceededEvent,
+    PaymentSplitUpdatedEvent
+} from './types-47.js';
+import type {
+    PayoutCanceledEvent,
+    PayoutCreatedEvent,
+    PayoutDestinationArchivedEvent,
+    PayoutDestinationCreatedEvent,
+    PayoutDestinationDisabledEvent,
+    PayoutDestinationUpdatedEvent,
+    PayoutFailedEvent,
+    PayoutReversedEvent,
+    PayoutSettingsUpdatedEvent,
+    PayoutSucceededEvent,
+    PayoutUpdatedEvent
+} from './types-48.js';
+import type {
+    PlatformFeeCanceledEvent,
+    PlatformFeeCreatedEvent,
+    PlatformFeePayoutCreatedEvent,
+    PlatformFeePayoutFailedEvent,
+    PlatformFeePayoutSucceededEvent,
+    PlatformFeeSucceededEvent,
+    PlatformFeeUpdatedEvent,
+    PriceListArchivedEvent,
+    PriceListCreatedEvent,
+    PriceListUpdatedEvent,
+    ProductArchivedEvent,
+    ProductCreatedEvent
+} from './types-49.js';
+import type {
+    ProductUpdatedEvent,
+    ProductVariantArchivedEvent,
+    ProductVariantCreatedEvent,
+    ProductVariantUpdatedEvent,
+    PromotionArchivedEvent,
+    PromotionCodeArchivedEvent,
+    PromotionCodeCreatedEvent
+} from './types-50.js';
+import type { PromotionCodeUpdatedEvent, PromotionCreatedEvent, PromotionUpdatedEvent } from './types-51.js';
+import type { RefundPartiallySucceededEvent, RefundSucceededEvent, RefundUpdatedEvent } from './types-53.js';
+import type {
+    ReturnDecisionRecordedEvent,
+    ReturnDispositionCreatedEvent,
+    ReturnDispositionUpdatedEvent,
+    ReturnInspectionAcceptanceDecidedEvent,
+    ReturnInspectionCreatedEvent,
+    ReturnInspectionSupersededEvent,
+    ReturnDisposition,
+    ReturnInspection,
+    ReturnLineItem
+} from './types-55.js';
+import type {
+    ReturnReceiptCreatedEvent,
+    ReturnReceiptSupersededEvent,
+    ReturnReceiptVerifiedEvent,
+    ReturnReopenedEvent,
+    ReturnPolicy,
+    ReturnPolicyRevision,
+    ReturnReason,
+    ReturnReceipt
+} from './types-56.js';
+import type {
+    ReturnResolutionCreatedEvent,
+    ReturnResolutionUpdatedEvent,
+    ReturnUpdatedEvent,
+    ReturnResolution,
+    ReturnResource
+} from './types-57.js';
+import type { ShipmentCreatedEvent, ShipmentUpdatedEvent } from './types-59.js';
+import type { SubscriptionActivatedEvent, SubscriptionCanceledEvent, SubscriptionCancellationScheduledEvent } from './types-60.js';
+import type {
+    SubscriptionCreatedEvent,
+    SubscriptionCycleSkippedEvent,
+    SubscriptionDeliveryActionRequiredEvent,
+    SubscriptionDeliveryMigrationCompletedEvent,
+    SubscriptionDeliveryPauseUpcomingEvent,
+    SubscriptionDeliveryUpdatedEvent,
+    SubscriptionDunningExhaustedEvent,
+    SubscriptionEndUpcomingEvent
+} from './types-61.js';
+import type {
+    SubscriptionPastDueEvent,
+    SubscriptionPausedEvent,
+    SubscriptionPaymentRetryCreatedEvent,
+    SubscriptionPaymentRetryFailedEvent,
+    SubscriptionPaymentRetrySucceededEvent,
+    SubscriptionPaymentSucceededEvent,
+    SubscriptionPlanChangeCanceledEvent,
+    SubscriptionPlanChangeScheduledEvent,
+    SubscriptionPlanChangedEvent
+} from './types-62.js';
+import type {
+    SubscriptionReactivatedEvent,
+    SubscriptionRenewalUpcomingEvent,
+    SubscriptionResumedEvent,
+    SubscriptionTrialEndingEvent,
+    SubscriptionUpdatedEvent
+} from './types-63.js';
+import type {
+    TaxCalculationCallbackActivatedEvent,
+    TaxCalculationCallbackArchivedEvent,
+    TaxCalculationCallbackCreatedEvent,
+    TaxCalculationCallbackDeactivatedEvent,
+    TaxCalculationCallbackUpdatedEvent
+} from './types-64.js';
+import type {
+    TaxConnectionUpdatedEvent,
+    TestClockAdvancingEvent,
+    TestClockArchivedEvent,
+    TestClockCreatedEvent,
+    TestClockFailedEvent,
+    TestClockReadyEvent,
+    TicketCheckedInEvent,
+    TicketCreatedEvent,
+    TicketUpdatedEvent,
+    TicketVoidedEvent
+} from './types-65.js';
+import type { CreateLocationRequestInput } from './types-10.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+export type InvoicesRegeneratePublicLinkParams = InvoicesMarkUncollectibleParams;
+export type InvoicesReverseManualPaymentParams = (InputValue<ReverseInvoiceManualPaymentRequestInput>
+    | {
+    "expected_version"?: never;
+    "reversal_note"?: never;
+    "reversed_at"?: never;
+})
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type InvoicesSendReminderParams = DisputesAcceptParams;
+export type InvoicesUpdateParams = (InputValue<UpdateInvoiceRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type InvoicesVoidParams = InvoicesMarkUncollectibleParams;
+export type InvoicesWaiveLateFeeParams = (InputValue<WaiveInvoiceLateFeeRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** The request body for: Issue credit note. */
+export type IssueCreditNoteRequest = ({
+    /**
+     * Issue the credit note and apply credit to its invoice atomically. If the allocation fails,
+     * the note stays a draft. Omit amount_money to apply the smaller of the credit available after
+     * issue and the invoice's outstanding balance. Cannot be combined with refund. Credit to apply
+     * to the invoice when issuing a credit note.
+     */
+    "allocation"?: CreditNoteIssueAllocationRequest;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Create a linked refund when the credit note is issued. Requires both credit-note and refund
+     * write permissions and a paid invoice. Cannot be combined with allocation. Refund details you
+     * supply when issuing a credit note: the reason, an optional message, and an optional amount.
+     */
+    "refund"?: CreditNoteRefundRequest;
+});
+/** The request body for: Issue credit note. */
+export type IssueCreditNoteRequestInput = ({
+    /**
+     * Issue the credit note and apply credit to its invoice atomically. If the allocation fails,
+     * the note stays a draft. Omit amount_money to apply the smaller of the credit available after
+     * issue and the invoice's outstanding balance. Cannot be combined with refund. Credit to apply
+     * to the invoice when issuing a credit note.
+     */
+    "allocation"?: CreditNoteIssueAllocationRequestInput;
+    /**
+     * Credit note version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Create a linked refund when the credit note is issued. Requires both credit-note and refund
+     * write permissions and a paid invoice. Cannot be combined with allocation. Refund details you
+     * supply when issuing a credit note: the reason, an optional message, and an optional amount.
+     */
+    "refund"?: CreditNoteRefundRequestInput;
+})
+    & ({
+    "allocation"?: never;
+} | {
+    "refund"?: never;
+});
+/** A response containing `IssueCreditNoteResult` data. */
+export type IssueCreditNoteResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The issued credit note,
+     * its invoice after issue, and the linked allocation or refund when requested.
+     */
+    "data": IssueCreditNoteResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The issued credit note, its invoice after issue, and the linked allocation or refund when
+ * requested.
+ */
+export type IssueCreditNoteResult = {
+    /**
+     * The issued credit note. Its version is the target of expected_version. A correction against
+     * an issued invoice. Credit notes reduce what is owed; refunds return what was already
+     * collected.
+     */
+    "credit_note": CreditNote;
+    /**
+     * The linked allocation, present when allocation was requested. Its idempotency_key is the
+     * issue request's Idempotency-Key. One application of credit to the invoice. Allocations are
+     * append-only: a reversal sets reversed_at rather than removing the row.
+     */
+    "credit_note_allocation"?: CreditNoteAllocation;
+    /** The invoice state after the credit note was issued. A bill issued to a customer. */
+    "invoice": Invoice;
+    /**
+     * The linked refund, present when refund was requested. A pending refund has been accepted but
+     * has not completed. Money returned against a collected payment.
+     */
+    "refund"?: Refund;
+};
+/** The request body for: Issue invoice. */
+export type IssueInvoiceRequest = {
+    /**
+     * How the invoice reaches its recipient. Omit it to use merchant_default. Default:
+     * "merchant_default". Value enum: "merchant_default", "email", "caller_managed".
+     */
+    "delivery_mode"?: "merchant_default" | "email" | "caller_managed" | (string & {});
+    /**
+     * Invoice version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** The request body for: Issue invoice. */
+export type IssueInvoiceRequestInput = {
+    /**
+     * How the invoice reaches its recipient. Omit it to use merchant_default. Default:
+     * "merchant_default". Value enum: "merchant_default", "email", "caller_managed".
+     */
+    "delivery_mode"?: "merchant_default" | "email" | "caller_managed";
+    /**
+     * Invoice version last read. Optional; a stale version returns VERSION_CONFLICT. Format:
+     * int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+export type KnownWebhookEvent = ApiKeyCreatedEvent
+    | ApiKeyRevokedEvent
+    | ApiKeyUpdatedEvent
+    | BalanceTransactionCreatedEvent
+    | BalanceTransactionUpdatedEvent
+    | BalanceUpdatedEvent
+    | BundleArchivedEvent
+    | BundleCreatedEvent
+    | BundleUpdatedEvent
+    | CategoryCreatedEvent
+    | CategoryDeletedEvent
+    | CategoryUpdatedEvent
+    | CheckoutSessionClosedEvent
+    | CheckoutSessionCreatedEvent
+    | CheckoutSessionExpiredEvent
+    | CheckoutSessionInvalidatedEvent
+    | CheckoutSessionPaidEvent
+    | CheckoutSessionPartiallyPaidEvent
+    | CheckoutSessionUpdatedEvent
+    | CreditNoteAllocationCreatedEvent
+    | CreditNoteAllocationReversedEvent
+    | CreditNoteCreatedEvent
+    | CreditNoteIssuedEvent
+    | CreditNoteUpdatedEvent
+    | CreditNoteVoidedEvent
+    | CustomDomainArchivedEvent
+    | CustomDomainUpdatedEvent
+    | CustomerDeletionRequestCompletedEvent
+    | CustomerDeletionRequestCreatedEvent
+    | CustomerDeletionRequestFailedEvent
+    | CustomerDeletionRequestProcessingEvent
+    | CustomerDeletionRequestRejectedEvent
+    | CustomerEmailPreferencesUpdatedEvent
+    | CustomerCreatedEvent
+    | CustomerDeletedEvent
+    | CustomerUpdatedEvent
+    | DeliveryLocationSetArchivedEvent
+    | DeliveryLocationSetCreatedEvent
+    | DeliveryLocationSetUpdatedEvent
+    | DeliveryMethodActivatedEvent
+    | DeliveryMethodArchivedEvent
+    | DeliveryMethodCreatedEvent
+    | DeliveryMethodDeactivatedEvent
+    | DeliveryMethodUpdatedEvent
+    | DeliveryProfileArchivedEvent
+    | DeliveryProfileCreatedEvent
+    | DeliveryProfileUpdatedEvent
+    | DeliveryRateCallbackActivatedEvent
+    | DeliveryRateCallbackArchivedEvent
+    | DeliveryRateCallbackCreatedEvent
+    | DeliveryRateCallbackDeactivatedEvent
+    | DeliveryRateCallbackUpdatedEvent
+    | DeliveryRevocationCreatedEvent
+    | DeliverySelectionCommittedEvent
+    | DeliveryZoneArchivedEvent
+    | DeliveryZoneCreatedEvent
+    | DeliveryZoneUpdatedEvent
+    | DisputeCreatedEvent
+    | DisputeInquiryClosedEvent
+    | DisputeLostEvent
+    | DisputeNeedsResponseEvent
+    | DisputePreventedEvent
+    | DisputeUpdatedEvent
+    | DisputeWonEvent
+    | EnvironmentGrantCreatedEvent
+    | EnvironmentGrantRevokedEvent
+    | EnvironmentGrantUpdatedEvent
+    | FraudWarningCreatedEvent
+    | FraudWarningUpdatedEvent
+    | FulfillmentEventCreatedEvent
+    | FulfillmentCanceledEvent
+    | FulfillmentCompletedEvent
+    | FulfillmentCreatedEvent
+    | FulfillmentFailedEvent
+    | FulfillmentUpdatedEvent
+    | GiftCardLoadCreatedEvent
+    | GiftCardLoadUpdatedEvent
+    | GiftCardNotificationCreatedEvent
+    | GiftCardNotificationUpdatedEvent
+    | GiftCardRedemptionCreatedEvent
+    | GiftCardRedemptionUpdatedEvent
+    | GiftCardTransactionCreatedEvent
+    | GiftCardCreatedEvent
+    | GiftCardUpdatedEvent
+    | InventoryCountAppliedEvent
+    | InventoryCountUpdatedEvent
+    | InventoryLevelShortageDetectedEvent
+    | InventoryLevelUpdatedEvent
+    | InventoryReceiptCreatedEvent
+    | InventoryReservationActionRequiredEvent
+    | InventoryReservationAtRiskEvent
+    | InventoryReservationClosedEvent
+    | InventoryReservationCommittedEvent
+    | InventoryReservationConsumedEvent
+    | InventoryReservationCreatedEvent
+    | InventoryReservationHoldExpiredEvent
+    | InventoryReservationReleasedEvent
+    | InventoryReservationUpdatedEvent
+    | InventoryTransferClosedEvent
+    | InventoryTransferDepartedEvent
+    | InventoryTransferLostEvent
+    | InventoryTransferReceivedEvent
+    | InventoryTransferReturnedEvent
+    | InventoryTransferUpdatedEvent
+    | InvoiceDeliveryAttemptFailedEvent
+    | InvoiceDeliveryAttemptSentEvent
+    | InvoiceDeliveryAttemptSuppressedEvent
+    | InvoiceManualPaymentCreatedEvent
+    | InvoiceManualPaymentReversedEvent
+    | InvoicePaymentAttemptCanceledEvent
+    | InvoicePaymentAttemptExpiredEvent
+    | InvoicePaymentAttemptFailedEvent
+    | InvoicePaymentAttemptProcessingEvent
+    | InvoicePaymentAttemptSucceededEvent
+    | InvoiceCollectionBlockResolvedEvent
+    | InvoiceCollectionBlockedEvent
+    | InvoiceCreatedEvent
+    | InvoiceCreditedEvent
+    | InvoiceIssueFailedEvent
+    | InvoiceIssuedEvent
+    | InvoiceLateFeeAssessedEvent
+    | InvoiceLateFeeDueEvent
+    | InvoiceLateFeeWaivedEvent
+    | InvoiceMarkedUncollectibleEvent
+    | InvoiceOverdueEvent
+    | InvoicePaidEvent
+    | InvoicePartiallyPaidEvent
+    | InvoicePartiallyRefundedEvent
+    | InvoiceRefundedEvent
+    | InvoiceReminderDueEvent
+    | InvoiceReopenedEvent
+    | InvoiceSentEvent
+    | InvoiceUpdatedEvent
+    | InvoiceVoidedEvent
+    | MerchantBillingBalanceUpdatedEvent
+    | MerchantBillingInvoiceIssuedEvent
+    | MerchantBillingInvoiceUpdatedEvent
+    | MerchantReadinessUpdatedEvent
+    | MerchantUpdatedEvent
+    | ModifierGroupArchivedEvent
+    | ModifierGroupCreatedEvent
+    | ModifierGroupUpdatedEvent
+    | ModifierSetArchivedEvent
+    | ModifierSetCreatedEvent
+    | ModifierSetUpdatedEvent
+    | OrderEditCreatedEvent
+    | OrderClosedEvent
+    | OrderCreatedEvent
+    | OrderInventoryExceptionCreatedEvent
+    | OrderInventoryExceptionResolvedEvent
+    | OrderPaidEvent
+    | OrderPartiallyPaidEvent
+    | OrderPartiallyRefundedEvent
+    | OrderRefundedEvent
+    | OrderUpdatedEvent
+    | PackageCreatedEvent
+    | PackageUpdatedEvent
+    | PartnerAppInstallCreatedEvent
+    | PartnerAppInstallPermissionsUpdatedEvent
+    | PartnerAppInstallRevokedEvent
+    | PartnerAppInstallUpdatedEvent
+    | PartnerAppPlatformApprovedEvent
+    | PartnerAppPlatformLimitedEvent
+    | PartnerAppPlatformRejectedEvent
+    | PartnerAppUpdatedEvent
+    | PaymentIntentAuthorizationExpiringEvent
+    | PaymentIntentCanceledEvent
+    | PaymentIntentCreatedEvent
+    | PaymentIntentExpiredEvent
+    | PaymentIntentFulfillmentHoldUpdatedEvent
+    | PaymentIntentPaymentFailedEvent
+    | PaymentIntentProcessingEvent
+    | PaymentIntentRequiresActionEvent
+    | PaymentIntentRequiresCaptureEvent
+    | PaymentIntentSucceededEvent
+    | PaymentIntentUpdatedEvent
+    | PaymentLinkCreatedEvent
+    | PaymentLinkUpdatedEvent
+    | PaymentMethodActivatedEvent
+    | PaymentMethodArchivedEvent
+    | PaymentMethodFailedEvent
+    | PaymentMethodUpdatedEvent
+    | PaymentReviewClosedEvent
+    | PaymentReviewOpenedEvent
+    | PaymentReviewReopenedEvent
+    | PaymentSplitCanceledEvent
+    | PaymentSplitCreatedEvent
+    | PaymentSplitFailedEvent
+    | PaymentSplitSucceededEvent
+    | PaymentSplitUpdatedEvent
+    | PayoutDestinationArchivedEvent
+    | PayoutDestinationCreatedEvent
+    | PayoutDestinationDisabledEvent
+    | PayoutDestinationUpdatedEvent
+    | PayoutSettingsUpdatedEvent
+    | PayoutCanceledEvent
+    | PayoutCreatedEvent
+    | PayoutFailedEvent
+    | PayoutReversedEvent
+    | PayoutSucceededEvent
+    | PayoutUpdatedEvent
+    | PlatformFeePayoutCreatedEvent
+    | PlatformFeePayoutFailedEvent
+    | PlatformFeePayoutSucceededEvent
+    | PlatformFeeCanceledEvent
+    | PlatformFeeCreatedEvent
+    | PlatformFeeSucceededEvent
+    | PlatformFeeUpdatedEvent
+    | PriceListArchivedEvent
+    | PriceListCreatedEvent
+    | PriceListUpdatedEvent
+    | ProductVariantArchivedEvent
+    | ProductVariantCreatedEvent
+    | ProductVariantUpdatedEvent
+    | ProductArchivedEvent
+    | ProductCreatedEvent
+    | ProductUpdatedEvent
+    | PromotionCodeArchivedEvent
+    | PromotionCodeCreatedEvent
+    | PromotionCodeUpdatedEvent
+    | PromotionArchivedEvent
+    | PromotionCreatedEvent
+    | PromotionUpdatedEvent
+    | ReaderArchivedEvent
+    | ReaderCreatedEvent
+    | ReaderUpdatedEvent
+    | RefundCreatedEvent
+    | RefundFailedEvent
+    | RefundPartiallySucceededEvent
+    | RefundSucceededEvent
+    | RefundUpdatedEvent
+    | ReportFailedEvent
+    | ReportSucceededEvent
+    | ReturnDispositionCreatedEvent
+    | ReturnDispositionUpdatedEvent
+    | ReturnInspectionAcceptanceDecidedEvent
+    | ReturnInspectionCreatedEvent
+    | ReturnInspectionSupersededEvent
+    | ReturnReceiptCreatedEvent
+    | ReturnReceiptSupersededEvent
+    | ReturnReceiptVerifiedEvent
+    | ReturnResolutionCreatedEvent
+    | ReturnResolutionUpdatedEvent
+    | ReturnCanceledEvent
+    | ReturnCompletedEvent
+    | ReturnCreatedEvent
+    | ReturnDecisionRecordedEvent
+    | ReturnReopenedEvent
+    | ReturnUpdatedEvent
+    | ShipmentCreatedEvent
+    | ShipmentUpdatedEvent
+    | SubscriptionDeliveryMigrationCompletedEvent
+    | SubscriptionPaymentRetryCreatedEvent
+    | SubscriptionPaymentRetryFailedEvent
+    | SubscriptionPaymentRetrySucceededEvent
+    | SubscriptionActivatedEvent
+    | SubscriptionCanceledEvent
+    | SubscriptionCancellationScheduledEvent
+    | SubscriptionCreatedEvent
+    | SubscriptionCycleSkippedEvent
+    | SubscriptionDeliveryActionRequiredEvent
+    | SubscriptionDeliveryPauseUpcomingEvent
+    | SubscriptionDeliveryUpdatedEvent
+    | SubscriptionDunningExhaustedEvent
+    | SubscriptionEndUpcomingEvent
+    | SubscriptionPastDueEvent
+    | SubscriptionPausedEvent
+    | SubscriptionPaymentSucceededEvent
+    | SubscriptionPlanChangeCanceledEvent
+    | SubscriptionPlanChangeScheduledEvent
+    | SubscriptionPlanChangedEvent
+    | SubscriptionReactivatedEvent
+    | SubscriptionRenewalUpcomingEvent
+    | SubscriptionResumedEvent
+    | SubscriptionTrialEndingEvent
+    | SubscriptionUpdatedEvent
+    | TaxCalculationCallbackActivatedEvent
+    | TaxCalculationCallbackArchivedEvent
+    | TaxCalculationCallbackCreatedEvent
+    | TaxCalculationCallbackDeactivatedEvent
+    | TaxCalculationCallbackUpdatedEvent
+    | TaxConnectionUpdatedEvent
+    | TestClockAdvancingEvent
+    | TestClockArchivedEvent
+    | TestClockCreatedEvent
+    | TestClockFailedEvent
+    | TestClockReadyEvent
+    | TicketCheckedInEvent
+    | TicketCreatedEvent
+    | TicketUpdatedEvent
+    | TicketVoidedEvent;
+/**
+ * Merchant legal links and terms settings: contract, refund policy, shipping policy, and terms of
+ * service URLs, and whether buyers must accept the terms.
+ */
+export type LegalSettings = {
+    /** An `https://` URL of at most 2,048 bytes. */
+    "contract_url"?: string;
+    /** An `https://` URL of at most 2,048 bytes. */
+    "refund_policy_url"?: string;
+    /** Whether the buyer must accept the terms of service before paying. */
+    "require_terms_of_service"?: boolean;
+    /** An `https://` URL of at most 2,048 bytes. */
+    "shipping_policy_url"?: string;
+    /** An `https://` URL of at most 2,048 bytes. */
+    "terms_of_service_url"?: string;
+};
+/** Changes to a merchant's legal settings. Send null on a URL to clear it. */
+export type LegalSettingsRequest = {
+    /** An `https://` URL of at most 2,048 bytes. Send null to clear it. minLength: 1. */
+    "contract_url"?: string | null;
+    /** An `https://` URL of at most 2,048 bytes. Send null to clear it. minLength: 1. */
+    "refund_policy_url"?: string | null;
+    /** Whether the buyer must accept the terms of service before paying. */
+    "require_terms_of_service"?: boolean;
+    /** An `https://` URL of at most 2,048 bytes. Send null to clear it. minLength: 1. */
+    "shipping_policy_url"?: string | null;
+    /** An `https://` URL of at most 2,048 bytes. Send null to clear it. minLength: 1. */
+    "terms_of_service_url"?: string | null;
+};
+/** Changes to a merchant's legal settings. Send null on a URL to clear it. */
+export type LegalSettingsRequestInput = LegalSettingsRequest;
 /**
  * Where a line item ships or is fulfilled from: a fixed location, inventory routing, or the origin
  * of the fulfillment method.
@@ -138,9 +1010,16 @@ export type LineItemFulfillmentRequestModelInput = {
 };
 /** The quantity of one inventory item that each unit of an order line item uses. */
 export type LineItemInventoryDemand = {
-    /** Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1". */
+    /**
+     * ID of the bundle component this demand comes from. Present only on a line item that sells a
+     * bundle. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     */
     "bundle_component_id"?: string;
-    /** Example: "component-1842". */
+    /**
+     * Identifier of the bundle component as it was frozen on the line item. Present only when the
+     * bundle component has one. Inventory reservations for the demand use it in place of
+     * `bundle_component_id`. Example: "component-1842".
+     */
     "component_snapshot_id"?: string;
     /**
      * ID of the inventory item each unit of the line item uses. Example:
@@ -845,87 +1724,3 @@ export type MarkPackageInTransitRequestInput = {
 };
 /** Records the package action mark_out_for_delivery. */
 export type MarkPackageOutForDeliveryRequestInput = MarkPackageInTransitRequestInput;
-/** Records the package action mark_packed. */
-export type MarkPackagePackedRequestInput = MarkPackageDeliveredRequestInput;
-/** Records the package action mark_returned. */
-export type MarkPackageReturnedRequestInput = MarkPackageDeliveredRequestInput;
-/** Records the package action mark_shipped. */
-export type MarkPackageShippedRequest = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier handling this package. minLength: 1. maxLength: 100. */
-    "carrier"?: string;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-    /** Carrier service used for this package. minLength: 1. maxLength: 100. */
-    "service_code"?: string;
-    /** Carrier tracking number for this package. minLength: 1. maxLength: 255. */
-    "tracking_number"?: string;
-    /**
-     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1.
-     * maxLength: 2048.
-     */
-    "tracking_url"?: string;
-};
-/** Records the package action mark_shipped. */
-export type MarkPackageShippedRequestInput = {
-    /**
-     * Whether to send or suppress the buyer notification for this action. Value enum: "send",
-     * "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier handling this package. minLength: 1. maxLength: 100. */
-    "carrier"?: string;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /** Resource version the caller last read. Format: uint64. minimum: 1. */
-    "expected_version"?: number;
-    /**
-     * When the carrier scan or package action occurred, as an RFC 3339 timestamp. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "occurred_at"?: string | globalThis.Date;
-    /** Your note explaining this transition. minLength: 1. maxLength: 500. */
-    "reason_message"?: string;
-    /** Carrier service used for this package. minLength: 1. maxLength: 100. */
-    "service_code"?: string;
-    /** Carrier tracking number for this package. minLength: 1. maxLength: 255. */
-    "tracking_number"?: string;
-    /**
-     * Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1.
-     * maxLength: 2048.
-     */
-    "tracking_url"?: string;
-};
-export type MeCancelReturnParams = (InputValue<BuyerCancelReturnRequestInput>);
-export type MeCancelSubscriptionParams = (InputValue<CancelMeSubscriptionRequestInput>);
-export type MeChangeSubscriptionPlanParams = (InputValue<ChangeMeSubscriptionPlanRequestInput>);
-export type MeChangeSubscriptionQuantityParams = (InputValue<ChangeMeSubscriptionQuantityRequestInput>);
-export type MeConfirmEmailChangeRequestParams = (InputValue<ConfirmEmailChangeRequestInput>);
-export type MeCreateAddressParams = (InputValue<CreateCustomerAddressRequestInput>);
-export type MeCreateCheckoutSessionParams = (CreateMeCheckoutSessionRequestInput);
-export type MeCreateDeletionRequestParams = {};
-export type MeCreateEmailChangeRequestParams = (InputValue<CreateEmailChangeRequestInput>);
-export type MeCreateFlintWalletStoreSetupParams = {};
-export type MeCreatePaymentMethodParams = (InputValue<SaveMePaymentMethodRequestInput>);
-export type MeCreateReturnParams = (InputValue<BuyerCreateReturnRequestInput>);

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PayoutDestinationCreatedInstalledMerchantsEvent to ProductVariantUpdatedMerchantEvent
+# PayoutDestinationArchivedMerchantEvent to ProductVariantUpdatedInstalledMerchantsEvent
 
+- [PayoutDestinationArchivedMerchantEvent](PayoutDestinationArchivedMerchantEvent.md)
 - [PayoutDestinationCreatedInstalledMerchantsEvent](PayoutDestinationCreatedInstalledMerchantsEvent.md)
 - [PayoutDestinationCreatedMerchantEvent](PayoutDestinationCreatedMerchantEvent.md)
 - [PayoutDestinationDisabledInstalledMerchantsEvent](PayoutDestinationDisabledInstalledMerchantsEvent.md)
@@ -101,5 +102,4 @@
 - [ProductVariantSelectedOptionRequest](ProductVariantSelectedOptionRequest.md)
 - [ProductVariantSelectedOptionRequestInput](ProductVariantSelectedOptionRequestInput.md)
 - [ProductVariantUpdatedInstalledMerchantsEvent](ProductVariantUpdatedInstalledMerchantsEvent.md)
-- [ProductVariantUpdatedMerchantEvent](ProductVariantUpdatedMerchantEvent.md)
 

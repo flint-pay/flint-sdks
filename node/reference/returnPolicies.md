@@ -27,7 +27,7 @@ Body model: [CreateReturnPolicyRequestInput](../models/CreateReturnPolicyRequest
 | --- | --- | --- | --- |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Required | string | Name of the policy, from 1 to 255 characters. minLength: `1`. |
+| `name` | Required | string | Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace. minLength: `1`. |
 | `revision` | Required | [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequest.md#returnpolicyrevisionrequest) | The revision with the complete rules. A field you leave out doesn't carry over from the previous revision. The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee. |
 | `status` | Optional | string | Whether the policy applies to new Returns. Defaults to inactive. Creating an active policy checks for overlapping active policies and a usable receiving location, just like activation through PATCH. Default: `"inactive"`. Values: `"active"`, `"inactive"`. |
 
@@ -68,7 +68,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.returnPolicies.create({name: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {match_type: "all"}, ineligibility_reason: "final_sale"}}, { idempotencyKey: idempotencyKey });
+const result = await client.returnPolicies.create({name: "example", revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 0, scope: {match_type: "all"}, ineligibility_reason: "final_sale"}}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/returnPolicies-create.mjs)
@@ -97,7 +97,7 @@ Body model: [PublishReturnPolicyRevisionRequestInput](../models/PublishReturnPol
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `expected_version` | Required | integer | Required current version of the Return policy. A stale value returns VERSION_CONFLICT. Publishing increments the policy version. Format: `int64`. minimum: `1`. |
+| `expected_return_policy_version` | Required | integer | Required current version of the Return policy. A stale value returns VERSION_CONFLICT. Publishing increments the policy version. Format: `int64`. minimum: `1`. |
 | `revision` | Required | [ReturnPolicyRevisionRequestInput](../models/ReturnPolicyRevisionRequest.md#returnpolicyrevisionrequest) | The revision with the complete rules. A field you leave out doesn't carry over from the previous revision. The rules for a return policy revision: scope, eligibility, return window, approval and resolution modes, shipping, and restocking fee. |
 
 #### Response
@@ -137,7 +137,7 @@ Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authenticatio
 // Persist this key with the action before sending; reuse it for every resubmission.
 const idempotencyKey = crypto.randomUUID();
 
-const result = await client.returnPolicies.createRevision("rpol_01KEZF7C00H8C042BEK6HBRANX", {expected_version: 1, revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 1, scope: {match_type: "all"}, ineligibility_reason: "final_sale"}}, { idempotencyKey: idempotencyKey });
+const result = await client.returnPolicies.createRevision("rpol_01KEZF7C00H8C042BEK6HBRANX", {expected_return_policy_version: 1, revision: {approval_mode: "automatic", eligibility_result: "ineligible", is_merchandise_return_required: true, priority: 0, scope: {match_type: "all"}, ineligibility_reason: "final_sale"}}, { idempotencyKey: idempotencyKey });
 ```
 
 [Complete runnable example](../examples/returnPolicies-createRevision.mjs)
@@ -328,7 +328,7 @@ Signature: `list(params?: ReturnPoliciesListParams, options?: _SdkWithoutIdempot
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
-| `query` | Optional | string | Search by return policy ID, name, or external reference ID. |
+| `query` | Optional | string | Search by return_policy_id, name, or external_reference_id. Limited to 255 bytes after trimming surrounding whitespace. A blank query is ignored. |
 | `status` | Optional | Array of string or string | Filter by status. Omitted, the list leaves out archived rows; name archived to include them. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"inactive"`, `"archived"`. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `expand` | Optional | Array of string or string | Include related objects in the response. Supported expansions: current_revision. Include the requested related resources using scoped batch reads for this page. Each relationship requires its existing target read scopes. Expansion changes the representation without changing pagination tokens. Limits: at most 10 unique expand paths per request. Items values: `"current_revision"`. Values: `"current_revision"`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -461,7 +461,7 @@ Body model: [UpdateReturnPolicyRequestInput](../models/UpdateReturnPolicyRequest
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `int64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Send null to clear it. minLength: `1`. maxLength: `255`. |
 | `metadata` | Optional | [MetadataPatchRequestInput](../models/MetadataPatchRequest.md#metadatapatchrequest) or null | Caller-owned metadata. Omit this field to leave metadata unchanged. Send an object to merge by key, set a key to null to remove it, or set metadata to null to clear all caller-owned metadata. An empty object makes no change. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. |
-| `name` | Optional | string | Name of the policy, from 1 to 255 characters. minLength: `1`. |
+| `name` | Optional | string | Name of the policy, limited to 1 through 255 bytes after trimming surrounding whitespace. minLength: `1`. |
 | `status` | Optional | string | Set `active` to evaluate the policy or `inactive` to stop. Values: `"active"`, `"inactive"`. |
 
 #### Response

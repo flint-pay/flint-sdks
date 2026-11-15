@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# TaxJurisdictionRequestInput to UpdateInventoryTransferRequestInput
+# TaxCurrencyConversion to UpdateInventoryCountRequest
 
+- [TaxCurrencyConversion](TaxCurrencyConversion.md)
+- [TaxDefaultCalculation](TaxDefaultCalculation.md)
+- [TaxDefaultCalculationRequestInput](TaxDefaultCalculationRequestInput.md)
+- [TaxDisclosureStatement](TaxDisclosureStatement.md)
+- [TaxIdentity](TaxIdentity.md)
+- [TaxIdentityPatch](TaxIdentityPatch.md)
+- [TaxIdentityPatchInput](TaxIdentityPatchInput.md)
+- [TaxIdentityRequestInput](TaxIdentityRequestInput.md)
+- [TaxJurisdiction](TaxJurisdiction.md)
 - [TaxJurisdictionRequestInput](TaxJurisdictionRequestInput.md)
 - [TaxJurisdictionRequestModelInput](TaxJurisdictionRequestModelInput.md)
 - [TaxRegistration](TaxRegistration.md)
@@ -93,13 +102,4 @@
 - [UpdateInventoryAllocationPolicyRequest](UpdateInventoryAllocationPolicyRequest.md)
 - [UpdateInventoryAllocationPolicyRequestInput](UpdateInventoryAllocationPolicyRequestInput.md)
 - [UpdateInventoryCountRequest](UpdateInventoryCountRequest.md)
-- [UpdateInventoryCountRequestInput](UpdateInventoryCountRequestInput.md)
-- [UpdateInventoryItemRequest](UpdateInventoryItemRequest.md)
-- [UpdateInventoryItemRequestInput](UpdateInventoryItemRequestInput.md)
-- [UpdateInventoryLevelRequest](UpdateInventoryLevelRequest.md)
-- [UpdateInventoryLevelRequestInput](UpdateInventoryLevelRequestInput.md)
-- [UpdateInventoryReservationRequest](UpdateInventoryReservationRequest.md)
-- [UpdateInventoryReservationRequestInput](UpdateInventoryReservationRequestInput.md)
-- [UpdateInventoryTransferRequest](UpdateInventoryTransferRequest.md)
-- [UpdateInventoryTransferRequestInput](UpdateInventoryTransferRequestInput.md)
 

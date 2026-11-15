@@ -12,7 +12,6 @@ namespace Flint;
  * @property-read ?string $internal_note
  * @property-read ?list<InvoiceLineItem> $line_items
  * @property-read ?string $merchant_display_name
- * @property-read PricingAmounts $pricing_amounts
  * @property-read ?InvoiceTip $requested_tip
  * @property-read TaxIdentity|null $seller_tax_identity
  * @property-read list<BuyerInvoiceSnapshotTaxBreakdownsItemPercentage|BuyerInvoiceSnapshotTaxBreakdownsItemFlatAmount|\stdClass> $tax_breakdowns
@@ -21,7 +20,7 @@ namespace Flint;
  * @property-read TaxReverseCharge|null $tax_reverse_charge
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerInvoiceSnapshot extends Model {
-    /** @param array{'billing_address'?: mixed, 'buyer_note'?: string, 'buyer_tax_identity': mixed, 'charges'?: list<mixed>, 'customer_display_name'?: string, 'customer_email'?: string, 'discounts'?: list<mixed>, 'internal_note'?: string, 'line_items'?: list<mixed>, 'merchant_display_name'?: string, 'pricing_amounts': mixed, 'requested_tip'?: mixed, 'seller_tax_identity': mixed, 'tax_breakdowns': list<mixed>, 'tax_currency_conversions': list<mixed>, 'tax_exemption'?: mixed, 'tax_reverse_charge'?: mixed, ...}|object $values */
+    /** @param array{'billing_address'?: mixed, 'buyer_note'?: string, 'buyer_tax_identity': mixed, 'charges'?: list<mixed>, 'customer_display_name'?: string, 'customer_email'?: string, 'discounts'?: list<mixed>, 'internal_note'?: string, 'line_items'?: list<mixed>, 'merchant_display_name'?: string, 'requested_tip'?: mixed, 'seller_tax_identity': mixed, 'tax_breakdowns': list<mixed>, 'tax_currency_conversions': list<mixed>, 'tax_exemption'?: mixed, 'tax_reverse_charge'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerInvoiceSnapshot')); }
     /** Billing address captured on the invoice. Kept after the customer is deleted, because an issued invoice must keep it. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
@@ -73,11 +72,6 @@ final class BuyerInvoiceSnapshot extends Model {
      */
     public function getMerchantDisplayName(): ?string { return $this->get('merchant_display_name'); }
     public function hasMerchantDisplayName(): bool { return $this->has('merchant_display_name'); }
-    /** The invoice's pricing totals. Its total_money is the invoice total that the top-level total_money reports. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
-     * @return PricingAmounts
-     */
-    public function getPricingAmounts(): PricingAmounts { return $this->get('pricing_amounts'); }
-    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** The tip requested on the backing order, frozen at issue. Absent when none was requested. A tip requested on an invoice, set as a fixed amount or a percentage, with an optional name and description.
      * @return ?InvoiceTip
      */
@@ -88,7 +82,7 @@ final class BuyerInvoiceSnapshot extends Model {
      */
     public function getSellerTaxIdentity(): TaxIdentity|null { return $this->get('seller_tax_identity'); }
     public function hasSellerTaxIdentity(): bool { return $this->has('seller_tax_identity'); }
-    /** Tax jurisdiction rows for this invoice. A draft previews the backing order's current rows; issue freezes them, and the API, hosted invoice, and PDF share the frozen rows. External tax produces these rows. Automatic tax doesn't, so an automatic-tax invoice reports its tax in pricing_amounts and each line's tax_money. On a newly issued external-tax invoice, rows sum to pricing_amounts.tax_money, and rows with price_mode inclusive sum to pricing_amounts.inclusive_tax_money. A row's order_line_item_id matches the same field on InvoiceLineItem; order_charge_id names a charge in charges. Always [] when no tax rows apply. Some older external-tax invoices have no frozen rows. [] (Value): {@see TaxBreakdown}. The tax calculated for one jurisdiction on an order, line item, or charge, with the taxable amount, rate or flat amount, and tax.
+    /** Tax jurisdiction rows for this invoice. A draft previews the backing order's current rows; issue freezes them, and the API, hosted invoice, and PDF share the frozen rows. External tax produces these rows, and so does automatic tax outside the US, one per national or provincial tax. US automatic tax doesn't, so a US automatic-tax invoice reports its tax in pricing_amounts and each line's tax_money. On a newly issued external-tax invoice, rows sum to Invoice.pricing_amounts.tax_money, and rows with price_mode inclusive sum to Invoice.pricing_amounts.inclusive_tax_money. A row's order_line_item_id matches the same field on InvoiceLineItem; order_charge_id names a charge in charges. Always [] when no tax rows apply. Some older external-tax invoices have no frozen rows. [] (Value): {@see TaxBreakdown}. The tax calculated for one jurisdiction on an order, line item, or charge, with the taxable amount, rate or flat amount, and tax.
      * @return list<BuyerInvoiceSnapshotTaxBreakdownsItemPercentage|BuyerInvoiceSnapshotTaxBreakdownsItemFlatAmount|\stdClass>
      */
     public function getTaxBreakdowns(): array { return $this->get('tax_breakdowns'); }

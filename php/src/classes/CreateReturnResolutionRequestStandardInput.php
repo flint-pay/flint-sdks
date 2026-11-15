@@ -11,9 +11,10 @@ namespace Flint;
  * @property-read string $pricing_basis
  * @property-read list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass> $replacement_line_items
  * @property-read string $resolution_type
+ * @property-read string $return_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnResolutionRequestStandardInput extends Model {
-    /** @param array{'adjustments'?: list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string}|object $values */
+    /** @param array{'adjustments'?: list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string, 'return_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnResolutionRequestStandardInput')); }
     /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived.
      * @return list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>
@@ -69,4 +70,10 @@ final class CreateReturnResolutionRequestStandardInput extends Model {
      */
     public function getResolutionType(): string { return $this->get('resolution_type'); }
     public function hasResolutionType(): bool { return $this->has('resolution_type'); }
+    /** ID of the Return the resolution is for. minLength: 1. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
 }

@@ -6,13 +6,38 @@ import type {
     WorkloadIdentityOptions
 } from '../runtime.js';
 import type {
+    UpdateModifierSetRequestInput,
+    UpdateOrderChargeRequestInput,
+    UpdateOrderRequestInput,
+    UpdatePackageItemRequestInput,
+    UpdatePackageRequestInput,
+    UpdatePartnerAppRequestInput,
+    UpdatePaymentIntentRequestInput,
+    UpdatePaymentLinkRequestInput,
+    UpdatePaymentMethodDomainRequestInput,
+    UpdatePayoutDestinationRequestInput,
+    UpdatePayoutSettingsRequestInput,
+    UpdatePickupFulfillmentDetailsInput,
+    UpdatePriceListPriceRequestInput,
+    UpdatePriceListRequestInput,
+    UpdateProductOptionRequestInput,
+    UpdateProductOptionValueRequestInput,
+    UpdateProductRequestInput,
+    UpdateProductVariantRequestInput,
+    UpdatePromotionCodeRequestInput,
+    UpdatePromotionRequestInput,
+    UpdateReaderRequestInput
+} from './types-67.js';
+import type {
+    UpdateRefundRequestInput,
+    UpdateReturnLineItemRequestInput,
+    UpdateReturnPolicyRequestInput,
+    UpdateReturnReasonRequestInput,
     UpdateReturnReplacementLineItemInputBundleInput,
     UpdateReturnReplacementLineItemInputCustomInput,
     UpdateReturnReplacementLineItemInputVariantInput,
     UpdateReturnReplacementLineItemRequestInput,
-    UpdateReturnRequestInput
-} from './types-67.js';
-import type {
+    UpdateReturnRequestInput,
     UpdateReturnResolutionAdjustmentRequestInput,
     UpdateReturnResolutionLineItemRequestInput,
     UpdateReturnResolutionRequestInput,
@@ -33,7 +58,9 @@ import type {
     UpdateTaxRegistrationRequestInput,
     UpdateTicketRequestInput,
     UpdateWebhookEndpointRequestInput,
-    UpdateWorkloadIdentityRequestInput,
+    UpdateWorkloadIdentityRequestInput
+} from './types-68.js';
+import type {
     VerifyMerchantSignupRequestInput,
     VerifyReturnReceiptLineItemRequestInput,
     VoidPackageRequestInput,
@@ -41,13 +68,38 @@ import type {
     WaiveInvoiceLateFeeRequestInput,
     WaiveReturnLineInspectionRequestInput,
     VerifiedWebhook
-} from './types-68.js';
+} from './types-69.js';
 import type {
     WebhookSigningMethodInput,
     WeightRequestInput,
     WorkloadIdentityClaimConditionRequestInput,
     WebhookVerificationOptions
-} from './types-69.js';
+} from './types-70.js';
+export declare function makeUpdateModifierSetRequest(value: InputValue<UpdateModifierSetRequestInput>): Model<UpdateModifierSetRequestInput>;
+export declare function makeUpdateOrderChargeRequest(value: InputValue<UpdateOrderChargeRequestInput>): Model<UpdateOrderChargeRequestInput>;
+export declare function makeUpdateOrderRequest(value: InputValue<UpdateOrderRequestInput>): Model<UpdateOrderRequestInput>;
+export declare function makeUpdatePackageItemRequest(value: InputValue<UpdatePackageItemRequestInput>): Model<UpdatePackageItemRequestInput>;
+export declare function makeUpdatePackageRequest(value: InputValue<UpdatePackageRequestInput>): Model<UpdatePackageRequestInput>;
+export declare function makeUpdatePartnerAppRequest(value: InputValue<UpdatePartnerAppRequestInput>): Model<UpdatePartnerAppRequestInput>;
+export declare function makeUpdatePaymentIntentRequest(value: InputValue<UpdatePaymentIntentRequestInput>): Model<UpdatePaymentIntentRequestInput>;
+export declare function makeUpdatePaymentLinkRequest(value: InputValue<UpdatePaymentLinkRequestInput>): Model<UpdatePaymentLinkRequestInput>;
+export declare function makeUpdatePaymentMethodDomainRequest(value: InputValue<UpdatePaymentMethodDomainRequestInput>): Model<UpdatePaymentMethodDomainRequestInput>;
+export declare function makeUpdatePayoutDestinationRequest(value: InputValue<UpdatePayoutDestinationRequestInput>): Model<UpdatePayoutDestinationRequestInput>;
+export declare function makeUpdatePayoutSettingsRequest(value: InputValue<UpdatePayoutSettingsRequestInput>): Model<UpdatePayoutSettingsRequestInput>;
+export declare function makeUpdatePickupFulfillmentDetails(value: InputValue<UpdatePickupFulfillmentDetailsInput>): Model<UpdatePickupFulfillmentDetailsInput>;
+export declare function makeUpdatePriceListPriceRequest(value: InputValue<UpdatePriceListPriceRequestInput>): Model<UpdatePriceListPriceRequestInput>;
+export declare function makeUpdatePriceListRequest(value: InputValue<UpdatePriceListRequestInput>): Model<UpdatePriceListRequestInput>;
+export declare function makeUpdateProductOptionRequest(value: InputValue<UpdateProductOptionRequestInput>): Model<UpdateProductOptionRequestInput>;
+export declare function makeUpdateProductOptionValueRequest(value: InputValue<UpdateProductOptionValueRequestInput>): Model<UpdateProductOptionValueRequestInput>;
+export declare function makeUpdateProductRequest(value: InputValue<UpdateProductRequestInput>): Model<UpdateProductRequestInput>;
+export declare function makeUpdateProductVariantRequest(value: InputValue<UpdateProductVariantRequestInput>): Model<UpdateProductVariantRequestInput>;
+export declare function makeUpdatePromotionCodeRequest(value: InputValue<UpdatePromotionCodeRequestInput>): Model<UpdatePromotionCodeRequestInput>;
+export declare function makeUpdatePromotionRequest(value: InputValue<UpdatePromotionRequestInput>): Model<UpdatePromotionRequestInput>;
+export declare function makeUpdateReaderRequest(value: InputValue<UpdateReaderRequestInput>): Model<UpdateReaderRequestInput>;
+export declare function makeUpdateRefundRequest(value: InputValue<UpdateRefundRequestInput>): Model<UpdateRefundRequestInput>;
+export declare function makeUpdateReturnLineItemRequest(value: InputValue<UpdateReturnLineItemRequestInput>): Model<UpdateReturnLineItemRequestInput>;
+export declare function makeUpdateReturnPolicyRequest(value: InputValue<UpdateReturnPolicyRequestInput>): Model<UpdateReturnPolicyRequestInput>;
+export declare function makeUpdateReturnReasonRequest(value: InputValue<UpdateReturnReasonRequestInput>): Model<UpdateReturnReasonRequestInput>;
 export declare function makeUpdateReturnReplacementLineItemInputBundle(value: InputValue<UpdateReturnReplacementLineItemInputBundleInput>): Model<UpdateReturnReplacementLineItemInputBundleInput>;
 export declare function makeUpdateReturnReplacementLineItemInputCustom(value: InputValue<UpdateReturnReplacementLineItemInputCustomInput>): Model<UpdateReturnReplacementLineItemInputCustomInput>;
 export declare function makeUpdateReturnReplacementLineItemInputVariant(value: InputValue<UpdateReturnReplacementLineItemInputVariantInput>): Model<UpdateReturnReplacementLineItemInputVariantInput>;

@@ -1,20 +1,682 @@
-import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams } from './types-23.js';
-import type {
-    ExpandedPaymentIntentSummary,
-    ExpandedCustomerSummary,
-    ExpandedOrderSummary,
-    ExpandedPayoutDestinationSummary,
-    ExpandedPayoutSummary
-} from './types-24.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { SplitReversalReference } from './types-59.js';
-import type { ResourceReference, ResponseMeta } from './types-54.js';
-import type { MerchantWebhookEnvelope, MetadataMap } from './types-37.js';
+import type { CardDetails } from './types-5.js';
+import type { ExpandedCustomerSummary, ExpandedPaymentIntentSummary, ExpandedOrderSummary } from './types-24.js';
+import type { MerchantWebhookEnvelope } from './types-38.js';
+import type { PaymentMethod } from './types-46.js';
+import type { ResponseMeta, ResourceReference } from './types-54.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { StripeClientSetup, SplitReversalReference } from './types-60.js';
+import type { InputValue } from '../runtime.js';
+import type { SavePaymentMethodRequestInput } from './types-59.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { DeclinePaymentReviewRequestInput } from './types-16.js';
 import type { ReaderPaymentSourceTip, ReaderPaymentSourceTipInput } from './types-52.js';
-import type { PayoutTraceID } from './types-48.js';
+/**
+ * The `payment_method.failed` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PaymentMethodFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "payment_method.failed". */
+    "event_type"?: "payment_method.failed";
+});
+/** A page of `PaymentMethod` objects. */
+export type PaymentMethodListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * PaymentMethod}. A customer's saved payment details.
+     */
+    "data": Array<PaymentMethod>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `PaymentMethod` data. */
+export type PaymentMethodResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A customer's saved
+     * payment details.
+     */
+    "data": PaymentMethod;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type PaymentMethodUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    "event_source"?: ("merchant") & ("merchant");
+    "event_type"?: "payment_method.updated";
+}))
+    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    "data"?: {
+        "object": {
+            "card"?: CardDetails;
+            "created_at": string;
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            "customer_id": string;
+            "fingerprint"?: string;
+            "is_default": boolean;
+            "merchant_id": string;
+            "payment_method_id": string;
+            "saved_with"?: "flint" | "store" | (string & {});
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            "type": "card" | (string & {});
+            "updated_at": string;
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    "event_source"?: ("installed_merchants") & ("installed_merchants");
+    "event_type"?: "payment_method.updated";
+    "source"?: ({
+        "environment_grant_id": string;
+        "merchant_id": string;
+        "mode": "test" | "live" | (string & {});
+        "partner_app_install_id": string;
+        "sandbox_id"?: string;
+    });
+})))
+    & {
+    "event_type": "payment_method.updated";
+});
+/**
+ * The `payment_method.updated` webhook payload for the `installed_merchants` event source. Fields
+ * shared by partner webhook payloads.
+ */
+export type PaymentMethodUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    /** Value enum: "installed_merchants". */
+    "event_source"?: "installed_merchants" | (string & {});
+    /** Value enum: "payment_method.updated". */
+    "event_type"?: "payment_method.updated";
+    /**
+     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
+     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
+     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
+     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
+     * "test", "live". partner_app_install_id (Required): string. The install connecting the
+     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
+     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "source"?: ({
+        /**
+         * The grant authorizing delivery from this merchant environment. Example:
+         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
+         */
+        "environment_grant_id": string;
+        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
+        "merchant_id": string;
+        /**
+         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
+         * "test", "live".
+         */
+        "mode": "test" | "live" | (string & {});
+        /**
+         * The install connecting the merchant to the partner app. Example:
+         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
+         */
+        "partner_app_install_id": string;
+        /**
+         * The sandbox the event came from, present only in test mode. Example:
+         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+         */
+        "sandbox_id"?: string;
+    });
+});
+/**
+ * The `payment_method.updated` webhook payload for the `merchant` event source. Fields shared by
+ * merchant webhook payloads.
+ */
+export type PaymentMethodUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
+    & ({
+    /**
+     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
+     * additional fields. object.card (Optional): {@link CardDetails}. Brand, expiry and last four
+     * digits. Present when `type` is `card`. Card details on a payment method: brand, expiration
+     * month and year, last four digits, and the wallet when one was used. object.created_at
+     * (Required): string. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.customer (Optional): {@link ExpandedCustomerSummary} or null. Present only when
+     * `expand` includes `customer`; `null` when expanded and there is no related customer.
+     * object.customer.anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's summary
+     * fields, returned in place of a customer ID when the customer is expanded.
+     * object.customer.anyOf[2] (Value): null. object.customer_id (Required): string. Customer this
+     * payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". object.fingerprint
+     * (Optional): string. A value that is the same for every saved copy of one card number at this
+     * merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere
+     * else. A card added through Apple Pay or Google Pay can have a different fingerprint from the
+     * same card typed in. object.is_default (Required): boolean. Whether this is the customer's
+     * default payment method, the one Customer.default_payment_method_id names. Change the default
+     * with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+     * event. object.merchant_id (Required): string. ID of the merchant this resource belongs to.
+     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.payment_method_id (Required): string.
+     * Unique identifier for this payment method, prefixed `pm_`. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ". object.saved_with (Optional): string. Where the buyer saved
+     * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet support
+     * is enabled. Accept future values. Value enum: "flint", "store". object.status (Required):
+     * string. Whether the payment method can be charged. Treat any value other than active as not
+     * chargeable, including values added later. Value enum: "pending", "active", "expired",
+     * "archived", "failed". object.type (Required): string. Kind of payment method. Value enum:
+     * "card". object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.usage (Required): string. When Flint may charge the payment
+     * method. off_session payment methods can pay subscriptions, automatic invoices, and other
+     * charges without the buyer, and can be a customer's default. on_session payment methods were
+     * saved by the buyer in checkout for faster checkout at this merchant; Flint charges them only
+     * in checkouts the buyer completes and refuses them for any charge without the buyer and as a
+     * default. Payment methods saved before usage existed are off_session. Value enum:
+     * "on_session", "off_session". previous_attributes (Optional): object. Previous values of
+     * changed top-level fields in data.object, at this delivery's API version. Nested changes
+     * include the whole previous top-level value. A value is null when the field was absent before
+     * the change. Omitted when Flint did not record the previous state, including synthetic test
+     * events.
+     */
+    "data"?: {
+        /**
+         * The resource snapshot, without expansions. Webhooks omit no additional fields. card
+         * (Optional): {@link CardDetails}. Brand, expiry and last four digits. Present when `type`
+         * is `card`. Card details on a payment method: brand, expiration month and year, last four
+         * digits, and the wallet when one was used. created_at (Required): string. RFC3339
+         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". customer (Optional):
+         * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
+         * `null` when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
+         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
+         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
+         * (Required): string. Customer this payment method belongs to. Example:
+         * "cus_01KEZF7C006X9JK6NZNA2SM9XD". fingerprint (Optional): string. A value that is the
+         * same for every saved copy of one card number at this merchant and environment, so you
+         * can spot duplicates. It doesn't identify the card anywhere else. A card added through
+         * Apple Pay or Google Pay can have a different fingerprint from the same card typed in.
+         * is_default (Required): boolean. Whether this is the customer's default payment method,
+         * the one Customer.default_payment_method_id names. Change the default with PATCH
+         * /v1/customers/{customer_id}; that sends customer.updated, not a payment method event.
+         * merchant_id (Required): string. ID of the merchant this resource belongs to. Example:
+         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". payment_method_id (Required): string. Unique
+         * identifier for this payment method, prefixed `pm_`. Example:
+         * "pm_01KEZF7C0034B248TXXE4NXYFZ". saved_with (Optional): string. Where the buyer saved
+         * this payment method. Returned on /v1/me/payment-methods responses when Flint wallet
+         * support is enabled. Accept future values. Value enum: "flint", "store". status
+         * (Required): string. Whether the payment method can be charged. Treat any value other
+         * than active as not chargeable, including values added later. Value enum: "pending",
+         * "active", "expired", "archived", "failed". type (Required): string. Kind of payment
+         * method. Value enum: "card". updated_at (Required): string. RFC3339 timestamp. Format:
+         * date-time. Example: "2026-08-02T16:00:00Z". usage (Required): string. When Flint may
+         * charge the payment method. off_session payment methods can pay subscriptions, automatic
+         * invoices, and other charges without the buyer, and can be a customer's default.
+         * on_session payment methods were saved by the buyer in checkout for faster checkout at
+         * this merchant; Flint charges them only in checkouts the buyer completes and refuses them
+         * for any charge without the buyer and as a default. Payment methods saved before usage
+         * existed are off_session. Value enum: "on_session", "off_session".
+         */
+        "object": {
+            /**
+             * Brand, expiry and last four digits. Present when `type` is `card`. Card details on a
+             * payment method: brand, expiration month and year, last four digits, and the wallet
+             * when one was used.
+             */
+            "card"?: CardDetails;
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "created_at": string;
+            /**
+             * Present only when `expand` includes `customer`; `null` when expanded and there is no
+             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
+             * summary fields, returned in place of a customer ID when the customer is expanded.
+             * anyOf[2] (Value): null.
+             */
+            "customer"?: ((ExpandedCustomerSummary) | (null));
+            /**
+             * Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
+            "customer_id": string;
+            /**
+             * A value that is the same for every saved copy of one card number at this merchant
+             * and environment, so you can spot duplicates. It doesn't identify the card anywhere
+             * else. A card added through Apple Pay or Google Pay can have a different fingerprint
+             * from the same card typed in.
+             */
+            "fingerprint"?: string;
+            /**
+             * Whether this is the customer's default payment method, the one
+             * Customer.default_payment_method_id names. Change the default with PATCH
+             * /v1/customers/{customer_id}; that sends customer.updated, not a payment method
+             * event.
+             */
+            "is_default": boolean;
+            /**
+             * ID of the merchant this resource belongs to. Example:
+             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+             */
+            "merchant_id": string;
+            /**
+             * Unique identifier for this payment method, prefixed `pm_`. Example:
+             * "pm_01KEZF7C0034B248TXXE4NXYFZ".
+             */
+            "payment_method_id": string;
+            /**
+             * Where the buyer saved this payment method. Returned on /v1/me/payment-methods
+             * responses when Flint wallet support is enabled. Accept future values. Value enum:
+             * "flint", "store".
+             */
+            "saved_with"?: "flint" | "store" | (string & {});
+            /**
+             * Whether the payment method can be charged. Treat any value other than active as not
+             * chargeable, including values added later. Value enum: "pending", "active",
+             * "expired", "archived", "failed".
+             */
+            "status": "pending" | "active" | "expired" | "archived" | "failed" | (string & {});
+            /** Kind of payment method. Value enum: "card". */
+            "type": "card" | (string & {});
+            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            "updated_at": string;
+            /**
+             * When Flint may charge the payment method. off_session payment methods can pay
+             * subscriptions, automatic invoices, and other charges without the buyer, and can be a
+             * customer's default. on_session payment methods were saved by the buyer in checkout
+             * for faster checkout at this merchant; Flint charges them only in checkouts the buyer
+             * completes and refuses them for any charge without the buyer and as a default.
+             * Payment methods saved before usage existed are off_session. Value enum:
+             * "on_session", "off_session".
+             */
+            "usage": "on_session" | "off_session" | (string & {});
+        };
+        /**
+         * Previous values of changed top-level fields in data.object, at this delivery's API
+         * version. Nested changes include the whole previous top-level value. A value is null when
+         * the field was absent before the change. Omitted when Flint did not record the previous
+         * state, including synthetic test events.
+         */
+        "previous_attributes"?: Partial<PaymentMethod>;
+    };
+    /** Value enum: "merchant". */
+    "event_source"?: "merchant" | (string & {});
+    /** Value enum: "payment_method.updated". */
+    "event_type"?: "payment_method.updated";
+});
+/**
+ * The saved payment method, with `client_setup` when the buyer must still complete processor setup
+ * before the payment method can be used. A customer's saved payment details.
+ */
+export type PaymentMethodWithSetup = (Exclude<PaymentMethod & object, readonly unknown[]>)
+    & ({
+    /**
+     * Present when the buyer must complete processor setup before using this payment method.
+     * Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call
+     * now. setup_collection is guidance instead and never carries a secret.
+     */
+    "client_setup"?: StripeClientSetup;
+});
+export type PaymentMethodsCreateParams = (InputValue<SavePaymentMethodRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
 export type PaymentMethodsDeleteParams = DisputesAcceptParams;
 export type PaymentMethodsGetParams = {
     /**
@@ -138,11 +800,13 @@ export type PaymentRefund = {
     /**
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
-     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix
-     * the cause, then create a new refund with a new idempotency key. Unknown provider values are
-     * returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted",
+     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
+     * payment_returned refund that failed with refund_abandoned cannot be retried through Flint;
+     * the store must arrange repayment outside Flint. Fix the cause, then create a new refund with
+     * a new idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
      * "refund_failed".
      */
     "failure_reason"?: "expired_or_canceled_card"
@@ -152,6 +816,7 @@ export type PaymentRefund = {
         | "declined"
         | "merchant_request"
         | "payment_disputed"
+        | "refund_abandoned"
         | "payment_refund_failed"
         | "payment_refund_not_attempted"
         | "refund_failed"
@@ -207,7 +872,10 @@ export type PaymentRefund = {
 };
 /** A payment review requiring a merchant decision. */
 export type PaymentReview = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
     "closed_at": string | null;
     /**
      * The credential that closed this payment review. Null when Flint closed it. anyOf[1] (Value):
@@ -216,8 +884,8 @@ export type PaymentReview = {
      */
     "closed_by": ((ResourceReference) | (null));
     /**
-     * Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled", "expired",
-     * null.
+     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
+     * "declined", "refunded", "disputed", "payment_canceled", "expired", null.
      */
     "closed_reason": "approved"
         | "declined"
@@ -234,8 +902,15 @@ export type PaymentReview = {
      * returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
      */
     "customer"?: ((ExpandedCustomerSummary) | (null));
-    /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+    /**
+     * ID of the customer the payment was made for. `null` when the payment has no customer.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
     "customer_id": string | null;
+    /**
+     * The buyer's IP address recorded for the payment when it was confirmed. `null` when no buyer
+     * IP address was supplied for the payment.
+     */
     "ip_address": string | null;
     /**
      * The most recent resolution attempt that failed. Set when a decline's refund failed and the
@@ -244,11 +919,14 @@ export type PaymentReview = {
      * `refund_id` and when it failed. anyOf[2] (Value): null.
      */
     "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-    /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-    "matched_risk_rule_id": string | null;
+    /**
+     * ID of the risk rule with the review action that opened this review. Example:
+     * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     */
+    "matched_risk_rule_id": string;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "opened_at": string;
-    /** Value enum: "rule". */
+    /** Why Flint opened the review. Value enum: "rule". */
     "opened_reason": "rule" | (string & {});
     /**
      * Present only when `expand` includes `order`; `null` when expanded and there is no related
@@ -257,11 +935,14 @@ export type PaymentReview = {
      * order is expanded. anyOf[2] (Value): null.
      */
     "order"?: ((ExpandedOrderSummary) | (null));
-    /** Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+    /**
+     * ID of the order the payment belongs to. `null` when the payment doesn't belong to an order.
+     * Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     */
     "order_id": string | null;
     /**
-     * Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api".
+     * How the reviewed payment was started. Value enum: "checkout", "payment_link", "invoice",
+     * "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
      */
     "payment_flow": "checkout"
         | "payment_link"
@@ -278,7 +959,7 @@ export type PaymentReview = {
      * payment intent is expanded. anyOf[2] (Value): null.
      */
     "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-    /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+    /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
     "payment_intent_id": string;
     /**
      * Unique identifier for this payment review, prefixed `rev_`. Example:
@@ -286,8 +967,9 @@ export type PaymentReview = {
      */
     "payment_review_id": string;
     /**
-     * The payment details shown on a review: amount, capture method, authorization expiry, card
-     * brand and last four digits, and buyer email.
+     * A snapshot of the payment as it was when the review opened. The payment details shown on a
+     * review: amount, capture method, authorization expiry, card brand and last four digits, and
+     * buyer email.
      */
     "payment_summary": PaymentReviewPaymentSummary;
     /**
@@ -296,7 +978,9 @@ export type PaymentReview = {
      */
     "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
     /**
-     * The refund that closed this review. Null otherwise. Example:
+     * The refund created when the payment was declined. It can be set while status is resolving,
+     * before the refund finishes and the review closes. `null` when no refund exists for the
+     * review, including after a decline that needed none or when the review is open. Example:
      * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      */
     "refund_id": string | null;
@@ -306,7 +990,10 @@ export type PaymentReview = {
      * code. anyOf[2] (Value): null.
      */
     "refunded_money": ((MoneyValue) | (null));
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    /**
+     * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
+     * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
     "resolution_started_at": string | null;
     /**
      * The credential that started resolving this payment review, retained after closure. Null when
@@ -315,9 +1002,12 @@ export type PaymentReview = {
      * null.
      */
     "resolution_started_by": ((ResourceReference) | (null));
-    /** The risk assessment shown on a review: a `level` and, when available, a numeric `score`. */
+    /**
+     * The payment's risk level and score when the review opened. The risk assessment shown on a
+     * review: a `level` and, when available, a numeric `score`.
+     */
     "risk": PaymentReviewRisk;
-    /** Value enum: "open", "resolving", "closed". */
+    /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
     "status": "open" | "resolving" | "closed" | (string & {});
     /**
      * Lifecycle actions accepted in the current stored review state. An action remains listed
@@ -347,7 +1037,7 @@ export type PaymentReviewClosedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "customer_id": string | null;
             "ip_address": string | null;
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string | null;
+            "matched_risk_rule_id": string;
             "opened_at": string;
             "opened_reason": "rule" | (string & {});
             "order"?: ((ExpandedOrderSummary) | (null));
@@ -398,7 +1088,7 @@ export type PaymentReviewClosedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "customer_id": string | null;
             "ip_address": string | null;
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string | null;
+            "matched_risk_rule_id": string;
             "opened_at": string;
             "opened_reason": "rule" | (string & {});
             "order"?: ((ExpandedOrderSummary) | (null));
@@ -448,137 +1138,163 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_by (Required): {@link
-     * ResourceReference} or null. The credential that closed this payment review. Null when Flint
-     * closed it. object.closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.closed_by.anyOf[2] (Value):
-     * null. object.closed_reason (Required): string or null. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null. object.customer (Optional):
-     * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-     * `null` when expanded and there is no related customer. object.customer.anyOf[1] (Value):
-     * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
-     * customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. object.last_resolution_failure (Required):
-     * {@link PaymentReviewResolutionFailure} or null. The most recent resolution attempt that
-     * failed. Set when a decline's refund failed and the review reopened. Null when no attempt has
-     * failed. object.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with the
-     * `refund_id` and when it failed. object.last_resolution_failure.anyOf[2] (Value): null.
-     * object.matched_risk_rule_id (Required): string or null. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319". object.opened_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.opened_reason (Required): string.
-     * Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null. Present
-     * only when `expand` includes `order`; `null` when expanded and there is no related order.
-     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-     * including status, payment and refund status, and pricing and settlement amounts, returned
-     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
-     * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow (Required):
-     * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". object.payment_intent (Optional): {@link
+     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
+     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
+     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
+     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
+     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
+     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
+     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
+     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
+     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
+     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
+     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
+     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
+     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
+     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
+     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
+     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
+     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
+     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+     * fields, including status, payment and refund status, and pricing and settlement amounts,
+     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
+     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
+     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
+     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
+     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
      * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
      * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
      * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
      * amount, status, and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_review_id (Required): string.
-     * Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary (Required): {@link
-     * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture method,
+     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_review_id (Required): string. Unique identifier for this payment review,
+     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
+     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
+     * the review opened. The payment details shown on a review: amount, capture method,
      * authorization expiry, card brand and last four digits, and buyer email.
      * object.pending_action (Required): string or null. The decision being carried out. `null`
      * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund that closed this review. Null
-     * otherwise. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refunded_money (Required):
-     * {@link MoneyValue} or null. Refunded amount for this review. Null when no refund is
-     * recorded. object.refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.resolution_started_by (Required): {@link ResourceReference} or null. The credential
-     * that started resolving this payment review, retained after closure. Null when no resolution
-     * has started or Flint started it. object.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.resolution_started_by.anyOf[2] (Value): null. object.risk (Required): {@link
-     * PaymentReviewRisk}. The risk assessment shown on a review: a `level` and, when available, a
-     * numeric `score`. object.status (Required): string. Value enum: "open", "resolving",
-     * "closed". object.supported_actions (Required): Array of string. Lifecycle actions accepted
-     * in the current stored review state. An action remains listed while it is processing or can
-     * be repeated without changing the result. [] enum: "approve", "decline".
-     * object.supported_actions[] (Value): string. Value enum: "approve", "decline".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * object.refund_id (Required): string or null. The refund created when the payment was
+     * declined. It can be set while status is resolving, before the refund finishes and the review
+     * closes. `null` when no refund exists for the review, including after a decline that needed
+     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
+     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
+     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
+     * review and Flint hasn't started expiring it. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
+     * or null. The credential that started resolving this payment review, retained after closure.
+     * Null when no resolution has started or Flint started it.
+     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
+     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
+     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
+     * available, a numeric `score`. object.status (Required): string. Where the review is in its
+     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted in the current stored review state. An action
+     * remains listed while it is processing or can be repeated without changing the result. []
+     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
+     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_by (Required): {@link ResourceReference} or null. The
-         * credential that closed this payment review. Null when Flint closed it.
-         * closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to another resource
-         * by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Required): string or null. Value enum: "approved", "declined", "refunded", "disputed",
+         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
+         * ResourceReference} or null. The credential that closed this payment review. Null when
+         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
+         * closed_reason (Required): string or null. How the review was resolved. `null` when the
+         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
          * "payment_canceled", "expired", null. customer (Optional): {@link
          * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
          * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
          * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
          * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. last_resolution_failure (Required): {@link
-         * PaymentReviewResolutionFailure} or null. The most recent resolution attempt that failed.
-         * Set when a decline's refund failed and the review reopened. Null when no attempt has
-         * failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with
-         * the `refund_id` and when it failed. last_resolution_failure.anyOf[2] (Value): null.
-         * matched_risk_rule_id (Required): string or null. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". opened_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". opened_reason (Required): string.
+         * (Required): string or null. ID of the customer the payment was made for. `null` when the
+         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
+         * (Required): string or null. The buyer's IP address recorded for the payment when it was
+         * confirmed. `null` when no buyer IP address was supplied for the payment.
+         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
+         * most recent resolution attempt that failed. Set when a decline's refund failed and the
+         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
+         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
+         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
+         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
          * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
          * when `expand` includes `order`; `null` when expanded and there is no related order.
          * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
          * including status, payment and refund status, and pricing and settlement amounts,
          * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Required): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id
-         * (Required): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_summary (Required): {@link
-         * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture
-         * method, authorization expiry, card brand and last four digits, and buyer email.
+         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
+         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
+         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
+         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
+         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
+         * payment as it was when the review opened. The payment details shown on a review: amount,
+         * capture method, authorization expiry, card brand and last four digits, and buyer email.
          * pending_action (Required): string or null. The decision being carried out. `null` when
          * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund that closed this review. Null otherwise. Example:
-         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money (Required): {@link MoneyValue} or null.
-         * Refunded amount for this review. Null when no refund is recorded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. refunded_money.anyOf[2] (Value):
-         * null. resolution_started_at (Required): string or null. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". resolution_started_by (Required): {@link
-         * ResourceReference} or null. The credential that started resolving this payment review,
-         * retained after closure. Null when no resolution has started or Flint started it.
-         * resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. resolution_started_by.anyOf[2]
-         * (Value): null. risk (Required): {@link PaymentReviewRisk}. The risk assessment shown on
-         * a review: a `level` and, when available, a numeric `score`. status (Required): string.
-         * Value enum: "open", "resolving", "closed". supported_actions (Required): Array of
-         * string. Lifecycle actions accepted in the current stored review state. An action remains
-         * listed while it is processing or can be repeated without changing the result. [] enum:
-         * "approve", "decline". supported_actions[] (Value): string. Value enum: "approve",
-         * "decline". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * (Required): string or null. The refund created when the payment was declined. It can be
+         * set while status is resolving, before the refund finishes and the review closes. `null`
+         * when no refund exists for the review, including after a decline that needed none or when
+         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
+         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
+         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
+         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
+         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
+         * started resolving this payment review, retained after closure. Null when no resolution
+         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
+         * ResourceReference}. A reference to another resource by `resource_type` and
+         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
+         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
+         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
+         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
+         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
+         * accepted in the current stored review state. An action remains listed while it is
+         * processing or can be repeated without changing the result. [] enum: "approve",
+         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z".
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "closed_at": string | null;
             /**
              * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
@@ -587,8 +1303,8 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "closed_by": ((ResourceReference) | (null));
             /**
-             * Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-             * "expired", null.
+             * How the review was resolved. `null` when the review isn't closed. Value enum:
+             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
              */
             "closed_reason": "approved"
                 | "declined"
@@ -606,8 +1322,15 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * anyOf[2] (Value): null.
              */
             "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            /**
+             * ID of the customer the payment was made for. `null` when the payment has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
             "customer_id": string | null;
+            /**
+             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
+             * no buyer IP address was supplied for the payment.
+             */
             "ip_address": string | null;
             /**
              * The most recent resolution attempt that failed. Set when a decline's refund failed
@@ -616,11 +1339,14 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * with the `refund_id` and when it failed. anyOf[2] (Value): null.
              */
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-            "matched_risk_rule_id": string | null;
+            /**
+             * ID of the risk rule with the review action that opened this review. Example:
+             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+             */
+            "matched_risk_rule_id": string;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "opened_at": string;
-            /** Value enum: "rule". */
+            /** Why Flint opened the review. Value enum: "rule". */
             "opened_reason": "rule" | (string & {});
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
@@ -629,11 +1355,15 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * amounts, returned when the order is expanded. anyOf[2] (Value): null.
              */
             "order"?: ((ExpandedOrderSummary) | (null));
-            /** Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            /**
+             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
+             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
             "order_id": string | null;
             /**
-             * Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api".
+             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
+             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
+             * "api".
              */
             "payment_flow": "checkout"
                 | "payment_link"
@@ -651,7 +1381,7 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * (Value): null.
              */
             "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
             "payment_intent_id": string;
             /**
              * Unique identifier for this payment review, prefixed `rev_`. Example:
@@ -659,8 +1389,9 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "payment_review_id": string;
             /**
-             * The payment details shown on a review: amount, capture method, authorization expiry,
-             * card brand and last four digits, and buyer email.
+             * A snapshot of the payment as it was when the review opened. The payment details
+             * shown on a review: amount, capture method, authorization expiry, card brand and last
+             * four digits, and buyer email.
              */
             "payment_summary": PaymentReviewPaymentSummary;
             /**
@@ -669,8 +1400,10 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
             /**
-             * The refund that closed this review. Null otherwise. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+             * The refund created when the payment was declined. It can be set while status is
+             * resolving, before the refund finishes and the review closes. `null` when no refund
+             * exists for the review, including after a decline that needed none or when the review
+             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
              */
             "refund_id": string | null;
             /**
@@ -679,7 +1412,11 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * 4217 currency code. anyOf[2] (Value): null.
              */
             "refunded_money": ((MoneyValue) | (null));
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
+             * and Flint hasn't started expiring it. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "resolution_started_at": string | null;
             /**
              * The credential that started resolving this payment review, retained after closure.
@@ -689,11 +1426,11 @@ export type PaymentReviewClosedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "resolution_started_by": ((ResourceReference) | (null));
             /**
-             * The risk assessment shown on a review: a `level` and, when available, a numeric
-             * `score`.
+             * The payment's risk level and score when the review opened. The risk assessment shown
+             * on a review: a `level` and, when available, a numeric `score`.
              */
             "risk": PaymentReviewRisk;
-            /** Value enum: "open", "resolving", "closed". */
+            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
             "status": "open" | "resolving" | "closed" | (string & {});
             /**
              * Lifecycle actions accepted in the current stored review state. An action remains
@@ -759,137 +1496,163 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_by (Required): {@link
-     * ResourceReference} or null. The credential that closed this payment review. Null when Flint
-     * closed it. object.closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.closed_by.anyOf[2] (Value):
-     * null. object.closed_reason (Required): string or null. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null. object.customer (Optional):
-     * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-     * `null` when expanded and there is no related customer. object.customer.anyOf[1] (Value):
-     * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
-     * customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. object.last_resolution_failure (Required):
-     * {@link PaymentReviewResolutionFailure} or null. The most recent resolution attempt that
-     * failed. Set when a decline's refund failed and the review reopened. Null when no attempt has
-     * failed. object.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with the
-     * `refund_id` and when it failed. object.last_resolution_failure.anyOf[2] (Value): null.
-     * object.matched_risk_rule_id (Required): string or null. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319". object.opened_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.opened_reason (Required): string.
-     * Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null. Present
-     * only when `expand` includes `order`; `null` when expanded and there is no related order.
-     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-     * including status, payment and refund status, and pricing and settlement amounts, returned
-     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
-     * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow (Required):
-     * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". object.payment_intent (Optional): {@link
+     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
+     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
+     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
+     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
+     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
+     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
+     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
+     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
+     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
+     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
+     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
+     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
+     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
+     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
+     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
+     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
+     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
+     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+     * fields, including status, payment and refund status, and pricing and settlement amounts,
+     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
+     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
+     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
+     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
+     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
      * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
      * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
      * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
      * amount, status, and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_review_id (Required): string.
-     * Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary (Required): {@link
-     * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture method,
+     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_review_id (Required): string. Unique identifier for this payment review,
+     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
+     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
+     * the review opened. The payment details shown on a review: amount, capture method,
      * authorization expiry, card brand and last four digits, and buyer email.
      * object.pending_action (Required): string or null. The decision being carried out. `null`
      * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund that closed this review. Null
-     * otherwise. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refunded_money (Required):
-     * {@link MoneyValue} or null. Refunded amount for this review. Null when no refund is
-     * recorded. object.refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.resolution_started_by (Required): {@link ResourceReference} or null. The credential
-     * that started resolving this payment review, retained after closure. Null when no resolution
-     * has started or Flint started it. object.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.resolution_started_by.anyOf[2] (Value): null. object.risk (Required): {@link
-     * PaymentReviewRisk}. The risk assessment shown on a review: a `level` and, when available, a
-     * numeric `score`. object.status (Required): string. Value enum: "open", "resolving",
-     * "closed". object.supported_actions (Required): Array of string. Lifecycle actions accepted
-     * in the current stored review state. An action remains listed while it is processing or can
-     * be repeated without changing the result. [] enum: "approve", "decline".
-     * object.supported_actions[] (Value): string. Value enum: "approve", "decline".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * object.refund_id (Required): string or null. The refund created when the payment was
+     * declined. It can be set while status is resolving, before the refund finishes and the review
+     * closes. `null` when no refund exists for the review, including after a decline that needed
+     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
+     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
+     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
+     * review and Flint hasn't started expiring it. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
+     * or null. The credential that started resolving this payment review, retained after closure.
+     * Null when no resolution has started or Flint started it.
+     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
+     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
+     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
+     * available, a numeric `score`. object.status (Required): string. Where the review is in its
+     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted in the current stored review state. An action
+     * remains listed while it is processing or can be repeated without changing the result. []
+     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
+     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_by (Required): {@link ResourceReference} or null. The
-         * credential that closed this payment review. Null when Flint closed it.
-         * closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to another resource
-         * by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Required): string or null. Value enum: "approved", "declined", "refunded", "disputed",
+         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
+         * ResourceReference} or null. The credential that closed this payment review. Null when
+         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
+         * closed_reason (Required): string or null. How the review was resolved. `null` when the
+         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
          * "payment_canceled", "expired", null. customer (Optional): {@link
          * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
          * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
          * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
          * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. last_resolution_failure (Required): {@link
-         * PaymentReviewResolutionFailure} or null. The most recent resolution attempt that failed.
-         * Set when a decline's refund failed and the review reopened. Null when no attempt has
-         * failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with
-         * the `refund_id` and when it failed. last_resolution_failure.anyOf[2] (Value): null.
-         * matched_risk_rule_id (Required): string or null. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". opened_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". opened_reason (Required): string.
+         * (Required): string or null. ID of the customer the payment was made for. `null` when the
+         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
+         * (Required): string or null. The buyer's IP address recorded for the payment when it was
+         * confirmed. `null` when no buyer IP address was supplied for the payment.
+         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
+         * most recent resolution attempt that failed. Set when a decline's refund failed and the
+         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
+         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
+         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
+         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
          * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
          * when `expand` includes `order`; `null` when expanded and there is no related order.
          * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
          * including status, payment and refund status, and pricing and settlement amounts,
          * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Required): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id
-         * (Required): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_summary (Required): {@link
-         * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture
-         * method, authorization expiry, card brand and last four digits, and buyer email.
+         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
+         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
+         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
+         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
+         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
+         * payment as it was when the review opened. The payment details shown on a review: amount,
+         * capture method, authorization expiry, card brand and last four digits, and buyer email.
          * pending_action (Required): string or null. The decision being carried out. `null` when
          * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund that closed this review. Null otherwise. Example:
-         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money (Required): {@link MoneyValue} or null.
-         * Refunded amount for this review. Null when no refund is recorded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. refunded_money.anyOf[2] (Value):
-         * null. resolution_started_at (Required): string or null. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". resolution_started_by (Required): {@link
-         * ResourceReference} or null. The credential that started resolving this payment review,
-         * retained after closure. Null when no resolution has started or Flint started it.
-         * resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. resolution_started_by.anyOf[2]
-         * (Value): null. risk (Required): {@link PaymentReviewRisk}. The risk assessment shown on
-         * a review: a `level` and, when available, a numeric `score`. status (Required): string.
-         * Value enum: "open", "resolving", "closed". supported_actions (Required): Array of
-         * string. Lifecycle actions accepted in the current stored review state. An action remains
-         * listed while it is processing or can be repeated without changing the result. [] enum:
-         * "approve", "decline". supported_actions[] (Value): string. Value enum: "approve",
-         * "decline". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * (Required): string or null. The refund created when the payment was declined. It can be
+         * set while status is resolving, before the refund finishes and the review closes. `null`
+         * when no refund exists for the review, including after a decline that needed none or when
+         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
+         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
+         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
+         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
+         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
+         * started resolving this payment review, retained after closure. Null when no resolution
+         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
+         * ResourceReference}. A reference to another resource by `resource_type` and
+         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
+         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
+         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
+         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
+         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
+         * accepted in the current stored review state. An action remains listed while it is
+         * processing or can be repeated without changing the result. [] enum: "approve",
+         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z".
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "closed_at": string | null;
             /**
              * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
@@ -898,8 +1661,8 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "closed_by": ((ResourceReference) | (null));
             /**
-             * Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-             * "expired", null.
+             * How the review was resolved. `null` when the review isn't closed. Value enum:
+             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
              */
             "closed_reason": "approved"
                 | "declined"
@@ -917,8 +1680,15 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * anyOf[2] (Value): null.
              */
             "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            /**
+             * ID of the customer the payment was made for. `null` when the payment has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
             "customer_id": string | null;
+            /**
+             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
+             * no buyer IP address was supplied for the payment.
+             */
             "ip_address": string | null;
             /**
              * The most recent resolution attempt that failed. Set when a decline's refund failed
@@ -927,11 +1697,14 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * with the `refund_id` and when it failed. anyOf[2] (Value): null.
              */
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-            "matched_risk_rule_id": string | null;
+            /**
+             * ID of the risk rule with the review action that opened this review. Example:
+             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+             */
+            "matched_risk_rule_id": string;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "opened_at": string;
-            /** Value enum: "rule". */
+            /** Why Flint opened the review. Value enum: "rule". */
             "opened_reason": "rule" | (string & {});
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
@@ -940,11 +1713,15 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * amounts, returned when the order is expanded. anyOf[2] (Value): null.
              */
             "order"?: ((ExpandedOrderSummary) | (null));
-            /** Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            /**
+             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
+             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
             "order_id": string | null;
             /**
-             * Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api".
+             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
+             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
+             * "api".
              */
             "payment_flow": "checkout"
                 | "payment_link"
@@ -962,7 +1739,7 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * (Value): null.
              */
             "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
             "payment_intent_id": string;
             /**
              * Unique identifier for this payment review, prefixed `rev_`. Example:
@@ -970,8 +1747,9 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "payment_review_id": string;
             /**
-             * The payment details shown on a review: amount, capture method, authorization expiry,
-             * card brand and last four digits, and buyer email.
+             * A snapshot of the payment as it was when the review opened. The payment details
+             * shown on a review: amount, capture method, authorization expiry, card brand and last
+             * four digits, and buyer email.
              */
             "payment_summary": PaymentReviewPaymentSummary;
             /**
@@ -980,8 +1758,10 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
             /**
-             * The refund that closed this review. Null otherwise. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+             * The refund created when the payment was declined. It can be set while status is
+             * resolving, before the refund finishes and the review closes. `null` when no refund
+             * exists for the review, including after a decline that needed none or when the review
+             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
              */
             "refund_id": string | null;
             /**
@@ -990,7 +1770,11 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * 4217 currency code. anyOf[2] (Value): null.
              */
             "refunded_money": ((MoneyValue) | (null));
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
+             * and Flint hasn't started expiring it. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "resolution_started_at": string | null;
             /**
              * The credential that started resolving this payment review, retained after closure.
@@ -1000,11 +1784,11 @@ export type PaymentReviewClosedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "resolution_started_by": ((ResourceReference) | (null));
             /**
-             * The risk assessment shown on a review: a `level` and, when available, a numeric
-             * `score`.
+             * The payment's risk level and score when the review opened. The risk assessment shown
+             * on a review: a `level` and, when available, a numeric `score`.
              */
             "risk": PaymentReviewRisk;
-            /** Value enum: "open", "resolving", "closed". */
+            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
             "status": "open" | "resolving" | "closed" | (string & {});
             /**
              * Lifecycle actions accepted in the current stored review state. An action remains
@@ -1070,7 +1854,7 @@ export type PaymentReviewOpenedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "customer_id": string | null;
             "ip_address": string | null;
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string | null;
+            "matched_risk_rule_id": string;
             "opened_at": string;
             "opened_reason": "rule" | (string & {});
             "order"?: ((ExpandedOrderSummary) | (null));
@@ -1121,7 +1905,7 @@ export type PaymentReviewOpenedEvent = ((((Exclude<MerchantWebhookEnvelope & obj
             "customer_id": string | null;
             "ip_address": string | null;
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string | null;
+            "matched_risk_rule_id": string;
             "opened_at": string;
             "opened_reason": "rule" | (string & {});
             "order"?: ((ExpandedOrderSummary) | (null));
@@ -1171,137 +1955,163 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_by (Required): {@link
-     * ResourceReference} or null. The credential that closed this payment review. Null when Flint
-     * closed it. object.closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.closed_by.anyOf[2] (Value):
-     * null. object.closed_reason (Required): string or null. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null. object.customer (Optional):
-     * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-     * `null` when expanded and there is no related customer. object.customer.anyOf[1] (Value):
-     * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
-     * customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. object.last_resolution_failure (Required):
-     * {@link PaymentReviewResolutionFailure} or null. The most recent resolution attempt that
-     * failed. Set when a decline's refund failed and the review reopened. Null when no attempt has
-     * failed. object.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with the
-     * `refund_id` and when it failed. object.last_resolution_failure.anyOf[2] (Value): null.
-     * object.matched_risk_rule_id (Required): string or null. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319". object.opened_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.opened_reason (Required): string.
-     * Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null. Present
-     * only when `expand` includes `order`; `null` when expanded and there is no related order.
-     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-     * including status, payment and refund status, and pricing and settlement amounts, returned
-     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
-     * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow (Required):
-     * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". object.payment_intent (Optional): {@link
+     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
+     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
+     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
+     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
+     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
+     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
+     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
+     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
+     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
+     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
+     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
+     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
+     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
+     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
+     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
+     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
+     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
+     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+     * fields, including status, payment and refund status, and pricing and settlement amounts,
+     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
+     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
+     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
+     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
+     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
      * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
      * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
      * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
      * amount, status, and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_review_id (Required): string.
-     * Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary (Required): {@link
-     * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture method,
+     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_review_id (Required): string. Unique identifier for this payment review,
+     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
+     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
+     * the review opened. The payment details shown on a review: amount, capture method,
      * authorization expiry, card brand and last four digits, and buyer email.
      * object.pending_action (Required): string or null. The decision being carried out. `null`
      * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund that closed this review. Null
-     * otherwise. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refunded_money (Required):
-     * {@link MoneyValue} or null. Refunded amount for this review. Null when no refund is
-     * recorded. object.refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.resolution_started_by (Required): {@link ResourceReference} or null. The credential
-     * that started resolving this payment review, retained after closure. Null when no resolution
-     * has started or Flint started it. object.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.resolution_started_by.anyOf[2] (Value): null. object.risk (Required): {@link
-     * PaymentReviewRisk}. The risk assessment shown on a review: a `level` and, when available, a
-     * numeric `score`. object.status (Required): string. Value enum: "open", "resolving",
-     * "closed". object.supported_actions (Required): Array of string. Lifecycle actions accepted
-     * in the current stored review state. An action remains listed while it is processing or can
-     * be repeated without changing the result. [] enum: "approve", "decline".
-     * object.supported_actions[] (Value): string. Value enum: "approve", "decline".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * object.refund_id (Required): string or null. The refund created when the payment was
+     * declined. It can be set while status is resolving, before the refund finishes and the review
+     * closes. `null` when no refund exists for the review, including after a decline that needed
+     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
+     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
+     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
+     * review and Flint hasn't started expiring it. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
+     * or null. The credential that started resolving this payment review, retained after closure.
+     * Null when no resolution has started or Flint started it.
+     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
+     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
+     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
+     * available, a numeric `score`. object.status (Required): string. Where the review is in its
+     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted in the current stored review state. An action
+     * remains listed while it is processing or can be repeated without changing the result. []
+     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
+     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_by (Required): {@link ResourceReference} or null. The
-         * credential that closed this payment review. Null when Flint closed it.
-         * closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to another resource
-         * by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Required): string or null. Value enum: "approved", "declined", "refunded", "disputed",
+         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
+         * ResourceReference} or null. The credential that closed this payment review. Null when
+         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
+         * closed_reason (Required): string or null. How the review was resolved. `null` when the
+         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
          * "payment_canceled", "expired", null. customer (Optional): {@link
          * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
          * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
          * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
          * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. last_resolution_failure (Required): {@link
-         * PaymentReviewResolutionFailure} or null. The most recent resolution attempt that failed.
-         * Set when a decline's refund failed and the review reopened. Null when no attempt has
-         * failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with
-         * the `refund_id` and when it failed. last_resolution_failure.anyOf[2] (Value): null.
-         * matched_risk_rule_id (Required): string or null. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". opened_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". opened_reason (Required): string.
+         * (Required): string or null. ID of the customer the payment was made for. `null` when the
+         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
+         * (Required): string or null. The buyer's IP address recorded for the payment when it was
+         * confirmed. `null` when no buyer IP address was supplied for the payment.
+         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
+         * most recent resolution attempt that failed. Set when a decline's refund failed and the
+         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
+         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
+         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
+         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
          * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
          * when `expand` includes `order`; `null` when expanded and there is no related order.
          * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
          * including status, payment and refund status, and pricing and settlement amounts,
          * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Required): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id
-         * (Required): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_summary (Required): {@link
-         * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture
-         * method, authorization expiry, card brand and last four digits, and buyer email.
+         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
+         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
+         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
+         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
+         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
+         * payment as it was when the review opened. The payment details shown on a review: amount,
+         * capture method, authorization expiry, card brand and last four digits, and buyer email.
          * pending_action (Required): string or null. The decision being carried out. `null` when
          * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund that closed this review. Null otherwise. Example:
-         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money (Required): {@link MoneyValue} or null.
-         * Refunded amount for this review. Null when no refund is recorded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. refunded_money.anyOf[2] (Value):
-         * null. resolution_started_at (Required): string or null. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". resolution_started_by (Required): {@link
-         * ResourceReference} or null. The credential that started resolving this payment review,
-         * retained after closure. Null when no resolution has started or Flint started it.
-         * resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. resolution_started_by.anyOf[2]
-         * (Value): null. risk (Required): {@link PaymentReviewRisk}. The risk assessment shown on
-         * a review: a `level` and, when available, a numeric `score`. status (Required): string.
-         * Value enum: "open", "resolving", "closed". supported_actions (Required): Array of
-         * string. Lifecycle actions accepted in the current stored review state. An action remains
-         * listed while it is processing or can be repeated without changing the result. [] enum:
-         * "approve", "decline". supported_actions[] (Value): string. Value enum: "approve",
-         * "decline". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * (Required): string or null. The refund created when the payment was declined. It can be
+         * set while status is resolving, before the refund finishes and the review closes. `null`
+         * when no refund exists for the review, including after a decline that needed none or when
+         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
+         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
+         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
+         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
+         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
+         * started resolving this payment review, retained after closure. Null when no resolution
+         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
+         * ResourceReference}. A reference to another resource by `resource_type` and
+         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
+         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
+         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
+         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
+         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
+         * accepted in the current stored review state. An action remains listed while it is
+         * processing or can be repeated without changing the result. [] enum: "approve",
+         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z".
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "closed_at": string | null;
             /**
              * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
@@ -1310,8 +2120,8 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "closed_by": ((ResourceReference) | (null));
             /**
-             * Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-             * "expired", null.
+             * How the review was resolved. `null` when the review isn't closed. Value enum:
+             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
              */
             "closed_reason": "approved"
                 | "declined"
@@ -1329,8 +2139,15 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * anyOf[2] (Value): null.
              */
             "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            /**
+             * ID of the customer the payment was made for. `null` when the payment has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
             "customer_id": string | null;
+            /**
+             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
+             * no buyer IP address was supplied for the payment.
+             */
             "ip_address": string | null;
             /**
              * The most recent resolution attempt that failed. Set when a decline's refund failed
@@ -1339,11 +2156,14 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * with the `refund_id` and when it failed. anyOf[2] (Value): null.
              */
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-            "matched_risk_rule_id": string | null;
+            /**
+             * ID of the risk rule with the review action that opened this review. Example:
+             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+             */
+            "matched_risk_rule_id": string;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "opened_at": string;
-            /** Value enum: "rule". */
+            /** Why Flint opened the review. Value enum: "rule". */
             "opened_reason": "rule" | (string & {});
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
@@ -1352,11 +2172,15 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * amounts, returned when the order is expanded. anyOf[2] (Value): null.
              */
             "order"?: ((ExpandedOrderSummary) | (null));
-            /** Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            /**
+             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
+             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
             "order_id": string | null;
             /**
-             * Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api".
+             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
+             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
+             * "api".
              */
             "payment_flow": "checkout"
                 | "payment_link"
@@ -1374,7 +2198,7 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * (Value): null.
              */
             "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
             "payment_intent_id": string;
             /**
              * Unique identifier for this payment review, prefixed `rev_`. Example:
@@ -1382,8 +2206,9 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "payment_review_id": string;
             /**
-             * The payment details shown on a review: amount, capture method, authorization expiry,
-             * card brand and last four digits, and buyer email.
+             * A snapshot of the payment as it was when the review opened. The payment details
+             * shown on a review: amount, capture method, authorization expiry, card brand and last
+             * four digits, and buyer email.
              */
             "payment_summary": PaymentReviewPaymentSummary;
             /**
@@ -1392,8 +2217,10 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
             /**
-             * The refund that closed this review. Null otherwise. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+             * The refund created when the payment was declined. It can be set while status is
+             * resolving, before the refund finishes and the review closes. `null` when no refund
+             * exists for the review, including after a decline that needed none or when the review
+             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
              */
             "refund_id": string | null;
             /**
@@ -1402,7 +2229,11 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              * 4217 currency code. anyOf[2] (Value): null.
              */
             "refunded_money": ((MoneyValue) | (null));
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
+             * and Flint hasn't started expiring it. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "resolution_started_at": string | null;
             /**
              * The credential that started resolving this payment review, retained after closure.
@@ -1412,11 +2243,11 @@ export type PaymentReviewOpenedInstalledMerchantsEvent = (Exclude<PartnerWebhook
              */
             "resolution_started_by": ((ResourceReference) | (null));
             /**
-             * The risk assessment shown on a review: a `level` and, when available, a numeric
-             * `score`.
+             * The payment's risk level and score when the review opened. The risk assessment shown
+             * on a review: a `level` and, when available, a numeric `score`.
              */
             "risk": PaymentReviewRisk;
-            /** Value enum: "open", "resolving", "closed". */
+            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
             "status": "open" | "resolving" | "closed" | (string & {});
             /**
              * Lifecycle actions accepted in the current stored review state. An action remains
@@ -1482,137 +2313,163 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_by (Required): {@link
-     * ResourceReference} or null. The credential that closed this payment review. Null when Flint
-     * closed it. object.closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.closed_by.anyOf[2] (Value):
-     * null. object.closed_reason (Required): string or null. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null. object.customer (Optional):
-     * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-     * `null` when expanded and there is no related customer. object.customer.anyOf[1] (Value):
-     * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
-     * customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. object.last_resolution_failure (Required):
-     * {@link PaymentReviewResolutionFailure} or null. The most recent resolution attempt that
-     * failed. Set when a decline's refund failed and the review reopened. Null when no attempt has
-     * failed. object.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with the
-     * `refund_id` and when it failed. object.last_resolution_failure.anyOf[2] (Value): null.
-     * object.matched_risk_rule_id (Required): string or null. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319". object.opened_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.opened_reason (Required): string.
-     * Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null. Present
-     * only when `expand` includes `order`; `null` when expanded and there is no related order.
-     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-     * including status, payment and refund status, and pricing and settlement amounts, returned
-     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
-     * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow (Required):
-     * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". object.payment_intent (Optional): {@link
+     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
+     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
+     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
+     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
+     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
+     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
+     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
+     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
+     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
+     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
+     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
+     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
+     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
+     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
+     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
+     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
+     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
+     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+     * fields, including status, payment and refund status, and pricing and settlement amounts,
+     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
+     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
+     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
+     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
+     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
      * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
      * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
      * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
      * amount, status, and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_review_id (Required): string.
-     * Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary (Required): {@link
-     * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture method,
+     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_review_id (Required): string. Unique identifier for this payment review,
+     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
+     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
+     * the review opened. The payment details shown on a review: amount, capture method,
      * authorization expiry, card brand and last four digits, and buyer email.
      * object.pending_action (Required): string or null. The decision being carried out. `null`
      * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund that closed this review. Null
-     * otherwise. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refunded_money (Required):
-     * {@link MoneyValue} or null. Refunded amount for this review. Null when no refund is
-     * recorded. object.refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.resolution_started_by (Required): {@link ResourceReference} or null. The credential
-     * that started resolving this payment review, retained after closure. Null when no resolution
-     * has started or Flint started it. object.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.resolution_started_by.anyOf[2] (Value): null. object.risk (Required): {@link
-     * PaymentReviewRisk}. The risk assessment shown on a review: a `level` and, when available, a
-     * numeric `score`. object.status (Required): string. Value enum: "open", "resolving",
-     * "closed". object.supported_actions (Required): Array of string. Lifecycle actions accepted
-     * in the current stored review state. An action remains listed while it is processing or can
-     * be repeated without changing the result. [] enum: "approve", "decline".
-     * object.supported_actions[] (Value): string. Value enum: "approve", "decline".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * object.refund_id (Required): string or null. The refund created when the payment was
+     * declined. It can be set while status is resolving, before the refund finishes and the review
+     * closes. `null` when no refund exists for the review, including after a decline that needed
+     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
+     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
+     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
+     * review and Flint hasn't started expiring it. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
+     * or null. The credential that started resolving this payment review, retained after closure.
+     * Null when no resolution has started or Flint started it.
+     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
+     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
+     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
+     * available, a numeric `score`. object.status (Required): string. Where the review is in its
+     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted in the current stored review state. An action
+     * remains listed while it is processing or can be repeated without changing the result. []
+     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
+     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_by (Required): {@link ResourceReference} or null. The
-         * credential that closed this payment review. Null when Flint closed it.
-         * closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to another resource
-         * by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Required): string or null. Value enum: "approved", "declined", "refunded", "disputed",
+         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
+         * ResourceReference} or null. The credential that closed this payment review. Null when
+         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
+         * closed_reason (Required): string or null. How the review was resolved. `null` when the
+         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
          * "payment_canceled", "expired", null. customer (Optional): {@link
          * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
          * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
          * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
          * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. last_resolution_failure (Required): {@link
-         * PaymentReviewResolutionFailure} or null. The most recent resolution attempt that failed.
-         * Set when a decline's refund failed and the review reopened. Null when no attempt has
-         * failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with
-         * the `refund_id` and when it failed. last_resolution_failure.anyOf[2] (Value): null.
-         * matched_risk_rule_id (Required): string or null. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". opened_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". opened_reason (Required): string.
+         * (Required): string or null. ID of the customer the payment was made for. `null` when the
+         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
+         * (Required): string or null. The buyer's IP address recorded for the payment when it was
+         * confirmed. `null` when no buyer IP address was supplied for the payment.
+         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
+         * most recent resolution attempt that failed. Set when a decline's refund failed and the
+         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
+         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
+         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
+         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
          * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
          * when `expand` includes `order`; `null` when expanded and there is no related order.
          * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
          * including status, payment and refund status, and pricing and settlement amounts,
          * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Required): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id
-         * (Required): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_summary (Required): {@link
-         * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture
-         * method, authorization expiry, card brand and last four digits, and buyer email.
+         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
+         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
+         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
+         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
+         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
+         * payment as it was when the review opened. The payment details shown on a review: amount,
+         * capture method, authorization expiry, card brand and last four digits, and buyer email.
          * pending_action (Required): string or null. The decision being carried out. `null` when
          * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund that closed this review. Null otherwise. Example:
-         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money (Required): {@link MoneyValue} or null.
-         * Refunded amount for this review. Null when no refund is recorded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. refunded_money.anyOf[2] (Value):
-         * null. resolution_started_at (Required): string or null. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". resolution_started_by (Required): {@link
-         * ResourceReference} or null. The credential that started resolving this payment review,
-         * retained after closure. Null when no resolution has started or Flint started it.
-         * resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. resolution_started_by.anyOf[2]
-         * (Value): null. risk (Required): {@link PaymentReviewRisk}. The risk assessment shown on
-         * a review: a `level` and, when available, a numeric `score`. status (Required): string.
-         * Value enum: "open", "resolving", "closed". supported_actions (Required): Array of
-         * string. Lifecycle actions accepted in the current stored review state. An action remains
-         * listed while it is processing or can be repeated without changing the result. [] enum:
-         * "approve", "decline". supported_actions[] (Value): string. Value enum: "approve",
-         * "decline". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * (Required): string or null. The refund created when the payment was declined. It can be
+         * set while status is resolving, before the refund finishes and the review closes. `null`
+         * when no refund exists for the review, including after a decline that needed none or when
+         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
+         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
+         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
+         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
+         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
+         * started resolving this payment review, retained after closure. Null when no resolution
+         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
+         * ResourceReference}. A reference to another resource by `resource_type` and
+         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
+         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
+         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
+         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
+         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
+         * accepted in the current stored review state. An action remains listed while it is
+         * processing or can be repeated without changing the result. [] enum: "approve",
+         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z".
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "closed_at": string | null;
             /**
              * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
@@ -1621,8 +2478,8 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "closed_by": ((ResourceReference) | (null));
             /**
-             * Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-             * "expired", null.
+             * How the review was resolved. `null` when the review isn't closed. Value enum:
+             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
              */
             "closed_reason": "approved"
                 | "declined"
@@ -1640,8 +2497,15 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * anyOf[2] (Value): null.
              */
             "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            /**
+             * ID of the customer the payment was made for. `null` when the payment has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
             "customer_id": string | null;
+            /**
+             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
+             * no buyer IP address was supplied for the payment.
+             */
             "ip_address": string | null;
             /**
              * The most recent resolution attempt that failed. Set when a decline's refund failed
@@ -1650,11 +2514,14 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * with the `refund_id` and when it failed. anyOf[2] (Value): null.
              */
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-            "matched_risk_rule_id": string | null;
+            /**
+             * ID of the risk rule with the review action that opened this review. Example:
+             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+             */
+            "matched_risk_rule_id": string;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "opened_at": string;
-            /** Value enum: "rule". */
+            /** Why Flint opened the review. Value enum: "rule". */
             "opened_reason": "rule" | (string & {});
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
@@ -1663,11 +2530,15 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * amounts, returned when the order is expanded. anyOf[2] (Value): null.
              */
             "order"?: ((ExpandedOrderSummary) | (null));
-            /** Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            /**
+             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
+             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
             "order_id": string | null;
             /**
-             * Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api".
+             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
+             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
+             * "api".
              */
             "payment_flow": "checkout"
                 | "payment_link"
@@ -1685,7 +2556,7 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * (Value): null.
              */
             "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
             "payment_intent_id": string;
             /**
              * Unique identifier for this payment review, prefixed `rev_`. Example:
@@ -1693,8 +2564,9 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "payment_review_id": string;
             /**
-             * The payment details shown on a review: amount, capture method, authorization expiry,
-             * card brand and last four digits, and buyer email.
+             * A snapshot of the payment as it was when the review opened. The payment details
+             * shown on a review: amount, capture method, authorization expiry, card brand and last
+             * four digits, and buyer email.
              */
             "payment_summary": PaymentReviewPaymentSummary;
             /**
@@ -1703,8 +2575,10 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
             /**
-             * The refund that closed this review. Null otherwise. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+             * The refund created when the payment was declined. It can be set while status is
+             * resolving, before the refund finishes and the review closes. `null` when no refund
+             * exists for the review, including after a decline that needed none or when the review
+             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
              */
             "refund_id": string | null;
             /**
@@ -1713,7 +2587,11 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              * 4217 currency code. anyOf[2] (Value): null.
              */
             "refunded_money": ((MoneyValue) | (null));
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
+             * and Flint hasn't started expiring it. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "resolution_started_at": string | null;
             /**
              * The credential that started resolving this payment review, retained after closure.
@@ -1723,11 +2601,11 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
              */
             "resolution_started_by": ((ResourceReference) | (null));
             /**
-             * The risk assessment shown on a review: a `level` and, when available, a numeric
-             * `score`.
+             * The payment's risk level and score when the review opened. The risk assessment shown
+             * on a review: a `level` and, when available, a numeric `score`.
              */
             "risk": PaymentReviewRisk;
-            /** Value enum: "open", "resolving", "closed". */
+            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
             "status": "open" | "resolving" | "closed" | (string & {});
             /**
              * Lifecycle actions accepted in the current stored review state. An action remains
@@ -1756,7 +2634,10 @@ export type PaymentReviewOpenedMerchantEvent = (Exclude<MerchantWebhookEnvelope 
  * and last four digits, and buyer email.
  */
 export type PaymentReviewPaymentSummary = {
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code. */
+    /**
+     * The payment's requested amount when it was confirmed. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
     "amount_money": MoneyValue;
     /**
      * Effective Flint capture deadline: the earlier of the provider capture deadline and any order
@@ -1764,23 +2645,23 @@ export type PaymentReviewPaymentSummary = {
      * date-time. Example: "2026-08-02T16:00:00Z".
      */
     "authorization_expires_at": string | null;
-    /** Value enum: "automatic", "manual". */
+    /**
+     * Whether the payment collects when confirmed or holds the funds for a later capture. Value
+     * enum: "automatic", "manual".
+     */
     "capture_method": "automatic" | "manual" | (string & {});
+    /**
+     * The buyer's email address used for screening: the payment's receipt email, or else the email
+     * on the payment method, in lowercase. Empty when neither is known.
+     */
     "email": string;
+    /** Last four digits of the card number. Empty when the payment has no card details. */
     "last4": string;
     /**
-     * Value enum: "amex", "discover", "diners", "jcb", "mastercard", "unionpay", "visa",
-     * "unknown".
+     * The card network, as recorded when the payment was confirmed. Value enum: "amex",
+     * "discover", "diners", "jcb", "mastercard", "unionpay", "visa".
      */
-    "payment_method_brand": "amex"
-        | "discover"
-        | "diners"
-        | "jcb"
-        | "mastercard"
-        | "unionpay"
-        | "visa"
-        | "unknown"
-        | (string & {});
+    "payment_method_brand": "amex" | "discover" | "diners" | "jcb" | "mastercard" | "unionpay" | "visa" | (string & {});
 };
 export type PaymentReviewReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
@@ -1801,7 +2682,7 @@ export type PaymentReviewReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "customer_id": string | null;
             "ip_address": string | null;
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string | null;
+            "matched_risk_rule_id": string;
             "opened_at": string;
             "opened_reason": "rule" | (string & {});
             "order"?: ((ExpandedOrderSummary) | (null));
@@ -1852,7 +2733,7 @@ export type PaymentReviewReopenedEvent = ((((Exclude<MerchantWebhookEnvelope & o
             "customer_id": string | null;
             "ip_address": string | null;
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            "matched_risk_rule_id": string | null;
+            "matched_risk_rule_id": string;
             "opened_at": string;
             "opened_reason": "rule" | (string & {});
             "order"?: ((ExpandedOrderSummary) | (null));
@@ -1902,137 +2783,163 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_by (Required): {@link
-     * ResourceReference} or null. The credential that closed this payment review. Null when Flint
-     * closed it. object.closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.closed_by.anyOf[2] (Value):
-     * null. object.closed_reason (Required): string or null. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null. object.customer (Optional):
-     * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-     * `null` when expanded and there is no related customer. object.customer.anyOf[1] (Value):
-     * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
-     * customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. object.last_resolution_failure (Required):
-     * {@link PaymentReviewResolutionFailure} or null. The most recent resolution attempt that
-     * failed. Set when a decline's refund failed and the review reopened. Null when no attempt has
-     * failed. object.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with the
-     * `refund_id` and when it failed. object.last_resolution_failure.anyOf[2] (Value): null.
-     * object.matched_risk_rule_id (Required): string or null. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319". object.opened_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.opened_reason (Required): string.
-     * Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null. Present
-     * only when `expand` includes `order`; `null` when expanded and there is no related order.
-     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-     * including status, payment and refund status, and pricing and settlement amounts, returned
-     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
-     * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow (Required):
-     * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". object.payment_intent (Optional): {@link
+     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
+     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
+     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
+     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
+     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
+     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
+     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
+     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
+     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
+     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
+     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
+     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
+     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
+     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
+     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
+     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
+     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
+     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+     * fields, including status, payment and refund status, and pricing and settlement amounts,
+     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
+     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
+     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
+     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
+     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
      * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
      * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
      * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
      * amount, status, and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_review_id (Required): string.
-     * Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary (Required): {@link
-     * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture method,
+     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_review_id (Required): string. Unique identifier for this payment review,
+     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
+     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
+     * the review opened. The payment details shown on a review: amount, capture method,
      * authorization expiry, card brand and last four digits, and buyer email.
      * object.pending_action (Required): string or null. The decision being carried out. `null`
      * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund that closed this review. Null
-     * otherwise. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refunded_money (Required):
-     * {@link MoneyValue} or null. Refunded amount for this review. Null when no refund is
-     * recorded. object.refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.resolution_started_by (Required): {@link ResourceReference} or null. The credential
-     * that started resolving this payment review, retained after closure. Null when no resolution
-     * has started or Flint started it. object.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.resolution_started_by.anyOf[2] (Value): null. object.risk (Required): {@link
-     * PaymentReviewRisk}. The risk assessment shown on a review: a `level` and, when available, a
-     * numeric `score`. object.status (Required): string. Value enum: "open", "resolving",
-     * "closed". object.supported_actions (Required): Array of string. Lifecycle actions accepted
-     * in the current stored review state. An action remains listed while it is processing or can
-     * be repeated without changing the result. [] enum: "approve", "decline".
-     * object.supported_actions[] (Value): string. Value enum: "approve", "decline".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * object.refund_id (Required): string or null. The refund created when the payment was
+     * declined. It can be set while status is resolving, before the refund finishes and the review
+     * closes. `null` when no refund exists for the review, including after a decline that needed
+     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
+     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
+     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
+     * review and Flint hasn't started expiring it. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
+     * or null. The credential that started resolving this payment review, retained after closure.
+     * Null when no resolution has started or Flint started it.
+     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
+     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
+     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
+     * available, a numeric `score`. object.status (Required): string. Where the review is in its
+     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted in the current stored review state. An action
+     * remains listed while it is processing or can be repeated without changing the result. []
+     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
+     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_by (Required): {@link ResourceReference} or null. The
-         * credential that closed this payment review. Null when Flint closed it.
-         * closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to another resource
-         * by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Required): string or null. Value enum: "approved", "declined", "refunded", "disputed",
+         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
+         * ResourceReference} or null. The credential that closed this payment review. Null when
+         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
+         * closed_reason (Required): string or null. How the review was resolved. `null` when the
+         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
          * "payment_canceled", "expired", null. customer (Optional): {@link
          * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
          * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
          * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
          * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. last_resolution_failure (Required): {@link
-         * PaymentReviewResolutionFailure} or null. The most recent resolution attempt that failed.
-         * Set when a decline's refund failed and the review reopened. Null when no attempt has
-         * failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with
-         * the `refund_id` and when it failed. last_resolution_failure.anyOf[2] (Value): null.
-         * matched_risk_rule_id (Required): string or null. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". opened_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". opened_reason (Required): string.
+         * (Required): string or null. ID of the customer the payment was made for. `null` when the
+         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
+         * (Required): string or null. The buyer's IP address recorded for the payment when it was
+         * confirmed. `null` when no buyer IP address was supplied for the payment.
+         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
+         * most recent resolution attempt that failed. Set when a decline's refund failed and the
+         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
+         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
+         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
+         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
          * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
          * when `expand` includes `order`; `null` when expanded and there is no related order.
          * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
          * including status, payment and refund status, and pricing and settlement amounts,
          * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Required): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id
-         * (Required): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_summary (Required): {@link
-         * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture
-         * method, authorization expiry, card brand and last four digits, and buyer email.
+         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
+         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
+         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
+         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
+         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
+         * payment as it was when the review opened. The payment details shown on a review: amount,
+         * capture method, authorization expiry, card brand and last four digits, and buyer email.
          * pending_action (Required): string or null. The decision being carried out. `null` when
          * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund that closed this review. Null otherwise. Example:
-         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money (Required): {@link MoneyValue} or null.
-         * Refunded amount for this review. Null when no refund is recorded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. refunded_money.anyOf[2] (Value):
-         * null. resolution_started_at (Required): string or null. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". resolution_started_by (Required): {@link
-         * ResourceReference} or null. The credential that started resolving this payment review,
-         * retained after closure. Null when no resolution has started or Flint started it.
-         * resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. resolution_started_by.anyOf[2]
-         * (Value): null. risk (Required): {@link PaymentReviewRisk}. The risk assessment shown on
-         * a review: a `level` and, when available, a numeric `score`. status (Required): string.
-         * Value enum: "open", "resolving", "closed". supported_actions (Required): Array of
-         * string. Lifecycle actions accepted in the current stored review state. An action remains
-         * listed while it is processing or can be repeated without changing the result. [] enum:
-         * "approve", "decline". supported_actions[] (Value): string. Value enum: "approve",
-         * "decline". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * (Required): string or null. The refund created when the payment was declined. It can be
+         * set while status is resolving, before the refund finishes and the review closes. `null`
+         * when no refund exists for the review, including after a decline that needed none or when
+         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
+         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
+         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
+         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
+         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
+         * started resolving this payment review, retained after closure. Null when no resolution
+         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
+         * ResourceReference}. A reference to another resource by `resource_type` and
+         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
+         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
+         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
+         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
+         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
+         * accepted in the current stored review state. An action remains listed while it is
+         * processing or can be repeated without changing the result. [] enum: "approve",
+         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z".
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "closed_at": string | null;
             /**
              * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
@@ -2041,8 +2948,8 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "closed_by": ((ResourceReference) | (null));
             /**
-             * Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-             * "expired", null.
+             * How the review was resolved. `null` when the review isn't closed. Value enum:
+             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
              */
             "closed_reason": "approved"
                 | "declined"
@@ -2060,8 +2967,15 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * anyOf[2] (Value): null.
              */
             "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            /**
+             * ID of the customer the payment was made for. `null` when the payment has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
             "customer_id": string | null;
+            /**
+             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
+             * no buyer IP address was supplied for the payment.
+             */
             "ip_address": string | null;
             /**
              * The most recent resolution attempt that failed. Set when a decline's refund failed
@@ -2070,11 +2984,14 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * with the `refund_id` and when it failed. anyOf[2] (Value): null.
              */
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-            "matched_risk_rule_id": string | null;
+            /**
+             * ID of the risk rule with the review action that opened this review. Example:
+             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+             */
+            "matched_risk_rule_id": string;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "opened_at": string;
-            /** Value enum: "rule". */
+            /** Why Flint opened the review. Value enum: "rule". */
             "opened_reason": "rule" | (string & {});
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
@@ -2083,11 +3000,15 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * amounts, returned when the order is expanded. anyOf[2] (Value): null.
              */
             "order"?: ((ExpandedOrderSummary) | (null));
-            /** Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            /**
+             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
+             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
             "order_id": string | null;
             /**
-             * Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api".
+             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
+             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
+             * "api".
              */
             "payment_flow": "checkout"
                 | "payment_link"
@@ -2105,7 +3026,7 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * (Value): null.
              */
             "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
             "payment_intent_id": string;
             /**
              * Unique identifier for this payment review, prefixed `rev_`. Example:
@@ -2113,8 +3034,9 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "payment_review_id": string;
             /**
-             * The payment details shown on a review: amount, capture method, authorization expiry,
-             * card brand and last four digits, and buyer email.
+             * A snapshot of the payment as it was when the review opened. The payment details
+             * shown on a review: amount, capture method, authorization expiry, card brand and last
+             * four digits, and buyer email.
              */
             "payment_summary": PaymentReviewPaymentSummary;
             /**
@@ -2123,8 +3045,10 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
             /**
-             * The refund that closed this review. Null otherwise. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+             * The refund created when the payment was declined. It can be set while status is
+             * resolving, before the refund finishes and the review closes. `null` when no refund
+             * exists for the review, including after a decline that needed none or when the review
+             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
              */
             "refund_id": string | null;
             /**
@@ -2133,7 +3057,11 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              * 4217 currency code. anyOf[2] (Value): null.
              */
             "refunded_money": ((MoneyValue) | (null));
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
+             * and Flint hasn't started expiring it. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "resolution_started_at": string | null;
             /**
              * The credential that started resolving this payment review, retained after closure.
@@ -2143,11 +3071,11 @@ export type PaymentReviewReopenedInstalledMerchantsEvent = (Exclude<PartnerWebho
              */
             "resolution_started_by": ((ResourceReference) | (null));
             /**
-             * The risk assessment shown on a review: a `level` and, when available, a numeric
-             * `score`.
+             * The payment's risk level and score when the review opened. The risk assessment shown
+             * on a review: a `level` and, when available, a numeric `score`.
              */
             "risk": PaymentReviewRisk;
-            /** Value enum: "open", "resolving", "closed". */
+            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
             "status": "open" | "resolving" | "closed" | (string & {});
             /**
              * Lifecycle actions accepted in the current stored review state. An action remains
@@ -2213,137 +3141,163 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
     & ({
     /**
      *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.closed_by (Required): {@link
-     * ResourceReference} or null. The credential that closed this payment review. Null when Flint
-     * closed it. object.closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-     * another resource by `resource_type` and `resource_id`. object.closed_by.anyOf[2] (Value):
-     * null. object.closed_reason (Required): string or null. Value enum: "approved", "declined",
-     * "refunded", "disputed", "payment_canceled", "expired", null. object.customer (Optional):
-     * {@link ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`;
-     * `null` when expanded and there is no related customer. object.customer.anyOf[1] (Value):
-     * {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of a
-     * customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.ip_address (Required): string or null. object.last_resolution_failure (Required):
-     * {@link PaymentReviewResolutionFailure} or null. The most recent resolution attempt that
-     * failed. Set when a decline's refund failed and the review reopened. Null when no attempt has
-     * failed. object.last_resolution_failure.anyOf[1] (Value): {@link
-     * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with the
-     * `refund_id` and when it failed. object.last_resolution_failure.anyOf[2] (Value): null.
-     * object.matched_risk_rule_id (Required): string or null. Example:
-     * "rule_01KEZF7C00FWGAQJXXA8CRA319". object.opened_at (Required): string. RFC3339 timestamp.
-     * Format: date-time. Example: "2026-08-02T16:00:00Z". object.opened_reason (Required): string.
-     * Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null. Present
-     * only when `expand` includes `order`; `null` when expanded and there is no related order.
-     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
-     * including status, payment and refund status, and pricing and settlement amounts, returned
-     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id (Required):
-     * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow (Required):
-     * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-     * "subscription_renewal", "virtual_terminal", "api". object.payment_intent (Optional): {@link
+     * additional fields. object.closed_at (Required): string or null. RFC3339 timestamp. `null`
+     * when the review isn't closed. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * object.closed_by (Required): {@link ResourceReference} or null. The credential that closed
+     * this payment review. Null when Flint closed it. object.closed_by.anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * object.closed_by.anyOf[2] (Value): null. object.closed_reason (Required): string or null.
+     * How the review was resolved. `null` when the review isn't closed. Value enum: "approved",
+     * "declined", "refunded", "disputed", "payment_canceled", "expired", null. object.customer
+     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
+     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
+     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
+     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
+     * object.customer_id (Required): string or null. ID of the customer the payment was made for.
+     * `null` when the payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     * object.ip_address (Required): string or null. The buyer's IP address recorded for the
+     * payment when it was confirmed. `null` when no buyer IP address was supplied for the payment.
+     * object.last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null.
+     * The most recent resolution attempt that failed. Set when a decline's refund failed and the
+     * review reopened. Null when no attempt has failed. object.last_resolution_failure.anyOf[1]
+     * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+     * refund, with the `refund_id` and when it failed. object.last_resolution_failure.anyOf[2]
+     * (Value): null. object.matched_risk_rule_id (Required): string. ID of the risk rule with the
+     * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     * object.opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.opened_reason (Required): string. Why Flint opened the
+     * review. Value enum: "rule". object.order (Optional): {@link ExpandedOrderSummary} or null.
+     * Present only when `expand` includes `order`; `null` when expanded and there is no related
+     * order. object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
+     * fields, including status, payment and refund status, and pricing and settlement amounts,
+     * returned when the order is expanded. object.order.anyOf[2] (Value): null. object.order_id
+     * (Required): string or null. ID of the order the payment belongs to. `null` when the payment
+     * doesn't belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_flow
+     * (Required): string. How the reviewed payment was started. Value enum: "checkout",
+     * "payment_link", "invoice", "subscription_initial", "subscription_renewal",
+     * "virtual_terminal", "api". object.payment_intent (Optional): {@link
      * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
      * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
      * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
      * amount, status, and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Required): string.
-     * Example: "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_review_id (Required): string.
-     * Unique identifier for this payment review, prefixed `rev_`. Example:
-     * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary (Required): {@link
-     * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture method,
+     * ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+     * object.payment_review_id (Required): string. Unique identifier for this payment review,
+     * prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.payment_summary
+     * (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the payment as it was when
+     * the review opened. The payment details shown on a review: amount, capture method,
      * authorization expiry, card brand and last four digits, and buyer email.
      * object.pending_action (Required): string or null. The decision being carried out. `null`
      * when status isn't resolving. Value enum: "approve", "decline", "expire", null.
-     * object.refund_id (Required): string or null. The refund that closed this review. Null
-     * otherwise. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refunded_money (Required):
-     * {@link MoneyValue} or null. Refunded amount for this review. Null when no refund is
-     * recorded. object.refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     * object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
-     * string or null. RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.resolution_started_by (Required): {@link ResourceReference} or null. The credential
-     * that started resolving this payment review, retained after closure. Null when no resolution
-     * has started or Flint started it. object.resolution_started_by.anyOf[1] (Value): {@link
-     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
-     * object.resolution_started_by.anyOf[2] (Value): null. object.risk (Required): {@link
-     * PaymentReviewRisk}. The risk assessment shown on a review: a `level` and, when available, a
-     * numeric `score`. object.status (Required): string. Value enum: "open", "resolving",
-     * "closed". object.supported_actions (Required): Array of string. Lifecycle actions accepted
-     * in the current stored review state. An action remains listed while it is processing or can
-     * be repeated without changing the result. [] enum: "approve", "decline".
-     * object.supported_actions[] (Value): string. Value enum: "approve", "decline".
-     * object.updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous values of changed
-     * top-level fields in data.object, at this delivery's API version. Nested changes include the
-     * whole previous top-level value. A value is null when the field was absent before the change.
-     * Omitted when Flint did not record the previous state, including synthetic test events.
+     * object.refund_id (Required): string or null. The refund created when the payment was
+     * declined. It can be set while status is resolving, before the refund finishes and the review
+     * closes. `null` when no refund exists for the review, including after a decline that needed
+     * none or when the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     * object.refunded_money (Required): {@link MoneyValue} or null. Refunded amount for this
+     * review. Null when no refund is recorded. object.refunded_money.anyOf[1] (Value): {@link
+     * MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency
+     * code. object.refunded_money.anyOf[2] (Value): null. object.resolution_started_at (Required):
+     * string or null. RFC3339 timestamp. `null` when nobody has started approving or declining the
+     * review and Flint hasn't started expiring it. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z". object.resolution_started_by (Required): {@link ResourceReference}
+     * or null. The credential that started resolving this payment review, retained after closure.
+     * Null when no resolution has started or Flint started it.
+     * object.resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+     * another resource by `resource_type` and `resource_id`. object.resolution_started_by.anyOf[2]
+     * (Value): null. object.risk (Required): {@link PaymentReviewRisk}. The payment's risk level
+     * and score when the review opened. The risk assessment shown on a review: a `level` and, when
+     * available, a numeric `score`. object.status (Required): string. Where the review is in its
+     * lifecycle. Value enum: "open", "resolving", "closed". object.supported_actions (Required):
+     * Array of string. Lifecycle actions accepted in the current stored review state. An action
+     * remains listed while it is processing or can be repeated without changing the result. []
+     * enum: "approve", "decline". object.supported_actions[] (Value): string. Value enum:
+     * "approve", "decline". object.updated_at (Required): string. RFC3339 timestamp. Format:
+     * date-time. Example: "2026-08-02T16:00:00Z". previous_attributes (Optional): object. Previous
+     * values of changed top-level fields in data.object, at this delivery's API version. Nested
+     * changes include the whole previous top-level value. A value is null when the field was
+     * absent before the change. Omitted when Flint did not record the previous state, including
+     * synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit no additional fields. closed_at
-         * (Required): string or null. RFC3339 timestamp. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". closed_by (Required): {@link ResourceReference} or null. The
-         * credential that closed this payment review. Null when Flint closed it.
-         * closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to another resource
-         * by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null. closed_reason
-         * (Required): string or null. Value enum: "approved", "declined", "refunded", "disputed",
+         * (Required): string or null. RFC3339 timestamp. `null` when the review isn't closed.
+         * Format: date-time. Example: "2026-08-02T16:00:00Z". closed_by (Required): {@link
+         * ResourceReference} or null. The credential that closed this payment review. Null when
+         * Flint closed it. closed_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
+         * another resource by `resource_type` and `resource_id`. closed_by.anyOf[2] (Value): null.
+         * closed_reason (Required): string or null. How the review was resolved. `null` when the
+         * review isn't closed. Value enum: "approved", "declined", "refunded", "disputed",
          * "payment_canceled", "expired", null. customer (Optional): {@link
          * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
          * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
          * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
          * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Required): string or null. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
-         * (Required): string or null. last_resolution_failure (Required): {@link
-         * PaymentReviewResolutionFailure} or null. The most recent resolution attempt that failed.
-         * Set when a decline's refund failed and the review reopened. Null when no attempt has
-         * failed. last_resolution_failure.anyOf[1] (Value): {@link
-         * PaymentReviewResolutionFailure}. A failed attempt to resolve a review by refund, with
-         * the `refund_id` and when it failed. last_resolution_failure.anyOf[2] (Value): null.
-         * matched_risk_rule_id (Required): string or null. Example:
-         * "rule_01KEZF7C00FWGAQJXXA8CRA319". opened_at (Required): string. RFC3339 timestamp.
-         * Format: date-time. Example: "2026-08-02T16:00:00Z". opened_reason (Required): string.
+         * (Required): string or null. ID of the customer the payment was made for. `null` when the
+         * payment has no customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". ip_address
+         * (Required): string or null. The buyer's IP address recorded for the payment when it was
+         * confirmed. `null` when no buyer IP address was supplied for the payment.
+         * last_resolution_failure (Required): {@link PaymentReviewResolutionFailure} or null. The
+         * most recent resolution attempt that failed. Set when a decline's refund failed and the
+         * review reopened. Null when no attempt has failed. last_resolution_failure.anyOf[1]
+         * (Value): {@link PaymentReviewResolutionFailure}. A failed attempt to resolve a review by
+         * refund, with the `refund_id` and when it failed. last_resolution_failure.anyOf[2]
+         * (Value): null. matched_risk_rule_id (Required): string. ID of the risk rule with the
+         * review action that opened this review. Example: "rule_01KEZF7C00FWGAQJXXA8CRA319".
+         * opened_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * "2026-08-02T16:00:00Z". opened_reason (Required): string. Why Flint opened the review.
          * Value enum: "rule". order (Optional): {@link ExpandedOrderSummary} or null. Present only
          * when `expand` includes `order`; `null` when expanded and there is no related order.
          * order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
          * including status, payment and refund status, and pricing and settlement amounts,
          * returned when the order is expanded. order.anyOf[2] (Value): null. order_id (Required):
-         * string or null. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
-         * string. Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-         * "subscription_renewal", "virtual_terminal", "api". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Required): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id
-         * (Required): string. Unique identifier for this payment review, prefixed `rev_`. Example:
-         * "rev_01KEZF7C00BVBQ00XDFNKB1EF6". payment_summary (Required): {@link
-         * PaymentReviewPaymentSummary}. The payment details shown on a review: amount, capture
-         * method, authorization expiry, card brand and last four digits, and buyer email.
+         * string or null. ID of the order the payment belongs to. `null` when the payment doesn't
+         * belong to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A". payment_flow (Required):
+         * string. How the reviewed payment was started. Value enum: "checkout", "payment_link",
+         * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal", "api".
+         * payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+         * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+         * payment intent. payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A
+         * payment intent's summary fields, including amount, status, and capture method, returned
+         * when the payment intent is expanded. payment_intent.anyOf[2] (Value): null.
+         * payment_intent_id (Required): string. ID of the payment intent under review. Example:
+         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_review_id (Required): string. Unique identifier
+         * for this payment review, prefixed `rev_`. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+         * payment_summary (Required): {@link PaymentReviewPaymentSummary}. A snapshot of the
+         * payment as it was when the review opened. The payment details shown on a review: amount,
+         * capture method, authorization expiry, card brand and last four digits, and buyer email.
          * pending_action (Required): string or null. The decision being carried out. `null` when
          * status isn't resolving. Value enum: "approve", "decline", "expire", null. refund_id
-         * (Required): string or null. The refund that closed this review. Null otherwise. Example:
-         * "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money (Required): {@link MoneyValue} or null.
-         * Refunded amount for this review. Null when no refund is recorded.
-         * refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. refunded_money.anyOf[2] (Value):
-         * null. resolution_started_at (Required): string or null. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". resolution_started_by (Required): {@link
-         * ResourceReference} or null. The credential that started resolving this payment review,
-         * retained after closure. Null when no resolution has started or Flint started it.
-         * resolution_started_by.anyOf[1] (Value): {@link ResourceReference}. A reference to
-         * another resource by `resource_type` and `resource_id`. resolution_started_by.anyOf[2]
-         * (Value): null. risk (Required): {@link PaymentReviewRisk}. The risk assessment shown on
-         * a review: a `level` and, when available, a numeric `score`. status (Required): string.
-         * Value enum: "open", "resolving", "closed". supported_actions (Required): Array of
-         * string. Lifecycle actions accepted in the current stored review state. An action remains
-         * listed while it is processing or can be repeated without changing the result. [] enum:
-         * "approve", "decline". supported_actions[] (Value): string. Value enum: "approve",
-         * "decline". updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
+         * (Required): string or null. The refund created when the payment was declined. It can be
+         * set while status is resolving, before the refund finishes and the review closes. `null`
+         * when no refund exists for the review, including after a decline that needed none or when
+         * the review is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". refunded_money
+         * (Required): {@link MoneyValue} or null. Refunded amount for this review. Null when no
+         * refund is recorded. refunded_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
+         * represented as integer minor units plus an ISO 4217 currency code.
+         * refunded_money.anyOf[2] (Value): null. resolution_started_at (Required): string or null.
+         * RFC3339 timestamp. `null` when nobody has started approving or declining the review and
+         * Flint hasn't started expiring it. Format: date-time. Example: "2026-08-02T16:00:00Z".
+         * resolution_started_by (Required): {@link ResourceReference} or null. The credential that
+         * started resolving this payment review, retained after closure. Null when no resolution
+         * has started or Flint started it. resolution_started_by.anyOf[1] (Value): {@link
+         * ResourceReference}. A reference to another resource by `resource_type` and
+         * `resource_id`. resolution_started_by.anyOf[2] (Value): null. risk (Required): {@link
+         * PaymentReviewRisk}. The payment's risk level and score when the review opened. The risk
+         * assessment shown on a review: a `level` and, when available, a numeric `score`. status
+         * (Required): string. Where the review is in its lifecycle. Value enum: "open",
+         * "resolving", "closed". supported_actions (Required): Array of string. Lifecycle actions
+         * accepted in the current stored review state. An action remains listed while it is
+         * processing or can be repeated without changing the result. [] enum: "approve",
+         * "decline". supported_actions[] (Value): string. Value enum: "approve", "decline".
+         * updated_at (Required): string. RFC3339 timestamp. Format: date-time. Example:
          * "2026-08-02T16:00:00Z".
          */
         "object": {
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when the review isn't closed. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "closed_at": string | null;
             /**
              * The credential that closed this payment review. Null when Flint closed it. anyOf[1]
@@ -2352,8 +3306,8 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "closed_by": ((ResourceReference) | (null));
             /**
-             * Value enum: "approved", "declined", "refunded", "disputed", "payment_canceled",
-             * "expired", null.
+             * How the review was resolved. `null` when the review isn't closed. Value enum:
+             * "approved", "declined", "refunded", "disputed", "payment_canceled", "expired", null.
              */
             "closed_reason": "approved"
                 | "declined"
@@ -2371,8 +3325,15 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * anyOf[2] (Value): null.
              */
             "customer"?: ((ExpandedCustomerSummary) | (null));
-            /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". */
+            /**
+             * ID of the customer the payment was made for. `null` when the payment has no
+             * customer. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+             */
             "customer_id": string | null;
+            /**
+             * The buyer's IP address recorded for the payment when it was confirmed. `null` when
+             * no buyer IP address was supplied for the payment.
+             */
             "ip_address": string | null;
             /**
              * The most recent resolution attempt that failed. Set when a decline's refund failed
@@ -2381,11 +3342,14 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * with the `refund_id` and when it failed. anyOf[2] (Value): null.
              */
             "last_resolution_failure": ((PaymentReviewResolutionFailure) | (null));
-            /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
-            "matched_risk_rule_id": string | null;
+            /**
+             * ID of the risk rule with the review action that opened this review. Example:
+             * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+             */
+            "matched_risk_rule_id": string;
             /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
             "opened_at": string;
-            /** Value enum: "rule". */
+            /** Why Flint opened the review. Value enum: "rule". */
             "opened_reason": "rule" | (string & {});
             /**
              * Present only when `expand` includes `order`; `null` when expanded and there is no
@@ -2394,11 +3358,15 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * amounts, returned when the order is expanded. anyOf[2] (Value): null.
              */
             "order"?: ((ExpandedOrderSummary) | (null));
-            /** Example: "ord_01KEZF7C0054GQKJ142A8X367A". */
+            /**
+             * ID of the order the payment belongs to. `null` when the payment doesn't belong to an
+             * order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+             */
             "order_id": string | null;
             /**
-             * Value enum: "checkout", "payment_link", "invoice", "subscription_initial",
-             * "subscription_renewal", "virtual_terminal", "api".
+             * How the reviewed payment was started. Value enum: "checkout", "payment_link",
+             * "invoice", "subscription_initial", "subscription_renewal", "virtual_terminal",
+             * "api".
              */
             "payment_flow": "checkout"
                 | "payment_link"
@@ -2416,7 +3384,7 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * (Value): null.
              */
             "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /** Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
+            /** ID of the payment intent under review. Example: "pi_01KEZF7C00G8H9D509YEV22P7R". */
             "payment_intent_id": string;
             /**
              * Unique identifier for this payment review, prefixed `rev_`. Example:
@@ -2424,8 +3392,9 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "payment_review_id": string;
             /**
-             * The payment details shown on a review: amount, capture method, authorization expiry,
-             * card brand and last four digits, and buyer email.
+             * A snapshot of the payment as it was when the review opened. The payment details
+             * shown on a review: amount, capture method, authorization expiry, card brand and last
+             * four digits, and buyer email.
              */
             "payment_summary": PaymentReviewPaymentSummary;
             /**
@@ -2434,8 +3403,10 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "pending_action": "approve" | "decline" | "expire" | null | (string & {}) | null;
             /**
-             * The refund that closed this review. Null otherwise. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+             * The refund created when the payment was declined. It can be set while status is
+             * resolving, before the refund finishes and the review closes. `null` when no refund
+             * exists for the review, including after a decline that needed none or when the review
+             * is open. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
              */
             "refund_id": string | null;
             /**
@@ -2444,7 +3415,11 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              * 4217 currency code. anyOf[2] (Value): null.
              */
             "refunded_money": ((MoneyValue) | (null));
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+            /**
+             * RFC3339 timestamp. `null` when nobody has started approving or declining the review
+             * and Flint hasn't started expiring it. Format: date-time. Example:
+             * "2026-08-02T16:00:00Z".
+             */
             "resolution_started_at": string | null;
             /**
              * The credential that started resolving this payment review, retained after closure.
@@ -2454,11 +3429,11 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
              */
             "resolution_started_by": ((ResourceReference) | (null));
             /**
-             * The risk assessment shown on a review: a `level` and, when available, a numeric
-             * `score`.
+             * The payment's risk level and score when the review opened. The risk assessment shown
+             * on a review: a `level` and, when available, a numeric `score`.
              */
             "risk": PaymentReviewRisk;
-            /** Value enum: "open", "resolving", "closed". */
+            /** Where the review is in its lifecycle. Value enum: "open", "resolving", "closed". */
             "status": "open" | "resolving" | "closed" | (string & {});
             /**
              * Lifecycle actions accepted in the current stored review state. An action remains
@@ -2486,7 +3461,10 @@ export type PaymentReviewReopenedMerchantEvent = (Exclude<MerchantWebhookEnvelop
 export type PaymentReviewResolutionFailure = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "failed_at": string;
-    /** Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K". */
+    /**
+     * ID of the refund that failed and reopened the review. Example:
+     * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+     */
     "refund_id": string;
 };
 /** A response containing `PaymentReview` data. */
@@ -2509,7 +3487,10 @@ export type PaymentReviewResponse = {
 };
 /** The risk assessment shown on a review: a `level` and, when available, a numeric `score`. */
 export type PaymentReviewRisk = {
-    /** Value enum: "normal", "elevated", "highest", "not_assessed". */
+    /**
+     * Fraud risk level from the card processor's screening, recorded when the review opened. Value
+     * enum: "normal", "elevated", "highest", "not_assessed".
+     */
     "level": "normal" | "elevated" | "highest" | "not_assessed" | (string & {});
     /**
      * Fraud score from the card processor's screening, from 0 to 99. Higher means riskier. Absent
@@ -2690,11 +3671,21 @@ export type PaymentReviewsListParams = {
 export type PaymentRisk = {
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
     "evaluated_at": string;
-    /** Value enum: "normal", "elevated", "highest", "not_assessed". */
+    /**
+     * Fraud risk level from the card processor's screening of the payment intent's latest payment
+     * attempt. Value enum: "normal", "elevated", "highest", "not_assessed".
+     */
     "level": "normal" | "elevated" | "highest" | "not_assessed" | (string & {});
-    /** Example: "rule_01KEZF7C00FWGAQJXXA8CRA319". */
+    /**
+     * The risk rule that decided the outcome. Absent when no risk rule did. Example:
+     * "rule_01KEZF7C00FWGAQJXXA8CRA319".
+     */
     "matched_risk_rule_id"?: string;
-    /** Value enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null. */
+    /**
+     * What the risk evaluation decided about the payment intent's latest payment attempt. `null`
+     * when the evaluation has no outcome to report, such as when the attempt was canceled. Value
+     * enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null.
+     */
     "outcome"?: "authorized"
         | "manual_review"
         | "blocked"
@@ -2704,8 +3695,9 @@ export type PaymentRisk = {
         | (string & {})
         | null;
     /**
-     * Value enum: "highest_risk", "elevated_risk", "low_authorization_probability", "risk_rule",
-     * "risk_policy", null.
+     * Why the evaluation reached its outcome. `null` when the evaluation has no reason to report,
+     * such as an authorized payment that raised no flags. Value enum: "highest_risk",
+     * "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null.
      */
     "outcome_reason"?: "highest_risk"
         | "elevated_risk"
@@ -2715,7 +3707,10 @@ export type PaymentRisk = {
         | null
         | (string & {})
         | null;
-    /** Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". */
+    /**
+     * The payment review opened for the attempt. Present only when the outcome is manual_review.
+     * Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
+     */
     "payment_review_id"?: string;
     /**
      * Fraud score from the card processor's screening, from 0 to 99. Higher means riskier. Absent
@@ -2723,6 +3718,7 @@ export type PaymentRisk = {
      * 99.
      */
     "score"?: number;
+    /** A plain-language summary of the evaluation. */
     "statement": string;
 };
 /** Settings for the statement text on new payments. */
@@ -2750,9 +3746,11 @@ export type PaymentSettingsPatchInput = PaymentSettingsPatch;
  * digits.
  */
 export type PaymentSourceAchDebitSummary = {
-    /** Value enum: "checking", "savings", "other". */
+    /** The kind of bank account. Value enum: "checking", "savings", "other". */
     "account_type"?: "checking" | "savings" | "other" | (string & {});
+    /** Name of the bank that holds the account. */
     "bank_name"?: string;
+    /** Last four digits of the bank account number. */
     "last4"?: string;
 };
 /** Card and wallet details recorded when a payment is presented on a reader. */
@@ -2790,7 +3788,10 @@ export type PaymentSourceCardPresentDetails = {
 };
 /** Display details for a card payment source: brand, last four digits, and payment method ID. */
 export type PaymentSourceCardSummary = {
-    /** Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay". */
+    /**
+     * The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb",
+     * "unionpay".
+     */
     "brand"?: "visa" | "mastercard" | "amex" | "discover" | "diners" | "jcb" | "unionpay" | (string & {});
     /**
      * Details of a card read on a reader, present once the card was read. Card-present cards are
@@ -2798,30 +3799,34 @@ export type PaymentSourceCardSummary = {
      * is presented on a reader.
      */
     "card_present"?: PaymentSourceCardPresentDetails;
+    /** Last four digits of the card number. */
     "last4"?: string;
-    /** Example: "pm_01KEZF7C0034B248TXXE4NXYFZ". */
+    /**
+     * ID of the saved Flint payment method for this card. Absent when the card isn't saved, as
+     * with a card read on a reader. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     */
     "payment_method_id"?: string;
 };
 /**
  * The credential you provide to pay an order: a payment source token, a saved payment method ID,
  * or a Stripe confirmation token.
  */
-export type PaymentSourceCredential = ((PaymentSourceCredentialToken)
-    | (PaymentSourceCredentialPaymentMethod)
+export type PaymentSourceCredential = ((PaymentSourceCredentialPaymentMethod)
     | (PaymentSourceCredentialStripeConfirmationToken)
+    | (PaymentSourceCredentialStripePaymentMethod)
     | (PaymentSourceCredentialReader)
     | (Record<string, unknown>));
 /**
  * The credential you provide to pay an order: a payment source token, a saved payment method ID,
  * or a Stripe confirmation token.
  */
-export type PaymentSourceCredentialInput = ((PaymentSourceCredentialTokenInput)
-    | (PaymentSourceCredentialPaymentMethodInput)
+export type PaymentSourceCredentialInput = ((PaymentSourceCredentialPaymentMethodInput)
     | (PaymentSourceCredentialStripeConfirmationTokenInput)
+    | (PaymentSourceCredentialStripePaymentMethodInput)
     | (PaymentSourceCredentialReaderInput));
 /** The `payment_method` variant of `PaymentSourceCredential`. */
 export type PaymentSourceCredentialPaymentMethod = {
-    /** Value enum: "payment_method". */
+    /** Selects the credential supplied for this payment. Value enum: "payment_method". */
     "credential_type": "payment_method" | (string & {});
     /**
      * Whether the customer is present for this payment. Defaults to present. Send absent to charge
@@ -2837,14 +3842,14 @@ export type PaymentSourceCredentialPaymentMethod = {
      */
     "customer_presence"?: "present" | "absent" | (string & {});
     /**
-     * Saved Flint payment method ID belonging to the customer making this payment. minLength: 1.
-     * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * A payment method saved in Flint for the customer making this payment. minLength: 1. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ".
      */
     "payment_method_id": string;
 };
 /** The `payment_method` variant of `PaymentSourceCredential`. */
 export type PaymentSourceCredentialPaymentMethodInput = {
-    /** Value enum: "payment_method". */
+    /** Selects the credential supplied for this payment. Value enum: "payment_method". */
     "credential_type": "payment_method";
     /**
      * Whether the customer is present for this payment. Defaults to present. Send absent to charge
@@ -2860,18 +3865,18 @@ export type PaymentSourceCredentialPaymentMethodInput = {
      */
     "customer_presence"?: "present" | "absent";
     /**
-     * Saved Flint payment method ID belonging to the customer making this payment. minLength: 1.
-     * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     * A payment method saved in Flint for the customer making this payment. minLength: 1. Example:
+     * "pm_01KEZF7C0034B248TXXE4NXYFZ".
      */
     "payment_method_id": string;
 };
 /** The `reader` variant of `PaymentSourceCredential`. */
 export type PaymentSourceCredentialReader = {
-    /** Selects payment collection on a reader. Value enum: "reader". */
+    /** Selects the credential supplied for this payment. Value enum: "reader". */
     "credential_type": "reader" | (string & {});
     /**
      * Active reader in this merchant and environment. Requires payments.readers.write in addition
-     * to this operation’s scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * to this operation's scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "rdr_01KEZF7C007JA0G24M7SD6P46C".
      */
     "reader_id": string;
@@ -2883,11 +3888,11 @@ export type PaymentSourceCredentialReader = {
 };
 /** The `reader` variant of `PaymentSourceCredential`. */
 export type PaymentSourceCredentialReaderInput = {
-    /** Selects payment collection on a reader. Value enum: "reader". */
+    /** Selects the credential supplied for this payment. Value enum: "reader". */
     "credential_type": "reader";
     /**
      * Active reader in this merchant and environment. Requires payments.readers.write in addition
-     * to this operation’s scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
+     * to this operation's scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "rdr_01KEZF7C007JA0G24M7SD6P46C".
      */
     "reader_id": string;
@@ -2899,51 +3904,79 @@ export type PaymentSourceCredentialReaderInput = {
 };
 /** The `stripe_confirmation_token` variant of `PaymentSourceCredential`. */
 export type PaymentSourceCredentialStripeConfirmationToken = {
-    /** Value enum: "stripe_confirmation_token". */
+    /**
+     * Selects the credential supplied for this payment. Value enum: "stripe_confirmation_token".
+     */
     "credential_type": "stripe_confirmation_token" | (string & {});
     /**
-     * Stripe credential collected for this payment. confirmation_token (Required): string. Stripe
-     * confirmation token you created with Stripe.js from `payment_collection.stripe`. minLength:
-     * 1.
+     * Stripe credential collected for this payment. confirmation_token (Required): string. A
+     * Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use this
+     * for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
      */
     "stripe": {
         /**
-         * Stripe confirmation token you created with Stripe.js from `payment_collection.stripe`.
-         * minLength: 1.
+         * A Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use
+         * this for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
          */
         "confirmation_token": string;
     };
 };
 /** The `stripe_confirmation_token` variant of `PaymentSourceCredential`. */
 export type PaymentSourceCredentialStripeConfirmationTokenInput = {
-    /** Value enum: "stripe_confirmation_token". */
+    /**
+     * Selects the credential supplied for this payment. Value enum: "stripe_confirmation_token".
+     */
     "credential_type": "stripe_confirmation_token";
     /**
-     * Stripe credential collected for this payment. confirmation_token (Required): string. Stripe
-     * confirmation token you created with Stripe.js from `payment_collection.stripe`. minLength:
-     * 1.
+     * Stripe credential collected for this payment. confirmation_token (Required): string. A
+     * Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use this
+     * for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
      */
     "stripe": {
         /**
-         * Stripe confirmation token you created with Stripe.js from `payment_collection.stripe`.
-         * minLength: 1.
+         * A Stripe ConfirmationToken your page created with Stripe.js createConfirmationToken. Use
+         * this for cards, wallets, ACH and Affirm collected in the browser. minLength: 1.
          */
         "confirmation_token": string;
     };
 };
-/** The `token` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialToken = {
-    /** Value enum: "token". */
-    "credential_type": "token" | (string & {});
-    /** Opaque processor or browser payment source token. minLength: 1. */
-    "token": string;
+/** The `stripe_payment_method` variant of `PaymentSourceCredential`. */
+export type PaymentSourceCredentialStripePaymentMethod = {
+    /** Selects the credential supplied for this payment. Value enum: "stripe_payment_method". */
+    "credential_type": "stripe_payment_method" | (string & {});
+    /**
+     * Stripe credential collected for this payment. payment_method (Required): string. A Stripe
+     * PaymentMethod your app created with createPaymentMethod, or a Stripe test payment method
+     * such as pm_card_visa in a sandbox. It isn't a Flint saved payment method; send those as
+     * payment_method. minLength: 1.
+     */
+    "stripe": {
+        /**
+         * A Stripe PaymentMethod your app created with createPaymentMethod, or a Stripe test
+         * payment method such as pm_card_visa in a sandbox. It isn't a Flint saved payment method;
+         * send those as payment_method. minLength: 1.
+         */
+        "payment_method": string;
+    };
 };
-/** The `token` variant of `PaymentSourceCredential`. */
-export type PaymentSourceCredentialTokenInput = {
-    /** Value enum: "token". */
-    "credential_type": "token";
-    /** Opaque processor or browser payment source token. minLength: 1. */
-    "token": string;
+/** The `stripe_payment_method` variant of `PaymentSourceCredential`. */
+export type PaymentSourceCredentialStripePaymentMethodInput = {
+    /** Selects the credential supplied for this payment. Value enum: "stripe_payment_method". */
+    "credential_type": "stripe_payment_method";
+    /**
+     * Stripe credential collected for this payment. payment_method (Required): string. A Stripe
+     * PaymentMethod your app created with createPaymentMethod, or a Stripe test payment method
+     * such as pm_card_visa in a sandbox. It isn't a Flint saved payment method; send those as
+     * payment_method. minLength: 1.
+     */
+    "stripe": {
+        /**
+         * A Stripe PaymentMethod your app created with createPaymentMethod, or a Stripe test
+         * payment method such as pm_card_visa in a sandbox. It isn't a Flint saved payment method;
+         * send those as payment_method. minLength: 1.
+         */
+        "payment_method": string;
+    };
 };
 /**
  * A summary of the payment source used for a payment, by funding-method family, with card or bank
@@ -2951,12 +3984,13 @@ export type PaymentSourceCredentialTokenInput = {
  */
 export type PaymentSourceSummary = {
     /**
-     * Display details for a bank account payment source: account type, bank name, and last four
-     * digits.
+     * Bank account details. Present when type is ach_debit. Display details for a bank account
+     * payment source: account type, bank name, and last four digits.
      */
     "ach_debit"?: PaymentSourceAchDebitSummary;
     /**
-     * Display details for a card payment source: brand, last four digits, and payment method ID.
+     * Card details. Present when type is card. Display details for a card payment source: brand,
+     * last four digits, and payment method ID.
      */
     "card"?: PaymentSourceCardSummary;
     /**
@@ -3541,2135 +4575,3 @@ export type PaymentVolumeTimeseries = {
      */
     "timezone": string;
 };
-/** A response containing `PaymentVolumeTimeseries` data. */
-export type PaymentVolumeTimeseriesResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The half-open period
-     * [period_start_at, period_end_at) includes its start and excludes its end. Amounts and
-     * payments_count use currency; customer and subscription counts span currencies.
-     */
-    "data": PaymentVolumeTimeseries;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** Funds sent from a merchant balance to a payout destination. */
-export type Payout = {
-    /**
-     * Amount sent to your bank. Always positive. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using the UTC
-     * date of the expected arrival. Format: date. Example: "2026-08-02".
-     */
-    "arrival_date"?: string;
-    /**
-     * Balance source this payout draws from. Flint chooses the source when balance_source_type is
-     * omitted at create. Clients must accept source types added in future releases. Value enum:
-     * "card", "bank_account".
-     */
-    "balance_source_type": "card" | "bank_account" | (string & {});
-    /** When the payout was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /** ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD". */
-    "currency": string;
-    /** Description sent when the payout was created. Absent when there is none. */
-    "description"?: string;
-    /**
-     * Caller-owned identifier for this resource in an external system. maxLength: 255. Example:
-     * "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Flint-normalized payout failure code. Unknown provider values are returned as payout_failed.
-     * Value enum: "account_closed", "account_frozen", "bank_account_restricted",
-     * "bank_ownership_changed", "could_not_process", "debit_not_authorized", "declined",
-     * "insufficient_funds", "invalid_account_number", "incorrect_account_holder_name",
-     * "incorrect_account_holder_address", "incorrect_account_holder_tax_id", "invalid_currency",
-     * "no_account", "unsupported_card", "payout_failed".
-     */
-    "failure_code"?: "account_closed"
-        | "account_frozen"
-        | "bank_account_restricted"
-        | "bank_ownership_changed"
-        | "could_not_process"
-        | "debit_not_authorized"
-        | "declined"
-        | "insufficient_funds"
-        | "invalid_account_number"
-        | "incorrect_account_holder_name"
-        | "incorrect_account_holder_address"
-        | "incorrect_account_holder_tax_id"
-        | "invalid_currency"
-        | "no_account"
-        | "unsupported_card"
-        | "payout_failed"
-        | (string & {});
-    /**
-     * Flint-authored payout failure message. This is stable explanatory text, not a raw provider
-     * message.
-     */
-    "failure_message"?: string;
-    /**
-     * Whether the payout fee is estimated or final. not_applicable means no applicable fee status
-     * is known, including unmapped fee states. Value enum: "estimated", "final", "not_applicable".
-     */
-    "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-    /**
-     * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your processor
-     * records the payout. `null` when your processor hasn't recorded the payout yet. anyOf[1]
-     * (Value): {@link MoneyValue}. Monetary amount represented as integer minor units plus an ISO
-     * 4217 currency code. anyOf[2] (Value): null.
-     */
-    "fee_money": ((MoneyValue) | (null));
-    /**
-     * What started the payout. A payout imported from your processor follows the processor:
-     * scheduled when it sent the payout automatically, otherwise manual. Only scheduled payouts
-     * list their balance transactions through GET /v1/balance-transactions?payout_id=; other
-     * payouts return 409 with reason not_itemized. Unmapped sources are returned as other. Value
-     * enum: "manual", "scheduled", "platform", "other".
-     */
-    "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-    /** Merchant receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-    "merchant_id": string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them.
-     */
-    "metadata"?: MetadataMap;
-    /**
-     * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears
-     * only on a payout Flint recorded from the processor that was sent outside Flint. `other` is a
-     * method Flint doesn't map. Value enum: "standard", "instant", "other".
-     */
-    "method": "standard" | "instant" | "other" | (string & {});
-    /**
-     * Signed effect of this payout on your Flint balance. It is negative because the payout takes
-     * money out: a 25000 payout with no fee has net_money -25000. `null` when your processor
-     * hasn't recorded the payout yet. anyOf[1] (Value): {@link MoneyValue}. Signed monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
-     */
-    "net_money": ((MoneyValue) | (null));
-    /**
-     * The payout this one reverses, inlined when you request expand=original_payout. null when
-     * expanded and original_payout_id is absent. Present only when `expand` includes
-     * `original_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value):
-     * {@link ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status,
-     * and arrival date, returned when the payout is expanded. anyOf[2] (Value): null.
-     */
-    "original_payout"?: ((ExpandedPayoutSummary) | (null));
-    /**
-     * On a payout that reverses another payout, the payout it reverses. Present only when Flint
-     * has the matching original payout. A payout has at most one of original_payout_id and
-     * reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     */
-    "original_payout_id"?: string;
-    /**
-     * The payout destination, inlined when you request expand=payout_destination. null when
-     * expanded and payout_destination_id is absent. Present only when `expand` includes
-     * `payout_destination`; `null` when expanded and there is no related payout destination.
-     * anyOf[1] (Value): {@link ExpandedPayoutDestinationSummary}. A payout destination's summary
-     * fields, such as type, bank name, last four digits, and status, returned when the destination
-     * is expanded. anyOf[2] (Value): null.
-     */
-    "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-    /**
-     * Bank account or debit card receiving the payout. Absent when Flint can't match your
-     * processor's destination to a payout destination. Example:
-     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-     */
-    "payout_destination_id"?: string;
-    /** Stable identifier of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". */
-    "payout_id": string;
-    /**
-     * Whether Flint has pulled a paid payout back from your bank: none until the reversal
-     * completes, then reversed. A payout_reversal balance transaction returns the money, and
-     * status stays succeeded. Value enum: "none", "reversed".
-     */
-    "reversal_status": "none" | "reversed" | (string & {});
-    /**
-     * The payout reversing this one, inlined when you request expand=reversed_by_payout. null when
-     * expanded and reversed_by_payout_id is absent. Present only when `expand` includes
-     * `reversed_by_payout`; `null` when expanded and there is no related payout. anyOf[1] (Value):
-     * {@link ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status,
-     * and arrival date, returned when the payout is expanded. anyOf[2] (Value): null.
-     */
-    "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-    /**
-     * The separate payout reversing this one, when Flint has the matching payout. Its presence
-     * does not mean the reversal has completed; read reversal_status. A payout has at most one of
-     * original_payout_id and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     */
-    "reversed_by_payout_id"?: string;
-    /** Text shown on your bank statement for the deposit, when one was set. */
-    "statement_descriptor"?: string;
-    /**
-     * Where the payout is: pending until it is sent, in_transit on its way to your bank, then
-     * succeeded or failed. A succeeded payout can still become failed if the bank returns the
-     * deposit, and canceled means a manual payout was canceled while pending. Value enum:
-     * "pending", "in_transit", "succeeded", "failed", "canceled".
-     */
-    "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-    /**
-     * Lifecycle actions Flint accepts now. cancel is offered while a payout is pending unless it
-     * was scheduled automatically. [] enum: "cancel". [] (Value): string. Value enum: "cancel".
-     */
-    "supported_actions": Array<"cancel" | (string & {})>;
-    /**
-     * The bank's trace number for the deposit, which your bank can use to locate a late deposit.
-     * Its status says whether the number is pending, available, or unsupported, and value holds
-     * the number when Flint has it. Absent when Flint has no trace information. A payout's bank
-     * trace ID, with whether it is pending, available, or unsupported.
-     */
-    "trace_id"?: PayoutTraceID;
-    /** When the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-};
-export type PayoutCanceledEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "arrival_date"?: string;
-            "balance_source_type": "card" | "bank_account" | (string & {});
-            "created_at": string;
-            "currency": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_code"?: "account_closed"
-                | "account_frozen"
-                | "bank_account_restricted"
-                | "bank_ownership_changed"
-                | "could_not_process"
-                | "debit_not_authorized"
-                | "declined"
-                | "insufficient_funds"
-                | "invalid_account_number"
-                | "incorrect_account_holder_name"
-                | "incorrect_account_holder_address"
-                | "incorrect_account_holder_tax_id"
-                | "invalid_currency"
-                | "no_account"
-                | "unsupported_card"
-                | "payout_failed"
-                | (string & {});
-            "failure_message"?: string;
-            "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-            "fee_money": ((MoneyValue) | (null));
-            "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "method": "standard" | "instant" | "other" | (string & {});
-            "net_money": ((MoneyValue) | (null));
-            "original_payout"?: ((ExpandedPayoutSummary) | (null));
-            "original_payout_id"?: string;
-            "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-            "payout_destination_id"?: string;
-            "payout_id": string;
-            "reversal_status": "none" | "reversed" | (string & {});
-            "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-            "reversed_by_payout_id"?: string;
-            "statement_descriptor"?: string;
-            "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | (string & {})>;
-            "trace_id"?: PayoutTraceID;
-            "updated_at": string;
-        };
-        "previous_attributes"?: Partial<Payout>;
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payout.canceled";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "arrival_date"?: string;
-            "balance_source_type": "card" | "bank_account" | (string & {});
-            "created_at": string;
-            "currency": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_code"?: "account_closed"
-                | "account_frozen"
-                | "bank_account_restricted"
-                | "bank_ownership_changed"
-                | "could_not_process"
-                | "debit_not_authorized"
-                | "declined"
-                | "insufficient_funds"
-                | "invalid_account_number"
-                | "incorrect_account_holder_name"
-                | "incorrect_account_holder_address"
-                | "incorrect_account_holder_tax_id"
-                | "invalid_currency"
-                | "no_account"
-                | "unsupported_card"
-                | "payout_failed"
-                | (string & {});
-            "failure_message"?: string;
-            "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-            "fee_money": ((MoneyValue) | (null));
-            "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "method": "standard" | "instant" | "other" | (string & {});
-            "net_money": ((MoneyValue) | (null));
-            "original_payout"?: ((ExpandedPayoutSummary) | (null));
-            "original_payout_id"?: string;
-            "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-            "payout_destination_id"?: string;
-            "payout_id": string;
-            "reversal_status": "none" | "reversed" | (string & {});
-            "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-            "reversed_by_payout_id"?: string;
-            "statement_descriptor"?: string;
-            "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | (string & {})>;
-            "trace_id"?: PayoutTraceID;
-            "updated_at": string;
-        };
-        "previous_attributes"?: Partial<Payout>;
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payout.canceled";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payout.canceled";
-});
-/**
- * The `payout.canceled` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type PayoutCanceledInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.amount_money (Required): {@link MoneyValue}. Amount sent to your
-     * bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.arrival_date (Optional): string. Calendar date the bank is expected to
-     * receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format:
-     * date. Example: "2026-08-02". object.balance_source_type (Required): string. Balance source
-     * this payout draws from. Flint chooses the source when balance_source_type is omitted at
-     * create. Clients must accept source types added in future releases. Value enum: "card",
-     * "bank_account". object.created_at (Required): string. When the payout was created. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.currency (Required): string. ISO 4217
-     * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     * object.description (Optional): string. Description sent when the payout was created. Absent
-     * when there is none. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.failure_code (Optional): string. Flint-normalized payout failure code. Unknown
-     * provider values are returned as payout_failed. Value enum: "account_closed",
-     * "account_frozen", "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-     * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-     * "incorrect_account_holder_name", "incorrect_account_holder_address",
-     * "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card",
-     * "payout_failed". object.failure_message (Optional): string. Flint-authored payout failure
-     * message. This is stable explanatory text, not a raw provider message.
-     * object.fee_amount_status (Required): string. Whether the payout fee is estimated or final.
-     * not_applicable means no applicable fee status is known, including unmapped fee states. Value
-     * enum: "estimated", "final", "not_applicable". object.fee_money (Required): {@link
-     * MoneyValue} or null. Fee for this payout, never negative. Payouts carry no fee, so this is 0
-     * once your processor records the payout. `null` when your processor hasn't recorded the
-     * payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. object.fee_money.anyOf[2]
-     * (Value): null. object.initiated_by (Required): string. What started the payout. A payout
-     * imported from your processor follows the processor: scheduled when it sent the payout
-     * automatically, otherwise manual. Only scheduled payouts list their balance transactions
-     * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
-     * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
-     * "platform", "other". object.merchant_id (Required): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.method (Required): string. Payouts
-     * Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on
-     * a payout Flint recorded from the processor that was sent outside Flint. `other` is a method
-     * Flint doesn't map. Value enum: "standard", "instant", "other". object.net_money (Required):
-     * {@link MoneyValue} or null. Signed effect of this payout on your Flint balance. It is
-     * negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet. object.net_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. object.net_money.anyOf[2] (Value): null. object.original_payout
-     * (Optional): {@link ExpandedPayoutSummary} or null. The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. object.original_payout.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. object.original_payout.anyOf[2] (Value):
-     * null. object.original_payout_id (Optional): string. On a payout that reverses another
-     * payout, the payout it reverses. Present only when Flint has the matching original payout. A
-     * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". object.payout_destination (Optional): {@link
-     * ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you request
-     * expand=payout_destination. null when expanded and payout_destination_id is absent. Present
-     * only when `expand` includes `payout_destination`; `null` when expanded and there is no
-     * related payout destination. object.payout_destination.anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type, bank
-     * name, last four digits, and status, returned when the destination is expanded.
-     * object.payout_destination.anyOf[2] (Value): null. object.payout_destination_id (Optional):
-     * string. Bank account or debit card receiving the payout. Absent when Flint can't match your
-     * processor's destination to a payout destination. Example:
-     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". object.payout_id (Required): string. Stable identifier
-     * of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". object.reversal_status (Required):
-     * string. Whether Flint has pulled a paid payout back from your bank: none until the reversal
-     * completes, then reversed. A payout_reversal balance transaction returns the money, and
-     * status stays succeeded. Value enum: "none", "reversed". object.reversed_by_payout
-     * (Optional): {@link ExpandedPayoutSummary} or null. The payout reversing this one, inlined
-     * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
-     * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. object.reversed_by_payout.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. object.reversed_by_payout.anyOf[2]
-     * (Value): null. object.reversed_by_payout_id (Optional): string. The separate payout
-     * reversing this one, when Flint has the matching payout. Its presence does not mean the
-     * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     * object.statement_descriptor (Optional): string. Text shown on your bank statement for the
-     * deposit, when one was set. object.status (Required): string. Where the payout is: pending
-     * until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
-     * payout can still become failed if the bank returns the deposit, and canceled means a manual
-     * payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded",
-     * "failed", "canceled". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now. cancel is offered while a payout is pending unless it was
-     * scheduled automatically. [] enum: "cancel". object.supported_actions[] (Value): string.
-     * Value enum: "cancel". object.trace_id (Optional): {@link PayoutTraceID}. The bank's trace
-     * number for the deposit, which your bank can use to locate a late deposit. Its status says
-     * whether the number is pending, available, or unsupported, and value holds the number when
-     * Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with
-     * whether it is pending, available, or unsupported. object.updated_at (Required): string. When
-     * the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * amount_money (Required): {@link MoneyValue}. Amount sent to your bank. Always positive.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * arrival_date (Optional): string. Calendar date the bank is expected to receive the
-         * funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date.
-         * Example: "2026-08-02". balance_source_type (Required): string. Balance source this
-         * payout draws from. Flint chooses the source when balance_source_type is omitted at
-         * create. Clients must accept source types added in future releases. Value enum: "card",
-         * "bank_account". created_at (Required): string. When the payout was created. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". currency (Required): string. ISO 4217
-         * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-         * description (Optional): string. Description sent when the payout was created. Absent
-         * when there is none. external_reference_id (Optional): string. Caller-owned identifier
-         * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * failure_code (Optional): string. Flint-normalized payout failure code. Unknown provider
-         * values are returned as payout_failed. Value enum: "account_closed", "account_frozen",
-         * "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-         * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-         * "incorrect_account_holder_name", "incorrect_account_holder_address",
-         * "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card",
-         * "payout_failed". failure_message (Optional): string. Flint-authored payout failure
-         * message. This is stable explanatory text, not a raw provider message. fee_amount_status
-         * (Required): string. Whether the payout fee is estimated or final. not_applicable means
-         * no applicable fee status is known, including unmapped fee states. Value enum:
-         * "estimated", "final", "not_applicable". fee_money (Required): {@link MoneyValue} or
-         * null. Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-         * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-         * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * initiated_by (Required): string. What started the payout. A payout imported from your
-         * processor follows the processor: scheduled when it sent the payout automatically,
-         * otherwise manual. Only scheduled payouts list their balance transactions through GET
-         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-         * "other". merchant_id (Required): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
-         * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for
-         * Flint, are not returned, and cannot be written through the public API. Caller-owned
-         * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint
-         * and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
-         * maps written before those limits may not satisfy them. method (Required): string.
-         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
-         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-         * net_money (Required): {@link MoneyValue} or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): {@link MoneyValue}. Signed monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. net_money.anyOf[2] (Value): null.
-         * original_payout (Optional): {@link ExpandedPayoutSummary} or null. The payout this one
-         * reverses, inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * {@link ExpandedPayoutSummary}. A payout's summary fields, including amount, method,
-         * status, and arrival date, returned when the payout is expanded. original_payout.anyOf[2]
-         * (Value): null. original_payout_id (Optional): string. On a payout that reverses another
-         * payout, the payout it reverses. Present only when Flint has the matching original
-         * payout. A payout has at most one of original_payout_id and reversed_by_payout_id.
-         * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". payout_destination (Optional): {@link
-         * ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you
-         * request expand=payout_destination. null when expanded and payout_destination_id is
-         * absent. Present only when `expand` includes `payout_destination`; `null` when expanded
-         * and there is no related payout destination. payout_destination.anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type,
-         * bank name, last four digits, and status, returned when the destination is expanded.
-         * payout_destination.anyOf[2] (Value): null. payout_destination_id (Optional): string.
-         * Bank account or debit card receiving the payout. Absent when Flint can't match your
-         * processor's destination to a payout destination. Example:
-         * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". payout_id (Required): string. Stable identifier of
-         * the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". reversal_status (Required):
-         * string. Whether Flint has pulled a paid payout back from your bank: none until the
-         * reversal completes, then reversed. A payout_reversal balance transaction returns the
-         * money, and status stays succeeded. Value enum: "none", "reversed". reversed_by_payout
-         * (Optional): {@link ExpandedPayoutSummary} or null. The payout reversing this one,
-         * inlined when you request expand=reversed_by_payout. null when expanded and
-         * reversed_by_payout_id is absent. Present only when `expand` includes
-         * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary
-         * fields, including amount, method, status, and arrival date, returned when the payout is
-         * expanded. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string. The separate payout reversing this one, when Flint has the matching payout. Its
-         * presence does not mean the reversal has completed; read reversal_status. A payout has at
-         * most one of original_payout_id and reversed_by_payout_id. Example:
-         * "po_01KEZF7C00PXK8XREWJA6K4FGV". statement_descriptor (Optional): string. Text shown on
-         * your bank statement for the deposit, when one was set. status (Required): string. Where
-         * the payout is: pending until it is sent, in_transit on its way to your bank, then
-         * succeeded or failed. A succeeded payout can still become failed if the bank returns the
-         * deposit, and canceled means a manual payout was canceled while pending. Value enum:
-         * "pending", "in_transit", "succeeded", "failed", "canceled". supported_actions
-         * (Required): Array of string. Lifecycle actions Flint accepts now. cancel is offered
-         * while a payout is pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions[] (Value): string. Value enum: "cancel". trace_id (Optional): {@link
-         * PayoutTraceID}. The bank's trace number for the deposit, which your bank can use to
-         * locate a late deposit. Its status says whether the number is pending, available, or
-         * unsupported, and value holds the number when Flint has it. Absent when Flint has no
-         * trace information. A payout's bank trace ID, with whether it is pending, available, or
-         * unsupported. updated_at (Required): string. When the payout last changed. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Amount sent to your bank. Always positive. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /**
-             * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
-             * the UTC date of the expected arrival. Format: date. Example: "2026-08-02".
-             */
-            "arrival_date"?: string;
-            /**
-             * Balance source this payout draws from. Flint chooses the source when
-             * balance_source_type is omitted at create. Clients must accept source types added in
-             * future releases. Value enum: "card", "bank_account".
-             */
-            "balance_source_type": "card" | "bank_account" | (string & {});
-            /** When the payout was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-             * "USD".
-             */
-            "currency": string;
-            /** Description sent when the payout was created. Absent when there is none. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Flint-normalized payout failure code. Unknown provider values are returned as
-             * payout_failed. Value enum: "account_closed", "account_frozen",
-             * "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-             * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-             * "incorrect_account_holder_name", "incorrect_account_holder_address",
-             * "incorrect_account_holder_tax_id", "invalid_currency", "no_account",
-             * "unsupported_card", "payout_failed".
-             */
-            "failure_code"?: "account_closed"
-                | "account_frozen"
-                | "bank_account_restricted"
-                | "bank_ownership_changed"
-                | "could_not_process"
-                | "debit_not_authorized"
-                | "declined"
-                | "insufficient_funds"
-                | "invalid_account_number"
-                | "incorrect_account_holder_name"
-                | "incorrect_account_holder_address"
-                | "incorrect_account_holder_tax_id"
-                | "invalid_currency"
-                | "no_account"
-                | "unsupported_card"
-                | "payout_failed"
-                | (string & {});
-            /**
-             * Flint-authored payout failure message. This is stable explanatory text, not a raw
-             * provider message.
-             */
-            "failure_message"?: string;
-            /**
-             * Whether the payout fee is estimated or final. not_applicable means no applicable fee
-             * status is known, including unmapped fee states. Value enum: "estimated", "final",
-             * "not_applicable".
-             */
-            "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-            /**
-             * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-             * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
-             */
-            "fee_money": ((MoneyValue) | (null));
-            /**
-             * What started the payout. A payout imported from your processor follows the
-             * processor: scheduled when it sent the payout automatically, otherwise manual. Only
-             * scheduled payouts list their balance transactions through GET
-             * /v1/balance-transactions?payout_id=; other payouts return 409 with reason
-             * not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-             * "scheduled", "platform", "other".
-             */
-            "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-            /** Merchant receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-            "merchant_id": string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-             * appears only on a payout Flint recorded from the processor that was sent outside
-             * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-             * "other".
-             */
-            "method": "standard" | "instant" | "other" | (string & {});
-            /**
-             * Signed effect of this payout on your Flint balance. It is negative because the
-             * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link MoneyValue}.
-             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
-             * code. anyOf[2] (Value): null.
-             */
-            "net_money": ((MoneyValue) | (null));
-            /**
-             * The payout this one reverses, inlined when you request expand=original_payout. null
-             * when expanded and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): {@link ExpandedPayoutSummary}. A payout's summary fields, including amount,
-             * method, status, and arrival date, returned when the payout is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "original_payout"?: ((ExpandedPayoutSummary) | (null));
-            /**
-             * On a payout that reverses another payout, the payout it reverses. Present only when
-             * Flint has the matching original payout. A payout has at most one of
-             * original_payout_id and reversed_by_payout_id. Example:
-             * "po_01KEZF7C00PXK8XREWJA6K4FGV".
-             */
-            "original_payout_id"?: string;
-            /**
-             * The payout destination, inlined when you request expand=payout_destination. null
-             * when expanded and payout_destination_id is absent. Present only when `expand`
-             * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): {@link ExpandedPayoutDestinationSummary}. A payout
-             * destination's summary fields, such as type, bank name, last four digits, and status,
-             * returned when the destination is expanded. anyOf[2] (Value): null.
-             */
-            "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-            /**
-             * Bank account or debit card receiving the payout. Absent when Flint can't match your
-             * processor's destination to a payout destination. Example:
-             * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-             */
-            "payout_destination_id"?: string;
-            /** Stable identifier of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". */
-            "payout_id": string;
-            /**
-             * Whether Flint has pulled a paid payout back from your bank: none until the reversal
-             * completes, then reversed. A payout_reversal balance transaction returns the money,
-             * and status stays succeeded. Value enum: "none", "reversed".
-             */
-            "reversal_status": "none" | "reversed" | (string & {});
-            /**
-             * The payout reversing this one, inlined when you request expand=reversed_by_payout.
-             * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary fields,
-             * including amount, method, status, and arrival date, returned when the payout is
-             * expanded. anyOf[2] (Value): null.
-             */
-            "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-            /**
-             * The separate payout reversing this one, when Flint has the matching payout. Its
-             * presence does not mean the reversal has completed; read reversal_status. A payout
-             * has at most one of original_payout_id and reversed_by_payout_id. Example:
-             * "po_01KEZF7C00PXK8XREWJA6K4FGV".
-             */
-            "reversed_by_payout_id"?: string;
-            /** Text shown on your bank statement for the deposit, when one was set. */
-            "statement_descriptor"?: string;
-            /**
-             * Where the payout is: pending until it is sent, in_transit on its way to your bank,
-             * then succeeded or failed. A succeeded payout can still become failed if the bank
-             * returns the deposit, and canceled means a manual payout was canceled while pending.
-             * Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-             */
-            "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts now. cancel is offered while a payout is pending
-             * unless it was scheduled automatically. [] enum: "cancel". [] (Value): string. Value
-             * enum: "cancel".
-             */
-            "supported_actions": Array<"cancel" | (string & {})>;
-            /**
-             * The bank's trace number for the deposit, which your bank can use to locate a late
-             * deposit. Its status says whether the number is pending, available, or unsupported,
-             * and value holds the number when Flint has it. Absent when Flint has no trace
-             * information. A payout's bank trace ID, with whether it is pending, available, or
-             * unsupported.
-             */
-            "trace_id"?: PayoutTraceID;
-            /** When the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Payout>;
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "payout.canceled". */
-    "event_type"?: "payout.canceled";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `payout.canceled` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type PayoutCanceledMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.amount_money (Required): {@link MoneyValue}. Amount sent to your
-     * bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.arrival_date (Optional): string. Calendar date the bank is expected to
-     * receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format:
-     * date. Example: "2026-08-02". object.balance_source_type (Required): string. Balance source
-     * this payout draws from. Flint chooses the source when balance_source_type is omitted at
-     * create. Clients must accept source types added in future releases. Value enum: "card",
-     * "bank_account". object.created_at (Required): string. When the payout was created. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.currency (Required): string. ISO 4217
-     * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     * object.description (Optional): string. Description sent when the payout was created. Absent
-     * when there is none. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.failure_code (Optional): string. Flint-normalized payout failure code. Unknown
-     * provider values are returned as payout_failed. Value enum: "account_closed",
-     * "account_frozen", "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-     * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-     * "incorrect_account_holder_name", "incorrect_account_holder_address",
-     * "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card",
-     * "payout_failed". object.failure_message (Optional): string. Flint-authored payout failure
-     * message. This is stable explanatory text, not a raw provider message.
-     * object.fee_amount_status (Required): string. Whether the payout fee is estimated or final.
-     * not_applicable means no applicable fee status is known, including unmapped fee states. Value
-     * enum: "estimated", "final", "not_applicable". object.fee_money (Required): {@link
-     * MoneyValue} or null. Fee for this payout, never negative. Payouts carry no fee, so this is 0
-     * once your processor records the payout. `null` when your processor hasn't recorded the
-     * payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. object.fee_money.anyOf[2]
-     * (Value): null. object.initiated_by (Required): string. What started the payout. A payout
-     * imported from your processor follows the processor: scheduled when it sent the payout
-     * automatically, otherwise manual. Only scheduled payouts list their balance transactions
-     * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
-     * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
-     * "platform", "other". object.merchant_id (Required): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.method (Required): string. Payouts
-     * Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on
-     * a payout Flint recorded from the processor that was sent outside Flint. `other` is a method
-     * Flint doesn't map. Value enum: "standard", "instant", "other". object.net_money (Required):
-     * {@link MoneyValue} or null. Signed effect of this payout on your Flint balance. It is
-     * negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet. object.net_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. object.net_money.anyOf[2] (Value): null. object.original_payout
-     * (Optional): {@link ExpandedPayoutSummary} or null. The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. object.original_payout.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. object.original_payout.anyOf[2] (Value):
-     * null. object.original_payout_id (Optional): string. On a payout that reverses another
-     * payout, the payout it reverses. Present only when Flint has the matching original payout. A
-     * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". object.payout_destination (Optional): {@link
-     * ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you request
-     * expand=payout_destination. null when expanded and payout_destination_id is absent. Present
-     * only when `expand` includes `payout_destination`; `null` when expanded and there is no
-     * related payout destination. object.payout_destination.anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type, bank
-     * name, last four digits, and status, returned when the destination is expanded.
-     * object.payout_destination.anyOf[2] (Value): null. object.payout_destination_id (Optional):
-     * string. Bank account or debit card receiving the payout. Absent when Flint can't match your
-     * processor's destination to a payout destination. Example:
-     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". object.payout_id (Required): string. Stable identifier
-     * of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". object.reversal_status (Required):
-     * string. Whether Flint has pulled a paid payout back from your bank: none until the reversal
-     * completes, then reversed. A payout_reversal balance transaction returns the money, and
-     * status stays succeeded. Value enum: "none", "reversed". object.reversed_by_payout
-     * (Optional): {@link ExpandedPayoutSummary} or null. The payout reversing this one, inlined
-     * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
-     * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. object.reversed_by_payout.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. object.reversed_by_payout.anyOf[2]
-     * (Value): null. object.reversed_by_payout_id (Optional): string. The separate payout
-     * reversing this one, when Flint has the matching payout. Its presence does not mean the
-     * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     * object.statement_descriptor (Optional): string. Text shown on your bank statement for the
-     * deposit, when one was set. object.status (Required): string. Where the payout is: pending
-     * until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
-     * payout can still become failed if the bank returns the deposit, and canceled means a manual
-     * payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded",
-     * "failed", "canceled". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now. cancel is offered while a payout is pending unless it was
-     * scheduled automatically. [] enum: "cancel". object.supported_actions[] (Value): string.
-     * Value enum: "cancel". object.trace_id (Optional): {@link PayoutTraceID}. The bank's trace
-     * number for the deposit, which your bank can use to locate a late deposit. Its status says
-     * whether the number is pending, available, or unsupported, and value holds the number when
-     * Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with
-     * whether it is pending, available, or unsupported. object.updated_at (Required): string. When
-     * the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * previous_attributes (Optional): object. Previous values of changed top-level fields in
-     * data.object, at this delivery's API version. Nested changes include the whole previous
-     * top-level value. A value is null when the field was absent before the change. Omitted when
-     * Flint did not record the previous state, including synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * amount_money (Required): {@link MoneyValue}. Amount sent to your bank. Always positive.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * arrival_date (Optional): string. Calendar date the bank is expected to receive the
-         * funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date.
-         * Example: "2026-08-02". balance_source_type (Required): string. Balance source this
-         * payout draws from. Flint chooses the source when balance_source_type is omitted at
-         * create. Clients must accept source types added in future releases. Value enum: "card",
-         * "bank_account". created_at (Required): string. When the payout was created. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". currency (Required): string. ISO 4217
-         * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-         * description (Optional): string. Description sent when the payout was created. Absent
-         * when there is none. external_reference_id (Optional): string. Caller-owned identifier
-         * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * failure_code (Optional): string. Flint-normalized payout failure code. Unknown provider
-         * values are returned as payout_failed. Value enum: "account_closed", "account_frozen",
-         * "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-         * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-         * "incorrect_account_holder_name", "incorrect_account_holder_address",
-         * "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card",
-         * "payout_failed". failure_message (Optional): string. Flint-authored payout failure
-         * message. This is stable explanatory text, not a raw provider message. fee_amount_status
-         * (Required): string. Whether the payout fee is estimated or final. not_applicable means
-         * no applicable fee status is known, including unmapped fee states. Value enum:
-         * "estimated", "final", "not_applicable". fee_money (Required): {@link MoneyValue} or
-         * null. Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-         * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-         * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * initiated_by (Required): string. What started the payout. A payout imported from your
-         * processor follows the processor: scheduled when it sent the payout automatically,
-         * otherwise manual. Only scheduled payouts list their balance transactions through GET
-         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-         * "other". merchant_id (Required): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
-         * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for
-         * Flint, are not returned, and cannot be written through the public API. Caller-owned
-         * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint
-         * and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
-         * maps written before those limits may not satisfy them. method (Required): string.
-         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
-         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-         * net_money (Required): {@link MoneyValue} or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): {@link MoneyValue}. Signed monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. net_money.anyOf[2] (Value): null.
-         * original_payout (Optional): {@link ExpandedPayoutSummary} or null. The payout this one
-         * reverses, inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * {@link ExpandedPayoutSummary}. A payout's summary fields, including amount, method,
-         * status, and arrival date, returned when the payout is expanded. original_payout.anyOf[2]
-         * (Value): null. original_payout_id (Optional): string. On a payout that reverses another
-         * payout, the payout it reverses. Present only when Flint has the matching original
-         * payout. A payout has at most one of original_payout_id and reversed_by_payout_id.
-         * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". payout_destination (Optional): {@link
-         * ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you
-         * request expand=payout_destination. null when expanded and payout_destination_id is
-         * absent. Present only when `expand` includes `payout_destination`; `null` when expanded
-         * and there is no related payout destination. payout_destination.anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type,
-         * bank name, last four digits, and status, returned when the destination is expanded.
-         * payout_destination.anyOf[2] (Value): null. payout_destination_id (Optional): string.
-         * Bank account or debit card receiving the payout. Absent when Flint can't match your
-         * processor's destination to a payout destination. Example:
-         * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". payout_id (Required): string. Stable identifier of
-         * the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". reversal_status (Required):
-         * string. Whether Flint has pulled a paid payout back from your bank: none until the
-         * reversal completes, then reversed. A payout_reversal balance transaction returns the
-         * money, and status stays succeeded. Value enum: "none", "reversed". reversed_by_payout
-         * (Optional): {@link ExpandedPayoutSummary} or null. The payout reversing this one,
-         * inlined when you request expand=reversed_by_payout. null when expanded and
-         * reversed_by_payout_id is absent. Present only when `expand` includes
-         * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary
-         * fields, including amount, method, status, and arrival date, returned when the payout is
-         * expanded. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string. The separate payout reversing this one, when Flint has the matching payout. Its
-         * presence does not mean the reversal has completed; read reversal_status. A payout has at
-         * most one of original_payout_id and reversed_by_payout_id. Example:
-         * "po_01KEZF7C00PXK8XREWJA6K4FGV". statement_descriptor (Optional): string. Text shown on
-         * your bank statement for the deposit, when one was set. status (Required): string. Where
-         * the payout is: pending until it is sent, in_transit on its way to your bank, then
-         * succeeded or failed. A succeeded payout can still become failed if the bank returns the
-         * deposit, and canceled means a manual payout was canceled while pending. Value enum:
-         * "pending", "in_transit", "succeeded", "failed", "canceled". supported_actions
-         * (Required): Array of string. Lifecycle actions Flint accepts now. cancel is offered
-         * while a payout is pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions[] (Value): string. Value enum: "cancel". trace_id (Optional): {@link
-         * PayoutTraceID}. The bank's trace number for the deposit, which your bank can use to
-         * locate a late deposit. Its status says whether the number is pending, available, or
-         * unsupported, and value holds the number when Flint has it. Absent when Flint has no
-         * trace information. A payout's bank trace ID, with whether it is pending, available, or
-         * unsupported. updated_at (Required): string. When the payout last changed. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Amount sent to your bank. Always positive. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /**
-             * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
-             * the UTC date of the expected arrival. Format: date. Example: "2026-08-02".
-             */
-            "arrival_date"?: string;
-            /**
-             * Balance source this payout draws from. Flint chooses the source when
-             * balance_source_type is omitted at create. Clients must accept source types added in
-             * future releases. Value enum: "card", "bank_account".
-             */
-            "balance_source_type": "card" | "bank_account" | (string & {});
-            /** When the payout was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-             * "USD".
-             */
-            "currency": string;
-            /** Description sent when the payout was created. Absent when there is none. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Flint-normalized payout failure code. Unknown provider values are returned as
-             * payout_failed. Value enum: "account_closed", "account_frozen",
-             * "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-             * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-             * "incorrect_account_holder_name", "incorrect_account_holder_address",
-             * "incorrect_account_holder_tax_id", "invalid_currency", "no_account",
-             * "unsupported_card", "payout_failed".
-             */
-            "failure_code"?: "account_closed"
-                | "account_frozen"
-                | "bank_account_restricted"
-                | "bank_ownership_changed"
-                | "could_not_process"
-                | "debit_not_authorized"
-                | "declined"
-                | "insufficient_funds"
-                | "invalid_account_number"
-                | "incorrect_account_holder_name"
-                | "incorrect_account_holder_address"
-                | "incorrect_account_holder_tax_id"
-                | "invalid_currency"
-                | "no_account"
-                | "unsupported_card"
-                | "payout_failed"
-                | (string & {});
-            /**
-             * Flint-authored payout failure message. This is stable explanatory text, not a raw
-             * provider message.
-             */
-            "failure_message"?: string;
-            /**
-             * Whether the payout fee is estimated or final. not_applicable means no applicable fee
-             * status is known, including unmapped fee states. Value enum: "estimated", "final",
-             * "not_applicable".
-             */
-            "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-            /**
-             * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-             * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
-             */
-            "fee_money": ((MoneyValue) | (null));
-            /**
-             * What started the payout. A payout imported from your processor follows the
-             * processor: scheduled when it sent the payout automatically, otherwise manual. Only
-             * scheduled payouts list their balance transactions through GET
-             * /v1/balance-transactions?payout_id=; other payouts return 409 with reason
-             * not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-             * "scheduled", "platform", "other".
-             */
-            "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-            /** Merchant receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-            "merchant_id": string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-             * appears only on a payout Flint recorded from the processor that was sent outside
-             * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-             * "other".
-             */
-            "method": "standard" | "instant" | "other" | (string & {});
-            /**
-             * Signed effect of this payout on your Flint balance. It is negative because the
-             * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link MoneyValue}.
-             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
-             * code. anyOf[2] (Value): null.
-             */
-            "net_money": ((MoneyValue) | (null));
-            /**
-             * The payout this one reverses, inlined when you request expand=original_payout. null
-             * when expanded and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): {@link ExpandedPayoutSummary}. A payout's summary fields, including amount,
-             * method, status, and arrival date, returned when the payout is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "original_payout"?: ((ExpandedPayoutSummary) | (null));
-            /**
-             * On a payout that reverses another payout, the payout it reverses. Present only when
-             * Flint has the matching original payout. A payout has at most one of
-             * original_payout_id and reversed_by_payout_id. Example:
-             * "po_01KEZF7C00PXK8XREWJA6K4FGV".
-             */
-            "original_payout_id"?: string;
-            /**
-             * The payout destination, inlined when you request expand=payout_destination. null
-             * when expanded and payout_destination_id is absent. Present only when `expand`
-             * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): {@link ExpandedPayoutDestinationSummary}. A payout
-             * destination's summary fields, such as type, bank name, last four digits, and status,
-             * returned when the destination is expanded. anyOf[2] (Value): null.
-             */
-            "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-            /**
-             * Bank account or debit card receiving the payout. Absent when Flint can't match your
-             * processor's destination to a payout destination. Example:
-             * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-             */
-            "payout_destination_id"?: string;
-            /** Stable identifier of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". */
-            "payout_id": string;
-            /**
-             * Whether Flint has pulled a paid payout back from your bank: none until the reversal
-             * completes, then reversed. A payout_reversal balance transaction returns the money,
-             * and status stays succeeded. Value enum: "none", "reversed".
-             */
-            "reversal_status": "none" | "reversed" | (string & {});
-            /**
-             * The payout reversing this one, inlined when you request expand=reversed_by_payout.
-             * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary fields,
-             * including amount, method, status, and arrival date, returned when the payout is
-             * expanded. anyOf[2] (Value): null.
-             */
-            "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-            /**
-             * The separate payout reversing this one, when Flint has the matching payout. Its
-             * presence does not mean the reversal has completed; read reversal_status. A payout
-             * has at most one of original_payout_id and reversed_by_payout_id. Example:
-             * "po_01KEZF7C00PXK8XREWJA6K4FGV".
-             */
-            "reversed_by_payout_id"?: string;
-            /** Text shown on your bank statement for the deposit, when one was set. */
-            "statement_descriptor"?: string;
-            /**
-             * Where the payout is: pending until it is sent, in_transit on its way to your bank,
-             * then succeeded or failed. A succeeded payout can still become failed if the bank
-             * returns the deposit, and canceled means a manual payout was canceled while pending.
-             * Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-             */
-            "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts now. cancel is offered while a payout is pending
-             * unless it was scheduled automatically. [] enum: "cancel". [] (Value): string. Value
-             * enum: "cancel".
-             */
-            "supported_actions": Array<"cancel" | (string & {})>;
-            /**
-             * The bank's trace number for the deposit, which your bank can use to locate a late
-             * deposit. Its status says whether the number is pending, available, or unsupported,
-             * and value holds the number when Flint has it. Absent when Flint has no trace
-             * information. A payout's bank trace ID, with whether it is pending, available, or
-             * unsupported.
-             */
-            "trace_id"?: PayoutTraceID;
-            /** When the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Payout>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payout.canceled". */
-    "event_type"?: "payout.canceled";
-});
-export type PayoutCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "arrival_date"?: string;
-            "balance_source_type": "card" | "bank_account" | (string & {});
-            "created_at": string;
-            "currency": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_code"?: "account_closed"
-                | "account_frozen"
-                | "bank_account_restricted"
-                | "bank_ownership_changed"
-                | "could_not_process"
-                | "debit_not_authorized"
-                | "declined"
-                | "insufficient_funds"
-                | "invalid_account_number"
-                | "incorrect_account_holder_name"
-                | "incorrect_account_holder_address"
-                | "incorrect_account_holder_tax_id"
-                | "invalid_currency"
-                | "no_account"
-                | "unsupported_card"
-                | "payout_failed"
-                | (string & {});
-            "failure_message"?: string;
-            "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-            "fee_money": ((MoneyValue) | (null));
-            "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "method": "standard" | "instant" | "other" | (string & {});
-            "net_money": ((MoneyValue) | (null));
-            "original_payout"?: ((ExpandedPayoutSummary) | (null));
-            "original_payout_id"?: string;
-            "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-            "payout_destination_id"?: string;
-            "payout_id": string;
-            "reversal_status": "none" | "reversed" | (string & {});
-            "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-            "reversed_by_payout_id"?: string;
-            "statement_descriptor"?: string;
-            "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | (string & {})>;
-            "trace_id"?: PayoutTraceID;
-            "updated_at": string;
-        };
-    };
-    "event_source"?: ("merchant") & ("merchant");
-    "event_type"?: "payout.created";
-}))
-    | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    "data"?: {
-        "object": {
-            "amount_money": MoneyValue;
-            "arrival_date"?: string;
-            "balance_source_type": "card" | "bank_account" | (string & {});
-            "created_at": string;
-            "currency": string;
-            "description"?: string;
-            "external_reference_id"?: string;
-            "failure_code"?: "account_closed"
-                | "account_frozen"
-                | "bank_account_restricted"
-                | "bank_ownership_changed"
-                | "could_not_process"
-                | "debit_not_authorized"
-                | "declined"
-                | "insufficient_funds"
-                | "invalid_account_number"
-                | "incorrect_account_holder_name"
-                | "incorrect_account_holder_address"
-                | "incorrect_account_holder_tax_id"
-                | "invalid_currency"
-                | "no_account"
-                | "unsupported_card"
-                | "payout_failed"
-                | (string & {});
-            "failure_message"?: string;
-            "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-            "fee_money": ((MoneyValue) | (null));
-            "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-            "merchant_id": string;
-            "metadata"?: MetadataMap;
-            "method": "standard" | "instant" | "other" | (string & {});
-            "net_money": ((MoneyValue) | (null));
-            "original_payout"?: ((ExpandedPayoutSummary) | (null));
-            "original_payout_id"?: string;
-            "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-            "payout_destination_id"?: string;
-            "payout_id": string;
-            "reversal_status": "none" | "reversed" | (string & {});
-            "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-            "reversed_by_payout_id"?: string;
-            "statement_descriptor"?: string;
-            "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-            "supported_actions": Array<"cancel" | (string & {})>;
-            "trace_id"?: PayoutTraceID;
-            "updated_at": string;
-        };
-    };
-    "event_source"?: ("installed_merchants") & ("installed_merchants");
-    "event_type"?: "payout.created";
-    "source"?: ({
-        "environment_grant_id": string;
-        "merchant_id": string;
-        "mode": "test" | "live" | (string & {});
-        "partner_app_install_id": string;
-        "sandbox_id"?: string;
-    });
-})))
-    & {
-    "event_type": "payout.created";
-});
-/**
- * The `payout.created` webhook payload for the `installed_merchants` event source. Fields shared
- * by partner webhook payloads.
- */
-export type PayoutCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.amount_money (Required): {@link MoneyValue}. Amount sent to your
-     * bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.arrival_date (Optional): string. Calendar date the bank is expected to
-     * receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format:
-     * date. Example: "2026-08-02". object.balance_source_type (Required): string. Balance source
-     * this payout draws from. Flint chooses the source when balance_source_type is omitted at
-     * create. Clients must accept source types added in future releases. Value enum: "card",
-     * "bank_account". object.created_at (Required): string. When the payout was created. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.currency (Required): string. ISO 4217
-     * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     * object.description (Optional): string. Description sent when the payout was created. Absent
-     * when there is none. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.failure_code (Optional): string. Flint-normalized payout failure code. Unknown
-     * provider values are returned as payout_failed. Value enum: "account_closed",
-     * "account_frozen", "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-     * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-     * "incorrect_account_holder_name", "incorrect_account_holder_address",
-     * "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card",
-     * "payout_failed". object.failure_message (Optional): string. Flint-authored payout failure
-     * message. This is stable explanatory text, not a raw provider message.
-     * object.fee_amount_status (Required): string. Whether the payout fee is estimated or final.
-     * not_applicable means no applicable fee status is known, including unmapped fee states. Value
-     * enum: "estimated", "final", "not_applicable". object.fee_money (Required): {@link
-     * MoneyValue} or null. Fee for this payout, never negative. Payouts carry no fee, so this is 0
-     * once your processor records the payout. `null` when your processor hasn't recorded the
-     * payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. object.fee_money.anyOf[2]
-     * (Value): null. object.initiated_by (Required): string. What started the payout. A payout
-     * imported from your processor follows the processor: scheduled when it sent the payout
-     * automatically, otherwise manual. Only scheduled payouts list their balance transactions
-     * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
-     * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
-     * "platform", "other". object.merchant_id (Required): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.method (Required): string. Payouts
-     * Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on
-     * a payout Flint recorded from the processor that was sent outside Flint. `other` is a method
-     * Flint doesn't map. Value enum: "standard", "instant", "other". object.net_money (Required):
-     * {@link MoneyValue} or null. Signed effect of this payout on your Flint balance. It is
-     * negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet. object.net_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. object.net_money.anyOf[2] (Value): null. object.original_payout
-     * (Optional): {@link ExpandedPayoutSummary} or null. The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. object.original_payout.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. object.original_payout.anyOf[2] (Value):
-     * null. object.original_payout_id (Optional): string. On a payout that reverses another
-     * payout, the payout it reverses. Present only when Flint has the matching original payout. A
-     * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". object.payout_destination (Optional): {@link
-     * ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you request
-     * expand=payout_destination. null when expanded and payout_destination_id is absent. Present
-     * only when `expand` includes `payout_destination`; `null` when expanded and there is no
-     * related payout destination. object.payout_destination.anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type, bank
-     * name, last four digits, and status, returned when the destination is expanded.
-     * object.payout_destination.anyOf[2] (Value): null. object.payout_destination_id (Optional):
-     * string. Bank account or debit card receiving the payout. Absent when Flint can't match your
-     * processor's destination to a payout destination. Example:
-     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". object.payout_id (Required): string. Stable identifier
-     * of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". object.reversal_status (Required):
-     * string. Whether Flint has pulled a paid payout back from your bank: none until the reversal
-     * completes, then reversed. A payout_reversal balance transaction returns the money, and
-     * status stays succeeded. Value enum: "none", "reversed". object.reversed_by_payout
-     * (Optional): {@link ExpandedPayoutSummary} or null. The payout reversing this one, inlined
-     * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
-     * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. object.reversed_by_payout.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. object.reversed_by_payout.anyOf[2]
-     * (Value): null. object.reversed_by_payout_id (Optional): string. The separate payout
-     * reversing this one, when Flint has the matching payout. Its presence does not mean the
-     * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     * object.statement_descriptor (Optional): string. Text shown on your bank statement for the
-     * deposit, when one was set. object.status (Required): string. Where the payout is: pending
-     * until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
-     * payout can still become failed if the bank returns the deposit, and canceled means a manual
-     * payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded",
-     * "failed", "canceled". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now. cancel is offered while a payout is pending unless it was
-     * scheduled automatically. [] enum: "cancel". object.supported_actions[] (Value): string.
-     * Value enum: "cancel". object.trace_id (Optional): {@link PayoutTraceID}. The bank's trace
-     * number for the deposit, which your bank can use to locate a late deposit. Its status says
-     * whether the number is pending, available, or unsupported, and value holds the number when
-     * Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with
-     * whether it is pending, available, or unsupported. object.updated_at (Required): string. When
-     * the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * amount_money (Required): {@link MoneyValue}. Amount sent to your bank. Always positive.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * arrival_date (Optional): string. Calendar date the bank is expected to receive the
-         * funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date.
-         * Example: "2026-08-02". balance_source_type (Required): string. Balance source this
-         * payout draws from. Flint chooses the source when balance_source_type is omitted at
-         * create. Clients must accept source types added in future releases. Value enum: "card",
-         * "bank_account". created_at (Required): string. When the payout was created. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". currency (Required): string. ISO 4217
-         * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-         * description (Optional): string. Description sent when the payout was created. Absent
-         * when there is none. external_reference_id (Optional): string. Caller-owned identifier
-         * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * failure_code (Optional): string. Flint-normalized payout failure code. Unknown provider
-         * values are returned as payout_failed. Value enum: "account_closed", "account_frozen",
-         * "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-         * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-         * "incorrect_account_holder_name", "incorrect_account_holder_address",
-         * "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card",
-         * "payout_failed". failure_message (Optional): string. Flint-authored payout failure
-         * message. This is stable explanatory text, not a raw provider message. fee_amount_status
-         * (Required): string. Whether the payout fee is estimated or final. not_applicable means
-         * no applicable fee status is known, including unmapped fee states. Value enum:
-         * "estimated", "final", "not_applicable". fee_money (Required): {@link MoneyValue} or
-         * null. Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-         * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-         * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * initiated_by (Required): string. What started the payout. A payout imported from your
-         * processor follows the processor: scheduled when it sent the payout automatically,
-         * otherwise manual. Only scheduled payouts list their balance transactions through GET
-         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-         * "other". merchant_id (Required): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
-         * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for
-         * Flint, are not returned, and cannot be written through the public API. Caller-owned
-         * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint
-         * and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
-         * maps written before those limits may not satisfy them. method (Required): string.
-         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
-         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-         * net_money (Required): {@link MoneyValue} or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): {@link MoneyValue}. Signed monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. net_money.anyOf[2] (Value): null.
-         * original_payout (Optional): {@link ExpandedPayoutSummary} or null. The payout this one
-         * reverses, inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * {@link ExpandedPayoutSummary}. A payout's summary fields, including amount, method,
-         * status, and arrival date, returned when the payout is expanded. original_payout.anyOf[2]
-         * (Value): null. original_payout_id (Optional): string. On a payout that reverses another
-         * payout, the payout it reverses. Present only when Flint has the matching original
-         * payout. A payout has at most one of original_payout_id and reversed_by_payout_id.
-         * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". payout_destination (Optional): {@link
-         * ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you
-         * request expand=payout_destination. null when expanded and payout_destination_id is
-         * absent. Present only when `expand` includes `payout_destination`; `null` when expanded
-         * and there is no related payout destination. payout_destination.anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type,
-         * bank name, last four digits, and status, returned when the destination is expanded.
-         * payout_destination.anyOf[2] (Value): null. payout_destination_id (Optional): string.
-         * Bank account or debit card receiving the payout. Absent when Flint can't match your
-         * processor's destination to a payout destination. Example:
-         * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". payout_id (Required): string. Stable identifier of
-         * the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". reversal_status (Required):
-         * string. Whether Flint has pulled a paid payout back from your bank: none until the
-         * reversal completes, then reversed. A payout_reversal balance transaction returns the
-         * money, and status stays succeeded. Value enum: "none", "reversed". reversed_by_payout
-         * (Optional): {@link ExpandedPayoutSummary} or null. The payout reversing this one,
-         * inlined when you request expand=reversed_by_payout. null when expanded and
-         * reversed_by_payout_id is absent. Present only when `expand` includes
-         * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary
-         * fields, including amount, method, status, and arrival date, returned when the payout is
-         * expanded. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string. The separate payout reversing this one, when Flint has the matching payout. Its
-         * presence does not mean the reversal has completed; read reversal_status. A payout has at
-         * most one of original_payout_id and reversed_by_payout_id. Example:
-         * "po_01KEZF7C00PXK8XREWJA6K4FGV". statement_descriptor (Optional): string. Text shown on
-         * your bank statement for the deposit, when one was set. status (Required): string. Where
-         * the payout is: pending until it is sent, in_transit on its way to your bank, then
-         * succeeded or failed. A succeeded payout can still become failed if the bank returns the
-         * deposit, and canceled means a manual payout was canceled while pending. Value enum:
-         * "pending", "in_transit", "succeeded", "failed", "canceled". supported_actions
-         * (Required): Array of string. Lifecycle actions Flint accepts now. cancel is offered
-         * while a payout is pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions[] (Value): string. Value enum: "cancel". trace_id (Optional): {@link
-         * PayoutTraceID}. The bank's trace number for the deposit, which your bank can use to
-         * locate a late deposit. Its status says whether the number is pending, available, or
-         * unsupported, and value holds the number when Flint has it. Absent when Flint has no
-         * trace information. A payout's bank trace ID, with whether it is pending, available, or
-         * unsupported. updated_at (Required): string. When the payout last changed. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Amount sent to your bank. Always positive. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /**
-             * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
-             * the UTC date of the expected arrival. Format: date. Example: "2026-08-02".
-             */
-            "arrival_date"?: string;
-            /**
-             * Balance source this payout draws from. Flint chooses the source when
-             * balance_source_type is omitted at create. Clients must accept source types added in
-             * future releases. Value enum: "card", "bank_account".
-             */
-            "balance_source_type": "card" | "bank_account" | (string & {});
-            /** When the payout was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-             * "USD".
-             */
-            "currency": string;
-            /** Description sent when the payout was created. Absent when there is none. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Flint-normalized payout failure code. Unknown provider values are returned as
-             * payout_failed. Value enum: "account_closed", "account_frozen",
-             * "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-             * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-             * "incorrect_account_holder_name", "incorrect_account_holder_address",
-             * "incorrect_account_holder_tax_id", "invalid_currency", "no_account",
-             * "unsupported_card", "payout_failed".
-             */
-            "failure_code"?: "account_closed"
-                | "account_frozen"
-                | "bank_account_restricted"
-                | "bank_ownership_changed"
-                | "could_not_process"
-                | "debit_not_authorized"
-                | "declined"
-                | "insufficient_funds"
-                | "invalid_account_number"
-                | "incorrect_account_holder_name"
-                | "incorrect_account_holder_address"
-                | "incorrect_account_holder_tax_id"
-                | "invalid_currency"
-                | "no_account"
-                | "unsupported_card"
-                | "payout_failed"
-                | (string & {});
-            /**
-             * Flint-authored payout failure message. This is stable explanatory text, not a raw
-             * provider message.
-             */
-            "failure_message"?: string;
-            /**
-             * Whether the payout fee is estimated or final. not_applicable means no applicable fee
-             * status is known, including unmapped fee states. Value enum: "estimated", "final",
-             * "not_applicable".
-             */
-            "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-            /**
-             * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-             * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
-             */
-            "fee_money": ((MoneyValue) | (null));
-            /**
-             * What started the payout. A payout imported from your processor follows the
-             * processor: scheduled when it sent the payout automatically, otherwise manual. Only
-             * scheduled payouts list their balance transactions through GET
-             * /v1/balance-transactions?payout_id=; other payouts return 409 with reason
-             * not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-             * "scheduled", "platform", "other".
-             */
-            "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-            /** Merchant receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-            "merchant_id": string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-             * appears only on a payout Flint recorded from the processor that was sent outside
-             * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-             * "other".
-             */
-            "method": "standard" | "instant" | "other" | (string & {});
-            /**
-             * Signed effect of this payout on your Flint balance. It is negative because the
-             * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link MoneyValue}.
-             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
-             * code. anyOf[2] (Value): null.
-             */
-            "net_money": ((MoneyValue) | (null));
-            /**
-             * The payout this one reverses, inlined when you request expand=original_payout. null
-             * when expanded and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): {@link ExpandedPayoutSummary}. A payout's summary fields, including amount,
-             * method, status, and arrival date, returned when the payout is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "original_payout"?: ((ExpandedPayoutSummary) | (null));
-            /**
-             * On a payout that reverses another payout, the payout it reverses. Present only when
-             * Flint has the matching original payout. A payout has at most one of
-             * original_payout_id and reversed_by_payout_id. Example:
-             * "po_01KEZF7C00PXK8XREWJA6K4FGV".
-             */
-            "original_payout_id"?: string;
-            /**
-             * The payout destination, inlined when you request expand=payout_destination. null
-             * when expanded and payout_destination_id is absent. Present only when `expand`
-             * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): {@link ExpandedPayoutDestinationSummary}. A payout
-             * destination's summary fields, such as type, bank name, last four digits, and status,
-             * returned when the destination is expanded. anyOf[2] (Value): null.
-             */
-            "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-            /**
-             * Bank account or debit card receiving the payout. Absent when Flint can't match your
-             * processor's destination to a payout destination. Example:
-             * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-             */
-            "payout_destination_id"?: string;
-            /** Stable identifier of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". */
-            "payout_id": string;
-            /**
-             * Whether Flint has pulled a paid payout back from your bank: none until the reversal
-             * completes, then reversed. A payout_reversal balance transaction returns the money,
-             * and status stays succeeded. Value enum: "none", "reversed".
-             */
-            "reversal_status": "none" | "reversed" | (string & {});
-            /**
-             * The payout reversing this one, inlined when you request expand=reversed_by_payout.
-             * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary fields,
-             * including amount, method, status, and arrival date, returned when the payout is
-             * expanded. anyOf[2] (Value): null.
-             */
-            "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-            /**
-             * The separate payout reversing this one, when Flint has the matching payout. Its
-             * presence does not mean the reversal has completed; read reversal_status. A payout
-             * has at most one of original_payout_id and reversed_by_payout_id. Example:
-             * "po_01KEZF7C00PXK8XREWJA6K4FGV".
-             */
-            "reversed_by_payout_id"?: string;
-            /** Text shown on your bank statement for the deposit, when one was set. */
-            "statement_descriptor"?: string;
-            /**
-             * Where the payout is: pending until it is sent, in_transit on its way to your bank,
-             * then succeeded or failed. A succeeded payout can still become failed if the bank
-             * returns the deposit, and canceled means a manual payout was canceled while pending.
-             * Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-             */
-            "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts now. cancel is offered while a payout is pending
-             * unless it was scheduled automatically. [] enum: "cancel". [] (Value): string. Value
-             * enum: "cancel".
-             */
-            "supported_actions": Array<"cancel" | (string & {})>;
-            /**
-             * The bank's trace number for the deposit, which your bank can use to locate a late
-             * deposit. Its status says whether the number is pending, available, or unsupported,
-             * and value holds the number when Flint has it. Absent when Flint has no trace
-             * information. A payout's bank trace ID, with whether it is pending, available, or
-             * unsupported.
-             */
-            "trace_id"?: PayoutTraceID;
-            /** When the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-    };
-    /** Value enum: "installed_merchants". */
-    "event_source"?: "installed_merchants" | (string & {});
-    /** Value enum: "payout.created". */
-    "event_type"?: "payout.created";
-    /**
-     *  environment_grant_id (Required): string. The grant authorizing delivery from this merchant
-     * environment. Example: "egrt_01KEZF7C00MQQDDB7YWGXV3MXY". merchant_id (Required): string. The
-     * merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". mode (Required):
-     * string. Whether the installed merchant event came from live mode or a sandbox. Value enum:
-     * "test", "live". partner_app_install_id (Required): string. The install connecting the
-     * merchant to the partner app. Example: "pinst_01KEZF7C003HVKZR3GZAW6AFAZ". sandbox_id
-     * (Optional): string. The sandbox the event came from, present only in test mode. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "source"?: ({
-        /**
-         * The grant authorizing delivery from this merchant environment. Example:
-         * "egrt_01KEZF7C00MQQDDB7YWGXV3MXY".
-         */
-        "environment_grant_id": string;
-        /** The merchant the event concerns. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-        "merchant_id": string;
-        /**
-         * Whether the installed merchant event came from live mode or a sandbox. Value enum:
-         * "test", "live".
-         */
-        "mode": "test" | "live" | (string & {});
-        /**
-         * The install connecting the merchant to the partner app. Example:
-         * "pinst_01KEZF7C003HVKZR3GZAW6AFAZ".
-         */
-        "partner_app_install_id": string;
-        /**
-         * The sandbox the event came from, present only in test mode. Example:
-         * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-         */
-        "sandbox_id"?: string;
-    });
-});
-/**
- * The `payout.created` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type PayoutCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.amount_money (Required): {@link MoneyValue}. Amount sent to your
-     * bank. Always positive. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code. object.arrival_date (Optional): string. Calendar date the bank is expected to
-     * receive the funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format:
-     * date. Example: "2026-08-02". object.balance_source_type (Required): string. Balance source
-     * this payout draws from. Flint chooses the source when balance_source_type is omitted at
-     * create. Clients must accept source types added in future releases. Value enum: "card",
-     * "bank_account". object.created_at (Required): string. When the payout was created. Format:
-     * date-time. Example: "2026-08-02T16:00:00Z". object.currency (Required): string. ISO 4217
-     * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-     * object.description (Optional): string. Description sent when the payout was created. Absent
-     * when there is none. object.external_reference_id (Optional): string. Caller-owned identifier
-     * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-     * object.failure_code (Optional): string. Flint-normalized payout failure code. Unknown
-     * provider values are returned as payout_failed. Value enum: "account_closed",
-     * "account_frozen", "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-     * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-     * "incorrect_account_holder_name", "incorrect_account_holder_address",
-     * "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card",
-     * "payout_failed". object.failure_message (Optional): string. Flint-authored payout failure
-     * message. This is stable explanatory text, not a raw provider message.
-     * object.fee_amount_status (Required): string. Whether the payout fee is estimated or final.
-     * not_applicable means no applicable fee status is known, including unmapped fee states. Value
-     * enum: "estimated", "final", "not_applicable". object.fee_money (Required): {@link
-     * MoneyValue} or null. Fee for this payout, never negative. Payouts carry no fee, so this is 0
-     * once your processor records the payout. `null` when your processor hasn't recorded the
-     * payout yet. object.fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code. object.fee_money.anyOf[2]
-     * (Value): null. object.initiated_by (Required): string. What started the payout. A payout
-     * imported from your processor follows the processor: scheduled when it sent the payout
-     * automatically, otherwise manual. Only scheduled payouts list their balance transactions
-     * through GET /v1/balance-transactions?payout_id=; other payouts return 409 with reason
-     * not_itemized. Unmapped sources are returned as other. Value enum: "manual", "scheduled",
-     * "platform", "other". object.merchant_id (Required): string. Merchant receiving the payout.
-     * Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}.
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and
-     * are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps
-     * written before those limits may not satisfy them. object.method (Required): string. Payouts
-     * Flint sends, by API, Dashboard or schedule, are always `standard`. `instant` appears only on
-     * a payout Flint recorded from the processor that was sent outside Flint. `other` is a method
-     * Flint doesn't map. Value enum: "standard", "instant", "other". object.net_money (Required):
-     * {@link MoneyValue} or null. Signed effect of this payout on your Flint balance. It is
-     * negative because the payout takes money out: a 25000 payout with no fee has net_money
-     * -25000. `null` when your processor hasn't recorded the payout yet. object.net_money.anyOf[1]
-     * (Value): {@link MoneyValue}. Signed monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code. object.net_money.anyOf[2] (Value): null. object.original_payout
-     * (Optional): {@link ExpandedPayoutSummary} or null. The payout this one reverses, inlined
-     * when you request expand=original_payout. null when expanded and original_payout_id is
-     * absent. Present only when `expand` includes `original_payout`; `null` when expanded and
-     * there is no related payout. object.original_payout.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. object.original_payout.anyOf[2] (Value):
-     * null. object.original_payout_id (Optional): string. On a payout that reverses another
-     * payout, the payout it reverses. Present only when Flint has the matching original payout. A
-     * payout has at most one of original_payout_id and reversed_by_payout_id. Example:
-     * "po_01KEZF7C00PXK8XREWJA6K4FGV". object.payout_destination (Optional): {@link
-     * ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you request
-     * expand=payout_destination. null when expanded and payout_destination_id is absent. Present
-     * only when `expand` includes `payout_destination`; `null` when expanded and there is no
-     * related payout destination. object.payout_destination.anyOf[1] (Value): {@link
-     * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type, bank
-     * name, last four digits, and status, returned when the destination is expanded.
-     * object.payout_destination.anyOf[2] (Value): null. object.payout_destination_id (Optional):
-     * string. Bank account or debit card receiving the payout. Absent when Flint can't match your
-     * processor's destination to a payout destination. Example:
-     * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". object.payout_id (Required): string. Stable identifier
-     * of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". object.reversal_status (Required):
-     * string. Whether Flint has pulled a paid payout back from your bank: none until the reversal
-     * completes, then reversed. A payout_reversal balance transaction returns the money, and
-     * status stays succeeded. Value enum: "none", "reversed". object.reversed_by_payout
-     * (Optional): {@link ExpandedPayoutSummary} or null. The payout reversing this one, inlined
-     * when you request expand=reversed_by_payout. null when expanded and reversed_by_payout_id is
-     * absent. Present only when `expand` includes `reversed_by_payout`; `null` when expanded and
-     * there is no related payout. object.reversed_by_payout.anyOf[1] (Value): {@link
-     * ExpandedPayoutSummary}. A payout's summary fields, including amount, method, status, and
-     * arrival date, returned when the payout is expanded. object.reversed_by_payout.anyOf[2]
-     * (Value): null. object.reversed_by_payout_id (Optional): string. The separate payout
-     * reversing this one, when Flint has the matching payout. Its presence does not mean the
-     * reversal has completed; read reversal_status. A payout has at most one of original_payout_id
-     * and reversed_by_payout_id. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV".
-     * object.statement_descriptor (Optional): string. Text shown on your bank statement for the
-     * deposit, when one was set. object.status (Required): string. Where the payout is: pending
-     * until it is sent, in_transit on its way to your bank, then succeeded or failed. A succeeded
-     * payout can still become failed if the bank returns the deposit, and canceled means a manual
-     * payout was canceled while pending. Value enum: "pending", "in_transit", "succeeded",
-     * "failed", "canceled". object.supported_actions (Required): Array of string. Lifecycle
-     * actions Flint accepts now. cancel is offered while a payout is pending unless it was
-     * scheduled automatically. [] enum: "cancel". object.supported_actions[] (Value): string.
-     * Value enum: "cancel". object.trace_id (Optional): {@link PayoutTraceID}. The bank's trace
-     * number for the deposit, which your bank can use to locate a late deposit. Its status says
-     * whether the number is pending, available, or unsupported, and value holds the number when
-     * Flint has it. Absent when Flint has no trace information. A payout's bank trace ID, with
-     * whether it is pending, available, or unsupported. object.updated_at (Required): string. When
-     * the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * amount_money (Required): {@link MoneyValue}. Amount sent to your bank. Always positive.
-         * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-         * arrival_date (Optional): string. Calendar date the bank is expected to receive the
-         * funds, in YYYY-MM-DD format using the UTC date of the expected arrival. Format: date.
-         * Example: "2026-08-02". balance_source_type (Required): string. Balance source this
-         * payout draws from. Flint chooses the source when balance_source_type is omitted at
-         * create. Clients must accept source types added in future releases. Value enum: "card",
-         * "bank_account". created_at (Required): string. When the payout was created. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". currency (Required): string. ISO 4217
-         * currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example: "USD".
-         * description (Optional): string. Description sent when the payout was created. Absent
-         * when there is none. external_reference_id (Optional): string. Caller-owned identifier
-         * for this resource in an external system. maxLength: 255. Example: "warehouse-1842".
-         * failure_code (Optional): string. Flint-normalized payout failure code. Unknown provider
-         * values are returned as payout_failed. Value enum: "account_closed", "account_frozen",
-         * "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-         * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-         * "incorrect_account_holder_name", "incorrect_account_holder_address",
-         * "incorrect_account_holder_tax_id", "invalid_currency", "no_account", "unsupported_card",
-         * "payout_failed". failure_message (Optional): string. Flint-authored payout failure
-         * message. This is stable explanatory text, not a raw provider message. fee_amount_status
-         * (Required): string. Whether the payout fee is estimated or final. not_applicable means
-         * no applicable fee status is known, including unmapped fee states. Value enum:
-         * "estimated", "final", "not_applicable". fee_money (Required): {@link MoneyValue} or
-         * null. Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-         * processor records the payout. `null` when your processor hasn't recorded the payout yet.
-         * fee_money.anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-         * minor units plus an ISO 4217 currency code. fee_money.anyOf[2] (Value): null.
-         * initiated_by (Required): string. What started the payout. A payout imported from your
-         * processor follows the processor: scheduled when it sent the payout automatically,
-         * otherwise manual. Only scheduled payouts list their balance transactions through GET
-         * /v1/balance-transactions?payout_id=; other payouts return 409 with reason not_itemized.
-         * Unmapped sources are returned as other. Value enum: "manual", "scheduled", "platform",
-         * "other". merchant_id (Required): string. Merchant receiving the payout. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Caller-owned
-         * metadata. Values can't be empty strings. Keys starting with flint_ are reserved for
-         * Flint, are not returned, and cannot be written through the public API. Caller-owned
-         * key-value data stored on a resource. Keys starting with flint_ are reserved for Flint
-         * and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput;
-         * maps written before those limits may not satisfy them. method (Required): string.
-         * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-         * appears only on a payout Flint recorded from the processor that was sent outside Flint.
-         * `other` is a method Flint doesn't map. Value enum: "standard", "instant", "other".
-         * net_money (Required): {@link MoneyValue} or null. Signed effect of this payout on your
-         * Flint balance. It is negative because the payout takes money out: a 25000 payout with no
-         * fee has net_money -25000. `null` when your processor hasn't recorded the payout yet.
-         * net_money.anyOf[1] (Value): {@link MoneyValue}. Signed monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. net_money.anyOf[2] (Value): null.
-         * original_payout (Optional): {@link ExpandedPayoutSummary} or null. The payout this one
-         * reverses, inlined when you request expand=original_payout. null when expanded and
-         * original_payout_id is absent. Present only when `expand` includes `original_payout`;
-         * `null` when expanded and there is no related payout. original_payout.anyOf[1] (Value):
-         * {@link ExpandedPayoutSummary}. A payout's summary fields, including amount, method,
-         * status, and arrival date, returned when the payout is expanded. original_payout.anyOf[2]
-         * (Value): null. original_payout_id (Optional): string. On a payout that reverses another
-         * payout, the payout it reverses. Present only when Flint has the matching original
-         * payout. A payout has at most one of original_payout_id and reversed_by_payout_id.
-         * Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". payout_destination (Optional): {@link
-         * ExpandedPayoutDestinationSummary} or null. The payout destination, inlined when you
-         * request expand=payout_destination. null when expanded and payout_destination_id is
-         * absent. Present only when `expand` includes `payout_destination`; `null` when expanded
-         * and there is no related payout destination. payout_destination.anyOf[1] (Value): {@link
-         * ExpandedPayoutDestinationSummary}. A payout destination's summary fields, such as type,
-         * bank name, last four digits, and status, returned when the destination is expanded.
-         * payout_destination.anyOf[2] (Value): null. payout_destination_id (Optional): string.
-         * Bank account or debit card receiving the payout. Absent when Flint can't match your
-         * processor's destination to a payout destination. Example:
-         * "pdest_01KEZF7C00M55HZDZXZP6YVE6B". payout_id (Required): string. Stable identifier of
-         * the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". reversal_status (Required):
-         * string. Whether Flint has pulled a paid payout back from your bank: none until the
-         * reversal completes, then reversed. A payout_reversal balance transaction returns the
-         * money, and status stays succeeded. Value enum: "none", "reversed". reversed_by_payout
-         * (Optional): {@link ExpandedPayoutSummary} or null. The payout reversing this one,
-         * inlined when you request expand=reversed_by_payout. null when expanded and
-         * reversed_by_payout_id is absent. Present only when `expand` includes
-         * `reversed_by_payout`; `null` when expanded and there is no related payout.
-         * reversed_by_payout.anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary
-         * fields, including amount, method, status, and arrival date, returned when the payout is
-         * expanded. reversed_by_payout.anyOf[2] (Value): null. reversed_by_payout_id (Optional):
-         * string. The separate payout reversing this one, when Flint has the matching payout. Its
-         * presence does not mean the reversal has completed; read reversal_status. A payout has at
-         * most one of original_payout_id and reversed_by_payout_id. Example:
-         * "po_01KEZF7C00PXK8XREWJA6K4FGV". statement_descriptor (Optional): string. Text shown on
-         * your bank statement for the deposit, when one was set. status (Required): string. Where
-         * the payout is: pending until it is sent, in_transit on its way to your bank, then
-         * succeeded or failed. A succeeded payout can still become failed if the bank returns the
-         * deposit, and canceled means a manual payout was canceled while pending. Value enum:
-         * "pending", "in_transit", "succeeded", "failed", "canceled". supported_actions
-         * (Required): Array of string. Lifecycle actions Flint accepts now. cancel is offered
-         * while a payout is pending unless it was scheduled automatically. [] enum: "cancel".
-         * supported_actions[] (Value): string. Value enum: "cancel". trace_id (Optional): {@link
-         * PayoutTraceID}. The bank's trace number for the deposit, which your bank can use to
-         * locate a late deposit. Its status says whether the number is pending, available, or
-         * unsupported, and value holds the number when Flint has it. Absent when Flint has no
-         * trace information. A payout's bank trace ID, with whether it is pending, available, or
-         * unsupported. updated_at (Required): string. When the payout last changed. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z".
-         */
-        "object": {
-            /**
-             * Amount sent to your bank. Always positive. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /**
-             * Calendar date the bank is expected to receive the funds, in YYYY-MM-DD format using
-             * the UTC date of the expected arrival. Format: date. Example: "2026-08-02".
-             */
-            "arrival_date"?: string;
-            /**
-             * Balance source this payout draws from. Flint chooses the source when
-             * balance_source_type is omitted at create. Clients must accept source types added in
-             * future releases. Value enum: "card", "bank_account".
-             */
-            "balance_source_type": "card" | "bank_account" | (string & {});
-            /** When the payout was created. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ISO 4217 currency code. minLength: 3. maxLength: 3. pattern: ^[A-Z]{3}$. Example:
-             * "USD".
-             */
-            "currency": string;
-            /** Description sent when the payout was created. Absent when there is none. */
-            "description"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Flint-normalized payout failure code. Unknown provider values are returned as
-             * payout_failed. Value enum: "account_closed", "account_frozen",
-             * "bank_account_restricted", "bank_ownership_changed", "could_not_process",
-             * "debit_not_authorized", "declined", "insufficient_funds", "invalid_account_number",
-             * "incorrect_account_holder_name", "incorrect_account_holder_address",
-             * "incorrect_account_holder_tax_id", "invalid_currency", "no_account",
-             * "unsupported_card", "payout_failed".
-             */
-            "failure_code"?: "account_closed"
-                | "account_frozen"
-                | "bank_account_restricted"
-                | "bank_ownership_changed"
-                | "could_not_process"
-                | "debit_not_authorized"
-                | "declined"
-                | "insufficient_funds"
-                | "invalid_account_number"
-                | "incorrect_account_holder_name"
-                | "incorrect_account_holder_address"
-                | "incorrect_account_holder_tax_id"
-                | "invalid_currency"
-                | "no_account"
-                | "unsupported_card"
-                | "payout_failed"
-                | (string & {});
-            /**
-             * Flint-authored payout failure message. This is stable explanatory text, not a raw
-             * provider message.
-             */
-            "failure_message"?: string;
-            /**
-             * Whether the payout fee is estimated or final. not_applicable means no applicable fee
-             * status is known, including unmapped fee states. Value enum: "estimated", "final",
-             * "not_applicable".
-             */
-            "fee_amount_status": "estimated" | "final" | "not_applicable" | (string & {});
-            /**
-             * Fee for this payout, never negative. Payouts carry no fee, so this is 0 once your
-             * processor records the payout. `null` when your processor hasn't recorded the payout
-             * yet. anyOf[1] (Value): {@link MoneyValue}. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
-             */
-            "fee_money": ((MoneyValue) | (null));
-            /**
-             * What started the payout. A payout imported from your processor follows the
-             * processor: scheduled when it sent the payout automatically, otherwise manual. Only
-             * scheduled payouts list their balance transactions through GET
-             * /v1/balance-transactions?payout_id=; other payouts return 409 with reason
-             * not_itemized. Unmapped sources are returned as other. Value enum: "manual",
-             * "scheduled", "platform", "other".
-             */
-            "initiated_by": "manual" | "scheduled" | "platform" | "other" | (string & {});
-            /** Merchant receiving the payout. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E". */
-            "merchant_id": string;
-            /**
-             * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are
-             * reserved for Flint, are not returned, and cannot be written through the public API.
-             * Caller-owned key-value data stored on a resource. Keys starting with flint_ are
-             * reserved for Flint and are not returned. Writes follow the limits on MetadataInput
-             * and MetadataPatchInput; maps written before those limits may not satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Payouts Flint sends, by API, Dashboard or schedule, are always `standard`. `instant`
-             * appears only on a payout Flint recorded from the processor that was sent outside
-             * Flint. `other` is a method Flint doesn't map. Value enum: "standard", "instant",
-             * "other".
-             */
-            "method": "standard" | "instant" | "other" | (string & {});
-            /**
-             * Signed effect of this payout on your Flint balance. It is negative because the
-             * payout takes money out: a 25000 payout with no fee has net_money -25000. `null` when
-             * your processor hasn't recorded the payout yet. anyOf[1] (Value): {@link MoneyValue}.
-             * Signed monetary amount represented as integer minor units plus an ISO 4217 currency
-             * code. anyOf[2] (Value): null.
-             */
-            "net_money": ((MoneyValue) | (null));
-            /**
-             * The payout this one reverses, inlined when you request expand=original_payout. null
-             * when expanded and original_payout_id is absent. Present only when `expand` includes
-             * `original_payout`; `null` when expanded and there is no related payout. anyOf[1]
-             * (Value): {@link ExpandedPayoutSummary}. A payout's summary fields, including amount,
-             * method, status, and arrival date, returned when the payout is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "original_payout"?: ((ExpandedPayoutSummary) | (null));
-            /**
-             * On a payout that reverses another payout, the payout it reverses. Present only when
-             * Flint has the matching original payout. A payout has at most one of
-             * original_payout_id and reversed_by_payout_id. Example:
-             * "po_01KEZF7C00PXK8XREWJA6K4FGV".
-             */
-            "original_payout_id"?: string;
-            /**
-             * The payout destination, inlined when you request expand=payout_destination. null
-             * when expanded and payout_destination_id is absent. Present only when `expand`
-             * includes `payout_destination`; `null` when expanded and there is no related payout
-             * destination. anyOf[1] (Value): {@link ExpandedPayoutDestinationSummary}. A payout
-             * destination's summary fields, such as type, bank name, last four digits, and status,
-             * returned when the destination is expanded. anyOf[2] (Value): null.
-             */
-            "payout_destination"?: ((ExpandedPayoutDestinationSummary) | (null));
-            /**
-             * Bank account or debit card receiving the payout. Absent when Flint can't match your
-             * processor's destination to a payout destination. Example:
-             * "pdest_01KEZF7C00M55HZDZXZP6YVE6B".
-             */
-            "payout_destination_id"?: string;
-            /** Stable identifier of the payout. Example: "po_01KEZF7C00PXK8XREWJA6K4FGV". */
-            "payout_id": string;
-            /**
-             * Whether Flint has pulled a paid payout back from your bank: none until the reversal
-             * completes, then reversed. A payout_reversal balance transaction returns the money,
-             * and status stays succeeded. Value enum: "none", "reversed".
-             */
-            "reversal_status": "none" | "reversed" | (string & {});
-            /**
-             * The payout reversing this one, inlined when you request expand=reversed_by_payout.
-             * null when expanded and reversed_by_payout_id is absent. Present only when `expand`
-             * includes `reversed_by_payout`; `null` when expanded and there is no related payout.
-             * anyOf[1] (Value): {@link ExpandedPayoutSummary}. A payout's summary fields,
-             * including amount, method, status, and arrival date, returned when the payout is
-             * expanded. anyOf[2] (Value): null.
-             */
-            "reversed_by_payout"?: ((ExpandedPayoutSummary) | (null));
-            /**
-             * The separate payout reversing this one, when Flint has the matching payout. Its
-             * presence does not mean the reversal has completed; read reversal_status. A payout
-             * has at most one of original_payout_id and reversed_by_payout_id. Example:
-             * "po_01KEZF7C00PXK8XREWJA6K4FGV".
-             */
-            "reversed_by_payout_id"?: string;
-            /** Text shown on your bank statement for the deposit, when one was set. */
-            "statement_descriptor"?: string;
-            /**
-             * Where the payout is: pending until it is sent, in_transit on its way to your bank,
-             * then succeeded or failed. A succeeded payout can still become failed if the bank
-             * returns the deposit, and canceled means a manual payout was canceled while pending.
-             * Value enum: "pending", "in_transit", "succeeded", "failed", "canceled".
-             */
-            "status": "pending" | "in_transit" | "succeeded" | "failed" | "canceled" | (string & {});
-            /**
-             * Lifecycle actions Flint accepts now. cancel is offered while a payout is pending
-             * unless it was scheduled automatically. [] enum: "cancel". [] (Value): string. Value
-             * enum: "cancel".
-             */
-            "supported_actions": Array<"cancel" | (string & {})>;
-            /**
-             * The bank's trace number for the deposit, which your bank can use to locate a late
-             * deposit. Its status says whether the number is pending, available, or unsupported,
-             * and value holds the number when Flint has it. Absent when Flint has no trace
-             * information. A payout's bank trace ID, with whether it is pending, available, or
-             * unsupported.
-             */
-            "trace_id"?: PayoutTraceID;
-            /** When the payout last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-        };
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "payout.created". */
-    "event_type"?: "payout.created";
-});

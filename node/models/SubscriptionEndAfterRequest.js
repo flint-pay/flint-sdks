@@ -1,11 +1,11 @@
-import { d7503 as c0 } from '../descriptors/data/356.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d8707 as c1 } from '../descriptors/data/426.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5513 as c2 } from '../descriptors/data/240.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
-import { d5513 as d5513 } from '../descriptors/data/240.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import { d8744 as c0 } from '../descriptors/data/431.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d7537 as c1 } from '../descriptors/data/360.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5519 as c2 } from '../descriptors/data/240.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5519 as d5519 } from '../descriptors/data/240.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d5513;
+const read = d5519;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec102"]:c0(),["SharedCodec439"]:c1(),["SubscriptionEndAfterRequest"]:c2()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SharedCodec439"]:c0(),["SharedCodec97"]:c1(),["SubscriptionEndAfterRequest"]:c2()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSubscriptionEndAfterRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

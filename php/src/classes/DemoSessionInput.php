@@ -10,7 +10,7 @@ namespace Flint;
 final class DemoSessionInput extends Model {
     /** @param array{'api_key': DemoSessionAPIKeyInput|array<array-key, mixed>|\stdClass, 'demo_session_id': string, 'expires_at': string|\DateTimeInterface, 'sandbox_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DemoSessionInput')); }
-    /** The API key issued for a demo session, with its `secret_key` and the scopes it grants.
+    /** The test API key for the session's sandbox. It expires when the session does. The API key issued for a demo session, with its `secret_key` and the scopes it grants.
      * @return DemoSessionAPIKeyInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When api_key is omitted; use hasApiKey() or valueOrDefault().
      */

@@ -18,13 +18,13 @@ namespace Flint;
 final class PaymentIntentActivityInput extends Model {
     /** @param array{'activity_type': string, 'checkout_session_id'?: string, 'created_at': string|\DateTimeInterface, 'description': string, 'dispute_id'?: string, 'from_dispute_status'?: string, 'from_status'?: string, 'order_id'?: string, 'payment_intent_activity_id': string, 'refund_id'?: string, 'to_dispute_status'?: string, 'to_status'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentIntentActivityInput')); }
-    /** Value enum: "other", "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent".
+    /** What kind of change this entry records. Value enum: "other", "created", "updated", "status_changed", "failed", "canceled", "expired", "refund_created", "refund_status_changed", "dispute_status_changed", "receipt_sent".
      * @return string
      * @throws SdkError When activity_type is omitted; use hasActivityType() or valueOrDefault().
      */
     public function getActivityType(): string { return $this->get('activity_type'); }
     public function hasActivityType(): bool { return $this->has('activity_type'); }
-    /** Example: "cs_01KEZF7C004JRWFW43H037MQRN".
+    /** ID of the checkout session that created the payment intent. Present only on `created` entries, when the payment intent has no order. Example: "cs_01KEZF7C004JRWFW43H037MQRN".
      * @return string
      * @throws SdkError When checkout_session_id is omitted; use hasCheckoutSessionId() or valueOrDefault().
      */
@@ -36,7 +36,7 @@ final class PaymentIntentActivityInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** description
+    /** Short human-readable summary of the change. It doesn't carry processor diagnostics, so read the referenced resource for details.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -54,19 +54,19 @@ final class PaymentIntentActivityInput extends Model {
      */
     public function getFromDisputeStatus(): string { return $this->get('from_dispute_status'); }
     public function hasFromDisputeStatus(): bool { return $this->has('from_dispute_status'); }
-    /** Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
+    /** The payment intent's status before the change. Present on entries that record a status change. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
      * @return string
      * @throws SdkError When from_status is omitted; use hasFromStatus() or valueOrDefault().
      */
     public function getFromStatus(): string { return $this->get('from_status'); }
     public function hasFromStatus(): bool { return $this->has('from_status'); }
-    /** Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** ID of the order the payment intent belongs to. Present only on `created` entries, and only when the payment intent belongs to an order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** Example: "pact_01KEZF7C00D5EYVFWM20J9Z8EP".
+    /** Flint ID of this activity entry. Example: "pact_01KEZF7C00D5EYVFWM20J9Z8EP".
      * @return string
      * @throws SdkError When payment_intent_activity_id is omitted; use hasPaymentIntentActivityId() or valueOrDefault().
      */
@@ -84,7 +84,7 @@ final class PaymentIntentActivityInput extends Model {
      */
     public function getToDisputeStatus(): string { return $this->get('to_dispute_status'); }
     public function hasToDisputeStatus(): bool { return $this->has('to_dispute_status'); }
-    /** Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
+    /** The payment intent's status after the change. Present on entries that record a status change. Value enum: "requires_payment_method", "requires_confirmation", "requires_action", "processing", "requires_capture", "canceled", "succeeded", "expired".
      * @return string
      * @throws SdkError When to_status is omitted; use hasToStatus() or valueOrDefault().
      */

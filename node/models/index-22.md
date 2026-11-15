@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# OrderRefundedInstalledMerchantsEvent to PartnerAppPlatformUsage
+# OrderPaymentSourceSelectionInput to PartnerAppPlatformTermsAcceptance
 
+- [OrderPaymentSourceSelectionInput](OrderPaymentSourceSelectionInput.md)
 - [OrderRefundedInstalledMerchantsEvent](OrderRefundedInstalledMerchantsEvent.md)
 - [OrderRefundedMerchantEvent](OrderRefundedMerchantEvent.md)
 - [OrderResponse](OrderResponse.md)
@@ -101,5 +102,4 @@
 - [PartnerAppPlatformRejectedEvent](PartnerAppPlatformRejectedEvent.md)
 - [PartnerAppPlatformReserve](PartnerAppPlatformReserve.md)
 - [PartnerAppPlatformTermsAcceptance](PartnerAppPlatformTermsAcceptance.md)
-- [PartnerAppPlatformUsage](PartnerAppPlatformUsage.md)
 

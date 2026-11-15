@@ -29,7 +29,7 @@ Field definitions: [BuyerInvoiceResponse.data.balance_rows[]](../models/BuyerInv
 
 ### BuyerInvoiceListResponse.data[].buyer_actions[]
 
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
+Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
 
 ### BuyerInvoiceListResponse.data[].issue_rows[]
 
@@ -45,15 +45,15 @@ Field definitions: [BuyerInvoiceResponse.data.merchant_support](../models/BuyerI
 
 ### BuyerInvoiceListResponse.data[].payment_terms_snapshot
 
-Field definitions: [CollectInvoiceResponse.data.invoice.payment_terms_snapshot](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_terms_snapshot).
+Field definitions: [InvoiceResponse.data.payment_terms_snapshot](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshot).
 
 ### BuyerInvoiceListResponse.data[].remit_to_address
 
-Field definitions: [CollectInvoiceResponse.data.invoice.remit_to_address](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceremit_to_address).
+Field definitions: [InvoiceResponse.data.remit_to_address](../models/InvoiceResponse.md#invoiceresponsedataremit_to_address).
 
 ### BuyerInvoiceListResponse.data[].schedule_entries[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.schedule_entries[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entries).
+Field definitions: [InvoiceResponse.data.schedule_entries[]](../models/InvoiceResponse.md#invoiceresponsedataschedule_entries).
 
 ### BuyerInvoiceListResponse.data[].snapshot
 

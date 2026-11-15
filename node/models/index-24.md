@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PaymentLinkLineItemRequestInput to PayoutDestinationArchivedMerchantEvent
+# PaymentLinkLineItemRequest to PayoutDestinationArchivedInstalledMerchantsEvent
 
+- [PaymentLinkLineItemRequest](PaymentLinkLineItemRequest.md)
 - [PaymentLinkLineItemRequestInput](PaymentLinkLineItemRequestInput.md)
 - [PaymentLinkLineItemVariant](PaymentLinkLineItemVariant.md)
 - [PaymentLinkListResponse](PaymentLinkListResponse.md)
@@ -65,8 +66,8 @@
 - [PaymentSourceCredentialReaderInput](PaymentSourceCredentialReaderInput.md)
 - [PaymentSourceCredentialStripeConfirmationToken](PaymentSourceCredentialStripeConfirmationToken.md)
 - [PaymentSourceCredentialStripeConfirmationTokenInput](PaymentSourceCredentialStripeConfirmationTokenInput.md)
-- [PaymentSourceCredentialToken](PaymentSourceCredentialToken.md)
-- [PaymentSourceCredentialTokenInput](PaymentSourceCredentialTokenInput.md)
+- [PaymentSourceCredentialStripePaymentMethod](PaymentSourceCredentialStripePaymentMethod.md)
+- [PaymentSourceCredentialStripePaymentMethodInput](PaymentSourceCredentialStripePaymentMethodInput.md)
 - [PaymentSourceSummary](PaymentSourceSummary.md)
 - [PaymentSplit](PaymentSplit.md)
 - [PaymentSplitCanceledEvent](PaymentSplitCanceledEvent.md)
@@ -101,5 +102,4 @@
 - [PayoutCreatedMerchantEvent](PayoutCreatedMerchantEvent.md)
 - [PayoutDestination](PayoutDestination.md)
 - [PayoutDestinationArchivedInstalledMerchantsEvent](PayoutDestinationArchivedInstalledMerchantsEvent.md)
-- [PayoutDestinationArchivedMerchantEvent](PayoutDestinationArchivedMerchantEvent.md)
 

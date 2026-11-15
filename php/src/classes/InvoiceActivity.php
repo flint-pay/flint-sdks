@@ -10,8 +10,8 @@ namespace Flint;
  * @property-read ?string $checkout_session_id
  * @property-read ?string $collection_block_reason
  * @property-read string $created_at
- * @property-read ?MoneyValue $credit_money
  * @property-read ?string $credit_note_id
+ * @property-read ?MoneyValue $credited_money
  * @property-read string $description
  * @property-read ?string $due_at
  * @property-read ?string $error_code
@@ -30,7 +30,7 @@ namespace Flint;
  * @property-read ?MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class InvoiceActivity extends Model {
-    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: mixed, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string, 'credit_money'?: mixed, 'credit_note_id'?: string, 'description': string, 'due_at'?: string, 'error_code'?: string, 'expected_amount_money'?: mixed, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_id': string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: mixed, ...}|object $values */
+    /** @param array{'activity_type': string, 'actor_id'?: string, 'actor_type'?: string, 'amount_money'?: mixed, 'channel'?: string, 'checkout_session_id'?: string, 'collection_block_reason'?: string, 'created_at': string, 'credit_note_id'?: string, 'credited_money'?: mixed, 'description': string, 'due_at'?: string, 'error_code'?: string, 'expected_amount_money'?: mixed, 'invoice_activity_id': string, 'invoice_delivery_attempt_id'?: string, 'invoice_id': string, 'invoice_late_fee_id'?: string, 'invoice_manual_payment_id'?: string, 'invoice_payment_attempt_id'?: string, 'invoice_schedule_entry_id'?: string, 'payment_intent_id'?: string, 'rail'?: string, 'refund_id'?: string, 'to_email'?: string, 'written_off_money'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoiceActivity')); }
     /** What happened. other means an activity this API version doesn't describe yet. New values may be added; treat an unrecognized value like `other`. Value enum: "draft_created", "issued", "sent", "delivery_sent", "reminder_sent", "viewed", "payment_attempt_started", "payment_applied", "manual_payment_recorded", "manual_payment_reversed", "refund_succeeded", "voided", "token_regenerated", "collection_blocked", "collection_block_resolved", "updated", "marked_uncollectible", "payment_processing", "issue_failed", "overdue", "reminder_due", "late_fee_due", "late_fee_assessed", "late_fee_waived", "credited", "other".
      * @return string
@@ -72,16 +72,16 @@ final class InvoiceActivity extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return ?MoneyValue
-     */
-    public function getCreditMoney(): ?MoneyValue { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
     /** Credit note that requested the refund. Present on updated when a credit note refund was requested or changed.
      * @return ?string
      */
     public function getCreditNoteId(): ?string { return $this->get('credit_note_id'); }
     public function hasCreditNoteId(): bool { return $this->has('credit_note_id'); }
+    /** Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return ?MoneyValue
+     */
+    public function getCreditedMoney(): ?MoneyValue { return $this->get('credited_money'); }
+    public function hasCreditedMoney(): bool { return $this->has('credited_money'); }
     /** Human-readable Flint description of the activity.
      * @return string
      */

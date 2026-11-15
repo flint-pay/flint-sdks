@@ -10,8 +10,8 @@ import type {
     DeliveryMethodsListParams,
     DeliveryMethodsUpdateParams
 } from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-53.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -46,15 +46,15 @@ export type {
     DeliveryMethodOriginSelectorInputPickupLocationCollectionLocationsInput,
     DeliveryMethodConfigurationRequestInput,
     DeliveryMethodConfiguration,
-    DeliveryPostalCodeCondition,
     DeliveryMethodOriginSelector,
     DeliveryMethodOriginSelectorFixedLocation,
     DeliveryMethodOriginSelectorAllocatedOriginGroup,
     DeliveryMethodOriginSelectorPickupLocationCollection,
-    DeliveryMethodConfigurationPatchRequestInput
+    DeliveryMethodConfigurationPatchRequestInput,
+    DeliveryLocationSetsDeleteParams
 } from '../declarations/types-18.js';
-export type { RequestOptions } from '../declarations/types-53.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-69.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type {
     CreateDeliveryMethodRequestInput,
@@ -70,6 +70,9 @@ export type {
     DeliveryCustomerSegmentConditionInput,
     DeliveryDistanceRequestInput,
     DeliveryEstimateRuleRequestInput,
+    DeliveryAvailabilityRequestInput,
+    DeliveryBlackoutIntervalRequestInput,
+    DeliveryBusinessDayRangeRequestInput,
     DeliveryCalculatedPricingStrategyRequestInput,
     DeliveryDistanceUnitPriceRequestInput,
     DeliveryCallbackPricingStrategyRequestInput,
@@ -79,11 +82,13 @@ export type {
     DeliveryCustomerBooleanCondition,
     DeliveryDistance,
     DeliveryEstimateRule,
+    DeliveryAvailability,
+    DeliveryBlackoutInterval,
+    DeliveryBusinessDayRange,
     DeliveryCalculatedPricingStrategy,
     DeliveryDistanceUnitPrice,
     DeliveryExternalPricingStrategy,
-    DeliveryFixedPricingStrategy,
-    DeliveryLocationSetsDeleteParams
+    DeliveryFixedPricingStrategy
 } from '../declarations/types-17.js';
 export type {
     DeliveryPostalCodeConditionRequestInput,
@@ -105,6 +110,7 @@ export type {
     DeliveryPricingStrategyInputFixedInput,
     DeliveryPricingStrategyInputRateTableInput,
     DeliveryPricingStrategyInputTieredInput,
+    DeliveryPostalCodeCondition,
     DeliveryPostalCodeValue,
     DeliveryPricingStrategy,
     DeliveryPricingRate,
@@ -126,6 +132,7 @@ export type {
     DeliveryStateConditionRequestInput,
     DeliveryWindowTimeConditionInput,
     DeliveryZoneConditionRequestInput,
+    DeliveryScheduleWindowRuleRequestInput,
     DeliveryWeeklyIntervalRequestInput,
     DeliveryTransitTimeRuleRequestInput,
     DeliveryWeightUnitPriceRequestInput,
@@ -135,6 +142,7 @@ export type {
     DeliveryStateCondition,
     DeliveryWindowTimeCondition,
     DeliveryZoneCondition,
+    DeliveryScheduleWindowRule,
     DeliveryWeeklyInterval,
     DeliveryTransitTimeRule,
     DeliveryWeightUnitPrice,
@@ -142,30 +150,19 @@ export type {
     DeliveryTieredPricingStrategyWeight,
     DeliveryTieredPricingStrategyQuantityOrMoney
 } from '../declarations/types-22.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
 export type {
-    DeliveryScheduleWindowRuleRequestInput,
     DeliveryRateTablePricingStrategyCreateRequestInput,
     DeliveryRecipientRequirementRequestInput,
     DeliveryRateTablePricingStrategyRequestInput,
-    DeliveryScheduleWindowRule,
     DeliveryRateTablePricingStrategy,
     DeliveryRecipientRequirement
 } from '../declarations/types-21.js';
-export type {
-    DeliveryAvailabilityRequestInput,
-    DeliveryBlackoutIntervalRequestInput,
-    DeliveryBusinessDayRangeRequestInput,
-    DeliveryAvailability,
-    DeliveryBlackoutInterval,
-    DeliveryBusinessDayRange
-} from '../declarations/types-16.js';
-export type { MoneyValueInput, MetadataRequestInput, MoneyValue, NextAction } from '../declarations/types-38.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
 export type { AuthMode } from '../declarations/types-1.js';
 export type { Credentials } from '../declarations/types-14.js';
 export type { AddRiskListItemsRequest } from '../declarations/types-0.js';
-export type { MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-37.js';
 export type { SubscriptionCounts } from '../declarations/types-60.js';
-export type { ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
 export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
 export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-66.js';
 export type { DisputesAcceptParams } from '../declarations/types-23.js';
@@ -175,13 +172,11 @@ export {
     makeCreateDeliveryMethodRequestLocalDelivery,
     makeCreateDeliveryMethodRequestPickup,
     makeCreateDeliveryMethodRequestShipment
-} from '../declarations/types-71.js';
+} from '../declarations/types-72.js';
 export {
     makeDeliveryAvailabilityRequest,
     makeDeliveryBlackoutIntervalRequest,
-    makeDeliveryBusinessDayRangeRequest
-} from '../declarations/types-74.js';
-export {
+    makeDeliveryBusinessDayRangeRequest,
     makeDeliveryCalculatedPricingStrategyRequest,
     makeDeliveryCallbackPricingStrategyRequest,
     makeDeliveryCallerSuppliedPricingStrategyRequest,
@@ -210,7 +205,9 @@ export {
     makeDeliveryPricingRateRequest,
     makeDeliveryPricingStrategyCreateInputCalculated,
     makeDeliveryPricingStrategyCreateInputCallback,
-    makeDeliveryPricingStrategyCreateInputCallerSupplied,
+    makeDeliveryPricingStrategyCreateInputCallerSupplied
+} from '../declarations/types-75.js';
+export {
     makeDeliveryPricingStrategyCreateInputFixed,
     makeDeliveryPricingStrategyCreateInputRateTable,
     makeDeliveryPricingStrategyCreateInputTiered,
@@ -224,9 +221,7 @@ export {
     makeDeliveryPricingStrategyRequest,
     makeDeliveryPricingTierBandRequest,
     makeDeliveryRadiusConditionRequest,
-    makeDeliveryRadiusOrigin
-} from '../declarations/types-75.js';
-export {
+    makeDeliveryRadiusOrigin,
     makeDeliveryRateTablePricingStrategyCreateRequest,
     makeDeliveryRateTablePricingStrategyRequest,
     makeDeliveryRecipientRequirementRequest,

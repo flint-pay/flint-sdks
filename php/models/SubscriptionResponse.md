@@ -21,14 +21,13 @@ Resource, collection, or operation result returned by this request. A customer's
 | `billing_anchor_day` | Optional | integer | UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules. Format: `int32`. minimum: `1`. maximum: `31`. |
 | `billing_interval` | Required | string | How often the subscription bills now. Read with billing_interval_count: monthly with a count of 3 bills quarterly. A change applies from the next renewal that has not been paid; next_billing_at does not move. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Number of billing_interval units between charges. Changes with billing_interval. Format: `int32`. |
-| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | Billing interval and count pairs frozen from the plan or shared by the subscription offers. Line prices are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. maxItems: `12`. uniqueItems: `true`. |
+| `billing_interval_options` | Optional | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | Billing interval and count pairs the subscription can switch to. For a subscription on a plan, they follow the plan's current billing_interval_options. A subscription that came from an offer keeps the pairs the offer had at signup. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Changing the interval does not change the per-delivery price. maxItems: `12`. uniqueItems: `true`. |
 | `billing_schedule_owner` | Required | string | Who supplies billing dates: flint advances the schedule after each paid renewal; external uses dates you supply. Change it with billing_schedule on PATCH /v1/subscriptions/{subscription_id}. Values: `"flint"`, `"external"`. |
 | `billing_schedule_waiting_started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the subscription, in this order: cancel, pause, resume, reactivate, update_payment_method, retry_payment, update_delivery, skip, update_billing_interval, update_quantity, swap_items, change_plan, cancel_plan_change, then renew, under the store's buyer policy. The available cancel and pause actions carry the choices they accept. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all fourteen every time; a merchant read gets an empty list. update_payment_method is required while a payment is past due without an inventory_wait, due by next_retry_at when a retry is scheduled, and when the card expires before next_billing_at, due by then. Example: `[]`. `buyer_actions[]`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions). |
 | `cancel_at_period_end` | Required | boolean | True when the subscription is scheduled to cancel at scheduled_cancel_at. Schedule with POST /v1/subscriptions/{subscription_id}/cancel; undo with PATCH and cancel_at_period_end false. |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `cancellation_details` | Optional | [SubscriptionCancellationDetails](../models/SubscriptionCancellationDetails.md#subscriptioncancellationdetails) | Who asked to cancel, when, and why. Present once a cancellation is requested, whether it takes effect at the end of the billing period or right away. Omitted when no one asked, and removed when a scheduled cancellation is undone. See cancellation_reason for voluntary and payment-related cancellations. The cancellation request behind a scheduled or completed cancellation. `cancellation_details`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatacancellation_details). |
-| `cancellation_reason` | Optional | string | Why the subscription is canceled or scheduled to cancel. Uses end_after_reached when the automatic ending agreement is reached, cancellation_details.requested_by when recorded, payment_failed for other canceled subscriptions without a requester, and other for a scheduled cancellation without a requester. Omitted otherwise. Values: `"buyer"`, `"merchant"`, `"integration"`, `"payment_failed"`, `"other"`, `"end_after_reached"`. |
+| `cancellation_reason` | Optional | string | Why the subscription is canceled or scheduled to cancel. Uses signup_order_refunded when an automatic inventory refund fully refunds the signup order, end_after_reached when the automatic ending agreement is reached, cancellation_details.requested_by when recorded, payment_failed for other canceled subscriptions without a requester, and other for a scheduled cancellation without a requester. Omitted otherwise. Values: `"buyer"`, `"merchant"`, `"integration"`, `"payment_failed"`, `"other"`, `"end_after_reached"`, `"signup_order_refunded"`. |
 | `completed_cycles` | Required | integer | Billing cycles charged so far, including cycles imported with `billing_start.completed_cycles`. The next renewal order's `subscription_cycle` is this number plus one. Format: `uint64`. minimum: `0`. |
 | `contract_end_at` | Optional | string | When the recorded contract term ends. Does not move when the subscription pauses or changes plan. Flint does not stop the buyer from canceling earlier. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `contract_start_at` | Optional | string | When the recorded contract term started. Does not move when the subscription pauses or changes plan. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -37,7 +36,7 @@ Resource, collection, or operation result returned by this request. A customer's
 | `current_period_start_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. `customer`: [declared alternatives](../models/DisputeResponse.md#disputeresponsedatacustomer). |
 | `customer_id` | Required | string | The customer this subscription bills. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
-| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
 | `delivery` | Optional | [SubscriptionDelivery](../models/SubscriptionDelivery.md#subscriptiondelivery) | Saved delivery preference with the current delivery method display. Write responses use the same display as GET: fixed shipping reflects the current method configuration, and quoted shipping shows the last paid shipping amount when available. A subscription's saved delivery preference: method, destination, recipient, shipping cost, and who last changed it. `delivery`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatadelivery). |
 | `delivery_hold` | Optional | [SubscriptionDeliveryHold](../models/SubscriptionDeliveryHold.md#subscriptiondeliveryhold) | Current delivery issue that blocks collection. Mutually exclusive with upcoming_delivery_hold. A hold on a subscription's deliveries because its delivery method or destination no longer works, and who can fix it. `delivery_hold`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatadelivery_hold). |
 | `delivery_interval` | Required | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
@@ -67,11 +66,11 @@ Resource, collection, or operation result returned by this request. A customer's
 | `promotions` | Required | Array of [SubscriptionPromotion](../models/SubscriptionPromotion.md#subscriptionpromotion) | Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. `promotions[]`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions). |
 | `prorate_first_period` | Required | boolean | Whether this subscription was created to prorate its first anchored paid period. Set at creation and never changes; starting on the anchor day still bills a normal full period. |
 | `quantity` | Required | integer | How many of each line the subscription bills each period, as a whole number; fractional quantities are not supported. A change applies from the next renewal that has not been paid. Format: `int32`. |
-| `quantity_options` | Optional | Array of integer | maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
-| `recurring_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. |
+| `quantity_options` | Optional | Array of integer | Quantities this subscription can be changed to, from 1 to 100, in ascending order. A change to quantity must send one of these values, and the request is refused otherwise. A buyer can change quantity only when more than one is listed. For a subscription on a plan, the list follows the plan's current quantity_options. A subscription that came from an offer keeps the choices the offer had at signup. [1] when no other quantity is offered. maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
+| `recurring_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. |
 | `remaining_cycles` | Required | integer or null | Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null when there is no cycle limit or the subscription is canceled. Format: `uint64`. minimum: `0`. |
 | `remaining_prepaid_deliveries` | Required | integer | Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts with deliveries_per_period minus one. When delivery_hold is present and this count is positive, fixing delivery releases an already-paid delivery with shipping waived and no new charge. A next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual refunds. Format: `int32`. minimum: `0`. maximum: `23`. |
-| `resume_requested_at` | Required | string or null | When Flint accepted a pending resume request. Set only while paused with a resume Flint has not applied yet. Clears when Flint resumes the subscription or refuses the request. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `resume_requested_at` | Required | string or null | When Flint accepted a pending resume request. Set only while paused with a resume Flint has not applied yet. Clears when Flint resumes the subscription or refuses the request. `null` when the subscription isn't paused or no resume request is pending. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `scheduled_cancel_at` | Required | string or null | When the scheduled cancellation takes effect: trial_end_at while trialing, current_period_end_at while active, or next_retry_at while past_due. Paid deliveries extend it to the last paid delivery when it is later. Null when cancel_at_period_end is false or no cancellation time is available. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `scheduled_plan_change` | Required | [SubscriptionScheduledPlanChange](../models/SubscriptionScheduledPlanChange.md#subscriptionscheduledplanchange) or null | Frozen target terms for the next charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. `scheduled_plan_change`: [declared alternatives](../models/SubscriptionResponse.md#subscriptionresponsedatascheduled_plan_change). |
 | `scheduled_promotions` | Required | Array of [SubscriptionPromotion](../models/SubscriptionPromotion.md#subscriptionpromotion) | Attached promotions whose first_cycle is after the next charged cycle, completed_cycles + 1. Always present; empty when no promotions are scheduled. `scheduled_promotions[]`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions). |
@@ -82,7 +81,7 @@ Resource, collection, or operation result returned by this request. A customer's
 | `subscription_id` | Required | string | Stable identifier of the subscription. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 | `subscription_plan` | Optional | [ExpandedSubscriptionPlanSummary](../models/ExpandedSubscriptionPlanSummary.md#expandedsubscriptionplansummary) or null | Present only when `expand` includes `subscription_plan`; `null` when expanded and there is no related subscription plan. `subscription_plan`: [declared alternatives](../models/SubscriptionResponse.md#subscriptionresponsedatasubscription_plan). |
 | `subscription_plan_id` | Optional | string | Subscription plan ID. Omitted when terms_type is subscription_offer. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
-| `supported_actions` | Required | Array of string | Merchant actions allowed by the subscription's state. A route can still refuse a listed action for a transient reason, such as a renewal already in progress, with its own error. Items values: `"cancel"`, `"pause"`, `"resume"`, `"skip_cycle"`, `"renew"`, `"retry_payment"`, `"change_plan"`, `"change_quantity"`. |
+| `supported_actions` | Required | Array of string | Merchant actions allowed by the subscription's state. A route can still refuse a listed action for a transient reason, such as a renewal already in progress, with its own error. Items values: `"cancel"`, `"pause"`, `"resume"`, `"skip_cycle"`, `"renew"`, `"change_plan"`, `"change_quantity"`. |
 | `tax` | Required | [SubscriptionTax](../models/SubscriptionTax.md#subscriptiontax) or null | The tax the subscription's renewal, setup fee and plan change orders use. `null` when they follow `tax.default_enabled` and `tax.default_calculation` from your settings. Returned only to merchant credentials; omitted for buyer credentials. |
 | `terms_type` | Required | string | Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Values: `"subscription_plan"`, `"subscription_offer"`. |
 | `test_clock_id` | Optional | string | ID of the test clock the subscription's customer was created on. The subscription bills at the clock's time. Present only when the customer is on a test clock. Included only in merchant responses and omitted from buyer responses. Example: `"tclk_01KEZF7C00J8YBNPS7XJ5FG5ZZ"`. |
@@ -90,46 +89,6 @@ Resource, collection, or operation result returned by this request. A customer's
 | `upcoming_delivery_hold` | Optional | [SubscriptionUpcomingDeliveryHold](../models/SubscriptionUpcomingDeliveryHold.md#subscriptionupcomingdeliveryhold) | Delivery issue forecast for the next renewal at renewal_at. Mutually exclusive with delivery_hold. A delivery problem detected for an upcoming renewal that will hold the subscription's delivery, and who can fix it. `upcoming_delivery_hold`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedataupcoming_delivery_hold). |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Goes up with every change to the subscription, including renewals and other changes Flint makes. Send it as `expected_version` to apply an update only if nothing changed. Format: `uint64`. minimum: `0`. |
-
-### SubscriptionResponse.data.buyer_actions[]
-
-One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
-
-| Field | Presence | Type | Description |
-| --- | --- | --- | --- |
-| `cancel` | Optional | [BuyerCancelActionOptions](../models/BuyerCancelActionOptions.md#buyercancelactionoptions) | Present only on an available cancel action. The cancellation choices this subscription accepts from its buyer. |
-| `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `is_available` | Required | boolean | Whether this session can take the action now. |
-| `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
-| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [20 declared values](BuyerActionInput.md#buyeractioninput-kind-values). |
-| `pause` | Optional | [BuyerPauseActionOptions](../models/BuyerPauseActionOptions.md#buyerpauseactionoptions) | Present only on an available pause action. The pause lengths this subscription accepts from its buyer. |
-| `pay_balance` | Optional | [BuyerPayBalanceActionOptions](../models/BuyerPayBalanceActionOptions.md#buyerpaybalanceactionoptions) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. `pay_balance`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actionspay_balance). |
-| `retry_payment` | Optional | [BuyerRetryPaymentActionOptions](../models/BuyerRetryPaymentActionOptions.md#buyerretrypaymentactionoptions) | How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running. `retry_payment`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actionsretry_payment). |
-| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: [9 declared values](#subscriptionresponsedatabuyer_actions-unavailable_reason-values). |
-
-#### SubscriptionResponse.data.buyer_actions[] unavailable_reason values
-
-- `"sign_in_required"`
-- `"store_policy"`
-- `"not_in_state"`
-- `"window_closed"`
-- `"nothing_to_return"`
-- `"collection_unavailable"`
-- `"limit_reached"`
-- `"delivery_hold"`
-- `"in_progress"`
-
-### SubscriptionResponse.data.buyer_actions[].pay_balance
-
-Present only on an available pay_balance action. The return resolutions the buyer can pay now.
-
-Field definitions: [shared fields](BuyerPayBalanceActionOptionsInput.md#buyerpaybalanceactionoptionsinput).
-
-### SubscriptionResponse.data.buyer_actions[].retry_payment
-
-How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running.
-
-Field definitions: [shared fields](BuyerRetryPaymentActionOptionsInput.md#buyerretrypaymentactionoptionsinput).
 
 ### SubscriptionResponse.data.cancellation_details
 
@@ -277,29 +236,29 @@ An item included in a customer's recurring purchase.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allow_quantity_adjustment` | Required | boolean | Whether the frozen terms allow the buyer to adjust this line quantity. |
-| `base_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `bundle_components` | Optional | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) | `bundle_components[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_components). |
-| `bundle_id` | Optional | string | Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
-| `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) | `categories[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemscategories). |
-| `description` | Optional | string |  |
-| `image` | Optional | [Image](../models/Image.md#image) | An image with its URL, size, and alt text. |
+| `base_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit price multiplied by this line's `quantity`, before modifiers, discounts, and tax. It doesn't include the subscription's `quantity`. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `bundle_components` | Optional | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) | Components of a bundle line, recorded when the line joined the subscription. `bundle_components[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_components). |
+| `bundle_id` | Optional | string | ID of the bundle the line bills. Present on `bundle` lines. Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
+| `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) | Catalog categories of the item, recorded when the line joined the subscription. `categories[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemscategories). |
+| `description` | Optional | string | Description of the item, recorded when the line joined the subscription. Omitted when none was recorded. |
+| `image` | Optional | [Image](../models/Image.md#image) | Image of the item, recorded when the line joined the subscription. An image with its URL, size, and alt text. |
 | `max_quantity` | Optional | integer | Maximum buyer quantity, defaulting to 9999 when no bound was recorded. Merchants may set any quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. |
 | `min_quantity` | Optional | integer | Minimum buyer quantity, defaulting to 1 when no bound was recorded. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. |
-| `modifier_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `modifiers` | Optional | Array of [OrderLineItemModifier](../models/OrderLineItemModifier.md#orderlineitemmodifier) | `modifiers[]`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifiers). |
-| `name` | Required | string |  |
-| `product_id` | Optional | string | Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
+| `modifier_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Sum of the line's modifier totals. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `modifiers` | Optional | Array of [OrderLineItemModifier](../models/OrderLineItemModifier.md#orderlineitemmodifier) | Modifiers selected on the line, with their prices. `modifiers[]`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifiers). |
+| `name` | Required | string | Name of the item, recorded when the line joined the subscription. Later catalog edits don't change it. |
+| `product_id` | Optional | string | ID of the catalog product the item was sold from. Required whenever variant_id is present. Absent on bundle and custom lines, which have no parent product. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
-| `sku` | Optional | string |  |
+| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | Variant options selected for the item, such as size and color. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
+| `sku` | Optional | string | SKU of the item, recorded when the line joined the subscription. Omitted when the item has none. |
 | `subscription_id` | Required | string | Subscription that owns this line, including frozen lines in a scheduled plan change. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 | `subscription_line_item_id` | Optional | string | Unique identifier for this subscription line item, prefixed `sli_`. Example: `"sli_01KEZF7C00PPWVJ2N321V84ASA"`. |
-| `subscription_offer_id` | Optional | string | Example: `"soffer_01KEZF7C00KAA9Y1X1KM70YFAA"`. |
-| `subscription_plan_line_item_id` | Optional | string | Example: `"spli_01KEZF7C00H9FGC2KBRF82H87N"`. |
-| `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `subscription_offer_id` | Optional | string | ID of the subscription offer the line was bought under. Absent on plan-based subscriptions and on lines added to the subscription directly. Example: `"soffer_01KEZF7C00KAA9Y1X1KM70YFAA"`. |
+| `subscription_plan_line_item_id` | Optional | string | ID of the subscription plan line this line was copied from. A variant swap keeps it. Absent on offer-based subscriptions and on lines added to the subscription directly. Example: `"spli_01KEZF7C00H9FGC2KBRF82H87N"`. |
+| `subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Base subtotal plus modifier total, before discounts and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `type` | Required | string | Whether the line was sold from a catalog variant, a bundle, or a custom item. Values: `"variant"`, `"bundle"`, `"custom"`. |
-| `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `variant_id` | Optional | string | Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
+| `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price of one unit before modifiers, discounts, and tax. A plan line keeps the price its plan set. A line added or swapped takes the variant's catalog price for the subscription's customer at that time, and keeps it until the line changes again. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `variant_id` | Optional | string | ID of the catalog variant the line bills. Present on `variant` lines; a variant swap replaces it. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 
 ### SubscriptionResponse.data.line_items[].bundle_components[]
 
@@ -327,12 +286,12 @@ Present only when `expand` includes `payment_method`; `null` when expanded and t
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `card` | Conditional | [CardDetails](../models/CardDetails.md#carddetails) | Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used. |
+| `card` | Conditional | [CardDetails](../models/CardDetails.md#carddetails) | Brand, expiry and last four digits. Present when type is card. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used. |
 | `created_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `customer_id` | Conditional | string | Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
+| `customer_id` | Conditional | string | Customer this payment method belongs to. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `payment_method_id` | Conditional | string | Unique identifier for this payment method, prefixed `pm_`. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
-| `status` | Conditional | string | Values: `"pending"`, `"active"`, `"expired"`, `"archived"`, `"failed"`. |
-| `type` | Conditional | string | Values: `"card"`. |
+| `status` | Conditional | string | Whether the payment method can be charged. Treat any value other than active as not chargeable, including values added later. Values: `"pending"`, `"active"`, `"expired"`, `"archived"`, `"failed"`. |
+| `type` | Conditional | string | Kind of payment method. Values: `"card"`. |
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
 ### SubscriptionResponse.data.payment_method variant 1: `type` = `"card"`
@@ -356,15 +315,15 @@ A recurring promotion applied to a subscription, including its recurrence and re
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `first_cycle` | Required | integer | First charged cycle eligible for this promotion. Format: `uint64`. minimum: `1`. |
-| `name` | Required | string |  |
-| `promotion_code_id` | Required | string or null | The attached promotion code ID; null when no promotion code was used. Example: `"pcode_01KEZF7C00JCC7QXWC262EF05T"`. |
-| `promotion_id` | Required | string | Example: `"promo_01KEZF7C00QQ8EZ74BDYSZ315V"`. |
-| `recurrence` | Required | object and Alternative shapes (see declared variants) | How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever. `recurrence`: [declared alternatives](../models/SubscriptionResponse.md#subscriptionresponsedatapromotionsrecurrence). |
-| `remaining_cycles` | Required | integer or null | Discounted paid cycles remaining; null for a promotion that lasts forever unless a replacement limits it. With incomplete historical records, remaining cycles may be lower than the unused allowance. If no reliable bound is available, the allowance is treated as used up. Format: `int64`. |
+| `name` | Required | string | Name the promotion shows buyers: its display name, or its name when it has no display name. Frozen when the promotion was attached. |
+| `promotion_code_id` | Required | string or null | ID of the promotion code used to attach the promotion. Null when no promotion code was used. Example: `"pcode_01KEZF7C00JCC7QXWC262EF05T"`. |
+| `promotion_id` | Required | string | ID of the promotion attached to the subscription. Example: `"promo_01KEZF7C00QQ8EZ74BDYSZ315V"`. |
+| `recurrence` | Required | object and Alternative shapes (see declared variants) | How often the promotion's discount repeats, frozen when the promotion was attached. How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever. `recurrence`: [declared alternatives](../models/SubscriptionResponse.md#subscriptionresponsedatapromotionsrecurrence). |
+| `remaining_cycles` | Required | integer or null | Discounted paid cycles remaining, capped by any replacement handoff. Null when the promotion lasts forever and no replacement limits it. With incomplete historical records, remaining cycles may be lower than the unused allowance. If no reliable bound is available, the allowance is treated as used up. Format: `int64`. |
 
 ### SubscriptionResponse.data.promotions[].recurrence
 
-How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever.
+How often the promotion's discount repeats, frozen when the promotion was attached. How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever.
 
 Field definitions: [shared fields](PromotionRecurrenceInput.md#promotionrecurrenceinput).
 
@@ -434,13 +393,13 @@ Omitted for a checkout session credential that doesn't act for the customer the 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address` | Optional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedataservice_locationaddress). |
-| `customer_address_id` | Optional | string | Example: `"caddr_01KEZF7C00K2Q127FBJAXWB0FP"`. |
+| `address` | Optional | [Address](../models/Address.md#address) | The address where the service is performed. Flint copies it when the subscription is created, so later edits to the customer's saved address don't change it. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. `address`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedataservice_locationaddress). |
+| `customer_address_id` | Optional | string | ID of the saved customer address the location was copied from. Omitted when the location was sent as an inline address. Example: `"caddr_01KEZF7C00K2Q127FBJAXWB0FP"`. |
 | `customer_id` | Required | string or null | Customer that owns customer_address_id. Null when customer_address_id is absent or withheld from the buyer projection. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 
 ### SubscriptionResponse.data.service_location.address
 
-A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+The address where the service is performed. Flint copies it when the subscription is created, so later edits to the customer's saved address don't change it. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
 
 Field definitions: [shared fields](AddressInput.md#addressinput).
 

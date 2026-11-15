@@ -45,7 +45,7 @@ final class SubscriptionsCreateParams extends Model {
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
+    /** Delivery preference for the subscription's physical items: the delivery method, destination and recipient. Subscription offers with physical lines require it. Omit it for a subscription with nothing to deliver. The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
      * @return SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
      */
@@ -93,7 +93,7 @@ final class SubscriptionsCreateParams extends Model {
      */
     public function getProrateFirstPeriod(): bool { return $this->get('prorate_first_period'); }
     public function hasProrateFirstPeriod(): bool { return $this->has('prorate_first_period'); }
-    /** Where a subscription's service is delivered: a saved customer address by ID, or a new address.
+    /** Where the service is performed, for a subscription to a service at a place. Send a saved customer address or an inline address; Flint copies it. Where a subscription's service is delivered: a saved customer address by ID, or a new address.
      * @return SubscriptionServiceLocationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When service_location is omitted; use hasServiceLocation() or valueOrDefault().
      */
@@ -105,7 +105,7 @@ final class SubscriptionsCreateParams extends Model {
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Subscription terms from either a subscription plan or subscription offers, selected by `type`.
+    /** What the subscription bills for, from a subscription plan or from subscription offers, selected by `type`. Subscription terms from either a subscription plan or subscription offers, selected by `type`.
      * @return SubscriptionTermsRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When terms is omitted; use hasTerms() or valueOrDefault().
      */

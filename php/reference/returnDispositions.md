@@ -71,6 +71,104 @@ $result = $client->returnDispositions->cancel('retdsp_01KEZF7C007H87J66PH2EEK1VW
 
 [Complete runnable example](../examples/returnDispositions-cancel.php)
 
+### returnDispositions.create
+
+Record an auditable merchandise disposition from either a receipt line or an inspection line. Read dispositions with `GET /v1/return-dispositions?return_id=` or expand `return_dispositions` on `GET /v1/returns/{return_id}`.
+
+`POST /v1/return-dispositions`
+
+Signature: `create(array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Required | [CreateReturnDispositionRequestInput](../models/CreateReturnDispositionRequestInput.md#createreturndispositionrequestinput) | The request body for: Create return disposition. |
+
+Body model: [CreateReturnDispositionRequestInput](../models/CreateReturnDispositionRequestInput.md#createreturndispositionrequestinput).
+
+#### returnDispositions.create body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `disposition_type` | Required | string | What happens to the received units. Values: `"sellable"`, `"quality_control"`, `"damaged"`, `"quarantined"`, `"repair"`, `"refurbish"`, `"liquidate"`, `"donate"`, `"discard"`, `"return_to_buyer"`, `"lost"`. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `inventory_location_id` | Optional | string | ID of the Location whose stock the disposition changes. Required for `sellable`, `quality_control`, `damaged`, `quarantined`, and `lost`; rejected for the other types. minLength: `1`. |
+| `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
+| `occurred_at` | Required | string | RFC3339 timestamp. Format: `date-time`. minLength: `1`. |
+| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `reason` | Required | string | Why the disposition was made. Values: `"inspection_result"`, `"return_policy"`, `"warehouse_override"`, `"safety_requirement"`, `"other"`. |
+| `reason_message` | Optional | string | Optional detail about `reason`, kept with the record. minLength: `1`. |
+| `replaces_return_disposition_id` | Optional | string | ID of the `failed` or `canceled` disposition this one replaces. It takes over that disposition's unused capacity. minLength: `1`. |
+| `return_id` | Required | string | ID of the Return the disposition belongs to. minLength: `1`. |
+| `return_inspection_line_item_id` | Optional | string | ID of the inspection line the disposition covers. Absent when it covers a receipt line. minLength: `1`. |
+| `return_receipt_line_item_id` | Optional | string | ID of the receipt line the disposition covers. Absent when it covers an inspection line. minLength: `1`. |
+
+#### returnDispositions.create: CreateReturnDispositionRequestReceiptLine
+
+The `Receipt line` variant of `CreateReturnDispositionRequest`.
+
+Body model: [CreateReturnDispositionRequestReceiptLineInput](../models/CreateReturnDispositionRequestReceiptLineInput.md#createreturndispositionrequestreceiptlineinput).
+
+#### returnDispositions.create: CreateReturnDispositionRequestInspectionLine
+
+The `Inspection line` variant of `CreateReturnDispositionRequest`.
+
+Body model: [CreateReturnDispositionRequestInspectionLineInput](../models/CreateReturnDispositionRequestInspectionLineInput.md#createreturndispositionrequestinspectionlineinput).
+
+#### Response
+
+Returned payload: [ReturnDisposition](../models/ReturnDisposition.md#returndisposition).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->returnDispositions->create([
+  'disposition_type' => 'sellable',
+  'inventory_location_id' => 'loc_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+  'occurred_at' => '2026-09-08T14:20:00Z',
+  'quantity' => 1,
+  'reason' => 'return_policy',
+  'return_id' => 'ret_01KEZF7C00VDTZH2NK73DBK2HZ',
+  'return_receipt_line_item_id' => 'retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE',
+], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/returnDispositions-create.php)
+
 ### returnDispositions.get
 
 Retrieve one disposition with its type, destination, quantity, status, and any linked inventory effect.

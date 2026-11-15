@@ -10,12 +10,14 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `address_verification` | Optional | [SubscriptionAddressVerification](../models/SubscriptionAddressVerification.md#subscriptionaddressverification) | The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`. |
+| `address_verification` | Optional | [SubscriptionAddressVerification](../models/SubscriptionAddressVerification.md#subscriptionaddressverification) | How far verification of the destination address got. Omitted when no verification state applies. The verification state of a subscription's delivery address: `verified`, `unverified`, `needs_review`, or `unverifiable`. |
 | `currency` | Optional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
 | `delivery_methods` | Required | Array of [SubscriptionDeliveryOption](../models/SubscriptionDeliveryOption.md#subscriptiondeliveryoption) | Delivery methods available for the proposed destination. |
-| `destination_address` | Optional | [Address](../models/Address.md#address) | A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
+| `destination_address` | Optional | [Address](../models/Address.md#address) | The destination address the delivery methods were evaluated for: the address you sent, or the saved customer address you chose. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 | `mode` | Required | string | Values: `"delivery_options"`. |
-| `subscription_id` | Optional | string | Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
+| `shipping_countries` | Required | Array of string | Sorted ISO 3166-1 alpha-2 countries potentially served by this subscription's shipping methods, based on their delivery configuration and shipping zones. Restrict a country selector with this list only when shipping_countries_complete is true. Empty when no shipping coverage is available. Other address, cart, customer and rate checks still apply. |
+| `shipping_countries_complete` | Required | boolean | Whether shipping_countries is safe to use as a country restriction. False when a radius without an explicit country boundary may serve addresses across a border; clients must not restrict the country selector in that case. Other address, cart, customer and rate checks still apply when true. |
+| `subscription_id` | Optional | string | ID of the subscription the delivery methods were listed for. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
 
 ### SubscriptionPreview variant 1: `mode` = `"delivery_options"`
 
@@ -27,5 +29,5 @@ anyOf BuyerSubscriptionPreview: Declared schema BuyerSubscriptionPreview. Availa
 
 anyOf SubscriptionPreview: Declared schema SubscriptionPreview. Delivery methods available for a proposed subscription destination..
 
-No additional constraints.
+- Constraints for `mode`: The kind of subscription preview. Values: `"delivery_options"`.
 

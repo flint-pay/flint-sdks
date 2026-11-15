@@ -16,10 +16,11 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $settled_at
  * @property-read string|\DateTimeInterface $started_at
  * @property-read string $status
+ * @property-read list<string> $supported_actions
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class InvoicePaymentAttemptInput extends Model {
-    /** @param array{'canceled_at'?: string|\DateTimeInterface, 'cancellation_requested_at'?: string|\DateTimeInterface, 'checkout_session_id'?: string, 'expected_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expires_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string|\DateTimeInterface, 'started_at'?: string|\DateTimeInterface, 'status': string, 'updated_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'canceled_at'?: string|\DateTimeInterface, 'cancellation_requested_at'?: string|\DateTimeInterface, 'checkout_session_id'?: string, 'expected_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'expires_at'?: string|\DateTimeInterface, 'invoice_id': string, 'invoice_payment_attempt_id': string, 'invoice_schedule_entry_id'?: string, 'last_payment_error'?: PaymentErrorSummaryInput|array<array-key, mixed>|\stdClass, 'payment_intent_id'?: string, 'rail': string, 'settled_at'?: string|\DateTimeInterface, 'started_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePaymentAttemptInput')); }
     /** When the attempt was canceled. An attempt canceled with its checkout session before payment started may not have it. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -99,12 +100,18 @@ final class InvoicePaymentAttemptInput extends Model {
      */
     public function getStartedAt(): string|\DateTimeInterface { return $this->get('started_at'); }
     public function hasStartedAt(): bool { return $this->has('started_at'); }
-    /** Current payment attempt status. settled means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.settled reports that completion. Value enum: "open", "settled", "failed", "canceled", "expired", "processing".
+    /** Current payment attempt status. succeeded means this attempt completed successfully, even if the invoice still has an outstanding balance. invoice_payment_attempt.succeeded reports that completion. Value enum: "open", "succeeded", "failed", "canceled", "expired", "processing".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Lifecycle actions accepted now. An open or processing attempt can be canceled; the payment processor can still refuse cancellation. [] enum: "cancel". [] (Value): string.  Value enum: "cancel".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** When this attempt last changed. Duplicate payment notifications preserve this timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

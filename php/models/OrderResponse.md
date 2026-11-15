@@ -109,18 +109,20 @@ The payment attempt currently collecting this order. Omitted when no attempt is 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `expected_outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `gift_card_redemptions` | Required | Array of [PaymentAttemptGiftCardRedemption](../models/PaymentAttemptGiftCardRedemption.md#paymentattemptgiftcardredemption) | `gift_card_redemptions[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptgift_card_redemptions). |
+| `expected_outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The outstanding balance this attempt was started to collect, fixed when it started. For an order that gift cards partly cover, it includes the gift card part. Later changes to the order's balance don't change it, and a resume request that sends `expected_outstanding_money` is compared with this amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `gift_card_redemptions` | Required | Array of [PaymentAttemptGiftCardRedemption](../models/PaymentAttemptGiftCardRedemption.md#paymentattemptgiftcardredemption) | Gift cards this attempt holds or has redeemed, one entry per card. Each amount is reserved while the attempt is open and is taken from the card when the attempt succeeds. A failed or canceled attempt releases it. Empty when no gift card is used. `gift_card_redemptions[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptgift_card_redemptions). |
 | `is_resumable` | Required | boolean | Whether the attempt can continue through PayOrder with action: resume and this order_payment_attempt_id after any pending client action is complete. If false, check status before starting another payment; the attempt may still be in progress. |
 | `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) | The concluded failure of a payment leg that failed this attempt. Absent for non-payment failures. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. `last_payment_error`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptlast_payment_error). |
-| `mode` | Required | string | Values: `"payment"`, `"setup"`, `"settlement"`. |
+| `mode` | Required | string | Whether the attempt collects the order's balance, saves a payment method without charging it, or settles the order without a processor payment. Values: `"payment"`, `"setup"`, `"settlement"`. |
+| `order_id` | Required | string | The order this payment attempt collects money for or saves a payment method for. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_payment_attempt_id` | Required | string | Unique identifier for this order payment attempt, prefixed `opat_`. Example: `"opat_01KEZF7C00B5PW9F2R8A4YSH5D"`. |
-| `payment_intents` | Required | Array of [PaymentAttemptPaymentIntent](../models/PaymentAttemptPaymentIntent.md#paymentattemptpaymentintent) | `payment_intents[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpayment_intents). |
+| `payment_intents` | Required | Array of [PaymentAttemptPaymentIntent](../models/PaymentAttemptPaymentIntent.md#paymentattemptpaymentintent) | The payment intents this attempt collects through, each with its amount, status, tip, and latest error. Empty for an attempt that collects no processor payment, such as a setup, or an order that gift cards or return credit settle alone. `payment_intents[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpayment_intents). |
 | `payment_method_save` | Optional | [OrderPaymentAttemptPaymentMethodSave](../models/OrderPaymentAttemptPaymentMethodSave.md#orderpaymentattemptpaymentmethodsave) | Set when the pay request sent save_payment_method: true and the attempt paid without saving the payment method. A card typed into checkout and saved has no entry here; read payment_method_save on the checkout session for a card waiting for confirmation. What became of the buyer's save_payment_method. The payment does not depend on it. |
-| `pending_actions` | Required | Array of [PendingPaymentAction](../models/PendingPaymentAction.md#pendingpaymentaction) | `pending_actions[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpending_actions). |
+| `pending_actions` | Required | Array of [PendingPaymentAction](../models/PendingPaymentAction.md#pendingpaymentaction) | Steps the buyer must finish in your client before the attempt can continue, such as authentication. Empty when none is pending. Complete them, then resume the attempt. `pending_actions[]`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpending_actions). |
 | `started_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `status` | Required | string | Values: [10 declared values](#orderresponsedataactive_payment_attempt-status-values). |
+| `status` | Required | string | Where the attempt is in collecting payment or saving a payment method. `partially_succeeded`, `succeeded`, `failed`, `canceled`, and `expired` are final. Values: [10 declared values](#orderresponsedataactive_payment_attempt-status-values). |
 | `status_reason` | Optional | string | Non-payment reason an attempt failed, was canceled, or expired. Failed attempts with an unmapped non-payment reason report other. Canceled and expired attempts include a reason only when it adds information beyond status. New values may be added. Values: [30 declared values](BuyerOrderPaymentAttemptInput.md#buyerorderpaymentattemptinput-status_reason-values). |
+| `supported_actions` | Required | Array of string | Lifecycle actions accepted now. Cancel is available during collection until a payment leg succeeds. Finalizing and terminal attempts list no actions. Items values: `"cancel"`. |
 
 #### OrderResponse.data.active_payment_attempt status values
 
@@ -141,11 +143,11 @@ A gift card redemption made as part of an order payment attempt, with the amount
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `gift_card_id` | Required | string | Example: `"gc_01KEZF7C00RT1618WYBM1Y94CG"`. |
-| `gift_card_redemption_id` | Required | string | Example: `"gcr_01KEZF7C002YD2G2J734RRZTWT"`. |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount reserved on the gift card for this attempt, in USD, including `tip_money`. It is taken from the card only if the attempt succeeds. A failed or canceled attempt releases it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `gift_card_id` | Required | string | ID of the gift card redeemed. Example: `"gc_01KEZF7C00RT1618WYBM1Y94CG"`. |
+| `gift_card_redemption_id` | Required | string | ID of the redemption that holds this amount on the gift card. Example: `"gcr_01KEZF7C002YD2G2J734RRZTWT"`. |
 | `last4` | Required | string | Last four characters of the card's current code. |
-| `tip_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `tip_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of `amount_money` that is a tip. Zero when the redemption carries no tip. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 ### OrderResponse.data.active_payment_attempt.last_payment_error
 
@@ -156,7 +158,7 @@ The concluded failure of a payment leg that failed this attempt. Absent for non-
 | `code` | Required | string | Flint-normalized payment failure code. Unknown provider values are returned as payment_failed. Values: [27 declared values](ErrorDetailInput.md#errordetailinput-failure_code-values). |
 | `failed_at` | Required | string | Time the payment attempt concluded in failure. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `message` | Required | string | Flint-authored merchant-facing payment failure message. This is stable explanatory text, not raw provider copy. |
-| `remediation` | Required | [ErrorRemediation](../models/ErrorRemediation.md#errorremediation) or null | Guidance for resolving the payment failure before trying to collect again. |
+| `remediation` | Required | [ErrorRemediation](../models/ErrorRemediation.md#errorremediation) | Guidance for resolving the payment failure before trying to collect again. Recovery guidance for an error: whether and how to `retry`, plus next steps and suggested actions. |
 
 ### OrderResponse.data.active_payment_attempt.payment_intents[]
 
@@ -168,16 +170,16 @@ A payment intent used as one leg of an order payment attempt, with its amount, s
 | `authorization_expires_at` | Optional | string | Effective Flint capture deadline, equal to the earlier of the provider capture deadline and this attempt's sealed resource guarantee. Capture is refused at or after this time, even while status is requires_capture. Omitted until a hold is placed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `capturable_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Payment intent's stored capturable amount. A positive amount does not override authorization_expires_at or the payment status. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `captured_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Money collected through this payment, once nothing more can be collected. Positive when money was collected, including a payment Flint couldn't accept and is refunding (the payment intent's cancellation_reason is payment_returned). Zero when nothing was collected, for example after a decline or a released authorization. Absent while the outcome can still change, such as an ACH debit that hasn't settled or an open hold. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) | A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. `last_payment_error`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpayment_intentslast_payment_error). |
+| `last_payment_error` | Optional | [PaymentErrorSummary](../models/PaymentErrorSummary.md#paymenterrorsummary) | The most recent payment error recorded on this payment, when it has a public error code. Absent when none is recorded. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation. `last_payment_error`: [field definitions](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpayment_intentslast_payment_error). |
 | `payment_intent_id` | Required | string | Flint payment intent ID. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 | `reader_id` | Optional | string | The reader the payment is or was last presented on. Set when Flint presents it and kept afterward. While processing or requires_action with a reader_id, the payment is on that reader now. Example: `"rdr_01KEZF7C007JA0G24M7SD6P46C"`. |
 | `selected_payment_option` | Optional | string | Payment option used by this leg, using the same values as PaymentIntent.selected_payment_option. Fixed when the attempt becomes terminal. Omitted when no payment option has been selected. Values: `"card"`, `"apple_pay"`, `"google_pay"`, `"affirm"`, `"ach_debit"`, `"card_present"`. |
 | `status` | Required | string | Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
-| `tip_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `tip_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of `amount_money` that is a tip. Zero when the payment carries no tip. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 ### OrderResponse.data.active_payment_attempt.payment_intents[].last_payment_error
 
-A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation.
+The most recent payment error recorded on this payment, when it has a public error code. Absent when none is recorded. A summary of why a payment attempt failed, with a normalized error code, a message, the failure time, and remediation.
 
 Field definitions: [shared fields](#orderresponsedataactive_payment_attemptlast_payment_error).
 
@@ -627,6 +629,7 @@ An item purchased in an order.
 | `order_line_item_id` | Required | string | Unique identifier for this order line item, prefixed `li_`. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `payment_link_line_item_key` | Required | string or null | The `key` of the payment link line item this line was created from. Match order lines to the link's line items with it instead of by name. Flint sets it when checkout starts and it never changes; metadata updates don't affect it. `null` when the line didn't come from a payment link line item: the order didn't come from a payment link, the line was added to the order later, or the line came from a subscription plan through a subscription signup link. minLength: `1`. maxLength: `100`. |
 | `product_id` | Optional | string | ID of the catalog product the item was sold from. Required whenever variant_id is present. Absent on bundle and custom lines, which have no parent product. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
+| `product_type` | Required | string or null | Product classification frozen on this line. Null when the line is unclassified. Custom lines accept physical, digital, service, or fee; catalog lines use the product's type when added. Unclassified non-goods lines keep ACH debit unavailable. Issued invoices retain their frozen classification; void and reissue to change it. Values: `"physical"`, `"service"`, `"fee"`, `"digital"`, `"gift_card"`, `null`. |
 | `purchased_gift_cards` | Required | Array of [PurchasedGiftCard](../models/PurchasedGiftCard.md#purchasedgiftcard) | Masked card identities for fully funded units of this purchase line. Partial consideration does not issue a card. `purchased_gift_cards[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemspurchased_gift_cards). |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount of this line already refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
@@ -726,10 +729,10 @@ Recurring offer and cadence frozen for this line at signup. The subscription off
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
-| `billing_interval_count` | Required | integer | Format: `int32`. |
+| `billing_interval` | Required | string | Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the pair must be one of the offer's billing interval options. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Required | integer | Number of billing_interval units between charges, from 1 to 365. Format: `int32`. |
 | `recurring_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Line amount for the first renewal, including modifiers and recurring discounts, before shipping and tax. Signup-only discounts are excluded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `subscription_offer_id` | Required | string | Example: `"soffer_01KEZF7C00KAA9Y1X1KM70YFAA"`. |
+| `subscription_offer_id` | Required | string | ID of the subscription offer the line was bought under. Example: `"soffer_01KEZF7C00KAA9Y1X1KM70YFAA"`. |
 
 ### OrderResponse.data.line_items[].subscription_offer
 
@@ -737,10 +740,10 @@ Applicable active offer for a one-time line, or the offer terms frozen for a sub
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_interval_options` | Required | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) |  |
-| `discount` | Optional | [OrderLineSubscriptionOfferDiscount](../models/OrderLineSubscriptionOfferDiscount.md#orderlinesubscriptionofferdiscount) | The discount a subscription offer gives, as a fixed amount or a percentage. |
-| `name` | Required | string |  |
-| `subscription_offer_id` | Required | string | Example: `"soffer_01KEZF7C00KAA9Y1X1KM70YFAA"`. |
+| `billing_interval_options` | Required | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | Billing intervals the offer lists for the line. On a subscribed line they are the options frozen when the buyer signed up. |
+| `discount` | Optional | [OrderLineSubscriptionOfferDiscount](../models/OrderLineSubscriptionOfferDiscount.md#orderlinesubscriptionofferdiscount) | The recurring discount the offer's promotion gives on every charge. Omitted when the offer has no promotion or its discount can't be shown in the order's currency. The discount a subscription offer gives, as a fixed amount or a percentage. |
+| `name` | Required | string | Name of the offer. On a subscribed line it is the name frozen when the buyer signed up. |
+| `subscription_offer_id` | Required | string | ID of the subscription offer. On a one-time line it is the active offer that covers the line's variant, which you can send as `subscription_offer_id` to sign the buyer up. On a subscribed line it is the offer the buyer chose. Example: `"soffer_01KEZF7C00KAA9Y1X1KM70YFAA"`. |
 
 ### OrderResponse.data.metadata
 
@@ -762,6 +765,7 @@ A payment intent's summary fields, including amount, status, and capture method,
 | `payment_source` | Optional | [PaymentSourceSummary](../models/PaymentSourceSummary.md#paymentsourcesummary) | Summary of the card or bank account used for the payment. Absent until a payment source is attached. A summary of the payment source used for a payment, by funding-method family, with card or bank account display details. |
 | `refund_status` | Optional | string | How much of captured_money has been refunded, including value issued as store credit, based on refunded_money. Values: `"none"`, `"partially_refunded"`, `"refunded"`. |
 | `status` | Required | string | Lifecycle status. requires_payment_method covers both a new payment intent and one whose last attempt failed, so read last_payment_error with it. succeeded, canceled, and expired are final. Refunds and disputes never change status. Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
+| `supported_actions` | Required | Array of string | Verbs this payment intent accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and can change without a payment intent version change. Order legs list confirm when a single leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance require pay_order instead. Invoice payments list only cancel; subscription payments list none. Order edit payments list confirm while awaiting payment details or action. A listed action can still be refused due to an open risk review, an order payment attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner and its command in remediation.next_actions. Always empty for buyer credentials. New actions may be added. Items values: `"confirm"`, `"capture"`, `"cancel"`. |
 | `updated_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: `uint64`. minimum: `1`. |
 
@@ -784,10 +788,10 @@ A return credit applied to an order payment, with the amount and the return and 
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The amount of the credit applied to this order. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `return_id` | Required | string | Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
-| `return_resolution_id` | Required | string | Example: `"retres_01KEZF7C00C7RZJN31W9SGMEQ3"`. |
+| `return_id` | Required | string | ID of the return that created this replacement order, the return the credit comes from. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
+| `return_resolution_id` | Required | string | ID of the return resolution that issued the credit. Example: `"retres_01KEZF7C00C7RZJN31W9SGMEQ3"`. |
 
 ### OrderResponse.data.subscription
 
@@ -795,31 +799,32 @@ Subscription summary included when `expand` names `subscription`; `null` when ex
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_anchor_day` | Conditional | integer | Format: `int32`. |
-| `cancel_at_period_end` | Conditional | boolean |  |
+| `billing_anchor_day` | Conditional | integer | UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: `int32`. |
+| `cancel_at_period_end` | Conditional | boolean | True when the subscription is scheduled to cancel instead of renewing. |
 | `created_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `current_period_end_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `current_period_start_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `customer_id` | Conditional | string | Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
+| `customer_id` | Conditional | string | The customer this subscription bills. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `next_billing_at` | Conditional | string | When Flint next starts a scheduled renewal charge, as an RFC3339 timestamp. Present only while a trialing or active subscription has a billing date and isn't set to cancel at the end of its period. Absent when no renewal is scheduled: a paused subscription resumes at scheduled_resume_at, a past_due one reports the failed billing date in missed_billing_at and retries at next_retry_at, an incomplete one retries at next_retry_at, a scheduled start begins at starts_at, one set to cancel ends at scheduled_cancel_at, and an external schedule awaiting a date reports is_awaiting_billing_schedule. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `status` | Conditional | string | Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. |
+| `status` | Conditional | string | Where the subscription is in its lifecycle. Each value says what it means. Values: `"trialing"`, `"active"`, `"paused"`, `"past_due"`, `"canceled"`, `"incomplete"`, `"scheduled"`. |
 | `subscription_id` | Conditional | string | Unique identifier for this subscription, prefixed `sub_`. Example: `"sub_01KEZF7C00BVRE8YDBXQB74BBM"`. |
-| `subscription_plan_id` | Conditional | string | Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
-| `terms_type` | Conditional | string | Values: `"subscription_plan"`, `"subscription_offer"`. |
+| `subscription_plan_id` | Conditional | string | ID of the subscription plan the terms come from. An empty string when `terms_type` is `subscription_offer`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
+| `supported_actions` | Conditional | Array of string | Merchant lifecycle actions accepted by the subscription's current state. Items values: `"cancel"`, `"pause"`, `"resume"`, `"skip_cycle"`, `"renew"`, `"change_plan"`, `"change_quantity"`. |
+| `terms_type` | Conditional | string | Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Values: `"subscription_plan"`, `"subscription_offer"`. |
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
 ### OrderResponse.data.subscription variant 1
 
 anyOf ExpandedSubscriptionSummary: A subscription's summary fields, including status, billing period, and next billing time, returned when the subscription is expanded..
 
-- Required: `billing_anchor_day`, `cancel_at_period_end`, `customer_id`, `status`, `subscription_id`, `subscription_plan_id`, `terms_type`.
+- Required: `billing_anchor_day`, `cancel_at_period_end`, `customer_id`, `status`, `subscription_id`, `subscription_plan_id`, `supported_actions`, `terms_type`.
 - Optional: `created_at`, `current_period_end_at`, `current_period_start_at`, `next_billing_at`, `updated_at`.
 
 ### OrderResponse.data.subscription variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_anchor_day`, `cancel_at_period_end`, `created_at`, `current_period_end_at`, `current_period_start_at`, `customer_id`, `next_billing_at`, `status`, `subscription_id`, `subscription_plan_id`, `terms_type`, `updated_at`.
+- Undeclared: `billing_anchor_day`, `cancel_at_period_end`, `created_at`, `current_period_end_at`, `current_period_start_at`, `customer_id`, `next_billing_at`, `status`, `subscription_id`, `subscription_plan_id`, `supported_actions`, `terms_type`, `updated_at`.
 - Value shape: null. Subscription summary included when `expand` names `subscription`; `null` when expanded and this order does not bill a subscription. Present only when `expand` includes `subscription`; `null` when expanded and there is no related subscription. 
 
 ### OrderResponse.data.subscription_plan
@@ -828,19 +833,19 @@ Plan summary included when `expand` names `subscription_plan`; `null` when expan
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_interval` | Conditional | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
-| `billing_interval_count` | Conditional | integer | Format: `int32`. |
-| `billing_interval_options` | Conditional | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | Offered billing interval and count pairs, including the plan's default pair. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: `12`. uniqueItems: `true`. |
+| `billing_interval` | Conditional | string | Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with a count of 3 bills every three months. A new subscription starts on the pair the buyer chose from `billing_interval_options`, or on this one when they chose none. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval_count` | Conditional | integer | Number of `billing_interval` units between charges on the plan's default pair. Format: `int32`. |
+| `billing_interval_options` | Conditional | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | Offered billing interval and count pairs, including the plan's default pair. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: `12`. uniqueItems: `true`. |
 | `created_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `currency` | Conditional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
-| `description` | Conditional | string |  |
-| `line_items` | Conditional | Array of (object and Alternative shapes (see declared variants)) | `line_items[]`: [declared alternatives](../models/OrderResponse.md#orderresponsedatasubscription_plan-variant-1line_items). |
-| `name` | Conditional | string |  |
-| `quantity_options` | Conditional | Array of integer | maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
-| `setup_fee_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `description` | Conditional | string | Description of the plan. Omitted when none is set. |
+| `line_items` | Conditional | Array of (object and Alternative shapes (see declared variants)) | The lines a subscription on this plan bills each period, in the order you set them. Flint copied each catalog line's details from the catalog when it added the line. `line_items[]`: [declared alternatives](../models/OrderResponse.md#orderresponsedatasubscription_plan-variant-1line_items). |
+| `name` | Conditional | string | Name of the plan. Buyers see it at checkout and on their subscription. |
+| `quantity_options` | Conditional | Array of integer | Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending order. Flint accepts only a subscription quantity of 1, so you can set this list only to `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line item. A plan saved before that rule can still list up to 10 quantities. maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
+| `setup_fee_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | One-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `status` | Conditional | string | Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `subscription_plan_id` | Conditional | string | Unique identifier for this subscription plan, prefixed `plan_`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
-| `trial_period_days` | Conditional | integer | Format: `int32`. |
+| `trial_period_days` | Conditional | integer | Days of free trial before the first recurring charge. Omitted or 0 when the plan has no trial. Format: `int32`. |
 | `updated_at` | Conditional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
 ### OrderResponse.data.subscription_plan variant 1
@@ -864,26 +869,26 @@ A line item on a subscription plan.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allow_quantity_adjustment` | Optional | boolean | Whether buyers may adjust this line quantity. Defaults to false. At most one line per plan may allow adjustment. Default: `false`. |
-| `bundle_components` | Optional | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) | `bundle_components[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_components). |
-| `bundle_id` | Conditional | string | Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
-| `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) | `categories[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemscategories). |
-| `description` | Optional | string |  |
-| `image` | Optional | [Image](../models/Image.md#image) | An image with its URL, size, and alt text. |
+| `bundle_components` | Optional | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) | Components of the bundle, fixed when the line was added. Omitted on variant and custom lines. `bundle_components[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_components). |
+| `bundle_id` | Conditional | string | ID of the catalog bundle the line sells. Present on a bundle line. Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
+| `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) | Catalog categories of the product or bundle, fixed when the line was added. Omitted on custom lines. `categories[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemscategories). |
+| `description` | Optional | string | Description of the line. A variant line uses the product description and a bundle line uses the bundle description; Flint copied it when the line was added. A custom line uses the description you sent. Omitted when there is none. |
+| `image` | Optional | [Image](../models/Image.md#image) | Primary image of the variant (or its product) or bundle, fixed when the line was added. Omitted on custom lines and when the item has no image. An image with its URL, size, and alt text. |
 | `max_quantity` | Optional | integer | Maximum buyer quantity. Defaults to 9999. Merchants may set any line quantity from 1 to 9999. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. Default: `9999`. |
 | `min_quantity` | Optional | integer | Minimum buyer quantity. Defaults to 1. The bounds must enclose the plan line quantity. Whole-number quantity; fractional quantities are not supported. Format: `int32`. minimum: `1`. maximum: `9999`. Default: `1`. |
-| `modifiers` | Optional | Array of [OrderLineItemModifier](../models/OrderLineItemModifier.md#orderlineitemmodifier) | `modifiers[]`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifiers). |
-| `name` | Conditional | string |  |
-| `product_id` | Optional | string | Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
+| `modifiers` | Optional | Array of [OrderLineItemModifier](../models/OrderLineItemModifier.md#orderlineitemmodifier) | Modifiers chosen for the line, with their prices, fixed when the line was added or last changed. Omitted when the line has none. `modifiers[]`: [field definitions](../models/FulfillmentResponse.md#fulfillmentresponsedataline_itemsmodifiers). |
+| `name` | Conditional | string | Name of the line. A variant line uses the product name, followed by the variant name when the variant has options, and a bundle line uses the bundle name; Flint copied it when the line was added. A custom line uses the name you sent. |
+| `product_id` | Optional | string | ID of the product the line's variant belongs to. Present on a variant line; absent on bundle and custom lines, which have no parent product. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
-| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
-| `sku` | Optional | string |  |
+| `selected_options` | Optional | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | Option values that identify the variant, such as size and color, fixed when the line was added. Omitted on bundle and custom lines. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
+| `sku` | Optional | string | SKU of the variant or bundle, fixed when the line was added. Omitted on custom lines and when the item has no SKU. |
 | `subscription_plan_line_item_id` | Required | string | Unique identifier for this subscription plan line item, prefixed `spli_`. Example: `"spli_01KEZF7C00H9FGC2KBRF82H87N"`. |
-| `swap_variant_ids` | Required | Array of string | maxItems: `25`. uniqueItems: `true`. Items: pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
+| `swap_variant_ids` | Required | Array of string | IDs of the variants a subscriber can swap this line to, in the order you set. Empty when none are set, and always empty on bundle and custom lines. maxItems: `25`. uniqueItems: `true`. Items: pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 | `swap_variants` | Optional | Array of object | Current sellable alternatives in swap_variant_ids order, excluding the line's own variant and variants priced in a different currency. Present on variant lines, including an empty array. maxItems: `25`. `swap_variants[]`: [field definitions](../models/OrderResponse.md#orderresponsedatasubscription_plan-variant-1line_itemsswap_variants). |
-| `tax` | Optional | object | A line item's tax category and whether it is taxable. `tax`: [field definitions](../models/OrderResponse.md#orderresponsedatasubscription_plan-variant-1line_itemstax). |
-| `type` | Required | string | Values: `"variant"`, `"bundle"`, `"custom"`. |
-| `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `variant_id` | Conditional | string | Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
+| `tax` | Optional | object | How tax applies to the line. A variant line takes its taxable setting and tax category from the variant, and a bundle line from its components; Flint copied them when the line was added. A taxable variant or bundle line with no tax category gets your default line item tax category, or `general`. A custom line has the tax you sent. A line item's tax category and whether it is taxable. `tax`: [field definitions](../models/OrderResponse.md#orderresponsedatasubscription_plan-variant-1line_itemstax). |
+| `type` | Required | string | How the line is sold: from a catalog variant, from a catalog bundle, or as a custom line. Values: `"variant"`, `"bundle"`, `"custom"`. |
+| `unit_price_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Price of one unit in the plan's currency, before modifiers, discounts, and tax. A variant or bundle line keeps the catalog price from when the line was added. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `variant_id` | Conditional | string | ID of the catalog variant the line sells. Present on a variant line. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 
 ### OrderResponse.data.subscription_plan variant 1.line_items[] variant 1: `type` = `"variant"`
 
@@ -934,13 +939,13 @@ A variant a subscriber can swap to on a plan line, with its name, options, and p
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `image` | Optional | [Image](../models/Image.md#image) | An image with its URL, size, and alt text. |
-| `name` | Required | string |  |
+| `image` | Optional | [Image](../models/Image.md#image) | Primary image of the variant or its product. Omitted when there is none. An image with its URL, size, and alt text. |
+| `name` | Required | string | Name of the variant, as the catalog shows it now: the product name, with the variant name when the variant has options. |
 | `product_id` | Required | string | Identifier of the product the offered swap variant belongs to. pattern: `^prod_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
-| `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
-| `sku` | Optional | string |  |
-| `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null |  |
-| `variant_id` | Required | string | pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
+| `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | Option values that identify the variant, such as size and color. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
+| `sku` | Optional | string | SKU of the variant. Omitted when it has none. |
+| `unit_price_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Current price of one unit of the variant, in the plan's currency. Flint leaves out a variant that has no price or is priced in another currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `variant_id` | Required | string | ID of the variant a subscriber can swap to. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 
 ### OrderResponse.data.subscription_plan variant 1.line_items[].swap_variants[].selected_options[]
 
@@ -948,7 +953,7 @@ Field definitions: [OrderResponse.data.line_items[].bundle_components[].variant.
 
 ### OrderResponse.data.subscription_plan variant 1.line_items[].tax
 
-A line item's tax category and whether it is taxable.
+How tax applies to the line. A variant line takes its taxable setting and tax category from the variant, and a bundle line from its components; Flint copied them when the line was added. A taxable variant or bundle line with no tax category gets your default line item tax category, or `general`. A custom line has the tax you sent. A line item's tax category and whether it is taxable.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -1111,9 +1116,9 @@ The tax calculated for one jurisdiction on an order, line item, or charge, with 
 | --- | --- | --- | --- |
 | `calculation_type` | Required | string | How the tax is figured: a percentage of the taxable amount, or a fixed amount. Values: `"percentage"`, `"flat_amount"`. |
 | `flat_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The fixed tax amount. Present on `flat_amount` rows. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `fulfillment_choice_group_id` | Optional | string | Example: `"dcgrp_01KEZF7C00KYKJQ897HWM86AT8"`. |
+| `fulfillment_choice_group_id` | Optional | string | ID of the delivery choice group whose delivery this row's tax covers. On a line item row, the row taxes the share of the line item that group delivers. On a charge row, it taxes that group's delivery charge. Set only on automatic tax rows outside the US, and only when delivery was chosen from a delivery quote. A delivery charge's row gets it only when the `delivery_charge_tax_basis` setting applied as the row was calculated, and a row frozen by payment or by issuing an invoice keeps the value it had. A delivery charge priced with `taxable_items_share` after its delivery choice is no longer available can carry the ID of the fulfillment that holds the charge instead. Omitted on external tax rows and on every other row. Example: `"dcgrp_01KEZF7C00KYKJQ897HWM86AT8"`. |
 | `jurisdiction` | Required | [TaxJurisdiction](../models/TaxJurisdiction.md#taxjurisdiction) | The taxing authority this row's tax is owed to. A taxing jurisdiction with its level, such as state or city, name, state, and country. |
-| `location_id` | Optional | string | Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `location_id` | Optional | string | ID of the location whose address was the seller origin for this row's tax: the location the goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for goods and charges that a fulfillment sends from one location. Separate shares of a line item can have different origin locations. Omitted when the tax was sourced from the merchant's legal origin, which covers services, goods with no fulfilling location yet, goods whose fulfillments can't be split by location, a charge whose fulfillments leave from more than one location, and every external tax row. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `order_charge_id` | Optional | string | ID of the order charge this row taxes. Absent on rows for a line item or a flat order tax. Example: `"och_01KEZF7C00XX8AKACP0GHKFWWT"`. |
 | `order_id` | Required | string | ID of the order this tax row belongs to, including the parent of any order_line_item_id or order_charge_id reference. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_line_item_id` | Optional | string | ID of the order line item this row taxes. Absent on rows for a charge or a flat order tax. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
@@ -1161,14 +1166,14 @@ A tip on an order, with its requested, settled, and refunded amounts, status, an
 | `effective_amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The tip amount the order collects. For a percent tip, the resolved amount. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `metadata` | Optional | Map of string | Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/OrderResponse.md#orderresponsedatachargesmetadata). |
 | `name` | Optional | string | Optional name that stays on the tip for your reporting. |
-| `order_tip_id` | Required | string | Example: `"tip_01KEZF7C00JRPYP11RTMB97MYH"`. |
-| `payment_intent_allocations` | Required | Array of [TipPaymentIntentAllocation](../models/TipPaymentIntentAllocation.md#tippaymentintentallocation) | `payment_intent_allocations[]`: [field definitions](../models/OrderResponse.md#orderresponsedatatipspayment_intent_allocations). |
+| `order_tip_id` | Required | string | ID of the tip, prefixed `tip_`. Example: `"tip_01KEZF7C00JRPYP11RTMB97MYH"`. |
+| `payment_intent_allocations` | Required | Array of [TipPaymentIntentAllocation](../models/TipPaymentIntentAllocation.md#tippaymentintentallocation) | How much of the tip each payment intent paid, one entry per payment intent. Flint adds an entry when it records that payment's tip on the order. `payment_intent_allocations[]`: [field definitions](../models/OrderResponse.md#orderresponsedatatipspayment_intent_allocations). |
 | `percent` | Optional | number | Tip percentage in percentage points, such as `18` for 18%, when the tip is set as a percent. multipleOf: `0.0001`. |
 | `refunded_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | How much of the tip has been refunded. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `settled_amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | How much of the tip has been paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `status` | Required | string | Whether the tip is awaiting payment, paid in full, refunded in part or in full, or canceled before collection. Values: `"requested"`, `"paid"`, `"partially_refunded"`, `"refunded"`, `"canceled"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `value_settlement_allocations` | Required | Array of [TipValueSettlementAllocation](../models/TipValueSettlementAllocation.md#tipvaluesettlementallocation) | `value_settlement_allocations[]`: [field definitions](../models/OrderResponse.md#orderresponsedatatipsvalue_settlement_allocations). |
+| `value_settlement_allocations` | Required | Array of [TipValueSettlementAllocation](../models/TipValueSettlementAllocation.md#tipvaluesettlementallocation) | How much of the tip gift cards paid, one entry per gift card redemption that included tip money. Empty when no gift card paid any of the tip. `value_settlement_allocations[]`: [field definitions](../models/OrderResponse.md#orderresponsedatatipsvalue_settlement_allocations). |
 
 ### OrderResponse.data.tips[].metadata
 
@@ -1180,8 +1185,8 @@ The part of a tip paid through one payment intent.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `payment_intent_id` | Required | string | Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of the tip this payment intent paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `payment_intent_id` | Required | string | ID of the payment intent that paid this part of the tip. Example: `"pi_01KEZF7C00G8H9D509YEV22P7R"`. |
 
 ### OrderResponse.data.tips[].value_settlement_allocations[]
 
@@ -1189,8 +1194,8 @@ The part of a tip paid through one value settlement.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `value_settlement_id` | Required | string | Example: `"ovst_01KEZF7C00EMVZ016PM34KKFGY"`. |
+| `amount_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of the tip this gift card redemption paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `value_settlement_id` | Required | string | ID of the value settlement Flint recorded for the gift card redemption that paid this part of the tip. Example: `"ovst_01KEZF7C00EMVZ016PM34KKFGY"`. |
 
 ### OrderResponse.meta
 

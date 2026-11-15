@@ -10,7 +10,7 @@ namespace Flint;
 final class PaymentSourceCardSummaryInput extends Model {
     /** @param array{'brand'?: string, 'card_present'?: PaymentSourceCardPresentDetailsInput|array<array-key, mixed>|\stdClass, 'last4'?: string, 'payment_method_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCardSummaryInput')); }
-    /** Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
+    /** The card network. Value enum: "visa", "mastercard", "amex", "discover", "diners", "jcb", "unionpay".
      * @return string
      * @throws SdkError When brand is omitted; use hasBrand() or valueOrDefault().
      */
@@ -22,13 +22,13 @@ final class PaymentSourceCardSummaryInput extends Model {
      */
     public function getCardPresent(): mixed { return $this->get('card_present'); }
     public function hasCardPresent(): bool { return $this->has('card_present'); }
-    /** last4
+    /** Last four digits of the card number.
      * @return string
      * @throws SdkError When last4 is omitted; use hasLast4() or valueOrDefault().
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** ID of the saved Flint payment method for this card. Absent when the card isn't saved, as with a card read on a reader. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

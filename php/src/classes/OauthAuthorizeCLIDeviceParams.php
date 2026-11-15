@@ -14,7 +14,7 @@ namespace Flint;
 final class OauthAuthorizeCLIDeviceParams extends Model {
     /** @param array{'client_id': string, 'device_name'?: string, 'merchant_id'?: string, 'mode'?: string, 'platform'?: string, 'sandbox_id'?: string, 'scope': string, 'session_mode'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OauthAuthorizeCLIDeviceParams')); }
-    /** Example: "flint-cli". Value enum: "flint-cli".
+    /** The public client ID, always `flint-cli`. The client has no secret: a client_secret field or an Authorization header returns invalid_client. Example: "flint-cli". Value enum: "flint-cli".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# Promotion to ReaderPaymentSourceTipInput
+# ProductVariantUpdatedMerchantEvent to ReaderPaymentSourceTip
 
+- [ProductVariantUpdatedMerchantEvent](ProductVariantUpdatedMerchantEvent.md)
 - [Promotion](Promotion.md)
 - [PromotionAmountOffMethod](PromotionAmountOffMethod.md)
 - [PromotionAmountOffMethodRequest](PromotionAmountOffMethodRequest.md)
@@ -101,5 +102,4 @@
 - [ReaderCreatedMerchantEvent](ReaderCreatedMerchantEvent.md)
 - [ReaderListResponse](ReaderListResponse.md)
 - [ReaderPaymentSourceTip](ReaderPaymentSourceTip.md)
-- [ReaderPaymentSourceTipInput](ReaderPaymentSourceTipInput.md)
 

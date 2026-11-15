@@ -19,13 +19,13 @@ namespace Flint;
 final class PayOrderRequestPayInput extends Model {
     /** @param array{'accepted_gift_card_allocation'?: OrderGiftCardAllocationAcceptanceInput|array<array-key, mixed>|\stdClass, 'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'buyer_ip_address'?: string, 'client_action_type'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_return_url'?: string, 'payment_source'?: PaymentSourceCredentialInput|array<array-key, mixed>|\stdClass, 'platform_fee'?: PlatformFeeRequestInput|array<array-key, mixed>|\stdClass, 'save_payment_method'?: bool, 'save_payment_method_phone'?: string, 'splits'?: list<PaymentSplitRequestInput|array<array-key, mixed>|\stdClass>}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayOrderRequestPayInput')); }
-    /** Accept the exact gift_card_estimate returned on the current order, including all selected cards and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and may use one processor payment intent for the processor_money remainder. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
+    /** The gift card allocation to apply to this payment. Send `order_version`, `gift_cards`, `gift_card_money`, and `processor_money` as they appear in the order's current `gift_card_estimate`. Accept the exact gift_card_estimate returned on the current order, including all selected cards and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and may use one processor payment intent for the processor_money remainder. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
      * @return OrderGiftCardAllocationAcceptanceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When accepted_gift_card_allocation is omitted; use hasAcceptedGiftCardAllocation() or valueOrDefault().
      */
     public function getAcceptedGiftCardAllocation(): mixed { return $this->get('accepted_gift_card_allocation'); }
     public function hasAcceptedGiftCardAllocation(): bool { return $this->has('accepted_gift_card_allocation'); }
-    /** Value enum: "pay".
+    /** Pay the order's outstanding balance with a payment source you send. Flint creates the payment for you. Value enum: "pay".
      * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
@@ -67,7 +67,7 @@ final class PayOrderRequestPayInput extends Model {
      */
     public function getPaymentReturnUrl(): string { return $this->get('payment_return_url'); }
     public function hasPaymentReturnUrl(): bool { return $this->has('payment_return_url'); }
-    /** The credential you provide to pay an order: a payment source token, a saved payment method ID, or a Stripe confirmation token.
+    /** A saved card on a checkout whose customer came from a code requires a code confirmed with this credential in the last 15 minutes when the order ships to a new address. Otherwise pay returns 409 ACTION_NOT_ALLOWED with reason verification_required and a next action to request purpose pay_to_new_address. Known addresses are saved addresses or destinations of earlier paid orders for this customer at this business; for a Flint wallet card, wallet addresses count too. Pickup and orders that ship nothing never require it. A merchant-named customer, typed card, Apple Pay, and Google Pay are unaffected. The credential you provide to pay an order: a payment source token, a saved payment method ID, or a Stripe confirmation token.
      * @return PaymentSourceCredentialInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payment_source is omitted; use hasPaymentSource() or valueOrDefault().
      */

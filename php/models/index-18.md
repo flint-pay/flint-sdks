@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# OrderReturnCreditSettlementInput to PaymentCollectionStripeElementsInput
+# OrderPaymentIntentSelectionInput to PaymentAttemptPaymentIntentInput
 
+- [OrderPaymentIntentSelectionInput](OrderPaymentIntentSelectionInput.md)
+- [OrderPaymentSourceCardSelectionInput](OrderPaymentSourceCardSelectionInput.md)
+- [OrderPaymentSourceSelectionInput](OrderPaymentSourceSelectionInput.md)
+- [OrderRefundedInstalledMerchantsEventInput](OrderRefundedInstalledMerchantsEventInput.md)
+- [OrderRefundedMerchantEventInput](OrderRefundedMerchantEventInput.md)
+- [OrderResponseInput](OrderResponseInput.md)
 - [OrderReturnCreditSettlementInput](OrderReturnCreditSettlementInput.md)
 - [OrderSettlementAmountsInput](OrderSettlementAmountsInput.md)
 - [OrderTaxInput](OrderTaxInput.md)
@@ -96,10 +102,4 @@
 - [PaymentAddOnFeeInput](PaymentAddOnFeeInput.md)
 - [PaymentAttemptGiftCardRedemptionInput](PaymentAttemptGiftCardRedemptionInput.md)
 - [PaymentAttemptPaymentIntentInput](PaymentAttemptPaymentIntentInput.md)
-- [PaymentClientActionInput](PaymentClientActionInput.md)
-- [PaymentClientActionStripeInput](PaymentClientActionStripeInput.md)
-- [PaymentClientActionURLInput](PaymentClientActionURLInput.md)
-- [PaymentCollectionInput](PaymentCollectionInput.md)
-- [PaymentCollectionStripeInput](PaymentCollectionStripeInput.md)
-- [PaymentCollectionStripeElementsInput](PaymentCollectionStripeElementsInput.md)
 

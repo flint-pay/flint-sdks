@@ -36,17 +36,17 @@ namespace Flint;
 final class SubscriptionPlan extends Model {
     /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<mixed>, 'contract_term_months'?: int, 'created_at': string, 'currency': string, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_method_subscription_counts': list<mixed>, 'delivery_required': bool, 'description'?: string, 'early_termination_fee_money'?: mixed, 'end_after': mixed, 'external_reference_id'?: string, 'gifts_enabled': bool, 'images': list<mixed>, 'inventory_routing_source'?: mixed, 'line_items'?: list<mixed>, 'merchant_id': string, 'metadata'?: mixed, 'name': string, 'plan_change_options': list<mixed>, 'quantity_options': list<int>, 'setup_fee_money'?: mixed, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlan')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with a count of 3 bills every three months. A new subscription starts on the pair the buyer chose from `billing_interval_options`, or on this one when they chose none. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32.
+    /** Number of `billing_interval` units between charges on the plan's default pair. Format: int32.
      * @return int
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Offered billing interval and count pairs, including the plan's default pair. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Offered billing interval and count pairs, including the plan's default pair. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOption}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans.
      * @return list<SubscriptionIntervalOption>
      */
     public function getBillingIntervalOptions(): array { return $this->get('billing_interval_options'); }
@@ -76,17 +76,17 @@ final class SubscriptionPlan extends Model {
      */
     public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
     public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
-    /**  [] (Value): {@see SubscriptionDeliveryMethodCounts}. Subscription counts by status for one delivery method.
+    /** How many of this plan's subscriptions use each delivery method, by status. Counts only subscriptions that are active, paused, or past due and have a delivery method. [] (Value): {@see SubscriptionDeliveryMethodCounts}. Subscription counts by status for one delivery method.
      * @return list<SubscriptionDeliveryMethodCounts>
      */
     public function getDeliveryMethodSubscriptionCounts(): array { return $this->get('delivery_method_subscription_counts'); }
     public function hasDeliveryMethodSubscriptionCounts(): bool { return $this->has('delivery_method_subscription_counts'); }
-    /** delivery_required
+    /** Whether any line on the plan needs delivery, so each renewal ships or delivers items. Flint works it out from the lines and sets it; you can't send it.
      * @return bool
      */
     public function getDeliveryRequired(): bool { return $this->get('delivery_required'); }
     public function hasDeliveryRequired(): bool { return $this->has('delivery_required'); }
-    /** description
+    /** Description of the plan. Omitted when none is set.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
@@ -111,7 +111,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getGiftsEnabled(): bool { return $this->get('gifts_enabled'); }
     public function hasGiftsEnabled(): bool { return $this->has('gifts_enabled'); }
-    /**  [] (Value): {@see ImageAttachment}. An image attached to a resource, with its display properties and attachment metadata.
+    /** Images of the plan in display order. The first image is the plan's primary image. [] (Value): {@see ImageAttachment}. An image attached to a resource, with its display properties and attachment metadata.
      * @return list<ImageAttachment>
      */
     public function getImages(): array { return $this->get('images'); }
@@ -121,7 +121,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getInventoryRoutingSource(): ?InventoryRoutingSource { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /**  [] (Value): {@see SubscriptionPlanLineItem}. A line item on a subscription plan.
+    /** The lines a subscription on this plan bills each period, in the order you set them. Flint copied each catalog line's details from the catalog when it added the line. [] (Value): {@see SubscriptionPlanLineItem}. A line item on a subscription plan.
      * @return list<SubscriptionPlanLineItemsItemVariant|SubscriptionPlanLineItemsItemBundle|SubscriptionPlanLineItemsItemCustom|\stdClass>|null
      */
     public function getLineItems(): ?array { return $this->get('line_items'); }
@@ -136,7 +136,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getMetadata(): ?array { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** name
+    /** Name of the plan. Buyers see it at checkout and on their subscription.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
@@ -146,12 +146,12 @@ final class SubscriptionPlan extends Model {
      */
     public function getPlanChangeOptions(): array { return $this->get('plan_change_options'); }
     public function hasPlanChangeOptions(): bool { return $this->has('plan_change_options'); }
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+    /** Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending order. Flint accepts only a subscription quantity of 1, so you can set this list only to `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
      * @return list<int>
      */
     public function getQuantityOptions(): array { return $this->get('quantity_options'); }
     public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** One-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */
     public function getSetupFeeMoney(): ?MoneyValue { return $this->get('setup_fee_money'); }
@@ -161,7 +161,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /**  [] (Value): string.
+    /** IDs of the delivery methods a subscriber can choose for this plan's lines that ship. When empty, the delivery methods in your checkout settings apply. [] (Value): string.
      * @return list<string>
      */
     public function getSubscriptionDeliveryMethodIds(): array { return $this->get('subscription_delivery_method_ids'); }
@@ -171,7 +171,7 @@ final class SubscriptionPlan extends Model {
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Format: int32.
+    /** Days of free trial before the first recurring charge. Omitted or 0 when the plan has no trial. Format: int32.
      * @return ?int
      */
     public function getTrialPeriodDays(): ?int { return $this->get('trial_period_days'); }

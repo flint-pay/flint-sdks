@@ -31,7 +31,7 @@ final class WorkloadIdentitiesCreateParams extends Model {
      */
     public function getIssuer(): string { return $this->get('issuer'); }
     public function hasIssuer(): bool { return $this->has('issuer'); }
-    /** minLength: 1. maxLength: 100.
+    /** A label that helps you tell workload identities apart, 1 to 100 characters. minLength: 1. maxLength: 100.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -43,13 +43,13 @@ final class WorkloadIdentitiesCreateParams extends Model {
      */
     public function getScopes(): array { return $this->get('scopes'); }
     public function hasScopes(): bool { return $this->has('scopes'); }
-    /** minLength: 1. maxLength: 1024.
+    /** The subject (`sub`) a token must carry, 1 to 1,024 characters. Compared as subject_match says. minLength: 1. maxLength: 1024.
      * @return string
      * @throws SdkError When subject is omitted; use hasSubject() or valueOrDefault().
      */
     public function getSubject(): string { return $this->get('subject'); }
     public function hasSubject(): bool { return $this->has('subject'); }
-    /** Default: "exact". Value enum: "exact", "glob".
+    /** How `subject` is compared with a token's `sub` claim. Defaults to exact. Default: "exact". Value enum: "exact", "glob".
      * @return string
      * @throws SdkError When subject_match is omitted; use hasSubjectMatch() or valueOrDefault().
      */

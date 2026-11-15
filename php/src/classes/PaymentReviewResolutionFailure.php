@@ -13,7 +13,7 @@ final class PaymentReviewResolutionFailure extends Model {
      */
     public function getFailedAt(): string { return $this->get('failed_at'); }
     public function hasFailedAt(): bool { return $this->has('failed_at'); }
-    /** refund_id
+    /** ID of the refund that failed and reopened the review.
      * @return string
      */
     public function getRefundId(): string { return $this->get('refund_id'); }

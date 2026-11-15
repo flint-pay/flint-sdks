@@ -6,8 +6,6 @@ namespace Flint;
  * @property-read ?CheckoutBuyerContact $buyer_contact
  * @property-read ?CheckoutBuyerFields $buyer_fields
  * @property-read bool $can_apply_promotion_code
- * @property-read ?bool $can_save_payment_method
- * @property-read ?bool $can_save_payment_method_with_phone
  * @property-read string $checkout_session_id
  * @property-read string|null $client_reference
  * @property-read ?string $closed_reason_message
@@ -16,7 +14,6 @@ namespace Flint;
  * @property-read ?CheckoutCustomTextConfig $custom_text
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
- * @property-read ?CheckoutCustomerPrefill $customer_prefill
  * @property-read ?CheckoutDerivedDeliveryResource $delivery
  * @property-read list<string> $delivery_method_ids
  * @property-read bool $delivery_selection_required
@@ -29,11 +26,7 @@ namespace Flint;
  * @property-read ?string $invoice_id
  * @property-read bool $is_in_recovery
  * @property-read ?CheckoutLegalConfig $legal
- * @property-read ?Image $merchant_icon
  * @property-read string $merchant_id
- * @property-read ?Image $merchant_logo
- * @property-read ?string $merchant_name
- * @property-read ?CheckoutMerchantSupport $merchant_support
  * @property-read ?array<array-key, string> $metadata
  * @property-read ExpandedOrderSummary|null $order
  * @property-read ?string $order_id
@@ -43,21 +36,14 @@ namespace Flint;
  * @property-read ?list<ExpandedPaymentIntentSummary> $payment_intents
  * @property-read ExpandedPaymentLinkSummary|null $payment_link
  * @property-read ?string $payment_link_id
- * @property-read ?Image $payment_link_image
- * @property-read ?CheckoutPaymentMethodSave $payment_method_save
  * @property-read ?string $payment_return_url
  * @property-read ?CheckoutPaymentConfig $payments
- * @property-read ?CheckoutSessionPlatformFee $platform_fee
  * @property-read ?CheckoutPrefill $prefill
  * @property-read list<CheckoutProblemResource> $problems
  * @property-read ?CheckoutPromotionConfig $promotion_config
- * @property-read string|null $recovery_expires_at
- * @property-read ?string $recovery_payment_attempt_id
  * @property-read ?CheckoutRedirects $redirects
- * @property-read ?bool $save_payment_method_requires_verification
- * @property-read ?list<string> $save_payment_method_types
+ * @property-read ?list<BuyerRefund> $refunds
  * @property-read ?SetupCollection $setup_collection
- * @property-read ?bool $show_flint_mark
  * @property-read string $status
  * @property-read ?string $subscription_plan_id
  * @property-read ?CheckoutSubscriptionTerms $subscription_terms
@@ -70,13 +56,12 @@ namespace Flint;
  * @property-read ?CheckoutTipConfig $tip
  * @property-read string $type
  * @property-read string $updated_at
- * @property-read ?string $url
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSessionCreatedInstalledMerchantsEventDataObject extends Model {
-    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'can_save_payment_method'?: bool, 'can_save_payment_method_with_phone'?: bool, 'checkout_session_id': string, 'client_reference': string|null, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers': list<mixed>, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'customer_prefill'?: mixed, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'inventory_reservation_ids'?: list<string>, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_icon'?: mixed, 'merchant_id': string, 'merchant_logo'?: mixed, 'merchant_name'?: string, 'merchant_support'?: mixed, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_link_image'?: mixed, 'payment_method_save'?: mixed, 'payment_return_url'?: string, 'payments'?: mixed, 'platform_fee'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'recovery_expires_at'?: string|null, 'recovery_payment_attempt_id'?: string, 'redirects'?: mixed, 'save_payment_method_requires_verification'?: bool, 'save_payment_method_types'?: list<string>, 'setup_collection'?: mixed, 'show_flint_mark'?: bool, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'supported_actions': list<string>, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'url'?: string, 'version': int, ...}|object $values */
+    /** @param array{'active_payment_attempt'?: mixed, 'buyer_contact'?: mixed, 'buyer_fields'?: mixed, 'can_apply_promotion_code': bool, 'checkout_session_id': string, 'client_reference': string|null, 'closed_reason_message'?: string, 'created_at': string, 'custom_field_answers': list<mixed>, 'custom_text'?: mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_method_ids': list<string>, 'delivery_selection_required': bool, 'expires_at'?: string, 'expires_in_seconds'?: int, 'external_reference_id'?: string, 'gift_card_challenge'?: mixed, 'inventory_reservation_ids'?: list<string>, 'invoice'?: mixed, 'invoice_id'?: string, 'is_in_recovery': bool, 'legal'?: mixed, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id'?: string, 'page_origin'?: string, 'payment_collection'?: mixed, 'payment_intent_ids'?: list<string>, 'payment_intents'?: list<mixed>, 'payment_link'?: mixed, 'payment_link_id'?: string, 'payment_return_url'?: string, 'payments'?: mixed, 'prefill'?: mixed, 'problems': list<mixed>, 'promotion_config'?: mixed, 'redirects'?: mixed, 'refunds'?: list<mixed>, 'setup_collection'?: mixed, 'status': string, 'subscription_plan_id'?: string, 'subscription_terms'?: mixed, 'superseding_checkout_session_id'?: string, 'supported_actions': list<string>, 'surface': string, 'tax'?: mixed, 'terminal_reason'?: string, 'theme'?: mixed, 'tip'?: mixed, 'type': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionCreatedInstalledMerchantsEventDataObject')); }
-    /** An attempt to pay an order.
+    /** The payment attempt now collecting this checkout's order, the same attempt as the order's active_payment_attempt. Read it to recover after losing a pay response, and resume it only when is_resumable is true. Omitted when no attempt is active. Pending actions that open a URL are left out; the pay response carries them. An attempt to pay an order.
      * @return ?OrderPaymentAttempt
      */
     public function getActivePaymentAttempt(): ?OrderPaymentAttempt { return $this->get('active_payment_attempt'); }
@@ -96,16 +81,6 @@ final class CheckoutSessionCreatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getCanApplyPromotionCode(): bool { return $this->get('can_apply_promotion_code'); }
     public function hasCanApplyPromotionCode(): bool { return $this->has('can_apply_promotion_code'); }
-    /** Whether checkout offers the buyer the option to save the card they type for faster checkout at this merchant. When true, PayOrder accepts save_payment_method: true for one newly collected card. False when the merchant turned checkout.saved_payment_details off, customer accounts are merchant hosted, card is not an available payment option, the checkout collects an invoice, a subscription, or a return, or the checkout acts for no customer and Flint cannot email the buyer a verification code. Returned only to the checkout credential; never in webhook payloads.
-     * @return ?bool
-     */
-    public function getCanSavePaymentMethod(): ?bool { return $this->get('can_save_payment_method'); }
-    public function hasCanSavePaymentMethod(): bool { return $this->has('can_save_payment_method'); }
-    /** Whether the buyer can save the card they type by giving a US or Canadian mobile phone number with the payment, in save_payment_method_phone on POST /v1/orders/{order_id}/pay, and confirming it with a texted code after paying. True while Flint can send texts and either save_payment_method_requires_verification is true, so the number replaces confirming an email before paying, or the checkout acts for the customer whose email the buyer confirmed with this credential, so the number joins that customer's saved details once the buyer confirms it. Returned only to the checkout credential; never in webhook payloads.
-     * @return ?bool
-     */
-    public function getCanSavePaymentMethodWithPhone(): ?bool { return $this->get('can_save_payment_method_with_phone'); }
-    public function hasCanSavePaymentMethodWithPhone(): bool { return $this->has('can_save_payment_method_with_phone'); }
     /** Unique identifier for this checkout session, prefixed `cs_`.
      * @return string
      */
@@ -146,11 +121,6 @@ final class CheckoutSessionCreatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getCustomerId(): ?string { return $this->get('customer_id'); }
     public function hasCustomerId(): bool { return $this->has('customer_id'); }
-    /** Contact and default addresses of the customer the checkout acts for, with the recipient name on its default shipping address: the customer the merchant created the session for, or the customer whose email the buyer confirmed in it. Present on GET and PATCH responses while the session is open and acts for a customer. Separate from merchant-supplied prefill and buyer_contact saved by the buyer. Returned only to the checkout credential; never in webhook payloads. Details the buyer's checkout can prefill from the customer it acts for.
-     * @return ?CheckoutCustomerPrefill
-     */
-    public function getCustomerPrefill(): ?CheckoutCustomerPrefill { return $this->get('customer_prefill'); }
-    public function hasCustomerPrefill(): bool { return $this->has('customer_prefill'); }
     /** Current delivery choices for Flint-owned pricing. External pricing reports requires_explicit_quote; reading this field does not request a delivery quote. Omitted when the session is not open, has no order, or Flint cannot read its delivery. The delivery options Flint derived for a checkout as a buyer sees them: choice groups, input requirements, and evaluation status.
      * @return ?CheckoutDerivedDeliveryResource
      */
@@ -211,31 +181,11 @@ final class CheckoutSessionCreatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getLegal(): ?CheckoutLegalConfig { return $this->get('legal'); }
     public function hasLegal(): bool { return $this->has('legal'); }
-    /** The merchant's square icon, shown in browser tabs and compact headers. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its URL, size, and alt text.
-     * @return ?Image
-     */
-    public function getMerchantIcon(): ?Image { return $this->get('merchant_icon'); }
-    public function hasMerchantIcon(): bool { return $this->has('merchant_icon'); }
     /** ID of the merchant this resource belongs to.
      * @return string
      */
     public function getMerchantId(): string { return $this->get('merchant_id'); }
     public function hasMerchantId(): bool { return $this->has('merchant_id'); }
-    /** The merchant's logo. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when the merchant has one; other responses and webhooks omit it. An image with its URL, size, and alt text.
-     * @return ?Image
-     */
-    public function getMerchantLogo(): ?Image { return $this->get('merchant_logo'); }
-    public function hasMerchantLogo(): bool { return $this->has('merchant_logo'); }
-    /** The merchant's business name, which hosted checkout shows when `theme.title` is unset. Reads `Merchant` when the merchant has not set a business name. Returned by `GET /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it.
-     * @return ?string
-     */
-    public function getMerchantName(): ?string { return $this->get('merchant_name'); }
-    public function hasMerchantName(): bool { return $this->has('merchant_name'); }
-    /** How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Present on GET and PATCH responses when the merchant set at least one of them. Show it where your checkout tells the buyer to contact the merchant, such as an expired or closed checkout, or your receipt. Returned only to the checkout credential; never in webhook payloads. The merchant's support contact. Each field is omitted when the merchant has not set it.
-     * @return ?CheckoutMerchantSupport
-     */
-    public function getMerchantSupport(): ?CheckoutMerchantSupport { return $this->get('merchant_support'); }
-    public function hasMerchantSupport(): bool { return $this->has('merchant_support'); }
     /** Stored caller-owned key-value data. See `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them.
      * @return ?array<array-key, string>
      */
@@ -281,16 +231,6 @@ final class CheckoutSessionCreatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getPaymentLinkId(): ?string { return $this->get('payment_link_id'); }
     public function hasPaymentLinkId(): bool { return $this->has('payment_link_id'); }
-    /** The current image of the payment link that opened this session. Returned by `GET /v1/checkout-sessions/{checkout_session_id}` when that link has an image; other responses and webhooks omit it. An image with its URL, size, and alt text.
-     * @return ?Image
-     */
-    public function getPaymentLinkImage(): ?Image { return $this->get('payment_link_image'); }
-    public function hasPaymentLinkImage(): bool { return $this->has('payment_link_image'); }
-    /** The card the buyer saved pending with this checkout's payment, and whether they confirmed it. Present on GET and PATCH responses after a payment that paid the order in full, or that was approved for the merchant to capture later, and saved a card this way. Without a number, confirmation requires an emailed code. A checkout whose payment is approved stays open until the capture. Returned only to the checkout credential; never in webhook payloads. A card the buyer saved with this checkout's payment that waits for a code. It works for nothing until the buyer confirms it with a code: request one with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications and purpose confirm_saved_payment_method.
-     * @return ?CheckoutPaymentMethodSave
-     */
-    public function getPaymentMethodSave(): ?CheckoutPaymentMethodSave { return $this->get('payment_method_save'); }
-    public function hasPaymentMethodSave(): bool { return $this->has('payment_method_save'); }
     /** Headless sessions only. Absolute HTTPS URL on your site where Flint sends the buyer after a redirect payment such as Affirm, whatever the outcome; read the session there to show the result. Required when the session offers affirm. It can't contain credentials, a query string, or a fragment. Test mode also accepts http loopback URLs. Up to 2,048 characters. Format: uri. maxLength: 2048.
      * @return ?string
      */
@@ -301,11 +241,6 @@ final class CheckoutSessionCreatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getPayments(): ?CheckoutPaymentConfig { return $this->get('payments'); }
     public function hasPayments(): bool { return $this->has('payments'); }
-    /** The platform fee the partner app requested when it created the session with an install token. Each payment intent the session creates carries its own platform_fee, lowered to fit that payment. Absent when the session has none. The platform fee the partner app requested when it created the session. Each payment the session creates carries its own platform_fee, lowered to fit that payment.
-     * @return ?CheckoutSessionPlatformFee
-     */
-    public function getPlatformFee(): ?CheckoutSessionPlatformFee { return $this->get('platform_fee'); }
-    public function hasPlatformFee(): bool { return $this->has('platform_fee'); }
     /** Contact details and addresses to fill in for the buyer, who can change them. For a customer with saved addresses, Flint fills in any address you leave out, and reads include it. With quick_pay or subscription_plan and automatic tax on, a prefilled address sets the order's tax location. Not changed by what the buyer types; for that, read buyer_contact. customer_prefill is what the checkout credential reads from the customer record.
      * @return ?CheckoutPrefill
      */
@@ -321,41 +256,21 @@ final class CheckoutSessionCreatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getPromotionConfig(): ?CheckoutPromotionConfig { return $this->get('promotion_config'); }
     public function hasPromotionConfig(): bool { return $this->has('promotion_config'); }
-    /** When the restricted payment-attempt recovery window ends. `null` when the session has no recovery window. Format: date-time.
-     * @return string|null
-     */
-    public function getRecoveryExpiresAt(): string|null { return $this->get('recovery_expires_at'); }
-    public function hasRecoveryExpiresAt(): bool { return $this->has('recovery_expires_at'); }
-    /** Payment attempt that this checkout credential may recover while is_in_recovery is true.
-     * @return ?string
-     */
-    public function getRecoveryPaymentAttemptId(): ?string { return $this->get('recovery_payment_attempt_id'); }
-    public function hasRecoveryPaymentAttemptId(): bool { return $this->has('recovery_payment_attempt_id'); }
     /** Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
      * @return ?CheckoutRedirects
      */
     public function getRedirects(): ?CheckoutRedirects { return $this->get('redirects'); }
     public function hasRedirects(): bool { return $this->has('redirects'); }
-    /** Whether saving a new card or using saved cards needs the buyer to confirm their email with a code. A new card can be saved pending with the payment and confirmed on the receipt; using saved cards still needs the code before paying. True when can_save_payment_method is true and the checkout acts for no customer for this credential: the merchant created it without one, and either the buyer has not confirmed an email with this credential, or the customer whose email they confirmed has since changed that email or been deleted. A credential other than the one a confirmation returned, such as the hosted checkout link opened on another device, reads true. Send the code with POST /v1/checkout-sessions/{checkout_session_id}/customer-verifications. False while the checkout acts for a customer, and whenever can_save_payment_method is false. Returned only to the checkout credential; never in webhook payloads.
-     * @return ?bool
+    /** All buyer-visible refunds on this session’s order, including refunds made by the store. Uses the same buyer projection as /v1/me/refunds. Included on GET single-session reads as an array, with [] when there are none, and omitted from other responses and webhooks. A failed refund with failure_reason refund_abandoned could not be completed: tell the buyer to contact the store to get their money back. [] (Value): {@see BuyerRefund}. Money returned against a collected payment.
+     * @return ?list<BuyerRefund>
      */
-    public function getSavePaymentMethodRequiresVerification(): ?bool { return $this->get('save_payment_method_requires_verification'); }
-    public function hasSavePaymentMethodRequiresVerification(): bool { return $this->has('save_payment_method_requires_verification'); }
-    /** What save_payment_method keeps, present when can_save_payment_method is true: card, a card the buyer types into checkout. Show the save option with that payment method only. A pay request that sends save_payment_method: true with Apple Pay, Google Pay, a bank account, or Affirm, through a confirmation token created with setup_future_usage none, still pays, and its payment attempt's payment_method_save reports not_saved. The values can grow. Returned only to the checkout credential; never in webhook payloads. [] enum: "card". [] (Value): string.  Value enum: "card".
-     * @return ?list<string>
-     */
-    public function getSavePaymentMethodTypes(): ?array { return $this->get('save_payment_method_types'); }
-    public function hasSavePaymentMethodTypes(): bool { return $this->has('save_payment_method_types'); }
+    public function getRefunds(): ?array { return $this->get('refunds'); }
+    public function hasRefunds(): bool { return $this->has('refunds'); }
     /** Guidance for collecting a payment method to save. Checkout-credential reads include it only while the session is open. Returned only to the checkout credential; never in webhook payloads. Client guidance for saving a payment method on the merchant's connected account.
      * @return ?SetupCollection
      */
     public function getSetupCollection(): ?SetupCollection { return $this->get('setup_collection'); }
     public function hasSetupCollection(): bool { return $this->has('setup_collection'); }
-    /** Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when the merchant's agreement with Flint removes it. Returned by `GET /v1/checkout-sessions/{checkout_session_id}`; other responses and webhooks omit it.
-     * @return ?bool
-     */
-    public function getShowFlintMark(): ?bool { return $this->get('show_flint_mark'); }
-    public function hasShowFlintMark(): bool { return $this->has('show_flint_mark'); }
     /** Where the session is in its lifecycle. Only an `open` session accepts payment. `terminal_reason` says why a session that is not open ended. Value enum: "open", "paid", "partially_paid", "expired", "closed", "invalidated".
      * @return string
      */
@@ -416,11 +331,6 @@ final class CheckoutSessionCreatedInstalledMerchantsEventDataObject extends Mode
      */
     public function getUpdatedAt(): string { return $this->get('updated_at'); }
     public function hasUpdatedAt(): bool { return $this->has('updated_at'); }
-    /** Hosted checkout URL that carries a one-time launch credential. Send the buyer here to pay. Present only for hosted sessions read with a merchant credential that can manage checkout sessions. Launch results include it for hosted sessions: create, payment-link resolve, and invoice and return-resolution checkout. Omitted for headless sessions.
-     * @return ?string
-     */
-    public function getUrl(): ?string { return $this->get('url'); }
-    public function hasUrl(): bool { return $this->has('url'); }
     /** Persisted version of this resource's owned state. Expanded resources and external observations can change independently. Format: uint64. minimum: 1.
      * @return int
      */

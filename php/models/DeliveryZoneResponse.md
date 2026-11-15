@@ -23,7 +23,7 @@ Resource, collection, or operation result returned by this request. A geographic
 | `current_delivery_zone_revision_id` | Required | string | Immutable revision used for new quotes. Example: `"dzoner_01KEZF7C00DF2H9VW29JN861K6"`. |
 | `delivery_zone_id` | Required | string | Stable delivery zone ID. Example: `"dzone_01KEZF7C005RY7KGCN4M2CH5WP"`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. maxLength: `255`. Example: `"warehouse-1842"`. |
-| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata). |
+| `metadata` | Optional | Map of string | Caller-owned metadata. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata). |
 | `name` | Required | string | Merchant-facing zone name. |
 | `status` | Required | string | Current zone lifecycle status. Values: `"active"`, `"archived"`. |
 | `updated_at` | Required | string | Time the zone last changed. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -455,7 +455,7 @@ Field definitions: [DeliveryMethodResponse.data.configuration.eligibility.all[].
 
 ### DeliveryZoneResponse.data.metadata
 
-Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
+Field definitions: [DeliveryLocationSetResponse.data.metadata](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata).
 
 ### DeliveryZoneResponse.meta
 

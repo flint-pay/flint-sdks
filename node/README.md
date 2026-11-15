@@ -7,7 +7,7 @@ Generated with [Flint's SDK generator](https://github.com/flint-pay/sdk-generato
 ## Install
 
 ```sh
-npm install @flintpay/node
+npm install @flintpay/node@8.0.0-beta.3
 ```
 
 Requires Node.js 22.3+, or Node.js 22.12+ to `require()` from CommonJS. TypeScript projects need TypeScript 5.9+ with NodeNext module resolution and `npm install --save-dev @types/node@22` (22.16.0+).
@@ -58,7 +58,7 @@ Methods return the decoded body, except result-mode operations, which return `re
 
 ### paymentIntents.get
 
-Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm with credential_type attached to retrieve current_payment_action.
+Returns a single payment intent by ID. Unverified fee fields are omitted; read the intent again later for verified fees. For a standalone payment intent in requires_action, call confirm without payment_source to retrieve current_payment_action.
 
 ```typescript
 const paymentIntentsGetResult = await client.paymentIntents.get(
@@ -131,4 +131,4 @@ Selected methods use positional path arguments; check their signatures. Request 
 - [Agent index](llms.txt): a small documentation entry point
 - `examples/`: a runnable script per operation. Run `node examples/RESOURCE-METHOD.mjs`; examples are checked with TypeScript checkJs.
 
-Package 8.0.0, generated for API 2026-09-07.
+Package 8.0.0-beta.3, generated for API 2026-09-07.

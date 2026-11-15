@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# AcceptFulfillmentRequestInput to BuyerExpandedShipmentSummaryInput
+# AcceptFulfillmentRequestInput to BuyerExpandedOrderSummaryInput
 
 - [AcceptFulfillmentRequestInput](AcceptFulfillmentRequestInput.md)
 - [AcceptPartnerAppPlatformTermsRequestInput](AcceptPartnerAppPlatformTermsRequestInput.md)
@@ -98,8 +98,8 @@
 - [BuyerCustomerSessionResponseInput](BuyerCustomerSessionResponseInput.md)
 - [BuyerDeliveryFulfillmentDetailsInput](BuyerDeliveryFulfillmentDetailsInput.md)
 - [BuyerDigitalFulfillmentDetailsInput](BuyerDigitalFulfillmentDetailsInput.md)
+- [BuyerEmailChangeRequestInput](BuyerEmailChangeRequestInput.md)
+- [BuyerEmailChangeRequestResponseInput](BuyerEmailChangeRequestResponseInput.md)
 - [BuyerErrorRemediationInput](BuyerErrorRemediationInput.md)
 - [BuyerExpandedOrderSummaryInput](BuyerExpandedOrderSummaryInput.md)
-- [BuyerExpandedPackageSummaryInput](BuyerExpandedPackageSummaryInput.md)
-- [BuyerExpandedShipmentSummaryInput](BuyerExpandedShipmentSummaryInput.md)
 

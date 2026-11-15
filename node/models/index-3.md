@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnResolution to ChangeSubscriptionPlanRequestInput
+# BuyerReturnPreviewResponse to CategoryUpdatedInstalledMerchantsEvent
 
+- [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
+- [BuyerReturnReplacementLineItemInputBundle](BuyerReturnReplacementLineItemInputBundle.md)
+- [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
+- [BuyerReturnReplacementLineItemInputVariant](BuyerReturnReplacementLineItemInputVariant.md)
+- [BuyerReturnReplacementLineItemInputVariantInput](BuyerReturnReplacementLineItemInputVariantInput.md)
+- [BuyerReturnReplacementLineItemRequest](BuyerReturnReplacementLineItemRequest.md)
+- [BuyerReturnReplacementLineItemRequestInput](BuyerReturnReplacementLineItemRequestInput.md)
 - [BuyerReturnResolution](BuyerReturnResolution.md)
 - [BuyerReturnResolutionAdjustment](BuyerReturnResolutionAdjustment.md)
 - [BuyerReturnResolutionExecutionBlocker](BuyerReturnResolutionExecutionBlocker.md)
@@ -95,11 +102,4 @@
 - [CategoryReference](CategoryReference.md)
 - [CategoryResponse](CategoryResponse.md)
 - [CategoryUpdatedInstalledMerchantsEvent](CategoryUpdatedInstalledMerchantsEvent.md)
-- [CategoryUpdatedMerchantEvent](CategoryUpdatedMerchantEvent.md)
-- [ChangeMeSubscriptionPlanRequest](ChangeMeSubscriptionPlanRequest.md)
-- [ChangeMeSubscriptionPlanRequestInput](ChangeMeSubscriptionPlanRequestInput.md)
-- [ChangeMeSubscriptionQuantityRequest](ChangeMeSubscriptionQuantityRequest.md)
-- [ChangeMeSubscriptionQuantityRequestInput](ChangeMeSubscriptionQuantityRequestInput.md)
-- [ChangeSubscriptionPlanRequest](ChangeSubscriptionPlanRequest.md)
-- [ChangeSubscriptionPlanRequestInput](ChangeSubscriptionPlanRequestInput.md)
 

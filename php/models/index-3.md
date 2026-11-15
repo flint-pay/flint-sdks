@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# BuyerSubscriptionPlanChangeOptionInput to CheckoutSessionCustomerVerificationInput
+# BuyerSubscriptionCancellationDetailsInput to CheckoutSavedPaymentDetailsSettingsInput
 
+- [BuyerSubscriptionCancellationDetailsInput](BuyerSubscriptionCancellationDetailsInput.md)
+- [BuyerSubscriptionInventoryWaitInput](BuyerSubscriptionInventoryWaitInput.md)
+- [BuyerSubscriptionLineItemInput](BuyerSubscriptionLineItemInput.md)
+- [BuyerSubscriptionListResponseInput](BuyerSubscriptionListResponseInput.md)
+- [BuyerSubscriptionPaymentRetryInput](BuyerSubscriptionPaymentRetryInput.md)
+- [BuyerSubscriptionPaymentRetryListResponseInput](BuyerSubscriptionPaymentRetryListResponseInput.md)
+- [BuyerSubscriptionPaymentRetryResponseInput](BuyerSubscriptionPaymentRetryResponseInput.md)
 - [BuyerSubscriptionPlanChangeOptionInput](BuyerSubscriptionPlanChangeOptionInput.md)
 - [BuyerSubscriptionPlanChangeResultInput](BuyerSubscriptionPlanChangeResultInput.md)
 - [BuyerSubscriptionPlanChangeResultResponseInput](BuyerSubscriptionPlanChangeResultResponseInput.md)
@@ -95,11 +102,4 @@
 - [CheckoutRedirectsInput](CheckoutRedirectsInput.md)
 - [CheckoutRedirectsRequestInput](CheckoutRedirectsRequestInput.md)
 - [CheckoutSavedPaymentDetailsSettingsInput](CheckoutSavedPaymentDetailsSettingsInput.md)
-- [CheckoutSavedPaymentDetailsSettingsRequestInput](CheckoutSavedPaymentDetailsSettingsRequestInput.md)
-- [CheckoutSessionInput](CheckoutSessionInput.md)
-- [CheckoutSessionClosedInstalledMerchantsEventInput](CheckoutSessionClosedInstalledMerchantsEventInput.md)
-- [CheckoutSessionClosedMerchantEventInput](CheckoutSessionClosedMerchantEventInput.md)
-- [CheckoutSessionCreatedInstalledMerchantsEventInput](CheckoutSessionCreatedInstalledMerchantsEventInput.md)
-- [CheckoutSessionCreatedMerchantEventInput](CheckoutSessionCreatedMerchantEventInput.md)
-- [CheckoutSessionCustomerVerificationInput](CheckoutSessionCustomerVerificationInput.md)
 

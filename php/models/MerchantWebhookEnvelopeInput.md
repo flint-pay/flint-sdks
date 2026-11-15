@@ -161,7 +161,7 @@ Request input.
 - `"invoice_payment_attempt.canceled"`
 - `"invoice_payment_attempt.expired"`
 - `"invoice_payment_attempt.failed"`
-- `"invoice_payment_attempt.settled"`
+- `"invoice_payment_attempt.succeeded"`
 - `"invoice.partially_paid"`
 - `"invoice.partially_refunded"`
 - `"invoice.refunded"`

@@ -10,12 +10,12 @@ const idempotencyKey = crypto.randomUUID();
 const result = await client.returnPolicies.createRevision(
   "rpol_01KEZF7C00H8C042BEK6HBRANX",
   {
-    expected_version: 1,
+    expected_return_policy_version: 1,
     revision: {
       approval_mode: "automatic",
       eligibility_result: "ineligible",
       is_merchandise_return_required: true,
-      priority: 1,
+      priority: 0,
       scope: {
         match_type: "all",
       },

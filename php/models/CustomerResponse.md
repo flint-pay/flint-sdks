@@ -130,7 +130,7 @@ anyOf variant 2.
 
 Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. `null` when none is set. Always `null` for customer sessions.
 
-Field definitions: [shared fields](CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity).
+Field definitions: [shared fields](CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity).
 
 ### CustomerResponse.data.tax_identity variant 1
 
@@ -147,11 +147,11 @@ anyOf variant 2.
 
 ### CustomerResponse.data.tax_identity variant 1.registered_address
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.snapshot.buyer_tax_identity variant 1.registered_address](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity-variant-1registered_address).
+Declared alternatives: [CreditNoteResponse.data.buyer_tax_identity variant 1.registered_address](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1registered_address).
 
 ### CustomerResponse.data.tax_identity variant 1.tax_ids[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot.buyer_tax_identity variant 1.tax_ids[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity-variant-1tax_ids).
+Field definitions: [CreditNoteResponse.data.buyer_tax_identity variant 1.tax_ids[]](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1tax_ids).
 
 ### CustomerResponse.meta
 

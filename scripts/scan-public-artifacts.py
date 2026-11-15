@@ -1,6 +1,7 @@
 """Scan every release file and nested archive without logging matched values."""
 
 import io
+import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import re
@@ -28,6 +29,13 @@ PUBLIC_DOMAINS = {
 }
 findings = []
 count = 0
+
+# This unchanged public parser contains a PEM-header validation regex, not a key.
+# Bind the exception to its complete reviewed bytes so any edit is scanned again.
+REVIEWED_PEM_PARSER_SHA256 = "7e0e790c460bd71605e3275d191ffbc5830120e0a690e86af199e83a7fb9a299"
+REVIEWED_PEM_PARSER_PATHS = {
+    "php/custom/Partner/PrivateKeyJwt.php", "custom/Partner/PrivateKeyJwt.php",
+}
 
 
 def scan(name, data, depth=0, member_path=None):
@@ -63,8 +71,12 @@ def scan(name, data, depth=0, member_path=None):
         except (tarfile.TarError, OSError):
             findings.append((name, "invalid archive"))
         return
+    reviewed_parser = (
+        path.as_posix() in REVIEWED_PEM_PARSER_PATHS
+        and hashlib.sha256(data).hexdigest() == REVIEWED_PEM_PARSER_SHA256
+    )
     for kind, pattern in PATTERNS.items():
-        if re.search(pattern, data):
+        if re.search(pattern, data) and not (kind == "private key" and reviewed_parser):
             findings.append((name, kind))
     for email in re.findall(rb"(?i)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}", data):
         domain = email.rsplit(b"@", 1)[1].lower()

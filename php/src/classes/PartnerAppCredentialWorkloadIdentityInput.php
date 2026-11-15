@@ -11,7 +11,7 @@ namespace Flint;
 final class PartnerAppCredentialWorkloadIdentityInput extends Model {
     /** @param array{'audience': string, 'claim_conditions': list<WorkloadIdentityClaimConditionInput|array<array-key, mixed>|\stdClass>, 'issuer': string, 'platform': string, 'subject': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredentialWorkloadIdentityInput')); }
-    /** audience
+    /** The audience (`aud`) a token must carry. Flint's configured issuer URL when no audience was given at creation.
      * @return string
      * @throws SdkError When audience is omitted; use hasAudience() or valueOrDefault().
      */
@@ -23,7 +23,7 @@ final class PartnerAppCredentialWorkloadIdentityInput extends Model {
      */
     public function getClaimConditions(): array { return $this->get('claim_conditions'); }
     public function hasClaimConditions(): bool { return $this->has('claim_conditions'); }
-    /** issuer
+    /** Issuer (`iss`) of the external OIDC identity. Compared exactly.
      * @return string
      * @throws SdkError When issuer is omitted; use hasIssuer() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class PartnerAppCredentialWorkloadIdentityInput extends Model {
      */
     public function getPlatform(): string { return $this->get('platform'); }
     public function hasPlatform(): bool { return $this->has('platform'); }
-    /** subject
+    /** The exact subject (`sub`) a token must carry.
      * @return string
      * @throws SdkError When subject is omitted; use hasSubject() or valueOrDefault().
      */

@@ -49,7 +49,7 @@ The affected public resource without expansions, client authority fields, or fie
 | `order_id` | Optional | string | The Flint order this movement relates to, such as the order a payment was for. Absent when the movement isn't tied to an order. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `payout_id` | Optional | string | The payout that carried this balance transaction to your bank. Set once, when that payout's contents are prepared, and never changed afterward, including if the payout later fails or is reversed. Absent until then, and on transactions no payout carries. Example: `"po_01KEZF7C00PXK8XREWJA6K4FGV"`. |
 | `related_balance_transaction_ids` | Required | Array of string | Earlier balance transactions this one is linked to, including the exact payment principal a refund returns, the payout transaction that a payout_failure, payout_cancellation, or payout_reversal returns, or the collection a merchant_billing_collection_reversal reverses. Empty when there are none. Items: Example: `"btxn_01KEZF7C00H1Z82CMFWWXMZGHZ"`. |
-| `related_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. A reference to another resource by `resource_type` and `resource_id`. |
+| `related_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The Flint resource behind this movement: a payment_intent, payment_split, refund, dispute, payout, payout_destination, merchant_billing_invoice, or platform_fee_payout. Absent when the movement has none. A reference to another resource by `resource_type` and `resource_id`. `related_resource`: [field definitions](../models/BalanceTransaction.md#balancetransactionrelated_resource). |
 | `status` | Required | string | Whether the funds can be paid out yet: pending until they become available, then available. Only these two values appear, and the change to available sends balance_transaction.updated. Values: `"pending"`, `"available"`. |
 | `type` | Required | string | Kind of balance movement. Unmapped movement types are returned as other. Values: [27 declared values](BalanceTransaction.md#balancetransaction-type-values). |
 
@@ -64,6 +64,10 @@ Field definitions: [BalanceTransaction.fee_money](../models/BalanceTransaction.m
 ### BalanceTransactionCreatedInstalledMerchantsEvent.data.object.net_money
 
 Field definitions: [BalanceTransaction.net_money](../models/BalanceTransaction.md#balancetransactionnet_money).
+
+### BalanceTransactionCreatedInstalledMerchantsEvent.data.object.related_resource
+
+Field definitions: [BalanceTransaction.related_resource](../models/BalanceTransaction.md#balancetransactionrelated_resource).
 
 ### BalanceTransactionCreatedInstalledMerchantsEvent.source
 

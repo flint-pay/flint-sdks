@@ -1,28 +1,234 @@
-import type { PaymentMethodWithSetup } from './types-46.js';
 import type { ResponseMeta } from './types-54.js';
-import type { MoneyValue, MoneyValueInput, MetadataRequestInput } from './types-38.js';
-import type { PaymentCollection, PaymentErrorSummary, PaymentCollectionStripeElements, PartnerWebhookEnvelope } from './types-44.js';
+import type { RotateGiftCardCodeResult } from './types-58.js';
+import type {
+    PartnerAppWithRotatedSecret,
+    PartnerAppsListParams,
+    PaymentCollection,
+    PaymentErrorSummary,
+    PaymentCollectionStripeElements,
+    PartnerWebhookEnvelope
+} from './types-44.js';
+import type { CreateDeveloperSandboxResult } from './types-9.js';
+import type { CreateSandboxRequestInput, CreateShipmentRequestInput } from './types-13.js';
+import type { InputValue } from '../runtime.js';
+import type { PaymentMethodWithSetup, PaymentSettings } from './types-47.js';
+import type { MoneyValue } from './types-39.js';
 import type { BrandingSettings } from './types-1.js';
 import type { CheckoutSettings } from './types-6.js';
 import type { CustomerAccountSettings, CustomerEmailDeliverySettings } from './types-15.js';
 import type { FulfillmentSettings } from './types-25.js';
 import type { InventorySettings } from './types-30.js';
-import type { InvoiceSettings, LegalSettings } from './types-34.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-37.js';
+import type { InvoiceSettings } from './types-34.js';
+import type { LegalSettings } from './types-35.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
 import type { PaymentLimitSettings } from './types-45.js';
-import type { PaymentSettings } from './types-47.js';
 import type { PromotionSettings } from './types-51.js';
 import type { SubscriptionSettings } from './types-63.js';
-import type { TaxIdentity } from './types-64.js';
-import type { TaxSettings, TippingSettings } from './types-65.js';
-import type { InputValue } from '../runtime.js';
-import type { DisputesAcceptParams, Dimensions, DimensionsRequestInput } from './types-23.js';
-import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput, VoidShipmentRequestInput } from './types-68.js';
+import type { TaxIdentity, TaxSettings } from './types-65.js';
+import type { TippingSettings } from './types-66.js';
+import type { DisputesAcceptParams } from './types-23.js';
+import type { UpdateSettingsRequestInput, UpdateShipmentRequestInput } from './types-68.js';
 import type { ExpandedOrderSummary, ExpandedPackageSummary } from './types-24.js';
-import type { ReturnResolutionLineItemRequest } from './types-57.js';
-import type { CreateShipmentRequestInput } from './types-13.js';
-import type { Weight, WeightRequestInput } from './types-69.js';
-import type { ConfigurationVersionRequestInput } from './types-7.js';
+import type { ReturnHandoffRequirementLineItem } from './types-55.js';
+import type { VoidShipmentRequestInput } from './types-69.js';
+/** A response containing `RotateGiftCardCodeResult` data. */
+export type RotateGiftCardCodeResultResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The gift card after its
+     * code was rotated, with the new `code` while it can be recovered and the notification sent.
+     */
+    "data": RotateGiftCardCodeResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The request body for: Rotate partner app secret. */
+export type RotatePartnerAppSecretRequestInput = {
+    /**
+     * Rotate only if this matches the app's current version. A mismatch returns HTTP 409
+     * VERSION_CONFLICT. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
+    "expire_previous_secret_at"?: string | globalThis.Date;
+};
+/** A response containing `PartnerAppWithRotatedSecret` data. */
+export type RotatePartnerAppSecretResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. A partner app returned
+     * with its newly issued client secret after rotation. An application that merchants can
+     * authorize to access their accounts.
+     */
+    "data": PartnerAppWithRotatedSecret;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** The request body for: Rotate webhook secret. */
+export type RotateWebhookSecretRequest = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
+     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expire_previous_secret_at"?: string;
+};
+/** The request body for: Rotate webhook secret. */
+export type RotateWebhookSecretRequestInput = {
+    /**
+     * Version last read from the resource returned in `data` (the primary resource for a result
+     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
+     * the operation and fields being changed. Format: uint64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
+     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
+     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "expire_previous_secret_at"?: string | globalThis.Date;
+};
+/** An isolated environment for testing an integration. */
+export type Sandbox = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The onboarding state the sandbox starts in, and returns to when you reset it. `complete`
+     * prefills a verified test identity; `not_started` leaves requirements due so you can rehearse
+     * onboarding. Value enum: "complete", "not_started".
+     */
+    "initial_onboarding": "complete" | "not_started" | (string & {});
+    /**
+     * Whether this is the merchant's one default sandbox. It can be reset but cannot be archived.
+     */
+    "is_default": boolean;
+    /** Sandbox name. Archiving appends (Archived XXXXXXXX) to free the original name for reuse. */
+    "name": string;
+    /**
+     * When the last reset stopped after repeated failures. Before data deletion starts, the
+     * sandbox keeps its previous data and remains usable. Once deletion starts, requests are
+     * blocked until you retry the reset or archive a non-default sandbox. Null when no reset has
+     * failed or a later reset succeeded. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "reset_failed_at": string | null;
+    /**
+     * Unique identifier for this sandbox, prefixed `test_`. Example:
+     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
+     */
+    "sandbox_id": string;
+    /**
+     * Sandbox availability. Active sandboxes accept test requests. Archived sandboxes are retired,
+     * with their API keys revoked; reset preserves an active sandbox and its credentials. Value
+     * enum: "active", "archived".
+     */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+};
+/** A page of `Sandbox` objects. */
+export type SandboxListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * Sandbox}. An isolated environment for testing an integration.
+     */
+    "data": Array<Sandbox>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `Sandbox` data. */
+export type SandboxResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. An isolated environment
+     * for testing an integration.
+     */
+    "data": Sandbox;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `CreateDeveloperSandboxResult` data. */
+export type SandboxWithAPIKeyResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The created sandbox is
+     * the primary resource, with the API key and one-time secret_key when issue_test_key is true.
+     */
+    "data": CreateDeveloperSandboxResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+export type SandboxesCreateParams = (CreateSandboxRequestInput);
+export type SandboxesDeleteParams = {};
+export type SandboxesGetParams = {};
+export type SandboxesListParams = PartnerAppsListParams;
+export type SandboxesResetParams = {};
+/** The request body for: Save a gift card to your account. */
+export type SaveMeGiftCardRequest = ({
+    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
+    "code"?: string;
+    /**
+     * The proof that the buyer can use the card: its code, or the private recipient link they
+     * received. Value enum: "code", "recipient_access".
+     */
+    "credential_type": "code" | "recipient_access" | (string & {});
+    /**
+     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
+     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
+     */
+    "grant_id"?: string;
+    /** Token from the fragment of the private recipient link. minLength: 1. */
+    "recipient_access_token"?: string;
+})
+    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
+    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
+    | (Record<string, unknown>));
 /** The `code` variant of `SaveMeGiftCardRequest`. */
 export type SaveMeGiftCardRequestCode = ({
     /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
@@ -349,8 +555,8 @@ export type SelectableErrorResource = {
      * "platform_fee_payout", "price_list", "price_list_price", "product", "product_option",
      * "product_option_value", "product_variant", "promotion", "promotion_code",
      * "purchase_refund_allocation", "reader", "refund", "refund_allocation",
-     * "refund_line_item_adjustment", "report", "report_download", "return", "return_activity",
-     * "return_disposition", "return_inspection", "return_inspection_line_item",
+     * "refund_line_item_adjustment", "remembered_buyer", "report", "report_download", "return",
+     * "return_activity", "return_disposition", "return_inspection", "return_inspection_line_item",
      * "return_line_item", "return_policy", "return_policy_revision", "return_reason",
      * "return_receipt", "return_receipt_line_item", "return_resolution", "risk_list",
      * "risk_list_item", "risk_rule", "sandbox", "settings", "shipment", "subscription",
@@ -475,6 +681,7 @@ export type SelectableErrorResource = {
         | "refund"
         | "refund_allocation"
         | "refund_line_item_adjustment"
+        | "remembered_buyer"
         | "report"
         | "report_download"
         | "return"
@@ -945,10 +1152,10 @@ export type Shipment = {
     "return_id"?: string;
     /**
      * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-     * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return shipment
-     * or package.
+     * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
+     * shipment or package.
      */
-    "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+    "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
     /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
     "shipment_id": string;
     /**
@@ -1009,7 +1216,7 @@ export type ShipmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "package_count": number;
             "packages"?: Array<ExpandedPackageSummary>;
             "return_id"?: string;
-            "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
             "shipment_id": string;
             "shipped_at"?: string;
             "status": "created"
@@ -1048,7 +1255,7 @@ export type ShipmentCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "package_count": number;
             "packages"?: Array<ExpandedPackageSummary>;
             "return_id"?: string;
-            "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
             "shipment_id": string;
             "shipped_at"?: string;
             "status": "created"
@@ -1122,12 +1329,12 @@ export type ShipmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * fields, including carrier, tracking, status, and supported actions, returned when the
      * package is expanded. object.return_id (Optional): string. Return associated with this
      * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}.
+     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
      * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a
-     * return shipment or package. object.shipment_id (Required): string. Stable identifier of the
-     * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional): string.
-     * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
+     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
+     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
+     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
+     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
      * from the shipment's package states. An empty shipment remains a created draft. - `created`:
      * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
@@ -1184,9 +1391,9 @@ export type ShipmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * fields, including carrier, tracking, status, and supported actions, returned when the
          * package is expanded. return_id (Optional): string. Return associated with this shipment,
          * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}. Return
+         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
          * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a
+         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
          * return shipment or package. shipment_id (Required): string. Stable identifier of the
          * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
          * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
@@ -1285,10 +1492,10 @@ export type ShipmentCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "return_id"?: string;
             /**
              * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return
+             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
              * shipment or package.
              */
-            "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
             /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
             "shipment_id": string;
             /**
@@ -1417,12 +1624,12 @@ export type ShipmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * fields, including carrier, tracking, status, and supported actions, returned when the
      * package is expanded. object.return_id (Optional): string. Return associated with this
      * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}.
+     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
      * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a
-     * return shipment or package. object.shipment_id (Required): string. Stable identifier of the
-     * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional): string.
-     * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
+     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
+     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
+     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
+     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
      * from the shipment's package states. An empty shipment remains a created draft. - `created`:
      * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
@@ -1479,9 +1686,9 @@ export type ShipmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * fields, including carrier, tracking, status, and supported actions, returned when the
          * package is expanded. return_id (Optional): string. Return associated with this shipment,
          * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}. Return
+         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
          * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a
+         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
          * return shipment or package. shipment_id (Required): string. Stable identifier of the
          * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
          * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
@@ -1580,10 +1787,10 @@ export type ShipmentCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "return_id"?: string;
             /**
              * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return
+             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
              * shipment or package.
              */
-            "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
             /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
             "shipment_id": string;
             /**
@@ -1716,7 +1923,7 @@ export type ShipmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "package_count": number;
             "packages"?: Array<ExpandedPackageSummary>;
             "return_id"?: string;
-            "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
             "shipment_id": string;
             "shipped_at"?: string;
             "status": "created"
@@ -1756,7 +1963,7 @@ export type ShipmentUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object,
             "package_count": number;
             "packages"?: Array<ExpandedPackageSummary>;
             "return_id"?: string;
-            "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
             "shipment_id": string;
             "shipped_at"?: string;
             "status": "created"
@@ -1831,12 +2038,12 @@ export type ShipmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * fields, including carrier, tracking, status, and supported actions, returned when the
      * package is expanded. object.return_id (Optional): string. Return associated with this
      * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}.
+     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
      * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a
-     * return shipment or package. object.shipment_id (Required): string. Stable identifier of the
-     * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional): string.
-     * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
+     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
+     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
+     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
+     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
      * from the shipment's package states. An empty shipment remains a created draft. - `created`:
      * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
@@ -1897,9 +2104,9 @@ export type ShipmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * fields, including carrier, tracking, status, and supported actions, returned when the
          * package is expanded. return_id (Optional): string. Return associated with this shipment,
          * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}. Return
+         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
          * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a
+         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
          * return shipment or package. shipment_id (Required): string. Stable identifier of the
          * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
          * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
@@ -1998,10 +2205,10 @@ export type ShipmentUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
             "return_id"?: string;
             /**
              * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return
+             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
              * shipment or package.
              */
-            "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
             /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
             "shipment_id": string;
             /**
@@ -2137,12 +2344,12 @@ export type ShipmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * fields, including carrier, tracking, status, and supported actions, returned when the
      * package is expanded. object.return_id (Optional): string. Return associated with this
      * shipment, when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}.
+     * object.return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}.
      * Return lines and quantities allocated to this return shipment. object.return_line_items[]
-     * (Value): {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a
-     * return shipment or package. object.shipment_id (Required): string. Stable identifier of the
-     * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional): string.
-     * When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
+     * (Value): {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in
+     * a return shipment or package. object.shipment_id (Required): string. Stable identifier of
+     * the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". object.shipped_at (Optional):
+     * string. When the shipment was shipped, in RFC3339 format. Format: date-time. Example:
      * "2026-08-02T16:00:00Z". object.status (Required): string. Read-only shipment state derived
      * from the shipment's package states. An empty shipment remains a created draft. - `created`:
      * The shipment leg exists but has not been packed or handed off. - `packed`: The shipment leg
@@ -2203,9 +2410,9 @@ export type ShipmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * fields, including carrier, tracking, status, and supported actions, returned when the
          * package is expanded. return_id (Optional): string. Return associated with this shipment,
          * when its direction is return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-         * return_line_items (Optional): Array of {@link ReturnResolutionLineItemRequest}. Return
+         * return_line_items (Optional): Array of {@link ReturnHandoffRequirementLineItem}. Return
          * lines and quantities allocated to this return shipment. return_line_items[] (Value):
-         * {@link ReturnResolutionLineItemRequest}. A return line and the quantity placed in a
+         * {@link ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a
          * return shipment or package. shipment_id (Required): string. Stable identifier of the
          * shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". shipped_at (Optional): string. When
          * the shipment was shipped, in RFC3339 format. Format: date-time. Example:
@@ -2304,10 +2511,10 @@ export type ShipmentUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
             "return_id"?: string;
             /**
              * Return lines and quantities allocated to this return shipment. [] (Value): {@link
-             * ReturnResolutionLineItemRequest}. A return line and the quantity placed in a return
+             * ReturnHandoffRequirementLineItem}. A return line and the quantity placed in a return
              * shipment or package.
              */
-            "return_line_items"?: Array<ReturnResolutionLineItemRequest>;
+            "return_line_items"?: Array<ReturnHandoffRequirementLineItem>;
             /** Stable identifier of the shipment. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68". */
             "shipment_id": string;
             /**
@@ -2644,585 +2851,4 @@ export type SignedWebhookEndpointDelivery = {
      * "whev_01KEZF7C00362MS3HV970TRZGS".
      */
     "webhook_event_id": string;
-};
-/** A response containing `SignedWebhookEndpointDelivery` data. */
-export type SignedWebhookEndpointDeliveryResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A transient signed
-     * delivery for the caller's sandbox endpoint. Forward body bytes and headers unchanged; this
-     * is not a persisted delivery or HTTP dispatch.
-     */
-    "data": SignedWebhookEndpointDelivery;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Simulate a dispute outcome. */
-export type SimulateDisputeRequest = {
-    /**
-     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
-     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
-     */
-    "outcome": "won" | "lost" | "inquiry_closed" | "escalated" | (string & {});
-};
-/** The request body for: Simulate a dispute outcome. */
-export type SimulateDisputeRequestInput = {
-    /**
-     * The ruling to simulate. `won` and `lost` decide a chargeback; `inquiry_closed` and
-     * `escalated` decide an inquiry. Value enum: "won", "lost", "inquiry_closed", "escalated".
-     */
-    "outcome": "won" | "lost" | "inquiry_closed" | "escalated";
-};
-/** Sandbox only. Presents a test card on a simulated reader. */
-export type SimulateReaderRequest = {
-    /**
-     * The brand of the test card to present. Defaults to `visa`. Declines present Visa test cards
-     * whatever brand you send. Value enum: "visa", "mastercard", "amex", "discover".
-     */
-    "card_brand"?: "visa" | "mastercard" | "amex" | "discover" | (string & {});
-    /**
-     * The buyer's and issuer's decision. Value enum: "approved", "declined", "insufficient_funds".
-     */
-    "outcome": "approved" | "declined" | "insufficient_funds" | (string & {});
-    /**
-     * The tip the buyer picks, when the payment was sent with the tip screen on. USD only.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValue;
-};
-/** Sandbox only. Presents a test card on a simulated reader. */
-export type SimulateReaderRequestInput = {
-    /**
-     * The brand of the test card to present. Defaults to `visa`. Declines present Visa test cards
-     * whatever brand you send. Value enum: "visa", "mastercard", "amex", "discover".
-     */
-    "card_brand"?: "visa" | "mastercard" | "amex" | "discover";
-    /**
-     * The buyer's and issuer's decision. Value enum: "approved", "declined", "insufficient_funds".
-     */
-    "outcome": "approved" | "declined" | "insufficient_funds";
-    /**
-     * The tip the buyer picks, when the payment was sent with the tip screen on. USD only.
-     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "tip_money"?: MoneyValueInput;
-};
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreated = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created" | (string & {});
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputCreatedInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created".
-     */
-    "status": "created";
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & (({
-    "shipped_at"?: never;
-}))
-    & (({
-    "buyer_notification_behavior"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShipped = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped" | (string & {});
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-});
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateInputShippedInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "shipped".
-     */
-    "status": "shipped";
-    /** minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & (({
-    "return_line_items"?: never;
-}));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequest = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress" | (string & {});
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: Dimensions;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataMap;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped" | (string & {});
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: Weight;
-})
-    & ((Exclude<SinglePackageCreateInputCreated & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShipped & object, readonly unknown[]>)
-    | (Record<string, unknown>));
-/**
- * The single package created with a shipment fulfillment. It receives the submitted fulfillment
- * line quantities. Set status to created or shipped; items and return_line_items are not accepted.
- */
-export type SinglePackageCreateRequestInput = ({
-    /**
-     * Controls buyer email handling. Omit or use send to send when recipient, template, and
-     * deduplication rules allow it. Use suppress when another system owns buyer messaging. Value
-     * enum: "send", "suppress".
-     */
-    "buyer_notification_behavior"?: "send" | "suppress";
-    /** Carrier that handles the package. minLength: 1. */
-    "carrier"?: string;
-    /**
-     * Dimensions of the package. Package or item dimensions as `length`, `width`, and `height` in
-     * the given `unit`.
-     */
-    "dimensions"?: DimensionsRequestInput;
-    /**
-     * When the carrier or merchant expects this package to arrive. Past dates are allowed. Send
-     * null to clear it; omit to leave it unchanged on updates and transitions. Format: date-time.
-     * minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expected_delivery_at"?: string | globalThis.Date | null;
-    /**
-     * Caller-owned identifier for this resource in an external system. Requires external_system.
-     * External references are not unique. Use Idempotency-Key for retries. minLength: 1.
-     * maxLength: 255. Example: "warehouse-1842".
-     */
-    "external_reference_id"?: string;
-    /**
-     * Name of the external system that external_reference_id belongs to. External references are
-     * not unique. Use Idempotency-Key for retries. minLength: 1.
-     */
-    "external_system"?: string;
-    /**
-     * HTTPS shipping-label URL supplied by your integration. Non-Flint URLs require
-     * external_system for provenance. Flint does not host the label file. minLength: 1.
-     */
-    "label_url"?: string;
-    /**
-     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
-     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
-     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
-     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
-     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
-     * starting with flint_ are reserved for Flint. maxProperties: 50.
-     */
-    "metadata"?: MetadataRequestInput;
-    /** Carrier's code for the shipping service used. minLength: 1. */
-    "service_code"?: string;
-    /**
-     * Package handoff time. Defaults to request time. Only allowed with status shipped. Format:
-     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "shipped_at"?: string | globalThis.Date;
-    /**
-     * Outbound packages can start as created or shipped. Return packages must start as created,
-     * omit items, and include return_line_items. Use mark_shipped after the buyer hands over the
-     * return package. Value enum: "created", "shipped".
-     */
-    "status": "created" | "shipped";
-    /** Additional explanation of the package's starting status. minLength: 1. */
-    "status_reason"?: string;
-    /** Carrier tracking number for the package. minLength: 1. */
-    "tracking_number"?: string;
-    /** Absolute HTTPS carrier tracking URL. Embedded URL credentials are rejected. minLength: 1. */
-    "tracking_url"?: string;
-    /**
-     * Weight of the package. A weight value in grams, kilograms, ounces, or pounds, used in
-     * delivery profile configuration.
-     */
-    "weight"?: WeightRequestInput;
-})
-    & ((Exclude<SinglePackageCreateInputCreatedInput & object, readonly unknown[]>)
-    | (Exclude<SinglePackageCreateInputShippedInput & object, readonly unknown[]>));
-/** The request body for: Skip subscription cycle. */
-export type SkipMeSubscriptionCycleRequestInput = ConfigurationVersionRequestInput;
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/skip-cycle. Flint's skip email says the buyer
-     * skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration" | (string & {});
-};
-/** The request body for: Skip subscription cycle. */
-export type SkipSubscriptionCycleRequestInput = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Who asked for the skip: buyer, merchant, or integration. Defaults to merchant. Attribution
-     * only; this does not apply the store's buyer limits. To enforce them, use a customer session
-     * on POST /v1/me/subscriptions/{subscription_id}/skip-cycle. Flint's skip email says the buyer
-     * skipped for buyer, and that the store skipped otherwise. Default: "merchant". Value enum:
-     * "buyer", "merchant", "integration".
-     */
-    "initiated_by"?: "buyer" | "merchant" | "integration";
-};
-/**
- * A fixed allocation referencing a read-only reversal nested in a payment split. This reference
- * has no independent lifecycle or write routes.
- */
-export type SplitReversalReference = {
-    /**
-     * The amount fixed at allocation, unchanged by recovery or reinstatement. Monetary amount
-     * represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** The split whose seller share was allocated. Example: "psplit_01KEZF7C00Y5HA4Z8D4KRA07K8". */
-    "payment_split_id": string;
-    /**
-     * The reversal in PaymentSplit.reversals that records recovery status. Example:
-     * "psrev_01KEZF7C00XC1HA7S8YCQJDBDM".
-     */
-    "payment_split_reversal_id": string;
 };

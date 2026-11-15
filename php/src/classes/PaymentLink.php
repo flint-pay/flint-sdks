@@ -200,7 +200,7 @@ final class PaymentLink extends Model {
      */
     public function getSubscriptionPlan(): ExpandedSubscriptionPlanSummary|null { return $this->get('subscription_plan'); }
     public function hasSubscriptionPlan(): bool { return $this->has('subscription_plan'); }
-    /** subscription_plan_id
+    /** ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription.
      * @return ?string
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }

@@ -7,5 +7,5 @@ const client = new Client({
 const result = await client.paymentReviews.get(
   "rev_01KEZF7C00BVBQ00XDFNKB1EF6"
 );
+console.log(result.matched_risk_rule_id);
 console.log(result.payment_intent_id);
-console.log(result.payment_review_id);

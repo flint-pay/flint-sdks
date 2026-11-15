@@ -29,19 +29,19 @@ namespace Flint;
 final class SubscriptionPlansCreateParams extends Model {
     /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'currency': string, 'delivery_interval'?: string|null, 'delivery_interval_count'?: int|null, 'description'?: string, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|null, 'external_reference_id'?: string, 'gifts_enabled'?: bool, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items': list<SubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name': string, 'plan_change_options'?: list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass>, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status'?: string, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlansCreateParams')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with a count of 3 bills every three months. Add other choices with `billing_interval_options`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32.
+    /** Number of `billing_interval` units between charges on the plan's default pair, up to 365. Format: int32.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Offered billing interval and count pairs, including the plan's default pair. Line prices are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionRequestInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Offered billing interval and count pairs, including the plan's default pair. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionRequestInput}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans.
      * @return list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
@@ -71,7 +71,7 @@ final class SubscriptionPlansCreateParams extends Model {
      */
     public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
     public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
-    /** minLength: 1.
+    /** Description of the plan, up to 2,048 characters. Omit for none. minLength: 1.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
@@ -113,7 +113,7 @@ final class SubscriptionPlansCreateParams extends Model {
      */
     public function getInventoryRoutingSource(): mixed { return $this->get('inventory_routing_source'); }
     public function hasInventoryRoutingSource(): bool { return $this->has('inventory_routing_source'); }
-    /** minItems: 1. [] (Value): {@see SubscriptionPlanLineItemRequestInput}. A line item to put on a new subscription plan, from a variant, a bundle, or a custom name and price.
+    /** The lines a subscription on this plan bills each period. At least one. Each line sells a catalog variant, a catalog bundle, or a custom item you price yourself. minItems: 1. [] (Value): {@see SubscriptionPlanLineItemRequestInput}. A line item to put on a new subscription plan, from a variant, a bundle, or a custom name and price.
      * @return list<SubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -125,7 +125,7 @@ final class SubscriptionPlansCreateParams extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** Name of the plan. Buyers see it at checkout and on their subscription. Required, and can't be empty. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -137,13 +137,13 @@ final class SubscriptionPlansCreateParams extends Model {
      */
     public function getPlanChangeOptions(): array { return $this->get('plan_change_options'); }
     public function hasPlanChangeOptions(): bool { return $this->has('plan_change_options'); }
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+    /** Quantities to offer. Send `[]` or `[1]`; both store `[1]`, and any other list is refused. Omit it to store `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line item instead. maxItems: 1. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 1.
      * @return list<int>
      * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
      */
     public function getQuantityOptions(): array { return $this->get('quantity_options'); }
     public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** One-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Must be above zero and in the plan's currency. Omit for no setup fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_fee_money is omitted; use hasSetupFeeMoney() or valueOrDefault().
      */
@@ -155,7 +155,7 @@ final class SubscriptionPlansCreateParams extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /**  [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** IDs of the delivery methods a subscriber can choose for this plan's lines that ship. Omit to use the delivery methods in your checkout settings. [] (Value): string. minLength: 1. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return list<string>
      * @throws SdkError When subscription_delivery_method_ids is omitted; use hasSubscriptionDeliveryMethodIds() or valueOrDefault().
      */

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $billing_starts
- * @property-read MoneyValue|null $credit_money
+ * @property-read MoneyValue|null $credit_adjustment_money
  * @property-read int $deliveries_per_period
  * @property-read string|null $delivery_interval
  * @property-read int|null $delivery_interval_count
@@ -17,7 +17,7 @@ namespace Flint;
  * @property-read string $subscription_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPreviewResponseDataQuantityChange extends Model {
-    /** @param array{'billing_starts': string, 'credit_money': mixed, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|null, 'interval': string, 'interval_count': int, 'mode': string, 'quantity': int, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, ...}|object $values */
+    /** @param array{'billing_starts': string, 'credit_adjustment_money': mixed, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|null, 'interval': string, 'interval_count': int, 'mode': string, 'quantity': int, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewResponseDataQuantityChange')); }
     /** When this quantity change is billed. Value enum: "prorated_now".
      * @return string
@@ -27,9 +27,9 @@ final class SubscriptionPreviewResponseDataQuantityChange extends Model {
     /** Credit for unused paid subscription time. Null when there is no paid period to credit. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
-    public function getCreditMoney(): MoneyValue|null { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
-    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: int32. minimum: 1. maximum: 24.
+    public function getCreditAdjustmentMoney(): MoneyValue|null { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1. maximum: 24.
      * @return int
      */
     public function getDeliveriesPerPeriod(): int { return $this->get('deliveries_per_period'); }

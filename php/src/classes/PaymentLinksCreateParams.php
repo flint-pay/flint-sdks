@@ -178,7 +178,7 @@ final class PaymentLinksCreateParams extends Model {
      */
     public function getSalesEndAt(): string|\DateTimeInterface { return $this->get('sales_end_at'); }
     public function hasSalesEndAt(): bool { return $this->has('sales_end_at'); }
-    /** minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+    /** ID of the subscription plan the link sells. The plan must be active. Omit it for a link that doesn't sell a subscription. It can't be changed after the link is created. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */

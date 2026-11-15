@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreatePackageRequestCreatedInput to CreditNoteAllocationCreatedMerchantEventInput
+# CreateOrderTipAmountInput to CreateWorkloadIdentityRequestInput
 
+- [CreateOrderTipAmountInput](CreateOrderTipAmountInput.md)
+- [CreateOrderTipPercentInput](CreateOrderTipPercentInput.md)
+- [CreatePackageItemRequestInput](CreatePackageItemRequestInput.md)
+- [CreatePackageRequestInput](CreatePackageRequestInput.md)
 - [CreatePackageRequestCreatedInput](CreatePackageRequestCreatedInput.md)
 - [CreatePackageRequestShippedInput](CreatePackageRequestShippedInput.md)
 - [CreatePartnerAppCredentialJWKSURLRequestInput](CreatePartnerAppCredentialJWKSURLRequestInput.md)
@@ -98,8 +102,4 @@
 - [CreateWebhookEndpointRequestInput](CreateWebhookEndpointRequestInput.md)
 - [CreateWebhookTestEventRequestInput](CreateWebhookTestEventRequestInput.md)
 - [CreateWorkloadIdentityRequestInput](CreateWorkloadIdentityRequestInput.md)
-- [CreditNoteInput](CreditNoteInput.md)
-- [CreditNoteAllocationInput](CreditNoteAllocationInput.md)
-- [CreditNoteAllocationCreatedInstalledMerchantsEventInput](CreditNoteAllocationCreatedInstalledMerchantsEventInput.md)
-- [CreditNoteAllocationCreatedMerchantEventInput](CreditNoteAllocationCreatedMerchantEventInput.md)
 

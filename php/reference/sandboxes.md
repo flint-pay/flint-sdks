@@ -24,11 +24,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequestInput.md#c
 | --- | --- | --- | --- |
 | `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
-| `issue_test_key` | Optional | boolean |  |
-| `name` | Required | string | minLength: `1`. |
+| `issue_test_key` | Optional | boolean | Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the response includes the key and its one-time `secret_key`, and `access`, `scopes`, `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns 400 NOT_ALLOWED. |
+| `name` | Required | string | Name of the new sandbox. Required. minLength: `1`. |
 | `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 | `test_key_expires_at` | Optional | string | Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key true. Omit for a key that doesn't expire. Format: `date-time`. minLength: `1`. |
-| `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `test_key_name` | Optional | string | Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true. Defaults to the sandbox name followed by `Test Key`. minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: Test key
 
@@ -38,11 +38,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequestInput.md#c
 | --- | --- | --- | --- |
 | `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
-| `issue_test_key` | Required | boolean | Values: `true`. |
-| `name` | Required | string | minLength: `1`. |
+| `issue_test_key` | Required | boolean | Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the response includes the key and its one-time `secret_key`, and `access`, `scopes`, `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns 400 NOT_ALLOWED. Values: `true`. |
+| `name` | Required | string | Name of the new sandbox. Required. minLength: `1`. |
 | `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 | `test_key_expires_at` | Optional | string | Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key true. Omit for a key that doesn't expire. Format: `date-time`. minLength: `1`. |
-| `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `test_key_name` | Optional | string | Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true. Defaults to the sandbox name followed by `Test Key`. minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: Full
 
@@ -52,11 +52,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequestInput.md#c
 | --- | --- | --- | --- |
 | `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`. |
 | `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
-| `issue_test_key` | Required | boolean | Values: `true`. |
-| `name` | Required | string | minLength: `1`. |
+| `issue_test_key` | Required | boolean | Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the response includes the key and its one-time `secret_key`, and `access`, `scopes`, `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns 400 NOT_ALLOWED. Values: `true`. |
+| `name` | Required | string | Name of the new sandbox. Required. minLength: `1`. |
 | `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 | `test_key_expires_at` | Optional | string | Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key true. Omit for a key that doesn't expire. Format: `date-time`. minLength: `1`. |
-| `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `test_key_name` | Optional | string | Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true. Defaults to the sandbox name followed by `Test Key`. minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: Read only
 
@@ -66,11 +66,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequestInput.md#c
 | --- | --- | --- | --- |
 | `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"read_only"`. |
 | `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
-| `issue_test_key` | Required | boolean | Values: `true`. |
-| `name` | Required | string | minLength: `1`. |
+| `issue_test_key` | Required | boolean | Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the response includes the key and its one-time `secret_key`, and `access`, `scopes`, `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns 400 NOT_ALLOWED. Values: `true`. |
+| `name` | Required | string | Name of the new sandbox. Required. minLength: `1`. |
 | `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 | `test_key_expires_at` | Optional | string | Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key true. Omit for a key that doesn't expire. Format: `date-time`. minLength: `1`. |
-| `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `test_key_name` | Optional | string | Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true. Defaults to the sandbox name followed by `Test Key`. minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: Restricted
 
@@ -80,11 +80,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequestInput.md#c
 | --- | --- | --- | --- |
 | `access` | Required | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"restricted"`. |
 | `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
-| `issue_test_key` | Required | boolean | Values: `true`. |
-| `name` | Required | string | minLength: `1`. |
+| `issue_test_key` | Required | boolean | Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the response includes the key and its one-time `secret_key`, and `access`, `scopes`, `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns 400 NOT_ALLOWED. Values: `true`. |
+| `name` | Required | string | Name of the new sandbox. Required. minLength: `1`. |
 | `scopes` | Required | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 | `test_key_expires_at` | Optional | string | Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key true. Omit for a key that doesn't expire. Format: `date-time`. minLength: `1`. |
-| `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `test_key_name` | Optional | string | Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true. Defaults to the sandbox name followed by `Test Key`. minLength: `1`. maxLength: `100`. |
 
 #### sandboxes.create: No test key
 
@@ -94,11 +94,11 @@ Body model: [CreateSandboxRequestInput](../models/CreateSandboxRequestInput.md#c
 | --- | --- | --- | --- |
 | `access` | Optional | string | Key access. Full and read_only resolve from the current scope catalog for the key's mode; restricted holds only its listed scopes. Granting full or read_only requires a freshly verified authorized user session, or a full-access API key in the key's mode or a live full-access key granting a test key. Values: `"full"`, `"read_only"`, `"restricted"`. |
 | `initial_onboarding` | Optional | string | The onboarding state the sandbox starts in, and returns to when you reset it. `complete` prefills a verified test identity; `not_started` leaves requirements due so you can rehearse onboarding. Default: `"complete"`. Values: `"complete"`, `"not_started"`. |
-| `issue_test_key` | Optional | boolean | Values: `false`. |
-| `name` | Required | string | minLength: `1`. |
+| `issue_test_key` | Optional | boolean | Whether to issue a test API key for the new sandbox. Defaults to `false`. When `true`, the response includes the key and its one-time `secret_key`, and `access`, `scopes`, `test_key_name`, and `test_key_expires_at` apply. When `false`, sending any of them returns 400 NOT_ALLOWED. Values: `false`. |
+| `name` | Required | string | Name of the new sandbox. Required. minLength: `1`. |
 | `scopes` | Optional | Array of string | The scopes to grant. Required only with access restricted; forbidden with full or read_only. For a test key, use only scopes whose key_modes includes test in x-flint-scopes. The developer.sandboxes.read and developer.sandboxes.write scopes are valid on test keys; developer.partner_apps.read and developer.partner_apps.write are live-only. minItems: `1`. uniqueItems: `true`. Items values: [102 declared values](../models/APIKeyInput.md#apikeyinput-scopes--values). |
 | `test_key_expires_at` | Optional | string | Future RFC 3339 timestamp when the issued test key expires. Allowed only with issue_test_key true. Omit for a key that doesn't expire. Format: `date-time`. minLength: `1`. |
-| `test_key_name` | Optional | string | minLength: `1`. maxLength: `100`. |
+| `test_key_name` | Optional | string | Name for the issued test key, 1 to 100 characters. Allowed only with issue_test_key true. Defaults to the sandbox name followed by `Test Key`. minLength: `1`. maxLength: `100`. |
 
 #### Response
 

@@ -19,7 +19,7 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->subscriptions->changeQuantity('sub_01KEZF7C00BVRE8YDBXQB74BBM', [
   'billing_starts' => 'prorated_now',
   'expected_version' => 1,
-  'quantity' => 2,
+  'quantity' => 1,
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 echo $result->subscription->customer_id . PHP_EOL;
 echo $result->subscription->merchant_id . PHP_EOL;

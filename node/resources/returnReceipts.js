@@ -5,16 +5,25 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnReceipts.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/returnReceipts.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["getReturnReceipt"]:r0,["listReturnReceipts"]:r0,["verifyReturnReceiptLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createReturnReceipt"]:r0,["getReturnReceipt"]:r0,["listReturnReceipts"]:r0,["verifyReturnReceiptLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.returnReceipts = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createReturnReceipt", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnReceipt", result, path))),
       get: async (return_receipt_id, params, options) => this.#runtime.request("getReturnReceipt", _sdkRequestInput([
   "return_receipt_id"
 ], [return_receipt_id], [
@@ -120,6 +129,12 @@ this.returnReceipts = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
+export { makeCreateReturnReceiptRequest } from '../models/CreateReturnReceiptRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeReturnReceiptLineItemInputExcess } from '../models/ReturnReceiptLineItemInputExcess.js';
+export { makeReturnReceiptLineItemInputMatched } from '../models/ReturnReceiptLineItemInputMatched.js';
+export { makeReturnReceiptLineItemInputUnverified } from '../models/ReturnReceiptLineItemInputUnverified.js';
+export { makeReturnReceiptLineItemRequest } from '../models/ReturnReceiptLineItemRequest.js';
+export { makeReturnSourceSystemRequest } from '../models/ReturnSourceSystemRequest.js';
 export { makeReturnUnverifiedItem } from '../models/ReturnUnverifiedItem.js';
 export { makeVerifyReturnReceiptLineItemRequest } from '../models/VerifyReturnReceiptLineItemRequest.js';

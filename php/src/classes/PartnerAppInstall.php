@@ -25,12 +25,12 @@ final class PartnerAppInstall extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /**  [] (Value): {@see PartnerEnvironmentGrant}. A partner application's authorization to access an environment.
+    /** The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. [] (Value): {@see PartnerEnvironmentGrant}. A partner application's authorization to access an environment.
      * @return ?list<PartnerEnvironmentGrant>
      */
     public function getEnvironmentGrants(): ?array { return $this->get('environment_grants'); }
     public function hasEnvironmentGrants(): bool { return $this->has('environment_grants'); }
-    /** installed_by_user_id
+    /** ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded.
      * @return ?string
      */
     public function getInstalledByUserId(): ?string { return $this->get('installed_by_user_id'); }
@@ -45,7 +45,7 @@ final class PartnerAppInstall extends Model {
      */
     public function getMerchantSignupId(): ?string { return $this->get('merchant_signup_id'); }
     public function hasMerchantSignupId(): bool { return $this->has('merchant_signup_id'); }
-    /** partner_app_id
+    /** ID of the partner app the merchant installed.
      * @return string
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
@@ -65,17 +65,17 @@ final class PartnerAppInstall extends Model {
      */
     public function getRevokedAt(): ?string { return $this->get('revoked_at'); }
     public function hasRevokedAt(): bool { return $this->has('revoked_at'); }
-    /** Value enum: "merchant", "partner_app".
+    /** Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again. Value enum: "merchant", "partner_app".
      * @return ?string
      */
     public function getRevokedBy(): ?string { return $this->get('revoked_by'); }
     public function hasRevokedBy(): bool { return $this->has('revoked_by'); }
-    /** revoked_by_user_id
+    /** ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it.
      * @return ?string
      */
     public function getRevokedByUserId(): ?string { return $this->get('revoked_by_user_id'); }
     public function hasRevokedByUserId(): bool { return $this->has('revoked_by_user_id'); }
-    /** Value enum: "pending_exchange", "active", "revoked".
+    /** Where the install is in its lifecycle. Value enum: "pending_exchange", "active", "revoked".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

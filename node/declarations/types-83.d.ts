@@ -1,13 +1,42 @@
 import type { InputValue, Model } from '../runtime.js';
 import type {
+    SubscriptionPromotionRequestInput,
+    SubscriptionQuantityChangeLineItemRequestInput,
+    SubscriptionServiceLocationInputAddressInput,
+    SubscriptionServiceLocationInputCustomerAddressInput,
+    SubscriptionServiceLocationRequestInput,
+    SubscriptionSettingsRequestInput,
+    SubscriptionSwapPreviewRequestInput,
+    SubscriptionTaxCalculationRequestInput,
+    SubscriptionTaxRequestInput,
+    SubscriptionTermsRequestInput
+} from './types-63.js';
+import type {
+    TaxCalculationCallbackConfigurationPatchRequestInput,
+    TaxCalculationCallbackConfigurationRequestInput,
+    TaxCalculationRequestModelInput,
+    TaxCalculationRequestRequestInput,
+    TaxComponentRequestModelInput,
+    TaxComponentRequestRequestInput
+} from './types-64.js';
+import type {
+    TaxDefaultCalculationRequestInput,
+    TaxIdentityPatchInput,
+    TaxIdentityRequestInput,
+    TaxJurisdictionRequestInput,
+    TaxJurisdictionRequestModelInput,
+    TaxSettingsRequestInput,
+    TextModifierConfigPatchRequestInput,
+    TextModifierConfigRequestInput,
+    TextModifierRequestInput,
     ThemeConfigRequestInput,
-    TicketVersionRequestInput,
+    TicketVersionRequestInput
+} from './types-65.js';
+import type {
     TippingSettingsPatchInput,
     UnfreezeGiftCardRequestInput,
     UpdateAPIKeyRequestInput,
-    UpdateBundleComponentRequestInput
-} from './types-65.js';
-import type {
+    UpdateBundleComponentRequestInput,
     UpdateBundleRequestInput,
     UpdateCategoryRequestInput,
     UpdateCheckoutSessionRequestInput,
@@ -29,7 +58,9 @@ import type {
     UpdateInventoryAllocationPolicyRequestInput,
     UpdateInventoryCountRequestInput,
     UpdateInventoryItemRequestInput,
-    UpdateInventoryLevelRequestInput,
+    UpdateInventoryLevelRequestInput
+} from './types-66.js';
+import type {
     UpdateInventoryReservationRequestInput,
     UpdateInventoryTransferRequestInput,
     UpdateInvoicePaymentTermRequestInput,
@@ -39,36 +70,36 @@ import type {
     UpdateMeRequestInput,
     UpdateMeSubscriptionLineItemRequestInput,
     UpdateMeSubscriptionRequestInput,
-    UpdateMerchantRequestInput
-} from './types-66.js';
-import type {
-    UpdateModifierGroupRequestInput,
-    UpdateModifierSetRequestInput,
-    UpdateOrderChargeRequestInput,
-    UpdateOrderRequestInput,
-    UpdatePackageItemRequestInput,
-    UpdatePackageRequestInput,
-    UpdatePartnerAppRequestInput,
-    UpdatePaymentIntentRequestInput,
-    UpdatePaymentLinkRequestInput,
-    UpdatePaymentMethodDomainRequestInput,
-    UpdatePayoutDestinationRequestInput,
-    UpdatePayoutSettingsRequestInput,
-    UpdatePickupFulfillmentDetailsInput,
-    UpdatePriceListPriceRequestInput,
-    UpdatePriceListRequestInput,
-    UpdateProductOptionRequestInput,
-    UpdateProductOptionValueRequestInput,
-    UpdateProductRequestInput,
-    UpdateProductVariantRequestInput,
-    UpdatePromotionCodeRequestInput,
-    UpdatePromotionRequestInput,
-    UpdateReaderRequestInput,
-    UpdateRefundRequestInput,
-    UpdateReturnLineItemRequestInput,
-    UpdateReturnPolicyRequestInput,
-    UpdateReturnReasonRequestInput
+    UpdateMerchantRequestInput,
+    UpdateModifierGroupRequestInput
 } from './types-67.js';
+export declare function makeSubscriptionPromotionRequest(value: InputValue<SubscriptionPromotionRequestInput>): Model<SubscriptionPromotionRequestInput>;
+export declare function makeSubscriptionQuantityChangeLineItemRequest(value: InputValue<SubscriptionQuantityChangeLineItemRequestInput>): Model<SubscriptionQuantityChangeLineItemRequestInput>;
+export declare function makeSubscriptionServiceLocationInputAddress(value: InputValue<SubscriptionServiceLocationInputAddressInput>): Model<SubscriptionServiceLocationInputAddressInput>;
+export declare function makeSubscriptionServiceLocationInputCustomerAddress(value: InputValue<SubscriptionServiceLocationInputCustomerAddressInput>): Model<SubscriptionServiceLocationInputCustomerAddressInput>;
+export declare function makeSubscriptionServiceLocationRequest(value: InputValue<Exclude<SubscriptionServiceLocationRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionServiceLocationRequestInput & object, readonly unknown[]>>;
+export declare function makeSubscriptionServiceLocationRequest(value: InputValue<SubscriptionServiceLocationRequestInput>): Model<SubscriptionServiceLocationRequestInput>;
+export declare function makeSubscriptionSettingsRequest(value: InputValue<SubscriptionSettingsRequestInput>): Model<SubscriptionSettingsRequestInput>;
+export declare function makeSubscriptionSwapPreviewRequest(value: InputValue<SubscriptionSwapPreviewRequestInput>): Model<SubscriptionSwapPreviewRequestInput>;
+export declare function makeSubscriptionTaxCalculationRequest(value: InputValue<SubscriptionTaxCalculationRequestInput>): Model<SubscriptionTaxCalculationRequestInput>;
+export declare function makeSubscriptionTaxRequest(value: InputValue<SubscriptionTaxRequestInput>): Model<SubscriptionTaxRequestInput>;
+export declare function makeSubscriptionTermsRequest(value: InputValue<Exclude<SubscriptionTermsRequestInput & object, readonly unknown[]>>): Model<Exclude<SubscriptionTermsRequestInput & object, readonly unknown[]>>;
+export declare function makeSubscriptionTermsRequest(value: InputValue<SubscriptionTermsRequestInput>): Model<SubscriptionTermsRequestInput>;
+export declare function makeTaxCalculationCallbackConfigurationPatchRequest(value: InputValue<TaxCalculationCallbackConfigurationPatchRequestInput>): Model<TaxCalculationCallbackConfigurationPatchRequestInput>;
+export declare function makeTaxCalculationCallbackConfigurationRequest(value: InputValue<TaxCalculationCallbackConfigurationRequestInput>): Model<TaxCalculationCallbackConfigurationRequestInput>;
+export declare function makeTaxCalculationRequestModel(value: InputValue<TaxCalculationRequestModelInput>): Model<TaxCalculationRequestModelInput>;
+export declare function makeTaxCalculationRequestRequest(value: InputValue<TaxCalculationRequestRequestInput>): Model<TaxCalculationRequestRequestInput>;
+export declare function makeTaxComponentRequestModel(value: InputValue<TaxComponentRequestModelInput>): Model<TaxComponentRequestModelInput>;
+export declare function makeTaxComponentRequestRequest(value: InputValue<TaxComponentRequestRequestInput>): Model<TaxComponentRequestRequestInput>;
+export declare function makeTaxDefaultCalculationRequest(value: InputValue<TaxDefaultCalculationRequestInput>): Model<TaxDefaultCalculationRequestInput>;
+export declare function makeTaxIdentityPatch(value: InputValue<TaxIdentityPatchInput>): Model<TaxIdentityPatchInput>;
+export declare function makeTaxIdentityRequest(value: InputValue<TaxIdentityRequestInput>): Model<TaxIdentityRequestInput>;
+export declare function makeTaxJurisdictionRequest(value: InputValue<TaxJurisdictionRequestInput>): Model<TaxJurisdictionRequestInput>;
+export declare function makeTaxJurisdictionRequestModel(value: InputValue<TaxJurisdictionRequestModelInput>): Model<TaxJurisdictionRequestModelInput>;
+export declare function makeTaxSettingsRequest(value: InputValue<TaxSettingsRequestInput>): Model<TaxSettingsRequestInput>;
+export declare function makeTextModifierConfigPatchRequest(value: InputValue<TextModifierConfigPatchRequestInput>): Model<TextModifierConfigPatchRequestInput>;
+export declare function makeTextModifierConfigRequest(value: InputValue<TextModifierConfigRequestInput>): Model<TextModifierConfigRequestInput>;
+export declare function makeTextModifierRequest(value: InputValue<TextModifierRequestInput>): Model<TextModifierRequestInput>;
 export declare function makeThemeConfigRequest(value: InputValue<ThemeConfigRequestInput>): Model<ThemeConfigRequestInput>;
 export declare function makeTicketVersionRequest(value: InputValue<TicketVersionRequestInput>): Model<TicketVersionRequestInput>;
 export declare function makeTippingSettingsPatch(value: InputValue<TippingSettingsPatchInput>): Model<TippingSettingsPatchInput>;
@@ -108,28 +139,3 @@ export declare function makeUpdateMeSubscriptionLineItemRequest(value: InputValu
 export declare function makeUpdateMeSubscriptionRequest(value: InputValue<UpdateMeSubscriptionRequestInput>): Model<UpdateMeSubscriptionRequestInput>;
 export declare function makeUpdateMerchantRequest(value: InputValue<UpdateMerchantRequestInput>): Model<UpdateMerchantRequestInput>;
 export declare function makeUpdateModifierGroupRequest(value: InputValue<UpdateModifierGroupRequestInput>): Model<UpdateModifierGroupRequestInput>;
-export declare function makeUpdateModifierSetRequest(value: InputValue<UpdateModifierSetRequestInput>): Model<UpdateModifierSetRequestInput>;
-export declare function makeUpdateOrderChargeRequest(value: InputValue<UpdateOrderChargeRequestInput>): Model<UpdateOrderChargeRequestInput>;
-export declare function makeUpdateOrderRequest(value: InputValue<UpdateOrderRequestInput>): Model<UpdateOrderRequestInput>;
-export declare function makeUpdatePackageItemRequest(value: InputValue<UpdatePackageItemRequestInput>): Model<UpdatePackageItemRequestInput>;
-export declare function makeUpdatePackageRequest(value: InputValue<UpdatePackageRequestInput>): Model<UpdatePackageRequestInput>;
-export declare function makeUpdatePartnerAppRequest(value: InputValue<UpdatePartnerAppRequestInput>): Model<UpdatePartnerAppRequestInput>;
-export declare function makeUpdatePaymentIntentRequest(value: InputValue<UpdatePaymentIntentRequestInput>): Model<UpdatePaymentIntentRequestInput>;
-export declare function makeUpdatePaymentLinkRequest(value: InputValue<UpdatePaymentLinkRequestInput>): Model<UpdatePaymentLinkRequestInput>;
-export declare function makeUpdatePaymentMethodDomainRequest(value: InputValue<UpdatePaymentMethodDomainRequestInput>): Model<UpdatePaymentMethodDomainRequestInput>;
-export declare function makeUpdatePayoutDestinationRequest(value: InputValue<UpdatePayoutDestinationRequestInput>): Model<UpdatePayoutDestinationRequestInput>;
-export declare function makeUpdatePayoutSettingsRequest(value: InputValue<UpdatePayoutSettingsRequestInput>): Model<UpdatePayoutSettingsRequestInput>;
-export declare function makeUpdatePickupFulfillmentDetails(value: InputValue<UpdatePickupFulfillmentDetailsInput>): Model<UpdatePickupFulfillmentDetailsInput>;
-export declare function makeUpdatePriceListPriceRequest(value: InputValue<UpdatePriceListPriceRequestInput>): Model<UpdatePriceListPriceRequestInput>;
-export declare function makeUpdatePriceListRequest(value: InputValue<UpdatePriceListRequestInput>): Model<UpdatePriceListRequestInput>;
-export declare function makeUpdateProductOptionRequest(value: InputValue<UpdateProductOptionRequestInput>): Model<UpdateProductOptionRequestInput>;
-export declare function makeUpdateProductOptionValueRequest(value: InputValue<UpdateProductOptionValueRequestInput>): Model<UpdateProductOptionValueRequestInput>;
-export declare function makeUpdateProductRequest(value: InputValue<UpdateProductRequestInput>): Model<UpdateProductRequestInput>;
-export declare function makeUpdateProductVariantRequest(value: InputValue<UpdateProductVariantRequestInput>): Model<UpdateProductVariantRequestInput>;
-export declare function makeUpdatePromotionCodeRequest(value: InputValue<UpdatePromotionCodeRequestInput>): Model<UpdatePromotionCodeRequestInput>;
-export declare function makeUpdatePromotionRequest(value: InputValue<UpdatePromotionRequestInput>): Model<UpdatePromotionRequestInput>;
-export declare function makeUpdateReaderRequest(value: InputValue<UpdateReaderRequestInput>): Model<UpdateReaderRequestInput>;
-export declare function makeUpdateRefundRequest(value: InputValue<UpdateRefundRequestInput>): Model<UpdateRefundRequestInput>;
-export declare function makeUpdateReturnLineItemRequest(value: InputValue<UpdateReturnLineItemRequestInput>): Model<UpdateReturnLineItemRequestInput>;
-export declare function makeUpdateReturnPolicyRequest(value: InputValue<UpdateReturnPolicyRequestInput>): Model<UpdateReturnPolicyRequestInput>;
-export declare function makeUpdateReturnReasonRequest(value: InputValue<UpdateReturnReasonRequestInput>): Model<UpdateReturnReasonRequestInput>;

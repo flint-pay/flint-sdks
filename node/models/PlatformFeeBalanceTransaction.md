@@ -20,7 +20,7 @@ One entry of a partner app's platform fee ledger. Entries keep their amounts; st
 | `platform_fee_id` | Optional | string | The fee the entry concerns, when it concerns one. Example: `"pfee_01KEZF7C00JHAZN19B3MMW0R3A"`. |
 | `platform_fee_payout_id` | Optional | string | The payout that carried the entry. Set once when a payout is prepared, and never changed. Example: `"pfpo_01KEZF7C00H58B147FK286D4A4"`. |
 | `related_balance_transaction_ids` | Required | Array of string | Earlier entries this one is linked to. Empty when none. Items: Example: `"btxn_01KEZF7C00H1Z82CMFWWXMZGHZ"`. |
-| `related_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The Flint resource behind the entry, when it has one other than the fee. A reference to another resource by `resource_type` and `resource_id`. |
+| `related_resource` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The Flint resource behind the entry, when it has one other than the fee. A reference to another resource by `resource_type` and `resource_id`. `related_resource`: [field definitions](../models/PlatformFeeBalanceTransaction.md#platformfeebalancetransactionrelated_resource). |
 | `status` | Required | string | Whether the amount counts toward available_money yet. Values: `"pending"`, `"available"`. |
 | `type` | Required | string | What the entry records. Can gain values; treat an unknown value as other. Values: [10 declared values](#platformfeebalancetransaction-type-values). |
 
@@ -42,4 +42,10 @@ One entry of a partner app's platform fee ledger. Entries keep their amounts; st
 The signed effect on available_money plus pending_money: positive for money in, negative for money out. Signed monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
 Field definitions: [shared fields](Balance.md#balanceavailable_by_source_type).
+
+### PlatformFeeBalanceTransaction.related_resource
+
+The Flint resource behind the entry, when it has one other than the fee. A reference to another resource by `resource_type` and `resource_id`.
+
+Field definitions: [shared fields](APIRequestLog.md#apirequestlogcaller).
 

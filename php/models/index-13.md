@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# InventoryAllocationPolicyListResponseInput to InventoryTransferResponseInput
+# InventoryAdjustmentListResponseInput to InventoryTransferDepartedInstalledMerchantsEventInput
 
+- [InventoryAdjustmentListResponseInput](InventoryAdjustmentListResponseInput.md)
+- [InventoryAdjustmentQuantityLineRequestInput](InventoryAdjustmentQuantityLineRequestInput.md)
+- [InventoryAdjustmentResponseInput](InventoryAdjustmentResponseInput.md)
+- [InventoryAdjustmentResultInput](InventoryAdjustmentResultInput.md)
+- [InventoryAdjustmentResultResponseInput](InventoryAdjustmentResultResponseInput.md)
+- [InventoryAdjustmentSetLineRequestInput](InventoryAdjustmentSetLineRequestInput.md)
+- [InventoryAllocationConfigurationValueInput](InventoryAllocationConfigurationValueInput.md)
+- [InventoryAllocationPolicyInput](InventoryAllocationPolicyInput.md)
+- [InventoryAllocationPolicyConfigurationRequestInput](InventoryAllocationPolicyConfigurationRequestInput.md)
 - [InventoryAllocationPolicyListResponseInput](InventoryAllocationPolicyListResponseInput.md)
 - [InventoryAllocationPolicyLocationInput](InventoryAllocationPolicyLocationInput.md)
 - [InventoryAllocationPolicyResponseInput](InventoryAllocationPolicyResponseInput.md)
@@ -93,13 +102,4 @@
 - [InventoryTransferClosedMerchantEventInput](InventoryTransferClosedMerchantEventInput.md)
 - [InventoryTransferConflictErrorEnvelopeInput](InventoryTransferConflictErrorEnvelopeInput.md)
 - [InventoryTransferDepartedInstalledMerchantsEventInput](InventoryTransferDepartedInstalledMerchantsEventInput.md)
-- [InventoryTransferDepartedMerchantEventInput](InventoryTransferDepartedMerchantEventInput.md)
-- [InventoryTransferLineInput](InventoryTransferLineInput.md)
-- [InventoryTransferLineRequestInput](InventoryTransferLineRequestInput.md)
-- [InventoryTransferListResponseInput](InventoryTransferListResponseInput.md)
-- [InventoryTransferLostInstalledMerchantsEventInput](InventoryTransferLostInstalledMerchantsEventInput.md)
-- [InventoryTransferLostMerchantEventInput](InventoryTransferLostMerchantEventInput.md)
-- [InventoryTransferReceivedInstalledMerchantsEventInput](InventoryTransferReceivedInstalledMerchantsEventInput.md)
-- [InventoryTransferReceivedMerchantEventInput](InventoryTransferReceivedMerchantEventInput.md)
-- [InventoryTransferResponseInput](InventoryTransferResponseInput.md)
 

@@ -11,8 +11,8 @@ One entry in a resource timeline. The `entry_type` selects which of the request,
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_request_log_id` | Conditional | string | Example: `"rlog_01KEZF7C008XJCH6BHA224X46F"`. |
-| `attributed_resource` | Conditional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The resource this request log is attributed to. Always present: the timeline resource for a direct request, or its directly owned resource for an included request. A reference to another resource by `resource_type` and `resource_id`. |
-| `caller` | Conditional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Who made this request. An API key, workload token, or partner app token records that API key, workload identity, or partner app installation. A Dashboard write, CLI login, or onboarding session records the user. A buyer checkout request records the checkout session. A buyer account request records the customer session. A request made with invoice access records the invoice. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`. |
+| `attributed_resource` | Conditional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The resource this request log is attributed to. Always present: the timeline resource for a direct request, or its directly owned resource for an included request. A reference to another resource by `resource_type` and `resource_id`. `attributed_resource`: [field definitions](../models/ResourceTimelineAPIRequestEntry.md#resourcetimelineapirequestentryattributed_resource). |
+| `caller` | Conditional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Who made this request. An API key, workload token, or partner app token records that API key, workload identity, or partner app installation. A Dashboard write, CLI login, or onboarding session records the user. A buyer checkout request records the checkout session. A buyer account request records the customer session. A request made with invoice access records the invoice. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`. `caller`: [field definitions](../models/APIRequestLog.md#apirequestlogcaller). |
 | `client_request_id` | Conditional | string | The caller's X-Request-Id, matched exactly and case-sensitively. Absent when the caller sent none. minLength: `1`. maxLength: `128`. pattern: `^[\x21-\x7E]+$`. Example: `"checkout-1842"`. |
 | `client_trace_id` | Conditional | string | The trace ID from a valid W3C traceparent, for correlation with the caller's tracing. Flint starts its own trace. Absent when no valid traceparent was sent. pattern: `^[0-9a-f]{32}$`. Example: `"0123456789abcdef0123456789abcdef"`. |
 | `entry_type` | Required | string |  |
@@ -109,4 +109,12 @@ oneOf with entry_type: "image_mutation": A change to this resource's image attac
 - Undeclared: `api_request_log_id`, `attributed_resource`, `caller`, `client_request_id`, `client_trace_id`, `error_code`, `error_summary`, `error_type`, `http_method`, `latency_milliseconds`, `path`, `recommended_action`, `reference_url`, `retry`, `route_pattern`, `status_code`, `event_type`, `webhook_event_id`, `attempt_number`, `completed_at`, `delivery_trigger`, `duration_milliseconds`, `error_category`, `reason_message`, `retryable`, `started_at`, `status`, `webhook_delivery_attempt_id`, `webhook_delivery_id`, `webhook_endpoint_id`.
 - Constraints for `entry_type`: Always `image_mutation` for this kind of entry. Values: `"image_mutation"`.
 - Constraints for `resource_timeline_entry_id`: Example: `"iomevt_01KEZF7C00D4JSSDP6AB68EFF2"`.
+
+### ResourceTimelineEntry variant 1.attributed_resource
+
+Field definitions: [ResourceTimelineAPIRequestEntry.attributed_resource](../models/ResourceTimelineAPIRequestEntry.md#resourcetimelineapirequestentryattributed_resource).
+
+### ResourceTimelineEntry variant 1.caller
+
+Field definitions: [APIRequestLog.caller](../models/APIRequestLog.md#apirequestlogcaller).
 

@@ -1,22 +1,372 @@
-import type { ResponseMeta, ResponseWarning, ResourceReference } from './types-54.js';
-import type { RiskList } from './types-57.js';
 import type { InputValue } from '../runtime.js';
-import type { AddRiskListItemsRequestInput } from './types-0.js';
+import type { ReopenReturnRequestInput } from './types-53.js';
 import type {
-    CreateRiskListRequestInput,
-    CreateRiskPreviewRequestInput,
-    CreateRiskRuleRequestInput,
-    CreateSandboxRequestInput
-} from './types-13.js';
+    UpdateReturnLineItemRequestInput,
+    UpdateReturnRequestInput,
+    UpdateRiskListRequestInput,
+    UpdateRiskRuleRequestInput
+} from './types-68.js';
+import type { WaiveReturnLineInspectionRequestInput } from './types-69.js';
+import type { ResponseMeta, ResourceReference, ResponseWarning } from './types-54.js';
+import type { AddRiskListItemsRequestInput } from './types-0.js';
+import type { CreateRiskListRequestInput, CreateRiskPreviewRequestInput, CreateRiskRuleRequestInput } from './types-13.js';
 import type { DisputesAcceptParams } from './types-23.js';
-import type { UpdateRiskListRequestInput, UpdateRiskRuleRequestInput } from './types-68.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { GiftCardPurchaseRecipient } from './types-27.js';
-import type { GiftCardNotificationRecipientInput, GiftCard, GiftCardNotification } from './types-26.js';
-import type { PartnerAppWithRotatedSecret } from './types-43.js';
-import type { CreateDeveloperSandboxResult } from './types-9.js';
-import type { PartnerAppsListParams } from './types-44.js';
-import type { SaveMeGiftCardRequestCode, SaveMeGiftCardRequestRecipientAccess } from './types-59.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { GiftCardPurchaseRecipient, GiftCardNotificationRecipientInput } from './types-27.js';
+import type { GiftCard, GiftCardNotification } from './types-26.js';
+export type ReturnsReopenParams = (InputValue<ReopenReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsUpdateLineItemParams = (InputValue<UpdateReturnLineItemRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsUpdateParams = (InputValue<UpdateReturnRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+export type ReturnsWaiveLineItemInspectionParams = (InputValue<WaiveReturnLineInspectionRequestInput>)
+    & {
+    /**
+     * Merchant this request acts for. Required with an app-level partner app token; optional with
+     * a merchant-bound one, which it must match. Other credentials may send it only with their own
+     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Merchant-Id"?: InputValue<string>;
+    /**
+     * Mode of the request context, live or test. Optional; it must match the credential's mode.
+     * Value enum: "test", "live".
+     */
+    "Flint-Mode"?: InputValue<"test" | "live">;
+    /**
+     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
+     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
+     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
+     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
+     */
+    "Flint-Sandbox-Id"?: InputValue<string>;
+};
+/** The request body for: Reverse manual invoice payment. */
+export type ReverseInvoiceManualPaymentRequest = {
+    /** Expected version of the invoice. Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Why the offline payment is being reversed, up to 4096 characters. minLength: 1. maxLength:
+     * 4096.
+     */
+    "reversal_note"?: string;
+    /**
+     * When the payment was reversed. Defaults to now and must not precede received_at. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "reversed_at"?: string;
+};
+/** The request body for: Reverse manual invoice payment. */
+export type ReverseInvoiceManualPaymentRequestInput = {
+    /** Expected version of the invoice. Format: int64. minimum: 1. */
+    "expected_version"?: number;
+    /**
+     * Why the offline payment is being reversed, up to 4096 characters. minLength: 1. maxLength:
+     * 4096.
+     */
+    "reversal_note"?: string;
+    /**
+     * When the payment was reversed. Defaults to now and must not precede received_at. Format:
+     * date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
+     */
+    "reversed_at"?: string | globalThis.Date;
+};
+/**
+ * One attribute a risk rule can test, with its value type, allowed operators, and whether it is
+ * currently available.
+ */
+export type RiskAttribute = {
+    /**
+     * The stage from which the attribute's value is known. Value enum: "pre_authorization",
+     * "post_authorization".
+     */
+    "available_from": "pre_authorization" | "post_authorization" | (string & {});
+    /** The values the attribute can take. Present for `enum` attributes. [] (Value): string. */
+    "enum_values"?: Array<string>;
+    /** Whether the attribute can be used in rules in this environment. */
+    "is_available": boolean;
+    /** Whether the attribute can be missing from a payment. */
+    "is_nullable": boolean;
+    /**
+     * How a comparison treats a payment that has no value for the attribute. Value enum:
+     * "not_applicable_except_is_missing".
+     */
+    "missing_value_behavior": "not_applicable_except_is_missing" | (string & {});
+    /** Name of the attribute, as a rule's `attribute` field uses it. */
+    "name": string;
+    /**
+     * Operators accepted by this attribute. [] enum: "eq", "neq", "gt", "gte", "lt", "lte", "in",
+     * "in_list", "is_missing". [] (Value): string. Value enum: "eq", "neq", "gt", "gte", "lt",
+     * "lte", "in", "in_list", "is_missing".
+     */
+    "operators": Array<"eq" | "neq" | "gt" | "gte" | "lt" | "lte" | "in" | "in_list" | "is_missing" | (string & {})>;
+    /**
+     * Why the attribute can't be used in rules. Present when `is_available` is `false`. Value
+     * enum: "risk_scoring_not_enabled", "ip_geolocation_not_enabled".
+     */
+    "unavailable_reason"?: "risk_scoring_not_enabled" | "ip_geolocation_not_enabled" | (string & {});
+    /**
+     * The kind of value the attribute holds. Value enum: "money", "currency", "string", "enum",
+     * "country", "email", "ip_address", "boolean", "integer".
+     */
+    "value_type": "money"
+        | "currency"
+        | "string"
+        | "enum"
+        | "country"
+        | "email"
+        | "ip_address"
+        | "boolean"
+        | "integer"
+        | (string & {});
+};
+/** The attributes available to risk rules, in the current environment. */
+export type RiskAttributeRegistry = {
+    /**
+     * The attributes a risk rule can test. [] (Value): {@link RiskAttribute}. One attribute a risk
+     * rule can test, with its value type, allowed operators, and whether it is currently
+     * available.
+     */
+    "attributes": Array<RiskAttribute>;
+};
+/** A response containing `RiskAttributeRegistry` data. */
+export type RiskAttributeRegistryResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The attributes available
+     * to risk rules, in the current environment.
+     */
+    "data": RiskAttributeRegistry;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A collection of values used in payment risk rules. */
+export type RiskList = {
+    /**
+     * Name rules use to refer to this list, such as flagged_emails: a lowercase letter, then up to
+     * 127 lowercase letters, digits, or underscores. Set at creation and never changed.
+     */
+    "alias": string;
+    /**
+     * RFC3339 timestamp. `null` when the resource isn't archived. Format: date-time. Example:
+     * "2026-08-02T16:00:00Z".
+     */
+    "archived_at": string | null;
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The credential that created this list. Null when Flint created it, as for Flint's default
+     * lists. The reference may name an API key in the other mode. anyOf[1] (Value): {@link
+     * ResourceReference}. A reference to another resource by `resource_type` and `resource_id`.
+     * anyOf[2] (Value): null.
+     */
+    "created_by": ((ResourceReference) | (null));
+    /** Number of values on the list now. Format: int64. */
+    "item_count": number;
+    /**
+     * Values are trimmed and compared exactly after item-type normalization for deduplication and
+     * membership. card_fingerprint is the 32-character hexadecimal value from
+     * PaymentMethod.fingerprint and is lowercased; case_sensitive_string preserves case and
+     * Unicode composition. string and email are lowercased, with accents preserved. email requires
+     * a bare address. email_domain is lowercased, has one final dot removed, and converts
+     * internationalized domains to ASCII. ip_address uses canonical IP form, including IPv4-mapped
+     * IPv6 conversion to IPv4. country uses uppercase ISO codes. card_bin preserves 6 through 8
+     * digits, including leading zeros, and matches the full value. customer_id preserves the
+     * validated ID. Value enum: "card_fingerprint", "card_bin", "email", "email_domain",
+     * "ip_address", "country", "customer_id", "string", "case_sensitive_string".
+     */
+    "item_type": "card_fingerprint"
+        | "card_bin"
+        | "email"
+        | "email_domain"
+        | "ip_address"
+        | "country"
+        | "customer_id"
+        | "string"
+        | "case_sensitive_string"
+        | (string & {});
+    /** Display name of the list. */
+    "name": string;
+    /**
+     * Whether Flint manages the list or the merchant created it. Value enum: "system_default",
+     * "merchant".
+     */
+    "origin": "system_default" | "merchant" | (string & {});
+    /**
+     * Unique identifier for this risk list, prefixed `rl_`. Example:
+     * "rl_01KEZF7C00VYSERA4QCTJP147A".
+     */
+    "risk_list_id": string;
+    /** Whether the list can still be used. Value enum: "active", "archived". */
+    "status": "active" | "archived" | (string & {});
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "updated_at": string;
+    /**
+     * Version of persisted list configuration and item-count changes. External observations do not
+     * advance this counter. Format: uint64. minimum: 1.
+     */
+    "version": number;
+};
+/** One value in a payment risk list. */
+export type RiskListItem = {
+    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
+    "created_at": string;
+    /**
+     * The credential that created this list item. Null when Flint created it. The reference may
+     * name an API key in the other mode. anyOf[1] (Value): {@link ResourceReference}. A reference
+     * to another resource by `resource_type` and `resource_id`. anyOf[2] (Value): null.
+     */
+    "created_by": ((ResourceReference) | (null));
+    /** ID of the risk list this value is on. Example: "rl_01KEZF7C00VYSERA4QCTJP147A". */
+    "risk_list_id": string;
+    /**
+     * Unique identifier for this risk list item, prefixed `rli_`. Example:
+     * "rli_01KEZF7C006BND1CJYPAJW9JWE".
+     */
+    "risk_list_item_id": string;
+    /**
+     * The value as stored after item_type normalization, which is what payments are matched
+     * against.
+     */
+    "value": string;
+};
+/** The risk list item matched or created for one requested value, and its creation outcome. */
+export type RiskListItemAddition = {
+    /**
+     * Whether the value was added or was already on the list. Value enum: "created", "existing".
+     */
+    "outcome": "created" | "existing" | (string & {});
+    /** The list item holding the value. One value in a payment risk list. */
+    "risk_list_item": RiskListItem;
+};
+/** A page of `RiskListItem` objects. */
+export type RiskListItemListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskListItem}. One value in a payment risk list.
+     */
+    "data": Array<RiskListItem>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A response containing `RiskListItem` data. */
+export type RiskListItemResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. One value in a payment
+     * risk list.
+     */
+    "data": RiskListItem;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/** A page of `RiskList` objects. */
+export type RiskListListResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. [] (Value): {@link
+     * RiskList}. A collection of values used in payment risk rules.
+     */
+    "data": Array<RiskList>;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
+     * next page.
+     */
+    "next_page_token"?: string;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /** A response containing `RiskList` data. */
 export type RiskListResourceResponse = {
     /**
@@ -870,201 +1220,3 @@ export type RotateGiftCardCodeResult = {
      */
     "gift_card_notification"?: GiftCardNotification;
 };
-/** A response containing `RotateGiftCardCodeResult` data. */
-export type RotateGiftCardCodeResultResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The gift card after its
-     * code was rotated, with the new `code` while it can be recovered and the notification sent.
-     */
-    "data": RotateGiftCardCodeResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Rotate partner app secret. */
-export type RotatePartnerAppSecretRequestInput = {
-    /**
-     * Rotate only if this matches the app's current version. A mismatch returns HTTP 409
-     * VERSION_CONFLICT. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
-    "expire_previous_secret_at"?: string | globalThis.Date;
-};
-/** A response containing `PartnerAppWithRotatedSecret` data. */
-export type RotatePartnerAppSecretResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. A partner app returned
-     * with its newly issued client secret after rotation. An application that merchants can
-     * authorize to access their accounts.
-     */
-    "data": PartnerAppWithRotatedSecret;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** The request body for: Rotate webhook secret. */
-export type RotateWebhookSecretRequest = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
-     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expire_previous_secret_at"?: string;
-};
-/** The request body for: Rotate webhook secret. */
-export type RotateWebhookSecretRequestInput = {
-    /**
-     * Version last read from the resource returned in `data` (the primary resource for a result
-     * object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on
-     * the operation and fields being changed. Format: uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * When the replaced secret stops signing. Omit for a 24-hour overlap; send a time at or before
-     * now to stop it immediately. Must be no later than 7 days from now. Null is not accepted.
-     * Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z".
-     */
-    "expire_previous_secret_at"?: string | globalThis.Date;
-};
-/** An isolated environment for testing an integration. */
-export type Sandbox = {
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "created_at": string;
-    /**
-     * The onboarding state the sandbox starts in, and returns to when you reset it. `complete`
-     * prefills a verified test identity; `not_started` leaves requirements due so you can rehearse
-     * onboarding. Value enum: "complete", "not_started".
-     */
-    "initial_onboarding": "complete" | "not_started" | (string & {});
-    /**
-     * Whether this is the merchant's one default sandbox. It can be reset but cannot be archived.
-     */
-    "is_default": boolean;
-    /** Sandbox name. Archiving appends (Archived XXXXXXXX) to free the original name for reuse. */
-    "name": string;
-    /**
-     * When the last reset stopped after repeated failures. Before data deletion starts, the
-     * sandbox keeps its previous data and remains usable. Once deletion starts, requests are
-     * blocked until you retry the reset or archive a non-default sandbox. Null when no reset has
-     * failed or a later reset succeeded. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     */
-    "reset_failed_at": string | null;
-    /**
-     * Unique identifier for this sandbox, prefixed `test_`. Example:
-     * "test_01KEZF7C00JC77HTMTB2XHNPE0".
-     */
-    "sandbox_id": string;
-    /**
-     * Sandbox availability. Active sandboxes accept test requests. Archived sandboxes are retired,
-     * with their API keys revoked; reset preserves an active sandbox and its credentials. Value
-     * enum: "active", "archived".
-     */
-    "status": "active" | "archived" | (string & {});
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-    "updated_at": string;
-};
-/** A page of `Sandbox` objects. */
-export type SandboxListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * Sandbox}. An isolated environment for testing an integration.
-     */
-    "data": Array<Sandbox>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `Sandbox` data. */
-export type SandboxResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. An isolated environment
-     * for testing an integration.
-     */
-    "data": Sandbox;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-/** A response containing `CreateDeveloperSandboxResult` data. */
-export type SandboxWithAPIKeyResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. The created sandbox is
-     * the primary resource, with the API key and one-time secret_key when issue_test_key is true.
-     */
-    "data": CreateDeveloperSandboxResult;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
-};
-export type SandboxesCreateParams = (CreateSandboxRequestInput);
-export type SandboxesDeleteParams = {};
-export type SandboxesGetParams = {};
-export type SandboxesListParams = PartnerAppsListParams;
-export type SandboxesResetParams = {};
-/** The request body for: Save a gift card to your account. */
-export type SaveMeGiftCardRequest = ({
-    /** The gift card's code. Spaces and hyphens are ignored. minLength: 1. */
-    "code"?: string;
-    /**
-     * The proof that the buyer can use the card: its code, or the private recipient link they
-     * received. Value enum: "code", "recipient_access".
-     */
-    "credential_type": "code" | "recipient_access" | (string & {});
-    /**
-     * ID of the recipient access grant, from the path of the private recipient link. minLength: 1.
-     * Example: "gcg_01KEZF7C00BTDW4CJQTB38Q828".
-     */
-    "grant_id"?: string;
-    /** Token from the fragment of the private recipient link. minLength: 1. */
-    "recipient_access_token"?: string;
-})
-    & ((Exclude<SaveMeGiftCardRequestCode & object, readonly unknown[]>)
-    | (Exclude<SaveMeGiftCardRequestRecipientAccess & object, readonly unknown[]>)
-    | (Record<string, unknown>));

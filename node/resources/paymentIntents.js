@@ -5,9 +5,9 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/paymentIntents.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/paymentIntents.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
 const _sdkDescriptors = new DescriptorSource(settings, {["cancelPaymentIntent"]:r0,["capturePaymentIntent"]:r0,["confirmPaymentIntent"]:r0,["createPaymentIntent"]:r0,["getPaymentIntent"]:r0,["listPaymentIntentActivities"]:r0,["listPaymentIntents"]:r0,["sendPaymentIntentReceipt"]:r0,["updatePaymentIntent"]:r0});
 export class Client {
@@ -44,7 +44,7 @@ this.paymentIntents = Object.freeze({
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
-], true, true, params, [
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -53,7 +53,7 @@ this.paymentIntents = Object.freeze({
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
-], true, true, params, [
+], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
@@ -244,15 +244,17 @@ export { makeCancelPaymentIntentRequest } from '../models/CancelPaymentIntentReq
 export { makeCapturePaymentIntentRequest } from '../models/CapturePaymentIntentRequest.js';
 export { makeCapturePaymentSplitRequest } from '../models/CapturePaymentSplitRequest.js';
 export { makeConfirmPaymentIntentRequest } from '../models/ConfirmPaymentIntentRequest.js';
-export { makeConfirmPaymentIntentRequestAttached } from '../models/ConfirmPaymentIntentRequestAttached.js';
-export { makeConfirmPaymentIntentRequestPaymentMethod } from '../models/ConfirmPaymentIntentRequestPaymentMethod.js';
-export { makeConfirmPaymentIntentRequestReader } from '../models/ConfirmPaymentIntentRequestReader.js';
-export { makeConfirmPaymentIntentRequestStripeConfirmationToken } from '../models/ConfirmPaymentIntentRequestStripeConfirmationToken.js';
-export { makeConfirmPaymentIntentRequestToken } from '../models/ConfirmPaymentIntentRequestToken.js';
 export { makeCreatePaymentIntentRequest } from '../models/CreatePaymentIntentRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeOrderPaymentSourceCardSelection } from '../models/OrderPaymentSourceCardSelection.js';
+export { makeOrderPaymentSourceSelection } from '../models/OrderPaymentSourceSelection.js';
+export { makePaymentSourceCredential } from '../models/PaymentSourceCredential.js';
+export { makePaymentSourceCredentialPaymentMethod } from '../models/PaymentSourceCredentialPaymentMethod.js';
+export { makePaymentSourceCredentialReader } from '../models/PaymentSourceCredentialReader.js';
+export { makePaymentSourceCredentialStripeConfirmationToken } from '../models/PaymentSourceCredentialStripeConfirmationToken.js';
+export { makePaymentSourceCredentialStripePaymentMethod } from '../models/PaymentSourceCredentialStripePaymentMethod.js';
 export { makePaymentSplitRequest } from '../models/PaymentSplitRequest.js';
 export { makePlatformFeeRequest } from '../models/PlatformFeeRequest.js';
 export { makeReaderPaymentSourceTip } from '../models/ReaderPaymentSourceTip.js';

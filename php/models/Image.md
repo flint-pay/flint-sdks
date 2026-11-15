@@ -6,5 +6,5 @@ An image with its URL, size, and alt text.
 
 Response model.
 
-Fields, types, descriptions and enum values: [BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage](../models/BuyerReturnPreviewResponseDataEligibilityEligibilityLineItemsItemImage.md#buyerreturnpreviewresponsedataeligibilityeligibilitylineitemsitemimage).
+Fields, types, descriptions and enum values: [ExpandedSubscriptionPlanSummaryLineItemsItemVariantImage](../models/ExpandedSubscriptionPlanSummaryLineItemsItemVariantImage.md#expandedsubscriptionplansummarylineitemsitemvariantimage).
 

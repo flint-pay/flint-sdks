@@ -28,12 +28,11 @@ namespace Flint;
  * @property-read string $return_resolution_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $returned_total_money
  * @property-read string $status
- * @property-read list<string> $supported_actions
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class BuyerReturnResolutionInput extends Model {
-    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<BuyerReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_reason'?: string, 'confirmed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'execution_blockers': list<BuyerReturnResolutionExecutionBlockerInput|array<array-key, mixed>|\stdClass>, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string|\DateTimeInterface, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'metadata': array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'return_resolution_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<BuyerReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_at'?: string|\DateTimeInterface, 'cancellation_reason'?: string, 'confirmed_at'?: string|\DateTimeInterface, 'created_at': string|\DateTimeInterface, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'execution_blockers': list<BuyerReturnResolutionExecutionBlockerInput|array<array-key, mixed>|\stdClass>, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string|\DateTimeInterface, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'metadata': array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'return_resolution_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnResolutionInput')); }
     /** Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. Value enum: "buyer_payment", "manual_release".
      * @return string
@@ -119,7 +118,7 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getFailureMessage(): string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** When the resolution became fulfilled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** When the resolution completed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When fulfilled_at is omitted; use hasFulfilledAt() or valueOrDefault().
      */
@@ -185,18 +184,12 @@ final class BuyerReturnResolutionInput extends Model {
      */
     public function getReturnedTotalMoney(): mixed { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
-    /** fulfilled means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+    /** completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Lists checkout_session while the buyer owes buyer_payment_amount_money for a replacement and the resolution is pending or requires_action. Pay it with POST /v1/me/checkout-sessions and type return_resolution. Otherwise empty. [] enum: "checkout_session". [] (Value): string.  Value enum: "checkout_session".
-     * @return list<string>
-     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
-     */
-    public function getSupportedActions(): array { return $this->get('supported_actions'); }
-    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

@@ -94,7 +94,7 @@ final class CreateCheckoutSessionQuickPayInput extends Model {
      */
     public function getPaymentReturnUrl(): string { return $this->get('payment_return_url'); }
     public function hasPaymentReturnUrl(): bool { return $this->has('payment_return_url'); }
-    /** Payment settings you supply when creating a checkout session: the enabled payment options and a note shown with payment.
+    /** Payment settings for this session: the payment options it offers and a note shown with them. Omit `enabled_payment_options` to use the merchant's `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution` or `invoice`. Payment settings you supply when creating a checkout session: the enabled payment options and a note shown with payment.
      * @return CheckoutPaymentConfigRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When payments is omitted; use hasPayments() or valueOrDefault().
      */

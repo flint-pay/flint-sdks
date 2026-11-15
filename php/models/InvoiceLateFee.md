@@ -14,7 +14,7 @@ Response model.
 | `invoice_id` | Required | string | Invoice that owns this late fee. |
 | `invoice_late_fee_id` | Required | string | Flint invoice late fee ID. |
 | `invoice_schedule_entry_id` | Optional | string | The schedule entry this fee applies to. Absent on an invoice without a schedule, where the fee applies to the whole invoice. Each invoice, or each entry, takes at most one fee, even after a waiver. |
-| `late_fee_policy` | Required | object and Alternative shapes (see declared variants) or null | The late fee policy from payment_terms_snapshot, copied when the fee was assessed. `null` when no policy was captured. `late_fee_policy`: [declared alternatives](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicelate_feeslate_fee_policy). |
+| `late_fee_policy` | Required | object and Alternative shapes (see declared variants) or null | The late fee policy from payment_terms_snapshot, copied when the fee was assessed. `null` when no policy was captured. `late_fee_policy`: [declared alternatives](../models/InvoiceResponse.md#invoiceresponsedatalate_feeslate_fee_policy). |
 | `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What is still owed on this fee: amount_money - paid_money - waived_money - written_off_money, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `paid_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Payments applied to this fee, minus reversed payments. Dispute losses don't reduce it. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts for this resource now, based on stored state. Independent of the caller's permissions; each action still requires its route's scope. Always [] when no action is available. Items values: `"waive"`. |
@@ -25,5 +25,5 @@ Response model.
 
 ### InvoiceLateFee.late_fee_policy
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.late_fees[].late_fee_policy](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicelate_feeslate_fee_policy).
+Declared alternatives: [InvoiceResponse.data.late_fees[].late_fee_policy](../models/InvoiceResponse.md#invoiceresponsedatalate_feeslate_fee_policy).
 

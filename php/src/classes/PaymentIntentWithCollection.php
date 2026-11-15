@@ -148,7 +148,7 @@ final class PaymentIntentWithCollection extends Model {
      */
     public function getDisputeStatus(): ?string { return $this->get('dispute_status'); }
     public function hasDisputeStatus(): bool { return $this->has('dispute_status'); }
-    /** Caller-owned identifier for this resource in an external system. minLength: 1. maxLength: 255.
+    /** Caller-owned identifier for this resource in an external system. `null` when no external reference ID has been set on the payment intent. minLength: 1. maxLength: 255.
      * @return string|null
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
@@ -243,7 +243,7 @@ final class PaymentIntentWithCollection extends Model {
      */
     public function getReaderId(): ?string { return $this->get('reader_id'); }
     public function hasReaderId(): bool { return $this->has('reader_id'); }
-    /** Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. Format: email. maxLength: 255.
+    /** Email address for this payment's receipt. When it isn't set, Flint uses the customer's email. `null` when no receipt email has been set on the payment intent. Format: email. maxLength: 255.
      * @return string|null
      */
     public function getReceiptEmail(): string|null { return $this->get('receipt_email'); }
@@ -283,7 +283,7 @@ final class PaymentIntentWithCollection extends Model {
      */
     public function getReturnResolutionId(): ?string { return $this->get('return_resolution_id'); }
     public function hasReturnResolutionId(): bool { return $this->has('return_resolution_id'); }
-    /** Risk assessment. Always present with merchant credentials; null when no risk assessment is available. Omitted with the checkout credential. anyOf[1] (Value): {@see PaymentRisk}. The risk assessment for a payment intent, with its risk level, score, outcome, and any matched rule or review. anyOf[2] (Value): null.
+    /** Risk assessment. Always present with merchant credentials. `null` when the payment intent's latest payment attempt has no completed risk assessment, such as before its first confirmation. Omitted with the checkout credential. anyOf[1] (Value): {@see PaymentRisk}. The risk assessment for a payment intent, with its risk level, score, outcome, and any matched rule or review. anyOf[2] (Value): null.
      * @return PaymentRisk|null
      */
     public function getRisk(): PaymentRisk|null { return $this->get('risk'); }
@@ -318,12 +318,12 @@ final class PaymentIntentWithCollection extends Model {
      */
     public function getSupportReference(): string { return $this->get('support_reference'); }
     public function hasSupportReference(): bool { return $this->has('support_reference'); }
-    /** Actions the payment intent's current state accepts, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. An action that isn't listed returns 409 ACTION_NOT_ALLOWED. A listed action can still be refused because of something outside the payment intent: an open risk review, an order payment attempt that is using this payment, a closed order, or the merchant's account. An order-owned payment intent never lists confirm; pay it with POST /v1/orders/{order_id}/pay. The list changes only when the payment intent changes. Always empty for buyer credentials. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value): string.  Value enum: "confirm", "capture", "cancel".
+    /** Verbs this payment intent accepts now, each a POST to /v1/payment-intents/{payment_intent_id}/{action}. The list includes stored order facts and can change without a payment intent version change. Order legs list confirm when a single leg can pay the order or an open attempt can continue it. Several unpaid legs, selected gift cards, or automatic tax with a leg below the balance require pay_order instead. Invoice payments list only cancel; subscription payments list none. Order edit payments list confirm while awaiting payment details or action. A listed action can still be refused due to an open risk review, an order payment attempt, a closed order, or the merchant account. A managed_by_owner refusal names the owner and its command in remediation.next_actions. Always empty for buyer credentials. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value): string.  Value enum: "confirm", "capture", "cancel".
      * @return list<string>
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Portion of amount_money that is a tip. Uses amount_money's currency and is at most amount_money. `null` when no tip is set, and for an order payment until its payment attempt has moved past requires_payment_method and requires_confirmation. An order payment without a tip can return an amount of 0 instead. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
     public function getTipMoney(): MoneyValue|null { return $this->get('tip_money'); }

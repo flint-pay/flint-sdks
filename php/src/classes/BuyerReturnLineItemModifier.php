@@ -16,7 +16,7 @@ namespace Flint;
 final class BuyerReturnLineItemModifier extends Model {
     /** @param array{'metadata': object{}, 'modifier_group_name': string, 'name': string, 'pricing_scope': string, 'quantity': int, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'text_value'?: string, 'total_money': mixed, 'unit_price_delta_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnLineItemModifier')); }
-    /** maxProperties: 0.
+    /** Always empty for buyer credentials. maxProperties: 0.
      * @return BuyerReturnLineItemModifierMetadata
      */
     public function getMetadata(): BuyerReturnLineItemModifierMetadata { return $this->get('metadata'); }
@@ -31,7 +31,7 @@ final class BuyerReturnLineItemModifier extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "per_item", "per_line".
+    /** Whether this selection's price applies to each unit of the line item or once to the whole line. Value enum: "per_item", "per_line".
      * @return string
      */
     public function getPricingScope(): string { return $this->get('pricing_scope'); }

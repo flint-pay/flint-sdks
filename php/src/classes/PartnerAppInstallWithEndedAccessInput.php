@@ -28,13 +28,13 @@ final class PartnerAppInstallWithEndedAccessInput extends Model {
      */
     public function getCreatedAt(): string|\DateTimeInterface { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /**  [] (Value): {@see PartnerEnvironmentGrantInput}. A partner application's authorization to access an environment.
+    /** The install's environment grants, at most one for each mode, live and test, that the merchant approved. Omitted when the install has none. [] (Value): {@see PartnerEnvironmentGrantInput}. A partner application's authorization to access an environment.
      * @return list<PartnerEnvironmentGrantInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When environment_grants is omitted; use hasEnvironmentGrants() or valueOrDefault().
      */
     public function getEnvironmentGrants(): array { return $this->get('environment_grants'); }
     public function hasEnvironmentGrants(): bool { return $this->has('environment_grants'); }
-    /** Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
+    /** ID of the user who approved the install, or the signup's owner for an install a merchant signup created. Omitted when no user is recorded. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
      * @return string
      * @throws SdkError When installed_by_user_id is omitted; use hasInstalledByUserId() or valueOrDefault().
      */
@@ -52,7 +52,7 @@ final class PartnerAppInstallWithEndedAccessInput extends Model {
      */
     public function getMerchantSignupId(): string { return $this->get('merchant_signup_id'); }
     public function hasMerchantSignupId(): bool { return $this->has('merchant_signup_id'); }
-    /** Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
+    /** ID of the partner app the merchant installed. Example: "papp_01KEZF7C00Y8VMXYZ1GNPP3WHV".
      * @return string
      * @throws SdkError When partner_app_id is omitted; use hasPartnerAppId() or valueOrDefault().
      */
@@ -76,19 +76,19 @@ final class PartnerAppInstallWithEndedAccessInput extends Model {
      */
     public function getRevokedAt(): string|\DateTimeInterface { return $this->get('revoked_at'); }
     public function hasRevokedAt(): bool { return $this->has('revoked_at'); }
-    /** Value enum: "merchant", "partner_app".
+    /** Who ended the install. Omitted while the install isn't revoked, and cleared when the merchant authorizes the app again. Value enum: "merchant", "partner_app".
      * @return string
      * @throws SdkError When revoked_by is omitted; use hasRevokedBy() or valueOrDefault().
      */
     public function getRevokedBy(): string { return $this->get('revoked_by'); }
     public function hasRevokedBy(): bool { return $this->has('revoked_by'); }
-    /** Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
+    /** ID of the user who revoked the install. Omitted when the install isn't revoked or no user performed the revoke, as when the app's deletion ended it. Example: "usr_01KEZF7C00YC8757ZYP9727JM0".
      * @return string
      * @throws SdkError When revoked_by_user_id is omitted; use hasRevokedByUserId() or valueOrDefault().
      */
     public function getRevokedByUserId(): string { return $this->get('revoked_by_user_id'); }
     public function hasRevokedByUserId(): bool { return $this->has('revoked_by_user_id'); }
-    /** Value enum: "pending_exchange", "active", "revoked".
+    /** Where the install is in its lifecycle. Value enum: "pending_exchange", "active", "revoked".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

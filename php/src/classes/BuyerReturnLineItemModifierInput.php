@@ -16,7 +16,7 @@ namespace Flint;
 final class BuyerReturnLineItemModifierInput extends Model {
     /** @param array{'metadata': array{}|object, 'modifier_group_name': string, 'name': string, 'pricing_scope': string, 'quantity': int, 'show_on_fulfillment': bool, 'show_on_receipt': bool, 'text_value'?: string, 'total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'unit_price_delta_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerReturnLineItemModifierInput')); }
-    /** maxProperties: 0.
+    /** Always empty for buyer credentials. maxProperties: 0.
      * @return array{}|object
      * @throws SdkError When metadata is omitted; use hasMetadata() or valueOrDefault().
      */
@@ -34,7 +34,7 @@ final class BuyerReturnLineItemModifierInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "per_item", "per_line".
+    /** Whether this selection's price applies to each unit of the line item or once to the whole line. Value enum: "per_item", "per_line".
      * @return string
      * @throws SdkError When pricing_scope is omitted; use hasPricingScope() or valueOrDefault().
      */

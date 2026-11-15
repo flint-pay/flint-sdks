@@ -1,7 +1,13 @@
 [Model index](../MODELS.md)
 
-# PaymentReviewOpenedInstalledMerchantsEventInput to PriceListArchivedMerchantEventInput
+# PaymentMethodWithSetupInput to PlatformFeeRequestInput
 
+- [PaymentMethodWithSetupInput](PaymentMethodWithSetupInput.md)
+- [PaymentRefundInput](PaymentRefundInput.md)
+- [PaymentReviewInput](PaymentReviewInput.md)
+- [PaymentReviewClosedInstalledMerchantsEventInput](PaymentReviewClosedInstalledMerchantsEventInput.md)
+- [PaymentReviewClosedMerchantEventInput](PaymentReviewClosedMerchantEventInput.md)
+- [PaymentReviewListResponseInput](PaymentReviewListResponseInput.md)
 - [PaymentReviewOpenedInstalledMerchantsEventInput](PaymentReviewOpenedInstalledMerchantsEventInput.md)
 - [PaymentReviewOpenedMerchantEventInput](PaymentReviewOpenedMerchantEventInput.md)
 - [PaymentReviewPaymentSummaryInput](PaymentReviewPaymentSummaryInput.md)
@@ -20,7 +26,7 @@
 - [PaymentSourceCredentialPaymentMethodInput](PaymentSourceCredentialPaymentMethodInput.md)
 - [PaymentSourceCredentialReaderInput](PaymentSourceCredentialReaderInput.md)
 - [PaymentSourceCredentialStripeConfirmationTokenInput](PaymentSourceCredentialStripeConfirmationTokenInput.md)
-- [PaymentSourceCredentialTokenInput](PaymentSourceCredentialTokenInput.md)
+- [PaymentSourceCredentialStripePaymentMethodInput](PaymentSourceCredentialStripePaymentMethodInput.md)
 - [PaymentSourceSummaryInput](PaymentSourceSummaryInput.md)
 - [PaymentSplitInput](PaymentSplitInput.md)
 - [PaymentSplitCanceledEventInput](PaymentSplitCanceledEventInput.md)
@@ -96,10 +102,4 @@
 - [PlatformFeePayoutResponseInput](PlatformFeePayoutResponseInput.md)
 - [PlatformFeePayoutSucceededEventInput](PlatformFeePayoutSucceededEventInput.md)
 - [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
-- [PlatformFeeResponseInput](PlatformFeeResponseInput.md)
-- [PlatformFeeSucceededEventInput](PlatformFeeSucceededEventInput.md)
-- [PlatformFeeUpdatedEventInput](PlatformFeeUpdatedEventInput.md)
-- [PriceListInput](PriceListInput.md)
-- [PriceListArchivedInstalledMerchantsEventInput](PriceListArchivedInstalledMerchantsEventInput.md)
-- [PriceListArchivedMerchantEventInput](PriceListArchivedMerchantEventInput.md)
 

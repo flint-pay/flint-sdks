@@ -2,6 +2,102 @@
 
 # returnInspections
 
+### returnInspections.create
+
+Record an immutable inspection observation. Corrections supersede an earlier inspection instead of editing physical history. Read inspections with `GET /v1/return-inspections?return_id=` or expand `return_inspections` on `GET /v1/returns/{return_id}`.
+
+`POST /v1/return-inspections`
+
+Signature: `create(array|Model $params, ?RequestOptions $options = null)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Required | [CreateReturnInspectionRequestInput](../models/CreateReturnInspectionRequestInput.md#createreturninspectionrequestinput) | The request body for: Create return inspection. |
+
+Body model: [CreateReturnInspectionRequestInput](../models/CreateReturnInspectionRequestInput.md#createreturninspectionrequestinput).
+
+#### returnInspections.create body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `correction_reason` | Optional | string | Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. |
+| `correction_reason_message` | Optional | string | Detail about `correction_reason`. minLength: `1`. |
+| `external_actor_id` | Optional | string | Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: `1`. maxLength: `255`. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `inspected_at` | Required | string | When the event occurred, at most 5 minutes in the future. Format: `date-time`. minLength: `1`. |
+| `inspection_location_id` | Required | string | Location where the returned merchandise was inspected. Must match the receipt receiving_location_id. minLength: `1`. |
+| `line_items` | Required | Array of [ReturnInspectionLineItemRequestInput](../models/ReturnInspectionLineItemRequestInput.md#returninspectionlineitemrequestinput) | The lines recorded. minItems: `1`. |
+| `return_id` | Required | string | ID of the Return the goods belong to. minLength: `1`. |
+| `return_receipt_id` | Required | string | ID of the receipt being inspected. minLength: `1`. |
+| `source_system` | Optional | [ReturnSourceSystemRequestInput](../models/ReturnSourceSystemRequestInput.md#returnsourcesystemrequestinput) | System that recorded the observation. `null` when no source system was recorded. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
+| `supersedes_return_inspection_id` | Optional | string | ID of the inspection this one corrects. minLength: `1`. |
+
+#### Response
+
+Returned payload: [ReturnInspection](../models/ReturnInspection.md#returninspection).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```php
+// Persist this key with the action before sending; reuse it for every resubmission.
+$idempotencyKey = bin2hex(random_bytes(16));
+
+$result = $client->returnInspections->create([
+  'inspected_at' => '2026-09-08T14:15:00Z',
+  'inspection_location_id' => 'loc_01K1P6G4M7H2N8Q9R3S5T6V7WX',
+  'line_items' => [
+    (object) [
+      'acceptance_status' => 'accepted',
+      'condition' => 'unopened',
+      'finding_codes' => [
+        'matches_expected_item',
+      ],
+      'quantity' => 1,
+      'return_receipt_line_item_id' => 'retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE',
+    ],
+  ],
+  'return_id' => 'ret_01KEZF7C00VDTZH2NK73DBK2HZ',
+  'return_receipt_id' => 'retrc_01KEZF7C008V637A0ZWN32RQ7A',
+  'source_system' => (object) [
+    'source_system_type' => 'manual',
+  ],
+], new RequestOptions(idempotencyKey: $idempotencyKey));
+```
+
+[Complete runnable example](../examples/returnInspections-create.php)
+
 ### returnInspections.decideLineItem
 
 Record the accept or reject outcome for inspected quantity. expected_version compares against the inspection version. Accepted quantity becomes dispositionable and satisfies after_inspection release timing.

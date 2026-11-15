@@ -78,7 +78,7 @@ final class CreatePackageRequestCreatedInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** Required for a package on a return shipment: allocates quantities from the shipment's return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A return line and the quantity placed in a return shipment or package.
+    /** Required for a package on a return shipment: allocates quantities from the shipment's return_line_items to this parcel. Rejected on outbound shipments. [] (Value): {@see ReturnShipmentLineItemAllocationRequestInput}. A Return line and the quantity to place in a return shipment or package. The enclosing Return or shipment determines its parent.
      * @return list<ReturnShipmentLineItemAllocationRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When return_line_items is omitted; use hasReturnLineItems() or valueOrDefault().
      */

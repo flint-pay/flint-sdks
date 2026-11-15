@@ -8,5 +8,5 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `state` | Required | string | Values: `"verified"`, `"unverified"`, `"needs_review"`, `"unverifiable"`. |
+| `state` | Required | string | How far verification of the address got. Each value says what it means. Values: `"verified"`, `"unverified"`, `"needs_review"`, `"unverifiable"`. |
 

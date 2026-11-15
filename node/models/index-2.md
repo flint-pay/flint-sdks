@@ -1,6 +1,6 @@
 [Model index](../MODELS.md)
 
-# BuyerCreateReturnResolutionPreviewRequest to BuyerReturnReplacementLineItemRequestInput
+# BuyerCreateReturnResolutionPreviewRequest to BuyerReturnPreviewResolution
 
 - [BuyerCreateReturnResolutionPreviewRequest](BuyerCreateReturnResolutionPreviewRequest.md)
 - [BuyerCreateReturnResolutionPreviewRequestInput](BuyerCreateReturnResolutionPreviewRequestInput.md)
@@ -16,9 +16,12 @@
 - [BuyerCustomerSessionResponse](BuyerCustomerSessionResponse.md)
 - [BuyerDeliveryFulfillmentDetails](BuyerDeliveryFulfillmentDetails.md)
 - [BuyerDigitalFulfillmentDetails](BuyerDigitalFulfillmentDetails.md)
+- [BuyerEmailChangeRequest](BuyerEmailChangeRequest.md)
+- [BuyerEmailChangeRequestResponse](BuyerEmailChangeRequestResponse.md)
 - [BuyerErrorRemediation](BuyerErrorRemediation.md)
 - [BuyerExpandedOrderSummary](BuyerExpandedOrderSummary.md)
 - [BuyerExpandedPackageSummary](BuyerExpandedPackageSummary.md)
+- [BuyerExpandedPaymentIntentSummary](BuyerExpandedPaymentIntentSummary.md)
 - [BuyerExpandedShipmentSummary](BuyerExpandedShipmentSummary.md)
 - [BuyerExpandedSubscriptionPlanSummary](BuyerExpandedSubscriptionPlanSummary.md)
 - [BuyerFlintWalletCard](BuyerFlintWalletCard.md)
@@ -42,6 +45,7 @@
 - [BuyerInvoice](BuyerInvoice.md)
 - [BuyerInvoiceLateFee](BuyerInvoiceLateFee.md)
 - [BuyerInvoiceListResponse](BuyerInvoiceListResponse.md)
+- [BuyerInvoicePaymentAttempt](BuyerInvoicePaymentAttempt.md)
 - [BuyerInvoiceResponse](BuyerInvoiceResponse.md)
 - [BuyerInvoiceSnapshot](BuyerInvoiceSnapshot.md)
 - [BuyerOrder](BuyerOrder.md)
@@ -77,6 +81,9 @@
 - [BuyerRefund](BuyerRefund.md)
 - [BuyerRefundListResponse](BuyerRefundListResponse.md)
 - [BuyerRefundResponse](BuyerRefundResponse.md)
+- [BuyerRememberedBuyer](BuyerRememberedBuyer.md)
+- [BuyerRememberedBuyerListResponse](BuyerRememberedBuyerListResponse.md)
+- [BuyerRememberedBuyerResponse](BuyerRememberedBuyerResponse.md)
 - [BuyerRetentionOffer](BuyerRetentionOffer.md)
 - [BuyerRetentionOfferRequestInput](BuyerRetentionOfferRequestInput.md)
 - [BuyerRetryPaymentActionOptions](BuyerRetryPaymentActionOptions.md)
@@ -95,11 +102,4 @@
 - [BuyerReturnPreview](BuyerReturnPreview.md)
 - [BuyerReturnPreviewEligibility](BuyerReturnPreviewEligibility.md)
 - [BuyerReturnPreviewResolution](BuyerReturnPreviewResolution.md)
-- [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
-- [BuyerReturnReplacementLineItemInputBundle](BuyerReturnReplacementLineItemInputBundle.md)
-- [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
-- [BuyerReturnReplacementLineItemInputVariant](BuyerReturnReplacementLineItemInputVariant.md)
-- [BuyerReturnReplacementLineItemInputVariantInput](BuyerReturnReplacementLineItemInputVariantInput.md)
-- [BuyerReturnReplacementLineItemRequest](BuyerReturnReplacementLineItemRequest.md)
-- [BuyerReturnReplacementLineItemRequestInput](BuyerReturnReplacementLineItemRequestInput.md)
 

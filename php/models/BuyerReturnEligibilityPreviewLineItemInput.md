@@ -17,6 +17,7 @@ Request input.
 | `image` | Optional | [ImageInput](../models/ImageInput.md#imageinput) | Image of the item as sold. An image with its URL, size, and alt text. |
 | `modifiers` | Required | Array of [BuyerReturnLineItemModifierInput](../models/BuyerReturnLineItemModifierInput.md#buyerreturnlineitemmodifierinput) | Modifiers selected on the order line, with their prices. |
 | `name` | Required | string | Name of the item as sold. |
+| `order_id` | Required | string | Order that owns order_line_item_id. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_line_item_id` | Required | string | ID of the order line item the units come from. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `product_id` | Optional | string | ID of the catalog product the item was sold from. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `requested_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |

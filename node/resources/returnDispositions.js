@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnDispositions.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import r0 from '../descriptors/resources/returnDispositions.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=c88d88b1719b9f2decbd8c74ee867ec101acb4e1842f99af49cca6264b80d5d0';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnDisposition"]:r0,["getReturnDisposition"]:r0,["listReturnDispositions"]:r0,["retryReturnDisposition"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelReturnDisposition"]:r0,["createReturnDisposition"]:r0,["getReturnDisposition"]:r0,["listReturnDispositions"]:r0,["retryReturnDisposition"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -26,6 +26,15 @@ this.returnDispositions = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("cancelReturnDisposition", result, path))),
+      create: async (params, options) => this.#runtime.request("createReturnDisposition", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnDisposition", result, path))),
       get: async (return_disposition_id, params, options) => this.#runtime.request("getReturnDisposition", _sdkRequestInput([
   "return_disposition_id"
 ], [return_disposition_id], [
@@ -134,5 +143,9 @@ this.returnDispositions = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeCancelReturnDispositionRequest } from '../models/CancelReturnDispositionRequest.js';
+export { makeCreateReturnDispositionRequest } from '../models/CreateReturnDispositionRequest.js';
+export { makeCreateReturnDispositionRequestInspectionLine } from '../models/CreateReturnDispositionRequestInspectionLine.js';
+export { makeCreateReturnDispositionRequestReceiptLine } from '../models/CreateReturnDispositionRequestReceiptLine.js';
+export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makeRetryReturnDispositionRequest } from '../models/RetryReturnDispositionRequest.js';

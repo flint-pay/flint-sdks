@@ -58,7 +58,7 @@ final class DeviceInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Value enum: "active", "archived".
+    /** Whether the device is in use or retired. Value enum: "active", "archived".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */

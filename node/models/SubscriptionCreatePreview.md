@@ -25,15 +25,15 @@ The first Flint collection, priced as billing collects it: trial end without a s
 | --- | --- | --- | --- |
 | `billing_at` | Conditional | string or null | Expected collection time. Null when billing is not scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `currency` | Conditional | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
-| `deliveries_per_period` | Conditional | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Line prices are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `deliveries_per_period` | Conditional | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
 | `delivery_interval` | Conditional | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
 | `delivery_interval_count` | Conditional | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
-| `discount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Estimated discount total. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `discount_money`: [field definitions](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1discount_money). |
+| `discount_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Estimated discount total. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `discount_money`: [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewaldiscount_money). |
 | `discounts` | Conditional | Array of [SubscriptionRenewalEstimateDiscount](../models/SubscriptionRenewalEstimateDiscount.md#subscriptionrenewalestimatediscount) | Promotions and credits applied to this estimated collection; [] when none apply. |
 | `line_items` | Conditional | Array of [SubscriptionRenewalEstimateLineItem](../models/SubscriptionRenewalEstimateLineItem.md#subscriptionrenewalestimatelineitem) | Items and quantities included in this estimated collection. |
 | `shipping_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Estimated shipping. Null when this collection has no delivery. `shipping_money`: [declared alternatives](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1shipping_money). |
 | `subscription_cycle` | Conditional | integer | The paid collection cycle, continuing imported completed_cycles; 0 for a separate setup fee. Format: `uint64`. minimum: `0`. |
-| `subtotal_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Estimated item subtotal before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `subtotal_money`: [field definitions](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1subtotal_money). |
+| `subtotal_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Estimated item subtotal before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `subtotal_money`: [field definitions](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewalsubtotal_money). |
 | `tax_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | Estimated tax; `null` when tax can't be calculated yet. `tax_money`: [declared alternatives](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1tax_money). |
 | `total_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Estimated collection total, excluding unresolved tax when tax_money is null. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `total_money`: [field definitions](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1total_money). |
 
@@ -52,7 +52,7 @@ anyOf variant 2.
 
 ### SubscriptionCreatePreview.first_charge variant 1.discount_money
 
-Field definitions: [SubscriptionChargeEstimate variant 1.discount_money](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1discount_money).
+Field definitions: [BuyerSubscriptionPreviewResponse.data variant 2.renewal.discount_money](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewaldiscount_money).
 
 ### SubscriptionCreatePreview.first_charge variant 1.shipping_money
 
@@ -60,7 +60,7 @@ Declared alternatives: [SubscriptionChargeEstimate variant 1.shipping_money](../
 
 ### SubscriptionCreatePreview.first_charge variant 1.subtotal_money
 
-Field definitions: [SubscriptionChargeEstimate variant 1.subtotal_money](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1subtotal_money).
+Field definitions: [BuyerSubscriptionPreviewResponse.data variant 2.renewal.subtotal_money](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewalsubtotal_money).
 
 ### SubscriptionCreatePreview.first_charge variant 1.tax_money
 
@@ -91,7 +91,7 @@ anyOf variant 2.
 
 ### SubscriptionCreatePreview.first_period_charge variant 1.discount_money
 
-Field definitions: [SubscriptionChargeEstimate variant 1.discount_money](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1discount_money).
+Field definitions: [BuyerSubscriptionPreviewResponse.data variant 2.renewal.discount_money](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewaldiscount_money).
 
 ### SubscriptionCreatePreview.first_period_charge variant 1.shipping_money
 
@@ -99,7 +99,7 @@ Declared alternatives: [SubscriptionChargeEstimate variant 1.shipping_money](../
 
 ### SubscriptionCreatePreview.first_period_charge variant 1.subtotal_money
 
-Field definitions: [SubscriptionChargeEstimate variant 1.subtotal_money](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1subtotal_money).
+Field definitions: [BuyerSubscriptionPreviewResponse.data variant 2.renewal.subtotal_money](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewalsubtotal_money).
 
 ### SubscriptionCreatePreview.first_period_charge variant 1.tax_money
 
@@ -130,7 +130,7 @@ anyOf variant 2.
 
 ### SubscriptionCreatePreview.recurring variant 1.discount_money
 
-Field definitions: [SubscriptionChargeEstimate variant 1.discount_money](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1discount_money).
+Field definitions: [BuyerSubscriptionPreviewResponse.data variant 2.renewal.discount_money](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewaldiscount_money).
 
 ### SubscriptionCreatePreview.recurring variant 1.shipping_money
 
@@ -138,7 +138,7 @@ Declared alternatives: [SubscriptionChargeEstimate variant 1.shipping_money](../
 
 ### SubscriptionCreatePreview.recurring variant 1.subtotal_money
 
-Field definitions: [SubscriptionChargeEstimate variant 1.subtotal_money](../models/SubscriptionChargeEstimate.md#subscriptionchargeestimate-variant-1subtotal_money).
+Field definitions: [BuyerSubscriptionPreviewResponse.data variant 2.renewal.subtotal_money](../models/BuyerSubscriptionPreviewResponse.md#buyersubscriptionpreviewresponsedata-variant-2renewalsubtotal_money).
 
 ### SubscriptionCreatePreview.recurring variant 1.tax_money
 

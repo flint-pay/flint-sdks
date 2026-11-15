@@ -1,7 +1,12 @@
 [Model index](../MODELS.md)
 
-# CreateDeliveryOptionsPreviewRequestInput to CreatePackageRequestInput
+# CreateDeliveryLocationSetRequestInput to CreateOrderTipInput
 
+- [CreateDeliveryLocationSetRequestInput](CreateDeliveryLocationSetRequestInput.md)
+- [CreateDeliveryMethodRequestInput](CreateDeliveryMethodRequestInput.md)
+- [CreateDeliveryMethodRequestLocalDeliveryInput](CreateDeliveryMethodRequestLocalDeliveryInput.md)
+- [CreateDeliveryMethodRequestPickupInput](CreateDeliveryMethodRequestPickupInput.md)
+- [CreateDeliveryMethodRequestShipmentInput](CreateDeliveryMethodRequestShipmentInput.md)
 - [CreateDeliveryOptionsPreviewRequestInput](CreateDeliveryOptionsPreviewRequestInput.md)
 - [CreateDeliveryPickupLocationsPreviewRequestInput](CreateDeliveryPickupLocationsPreviewRequestInput.md)
 - [CreateDeliveryPreviewRequestInput](CreateDeliveryPreviewRequestInput.md)
@@ -95,11 +100,6 @@
 - [CreateOrderLineItemInputVariantInput](CreateOrderLineItemInputVariantInput.md)
 - [CreateOrderLineItemRequestInput](CreateOrderLineItemRequestInput.md)
 - [CreateOrderLineItemVariantInput](CreateOrderLineItemVariantInput.md)
-- [CreateOrderPaymentIntentRequestInput](CreateOrderPaymentIntentRequestInput.md)
 - [CreateOrderRequestInput](CreateOrderRequestInput.md)
 - [CreateOrderTipInput](CreateOrderTipInput.md)
-- [CreateOrderTipAmountInput](CreateOrderTipAmountInput.md)
-- [CreateOrderTipPercentInput](CreateOrderTipPercentInput.md)
-- [CreatePackageItemRequestInput](CreatePackageItemRequestInput.md)
-- [CreatePackageRequestInput](CreatePackageRequestInput.md)
 

@@ -8,7 +8,7 @@ namespace Flint;
 final class PaymentReviewRiskInput extends Model {
     /** @param array{'level': string, 'score'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentReviewRiskInput')); }
-    /** Value enum: "normal", "elevated", "highest", "not_assessed".
+    /** Fraud risk level from the card processor's screening, recorded when the review opened. Value enum: "normal", "elevated", "highest", "not_assessed".
      * @return string
      * @throws SdkError When level is omitted; use hasLevel() or valueOrDefault().
      */

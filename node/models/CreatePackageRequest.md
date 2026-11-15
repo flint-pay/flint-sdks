@@ -56,7 +56,7 @@ Field definitions: [CreateBundleRequest.metadata](../models/CreateBundleRequest.
 
 ### CreatePackageRequest.return_line_items[]
 
-A return line and the quantity placed in a return shipment or package.
+A Return line and the quantity to place in a return shipment or package. The enclosing Return or shipment determines its parent.
 
 Field definitions: [shared fields](ReturnShipmentLineItemAllocationRequestInput.md#returnshipmentlineitemallocationrequestinput).
 

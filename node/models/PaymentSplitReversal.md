@@ -16,7 +16,7 @@ A read-only nested child of a payment split, created by Flint for a refund or di
 | `reason` | Required | string | Why Flint created the reversal. Values: `"refund"`, `"dispute"`, `"other"`. |
 | `reinstated_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Funds returned to whoever funded the reversal, such as after a won dispute or failed refund. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `reinstated_money`: [field definitions](../models/PaymentSplitReversal.md#paymentsplitreversalreinstated_money). |
 | `shortfall_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part the collecting merchant covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code. `shortfall_money`: [field definitions](../models/PaymentSplitReversal.md#paymentsplitreversalshortfall_money). |
-| `source` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) | The refund or dispute behind the reversal. A reference to another resource by `resource_type` and `resource_id`. |
+| `source` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) | The refund or dispute behind the reversal. A reference to another resource by `resource_type` and `resource_id`. `source`: [field definitions](../models/PaymentSplitReversal.md#paymentsplitreversalsource). |
 | `status` | Required | string | The reversal lifecycle status. Values: `"pending"`, `"succeeded"`, `"canceled"`. |
 | `succeeded_at` | Optional | string | When the split's share was recovered. Present when succeeded. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 
@@ -37,4 +37,10 @@ Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
 The part the collecting merchant covered. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
 
 Field definitions: [shared fields](MoneyValueInput.md#moneyvalueinput).
+
+### PaymentSplitReversal.source
+
+The refund or dispute behind the reversal. A reference to another resource by `resource_type` and `resource_id`.
+
+Field definitions: [shared fields](APIRequestLog.md#apirequestlogcaller).
 

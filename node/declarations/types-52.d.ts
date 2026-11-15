@@ -1,13 +1,22 @@
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-55.js';
-import type { GetReturnPolicyResponse } from './types-25.js';
-import type { MetadataMap, MerchantWebhookEnvelope } from './types-37.js';
-import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { CheckoutCustomTextConfig, CheckoutPaymentConfig, CheckoutMerchantSupport } from './types-5.js';
+import type { Image } from './types-28.js';
+import type { LegalSettings } from './types-35.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { PaymentLinkCustomField, PaymentLinkEventConfig, PaymentLinkLineItem, PaymentLinkAvailableVariant } from './types-45.js';
+import type { ThemeConfig, TextModifierConfigRequest } from './types-65.js';
 import type { ResponseMeta } from './types-54.js';
+import type { CheckoutTheme } from './types-6.js';
+import type { PaymentLinkSubscriptionPreview, PaymentLinkProductOption } from './types-46.js';
+import type { SelectedProductOption } from './types-59.js';
+import type { ReturnPolicyRevisionRequest, ReturnPolicyRevisionRequestInput } from './types-56.js';
+import type { GetReturnPolicyResponse } from './types-26.js';
+import type { MetadataMap, MerchantWebhookEnvelope } from './types-38.js';
+import type { PartnerWebhookEnvelope } from './types-44.js';
+import type { WebhookReader } from './types-70.js';
 import type { InputValue } from '../runtime.js';
 import type { DisputesAcceptParams } from './types-23.js';
 import type { CreateReaderRequestInput } from './types-12.js';
-import type { SimulateReaderRequestInput } from './types-59.js';
+import type { SimulateReaderRequestInput } from './types-60.js';
 import type { UpdateReaderRequestInput } from './types-67.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
 import type { ExpandedCustomerSummary, ExpandedOrderSummary, ExpandedPaymentIntentSummary } from './types-24.js';
@@ -16,9 +25,417 @@ import type {
     RefundLineItemAllocation,
     RefundTaxBreakdownRefund,
     RefundTenderAllocation,
-    RefundUnissuedGiftCardRecovery,
-    RefundTaxBreakdownRefundIn
+    RefundUnissuedGiftCardRecovery
 } from './types-53.js';
+/** A temporary link for downloading a generated report. */
+export type PublicDownload = {
+    /**
+     * When the download stops working: 24 hours after the report succeeded. The report keeps
+     * status succeeded and this download object afterward; create a new report to get the file
+     * again. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "expires_at": string;
+    /**
+     * Identifier of this download, the last segment of url. pattern: ^rdl_[0-9A-HJKMNP-TV-Z]{26}$.
+     * Example: "rdl_01KEZF7C003GGGDW1N5QT46JDZ".
+     */
+    "report_download_id": string;
+    /**
+     * Flint API URL for the file, not the file itself. Call it with the same API key; Flint
+     * answers 307 with a redirect to a private file URL that works for a few minutes. Request url
+     * again each time you need the file.
+     */
+    "url": string;
+};
+/**
+ * The buyer-facing view of a payment link, with its line items, custom fields, legal and payment
+ * settings, and status.
+ */
+export type PublicPaymentLink = {
+    /** Number of paid checkout sessions started from this link. Format: int32. */
+    "completed_count": number;
+    /**
+     * Questions buyers answer before paying. Answers are recorded on the order and checkout
+     * session in `custom_field_answers`. [] (Value): {@link PaymentLinkCustomField}. A custom
+     * field on a payment link that collects an answer from the buyer.
+     */
+    "custom_fields"?: Array<PaymentLinkCustomField>;
+    /**
+     * Custom text for checkouts started from this link. Custom text shown in checkout: an order
+     * summary message and a shipping address label.
+     */
+    "custom_text"?: CheckoutCustomTextConfig;
+    /** Text about what the link sells, returned to buyers when they open it. */
+    "description"?: string;
+    /**
+     * Largest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "donation_max_amount_money"?: MoneyValue;
+    /**
+     * Smallest amount a buyer can give on a donation link. Monetary amount represented as integer
+     * minor units plus an ISO 4217 currency code.
+     */
+    "donation_min_amount_money"?: MoneyValue;
+    /**
+     * Amounts a donation link offers as one-tap choices. [] (Value): {@link MoneyValue}. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "donation_suggested_amount_money_options"?: Array<MoneyValue>;
+    /**
+     * Event details for an `event` link: when and where it takes place and how many tickets it
+     * sells. Event settings on an event payment link, such as its date, venue, ticket limit, and
+     * ticket emails.
+     */
+    "event_config"?: PaymentLinkEventConfig;
+    /** Image shown to buyers with the link. An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /** Message to show the buyer when the link is inactive. */
+    "inactive_message"?: string;
+    /**
+     * The terms and policy links checkouts started from this link show the buyer. Legal settings
+     * for a checkout: whether buyers must accept terms, and links to the terms, refund policy,
+     * shipping policy, and contract.
+     */
+    "legal"?: LegalSettings;
+    /**
+     * What the link sells. [] (Value): {@link PaymentLinkLineItem}. A line item on a payment link.
+     */
+    "line_items"?: Array<PaymentLinkLineItem>;
+    /**
+     * Most payments the link accepts, counted by `completed_count`. Absent means no limit. Once
+     * the limit is reached, resolving the link fails with a request error. It can't be set below
+     * `completed_count`. Format: int32.
+     */
+    "max_completions"?: number;
+    /** Name of the payment link. */
+    "name": string;
+    /** ID of the payment link. Example: "pl_01KEZF7C007WDMA5P9BPZ8J2AM". */
+    "payment_link_id": string;
+    /** What kind of link this is. Value enum: "standard", "donation", "event". */
+    "payment_link_type"?: "standard" | "donation" | "event" | (string & {});
+    /**
+     * Payment options for checkouts started from this link. Payment settings for a checkout: the
+     * enabled payment options and a note shown with payment.
+     */
+    "payments"?: CheckoutPaymentConfig;
+    /**
+     * RFC3339 timestamp after which the link stops starting checkouts and resolve fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`. Unset means sales do not end on their own,
+     * except that an event link without sales_end_at stops selling at event_config.event_at. A
+     * checkout opened before the end can still start payment for up to 15 minutes after it.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "sales_end_at"?: string;
+    /** Whether the link can start new checkouts. Value enum: "active", "inactive". */
+    "status": "active" | "inactive" | (string & {});
+    /** ID of the subscription plan the link sells. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
+    "subscription_plan_id"?: string;
+    /**
+     * The title and colors for checkouts started from this link, over your branding settings.
+     * Colors and title applied to a payment link's checkout page.
+     */
+    "theme"?: ThemeConfig;
+    /**
+     * Current version of this resource's owned state. Send it as `expected_version` when changing
+     * the resource to reject a stale write. Format: int64.
+     */
+    "version": number;
+};
+/** A response containing `PublicPaymentLinkResult` data. */
+export type PublicPaymentLinkResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The result of resolving
+     * a public payment link: the link, merchant branding, availability, resolved line items, and a
+     * resolution context for starting checkout.
+     */
+    "data": PublicPaymentLinkResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
+/**
+ * The result of resolving a public payment link: the link, merchant branding, availability,
+ * resolved line items, and a resolution context for starting checkout.
+ */
+export type PublicPaymentLinkResult = {
+    /**
+     * Start a new checkout before this instant. At or after it, read the public payment link again
+     * for a new resolution_context; its credential expiry is resolution_context_expires_at.
+     * Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "checkout_start_due_at": string;
+    /**
+     * The theme a checkout opened from this link uses: your checkout branding settings, with the
+     * link's own `theme` over them. Use it to style a page that leads to the checkout.
+     * `payment_link.theme` is the link's own theme alone. Omitted when neither sets a value. It
+     * includes the branding settings' `background_color`, `text_color`, `font_family`, and
+     * `corner_radius`. Colors, corner radius, font family, and title that style a checkout, taken
+     * from the session or link theme or the merchant's branding settings.
+     */
+    "checkout_theme"?: CheckoutTheme;
+    /**
+     * True when the link's sales end has passed: payment_link.sales_end_at, or
+     * event_config.event_at for an event link without sales_end_at. Resolve then fails with
+     * `ACTION_NOT_ALLOWED` and reason `not_offered`.
+     */
+    "is_past_sales_end": boolean;
+    /**
+     * True for an event with no tickets remaining. For other active links with
+     * inventory_routing_source, true when any catalog line cannot be bought at its minimum
+     * quantity from that source. Untracked and ad hoc lines do not count. A choice line counts
+     * only when every offered variant is sold out. Fixed locations use available stock; policies
+     * use their allocatable locations. Stock is not reserved by this read.
+     */
+    "is_sold_out": boolean;
+    /** The merchant's icon. An image with its URL, size, and alt text. */
+    "merchant_icon"?: Image;
+    /** The merchant's logo. An image with its URL, size, and alt text. */
+    "merchant_logo"?: Image;
+    /** The merchant's name. */
+    "merchant_name"?: string;
+    /**
+     * How the buyer can reach the merchant for help: the support email, phone, and URL the
+     * merchant set. Omitted when the merchant set none. The merchant's support contact. Each field
+     * is omitted when the merchant has not set it.
+     */
+    "merchant_support"?: CheckoutMerchantSupport;
+    /**
+     * The payment link that was resolved. The buyer-facing view of a payment link, with its line
+     * items, custom fields, legal and payment settings, and status.
+     */
+    "payment_link": PublicPaymentLink;
+    /**
+     * Event links with a ticket limit: tickets left after tickets sold and tickets held by
+     * payments in progress. Absent when the event has no ticket limit. Whole-number quantity;
+     * fractional quantities are not supported. Format: int32.
+     */
+    "remaining_quantity"?: number;
+    /**
+     * Private resolution context for this payment link. Send it unchanged to resolve the same link
+     * before checkout_start_due_at. The credential expires at resolution_context_expires_at. Keep
+     * the context private and do not cache this response; it is returned with Cache-Control:
+     * private, no-store.
+     */
+    "resolution_context": string;
+    /**
+     * RFC3339 timestamp when the resolution_context credential expires. The earlier
+     * checkout_start_due_at governs starting new checkouts; committed replay remains available
+     * until this expiry. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "resolution_context_expires_at": string;
+    /**
+     * The link's line items with their current catalog values. [] (Value): {@link
+     * PublicResolvedLineItemInfo}. Current catalog details for a payment link line item, such as
+     * its name, price, image, available modifiers, and bundle components.
+     */
+    "resolved_line_items"?: Array<PublicResolvedLineItemInfo>;
+    /**
+     * Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when
+     * the merchant's agreement with Flint removes it.
+     */
+    "show_flint_mark": boolean;
+    /**
+     * Present for active plan-backed payment links when authoritative subscription terms are
+     * available. Subscription terms shown before an active plan-backed payment link creates a
+     * checkout session.
+     */
+    "subscription_preview"?: PaymentLinkSubscriptionPreview;
+};
+/**
+ * One component of a bundle on a resolved payment link line item, with its variant and quantity.
+ */
+export type PublicResolvedBundleComponent = {
+    /** Position of the component within the bundle. Format: int32. */
+    "position": number;
+    /**
+     * ID of the product the component's variant belongs to. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id"?: string;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int32. */
+    "quantity": number;
+    /**
+     * Summary of the component's variant. A summary of a bundle component's variant, with its
+     * name, SKU, selected options, and whether it is available for sale.
+     */
+    "variant"?: PublicResolvedBundleVariantSummary;
+    /** ID of the component's variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id": string;
+};
+/**
+ * A summary of a bundle component's variant, with its name, SKU, selected options, and whether it
+ * is available for sale.
+ */
+export type PublicResolvedBundleVariantSummary = {
+    /** Whether the variant can be sold now. */
+    "is_available_for_sale": boolean;
+    /** Name of the variant. */
+    "name"?: string;
+    /**
+     * Identifier of the product this resolved bundle component variant belongs to. Example:
+     * "prod_01KEZF7C00BVSHCNWVH528HB66".
+     */
+    "product_id": string;
+    /**
+     * The product options the variant selects, such as size or color. [] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options"?: Array<SelectedProductOption>;
+    /** SKU of the variant. */
+    "sku"?: string;
+    /** ID of the variant. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id": string;
+};
+/**
+ * Current catalog details for a payment link line item, such as its name, price, image, available
+ * modifiers, and bundle components.
+ */
+export type PublicResolvedLineItemInfo = {
+    /**
+     * Modifier groups the buyer can choose from for this item. [] (Value): {@link
+     * PublicResolvedModifierGroup}. A modifier group as resolved for a payment link line item,
+     * with its selection limits, display flags, and options or text settings.
+     */
+    "available_modifiers"?: Array<PublicResolvedModifierGroup>;
+    /**
+     * Listed variants that can currently be sold in the line currency, in variant_ids order.
+     * Inactive, archived, unsellable, and other-currency variants are omitted. Each variant
+     * includes its advisory sold-out state and its own modifiers. Present only on variant_ids
+     * lines. [] (Value): {@link PaymentLinkAvailableVariant}. A listed payment link variant that
+     * can be sold in the line currency, with its current price, options, image, modifiers, and
+     * advisory stock state.
+     */
+    "available_variants"?: Array<PaymentLinkAvailableVariant>;
+    /**
+     * The components of the bundle. Present for a bundle line item. [] (Value): {@link
+     * PublicResolvedBundleComponent}. One component of a bundle on a resolved payment link line
+     * item, with its variant and quantity.
+     */
+    "bundle_components"?: Array<PublicResolvedBundleComponent>;
+    /** ID of the bundle this line item sells. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN". */
+    "bundle_id"?: string;
+    /** What the line item sells. Value enum: "variant", "bundle". */
+    "catalog_object_type"?: "variant" | "bundle" | (string & {});
+    /** Image of the variant or bundle. An image with its URL, size, and alt text. */
+    "image"?: Image;
+    /** Whether Flint tracks stock for the item. */
+    "is_inventory_tracked"?: boolean;
+    /**
+     * True when the fixed variant or bundle components cannot be bought at the line minimum
+     * quantity from the link inventory_routing_source. The minimum is min_quantity when quantity
+     * adjustment is enabled, otherwise quantity. For variant choice lines, true only when every
+     * available_variants entry is sold out. Always false for untracked and ad hoc lines. Exposes
+     * no stock counts and reserves no stock.
+     */
+    "is_sold_out": boolean;
+    /** Key of the payment link line item this entry describes. */
+    "key": string;
+    /** ID of the product the variant belongs to. Example: "prod_01KEZF7C00BVSHCNWVH528HB66". */
+    "product_id"?: string;
+    /**
+     * Active product options for a variant_ids line, in option position order. Values include only
+     * those used by available_variants and retain value position order. Empty when the product has
+     * no options; omitted on fixed variant and bundle lines. [] (Value): {@link
+     * PaymentLinkProductOption}. An active product option offered on a payment link, with values
+     * used by its available variants.
+     */
+    "product_options"?: Array<PaymentLinkProductOption>;
+    /**
+     * Default quantity breaks for a fixed variant. Empty for bundles, variant choice lines, and ad
+     * hoc lines. Each offered variant on a variant choice line has its own schedule in
+     * available_variants. [] (Value): {@link QuantityPriceBreak}. A net unit price that applies
+     * when one catalog line reaches minimum_quantity.
+     */
+    "quantity_price_breaks": Array<QuantityPriceBreak>;
+    /** Current catalog description of the variant or bundle, as of this read. */
+    "resolved_description"?: string;
+    /** Current catalog name of the variant or bundle, as of this read. */
+    "resolved_name"?: string;
+    /**
+     * Current catalog unit price of the variant or bundle, as of this read. Monetary amount
+     * represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "resolved_unit_price_money"?: MoneyValue;
+    /**
+     * The product options the variant selects, such as size or color. [] (Value): {@link
+     * SelectedProductOption}. An option and value chosen for a product variant, such as size
+     * Large.
+     */
+    "selected_options"?: Array<SelectedProductOption>;
+    /** ID of the variant this line item sells. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX". */
+    "variant_id"?: string;
+};
+/**
+ * A modifier group as resolved for a payment link line item, with its selection limits, display
+ * flags, and options or text settings.
+ */
+export type PublicResolvedModifierGroup = {
+    /** Whether the buyer can select more than one unit of an option. Omitted when they can't. */
+    "allow_quantities"?: boolean;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "max_quantity"?: number;
+    /**
+     * Most options the buyer can select from a list group. Omitted when the group sets no limit.
+     * Format: int32.
+     */
+    "max_selected"?: number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "max_total_quantity"?: number;
+    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
+    "min_quantity"?: number;
+    /**
+     * Fewest options the buyer must select from a list group. Omitted when the group sets no
+     * minimum. Format: int32.
+     */
+    "min_selected"?: number;
+    /** ID of the modifier group. Example: "mg_01KEZF7C00XKJJATARG7KDBYM9". */
+    "modifier_group_id": string;
+    /**
+     * Whether the buyer chooses from a list of options or enters text. Value enum: "list", "text".
+     */
+    "modifier_group_type": "list" | "text" | (string & {});
+    /** Name of the group shown to the buyer. */
+    "name": string;
+    /**
+     * Options the buyer can choose from in a list group. Empty for a text group. [] (Value):
+     * {@link PublicResolvedModifierOption}. One selectable option in a resolved modifier group,
+     * with its price change, tax category, and whether it is available.
+     */
+    "options"?: Array<PublicResolvedModifierOption>;
+    /**
+     * Position of the group among the groups offered for the line item. Lower values appear first.
+     * Format: int32.
+     */
+    "position"?: number;
+    /**
+     * How the price of a selected option scales with the line item's quantity. Value enum:
+     * "per_item", "per_line".
+     */
+    "pricing_scope"?: "per_item" | "per_line" | (string & {});
+    /**
+     * Whether the buyer's selections from this group appear in fulfillment details. Omitted when
+     * they don't.
+     */
+    "show_on_fulfillment"?: boolean;
+    /**
+     * Whether the buyer's selections from this group appear on receipts. Omitted when they don't.
+     */
+    "show_on_receipt"?: boolean;
+    /**
+     * Entry rules for a text group. Omitted for a list group. Input rules for a free-text modifier
+     * group on a payment link line item: required, multiline, and length limits.
+     */
+    "text"?: TextModifierConfigRequest;
+};
 /**
  * One selectable option in a resolved modifier group, with its price change, tax category, and
  * whether it is available.
@@ -72,7 +489,7 @@ export type PublishReturnPolicyRevisionRequest = {
      * Required current version of the Return policy. A stale value returns VERSION_CONFLICT.
      * Publishing increments the policy version. Format: int64. minimum: 1.
      */
-    "expected_version": number;
+    "expected_return_policy_version": number;
     /**
      * The revision with the complete rules. A field you leave out doesn't carry over from the
      * previous revision. The rules for a return policy revision: scope, eligibility, return
@@ -86,7 +503,7 @@ export type PublishReturnPolicyRevisionRequestInput = {
      * Required current version of the Return policy. A stale value returns VERSION_CONFLICT.
      * Publishing increments the policy version. Format: int64. minimum: 1.
      */
-    "expected_version": number;
+    "expected_return_policy_version": number;
     /**
      * The revision with the complete rules. A field you leave out doesn't carry over from the
      * previous revision. The rules for a return policy revision: scope, eligibility, return
@@ -242,24 +659,8 @@ export type Reader = {
 export type ReaderArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "active_payment_intent_id"?: string;
-            "connectivity"?: ReaderConnectivity;
-            "created_at": string;
-            "device_id"?: string;
-            "is_simulated": boolean;
-            "location_id": string;
-            "metadata": MetadataMap;
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            "name": string;
-            "reader_id": string;
-            "serial_number"?: string;
-            "status": "active" | "archived" | (string & {});
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Reader>;
+        "object": WebhookReader;
+        "previous_attributes"?: Partial<WebhookReader>;
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "reader.archived";
@@ -267,24 +668,8 @@ export type ReaderArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "active_payment_intent_id"?: string;
-            "connectivity"?: ReaderConnectivity;
-            "created_at": string;
-            "device_id"?: string;
-            "is_simulated": boolean;
-            "location_id": string;
-            "metadata": MetadataMap;
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            "name": string;
-            "reader_id": string;
-            "serial_number"?: string;
-            "status": "active" | "archived" | (string & {});
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Reader>;
+        "object": WebhookReader;
+        "previous_attributes"?: Partial<WebhookReader>;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "reader.archived";
@@ -306,163 +691,26 @@ export type ReaderArchivedEvent = ((((Exclude<MerchantWebhookEnvelope & object, 
 export type ReaderArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `active_payment_intent_id`. object.active_payment_intent_id (Optional): string. The
-     * payment intent presented on the reader now. Omitted while the reader is idle. It follows the
-     * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.connectivity (Optional): {@link ReaderConnectivity}.
-     * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-     * changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on
-     * it: Flint checks the reader itself before it sends a payment. Observed connectivity of a
-     * smart reader. Flint refreshes it when it sends or cancels a payment or simulates one, and
-     * every five minutes for active live smart readers. object.created_at (Required): string. When
-     * the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.device_id (Optional): string. The register, kiosk or phone the reader takes payments
-     * for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.is_simulated (Required): boolean. `true` for a
-     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     * object.location_id (Required): string. The location the reader is at. Set at registration
-     * and never changed: to move a reader, archive it and register it again. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Required): {@link MetadataMap}. Your
-     * key-value pairs for the reader. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them. object.model (Optional): string. The smart reader's model, read from the reader at
-     * registration. Smart readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710",
-     * "other". object.name (Required): string. Your label for the reader. minLength: 1. maxLength:
-     * 255. object.reader_id (Required): string. Unique identifier for the reader. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C". object.serial_number (Optional): string. The smart
-     * reader's serial number, read from the reader at registration. Smart readers only.
-     * object.status (Required): string. Whether the reader can take payments. Value enum:
-     * "active", "archived". object.type (Required): string. What kind of reader it is. A smart
-     * reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
-     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". object.updated_at
-     * (Required): string. When the reader last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_intent_id`. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`. active_payment_intent_id (Optional): string. The payment
-         * intent presented on the reader now. Omitted while the reader is idle. It follows the
-         * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". connectivity (Optional): {@link ReaderConnectivity}.
-         * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-         * changes without a write, doesn't advance `version`, and sends no event. Don't gate a
-         * sale on it: Flint checks the reader itself before it sends a payment. Observed
-         * connectivity of a smart reader. Flint refreshes it when it sends or cancels a payment or
-         * simulates one, and every five minutes for active live smart readers. created_at
-         * (Required): string. When the reader was registered. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". device_id (Optional): string. The register, kiosk or phone the
-         * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when
-         * none is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". is_simulated (Required):
-         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
-         * simulated-s700`. location_id (Required): string. The location the reader is at. Set at
-         * registration and never changed: to move a reader, archive it and register it again.
-         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Required): {@link MetadataMap}.
-         * Your key-value pairs for the reader. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. model (Optional): string. The smart reader's model, read from the reader
-         * at registration. Smart readers only. Value enum: "stripe_reader_s700",
-         * "stripe_reader_s710", "other". name (Required): string. Your label for the reader.
-         * minLength: 1. maxLength: 255. reader_id (Required): string. Unique identifier for the
-         * reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". serial_number (Optional): string. The
-         * smart reader's serial number, read from the reader at registration. Smart readers only.
-         * status (Required): string. Whether the reader can take payments. Value enum: "active",
-         * "archived". type (Required): string. What kind of reader it is. A smart reader is driven
-         * from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in
-         * your app. Value enum: "smart_reader", "tap_to_pay". updated_at (Required): string. When
-         * the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1.
+         * `active_payment_intent_id`.
          */
-        "object": {
-            /**
-             * The payment intent presented on the reader now. Omitted while the reader is idle. It
-             * follows the payment, so it doesn't advance the reader's `version` or send a reader
-             * event. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "active_payment_intent_id"?: string;
-            /**
-             * Smart readers only, and omitted once the reader is archived. Observed reader state:
-             * it changes without a write, doesn't advance `version`, and sends no event. Don't
-             * gate a sale on it: Flint checks the reader itself before it sends a payment.
-             * Observed connectivity of a smart reader. Flint refreshes it when it sends or cancels
-             * a payment or simulates one, and every five minutes for active live smart readers.
-             */
-            "connectivity"?: ReaderConnectivity;
-            /**
-             * When the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
-             * the phone it runs on. Omitted when none is set. Example:
-             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-             */
-            "device_id"?: string;
-            /**
-             * `true` for a sandbox simulated reader, registered with `registration_code:
-             * simulated-s700`.
-             */
-            "is_simulated": boolean;
-            /**
-             * The location the reader is at. Set at registration and never changed: to move a
-             * reader, archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Your key-value pairs for the reader. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata": MetadataMap;
-            /**
-             * The smart reader's model, read from the reader at registration. Smart readers only.
-             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-             */
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            /** Your label for the reader. minLength: 1. maxLength: 255. */
-            "name": string;
-            /** Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". */
-            "reader_id": string;
-            /**
-             * The smart reader's serial number, read from the reader at registration. Smart
-             * readers only.
-             */
-            "serial_number"?: string;
-            /** Whether the reader can take payments. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
-             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
-             * "smart_reader", "tap_to_pay".
-             */
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            /** When the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        "object": WebhookReader;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Reader>;
+        "previous_attributes"?: Partial<WebhookReader>;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -510,163 +758,26 @@ export type ReaderArchivedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvel
 export type ReaderArchivedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `active_payment_intent_id`. object.active_payment_intent_id (Optional): string. The
-     * payment intent presented on the reader now. Omitted while the reader is idle. It follows the
-     * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.connectivity (Optional): {@link ReaderConnectivity}.
-     * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-     * changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on
-     * it: Flint checks the reader itself before it sends a payment. Observed connectivity of a
-     * smart reader. Flint refreshes it when it sends or cancels a payment or simulates one, and
-     * every five minutes for active live smart readers. object.created_at (Required): string. When
-     * the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.device_id (Optional): string. The register, kiosk or phone the reader takes payments
-     * for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.is_simulated (Required): boolean. `true` for a
-     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     * object.location_id (Required): string. The location the reader is at. Set at registration
-     * and never changed: to move a reader, archive it and register it again. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Required): {@link MetadataMap}. Your
-     * key-value pairs for the reader. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them. object.model (Optional): string. The smart reader's model, read from the reader at
-     * registration. Smart readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710",
-     * "other". object.name (Required): string. Your label for the reader. minLength: 1. maxLength:
-     * 255. object.reader_id (Required): string. Unique identifier for the reader. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C". object.serial_number (Optional): string. The smart
-     * reader's serial number, read from the reader at registration. Smart readers only.
-     * object.status (Required): string. Whether the reader can take payments. Value enum:
-     * "active", "archived". object.type (Required): string. What kind of reader it is. A smart
-     * reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
-     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". object.updated_at
-     * (Required): string. When the reader last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_intent_id`. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`. active_payment_intent_id (Optional): string. The payment
-         * intent presented on the reader now. Omitted while the reader is idle. It follows the
-         * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". connectivity (Optional): {@link ReaderConnectivity}.
-         * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-         * changes without a write, doesn't advance `version`, and sends no event. Don't gate a
-         * sale on it: Flint checks the reader itself before it sends a payment. Observed
-         * connectivity of a smart reader. Flint refreshes it when it sends or cancels a payment or
-         * simulates one, and every five minutes for active live smart readers. created_at
-         * (Required): string. When the reader was registered. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". device_id (Optional): string. The register, kiosk or phone the
-         * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when
-         * none is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". is_simulated (Required):
-         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
-         * simulated-s700`. location_id (Required): string. The location the reader is at. Set at
-         * registration and never changed: to move a reader, archive it and register it again.
-         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Required): {@link MetadataMap}.
-         * Your key-value pairs for the reader. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. model (Optional): string. The smart reader's model, read from the reader
-         * at registration. Smart readers only. Value enum: "stripe_reader_s700",
-         * "stripe_reader_s710", "other". name (Required): string. Your label for the reader.
-         * minLength: 1. maxLength: 255. reader_id (Required): string. Unique identifier for the
-         * reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". serial_number (Optional): string. The
-         * smart reader's serial number, read from the reader at registration. Smart readers only.
-         * status (Required): string. Whether the reader can take payments. Value enum: "active",
-         * "archived". type (Required): string. What kind of reader it is. A smart reader is driven
-         * from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in
-         * your app. Value enum: "smart_reader", "tap_to_pay". updated_at (Required): string. When
-         * the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1.
+         * `active_payment_intent_id`.
          */
-        "object": {
-            /**
-             * The payment intent presented on the reader now. Omitted while the reader is idle. It
-             * follows the payment, so it doesn't advance the reader's `version` or send a reader
-             * event. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "active_payment_intent_id"?: string;
-            /**
-             * Smart readers only, and omitted once the reader is archived. Observed reader state:
-             * it changes without a write, doesn't advance `version`, and sends no event. Don't
-             * gate a sale on it: Flint checks the reader itself before it sends a payment.
-             * Observed connectivity of a smart reader. Flint refreshes it when it sends or cancels
-             * a payment or simulates one, and every five minutes for active live smart readers.
-             */
-            "connectivity"?: ReaderConnectivity;
-            /**
-             * When the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
-             * the phone it runs on. Omitted when none is set. Example:
-             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-             */
-            "device_id"?: string;
-            /**
-             * `true` for a sandbox simulated reader, registered with `registration_code:
-             * simulated-s700`.
-             */
-            "is_simulated": boolean;
-            /**
-             * The location the reader is at. Set at registration and never changed: to move a
-             * reader, archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Your key-value pairs for the reader. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata": MetadataMap;
-            /**
-             * The smart reader's model, read from the reader at registration. Smart readers only.
-             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-             */
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            /** Your label for the reader. minLength: 1. maxLength: 255. */
-            "name": string;
-            /** Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". */
-            "reader_id": string;
-            /**
-             * The smart reader's serial number, read from the reader at registration. Smart
-             * readers only.
-             */
-            "serial_number"?: string;
-            /** Whether the reader can take payments. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
-             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
-             * "smart_reader", "tap_to_pay".
-             */
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            /** When the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        "object": WebhookReader;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Reader>;
+        "previous_attributes"?: Partial<WebhookReader>;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -753,23 +864,7 @@ export type ReaderConnectivity = {
 export type ReaderCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "active_payment_intent_id"?: string;
-            "connectivity"?: ReaderConnectivity;
-            "created_at": string;
-            "device_id"?: string;
-            "is_simulated": boolean;
-            "location_id": string;
-            "metadata": MetadataMap;
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            "name": string;
-            "reader_id": string;
-            "serial_number"?: string;
-            "status": "active" | "archived" | (string & {});
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
+        "object": WebhookReader;
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "reader.created";
@@ -777,23 +872,7 @@ export type ReaderCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "active_payment_intent_id"?: string;
-            "connectivity"?: ReaderConnectivity;
-            "created_at": string;
-            "device_id"?: string;
-            "is_simulated": boolean;
-            "location_id": string;
-            "metadata": MetadataMap;
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            "name": string;
-            "reader_id": string;
-            "serial_number"?: string;
-            "status": "active" | "archived" | (string & {});
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
+        "object": WebhookReader;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "reader.created";
@@ -815,152 +894,15 @@ export type ReaderCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
 export type ReaderCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `active_payment_intent_id`. object.active_payment_intent_id (Optional): string. The
-     * payment intent presented on the reader now. Omitted while the reader is idle. It follows the
-     * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.connectivity (Optional): {@link ReaderConnectivity}.
-     * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-     * changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on
-     * it: Flint checks the reader itself before it sends a payment. Observed connectivity of a
-     * smart reader. Flint refreshes it when it sends or cancels a payment or simulates one, and
-     * every five minutes for active live smart readers. object.created_at (Required): string. When
-     * the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.device_id (Optional): string. The register, kiosk or phone the reader takes payments
-     * for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.is_simulated (Required): boolean. `true` for a
-     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     * object.location_id (Required): string. The location the reader is at. Set at registration
-     * and never changed: to move a reader, archive it and register it again. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Required): {@link MetadataMap}. Your
-     * key-value pairs for the reader. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them. object.model (Optional): string. The smart reader's model, read from the reader at
-     * registration. Smart readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710",
-     * "other". object.name (Required): string. Your label for the reader. minLength: 1. maxLength:
-     * 255. object.reader_id (Required): string. Unique identifier for the reader. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C". object.serial_number (Optional): string. The smart
-     * reader's serial number, read from the reader at registration. Smart readers only.
-     * object.status (Required): string. Whether the reader can take payments. Value enum:
-     * "active", "archived". object.type (Required): string. What kind of reader it is. A smart
-     * reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
-     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". object.updated_at
-     * (Required): string. When the reader last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1.
+     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_intent_id`.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`. active_payment_intent_id (Optional): string. The payment
-         * intent presented on the reader now. Omitted while the reader is idle. It follows the
-         * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". connectivity (Optional): {@link ReaderConnectivity}.
-         * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-         * changes without a write, doesn't advance `version`, and sends no event. Don't gate a
-         * sale on it: Flint checks the reader itself before it sends a payment. Observed
-         * connectivity of a smart reader. Flint refreshes it when it sends or cancels a payment or
-         * simulates one, and every five minutes for active live smart readers. created_at
-         * (Required): string. When the reader was registered. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". device_id (Optional): string. The register, kiosk or phone the
-         * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when
-         * none is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". is_simulated (Required):
-         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
-         * simulated-s700`. location_id (Required): string. The location the reader is at. Set at
-         * registration and never changed: to move a reader, archive it and register it again.
-         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Required): {@link MetadataMap}.
-         * Your key-value pairs for the reader. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. model (Optional): string. The smart reader's model, read from the reader
-         * at registration. Smart readers only. Value enum: "stripe_reader_s700",
-         * "stripe_reader_s710", "other". name (Required): string. Your label for the reader.
-         * minLength: 1. maxLength: 255. reader_id (Required): string. Unique identifier for the
-         * reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". serial_number (Optional): string. The
-         * smart reader's serial number, read from the reader at registration. Smart readers only.
-         * status (Required): string. Whether the reader can take payments. Value enum: "active",
-         * "archived". type (Required): string. What kind of reader it is. A smart reader is driven
-         * from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in
-         * your app. Value enum: "smart_reader", "tap_to_pay". updated_at (Required): string. When
-         * the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1.
+         * `active_payment_intent_id`.
          */
-        "object": {
-            /**
-             * The payment intent presented on the reader now. Omitted while the reader is idle. It
-             * follows the payment, so it doesn't advance the reader's `version` or send a reader
-             * event. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "active_payment_intent_id"?: string;
-            /**
-             * Smart readers only, and omitted once the reader is archived. Observed reader state:
-             * it changes without a write, doesn't advance `version`, and sends no event. Don't
-             * gate a sale on it: Flint checks the reader itself before it sends a payment.
-             * Observed connectivity of a smart reader. Flint refreshes it when it sends or cancels
-             * a payment or simulates one, and every five minutes for active live smart readers.
-             */
-            "connectivity"?: ReaderConnectivity;
-            /**
-             * When the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
-             * the phone it runs on. Omitted when none is set. Example:
-             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-             */
-            "device_id"?: string;
-            /**
-             * `true` for a sandbox simulated reader, registered with `registration_code:
-             * simulated-s700`.
-             */
-            "is_simulated": boolean;
-            /**
-             * The location the reader is at. Set at registration and never changed: to move a
-             * reader, archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Your key-value pairs for the reader. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata": MetadataMap;
-            /**
-             * The smart reader's model, read from the reader at registration. Smart readers only.
-             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-             */
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            /** Your label for the reader. minLength: 1. maxLength: 255. */
-            "name": string;
-            /** Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". */
-            "reader_id": string;
-            /**
-             * The smart reader's serial number, read from the reader at registration. Smart
-             * readers only.
-             */
-            "serial_number"?: string;
-            /** Whether the reader can take payments. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
-             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
-             * "smart_reader", "tap_to_pay".
-             */
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            /** When the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        "object": WebhookReader;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1008,152 +950,15 @@ export type ReaderCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
 export type ReaderCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `active_payment_intent_id`. object.active_payment_intent_id (Optional): string. The
-     * payment intent presented on the reader now. Omitted while the reader is idle. It follows the
-     * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.connectivity (Optional): {@link ReaderConnectivity}.
-     * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-     * changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on
-     * it: Flint checks the reader itself before it sends a payment. Observed connectivity of a
-     * smart reader. Flint refreshes it when it sends or cancels a payment or simulates one, and
-     * every five minutes for active live smart readers. object.created_at (Required): string. When
-     * the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.device_id (Optional): string. The register, kiosk or phone the reader takes payments
-     * for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.is_simulated (Required): boolean. `true` for a
-     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     * object.location_id (Required): string. The location the reader is at. Set at registration
-     * and never changed: to move a reader, archive it and register it again. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Required): {@link MetadataMap}. Your
-     * key-value pairs for the reader. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them. object.model (Optional): string. The smart reader's model, read from the reader at
-     * registration. Smart readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710",
-     * "other". object.name (Required): string. Your label for the reader. minLength: 1. maxLength:
-     * 255. object.reader_id (Required): string. Unique identifier for the reader. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C". object.serial_number (Optional): string. The smart
-     * reader's serial number, read from the reader at registration. Smart readers only.
-     * object.status (Required): string. Whether the reader can take payments. Value enum:
-     * "active", "archived". object.type (Required): string. What kind of reader it is. A smart
-     * reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
-     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". object.updated_at
-     * (Required): string. When the reader last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1.
+     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_intent_id`.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`. active_payment_intent_id (Optional): string. The payment
-         * intent presented on the reader now. Omitted while the reader is idle. It follows the
-         * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". connectivity (Optional): {@link ReaderConnectivity}.
-         * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-         * changes without a write, doesn't advance `version`, and sends no event. Don't gate a
-         * sale on it: Flint checks the reader itself before it sends a payment. Observed
-         * connectivity of a smart reader. Flint refreshes it when it sends or cancels a payment or
-         * simulates one, and every five minutes for active live smart readers. created_at
-         * (Required): string. When the reader was registered. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". device_id (Optional): string. The register, kiosk or phone the
-         * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when
-         * none is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". is_simulated (Required):
-         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
-         * simulated-s700`. location_id (Required): string. The location the reader is at. Set at
-         * registration and never changed: to move a reader, archive it and register it again.
-         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Required): {@link MetadataMap}.
-         * Your key-value pairs for the reader. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. model (Optional): string. The smart reader's model, read from the reader
-         * at registration. Smart readers only. Value enum: "stripe_reader_s700",
-         * "stripe_reader_s710", "other". name (Required): string. Your label for the reader.
-         * minLength: 1. maxLength: 255. reader_id (Required): string. Unique identifier for the
-         * reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". serial_number (Optional): string. The
-         * smart reader's serial number, read from the reader at registration. Smart readers only.
-         * status (Required): string. Whether the reader can take payments. Value enum: "active",
-         * "archived". type (Required): string. What kind of reader it is. A smart reader is driven
-         * from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in
-         * your app. Value enum: "smart_reader", "tap_to_pay". updated_at (Required): string. When
-         * the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1.
+         * `active_payment_intent_id`.
          */
-        "object": {
-            /**
-             * The payment intent presented on the reader now. Omitted while the reader is idle. It
-             * follows the payment, so it doesn't advance the reader's `version` or send a reader
-             * event. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "active_payment_intent_id"?: string;
-            /**
-             * Smart readers only, and omitted once the reader is archived. Observed reader state:
-             * it changes without a write, doesn't advance `version`, and sends no event. Don't
-             * gate a sale on it: Flint checks the reader itself before it sends a payment.
-             * Observed connectivity of a smart reader. Flint refreshes it when it sends or cancels
-             * a payment or simulates one, and every five minutes for active live smart readers.
-             */
-            "connectivity"?: ReaderConnectivity;
-            /**
-             * When the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
-             * the phone it runs on. Omitted when none is set. Example:
-             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-             */
-            "device_id"?: string;
-            /**
-             * `true` for a sandbox simulated reader, registered with `registration_code:
-             * simulated-s700`.
-             */
-            "is_simulated": boolean;
-            /**
-             * The location the reader is at. Set at registration and never changed: to move a
-             * reader, archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Your key-value pairs for the reader. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata": MetadataMap;
-            /**
-             * The smart reader's model, read from the reader at registration. Smart readers only.
-             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-             */
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            /** Your label for the reader. minLength: 1. maxLength: 255. */
-            "name": string;
-            /** Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". */
-            "reader_id": string;
-            /**
-             * The smart reader's serial number, read from the reader at registration. Smart
-             * readers only.
-             */
-            "serial_number"?: string;
-            /** Whether the reader can take payments. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
-             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
-             * "smart_reader", "tap_to_pay".
-             */
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            /** When the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        "object": WebhookReader;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -1214,24 +1019,8 @@ export type ReaderResponse = {
 export type ReaderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "active_payment_intent_id"?: string;
-            "connectivity"?: ReaderConnectivity;
-            "created_at": string;
-            "device_id"?: string;
-            "is_simulated": boolean;
-            "location_id": string;
-            "metadata": MetadataMap;
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            "name": string;
-            "reader_id": string;
-            "serial_number"?: string;
-            "status": "active" | "archived" | (string & {});
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Reader>;
+        "object": WebhookReader;
+        "previous_attributes"?: Partial<WebhookReader>;
     };
     "event_source"?: ("merchant") & ("merchant");
     "event_type"?: "reader.updated";
@@ -1239,24 +1028,8 @@ export type ReaderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
     | ((Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     "data"?: {
-        "object": {
-            "active_payment_intent_id"?: string;
-            "connectivity"?: ReaderConnectivity;
-            "created_at": string;
-            "device_id"?: string;
-            "is_simulated": boolean;
-            "location_id": string;
-            "metadata": MetadataMap;
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            "name": string;
-            "reader_id": string;
-            "serial_number"?: string;
-            "status": "active" | "archived" | (string & {});
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            "updated_at": string;
-            "version": number;
-        };
-        "previous_attributes"?: Partial<Reader>;
+        "object": WebhookReader;
+        "previous_attributes"?: Partial<WebhookReader>;
     };
     "event_source"?: ("installed_merchants") & ("installed_merchants");
     "event_type"?: "reader.updated";
@@ -1278,163 +1051,26 @@ export type ReaderUpdatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
 export type ReaderUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `active_payment_intent_id`. object.active_payment_intent_id (Optional): string. The
-     * payment intent presented on the reader now. Omitted while the reader is idle. It follows the
-     * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.connectivity (Optional): {@link ReaderConnectivity}.
-     * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-     * changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on
-     * it: Flint checks the reader itself before it sends a payment. Observed connectivity of a
-     * smart reader. Flint refreshes it when it sends or cancels a payment or simulates one, and
-     * every five minutes for active live smart readers. object.created_at (Required): string. When
-     * the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.device_id (Optional): string. The register, kiosk or phone the reader takes payments
-     * for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.is_simulated (Required): boolean. `true` for a
-     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     * object.location_id (Required): string. The location the reader is at. Set at registration
-     * and never changed: to move a reader, archive it and register it again. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Required): {@link MetadataMap}. Your
-     * key-value pairs for the reader. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them. object.model (Optional): string. The smart reader's model, read from the reader at
-     * registration. Smart readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710",
-     * "other". object.name (Required): string. Your label for the reader. minLength: 1. maxLength:
-     * 255. object.reader_id (Required): string. Unique identifier for the reader. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C". object.serial_number (Optional): string. The smart
-     * reader's serial number, read from the reader at registration. Smart readers only.
-     * object.status (Required): string. Whether the reader can take payments. Value enum:
-     * "active", "archived". object.type (Required): string. What kind of reader it is. A smart
-     * reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
-     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". object.updated_at
-     * (Required): string. When the reader last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_intent_id`. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`. active_payment_intent_id (Optional): string. The payment
-         * intent presented on the reader now. Omitted while the reader is idle. It follows the
-         * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". connectivity (Optional): {@link ReaderConnectivity}.
-         * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-         * changes without a write, doesn't advance `version`, and sends no event. Don't gate a
-         * sale on it: Flint checks the reader itself before it sends a payment. Observed
-         * connectivity of a smart reader. Flint refreshes it when it sends or cancels a payment or
-         * simulates one, and every five minutes for active live smart readers. created_at
-         * (Required): string. When the reader was registered. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". device_id (Optional): string. The register, kiosk or phone the
-         * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when
-         * none is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". is_simulated (Required):
-         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
-         * simulated-s700`. location_id (Required): string. The location the reader is at. Set at
-         * registration and never changed: to move a reader, archive it and register it again.
-         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Required): {@link MetadataMap}.
-         * Your key-value pairs for the reader. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. model (Optional): string. The smart reader's model, read from the reader
-         * at registration. Smart readers only. Value enum: "stripe_reader_s700",
-         * "stripe_reader_s710", "other". name (Required): string. Your label for the reader.
-         * minLength: 1. maxLength: 255. reader_id (Required): string. Unique identifier for the
-         * reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". serial_number (Optional): string. The
-         * smart reader's serial number, read from the reader at registration. Smart readers only.
-         * status (Required): string. Whether the reader can take payments. Value enum: "active",
-         * "archived". type (Required): string. What kind of reader it is. A smart reader is driven
-         * from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in
-         * your app. Value enum: "smart_reader", "tap_to_pay". updated_at (Required): string. When
-         * the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1.
+         * `active_payment_intent_id`.
          */
-        "object": {
-            /**
-             * The payment intent presented on the reader now. Omitted while the reader is idle. It
-             * follows the payment, so it doesn't advance the reader's `version` or send a reader
-             * event. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "active_payment_intent_id"?: string;
-            /**
-             * Smart readers only, and omitted once the reader is archived. Observed reader state:
-             * it changes without a write, doesn't advance `version`, and sends no event. Don't
-             * gate a sale on it: Flint checks the reader itself before it sends a payment.
-             * Observed connectivity of a smart reader. Flint refreshes it when it sends or cancels
-             * a payment or simulates one, and every five minutes for active live smart readers.
-             */
-            "connectivity"?: ReaderConnectivity;
-            /**
-             * When the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
-             * the phone it runs on. Omitted when none is set. Example:
-             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-             */
-            "device_id"?: string;
-            /**
-             * `true` for a sandbox simulated reader, registered with `registration_code:
-             * simulated-s700`.
-             */
-            "is_simulated": boolean;
-            /**
-             * The location the reader is at. Set at registration and never changed: to move a
-             * reader, archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Your key-value pairs for the reader. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata": MetadataMap;
-            /**
-             * The smart reader's model, read from the reader at registration. Smart readers only.
-             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-             */
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            /** Your label for the reader. minLength: 1. maxLength: 255. */
-            "name": string;
-            /** Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". */
-            "reader_id": string;
-            /**
-             * The smart reader's serial number, read from the reader at registration. Smart
-             * readers only.
-             */
-            "serial_number"?: string;
-            /** Whether the reader can take payments. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
-             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
-             * "smart_reader", "tap_to_pay".
-             */
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            /** When the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        "object": WebhookReader;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Reader>;
+        "previous_attributes"?: Partial<WebhookReader>;
     };
     /** Value enum: "installed_merchants". */
     "event_source"?: "installed_merchants" | (string & {});
@@ -1482,163 +1118,26 @@ export type ReaderUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
 export type ReaderUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
     & ({
     /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit these
-     * fields: `active_payment_intent_id`. object.active_payment_intent_id (Optional): string. The
-     * payment intent presented on the reader now. Omitted while the reader is idle. It follows the
-     * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.connectivity (Optional): {@link ReaderConnectivity}.
-     * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-     * changes without a write, doesn't advance `version`, and sends no event. Don't gate a sale on
-     * it: Flint checks the reader itself before it sends a payment. Observed connectivity of a
-     * smart reader. Flint refreshes it when it sends or cancels a payment or simulates one, and
-     * every five minutes for active live smart readers. object.created_at (Required): string. When
-     * the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.device_id (Optional): string. The register, kiosk or phone the reader takes payments
-     * for; on a Tap to Pay reader, the phone it runs on. Omitted when none is set. Example:
-     * "dev_01KEZF7C0051ZP8MZSGHP989F6". object.is_simulated (Required): boolean. `true` for a
-     * sandbox simulated reader, registered with `registration_code: simulated-s700`.
-     * object.location_id (Required): string. The location the reader is at. Set at registration
-     * and never changed: to move a reader, archive it and register it again. Example:
-     * "loc_01KEZF7C00CMHRRYA3MV996JB2". object.metadata (Required): {@link MetadataMap}. Your
-     * key-value pairs for the reader. Caller-owned key-value data stored on a resource. Keys
-     * starting with flint_ are reserved for Flint and are not returned. Writes follow the limits
-     * on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy
-     * them. object.model (Optional): string. The smart reader's model, read from the reader at
-     * registration. Smart readers only. Value enum: "stripe_reader_s700", "stripe_reader_s710",
-     * "other". object.name (Required): string. Your label for the reader. minLength: 1. maxLength:
-     * 255. object.reader_id (Required): string. Unique identifier for the reader. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C". object.serial_number (Optional): string. The smart
-     * reader's serial number, read from the reader at registration. Smart readers only.
-     * object.status (Required): string. Whether the reader can take payments. Value enum:
-     * "active", "archived". object.type (Required): string. What kind of reader it is. A smart
-     * reader is driven from your server; a Tap to Pay reader is a phone driven by the Stripe
-     * Terminal SDK in your app. Value enum: "smart_reader", "tap_to_pay". object.updated_at
-     * (Required): string. When the reader last changed. Format: date-time. Example:
-     * "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of this
-     * resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
+     *  object (Required): {@link WebhookReader}. The resource snapshot, without expansions.
+     * Webhooks omit these fields: `active_payment_intent_id`. previous_attributes (Optional):
+     * object. Previous values of changed top-level fields in data.object, at this delivery's API
+     * version. Nested changes include the whole previous top-level value. A value is null when the
+     * field was absent before the change. Omitted when Flint did not record the previous state,
+     * including synthetic test events.
      */
     "data"?: {
         /**
          * The resource snapshot, without expansions. Webhooks omit these fields:
-         * `active_payment_intent_id`. active_payment_intent_id (Optional): string. The payment
-         * intent presented on the reader now. Omitted while the reader is idle. It follows the
-         * payment, so it doesn't advance the reader's `version` or send a reader event. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". connectivity (Optional): {@link ReaderConnectivity}.
-         * Smart readers only, and omitted once the reader is archived. Observed reader state: it
-         * changes without a write, doesn't advance `version`, and sends no event. Don't gate a
-         * sale on it: Flint checks the reader itself before it sends a payment. Observed
-         * connectivity of a smart reader. Flint refreshes it when it sends or cancels a payment or
-         * simulates one, and every five minutes for active live smart readers. created_at
-         * (Required): string. When the reader was registered. Format: date-time. Example:
-         * "2026-08-02T16:00:00Z". device_id (Optional): string. The register, kiosk or phone the
-         * reader takes payments for; on a Tap to Pay reader, the phone it runs on. Omitted when
-         * none is set. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6". is_simulated (Required):
-         * boolean. `true` for a sandbox simulated reader, registered with `registration_code:
-         * simulated-s700`. location_id (Required): string. The location the reader is at. Set at
-         * registration and never changed: to move a reader, archive it and register it again.
-         * Example: "loc_01KEZF7C00CMHRRYA3MV996JB2". metadata (Required): {@link MetadataMap}.
-         * Your key-value pairs for the reader. Caller-owned key-value data stored on a resource.
-         * Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the
-         * limits on MetadataInput and MetadataPatchInput; maps written before those limits may not
-         * satisfy them. model (Optional): string. The smart reader's model, read from the reader
-         * at registration. Smart readers only. Value enum: "stripe_reader_s700",
-         * "stripe_reader_s710", "other". name (Required): string. Your label for the reader.
-         * minLength: 1. maxLength: 255. reader_id (Required): string. Unique identifier for the
-         * reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". serial_number (Optional): string. The
-         * smart reader's serial number, read from the reader at registration. Smart readers only.
-         * status (Required): string. Whether the reader can take payments. Value enum: "active",
-         * "archived". type (Required): string. What kind of reader it is. A smart reader is driven
-         * from your server; a Tap to Pay reader is a phone driven by the Stripe Terminal SDK in
-         * your app. Value enum: "smart_reader", "tap_to_pay". updated_at (Required): string. When
-         * the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". version
-         * (Required): integer. Persisted version of this resource's owned state. Expanded
-         * resources and external observations can change independently. Format: uint64. minimum:
-         * 1.
+         * `active_payment_intent_id`.
          */
-        "object": {
-            /**
-             * The payment intent presented on the reader now. Omitted while the reader is idle. It
-             * follows the payment, so it doesn't advance the reader's `version` or send a reader
-             * event. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "active_payment_intent_id"?: string;
-            /**
-             * Smart readers only, and omitted once the reader is archived. Observed reader state:
-             * it changes without a write, doesn't advance `version`, and sends no event. Don't
-             * gate a sale on it: Flint checks the reader itself before it sends a payment.
-             * Observed connectivity of a smart reader. Flint refreshes it when it sends or cancels
-             * a payment or simulates one, and every five minutes for active live smart readers.
-             */
-            "connectivity"?: ReaderConnectivity;
-            /**
-             * When the reader was registered. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "created_at": string;
-            /**
-             * The register, kiosk or phone the reader takes payments for; on a Tap to Pay reader,
-             * the phone it runs on. Omitted when none is set. Example:
-             * "dev_01KEZF7C0051ZP8MZSGHP989F6".
-             */
-            "device_id"?: string;
-            /**
-             * `true` for a sandbox simulated reader, registered with `registration_code:
-             * simulated-s700`.
-             */
-            "is_simulated": boolean;
-            /**
-             * The location the reader is at. Set at registration and never changed: to move a
-             * reader, archive it and register it again. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
-             */
-            "location_id": string;
-            /**
-             * Your key-value pairs for the reader. Caller-owned key-value data stored on a
-             * resource. Keys starting with flint_ are reserved for Flint and are not returned.
-             * Writes follow the limits on MetadataInput and MetadataPatchInput; maps written
-             * before those limits may not satisfy them.
-             */
-            "metadata": MetadataMap;
-            /**
-             * The smart reader's model, read from the reader at registration. Smart readers only.
-             * Value enum: "stripe_reader_s700", "stripe_reader_s710", "other".
-             */
-            "model"?: "stripe_reader_s700" | "stripe_reader_s710" | "other" | (string & {});
-            /** Your label for the reader. minLength: 1. maxLength: 255. */
-            "name": string;
-            /** Unique identifier for the reader. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C". */
-            "reader_id": string;
-            /**
-             * The smart reader's serial number, read from the reader at registration. Smart
-             * readers only.
-             */
-            "serial_number"?: string;
-            /** Whether the reader can take payments. Value enum: "active", "archived". */
-            "status": "active" | "archived" | (string & {});
-            /**
-             * What kind of reader it is. A smart reader is driven from your server; a Tap to Pay
-             * reader is a phone driven by the Stripe Terminal SDK in your app. Value enum:
-             * "smart_reader", "tap_to_pay".
-             */
-            "type": "smart_reader" | "tap_to_pay" | (string & {});
-            /** When the reader last changed. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
+        "object": WebhookReader;
         /**
          * Previous values of changed top-level fields in data.object, at this delivery's API
          * version. Nested changes include the whole previous top-level value. A value is null when
          * the field was absent before the change. Omitted when Flint did not record the previous
          * state, including synthetic test events.
          */
-        "previous_attributes"?: Partial<Reader>;
+        "previous_attributes"?: Partial<WebhookReader>;
     };
     /** Value enum: "merchant". */
     "event_source"?: "merchant" | (string & {});
@@ -2412,11 +1911,13 @@ export type Refund = {
     /**
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
-     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. Fix
-     * the cause, then create a new refund with a new idempotency key. Unknown provider values are
-     * returned as refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted",
+     * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
+     * payment_returned refund that failed with refund_abandoned cannot be retried through Flint;
+     * the store must arrange repayment outside Flint. Fix the cause, then create a new refund with
+     * a new idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
      * "refund_failed".
      */
     "failure_reason"?: "expired_or_canceled_card"
@@ -2426,6 +1927,7 @@ export type Refund = {
         | "declined"
         | "merchant_request"
         | "payment_disputed"
+        | "refund_abandoned"
         | "payment_refund_failed"
         | "payment_refund_not_attempted"
         | "refund_failed"
@@ -2754,6 +2256,7 @@ export type RefundCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
                 | "declined"
                 | "merchant_request"
                 | "payment_disputed"
+                | "refund_abandoned"
                 | "payment_refund_failed"
                 | "payment_refund_not_attempted"
                 | "refund_failed"
@@ -2827,6 +2330,7 @@ export type RefundCreatedEvent = ((((Exclude<MerchantWebhookEnvelope & object, r
                 | "declined"
                 | "merchant_request"
                 | "payment_disputed"
+                | "refund_abandoned"
                 | "payment_refund_failed"
                 | "payment_refund_not_attempted"
                 | "refund_failed"
@@ -2918,10 +2422,12 @@ export type RefundCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider
-     * values are returned as refund_failed. Value enum: "expired_or_canceled_card",
-     * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined",
-     * "merchant_request", "payment_disputed", "payment_refund_failed",
+     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
+     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
+     * new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
      * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
      * The caller's Idempotency-Key when this refund was created, including refunds created by
      * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
@@ -3051,11 +2557,13 @@ export type RefundCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * maxLength: 255. Example: "warehouse-1842". failure_reason (Optional): string. Why a
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
-         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
-         * Fix the cause, then create a new refund with a new idempotency key. Unknown provider
-         * values are returned as refund_failed. Value enum: "expired_or_canceled_card",
-         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-         * "declined", "merchant_request", "payment_disputed", "payment_refund_failed",
+         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
+         * payment_returned refund that failed with refund_abandoned cannot be retried through
+         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
+         * refund with a new idempotency key. Unknown provider values are returned as
+         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
          * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
          * caller's Idempotency-Key when this refund was created, including refunds created by
          * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
@@ -3200,12 +2708,13 @@ export type RefundCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. Fix the cause, then create a new refund with a new idempotency key. Unknown
-             * provider values are returned as refund_failed. Value enum:
-             * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
-             * "insufficient_available_balance", "declined", "merchant_request",
-             * "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted",
-             * "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned cannot be
+             * retried through Flint; the store must arrange repayment outside Flint. Fix the
+             * cause, then create a new refund with a new idempotency key. Unknown provider values
+             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
+             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -3214,6 +2723,7 @@ export type RefundCreatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
                 | "declined"
                 | "merchant_request"
                 | "payment_disputed"
+                | "refund_abandoned"
                 | "payment_refund_failed"
                 | "payment_refund_not_attempted"
                 | "refund_failed"
@@ -3498,10 +3008,12 @@ export type RefundCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider
-     * values are returned as refund_failed. Value enum: "expired_or_canceled_card",
-     * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined",
-     * "merchant_request", "payment_disputed", "payment_refund_failed",
+     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
+     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
+     * new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
      * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
      * The caller's Idempotency-Key when this refund was created, including refunds created by
      * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
@@ -3631,11 +3143,13 @@ export type RefundCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * maxLength: 255. Example: "warehouse-1842". failure_reason (Optional): string. Why a
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
-         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
-         * Fix the cause, then create a new refund with a new idempotency key. Unknown provider
-         * values are returned as refund_failed. Value enum: "expired_or_canceled_card",
-         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-         * "declined", "merchant_request", "payment_disputed", "payment_refund_failed",
+         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
+         * payment_returned refund that failed with refund_abandoned cannot be retried through
+         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
+         * refund with a new idempotency key. Unknown provider values are returned as
+         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
          * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
          * caller's Idempotency-Key when this refund was created, including refunds created by
          * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
@@ -3780,12 +3294,13 @@ export type RefundCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. Fix the cause, then create a new refund with a new idempotency key. Unknown
-             * provider values are returned as refund_failed. Value enum:
-             * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
-             * "insufficient_available_balance", "declined", "merchant_request",
-             * "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted",
-             * "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned cannot be
+             * retried through Flint; the store must arrange repayment outside Flint. Fix the
+             * cause, then create a new refund with a new idempotency key. Unknown provider values
+             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
+             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -3794,6 +3309,7 @@ export type RefundCreatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
                 | "declined"
                 | "merchant_request"
                 | "payment_disputed"
+                | "refund_abandoned"
                 | "payment_refund_failed"
                 | "payment_refund_not_attempted"
                 | "refund_failed"
@@ -4082,6 +3598,7 @@ export type RefundFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
                 | "declined"
                 | "merchant_request"
                 | "payment_disputed"
+                | "refund_abandoned"
                 | "payment_refund_failed"
                 | "payment_refund_not_attempted"
                 | "refund_failed"
@@ -4156,6 +3673,7 @@ export type RefundFailedEvent = ((((Exclude<MerchantWebhookEnvelope & object, re
                 | "declined"
                 | "merchant_request"
                 | "payment_disputed"
+                | "refund_abandoned"
                 | "payment_refund_failed"
                 | "payment_refund_not_attempted"
                 | "refund_failed"
@@ -4248,10 +3766,12 @@ export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider
-     * values are returned as refund_failed. Value enum: "expired_or_canceled_card",
-     * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined",
-     * "merchant_request", "payment_disputed", "payment_refund_failed",
+     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
+     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
+     * new refund with a new idempotency key. Unknown provider values are returned as
+     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
      * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
      * The caller's Idempotency-Key when this refund was created, including refunds created by
      * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
@@ -4385,11 +3905,13 @@ export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
          * maxLength: 255. Example: "warehouse-1842". failure_reason (Optional): string. Why a
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
-         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
-         * Fix the cause, then create a new refund with a new idempotency key. Unknown provider
-         * values are returned as refund_failed. Value enum: "expired_or_canceled_card",
-         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-         * "declined", "merchant_request", "payment_disputed", "payment_refund_failed",
+         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
+         * payment_returned refund that failed with refund_abandoned cannot be retried through
+         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
+         * refund with a new idempotency key. Unknown provider values are returned as
+         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
+         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
          * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
          * caller's Idempotency-Key when this refund was created, including refunds created by
          * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
@@ -4534,12 +4056,13 @@ export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. Fix the cause, then create a new refund with a new idempotency key. Unknown
-             * provider values are returned as refund_failed. Value enum:
-             * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
-             * "insufficient_available_balance", "declined", "merchant_request",
-             * "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted",
-             * "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned cannot be
+             * retried through Flint; the store must arrange repayment outside Flint. Fix the
+             * cause, then create a new refund with a new idempotency key. Unknown provider values
+             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
+             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
+             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
+             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -4548,6 +4071,7 @@ export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
                 | "declined"
                 | "merchant_request"
                 | "payment_disputed"
+                | "refund_abandoned"
                 | "payment_refund_failed"
                 | "payment_refund_not_attempted"
                 | "refund_failed"
@@ -4814,752 +4338,3 @@ export type RefundFailedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelop
         "sandbox_id"?: string;
     });
 });
-/**
- * The `refund.failed` webhook payload for the `merchant` event source. Fields shared by merchant
- * webhook payloads.
- */
-export type RefundFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & object, readonly unknown[]>)
-    & ({
-    /**
-     *  object (Required): object. The resource snapshot, without expansions. Webhooks omit no
-     * additional fields. object.amount_money (Required): {@link MoneyValue}. Total refunded across
-     * all tenders, including `refunded_tip_money`. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code. object.created_at (Required): string. RFC3339
-     * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". object.credit_note_id
-     * (Optional): string. ID of the credit note this refund paid out. Present only on refunds
-     * issued through a credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". object.customer
-     * (Optional): {@link ExpandedCustomerSummary} or null. Present only when `expand` includes
-     * `customer`; `null` when expanded and there is no related customer. object.customer.anyOf[1]
-     * (Value): {@link ExpandedCustomerSummary}. A customer's summary fields, returned in place of
-     * a customer ID when the customer is expanded. object.customer.anyOf[2] (Value): null.
-     * object.customer_id (Optional): string. ID of the customer on the refunded order or payment.
-     * Absent when neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     * object.external_reference_id (Optional): string. Caller-owned identifier for this resource
-     * in an external system. maxLength: 255. Example: "warehouse-1842". object.failure_reason
-     * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
-     * canceled amounts become refundable again, except a refund with reason payment_returned that
-     * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. Fix the cause, then create a new refund with a new idempotency key. Unknown provider
-     * values are returned as refund_failed. Value enum: "expired_or_canceled_card",
-     * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance", "declined",
-     * "merchant_request", "payment_disputed", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
-     * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
-     * ID of the payment the refund was issued against, when it targeted one payment.
-     * `payment_refunds` lists every payment it returned money through. Example:
-     * "pi_01KEZF7C00G8H9D509YEV22P7R". object.payment_refunds (Optional): Array of {@link
-     * PaymentRefund}. The part of the refund returned through each payment, with its own status.
-     * Absent when the refund was all gift card credit or store credit. object.payment_refunds[]
-     * (Value): {@link PaymentRefund}. The part of a refund returned through one payment, with the
-     * amount, tip, status, and any failure reason. object.payment_review_id (Optional): string. ID
-     * of the payment review whose decline created this refund. Present only on refunds issued for
-     * a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6". object.pending_reason
-     * (Required): string or null. Why a pending refund is waiting. `null` when `status` isn't
-     * `pending`, or when the refund is on its way without review. Value enum: "manual_review",
-     * null. object.processed_by (Required): string. Who moved or is moving the money for this
-     * refund. Flint processes refunds through a processor or a gift card; merchant means the
-     * merchant returned the money outside Flint and recorded it here. Existing refunds are
-     * processed by Flint. Value enum: "flint", "merchant". object.reason (Required): string or
-     * null. Why the refund was issued. It never changes how the money moves. The buyer's refund
-     * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
-     * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
-     * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it can't be
-     * sent in requests. `null` when no reason was recorded. Value enum: "duplicate", "fraudulent",
-     * "requested_by_customer", "defective_product", "wrong_item_shipped", "never_received",
-     * "not_as_described", "arrived_too_late", "customer_changed_mind", "better_price_found",
-     * "accidental_order", "other", "out_of_stock", "payment_returned", null. object.reason_message
-     * (Optional): string. Note explaining the refund, up to 1,024 characters. object.refund_id
-     * (Required): string. Unique identifier for this refund, prefixed `ref_`. Example:
-     * "ref_01KEZF7C003DTD59WKYHEXYQ1K". object.refund_platform_fee (Required): boolean. Whether
-     * the request asked to return the platform fee on the payments this refund refunds
-     * (refund_platform_fee). Each payment refund's refunded_platform_fee_money is what it returns.
-     * object.refund_reference (Optional): string. The merchant's opaque check, wire, or other
-     * reference for money returned outside Flint, preserved exactly. Present only when
-     * processed_by is merchant and a reference was supplied. external_reference_id is the
-     * merchant's own refund ID. minLength: 1. maxLength: 255. object.refunded_at (Optional):
-     * string. When the merchant reports that the money was returned outside Flint. Present only
-     * when processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * object.refunded_tip_money (Required): {@link MoneyValue}. Share of `amount_money` that
-     * refunds tips. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code. object.return_id (Optional): string. ID of the return this refund paid out. Present
-     * only on refunds issued by a return. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-     * object.return_resolution_id (Optional): string. ID of the return resolution that issued this
-     * refund. Present only on refunds issued by a return. Example:
-     * "retres_01KEZF7C00C7RZJN31W9SGMEQ3". object.status (Required): string. Summary of
-     * payment_refunds and tender_allocations. Only failed is final: succeeded and
-     * partially_succeeded can still change when a bank rejects a refund after accepting it. A
-     * refund Flint made to return a payment it couldn't accept goes from succeeded back to
-     * pending, with pending_reason manual_review, when a bank reverses it. Follow refund.created
-     * when it is accepted, refund.succeeded, refund.partially_succeeded, or refund.failed when its
-     * outcome changes, and refund.updated for other changes. Value enum: "pending", "succeeded",
-     * "partially_succeeded", "failed". object.succeeded_at (Optional): string. When `status` first
-     * became `succeeded`. For a refund with `payment_refunds` or `tender_allocations`, it's when
-     * the last of them first succeeded, so it equals the latest `succeeded_at` among them. For a
-     * refund Flint processes, it's when Flint recorded the outcome; with `processed_by`
-     * `merchant`, it equals `refunded_at`. Present only while `status` is `succeeded`; absent for
-     * every other status, including `partially_succeeded` and a refund that failed after it
-     * succeeded. A refund that succeeds again shows its first success time. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.tax_breakdown_refunds (Optional): Array of {@link
-     * RefundTaxBreakdownRefund}. Tax reversed on order-level charges and flat taxes, one entry per
-     * tax breakdown. Tax reversed on line items is in
-     * `line_item_allocations[].tax_breakdown_refunds`. object.tax_breakdown_refunds[] (Value):
-     * {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on an order.
-     * object.tender_allocations (Optional): Array of {@link RefundTenderAllocation}. Every tender
-     * the refund drew from, payment or gift card, with its amount, tip share, status, and
-     * destination. object.tender_allocations[] (Value): {@link RefundTenderAllocation}. One
-     * tender's share of a refund, listed in the refund's tender allocations.
-     * object.unissued_gift_card_recoveries (Optional): Array of {@link
-     * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase refund
-     * failed. Return it through a new refund against payment_intent_id and order_line_item_id. It
-     * does not issue another card. Source remaining and pending amounts describe the entire
-     * original settlement allocation; repeated entries for that source are not additive.
-     * object.unissued_gift_card_recoveries[] (Value): {@link RefundUnissuedGiftCardRecovery}.
-     * Details of a gift card purchase refunded before the card was issued, including the amounts
-     * recovered. object.updated_at (Required): string. RFC3339 timestamp. Format: date-time.
-     * Example: "2026-08-02T16:00:00Z". object.version (Required): integer. Persisted version of
-     * this resource's owned state. Expanded resources and external observations can change
-     * independently. Format: uint64. minimum: 1. previous_attributes (Optional): object. Previous
-     * values of changed top-level fields in data.object, at this delivery's API version. Nested
-     * changes include the whole previous top-level value. A value is null when the field was
-     * absent before the change. Omitted when Flint did not record the previous state, including
-     * synthetic test events.
-     */
-    "data"?: {
-        /**
-         * The resource snapshot, without expansions. Webhooks omit no additional fields.
-         * amount_money (Required): {@link MoneyValue}. Total refunded across all tenders,
-         * including `refunded_tip_money`. Monetary amount represented as integer minor units plus
-         * an ISO 4217 currency code. created_at (Required): string. RFC3339 timestamp. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". credit_note_id (Optional): string. ID of the
-         * credit note this refund paid out. Present only on refunds issued through a credit note.
-         * Example: "cn_01KEZF7C00N1TRRCVDNY8S471H". customer (Optional): {@link
-         * ExpandedCustomerSummary} or null. Present only when `expand` includes `customer`; `null`
-         * when expanded and there is no related customer. customer.anyOf[1] (Value): {@link
-         * ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer
-         * ID when the customer is expanded. customer.anyOf[2] (Value): null. customer_id
-         * (Optional): string. ID of the customer on the refunded order or payment. Absent when
-         * neither has one. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD". external_reference_id
-         * (Optional): string. Caller-owned identifier for this resource in an external system.
-         * maxLength: 255. Example: "warehouse-1842". failure_reason (Optional): string. Why a
-         * refund failed or a payment refund was canceled. Failed and canceled amounts become
-         * refundable again, except a refund with reason payment_returned that failed with
-         * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund.
-         * Fix the cause, then create a new refund with a new idempotency key. Unknown provider
-         * values are returned as refund_failed. Value enum: "expired_or_canceled_card",
-         * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-         * "declined", "merchant_request", "payment_disputed", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
-         * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
-         * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-         * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
-         * for Flint and are not returned. Writes follow the limits on MetadataInput and
-         * MetadataPatchInput; maps written before those limits may not satisfy them. order
-         * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-         * `order`; `null` when expanded and there is no related order. order.anyOf[1] (Value):
-         * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-         * refund status, and pricing and settlement amounts, returned when the order is expanded.
-         * order.anyOf[2] (Value): null. order_edit_id (Optional): string. ID of the paid-order
-         * edit that created this refund. Present only on refunds issued through an order edit.
-         * Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". order_id (Optional): string. ID of the order
-         * the refund was issued against. For a refund with `reason` `payment_returned`, the order
-         * the returned payment was for; the order never received this money. Absent for a refund
-         * of a payment that has no order, and for a standalone gift card refund. Example:
-         * "ord_01KEZF7C0054GQKJ142A8X367A". payment_intent (Optional): {@link
-         * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes
-         * `payment_intent`; `null` when expanded and there is no related payment intent.
-         * payment_intent.anyOf[1] (Value): {@link ExpandedPaymentIntentSummary}. A payment
-         * intent's summary fields, including amount, status, and capture method, returned when the
-         * payment intent is expanded. payment_intent.anyOf[2] (Value): null. payment_intent_id
-         * (Optional): string. ID of the payment the refund was issued against, when it targeted
-         * one payment. `payment_refunds` lists every payment it returned money through. Example:
-         * "pi_01KEZF7C00G8H9D509YEV22P7R". payment_refunds (Optional): Array of {@link
-         * PaymentRefund}. The part of the refund returned through each payment, with its own
-         * status. Absent when the refund was all gift card credit or store credit.
-         * payment_refunds[] (Value): {@link PaymentRefund}. The part of a refund returned through
-         * one payment, with the amount, tip, status, and any failure reason. payment_review_id
-         * (Optional): string. ID of the payment review whose decline created this refund. Present
-         * only on refunds issued for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-         * pending_reason (Required): string or null. Why a pending refund is waiting. `null` when
-         * `status` isn't `pending`, or when the refund is on its way without review. Value enum:
-         * "manual_review", null. processed_by (Required): string. Who moved or is moving the money
-         * for this refund. Flint processes refunds through a processor or a gift card; merchant
-         * means the merchant returned the money outside Flint and recorded it here. Existing
-         * refunds are processed by Flint. Value enum: "flint", "merchant". reason (Required):
-         * string or null. Why the refund was issued. It never changes how the money moves. The
-         * buyer's refund receipt shows it only for `requested_by_customer`, `duplicate`,
-         * `defective_product`, `wrong_item_shipped`, `never_received`, `not_as_described`,
-         * `arrived_too_late`, `accidental_order`, and `out_of_stock`. Only Flint sets
-         * `payment_returned`, and it can't be sent in requests. `null` when no reason was
-         * recorded. Value enum: "duplicate", "fraudulent", "requested_by_customer",
-         * "defective_product", "wrong_item_shipped", "never_received", "not_as_described",
-         * "arrived_too_late", "customer_changed_mind", "better_price_found", "accidental_order",
-         * "other", "out_of_stock", "payment_returned", null. reason_message (Optional): string.
-         * Note explaining the refund, up to 1,024 characters. refund_id (Required): string. Unique
-         * identifier for this refund, prefixed `ref_`. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-         * refund_platform_fee (Required): boolean. Whether the request asked to return the
-         * platform fee on the payments this refund refunds (refund_platform_fee). Each payment
-         * refund's refunded_platform_fee_money is what it returns. refund_reference (Optional):
-         * string. The merchant's opaque check, wire, or other reference for money returned outside
-         * Flint, preserved exactly. Present only when processed_by is merchant and a reference was
-         * supplied. external_reference_id is the merchant's own refund ID. minLength: 1.
-         * maxLength: 255. refunded_at (Optional): string. When the merchant reports that the money
-         * was returned outside Flint. Present only when processed_by is merchant. Format:
-         * date-time. Example: "2026-08-02T16:00:00Z". refunded_tip_money (Required): {@link
-         * MoneyValue}. Share of `amount_money` that refunds tips. Monetary amount represented as
-         * integer minor units plus an ISO 4217 currency code. return_id (Optional): string. ID of
-         * the return this refund paid out. Present only on refunds issued by a return. Example:
-         * "ret_01KEZF7C00PG93650ZKVQNGF7X". return_resolution_id (Optional): string. ID of the
-         * return resolution that issued this refund. Present only on refunds issued by a return.
-         * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3". status (Required): string. Summary of
-         * payment_refunds and tender_allocations. Only failed is final: succeeded and
-         * partially_succeeded can still change when a bank rejects a refund after accepting it. A
-         * refund Flint made to return a payment it couldn't accept goes from succeeded back to
-         * pending, with pending_reason manual_review, when a bank reverses it. Follow
-         * refund.created when it is accepted, refund.succeeded, refund.partially_succeeded, or
-         * refund.failed when its outcome changes, and refund.updated for other changes. Value
-         * enum: "pending", "succeeded", "partially_succeeded", "failed". succeeded_at (Optional):
-         * string. When `status` first became `succeeded`. For a refund with `payment_refunds` or
-         * `tender_allocations`, it's when the last of them first succeeded, so it equals the
-         * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint recorded
-         * the outcome; with `processed_by` `merchant`, it equals `refunded_at`. Present only while
-         * `status` is `succeeded`; absent for every other status, including `partially_succeeded`
-         * and a refund that failed after it succeeded. A refund that succeeds again shows its
-         * first success time. Format: date-time. Example: "2026-08-02T16:00:00Z".
-         * tax_breakdown_refunds (Optional): Array of {@link RefundTaxBreakdownRefund}. Tax
-         * reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
-         * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`.
-         * tax_breakdown_refunds[] (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for
-         * one tax breakdown on an order. tender_allocations (Optional): Array of {@link
-         * RefundTenderAllocation}. Every tender the refund drew from, payment or gift card, with
-         * its amount, tip share, status, and destination. tender_allocations[] (Value): {@link
-         * RefundTenderAllocation}. One tender's share of a refund, listed in the refund's tender
-         * allocations. unissued_gift_card_recoveries (Optional): Array of {@link
-         * RefundUnissuedGiftCardRecovery}. Cash returned after an unissued gift card purchase
-         * refund failed. Return it through a new refund against payment_intent_id and
-         * order_line_item_id. It does not issue another card. Source remaining and pending amounts
-         * describe the entire original settlement allocation; repeated entries for that source are
-         * not additive. unissued_gift_card_recoveries[] (Value): {@link
-         * RefundUnissuedGiftCardRecovery}. Details of a gift card purchase refunded before the
-         * card was issued, including the amounts recovered. updated_at (Required): string. RFC3339
-         * timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". version (Required):
-         * integer. Persisted version of this resource's owned state. Expanded resources and
-         * external observations can change independently. Format: uint64. minimum: 1.
-         */
-        "object": {
-            /**
-             * Total refunded across all tenders, including `refunded_tip_money`. Monetary amount
-             * represented as integer minor units plus an ISO 4217 currency code.
-             */
-            "amount_money": MoneyValue;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "created_at": string;
-            /**
-             * ID of the credit note this refund paid out. Present only on refunds issued through a
-             * credit note. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
-             */
-            "credit_note_id"?: string;
-            /**
-             * Present only when `expand` includes `customer`; `null` when expanded and there is no
-             * related customer. anyOf[1] (Value): {@link ExpandedCustomerSummary}. A customer's
-             * summary fields, returned in place of a customer ID when the customer is expanded.
-             * anyOf[2] (Value): null.
-             */
-            "customer"?: ((ExpandedCustomerSummary) | (null));
-            /**
-             * ID of the customer on the refunded order or payment. Absent when neither has one.
-             * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-             */
-            "customer_id"?: string;
-            /**
-             * Caller-owned identifier for this resource in an external system. maxLength: 255.
-             * Example: "warehouse-1842".
-             */
-            "external_reference_id"?: string;
-            /**
-             * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
-             * become refundable again, except a refund with reason payment_returned that failed
-             * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. Fix the cause, then create a new refund with a new idempotency key. Unknown
-             * provider values are returned as refund_failed. Value enum:
-             * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
-             * "insufficient_available_balance", "declined", "merchant_request",
-             * "payment_disputed", "payment_refund_failed", "payment_refund_not_attempted",
-             * "refund_failed".
-             */
-            "failure_reason"?: "expired_or_canceled_card"
-                | "lost_or_stolen_card"
-                | "insufficient_funds"
-                | "insufficient_available_balance"
-                | "declined"
-                | "merchant_request"
-                | "payment_disputed"
-                | "payment_refund_failed"
-                | "payment_refund_not_attempted"
-                | "refund_failed"
-                | (string & {});
-            /**
-             * The caller's Idempotency-Key when this refund was created, including refunds created
-             * by issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost
-             * response.
-             */
-            "idempotency_key"?: string;
-            /**
-             * Who decided to make this refund: `merchant` for you or your integration, `flint` for
-             * a refund Flint made on its own to return a payment it couldn't accept. Unlike a
-             * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value
-             * enum: "merchant", "flint".
-             */
-            "initiated_by": "merchant" | "flint" | (string & {});
-            /**
-             * ID of the invoice whose credit note this refund paid out. Present only on refunds
-             * issued through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-             */
-            "invoice_id"?: string;
-            /**
-             * How the refund applied to each order line item it covered, with quantity, tax, and
-             * adjustments. [] (Value): {@link RefundLineItemAllocation}. How a refund applied to
-             * one order line item: quantity, refunded amount, tax, adjustments, and modifier
-             * allocations.
-             */
-            "line_item_allocations"?: Array<RefundLineItemAllocation>;
-            /**
-             * ID of the merchant this resource belongs to. Example:
-             * "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
-             */
-            "merchant_id": string;
-            /**
-             * Stored caller-owned key-value data. See `MetadataInput` for key, value, and size
-             * rules. Caller-owned key-value data stored on a resource. Keys starting with flint_
-             * are reserved for Flint and are not returned. Writes follow the limits on
-             * MetadataInput and MetadataPatchInput; maps written before those limits may not
-             * satisfy them.
-             */
-            "metadata"?: MetadataMap;
-            /**
-             * Present only when `expand` includes `order`; `null` when expanded and there is no
-             * related order. anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary
-             * fields, including status, payment and refund status, and pricing and settlement
-             * amounts, returned when the order is expanded. anyOf[2] (Value): null.
-             */
-            "order"?: ((ExpandedOrderSummary) | (null));
-            /**
-             * ID of the paid-order edit that created this refund. Present only on refunds issued
-             * through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
-             */
-            "order_edit_id"?: string;
-            /**
-             * ID of the order the refund was issued against. For a refund with `reason`
-             * `payment_returned`, the order the returned payment was for; the order never received
-             * this money. Absent for a refund of a payment that has no order, and for a standalone
-             * gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
-             */
-            "order_id"?: string;
-            /**
-             * Present only when `expand` includes `payment_intent`; `null` when expanded and there
-             * is no related payment intent. anyOf[1] (Value): {@link
-             * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount,
-             * status, and capture method, returned when the payment intent is expanded. anyOf[2]
-             * (Value): null.
-             */
-            "payment_intent"?: ((ExpandedPaymentIntentSummary) | (null));
-            /**
-             * ID of the payment the refund was issued against, when it targeted one payment.
-             * `payment_refunds` lists every payment it returned money through. Example:
-             * "pi_01KEZF7C00G8H9D509YEV22P7R".
-             */
-            "payment_intent_id"?: string;
-            /**
-             * The part of the refund returned through each payment, with its own status. Absent
-             * when the refund was all gift card credit or store credit. [] (Value): {@link
-             * PaymentRefund}. The part of a refund returned through one payment, with the amount,
-             * tip, status, and any failure reason.
-             */
-            "payment_refunds"?: Array<PaymentRefund>;
-            /**
-             * ID of the payment review whose decline created this refund. Present only on refunds
-             * issued for a declined review. Example: "rev_01KEZF7C00BVBQ00XDFNKB1EF6".
-             */
-            "payment_review_id"?: string;
-            /**
-             * Why a pending refund is waiting. `null` when `status` isn't `pending`, or when the
-             * refund is on its way without review. Value enum: "manual_review", null.
-             */
-            "pending_reason": "manual_review" | null | (string & {}) | null;
-            /**
-             * Who moved or is moving the money for this refund. Flint processes refunds through a
-             * processor or a gift card; merchant means the merchant returned the money outside
-             * Flint and recorded it here. Existing refunds are processed by Flint. Value enum:
-             * "flint", "merchant".
-             */
-            "processed_by": "flint" | "merchant" | (string & {});
-            /**
-             * Why the refund was issued. It never changes how the money moves. The buyer's refund
-             * receipt shows it only for `requested_by_customer`, `duplicate`, `defective_product`,
-             * `wrong_item_shipped`, `never_received`, `not_as_described`, `arrived_too_late`,
-             * `accidental_order`, and `out_of_stock`. Only Flint sets `payment_returned`, and it
-             * can't be sent in requests. `null` when no reason was recorded. Value enum:
-             * "duplicate", "fraudulent", "requested_by_customer", "defective_product",
-             * "wrong_item_shipped", "never_received", "not_as_described", "arrived_too_late",
-             * "customer_changed_mind", "better_price_found", "accidental_order", "other",
-             * "out_of_stock", "payment_returned", null.
-             */
-            "reason": "duplicate"
-                | "fraudulent"
-                | "requested_by_customer"
-                | "defective_product"
-                | "wrong_item_shipped"
-                | "never_received"
-                | "not_as_described"
-                | "arrived_too_late"
-                | "customer_changed_mind"
-                | "better_price_found"
-                | "accidental_order"
-                | "other"
-                | "out_of_stock"
-                | "payment_returned"
-                | null
-                | (string & {})
-                | null;
-            /** Note explaining the refund, up to 1,024 characters. */
-            "reason_message"?: string;
-            /**
-             * Unique identifier for this refund, prefixed `ref_`. Example:
-             * "ref_01KEZF7C003DTD59WKYHEXYQ1K".
-             */
-            "refund_id": string;
-            /**
-             * Whether the request asked to return the platform fee on the payments this refund
-             * refunds (refund_platform_fee). Each payment refund's refunded_platform_fee_money is
-             * what it returns.
-             */
-            "refund_platform_fee": boolean;
-            /**
-             * The merchant's opaque check, wire, or other reference for money returned outside
-             * Flint, preserved exactly. Present only when processed_by is merchant and a reference
-             * was supplied. external_reference_id is the merchant's own refund ID. minLength: 1.
-             * maxLength: 255.
-             */
-            "refund_reference"?: string;
-            /**
-             * When the merchant reports that the money was returned outside Flint. Present only
-             * when processed_by is merchant. Format: date-time. Example: "2026-08-02T16:00:00Z".
-             */
-            "refunded_at"?: string;
-            /**
-             * Share of `amount_money` that refunds tips. Monetary amount represented as integer
-             * minor units plus an ISO 4217 currency code.
-             */
-            "refunded_tip_money": MoneyValue;
-            /**
-             * ID of the return this refund paid out. Present only on refunds issued by a return.
-             * Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
-             */
-            "return_id"?: string;
-            /**
-             * ID of the return resolution that issued this refund. Present only on refunds issued
-             * by a return. Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
-             */
-            "return_resolution_id"?: string;
-            /**
-             * Summary of payment_refunds and tender_allocations. Only failed is final: succeeded
-             * and partially_succeeded can still change when a bank rejects a refund after
-             * accepting it. A refund Flint made to return a payment it couldn't accept goes from
-             * succeeded back to pending, with pending_reason manual_review, when a bank reverses
-             * it. Follow refund.created when it is accepted, refund.succeeded,
-             * refund.partially_succeeded, or refund.failed when its outcome changes, and
-             * refund.updated for other changes. Value enum: "pending", "succeeded",
-             * "partially_succeeded", "failed".
-             */
-            "status": "pending" | "succeeded" | "partially_succeeded" | "failed" | (string & {});
-            /**
-             * When `status` first became `succeeded`. For a refund with `payment_refunds` or
-             * `tender_allocations`, it's when the last of them first succeeded, so it equals the
-             * latest `succeeded_at` among them. For a refund Flint processes, it's when Flint
-             * recorded the outcome; with `processed_by` `merchant`, it equals `refunded_at`.
-             * Present only while `status` is `succeeded`; absent for every other status, including
-             * `partially_succeeded` and a refund that failed after it succeeded. A refund that
-             * succeeds again shows its first success time. Format: date-time. Example:
-             * "2026-08-02T16:00:00Z".
-             */
-            "succeeded_at"?: string;
-            /**
-             * Tax reversed on order-level charges and flat taxes, one entry per tax breakdown. Tax
-             * reversed on line items is in `line_item_allocations[].tax_breakdown_refunds`. []
-             * (Value): {@link RefundTaxBreakdownRefund}. The tax refunded for one tax breakdown on
-             * an order.
-             */
-            "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefund>;
-            /**
-             * Every tender the refund drew from, payment or gift card, with its amount, tip share,
-             * status, and destination. [] (Value): {@link RefundTenderAllocation}. One tender's
-             * share of a refund, listed in the refund's tender allocations.
-             */
-            "tender_allocations"?: Array<RefundTenderAllocation>;
-            /**
-             * Cash returned after an unissued gift card purchase refund failed. Return it through
-             * a new refund against payment_intent_id and order_line_item_id. It does not issue
-             * another card. Source remaining and pending amounts describe the entire original
-             * settlement allocation; repeated entries for that source are not additive. []
-             * (Value): {@link RefundUnissuedGiftCardRecovery}. Details of a gift card purchase
-             * refunded before the card was issued, including the amounts recovered.
-             */
-            "unissued_gift_card_recoveries"?: Array<RefundUnissuedGiftCardRecovery>;
-            /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
-            "updated_at": string;
-            /**
-             * Persisted version of this resource's owned state. Expanded resources and external
-             * observations can change independently. Format: uint64. minimum: 1.
-             */
-            "version": number;
-        };
-        /**
-         * Previous values of changed top-level fields in data.object, at this delivery's API
-         * version. Nested changes include the whole previous top-level value. A value is null when
-         * the field was absent before the change. Omitted when Flint did not record the previous
-         * state, including synthetic test events.
-         */
-        "previous_attributes"?: Partial<Refund>;
-    };
-    /** Value enum: "merchant". */
-    "event_source"?: "merchant" | (string & {});
-    /** Value enum: "refund.failed". */
-    "event_type"?: "refund.failed";
-});
-/**
- * The code of a gift card issued by a refund, returned once in the refund result with its
- * `gift_card_id`.
- */
-export type RefundGiftCardCode = {
-    /**
-     * Code that redeems the new gift card. Only the create response and a replay of it within 24
-     * hours carry codes, so store it securely.
-     */
-    "code": string;
-    /** ID of the gift card the code belongs to. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG". */
-    "gift_card_id": string;
-};
-/**
- * An order line item to refund, with the quantity or amount, tax handling, and any adjustments
- * such as a restocking fee.
- */
-export type RefundLineItem = {
-    /**
-     * Amounts to refund back against adjustments withheld by earlier refunds of this line. Each
-     * uses the adjustment's remaining value, not the line's again. [] (Value): {@link
-     * RefundLineItemAdjustmentRefundIn}. An amount to refund back against an earlier line item
-     * adjustment, identified by `refund_line_item_adjustment_id`.
-     */
-    "adjustment_refunds"?: Array<RefundLineItemAdjustmentRefundIn>;
-    /**
-     * Amount to refund for this line before `refund_adjustments`. Send `quantity` or
-     * `amount_money`, not both. With neither, Flint refunds what remains of the line. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * ID of the order line item to refund. minLength: 1. Example: "li_01KEZF7C008YPRCK7VDKTGWR31".
-     */
-    "order_line_item_id": string;
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64. */
-    "quantity"?: number;
-    /**
-     * Amounts to withhold from this line's refund, such as a restocking fee. Together they must be
-     * less than the amount the line would otherwise refund. [] (Value): {@link
-     * RefundLineItemAdjustmentIn}. An adjustment to apply to a refunded line item, such as a
-     * restocking fee or withheld amount, and whether it applies to the gross amount or tax.
-     */
-    "refund_adjustments"?: Array<RefundLineItemAdjustmentIn>;
-    /**
-     * Who made the adjustment and where it came from, kept for your audit trail. Required when
-     * `tax_refund_mode` is `explicit`, and not allowed otherwise. Who made a manual tax adjustment
-     * on a refund line item and where it came from, for audit purposes.
-     */
-    "tax_adjustment_audit"?: RefundAdjustmentAudit;
-    /**
-     * Why you are refunding less tax than calculated. Required when `tax_refund_mode` is
-     * `explicit`, and not allowed otherwise. The reason to record for a refund adjustment, as a
-     * `code` with an optional description.
-     */
-    "tax_adjustment_reason"?: RefundAdjustmentReason;
-    /**
-     * Tax to refund for each jurisdiction on the line. Required with `tax_refund_mode` `explicit`
-     * when the line has jurisdiction breakdowns. [] (Value): {@link RefundTaxBreakdownRefundIn}.
-     * The tax to refund for one tax breakdown, identified by `tax_breakdown_id`, when setting tax
-     * refunds explicitly.
-     */
-    "tax_breakdown_refunds"?: Array<RefundTaxBreakdownRefundIn>;
-    /**
-     * Tax to refund for this line. Required when `tax_refund_mode` is `explicit`, and not allowed
-     * otherwise. Monetary amount represented as integer minor units plus an ISO 4217 currency
-     * code.
-     */
-    "tax_money"?: MoneyValue;
-    /**
-     * Whether Flint calculates the tax refunded (`automatic`, the default) or you set it with
-     * `tax_money` (`explicit`). Value enum: "automatic", "explicit".
-     */
-    "tax_refund_mode"?: "automatic" | "explicit" | (string & {});
-};
-/** An adjustment on a refunded line item, such as a restocking fee. */
-export type RefundLineItemAdjustment = {
-    /**
-     * What kind of adjustment this is. Value enum: "restocking_fee", "withheld_amount",
-     * "refund_adjustment", "tax_adjustment".
-     */
-    "adjustment_type": "restocking_fee" | "withheld_amount" | "refund_adjustment" | "tax_adjustment" | (string & {});
-    /**
-     * Amount withheld from the line's refund. Monetary amount represented as integer minor units
-     * plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** Which part of the line the adjustment reduces. Value enum: "none", "gross", "tax". */
-    "applies_to": "none" | "gross" | "tax" | (string & {});
-    /**
-     * Why the amount was withheld. The reason recorded for a refund line item adjustment, as a
-     * `code` with an optional description.
-     */
-    "reason": RefundAdjustmentReason;
-    /**
-     * Unique identifier for this refund line item adjustment, prefixed `rlia_`. Example:
-     * "rlia_01KEZF7C00GA968004EWM2QQBC".
-     */
-    "refund_line_item_adjustment_id": string;
-    /**
-     * Part of the withheld amount that later refunds have returned. Monetary amount represented as
-     * integer minor units plus an ISO 4217 currency code.
-     */
-    "refunded_money": MoneyValue;
-    /**
-     * Part of the withheld amount that can still be refunded: `amount_money` less
-     * `refunded_money`. Monetary amount represented as integer minor units plus an ISO 4217
-     * currency code.
-     */
-    "remaining_money": MoneyValue;
-};
-/**
- * An adjustment to apply to a refunded line item, such as a restocking fee or withheld amount, and
- * whether it applies to the gross amount or tax.
- */
-export type RefundLineItemAdjustmentIn = {
-    /**
-     * What kind of adjustment this is. Value enum: "restocking_fee", "withheld_amount",
-     * "refund_adjustment", "tax_adjustment".
-     */
-    "adjustment_type": "restocking_fee" | "withheld_amount" | "refund_adjustment" | "tax_adjustment" | (string & {});
-    /**
-     * Amount to withhold from the line's refund. Above zero, in the refund's currency. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** Which part of the line the adjustment reduces. Value enum: "none", "gross", "tax". */
-    "applies_to": "none" | "gross" | "tax" | (string & {});
-    /**
-     * Why the amount is withheld. The reason to record for a refund adjustment, as a `code` with
-     * an optional description.
-     */
-    "reason": RefundAdjustmentReason;
-};
-/**
- * An adjustment to apply to a refunded line item, such as a restocking fee or withheld amount, and
- * whether it applies to the gross amount or tax.
- */
-export type RefundLineItemAdjustmentInInput = {
-    /**
-     * What kind of adjustment this is. Value enum: "restocking_fee", "withheld_amount",
-     * "refund_adjustment", "tax_adjustment".
-     */
-    "adjustment_type": "restocking_fee" | "withheld_amount" | "refund_adjustment" | "tax_adjustment";
-    /**
-     * Amount to withhold from the line's refund. Above zero, in the refund's currency. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValueInput;
-    /** Which part of the line the adjustment reduces. Value enum: "none", "gross", "tax". */
-    "applies_to": "none" | "gross" | "tax";
-    /**
-     * Why the amount is withheld. The reason to record for a refund adjustment, as a `code` with
-     * an optional description.
-     */
-    "reason": RefundAdjustmentReasonRequestInput;
-};
-/** An amount refunded back against an earlier line item adjustment. */
-export type RefundLineItemAdjustmentRefund = {
-    /**
-     * Amount refunded back against the adjustment. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /**
-     * ID of the adjustment this amount was refunded against. Example:
-     * "rlia_01KEZF7C00GA968004EWM2QQBC".
-     */
-    "original_refund_line_item_adjustment_id": string;
-    /**
-     * Unique identifier for this refund line item adjustment refund, prefixed `rliar_`. Example:
-     * "rliar_01KEZF7C003HSYWXKXGJVRAKZD".
-     */
-    "refund_line_item_adjustment_refund_id": string;
-};
-/**
- * An amount to refund back against an earlier line item adjustment, identified by
- * `refund_line_item_adjustment_id`.
- */
-export type RefundLineItemAdjustmentRefundIn = {
-    /**
-     * Amount to refund back. Above zero and at most the adjustment's `remaining_money`. Monetary
-     * amount represented as integer minor units plus an ISO 4217 currency code.
-     */
-    "amount_money"?: MoneyValue;
-    /**
-     * ID of an adjustment withheld by an earlier refund of this line, from
-     * `adjustments[].refund_line_item_adjustment_id`. minLength: 1. Example:
-     * "rlia_01KEZF7C00GA968004EWM2QQBC".
-     */
-    "refund_line_item_adjustment_id": string;
-};

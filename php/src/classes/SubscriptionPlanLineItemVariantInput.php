@@ -33,31 +33,31 @@ final class SubscriptionPlanLineItemVariantInput extends Model {
      */
     public function getAllowQuantityAdjustment(): bool { return $this->get('allow_quantity_adjustment'); }
     public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
-    /**  [] (Value): {@see BundleComponentInput}. An item included in a bundle.
+    /** Components of the bundle, fixed when the line was added. Omitted on variant and custom lines. [] (Value): {@see BundleComponentInput}. An item included in a bundle.
      * @return list<BundleComponentInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When bundle_components is omitted; use hasBundleComponents() or valueOrDefault().
      */
     public function getBundleComponents(): array { return $this->get('bundle_components'); }
     public function hasBundleComponents(): bool { return $this->has('bundle_components'); }
-    /** Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
+    /** ID of the catalog bundle the line sells. Present on a bundle line. Example: "bun_01KEZF7C00TQ6S76Z6CVQF5SVN".
      * @return string
      * @throws SdkError When bundle_id is omitted; use hasBundleId() or valueOrDefault().
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /**  [] (Value): {@see CategoryReferenceInput}. A reference to a product category by ID, handle, and name.
+    /** Catalog categories of the product or bundle, fixed when the line was added. Omitted on custom lines. [] (Value): {@see CategoryReferenceInput}. A reference to a product category by ID, handle, and name.
      * @return list<CategoryReferenceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When categories is omitted; use hasCategories() or valueOrDefault().
      */
     public function getCategories(): array { return $this->get('categories'); }
     public function hasCategories(): bool { return $this->has('categories'); }
-    /** description
+    /** Description of the line. A variant line uses the product description and a bundle line uses the bundle description; Flint copied it when the line was added. A custom line uses the description you sent. Omitted when there is none.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** An image with its URL, size, and alt text.
+    /** Primary image of the variant (or its product) or bundle, fixed when the line was added. Omitted on custom lines and when the item has no image. An image with its URL, size, and alt text.
      * @return ImageInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When image is omitted; use hasImage() or valueOrDefault().
      */
@@ -75,19 +75,19 @@ final class SubscriptionPlanLineItemVariantInput extends Model {
      */
     public function getMinQuantity(): int { return $this->get('min_quantity'); }
     public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
-    /**  [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item.
+    /** Modifiers chosen for the line, with their prices, fixed when the line was added or last changed. Omitted when the line has none. [] (Value): {@see OrderLineItemModifierInput}. A modifier selected on an order line item.
      * @return list<OrderLineItemModifierInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When modifiers is omitted; use hasModifiers() or valueOrDefault().
      */
     public function getModifiers(): array { return $this->get('modifiers'); }
     public function hasModifiers(): bool { return $this->has('modifiers'); }
-    /** name
+    /** Name of the line. A variant line uses the product name, followed by the variant name when the variant has options, and a bundle line uses the bundle name; Flint copied it when the line was added. A custom line uses the name you sent.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
+    /** ID of the product the line's variant belongs to. Present on a variant line; absent on bundle and custom lines, which have no parent product. Example: "prod_01KEZF7C00BVSHCNWVH528HB66".
      * @return string
      * @throws SdkError When product_id is omitted; use hasProductId() or valueOrDefault().
      */
@@ -99,13 +99,13 @@ final class SubscriptionPlanLineItemVariantInput extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /**  [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
+    /** Option values that identify the variant, such as size and color, fixed when the line was added. Omitted on bundle and custom lines. [] (Value): {@see SelectedProductOptionInput}. An option and value chosen for a product variant, such as size Large.
      * @return list<SelectedProductOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When selected_options is omitted; use hasSelectedOptions() or valueOrDefault().
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** sku
+    /** SKU of the variant or bundle, fixed when the line was added. Omitted on custom lines and when the item has no SKU.
      * @return string
      * @throws SdkError When sku is omitted; use hasSku() or valueOrDefault().
      */
@@ -117,7 +117,7 @@ final class SubscriptionPlanLineItemVariantInput extends Model {
      */
     public function getSubscriptionPlanLineItemId(): string { return $this->get('subscription_plan_line_item_id'); }
     public function hasSubscriptionPlanLineItemId(): bool { return $this->has('subscription_plan_line_item_id'); }
-    /** maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** IDs of the variants a subscriber can swap this line to, in the order you set. Empty when none are set, and always empty on bundle and custom lines. maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return list<string>
      * @throws SdkError When swap_variant_ids is omitted; use hasSwapVariantIds() or valueOrDefault().
      */
@@ -129,25 +129,25 @@ final class SubscriptionPlanLineItemVariantInput extends Model {
      */
     public function getSwapVariants(): array { return $this->get('swap_variants'); }
     public function hasSwapVariants(): bool { return $this->has('swap_variants'); }
-    /** A line item's tax category and whether it is taxable.
+    /** How tax applies to the line. A variant line takes its taxable setting and tax category from the variant, and a bundle line from its components; Flint copied them when the line was added. A taxable variant or bundle line with no tax category gets your default line item tax category, or `general`. A custom line has the tax you sent. A line item's tax category and whether it is taxable.
      * @return OrderLineItemTaxInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax is omitted; use hasTax() or valueOrDefault().
      */
     public function getTax(): mixed { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Value enum: "variant".
+    /** How the line is sold: from a catalog variant, from a catalog bundle, or as a custom line. Value enum: "variant".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of one unit in the plan's currency, before modifiers, discounts, and tax. A variant or bundle line keeps the catalog price from when the line was added. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When unit_price_money is omitted; use hasUnitPriceMoney() or valueOrDefault().
      */
     public function getUnitPriceMoney(): mixed { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** ID of the catalog variant the line sells. Present on a variant line. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

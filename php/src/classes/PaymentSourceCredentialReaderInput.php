@@ -9,13 +9,13 @@ namespace Flint;
 final class PaymentSourceCredentialReaderInput extends Model {
     /** @param array{'credential_type': string, 'reader_id': string, 'tip'?: ReaderPaymentSourceTipInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCredentialReaderInput')); }
-    /** Selects payment collection on a reader. Value enum: "reader".
+    /** Selects the credential supplied for this payment. Value enum: "reader".
      * @return string
      * @throws SdkError When credential_type is omitted; use hasCredentialType() or valueOrDefault().
      */
     public function getCredentialType(): string { return $this->get('credential_type'); }
     public function hasCredentialType(): bool { return $this->has('credential_type'); }
-    /** Active reader in this merchant and environment. Requires payments.readers.write in addition to this operation’s scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
+    /** Active reader in this merchant and environment. Requires payments.readers.write in addition to this operation's scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example: "rdr_01KEZF7C007JA0G24M7SD6P46C".
      * @return string
      * @throws SdkError When reader_id is omitted; use hasReaderId() or valueOrDefault().
      */

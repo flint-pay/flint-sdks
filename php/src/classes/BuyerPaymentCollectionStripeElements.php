@@ -31,12 +31,12 @@ final class BuyerPaymentCollectionStripeElements extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Browser collection operation to perform before calling submit_to. Value enum: "collect_payment_source", "collect_setup_payment_source", "create_confirmation_token".
+    /** Browser collection operation to perform before calling submit_to. Value enum: "collect_setup_payment_source", "create_confirmation_token".
      * @return string
      */
     public function getNextStep(): string { return $this->get('next_step'); }
     public function hasNextStep(): bool { return $this->has('next_step'); }
-    /** Stripe Elements payment method creation mode. Follow next_step: standalone PaymentIntents and checkout-authenticated order collection create a ConfirmationToken, while merchant-authenticated order collection and setup collection create a PaymentMethod. Value enum: "manual".
+    /** Stripe Elements payment method creation mode. Follow next_step: payment collection creates a ConfirmationToken, and setup collection creates a PaymentMethod. Value enum: "manual".
      * @return string
      */
     public function getPaymentMethodCreation(): string { return $this->get('payment_method_creation'); }

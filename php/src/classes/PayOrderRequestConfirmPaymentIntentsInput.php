@@ -17,13 +17,13 @@ namespace Flint;
 final class PayOrderRequestConfirmPaymentIntentsInput extends Model {
     /** @param array{'accepted_gift_card_allocation'?: OrderGiftCardAllocationAcceptanceInput|array<array-key, mixed>|\stdClass, 'action': string, 'buyer_contact'?: array{'email'?: string, 'phone'?: string}|object, 'client_action_type'?: string, 'completion_behavior'?: string, 'expected_outstanding_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_intents': list<OrderPaymentIntentSelectionInput|array<array-key, mixed>|\stdClass>, 'payment_return_url'?: string, 'save_payment_method'?: bool, 'save_payment_method_phone'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayOrderRequestConfirmPaymentIntentsInput')); }
-    /** Accept the exact gift_card_estimate returned on the current order, including all selected cards and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and may use one processor payment intent for the processor_money remainder. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
+    /** The gift card allocation to apply to this payment. Send `order_version`, `gift_cards`, `gift_card_money`, and `processor_money` as they appear in the order's current `gift_card_estimate`. Accept the exact gift_card_estimate returned on the current order, including all selected cards and both totals. Requires an Idempotency-Key. Gift card payments collect the full amount due and may use one processor payment intent for the processor_money remainder. The amount and every computed order amount must not exceed 99999999 minor units ($999,999.99 USD). Flint rejects an input or calculation above this ceiling with INVALID_REQUEST and detail INVALID_VALUE at the responsible input field. Lower payment option limits can apply.
      * @return OrderGiftCardAllocationAcceptanceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When accepted_gift_card_allocation is omitted; use hasAcceptedGiftCardAllocation() or valueOrDefault().
      */
     public function getAcceptedGiftCardAllocation(): mixed { return $this->get('accepted_gift_card_allocation'); }
     public function hasAcceptedGiftCardAllocation(): bool { return $this->has('accepted_gift_card_allocation'); }
-    /** Value enum: "confirm_payment_intents".
+    /** Confirm payment intents you already created for the order. Value enum: "confirm_payment_intents".
      * @return string
      * @throws SdkError When action is omitted; use hasAction() or valueOrDefault().
      */
@@ -59,7 +59,7 @@ final class PayOrderRequestConfirmPaymentIntentsInput extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minItems: 1. [] (Value): {@see OrderPaymentIntentSelectionInput}. Identifies a payment intent to confirm for an order and the credential to use: a token, a saved payment method, a Stripe confirmation token, or the attached source.
+    /** The payment intents to confirm, each with the credential to use. Send at least one. With a reader credential, send only one payment intent. minItems: 1. [] (Value): {@see OrderPaymentIntentSelectionInput}. Identifies a payment intent to confirm for an order, with an optional payment_source credential. Omit payment_source to use the attached source.
      * @return list<OrderPaymentIntentSelectionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When payment_intents is omitted; use hasPaymentIntents() or valueOrDefault().
      */

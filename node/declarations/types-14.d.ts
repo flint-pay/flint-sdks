@@ -1,25 +1,302 @@
+import type { MetadataMap, MetadataRequestInput, MerchantWebhookEnvelope } from './types-38.js';
 import type {
-    TaxCalculationCallbackConfiguration,
-    TaxCalculationCallbackConfigurationRequestInput,
-    TaxCurrencyConversion,
-    TaxIdentity
-} from './types-64.js';
+    SubscriptionBillingScheduleRequest,
+    SubscriptionBillingStartRequest,
+    SubscriptionBillingScheduleRequestInput,
+    SubscriptionBillingStartRequestInput
+} from './types-60.js';
+import type {
+    SubscriptionDeliveryRequest,
+    SubscriptionEndAfterRequest,
+    SubscriptionGiftRecipientRequest,
+    SubscriptionDeliveryRequestInput,
+    SubscriptionEndAfterRequestInput,
+    SubscriptionGiftRecipientRequestInput
+} from './types-61.js';
+import type {
+    SubscriptionPromotionRequest,
+    SubscriptionServiceLocationRequest,
+    SubscriptionTaxRequest,
+    SubscriptionTermsRequest,
+    SubscriptionPromotionRequestInput,
+    SubscriptionServiceLocationRequestInput,
+    SubscriptionTaxRequestInput,
+    SubscriptionTermsRequestInput
+} from './types-63.js';
+import type { TaxCalculationCallbackConfiguration, TaxCalculationCallbackConfigurationRequestInput } from './types-64.js';
 import type {
     WebhookSigningMethod,
     WebhookSigningMethodInput,
     WorkloadIdentityClaimConditionRequest,
     WorkloadIdentityClaimConditionRequestInput
-} from './types-69.js';
+} from './types-70.js';
 import type { CredentialProvider, InputValue } from '../runtime.js';
 import type { ExpandedInvoiceSummary } from './types-24.js';
-import type { MoneyValue, MoneyValueInput } from './types-38.js';
-import type { MerchantWebhookEnvelope } from './types-37.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
+import type { TaxCurrencyConversion, TaxIdentity } from './types-65.js';
 import type { PartnerWebhookEnvelope } from './types-44.js';
 import type { ResponseMeta } from './types-54.js';
 import type { Invoice } from './types-31.js';
 import type { CreateCreditNoteAllocationRequestInput, CreateCreditNoteRequestInput } from './types-8.js';
 import type { DisputesAcceptParams } from './types-23.js';
-import type { IssueCreditNoteRequestInput, InvoicesMarkUncollectibleParams } from './types-34.js';
+/** The request body for: Create subscription. */
+export type CreateSubscriptionRequest = {
+    /**
+     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
+     * schedules. Format: int32. minimum: 1. maximum: 31.
+     */
+    "billing_anchor_day"?: number;
+    /**
+     * Who sets billing dates: `flint` computes each next billing date; `external` waits for you to
+     * set `next_billing_at`. Omit it to use your subscription settings'
+     * `default_billing_schedule_owner`. Who owns the billing schedule when creating a
+     * subscription: Flint or an external system.
+     */
+    "billing_schedule"?: SubscriptionBillingScheduleRequest;
+    /**
+     * When billing begins. `immediate` starts now; `scheduled` starts at `starts_at` and charges
+     * nothing before then; `imported` continues a period the buyer already paid elsewhere, from
+     * `period_started_at`, without charging. Each type takes only its own fields. How billing
+     * begins. Send exactly one closed tagged-union branch.
+     */
+    "billing_start": SubscriptionBillingStartRequest;
+    /**
+     * The customer to bill. The payment method must belong to this customer. minLength: 1.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Delivery preference for the subscription's physical items: the delivery method, destination
+     * and recipient. Subscription offers with physical lines require it. Omit it for a
+     * subscription with nothing to deliver. The delivery preference to set on a subscription:
+     * delivery method, type, destination, and recipient.
+     */
+    "delivery"?: SubscriptionDeliveryRequest;
+    /**
+     * Automatic end condition. Omit it to inherit the plan default; send null for no automatic
+     * end. Imported subscriptions accept the same condition. anyOf[1] (Value): {@link
+     * SubscriptionEndAfterRequest}. An automatic end condition to assign to a subscription,
+     * measured by charged billing cycles or a local calendar date. anyOf[2] (Value): null.
+     */
+    "end_after"?: ((SubscriptionEndAfterRequest) | (null) | (unknown));
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Who receives the gift. customer_id stays the purchaser. Omit it or send null for a
+     * subscription that isn't a gift. Imported subscriptions accept it too. anyOf[1] (Value):
+     * {@link SubscriptionGiftRecipientRequest}. Who receives a gift subscription. Sending it
+     * replaces the whole recipient. anyOf[2] (Value): null.
+     */
+    "gift_recipient"?: ((SubscriptionGiftRecipientRequest) | (null));
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /**
+     * Saved payment method for renewals. Omit it to use the customer's default. A free trial
+     * without an upfront charge or an imported paid period may start without either; other starts
+     * require a card. An explicit method must belong to the customer, be active, and allow charges
+     * without the buyer present. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     */
+    "payment_method_id"?: string;
+    /**
+     * Promotions to attach with their current terms frozen. Duplicate promotions are invalid. An
+     * offer's own promotion attaches automatically; listing it again returns already_applied.
+     * maxItems: 5. uniqueItems: true. [] (Value): {@link SubscriptionPromotionRequest}. A
+     * promotion to attach when creating or importing a subscription.
+     */
+    "promotions"?: Array<SubscriptionPromotionRequest>;
+    /**
+     * Prorate the first paid period to the next billing anchor. Requires `billing_anchor_day`, a
+     * monthly or yearly interval, `billing_schedule.owner: flint`, and no shipping. Imported
+     * billing starts are not allowed. Trials and scheduled starts prorate from their first paid
+     * start; setup fees remain full. Default: false.
+     */
+    "prorate_first_period"?: boolean;
+    /**
+     * Where the service is performed, for a subscription to a service at a place. Send a saved
+     * customer address or an inline address; Flint copies it. Where a subscription's service is
+     * delivered: a saved customer address by ID, or a new address.
+     */
+    "service_location"?: SubscriptionServiceLocationRequest;
+    /**
+     * The tax the subscription's renewal, setup fee and plan change orders use. Omit it to follow
+     * `tax.default_enabled` and `tax.default_calculation` from your settings. Replaced as a whole:
+     * send every field you want to keep.
+     */
+    "tax"?: SubscriptionTaxRequest;
+    /**
+     * What the subscription bills for, from a subscription plan or from subscription offers,
+     * selected by `type`. Subscription terms from either a subscription plan or subscription
+     * offers, selected by `type`.
+     */
+    "terms": SubscriptionTermsRequest;
+};
+/** The request body for: Create subscription. */
+export type CreateSubscriptionRequestInput = {
+    /**
+     * UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned
+     * schedules. Format: int32. minimum: 1. maximum: 31.
+     */
+    "billing_anchor_day"?: number;
+    /**
+     * Who sets billing dates: `flint` computes each next billing date; `external` waits for you to
+     * set `next_billing_at`. Omit it to use your subscription settings'
+     * `default_billing_schedule_owner`. Who owns the billing schedule when creating a
+     * subscription: Flint or an external system.
+     */
+    "billing_schedule"?: SubscriptionBillingScheduleRequestInput;
+    /**
+     * When billing begins. `immediate` starts now; `scheduled` starts at `starts_at` and charges
+     * nothing before then; `imported` continues a period the buyer already paid elsewhere, from
+     * `period_started_at`, without charging. Each type takes only its own fields. How billing
+     * begins. Send exactly one closed tagged-union branch.
+     */
+    "billing_start": SubscriptionBillingStartRequestInput;
+    /**
+     * The customer to bill. The payment method must belong to this customer. minLength: 1.
+     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+     */
+    "customer_id": string;
+    /**
+     * Delivery preference for the subscription's physical items: the delivery method, destination
+     * and recipient. Subscription offers with physical lines require it. Omit it for a
+     * subscription with nothing to deliver. The delivery preference to set on a subscription:
+     * delivery method, type, destination, and recipient.
+     */
+    "delivery"?: SubscriptionDeliveryRequestInput;
+    /**
+     * Automatic end condition. Omit it to inherit the plan default; send null for no automatic
+     * end. Imported subscriptions accept the same condition. anyOf[1] (Value): {@link
+     * SubscriptionEndAfterRequestInput}. An automatic end condition to assign to a subscription,
+     * measured by charged billing cycles or a local calendar date. anyOf[2] (Value): null.
+     */
+    "end_after"?: ((SubscriptionEndAfterRequestInput) | (null));
+    /**
+     * Caller-owned identifier for this resource in an external system. minLength: 1. maxLength:
+     * 255. Example: "warehouse-1842".
+     */
+    "external_reference_id"?: string;
+    /**
+     * Who receives the gift. customer_id stays the purchaser. Omit it or send null for a
+     * subscription that isn't a gift. Imported subscriptions accept it too. anyOf[1] (Value):
+     * {@link SubscriptionGiftRecipientRequestInput}. Who receives a gift subscription. Sending it
+     * replaces the whole recipient. anyOf[2] (Value): null.
+     */
+    "gift_recipient"?: ((SubscriptionGiftRecipientRequestInput) | (null));
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /**
+     * Saved payment method for renewals. Omit it to use the customer's default. A free trial
+     * without an upfront charge or an imported paid period may start without either; other starts
+     * require a card. An explicit method must belong to the customer, be active, and allow charges
+     * without the buyer present. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     */
+    "payment_method_id"?: string;
+    /**
+     * Promotions to attach with their current terms frozen. Duplicate promotions are invalid. An
+     * offer's own promotion attaches automatically; listing it again returns already_applied.
+     * maxItems: 5. uniqueItems: true. [] (Value): {@link SubscriptionPromotionRequestInput}. A
+     * promotion to attach when creating or importing a subscription.
+     */
+    "promotions"?: Array<SubscriptionPromotionRequestInput>;
+    /**
+     * Prorate the first paid period to the next billing anchor. Requires `billing_anchor_day`, a
+     * monthly or yearly interval, `billing_schedule.owner: flint`, and no shipping. Imported
+     * billing starts are not allowed. Trials and scheduled starts prorate from their first paid
+     * start; setup fees remain full. Default: false.
+     */
+    "prorate_first_period"?: boolean;
+    /**
+     * Where the service is performed, for a subscription to a service at a place. Send a saved
+     * customer address or an inline address; Flint copies it. Where a subscription's service is
+     * delivered: a saved customer address by ID, or a new address.
+     */
+    "service_location"?: SubscriptionServiceLocationRequestInput;
+    /**
+     * The tax the subscription's renewal, setup fee and plan change orders use. Omit it to follow
+     * `tax.default_enabled` and `tax.default_calculation` from your settings. Replaced as a whole:
+     * send every field you want to keep.
+     */
+    "tax"?: SubscriptionTaxRequestInput;
+    /**
+     * What the subscription bills for, from a subscription plan or from subscription offers,
+     * selected by `type`. Subscription terms from either a subscription plan or subscription
+     * offers, selected by `type`.
+     */
+    "terms": SubscriptionTermsRequestInput;
+};
+/** Registers a phone that takes payments with Tap to Pay in your app. */
+export type CreateTapToPayReaderRequest = {
+    /**
+     * The register, kiosk or phone the reader takes payments for. Needs `accounts.devices.read` as
+     * well. When the device has a location, it must be the reader's. A device holds at most one
+     * active Tap to Pay reader. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * An active location with a complete US address (`line1`, `city`, `state`, `postal_code`,
+     * `country: US`). Stripe requires every reader to have one. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataMap;
+    /** Your label for the reader. minLength: 1. maxLength: 255. */
+    "name": string;
+    /** `tap_to_pay`. Value enum: "tap_to_pay". */
+    "type": "tap_to_pay" | (string & {});
+};
+/** Registers a phone that takes payments with Tap to Pay in your app. */
+export type CreateTapToPayReaderRequestInput = {
+    /**
+     * The register, kiosk or phone the reader takes payments for. Needs `accounts.devices.read` as
+     * well. When the device has a location, it must be the reader's. A device holds at most one
+     * active Tap to Pay reader. minLength: 1. Example: "dev_01KEZF7C0051ZP8MZSGHP989F6".
+     */
+    "device_id"?: string;
+    /**
+     * An active location with a complete US address (`line1`, `city`, `state`, `postal_code`,
+     * `country: US`). Stripe requires every reader to have one. minLength: 1. Example:
+     * "loc_01KEZF7C00CMHRRYA3MV996JB2".
+     */
+    "location_id": string;
+    /**
+     * Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved
+     * for Flint, are not returned, and cannot be written through the public API. Caller-owned
+     * key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs.
+     * Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys
+     * plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys
+     * starting with flint_ are reserved for Flint. maxProperties: 50.
+     */
+    "metadata"?: MetadataRequestInput;
+    /** Your label for the reader. minLength: 1. maxLength: 255. */
+    "name": string;
+    /** `tap_to_pay`. Value enum: "tap_to_pay". */
+    "type": "tap_to_pay";
+};
 /** The request body for: Create a tax calculation callback. */
 export type CreateTaxCalculationCallbackRequest = {
     /**
@@ -459,7 +736,7 @@ export type CreateWebhookTestEventRequest = {
      * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
      * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
      * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
+     * "invoice_payment_attempt.succeeded", "merchant.readiness_updated", "merchant.updated",
      * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
      * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
      * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
@@ -648,7 +925,7 @@ export type CreateWebhookTestEventRequest = {
         | "invoice_payment_attempt.expired"
         | "invoice_payment_attempt.failed"
         | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
+        | "invoice_payment_attempt.succeeded"
         | "merchant.readiness_updated"
         | "merchant.updated"
         | "merchant_billing_balance.updated"
@@ -861,7 +1138,7 @@ export type CreateWebhookTestEventRequestInput = {
      * "invoice_manual_payment.created", "invoice_manual_payment.reversed",
      * "invoice_payment_attempt.canceled", "invoice_payment_attempt.expired",
      * "invoice_payment_attempt.failed", "invoice_payment_attempt.processing",
-     * "invoice_payment_attempt.settled", "merchant.readiness_updated", "merchant.updated",
+     * "invoice_payment_attempt.succeeded", "merchant.readiness_updated", "merchant.updated",
      * "merchant_billing_balance.updated", "merchant_billing_invoice.issued",
      * "merchant_billing_invoice.updated", "modifier_group.archived", "modifier_group.created",
      * "modifier_group.updated", "modifier_set.archived", "modifier_set.created",
@@ -1050,7 +1327,7 @@ export type CreateWebhookTestEventRequestInput = {
         | "invoice_payment_attempt.expired"
         | "invoice_payment_attempt.failed"
         | "invoice_payment_attempt.processing"
-        | "invoice_payment_attempt.settled"
+        | "invoice_payment_attempt.succeeded"
         | "merchant.readiness_updated"
         | "merchant.updated"
         | "merchant_billing_balance.updated"
@@ -1228,7 +1505,10 @@ export type CreateWorkloadIdentityRequest = {
      * fragment. Compared exactly. minLength: 1. maxLength: 255.
      */
     "issuer": string;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell workload identities apart, 1 to 100 characters. minLength: 1.
+     * maxLength: 100.
+     */
     "name": string;
     /**
      * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
@@ -1419,9 +1699,15 @@ export type CreateWorkloadIdentityRequest = {
         | "webhooks.read"
         | "webhooks.write"
         | (string & {})>;
-    /** minLength: 1. maxLength: 1024. */
+    /**
+     * The subject (`sub`) a token must carry, 1 to 1,024 characters. Compared as subject_match
+     * says. minLength: 1. maxLength: 1024.
+     */
     "subject": string;
-    /** Default: "exact". Value enum: "exact", "glob". */
+    /**
+     * How `subject` is compared with a token's `sub` claim. Defaults to exact. Default: "exact".
+     * Value enum: "exact", "glob".
+     */
     "subject_match"?: "exact" | "glob" | (string & {});
 };
 /** The request body for: Create a workload identity. */
@@ -1443,7 +1729,10 @@ export type CreateWorkloadIdentityRequestInput = {
      * fragment. Compared exactly. minLength: 1. maxLength: 255.
      */
     "issuer": string;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell workload identities apart, 1 to 100 characters. minLength: 1.
+     * maxLength: 100.
+     */
     "name": string;
     /**
      * Complete scope set to grant. API keys, CLI login tokens and workload tokens may grant only
@@ -1633,9 +1922,15 @@ export type CreateWorkloadIdentityRequestInput = {
         | "settings.write"
         | "webhooks.read"
         | "webhooks.write">;
-    /** minLength: 1. maxLength: 1024. */
+    /**
+     * The subject (`sub`) a token must carry, 1 to 1,024 characters. Compared as subject_match
+     * says. minLength: 1. maxLength: 1024.
+     */
     "subject": string;
-    /** Default: "exact". Value enum: "exact", "glob". */
+    /**
+     * How `subject` is compared with a token's `sub` claim. Defaults to exact. Default: "exact".
+     * Value enum: "exact", "glob".
+     */
     "subject_match"?: "exact" | "glob";
 };
 export interface Credentials {
@@ -6061,159 +6356,3 @@ export type CreditNotesGetParams = {
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type CreditNotesIssueParams = (InputValue<IssueCreditNoteRequestInput>
-    | {
-    "allocation"?: never;
-    "expected_version"?: never;
-    "refund"?: never;
-})
-    & {
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CreditNotesListAllocationsParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /**
-     * Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is
-     * exact and case-sensitive. Returns current authorized resources, not the recorded response. A
-     * pending resource does not prove that the operation succeeded, and an empty list does not
-     * prove that it had no effect. minLength: 1. maxLength: 255. pattern:
-     * ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
-     */
-    "idempotency_key"?: InputValue<string>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CreditNotesListParams = {
-    /**
-     * Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum:
-     * 100. Default: 20.
-     */
-    "page_size"?: InputValue<number>;
-    /**
-     * Opaque, signed next_page_token from the previous response, bound to the list and caller.
-     * Omit on the first request. You may change `page_size` between pages. Reuse it with the same
-     * endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered,
-     * invalid, expired, or mismatched token returns a validation error.
-     */
-    "page_token"?: InputValue<string>;
-    /** Inclusive lower bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_after"?: InputValue<string | globalThis.Date>;
-    /** Exclusive upper bound on created_at. Format: date-time. Example: "2026-03-17T14:30:00Z". */
-    "created_before"?: InputValue<string | globalThis.Date>;
-    /**
-     * Filter by invoice. pattern: ^inv_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
-     */
-    "invoice_id"?: InputValue<string>;
-    /**
-     * Filter by the source invoice's current customer_id. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$.
-     * Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
-     */
-    "customer_id"?: InputValue<string>;
-    /**
-     * Filter by credit note reason. Values are trimmed and deduplicated in first-seen order; empty
-     * or unknown entries are rejected. Values within this filter are ORed; separate filters are
-     * ANDed. [] enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-     * Value enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other".
-     * anyOf[1] (Value): Array of string. minItems: 1. [] enum: "returned_goods",
-     * "order_adjustment", "billing_error", "goodwill", "other". anyOf[1][] (Value): string. Value
-     * enum: "returned_goods", "order_adjustment", "billing_error", "goodwill", "other". anyOf[2]
-     * (Value): string. Value enum: "returned_goods", "order_adjustment", "billing_error",
-     * "goodwill", "other".
-     */
-    "reason"?: InputValue<("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other")
-        | readonly ("returned_goods" | "order_adjustment" | "billing_error" | "goodwill" | "other")[]>;
-    /**
-     * Exact-match filter on the caller-owned external reference ID. minLength: 1. maxLength: 255.
-     * Example: "warehouse-1842".
-     */
-    "external_reference_id"?: InputValue<string>;
-    /**
-     * Search across credit note ID, credit note number, memo, and external reference ID. Text
-     * fields match any part of the value, and %, _ and \ are ordinary characters, not wildcards.
-     * IDs match from the start and need the type prefix, such as cn_01.
-     */
-    "query"?: InputValue<string>;
-    /**
-     * Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown
-     * entries are rejected. Values within this filter are ORed; separate filters are ANDed. []
-     * enum: "draft", "issued", "voided". Value enum: "draft", "issued", "voided". anyOf[1]
-     * (Value): Array of string. minItems: 1. [] enum: "draft", "issued", "voided". anyOf[1][]
-     * (Value): string. Value enum: "draft", "issued", "voided". anyOf[2] (Value): string. Value
-     * enum: "draft", "issued", "voided".
-     */
-    "status"?: InputValue<("draft" | "issued" | "voided") | readonly ("draft" | "issued" | "voided")[]>;
-    /**
-     * Include related objects in the response. Supported expansions: invoice. Include the
-     * requested related resources using scoped batch reads for this page. Each relationship
-     * requires its existing target read scopes. Expansion changes the representation without
-     * changing pagination tokens. Limits: at most 10 unique expand paths per request. [] enum:
-     * "invoice". Value enum: "invoice". anyOf[1] (Value): Array of string. [] enum: "invoice".
-     * anyOf[1][] (Value): string. Value enum: "invoice". anyOf[2] (Value): string. Value enum:
-     * "invoice".
-     */
-    "expand"?: InputValue<("invoice") | readonly ("invoice")[]>;
-    /**
-     * Merchant this request acts for. Required with an app-level partner app token; optional with
-     * a merchant-bound one, which it must match. Other credentials may send it only with their own
-     * merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Merchant-Id"?: InputValue<string>;
-    /**
-     * Mode of the request context, live or test. Optional; it must match the credential's mode.
-     * Value enum: "test", "live".
-     */
-    "Flint-Mode"?: InputValue<"test" | "live">;
-    /**
-     * Sandbox of the request context in test mode. Optional; with a partner app token it must name
-     * the sandbox the merchant granted the app, and a live token can't send it. Send it in test
-     * mode so a grant moved to another sandbox can't silently change where you write. pattern:
-     * ^test_[0-9A-HJKMNP-TV-Z]{26}$.
-     */
-    "Flint-Sandbox-Id"?: InputValue<string>;
-};
-export type CreditNotesReverseAllocationParams = InvoicesMarkUncollectibleParams;

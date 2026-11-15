@@ -8,12 +8,12 @@ namespace Flint;
 final class TipValueSettlementAllocation extends Model {
     /** @param array{'amount_money': mixed, 'value_settlement_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('TipValueSettlementAllocation')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of the tip this gift card redemption paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getAmountMoney(): MoneyValue { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** value_settlement_id
+    /** ID of the value settlement Flint recorded for the gift card redemption that paid this part of the tip.
      * @return string
      */
     public function getValueSettlementId(): string { return $this->get('value_settlement_id'); }

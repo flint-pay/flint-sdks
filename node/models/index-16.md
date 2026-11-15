@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# ImageInputSourceURL to InventoryReservationReleasedInstalledMerchantsEvent
+# GiftCardVersionRequestInput to InventoryReservationHoldExpiredInstalledMerchantsEvent
 
+- [GiftCardVersionRequestInput](GiftCardVersionRequestInput.md)
+- [GuestPurchaseLink](GuestPurchaseLink.md)
+- [GuestPurchaseLinkResponse](GuestPurchaseLinkResponse.md)
+- [HoldFulfillmentRequest](HoldFulfillmentRequest.md)
+- [HoldFulfillmentRequestInput](HoldFulfillmentRequestInput.md)
+- [Image](Image.md)
+- [ImageAttachment](ImageAttachment.md)
+- [ImageInputFile](ImageInputFile.md)
+- [ImageInputFileInput](ImageInputFileInput.md)
 - [ImageInputSourceURL](ImageInputSourceURL.md)
 - [ImageInputSourceURLInput](ImageInputSourceURLInput.md)
 - [ImageReferenceRequest](ImageReferenceRequest.md)
@@ -93,13 +102,4 @@
 - [InventoryReservationCreatedInstalledMerchantsEvent](InventoryReservationCreatedInstalledMerchantsEvent.md)
 - [InventoryReservationCreatedMerchantEvent](InventoryReservationCreatedMerchantEvent.md)
 - [InventoryReservationHoldExpiredInstalledMerchantsEvent](InventoryReservationHoldExpiredInstalledMerchantsEvent.md)
-- [InventoryReservationHoldExpiredMerchantEvent](InventoryReservationHoldExpiredMerchantEvent.md)
-- [InventoryReservationLine](InventoryReservationLine.md)
-- [InventoryReservationListResponse](InventoryReservationListResponse.md)
-- [InventoryReservationOwner](InventoryReservationOwner.md)
-- [InventoryReservationOwnerMerchant](InventoryReservationOwnerMerchant.md)
-- [InventoryReservationOwnerOrder](InventoryReservationOwnerOrder.md)
-- [InventoryReservationOwnerRequest](InventoryReservationOwnerRequest.md)
-- [InventoryReservationOwnerRequestInput](InventoryReservationOwnerRequestInput.md)
-- [InventoryReservationReleasedInstalledMerchantsEvent](InventoryReservationReleasedInstalledMerchantsEvent.md)
 

@@ -20,31 +20,31 @@ namespace Flint;
 final class UpdateSubscriptionRequestInput extends Model {
     /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_schedule'?: SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|array{'end_date': string, 'timezone'?: string, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gift_recipient'?: array{'email': string, 'message'?: string|null, 'name'?: string|null}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'payment_method_id'?: string, 'quantity'?: int, 'scheduled_plan_change'?: null, 'tax'?: array{'calculation'?: array{'components_source'?: string, 'mode': string}|object|null, 'enabled': bool}|object|null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateSubscriptionRequestInput')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** New billing interval unit. Send it with `billing_interval_count`; the pair must be one the subscription's `billing_interval_options` offer. It applies from the next renewal that has not been paid, and it is refused while a plan change is scheduled. Not accepted as null. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** minimum: 1. maximum: 365.
+    /** Number of `billing_interval` units between charges, from 1 to 365. Send it with `billing_interval`. Not accepted as null. minimum: 1. maximum: 365.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** A closed owner-specific billing schedule update.
+    /** Changes who supplies billing dates and, for a Flint-owned schedule, the next billing date. Send it alone: combining it with other subscription fields is refused. A closed owner-specific billing schedule update.
      * @return SubscriptionBillingScheduleUpdateRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When billing_schedule is omitted; use hasBillingSchedule() or valueOrDefault().
      */
     public function getBillingSchedule(): mixed { return $this->get('billing_schedule'); }
     public function hasBillingSchedule(): bool { return $this->has('billing_schedule'); }
-    /** Value enum: false.
+    /** Send `false` to undo a scheduled cancellation. `true` isn't accepted: schedule a cancellation with POST /v1/subscriptions/{subscription_id}/cancel. Not accepted as null. Value enum: false.
      * @return bool
      * @throws SdkError When cancel_at_period_end is omitted; use hasCancelAtPeriodEnd() or valueOrDefault().
      */
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
     public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
-    /** The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
+    /** Replaces the whole saved delivery preference. The delivery method must be one the subscription's plan offers. Not accepted as null. The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
      * @return SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
      */
@@ -80,13 +80,13 @@ final class UpdateSubscriptionRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** ID of the saved payment method to charge for renewals. It must belong to the subscription's customer, be active, and allow charges without the buyer present. Not accepted as null. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
+    /** Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 1.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */

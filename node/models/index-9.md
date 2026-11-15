@@ -1,7 +1,11 @@
 [Model index](../MODELS.md)
 
-# CreateSubscriptionLineItemRequestBundleInput to CustomerDeletionRequestProcessingEvent
+# CreateSubscriptionDeliveryMigrationRequestInput to CustomerCreatedMerchantEvent
 
+- [CreateSubscriptionDeliveryMigrationRequestInput](CreateSubscriptionDeliveryMigrationRequestInput.md)
+- [CreateSubscriptionLineItemRequest](CreateSubscriptionLineItemRequest.md)
+- [CreateSubscriptionLineItemRequestInput](CreateSubscriptionLineItemRequestInput.md)
+- [CreateSubscriptionLineItemRequestBundle](CreateSubscriptionLineItemRequestBundle.md)
 - [CreateSubscriptionLineItemRequestBundleInput](CreateSubscriptionLineItemRequestBundleInput.md)
 - [CreateSubscriptionLineItemRequestVariant](CreateSubscriptionLineItemRequestVariant.md)
 - [CreateSubscriptionLineItemRequestVariantInput](CreateSubscriptionLineItemRequestVariantInput.md)
@@ -83,6 +87,10 @@
 - [CustomDomainResponse](CustomDomainResponse.md)
 - [CustomDomainUpdatedEvent](CustomDomainUpdatedEvent.md)
 - [Customer](Customer.md)
+- [CustomerAccessLink](CustomerAccessLink.md)
+- [CustomerAccessLinkEmailed](CustomerAccessLinkEmailed.md)
+- [CustomerAccessLinkResponse](CustomerAccessLinkResponse.md)
+- [CustomerAccessLinkReturned](CustomerAccessLinkReturned.md)
 - [CustomerAccountPresentation](CustomerAccountPresentation.md)
 - [CustomerAccountPresentationRequestInput](CustomerAccountPresentationRequestInput.md)
 - [CustomerAccountRouteTemplates](CustomerAccountRouteTemplates.md)
@@ -94,12 +102,4 @@
 - [CustomerAddressResponse](CustomerAddressResponse.md)
 - [CustomerCreatedInstalledMerchantsEvent](CustomerCreatedInstalledMerchantsEvent.md)
 - [CustomerCreatedMerchantEvent](CustomerCreatedMerchantEvent.md)
-- [CustomerDeletedInstalledMerchantsEvent](CustomerDeletedInstalledMerchantsEvent.md)
-- [CustomerDeletedMerchantEvent](CustomerDeletedMerchantEvent.md)
-- [CustomerDeletionRequest](CustomerDeletionRequest.md)
-- [CustomerDeletionRequestCompletedEvent](CustomerDeletionRequestCompletedEvent.md)
-- [CustomerDeletionRequestCreatedEvent](CustomerDeletionRequestCreatedEvent.md)
-- [CustomerDeletionRequestFailedEvent](CustomerDeletionRequestFailedEvent.md)
-- [CustomerDeletionRequestListResponse](CustomerDeletionRequestListResponse.md)
-- [CustomerDeletionRequestProcessingEvent](CustomerDeletionRequestProcessingEvent.md)
 

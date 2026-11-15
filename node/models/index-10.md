@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# CustomerDeletionRequestRejectedEvent to DeliveryInventoryAssignmentRequest
+# CustomerDeletedInstalledMerchantsEvent to DeliveryEstimateRule
 
+- [CustomerDeletedInstalledMerchantsEvent](CustomerDeletedInstalledMerchantsEvent.md)
+- [CustomerDeletedMerchantEvent](CustomerDeletedMerchantEvent.md)
+- [CustomerDeletionRequest](CustomerDeletionRequest.md)
+- [CustomerDeletionRequestCompletedEvent](CustomerDeletionRequestCompletedEvent.md)
+- [CustomerDeletionRequestCreatedEvent](CustomerDeletionRequestCreatedEvent.md)
+- [CustomerDeletionRequestFailedEvent](CustomerDeletionRequestFailedEvent.md)
+- [CustomerDeletionRequestListResponse](CustomerDeletionRequestListResponse.md)
+- [CustomerDeletionRequestProcessingEvent](CustomerDeletionRequestProcessingEvent.md)
 - [CustomerDeletionRequestRejectedEvent](CustomerDeletionRequestRejectedEvent.md)
 - [CustomerDeletionRequestResponse](CustomerDeletionRequestResponse.md)
 - [CustomerEmailDeliverySettings](CustomerEmailDeliverySettings.md)
@@ -94,12 +102,4 @@
 - [DeliveryEligibilityExpressionRequestInput](DeliveryEligibilityExpressionRequestInput.md)
 - [DeliveryEligibilityMismatch](DeliveryEligibilityMismatch.md)
 - [DeliveryEstimateRule](DeliveryEstimateRule.md)
-- [DeliveryEstimateRuleRequestInput](DeliveryEstimateRuleRequestInput.md)
-- [DeliveryExternalPricingStrategy](DeliveryExternalPricingStrategy.md)
-- [DeliveryFixedPricingStrategy](DeliveryFixedPricingStrategy.md)
-- [DeliveryFixedPricingStrategyRequestInput](DeliveryFixedPricingStrategyRequestInput.md)
-- [DeliveryFulfillmentDetails](DeliveryFulfillmentDetails.md)
-- [DeliveryInputConstraint](DeliveryInputConstraint.md)
-- [DeliveryInputRequirement](DeliveryInputRequirement.md)
-- [DeliveryInventoryAssignmentRequest](DeliveryInventoryAssignmentRequest.md)
 

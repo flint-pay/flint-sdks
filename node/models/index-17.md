@@ -1,7 +1,16 @@
 [Model index](../MODELS.md)
 
-# InventoryReservationReleasedMerchantEvent to InvoiceLineItem
+# InventoryReservationHoldExpiredMerchantEvent to InvoiceLateFeeDueMerchantEvent
 
+- [InventoryReservationHoldExpiredMerchantEvent](InventoryReservationHoldExpiredMerchantEvent.md)
+- [InventoryReservationLine](InventoryReservationLine.md)
+- [InventoryReservationListResponse](InventoryReservationListResponse.md)
+- [InventoryReservationOwner](InventoryReservationOwner.md)
+- [InventoryReservationOwnerMerchant](InventoryReservationOwnerMerchant.md)
+- [InventoryReservationOwnerOrder](InventoryReservationOwnerOrder.md)
+- [InventoryReservationOwnerRequest](InventoryReservationOwnerRequest.md)
+- [InventoryReservationOwnerRequestInput](InventoryReservationOwnerRequestInput.md)
+- [InventoryReservationReleasedInstalledMerchantsEvent](InventoryReservationReleasedInstalledMerchantsEvent.md)
 - [InventoryReservationReleasedMerchantEvent](InventoryReservationReleasedMerchantEvent.md)
 - [InventoryReservationResponse](InventoryReservationResponse.md)
 - [InventoryReservationResult](InventoryReservationResult.md)
@@ -93,13 +102,4 @@
 - [InvoiceLateFeeAssessedMerchantEvent](InvoiceLateFeeAssessedMerchantEvent.md)
 - [InvoiceLateFeeDueInstalledMerchantsEvent](InvoiceLateFeeDueInstalledMerchantsEvent.md)
 - [InvoiceLateFeeDueMerchantEvent](InvoiceLateFeeDueMerchantEvent.md)
-- [InvoiceLateFeePolicy](InvoiceLateFeePolicy.md)
-- [InvoiceLateFeePolicyFixed](InvoiceLateFeePolicyFixed.md)
-- [InvoiceLateFeePolicyFixedRequestInput](InvoiceLateFeePolicyFixedRequestInput.md)
-- [InvoiceLateFeePolicyPercentage](InvoiceLateFeePolicyPercentage.md)
-- [InvoiceLateFeePolicyPercentageRequestInput](InvoiceLateFeePolicyPercentageRequestInput.md)
-- [InvoiceLateFeePolicyRequestInput](InvoiceLateFeePolicyRequestInput.md)
-- [InvoiceLateFeeWaivedInstalledMerchantsEvent](InvoiceLateFeeWaivedInstalledMerchantsEvent.md)
-- [InvoiceLateFeeWaivedMerchantEvent](InvoiceLateFeeWaivedMerchantEvent.md)
-- [InvoiceLineItem](InvoiceLineItem.md)
 

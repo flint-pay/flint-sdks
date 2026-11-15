@@ -1,7 +1,15 @@
 [Model index](../MODELS.md)
 
-# DeliveryAddressRequestInput to DeliveryPickupAvailabilityQuantityResourceInput
+# DecideReturnRequestInput to DeliveryPendingCallerRateRequestInput
 
+- [DecideReturnRequestInput](DecideReturnRequestInput.md)
+- [DecideReturnResponseInput](DecideReturnResponseInput.md)
+- [DeclinePaymentReviewRequestInput](DeclinePaymentReviewRequestInput.md)
+- [DeferredPromotionInput](DeferredPromotionInput.md)
+- [DeleteReturnLineItemResponseInput](DeleteReturnLineItemResponseInput.md)
+- [DeleteReturnPolicyResponseInput](DeleteReturnPolicyResponseInput.md)
+- [DeleteReturnReasonResponseInput](DeleteReturnReasonResponseInput.md)
+- [DeliveryAddressAdvisoryResourceInput](DeliveryAddressAdvisoryResourceInput.md)
 - [DeliveryAddressRequestInput](DeliveryAddressRequestInput.md)
 - [DeliveryArrivalEstimateInput](DeliveryArrivalEstimateInput.md)
 - [DeliveryAvailabilityInput](DeliveryAvailabilityInput.md)
@@ -94,12 +102,4 @@
 - [DeliveryMethodUpdatedMerchantEventInput](DeliveryMethodUpdatedMerchantEventInput.md)
 - [DeliveryOptionProjectionInput](DeliveryOptionProjectionInput.md)
 - [DeliveryPendingCallerRateRequestInput](DeliveryPendingCallerRateRequestInput.md)
-- [DeliveryPickupAvailabilityInput](DeliveryPickupAvailabilityInput.md)
-- [DeliveryPickupAvailabilityCandidateOutcomeInput](DeliveryPickupAvailabilityCandidateOutcomeInput.md)
-- [DeliveryPickupAvailabilityDiagnosticInput](DeliveryPickupAvailabilityDiagnosticInput.md)
-- [DeliveryPickupAvailabilityLocationResourceInput](DeliveryPickupAvailabilityLocationResourceInput.md)
-- [DeliveryPickupAvailabilityLocationSummaryInput](DeliveryPickupAvailabilityLocationSummaryInput.md)
-- [DeliveryPickupAvailabilityMaximumDistanceRequestInput](DeliveryPickupAvailabilityMaximumDistanceRequestInput.md)
-- [DeliveryPickupAvailabilityMethodResourceInput](DeliveryPickupAvailabilityMethodResourceInput.md)
-- [DeliveryPickupAvailabilityQuantityResourceInput](DeliveryPickupAvailabilityQuantityResourceInput.md)
 

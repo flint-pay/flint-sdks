@@ -81,7 +81,7 @@ Field definitions: [InventoryItemResponse.data.backorder](../models/InventoryIte
 
 ### InventoryMovementResponse.data.inventory_item.metadata
 
-Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
+Field definitions: [DeliveryLocationSetResponse.data.metadata](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata).
 
 ### InventoryMovementResponse.data.resulting_inventory_level
 

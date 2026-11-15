@@ -17,5 +17,6 @@ Request input.
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `receiving_location_id` | Required | string | ID of the Location that receives the units. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `return_disposition_id` | Optional | string | ID of the Return disposition this receipt records. Absent when the receipt isn't linked to a Return. Example: `"retdsp_01KEZF7C007H87J66PH2EEK1VW"`. |
+| `return_id` | Required | string or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `return_line_item_id` | Optional | string | ID of the Return line item these units belong to. Absent when the line isn't linked to a Return. Example: `"retli_01KEZF7C00R813VR7ECXS062QG"`. |
 

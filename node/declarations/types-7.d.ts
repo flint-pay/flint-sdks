@@ -1,21 +1,21 @@
+import type { ResponseMeta } from './types-54.js';
 import type { Invoice } from './types-31.js';
 import type { InvoicePaymentAttempt } from './types-32.js';
 import type { AcceptFulfillmentRequestInput, APIKeyWithSecret } from './types-0.js';
-import type { GetReturnResponse } from './types-26.js';
-import type { ReaderPaymentSourceTip, ReaderPaymentSourceTipInput } from './types-52.js';
+import type { GetReturnResponse, GetReturnResolutionResponse } from './types-26.js';
+import type { PaymentSourceCredential, PaymentSourceCredentialInput } from './types-47.js';
 import type { PaymentIntentWithAction } from './types-45.js';
-import type { ResponseMeta } from './types-54.js';
-import type { GetReturnResolutionResponse } from './types-25.js';
 import type { SellerTaxAttestationRequest, SellerTaxAttestationRequestInput } from './types-59.js';
 import type { InventoryProvenanceRequest, InventoryProvenanceRequestInput } from './types-29.js';
 import type { ImageRequest, ImageRequestInput } from './types-28.js';
-import type { MetadataMap } from './types-37.js';
-import type { MoneyValue, MetadataRequestInput, MoneyValueInput } from './types-38.js';
+import type { MetadataMap, MetadataRequestInput } from './types-38.js';
+import type { MoneyValue, MoneyValueInput } from './types-39.js';
 import type { CallerSuppliedDeliveryMethodResultRequest, CallerSuppliedDeliveryMethodResultRequestInput } from './types-4.js';
-import type { DeliveryAddressRequest, DeliveryAddressRequestInput } from './types-16.js';
 import type {
+    DeliveryAddressRequest,
     DeliveryBuyerLocationRequest,
     DeliveryInventoryAssignmentRequest,
+    DeliveryAddressRequestInput,
     DeliveryBuyerLocationRequestInput,
     DeliveryInventoryAssignmentRequestInput
 } from './types-17.js';
@@ -31,6 +31,14 @@ import type { PromotionRefRequest, PromotionRefRequestInput } from './types-51.j
 import type {
     CheckoutRedirects,
     CheckoutRedirectsRequestInput,
+    CheckoutTipConfig,
+    CheckoutTipConfigRequestInput,
+    CheckoutTaxConfig,
+    CheckoutQuickPayItemRequestInput,
+    CheckoutTaxConfigRequestInput,
+    CheckoutSubscriptionTermsRequest
+} from './types-6.js';
+import type {
     CheckoutBuyerFields,
     CheckoutCustomTextConfig,
     CheckoutPaymentConfig,
@@ -42,31 +50,113 @@ import type {
     CheckoutPaymentConfigRequestInput,
     CheckoutPrefillRequestInput,
     CheckoutPromotionConfigRequestInput,
-    CheckoutQuickPayItemRequest,
-    CheckoutQuickPayItemRequestInput
+    CheckoutQuickPayItemRequest
 } from './types-5.js';
-import type {
-    CheckoutTipConfig,
-    CheckoutTipConfigRequestInput,
-    CheckoutTaxConfig,
-    CheckoutTaxConfigRequestInput,
-    CheckoutSubscriptionTermsRequest
-} from './types-6.js';
-import type { LegalSettings } from './types-34.js';
+import type { LegalSettings } from './types-35.js';
 import type { PlatformFeeRequest, PlatformFeeRequestInput } from './types-49.js';
 import type { ThemeConfig, ThemeConfigRequestInput } from './types-65.js';
+/** An optional version fence for permanently closing the gift card. */
+export type CloseGiftCardRequest = {
+    /**
+     * The gift card version last read. The command changes this card only when its current version
+     * matches. Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+};
+/** An optional version fence for permanently closing the gift card. */
+export type CloseGiftCardRequestInput = CloseGiftCardRequest;
+/** The request body for: Close order. */
+export type CloseOrderRequest = {
+    /**
+     * Send keep to close while keeping collected money. Required when collected money remains
+     * refundable to its original tenders, after pending refunds. Closing does not refund money,
+     * and the order remains refundable. Accepted when nothing was collected. Value enum: "keep".
+     */
+    "collected_money_behavior"?: "keep" | (string & {});
+    /**
+     * Optional order version from the last order read. The mutation fails if the order changed.
+     * Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Your note explaining why you are closing the order. It is not shown to the buyer. minLength:
+     * 1. maxLength: 500.
+     */
+    "reason_message"?: string;
+};
+/** The request body for: Close order. */
+export type CloseOrderRequestInput = {
+    /**
+     * Send keep to close while keeping collected money. Required when collected money remains
+     * refundable to its original tenders, after pending refunds. Closing does not refund money,
+     * and the order remains refundable. Accepted when nothing was collected. Value enum: "keep".
+     */
+    "collected_money_behavior"?: "keep";
+    /**
+     * Optional order version from the last order read. The mutation fails if the order changed.
+     * Format: int64. minimum: 1.
+     */
+    "expected_version"?: number;
+    /**
+     * Your note explaining why you are closing the order. It is not shown to the buyer. minLength:
+     * 1. maxLength: 500.
+     */
+    "reason_message"?: string;
+};
+/** The request body for: Collect invoice. */
+export type CollectInvoiceRequest = {
+    /**
+     * Optional. The schedule entry to collect. Only the earliest entry that is due and still has
+     * an outstanding balance can be collected; omit it to collect that entry. Not allowed on an
+     * invoice without a schedule. minLength: 1. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
+     * Optional. The customer's saved payment method to charge. Omit it to charge the invoice's
+     * `collection.payment_method_id`. The method must be active, belong to the invoice's customer,
+     * allow charges without the buyer present, and be a payment option the invoice allows. If the
+     * invoice has no method either, the request is refused. Only invoices collected automatically
+     * can be collected this way. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+     */
+    "payment_method_id"?: string;
+};
+/** The request body for: Collect invoice. */
+export type CollectInvoiceRequestInput = CollectInvoiceRequest;
+/** A response containing `CollectInvoiceResult` data. */
+export type CollectInvoiceResponse = {
+    /**
+     * Resource, collection, or operation result returned by this request. The invoice is the
+     * primary resource and expected_version target; invoice_payment_attempt records the collection
+     * outcome.
+     */
+    "data": CollectInvoiceResult;
+    /**
+     * Additional information about this response. Metadata returned with a response: the
+     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
+     */
+    "meta"?: ResponseMeta;
+    /**
+     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
+     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
+     */
+    "request_id": string;
+};
 /**
  * The invoice is the primary resource and expected_version target; invoice_payment_attempt records
  * the collection outcome.
  */
 export type CollectInvoiceResult = {
-    /** A bill issued to a customer. */
+    /**
+     * The invoice as it stands after this collection request. Send its `version` as
+     * `expected_version` on later invoice writes. A bill issued to a customer.
+     */
     "invoice": Invoice;
     /**
-     *  anyOf[1] (Value): {@link InvoicePaymentAttempt}. An attempt to collect payment for an
-     * invoice. anyOf[2] (Value): null.
+     * The invoice payment attempt this collect request started or reused. A repeat of the same
+     * request returns the existing attempt. Read its `status` to follow the charge. An attempt to
+     * collect payment for an invoice.
      */
-    "invoice_payment_attempt": ((InvoicePaymentAttempt) | (null));
+    "invoice_payment_attempt": InvoicePaymentAttempt;
 };
 /**
  * Commits held quantity, usually once the buyer pays. Commit before expires_at: after the
@@ -149,13 +239,26 @@ export type ConfigurationVersionRequestInput = {
     "expected_version"?: number;
 };
 /** The code the buyer typed. */
-export type ConfirmCheckoutSessionCustomerVerificationRequestInput = {
+export type ConfirmCheckoutSessionCustomerVerificationRequest = {
     /**
      * The six-digit code from the email or the text. minLength: 6. maxLength: 6. pattern:
      * ^[0-9]{6}$.
      */
     "code": string;
+    /**
+     * Remember this buyer after a right code. Defaults to false. Accepted without issuing a token
+     * until the required notice email is configured.
+     */
+    "remember_buyer"?: boolean;
+    /**
+     * Token this device already holds, if any. A right code for the same email resets its
+     * unconfirmed steps; a different email ends it. With remember_buyer, Flint returns a
+     * replacement token. minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
+     */
+    "remembered_buyer_token"?: string;
 };
+/** The code the buyer typed. */
+export type ConfirmCheckoutSessionCustomerVerificationRequestInput = ConfirmCheckoutSessionCustomerVerificationRequest;
 /** The request body for: Confirm a customer email verification. */
 export type ConfirmCustomerVerificationRequestInput = {
     /** The six-digit code Flint sent to the customer's email. minLength: 1. pattern: ^[0-9]{6}$. */
@@ -181,14 +284,7 @@ export type ConfirmEmailChangeRequest = {
 /** The request body for: Confirm an email change. */
 export type ConfirmEmailChangeRequestInput = ConfirmEmailChangeRequest;
 /** The request body for: Confirm payment intent. */
-export type ConfirmPaymentIntentRequest = ((ConfirmPaymentIntentRequestToken)
-    | (ConfirmPaymentIntentRequestPaymentMethod)
-    | (ConfirmPaymentIntentRequestStripeConfirmationToken)
-    | (ConfirmPaymentIntentRequestAttached)
-    | (ConfirmPaymentIntentRequestReader)
-    | (Record<string, unknown>));
-/** Confirm using the payment source already attached. */
-export type ConfirmPaymentIntentRequestAttached = {
+export type ConfirmPaymentIntentRequest = ({
     /**
      * How to complete the authentication step. Flint's API returns a Stripe client secret only for
      * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
@@ -202,8 +298,6 @@ export type ConfirmPaymentIntentRequestAttached = {
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe" | (string & {});
-    /** Value enum: "attached". */
-    "credential_type": "attached" | (string & {});
     /**
      * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
      * the current version. Retrieve the resource and rebuild the request before retrying. Format:
@@ -223,393 +317,30 @@ export type ConfirmPaymentIntentRequestAttached = {
      */
     "payment_return_url"?: string;
     /**
-     * On /confirm, saves cards only for standalone payment intents. Saves the card this
-     * confirmation collects for the payment intent's customer, with usage off_session, so you can
-     * charge it later without the buyer: subscriptions, automatic invoices, or the customer's
-     * default. Send true only when the buyer agreed to that on your page. Requires customer_id on
-     * the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token
-     * (created with setup_future_usage off_session) or payment_source_token, and
+     * Credential to confirm this payment. Omit it to continue with the attached source: confirm
+     * requires_confirmation, or refresh requires_action without starting another payment. Required
+     * when no source is attached. The credential you provide to pay an order: a payment source
+     * token, a saved payment method ID, or a Stripe confirmation token.
+     */
+    "payment_source"?: PaymentSourceCredential;
+    /**
+     * Saves the card this confirmation collects for the standalone payment intent's customer or
+     * the owning order's customer, with usage off_session, so you can charge it later without the
+     * buyer: subscriptions, automatic invoices, or the customer's default. Send true only when the
+     * buyer agreed to that on your page. Requires customer_id on the standalone payment intent or
+     * owning order (otherwise configuration_required names that resource), a card, Apple Pay, or
+     * Google Pay credential in payment_source.stripe.confirmation_token (created with
+     * setup_future_usage off_session) or payment_source.stripe.payment_method, and
      * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
      * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
      * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves
-     * only on_session cards using the checkout session's own credential. Default: false. Value
-     * enum: false.
+     * covers the saved card. A continuation keeps the original save choice. Order pay keeps its
+     * separate on-session checkout card-saving behavior. Default: false.
      */
     "save_payment_method"?: boolean;
-};
-/** Confirm using the payment source already attached. */
-export type ConfirmPaymentIntentRequestAttachedInput = {
-    /**
-     * The buyer's IP address, for risk screening, when your server pays on the buyer's behalf.
-     * Write-only. minLength: 1. maxLength: 64.
-     */
-    "buyer_ip_address"?: string;
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe";
-    /** Value enum: "attached". */
-    "credential_type": "attached";
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode
-     * also accepts HTTP loopback URLs. With a checkout credential on order pay, omit
-     * payment_return_url; checkout sessions use their own configured return URL. minLength: 1.
-     * maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * On /confirm, saves cards only for standalone payment intents. Saves the card this
-     * confirmation collects for the payment intent's customer, with usage off_session, so you can
-     * charge it later without the buyer: subscriptions, automatic invoices, or the customer's
-     * default. Send true only when the buyer agreed to that on your page. Requires customer_id on
-     * the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token
-     * (created with setup_future_usage off_session) or payment_source_token, and
-     * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
-     * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
-     * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves
-     * only on_session cards using the checkout session's own credential. Default: false. Value
-     * enum: false.
-     */
-    "save_payment_method"?: (false) & (false);
-};
-/** The request body for: Confirm payment intent. */
-export type ConfirmPaymentIntentRequestInput = ((ConfirmPaymentIntentRequestTokenInput)
-    | (ConfirmPaymentIntentRequestPaymentMethodInput)
-    | (ConfirmPaymentIntentRequestStripeConfirmationTokenInput)
-    | (ConfirmPaymentIntentRequestAttachedInput)
-    | (ConfirmPaymentIntentRequestReaderInput));
-/** The `payment_method` variant of `ConfirmPaymentIntentRequest`. */
-export type ConfirmPaymentIntentRequestPaymentMethod = {
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe" | (string & {});
-    /** Value enum: "payment_method". */
-    "credential_type": "payment_method" | (string & {});
-    /**
-     * Whether the customer is present for this payment. Defaults to present. Send absent to charge
-     * a saved card while the customer is away, such as for a no-show fee, damages, or a top-up.
-     * Flint then sends the charge to the card network as merchant-initiated, using the card's
-     * stored credential, so the bank can't ask the customer to authenticate. absent can be sent
-     * only with an API key or partner token, and only for a saved card whose usage is off_session;
-     * a card the customer saved for checkout only returns 409 ACTION_NOT_ALLOWED with reason
-     * payment_method_not_reusable. If the bank still requires authentication, the payment fails
-     * with status requires_payment_method and last_payment_error.code authentication_required. Ask
-     * the customer to pay while present instead of retrying. Default: "present". Value enum:
-     * "present", "absent".
-     */
-    "customer_presence"?: "present" | "absent" | (string & {});
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Saved Flint payment method ID belonging to the customer making this payment. minLength: 1.
-     * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id": string;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode
-     * also accepts HTTP loopback URLs. With a checkout credential on order pay, omit
-     * payment_return_url; checkout sessions use their own configured return URL. minLength: 1.
-     * maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * On /confirm, saves cards only for standalone payment intents. Saves the card this
-     * confirmation collects for the payment intent's customer, with usage off_session, so you can
-     * charge it later without the buyer: subscriptions, automatic invoices, or the customer's
-     * default. Send true only when the buyer agreed to that on your page. Requires customer_id on
-     * the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token
-     * (created with setup_future_usage off_session) or payment_source_token, and
-     * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
-     * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
-     * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves
-     * only on_session cards using the checkout session's own credential. Default: false. Value
-     * enum: false.
-     */
-    "save_payment_method"?: boolean;
-};
-/** The `payment_method` variant of `ConfirmPaymentIntentRequest`. */
-export type ConfirmPaymentIntentRequestPaymentMethodInput = {
-    /**
-     * The buyer's IP address, for risk screening, when your server pays on the buyer's behalf.
-     * Write-only. minLength: 1. maxLength: 64.
-     */
-    "buyer_ip_address"?: string;
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe";
-    /** Value enum: "payment_method". */
-    "credential_type": "payment_method";
-    /**
-     * Whether the customer is present for this payment. Defaults to present. Send absent to charge
-     * a saved card while the customer is away, such as for a no-show fee, damages, or a top-up.
-     * Flint then sends the charge to the card network as merchant-initiated, using the card's
-     * stored credential, so the bank can't ask the customer to authenticate. absent can be sent
-     * only with an API key or partner token, and only for a saved card whose usage is off_session;
-     * a card the customer saved for checkout only returns 409 ACTION_NOT_ALLOWED with reason
-     * payment_method_not_reusable. If the bank still requires authentication, the payment fails
-     * with status requires_payment_method and last_payment_error.code authentication_required. Ask
-     * the customer to pay while present instead of retrying. Default: "present". Value enum:
-     * "present", "absent".
-     */
-    "customer_presence"?: "present" | "absent";
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Saved Flint payment method ID belonging to the customer making this payment. minLength: 1.
-     * Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
-     */
-    "payment_method_id": string;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode
-     * also accepts HTTP loopback URLs. With a checkout credential on order pay, omit
-     * payment_return_url; checkout sessions use their own configured return URL. minLength: 1.
-     * maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * On /confirm, saves cards only for standalone payment intents. Saves the card this
-     * confirmation collects for the payment intent's customer, with usage off_session, so you can
-     * charge it later without the buyer: subscriptions, automatic invoices, or the customer's
-     * default. Send true only when the buyer agreed to that on your page. Requires customer_id on
-     * the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token
-     * (created with setup_future_usage off_session) or payment_source_token, and
-     * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
-     * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
-     * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves
-     * only on_session cards using the checkout session's own credential. Default: false. Value
-     * enum: false.
-     */
-    "save_payment_method"?: (false) & (false);
-};
-/** The `reader` variant of `ConfirmPaymentIntentRequest`. */
-export type ConfirmPaymentIntentRequestReader = ({
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe" | (string & {});
-    /** Selects payment collection on a reader. Value enum: "reader". */
-    "credential_type": "reader" | (string & {});
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode
-     * also accepts HTTP loopback URLs. With a checkout credential on order pay, omit
-     * payment_return_url; checkout sessions use their own configured return URL. minLength: 1.
-     * maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Active reader in this merchant and environment. Requires payments.readers.write in addition
-     * to this operation’s scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C".
-     */
-    "reader_id": string;
-    /** Send false or omit it. A card read on a reader isn't saved. Default: false. */
-    "save_payment_method"?: boolean;
-    /**
-     * Optional tip collection on a supported smart reader. Tip collection settings for a payment
-     * presented on a smart reader.
-     */
-    "tip"?: ReaderPaymentSourceTip;
 });
-/** The `reader` variant of `ConfirmPaymentIntentRequest`. */
-export type ConfirmPaymentIntentRequestReaderInput = ({
-    /** Not accepted for a payment presented on a reader. minLength: 1. maxLength: 64. */
-    "buyer_ip_address"?: string;
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe";
-    /** Selects payment collection on a reader. Value enum: "reader". */
-    "credential_type": "reader";
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode
-     * also accepts HTTP loopback URLs. With a checkout credential on order pay, omit
-     * payment_return_url; checkout sessions use their own configured return URL. minLength: 1.
-     * maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * Active reader in this merchant and environment. Requires payments.readers.write in addition
-     * to this operation’s scopes. minLength: 1. pattern: ^rdr_[0-9A-HJKMNP-TV-Z]{26}$. Example:
-     * "rdr_01KEZF7C007JA0G24M7SD6P46C".
-     */
-    "reader_id": string;
-    /** Send false or omit it. A card read on a reader isn't saved. Default: false. */
-    "save_payment_method"?: boolean;
-    /**
-     * Optional tip collection on a supported smart reader. Tip collection settings for a payment
-     * presented on a smart reader.
-     */
-    "tip"?: ReaderPaymentSourceTipInput;
-})
-    & (({
-    "buyer_ip_address"?: never;
-}));
-/** The `stripe_confirmation_token` variant of `ConfirmPaymentIntentRequest`. */
-export type ConfirmPaymentIntentRequestStripeConfirmationToken = {
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe" | (string & {});
-    /** Value enum: "stripe_confirmation_token". */
-    "credential_type": "stripe_confirmation_token" | (string & {});
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode
-     * also accepts HTTP loopback URLs. With a checkout credential on order pay, omit
-     * payment_return_url; checkout sessions use their own configured return URL. minLength: 1.
-     * maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /**
-     * On /confirm, saves cards only for standalone payment intents. Saves the card this
-     * confirmation collects for the payment intent's customer, with usage off_session, so you can
-     * charge it later without the buyer: subscriptions, automatic invoices, or the customer's
-     * default. Send true only when the buyer agreed to that on your page. Requires customer_id on
-     * the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token
-     * (created with setup_future_usage off_session) or payment_source_token, and
-     * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
-     * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
-     * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves
-     * only on_session cards using the checkout session's own credential. Default: false.
-     */
-    "save_payment_method"?: boolean;
-    /**
-     * Stripe credential collected for this payment. confirmation_token (Required): string. Stripe
-     * confirmation token you created with Stripe.js from `payment_collection.stripe`. minLength:
-     * 1.
-     */
-    "stripe": {
-        /**
-         * Stripe confirmation token you created with Stripe.js from `payment_collection.stripe`.
-         * minLength: 1.
-         */
-        "confirmation_token": string;
-    };
-};
-/** The `stripe_confirmation_token` variant of `ConfirmPaymentIntentRequest`. */
-export type ConfirmPaymentIntentRequestStripeConfirmationTokenInput = {
+/** The request body for: Confirm payment intent. */
+export type ConfirmPaymentIntentRequestInput = ({
     /**
      * The buyer's IP address, for risk screening, when your server pays on the buyer's behalf.
      * Write-only. minLength: 1. maxLength: 64.
@@ -628,8 +359,6 @@ export type ConfirmPaymentIntentRequestStripeConfirmationTokenInput = {
      * enum: "url", "stripe".
      */
     "client_action_type"?: "url" | "stripe";
-    /** Value enum: "stripe_confirmation_token". */
-    "credential_type": "stripe_confirmation_token";
     /**
      * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
      * the current version. Retrieve the resource and rebuild the request before retrying. Format:
@@ -649,141 +378,28 @@ export type ConfirmPaymentIntentRequestStripeConfirmationTokenInput = {
      */
     "payment_return_url"?: string;
     /**
-     * On /confirm, saves cards only for standalone payment intents. Saves the card this
-     * confirmation collects for the payment intent's customer, with usage off_session, so you can
-     * charge it later without the buyer: subscriptions, automatic invoices, or the customer's
-     * default. Send true only when the buyer agreed to that on your page. Requires customer_id on
-     * the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token
-     * (created with setup_future_usage off_session) or payment_source_token, and
+     * Credential to confirm this payment. Omit it to continue with the attached source: confirm
+     * requires_confirmation, or refresh requires_action without starting another payment. Required
+     * when no source is attached. The credential you provide to pay an order: a payment source
+     * token, a saved payment method ID, or a Stripe confirmation token.
+     */
+    "payment_source"?: PaymentSourceCredentialInput;
+    /**
+     * Saves the card this confirmation collects for the standalone payment intent's customer or
+     * the owning order's customer, with usage off_session, so you can charge it later without the
+     * buyer: subscriptions, automatic invoices, or the customer's default. Send true only when the
+     * buyer agreed to that on your page. Requires customer_id on the standalone payment intent or
+     * owning order (otherwise configuration_required names that resource), a card, Apple Pay, or
+     * Google Pay credential in payment_source.stripe.confirmation_token (created with
+     * setup_future_usage off_session) or payment_source.stripe.payment_method, and
      * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
      * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
      * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves
-     * only on_session cards using the checkout session's own credential. Default: false.
+     * covers the saved card. A continuation keeps the original save choice. Order pay keeps its
+     * separate on-session checkout card-saving behavior. Default: false.
      */
     "save_payment_method"?: boolean;
-    /**
-     * Stripe credential collected for this payment. confirmation_token (Required): string. Stripe
-     * confirmation token you created with Stripe.js from `payment_collection.stripe`. minLength:
-     * 1.
-     */
-    "stripe": {
-        /**
-         * Stripe confirmation token you created with Stripe.js from `payment_collection.stripe`.
-         * minLength: 1.
-         */
-        "confirmation_token": string;
-    };
-};
-/** The `token` variant of `ConfirmPaymentIntentRequest`. */
-export type ConfirmPaymentIntentRequestToken = {
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe" | (string & {});
-    /** Value enum: "token". */
-    "credential_type": "token" | (string & {});
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode
-     * also accepts HTTP loopback URLs. With a checkout credential on order pay, omit
-     * payment_return_url; checkout sessions use their own configured return URL. minLength: 1.
-     * maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /** Opaque processor or browser payment source token. minLength: 1. */
-    "payment_source_token": string;
-    /**
-     * On /confirm, saves cards only for standalone payment intents. Saves the card this
-     * confirmation collects for the payment intent's customer, with usage off_session, so you can
-     * charge it later without the buyer: subscriptions, automatic invoices, or the customer's
-     * default. Send true only when the buyer agreed to that on your page. Requires customer_id on
-     * the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token
-     * (created with setup_future_usage off_session) or payment_source_token, and
-     * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
-     * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
-     * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves
-     * only on_session cards using the checkout session's own credential. Default: false.
-     */
-    "save_payment_method"?: boolean;
-};
-/** The `token` variant of `ConfirmPaymentIntentRequest`. */
-export type ConfirmPaymentIntentRequestTokenInput = {
-    /**
-     * The buyer's IP address, for risk screening, when your server pays on the buyer's behalf.
-     * Write-only. minLength: 1. maxLength: 64.
-     */
-    "buyer_ip_address"?: string;
-    /**
-     * How to complete the authentication step. Flint's API returns a Stripe client secret only for
-     * client_action_type stripe. A url action opens in a redirect, popup, or iframe; Stripe's
-     * authentication page receives what it needs to run the challenge, including the client secret
-     * for hosted 3DS2. If a payment is confirmed with a payment method Flint didn't approve, Flint
-     * doesn't count the charge, returns it to the buyer, and the payment intent ends canceled with
-     * cancellation_reason payment_returned. The Stripe secret can also confirm the payment with
-     * another card, so use it only with handleNextAction. Reader credentials do not support url;
-     * omit client_action_type or send stripe for reader payments. Defaults to stripe for a new
-     * confirmation; omission on a continuation keeps the existing type. Default: "stripe". Value
-     * enum: "url", "stripe".
-     */
-    "client_action_type"?: "url" | "stripe";
-    /** Value enum: "token". */
-    "credential_type": "token";
-    /**
-     * Optional expected version of this resource. A stale value returns 409 VERSION_CONFLICT with
-     * the current version. Retrieve the resource and rebuild the request before retrying. Format:
-     * uint64. minimum: 1.
-     */
-    "expected_version"?: number;
-    /**
-     * Where Flint sends the buyer after a redirect or authentication step, adding only
-     * payment_intent_id for a payment, or payment_method_id for a setup. The completion message
-     * uses type flint.payment_action.completed and exactly that one subject key. Without it, the
-     * step ends on a Flint page that tells the parent or opener the step completed. Accepts an
-     * absolute HTTPS URL or an app return URL with a custom scheme other than http, javascript,
-     * data, file, blob, or about. Cannot contain credentials, a query, or a fragment. Test mode
-     * also accepts HTTP loopback URLs. With a checkout credential on order pay, omit
-     * payment_return_url; checkout sessions use their own configured return URL. minLength: 1.
-     * maxLength: 2048.
-     */
-    "payment_return_url"?: string;
-    /** Opaque processor or browser payment source token. minLength: 1. */
-    "payment_source_token": string;
-    /**
-     * On /confirm, saves cards only for standalone payment intents. Saves the card this
-     * confirmation collects for the payment intent's customer, with usage off_session, so you can
-     * charge it later without the buyer: subscriptions, automatic invoices, or the customer's
-     * default. Send true only when the buyer agreed to that on your page. Requires customer_id on
-     * the payment intent, a card, Apple Pay, or Google Pay credential in stripe.confirmation_token
-     * (created with setup_future_usage off_session) or payment_source_token, and
-     * payments.payment_methods.write. Flint saves the card once the payment is approved, sends
-     * payment_method.activated, and sets payment_source.card.payment_method_id. If the bank asks
-     * the buyer to authenticate, current_payment_action carries it; that one authentication also
-     * covers the saved card. For order-owned payment intents, POST /v1/orders/{order_id}/pay saves
-     * only on_session cards using the checkout session's own credential. Default: false.
-     */
-    "save_payment_method"?: boolean;
-};
+});
 /** A response containing `PaymentIntentWithAction` data. */
 export type ConfirmPaymentIntentResponse = {
     /**
@@ -951,7 +567,9 @@ export type CreateAPIKeyRequest = ({
     "access": "full" | "read_only" | "restricted" | (string & {});
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Links this key to a connected app's install. Revoking the install or its grant for this
@@ -1177,7 +795,9 @@ export type CreateAPIKeyRequestFull = ({
     "access": "full" | (string & {});
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Links this key to a connected app's install. Revoking the install or its grant for this
@@ -1399,7 +1019,9 @@ export type CreateAPIKeyRequestFullInput = ({
     "access": "full";
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string | globalThis.Date;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Links this key to a connected app's install. Revoking the install or its grant for this
@@ -1623,7 +1245,9 @@ export type CreateAPIKeyRequestInput = ({
     "access": "full" | "read_only" | "restricted";
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string | globalThis.Date;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Links this key to a connected app's install. Revoking the install or its grant for this
@@ -1847,7 +1471,9 @@ export type CreateAPIKeyRequestReadOnly = ({
     "access": "read_only" | (string & {});
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Links this key to a connected app's install. Revoking the install or its grant for this
@@ -2069,7 +1695,9 @@ export type CreateAPIKeyRequestReadOnlyInput = ({
     "access": "read_only";
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string | globalThis.Date;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Links this key to a connected app's install. Revoking the install or its grant for this
@@ -2293,7 +1921,9 @@ export type CreateAPIKeyRequestRestricted = {
     "access": "restricted" | (string & {});
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Links this key to a connected app's install. Revoking the install or its grant for this
@@ -2515,7 +2145,9 @@ export type CreateAPIKeyRequestRestrictedInput = {
     "access": "restricted";
     /** RFC3339 timestamp. Format: date-time. minLength: 1. Example: "2026-08-02T16:00:00Z". */
     "expires_at"?: string | globalThis.Date;
-    /** minLength: 1. maxLength: 100. */
+    /**
+     * A label that helps you tell keys apart, 1 to 100 characters. minLength: 1. maxLength: 100.
+     */
     "name": string;
     /**
      * Links this key to a connected app's install. Revoking the install or its grant for this
@@ -3141,12 +2773,14 @@ export type CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInp
 export type CreateCheckoutSessionCustomerVerificationRequest = ((CreateCheckoutSessionGiftCardPurchaseVerificationRequest)
     | (CreateCheckoutSessionSavePaymentMethodVerificationRequest)
     | (CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequest)
+    | (CreateCheckoutSessionPayToNewAddressVerificationRequest)
     | (CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequest)
     | (Record<string, unknown>));
 /** A checkout verification request selected by purpose. */
 export type CreateCheckoutSessionCustomerVerificationRequestInput = ((CreateCheckoutSessionGiftCardPurchaseVerificationRequestInput)
     | (CreateCheckoutSessionSavePaymentMethodVerificationRequestInput)
     | (CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput)
+    | (CreateCheckoutSessionPayToNewAddressVerificationRequestInput)
     | (CreateCheckoutSessionConfirmSavedPaymentMethodVerificationRequestInput));
 /** A promotion to apply to the order Flint creates for a checkout session. */
 export type CreateCheckoutSessionDiscount = {
@@ -3501,8 +3135,11 @@ export type CreateCheckoutSessionOrder = ({
      */
     "payment_return_url"?: string;
     /**
-     * Payment settings you supply when creating a checkout session: the enabled payment options
-     * and a note shown with payment.
+     * Payment settings for this session: the payment options it offers and a note shown with them.
+     * Omit `enabled_payment_options` to use the merchant's
+     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
+     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
+     * payment options and a note shown with payment.
      */
     "payments"?: CheckoutPaymentConfig;
     /**
@@ -3581,7 +3218,17 @@ export type CreateCheckoutSessionOrder = ({
     "type": "order" | (string & {});
 })
     & (({
-    /** Value enum: "order". */
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "order".
+     */
     "type": "order" | (string & {});
     /**
      * The order to collect. It must be open and not collected by an invoice or a return
@@ -3669,8 +3316,11 @@ export type CreateCheckoutSessionOrderInput = ({
      */
     "payment_return_url"?: string;
     /**
-     * Payment settings you supply when creating a checkout session: the enabled payment options
-     * and a note shown with payment.
+     * Payment settings for this session: the payment options it offers and a note shown with them.
+     * Omit `enabled_payment_options` to use the merchant's
+     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
+     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
+     * payment options and a note shown with payment.
      */
     "payments"?: CheckoutPaymentConfigRequestInput;
     /**
@@ -3749,7 +3399,17 @@ export type CreateCheckoutSessionOrderInput = ({
     "type": "order";
 })
     & (({
-    /** Value enum: "order". */
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "order".
+     */
     "type": "order";
     /**
      * The order to collect. It must be open and not collected by an invoice or a return
@@ -3787,6 +3447,28 @@ export type CreateCheckoutSessionOrderInput = ({
     & ({
     "return_url"?: never;
 })));
+/**
+ * Request a fresh code when pay_to_new_address_requires_verification is true. Send no email,
+ * channel, or remembered_buyer_token. The code follows the paying credential's proof, except that
+ * a wallet opened by text steps up by email. Returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered when no saved card needs step-up. Confirmation keeps the credential and its proof
+ * and refreshes it for 15 minutes.
+ */
+export type CreateCheckoutSessionPayToNewAddressVerificationRequest = {
+    /** What the buyer is confirming their email or number for. Value enum: "pay_to_new_address". */
+    "purpose": "pay_to_new_address" | (string & {});
+};
+/**
+ * Request a fresh code when pay_to_new_address_requires_verification is true. Send no email,
+ * channel, or remembered_buyer_token. The code follows the paying credential's proof, except that
+ * a wallet opened by text steps up by email. Returns 409 ACTION_NOT_ALLOWED with reason
+ * not_offered when no saved card needs step-up. Confirmation keeps the credential and its proof
+ * and refreshes it for 15 minutes.
+ */
+export type CreateCheckoutSessionPayToNewAddressVerificationRequestInput = {
+    /** What the buyer is confirming their email or number for. Value enum: "pay_to_new_address". */
+    "purpose": "pay_to_new_address";
+};
 /** The `quick_pay` variant of `CreateCheckoutSessionRequest`. */
 export type CreateCheckoutSessionQuickPay = ({
     /** What checkout asks the buyer for. Each field you leave out uses your checkout settings. */
@@ -3864,8 +3546,11 @@ export type CreateCheckoutSessionQuickPay = ({
      */
     "payment_return_url"?: string;
     /**
-     * Payment settings you supply when creating a checkout session: the enabled payment options
-     * and a note shown with payment.
+     * Payment settings for this session: the payment options it offers and a note shown with them.
+     * Omit `enabled_payment_options` to use the merchant's
+     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
+     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
+     * payment options and a note shown with payment.
      */
     "payments"?: CheckoutPaymentConfig;
     /**
@@ -3951,7 +3636,17 @@ export type CreateCheckoutSessionQuickPay = ({
     "type": "quick_pay" | (string & {});
 })
     & (({
-    /** Value enum: "quick_pay". */
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "quick_pay".
+     */
     "type": "quick_pay" | (string & {});
     /**
      * The one named amount to collect. Flint creates the order from it. Required when `type` is
@@ -4037,8 +3732,11 @@ export type CreateCheckoutSessionQuickPayInput = ({
      */
     "payment_return_url"?: string;
     /**
-     * Payment settings you supply when creating a checkout session: the enabled payment options
-     * and a note shown with payment.
+     * Payment settings for this session: the payment options it offers and a note shown with them.
+     * Omit `enabled_payment_options` to use the merchant's
+     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
+     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
+     * payment options and a note shown with payment.
      */
     "payments"?: CheckoutPaymentConfigRequestInput;
     /**
@@ -4124,7 +3822,17 @@ export type CreateCheckoutSessionQuickPayInput = ({
     "type": "quick_pay";
 })
     & (({
-    /** Value enum: "quick_pay". */
+    /**
+     * What the checkout collects payment for. order: an order you created; send order_id.
+     * quick_pay: one named amount; send quick_pay_item, and Flint creates the order.
+     * subscription_plan: a signup for an active plan; send subscription_plan_id, and Flint creates
+     * the order and, once the buyer pays, the subscription. return_resolution: the buyer's balance
+     * on a return resolution; send return_resolution_id. invoice: what is due now on an open
+     * invoice; send invoice_id. The order, quick_pay and subscription_plan types need
+     * checkouts.checkout_sessions.write; return_resolution needs
+     * commerce.returns.resolutions.write; invoice needs commerce.invoices.write. Value enum:
+     * "quick_pay".
+     */
     "type": "quick_pay";
     /**
      * The one named amount to collect. Flint creates the order from it. Required when `type` is
@@ -4268,8 +3976,11 @@ export type CreateCheckoutSessionRequest = ({
      */
     "payment_return_url"?: string;
     /**
-     * Payment settings you supply when creating a checkout session: the enabled payment options
-     * and a note shown with payment.
+     * Payment settings for this session: the payment options it offers and a note shown with them.
+     * Omit `enabled_payment_options` to use the merchant's
+     * `settings.checkout.enabled_payment_options`. Not allowed when `type` is `return_resolution`
+     * or `invoice`. Payment settings you supply when creating a checkout session: the enabled
+     * payment options and a note shown with payment.
      */
     "payments"?: CheckoutPaymentConfig;
     /**
@@ -4348,8 +4059,12 @@ export type CreateCheckoutSessionRequest = ({
     /** An active plan. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV". */
     "subscription_plan_id"?: string;
     /**
-     * Subscription terms you set on a checkout session: billing interval, interval count, and
-     * quantity.
+     * The billing interval, quantity, and gift recipient for a `subscription_plan` session. Other
+     * types refuse it, and `null` is invalid. Omit it to use the plan's default billing interval
+     * and a quantity of 1. The billing interval must be one the plan offers in
+     * `billing_interval_options`, and the quantity one of its `quantity_options`. Subscription
+     * choices for a checkout session: billing interval, interval count, line quantities, and gift
+     * recipient.
      */
     "subscription_terms"?: CheckoutSubscriptionTermsRequest;
     /**

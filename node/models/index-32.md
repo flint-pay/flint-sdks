@@ -1,7 +1,14 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPlanLineItemInputVariant to TaxJurisdiction
+# SubscriptionPlanLineItem to TaxCountryCoverage
 
+- [SubscriptionPlanLineItem](SubscriptionPlanLineItem.md)
+- [SubscriptionPlanLineItemBundle](SubscriptionPlanLineItemBundle.md)
+- [SubscriptionPlanLineItemCustom](SubscriptionPlanLineItemCustom.md)
+- [SubscriptionPlanLineItemInputBundle](SubscriptionPlanLineItemInputBundle.md)
+- [SubscriptionPlanLineItemInputBundleInput](SubscriptionPlanLineItemInputBundleInput.md)
+- [SubscriptionPlanLineItemInputCustom](SubscriptionPlanLineItemInputCustom.md)
+- [SubscriptionPlanLineItemInputCustomInput](SubscriptionPlanLineItemInputCustomInput.md)
 - [SubscriptionPlanLineItemInputVariant](SubscriptionPlanLineItemInputVariant.md)
 - [SubscriptionPlanLineItemInputVariantInput](SubscriptionPlanLineItemInputVariantInput.md)
 - [SubscriptionPlanLineItemRequest](SubscriptionPlanLineItemRequest.md)
@@ -48,6 +55,8 @@
 - [SubscriptionSettingsRequestInput](SubscriptionSettingsRequestInput.md)
 - [SubscriptionSnapshotMetrics](SubscriptionSnapshotMetrics.md)
 - [SubscriptionStatusCounts](SubscriptionStatusCounts.md)
+- [SubscriptionSwapPreviewRequest](SubscriptionSwapPreviewRequest.md)
+- [SubscriptionSwapPreviewRequestInput](SubscriptionSwapPreviewRequestInput.md)
 - [SubscriptionTax](SubscriptionTax.md)
 - [SubscriptionTaxCalculationRequestInput](SubscriptionTaxCalculationRequestInput.md)
 - [SubscriptionTaxRequest](SubscriptionTaxRequest.md)
@@ -93,13 +102,4 @@
 - [TaxConnectionSellerAttestation](TaxConnectionSellerAttestation.md)
 - [TaxConnectionUpdatedEvent](TaxConnectionUpdatedEvent.md)
 - [TaxCountryCoverage](TaxCountryCoverage.md)
-- [TaxCurrencyConversion](TaxCurrencyConversion.md)
-- [TaxDefaultCalculation](TaxDefaultCalculation.md)
-- [TaxDefaultCalculationRequestInput](TaxDefaultCalculationRequestInput.md)
-- [TaxDisclosureStatement](TaxDisclosureStatement.md)
-- [TaxIdentity](TaxIdentity.md)
-- [TaxIdentityPatch](TaxIdentityPatch.md)
-- [TaxIdentityPatchInput](TaxIdentityPatchInput.md)
-- [TaxIdentityRequestInput](TaxIdentityRequestInput.md)
-- [TaxJurisdiction](TaxJurisdiction.md)
 

@@ -7,7 +7,7 @@ namespace Flint;
 final class EmailPreferenceLinksLookupParams extends Model {
     /** @param array{'token': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('EmailPreferenceLinksLookupParams')); }
-    /** minLength: 1.
+    /** The signed token from the email's preference link, as the `flint_email_preference_token` the hosted preference page receives. It points to one sent email, which fixes the email address, the preference, the merchant, and the mode. A token that is malformed, unrecognized, from a closed sandbox, or from another merchant or mode than the calling key returns 404. minLength: 1.
      * @return string
      * @throws SdkError When token is omitted; use hasToken() or valueOrDefault().
      */
