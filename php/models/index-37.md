@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BuyerExpandedSubscriptionPlanSummaryLineItemsItemBundleCategoriesItem to BuyerOrderTaxTaxBreakdownsItemPercentageJurisdiction
+# BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantUnitPriceMoney to BuyerOrderTaxLocation
 
+- [BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantUnitPriceMoney](BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariantUnitPriceMoney.md)
+- [BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariant](BuyerExpandedSubscriptionPlanSummaryLineItemsItemVariant.md)
 - [BuyerExpandedSubscriptionPlanSummaryLineItemsItemBundleCategoriesItem](BuyerExpandedSubscriptionPlanSummaryLineItemsItemBundleCategoriesItem.md)
 - [BuyerExpandedSubscriptionPlanSummaryLineItemsItemBundleImage](BuyerExpandedSubscriptionPlanSummaryLineItemsItemBundleImage.md)
 - [BuyerExpandedSubscriptionPlanSummaryLineItemsItemBundleSelectedOptionsItem](BuyerExpandedSubscriptionPlanSummaryLineItemsItemBundleSelectedOptionsItem.md)
@@ -100,6 +102,4 @@
 - [BuyerOrderTaxExemptionCoverageStates](BuyerOrderTaxExemptionCoverageStates.md)
 - [BuyerOrderTaxExemption](BuyerOrderTaxExemption.md)
 - [BuyerOrderTaxLocation](BuyerOrderTaxLocation.md)
-- [BuyerOrderTaxTaxBreakdownsItemPercentageFlatMoney](BuyerOrderTaxTaxBreakdownsItemPercentageFlatMoney.md)
-- [BuyerOrderTaxTaxBreakdownsItemPercentageJurisdiction](BuyerOrderTaxTaxBreakdownsItemPercentageJurisdiction.md)
 

@@ -55,7 +55,7 @@ Body model: [CreateSubscriptionPreviewRequestPlanChangeInput](../models/CreateSu
 
 The `quantity_change` variant of `CreateSubscriptionPreviewRequest`.
 
-Body model: [CreateSubscriptionPreviewRequestQuantityChangeInput](../models/CreateSubscriptionPreviewRequestQuantityChange.md#createsubscriptionpreviewrequestquantitychange).
+Body model: [CreateSubscriptionPreviewRequestQuantityChangeInput](../models/CreateSubscriptionPreviewRequestQuantityChangeInput.md#createsubscriptionpreviewrequestquantitychangeinput).
 
 #### subscriptionPreviews.create with `mode: "promotion_apply"`
 

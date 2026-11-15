@@ -12,7 +12,12 @@ const result = await client.subscriptions.changeQuantity(
   {
     billing_starts: "prorated_now",
     expected_version: 1,
-    quantity: 1,
+    line_items: [
+      {
+        quantity: 2,
+        subscription_line_item_id: "sli_01KEZF7C00VQ081BX7W2T96R71",
+      },
+    ],
   },
   { idempotencyKey: idempotencyKey },
 );

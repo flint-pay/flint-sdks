@@ -20,14 +20,13 @@ namespace Flint;
  * @property-read array<array-key, string|null>|\stdClass|null $metadata
  * @property-read string $name
  * @property-read list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass> $plan_change_options
- * @property-read list<int> $quantity_options
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $setup_fee_money
  * @property-read string $status
  * @property-read list<string> $subscription_delivery_method_ids
  * @property-read int $trial_period_days
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateSubscriptionPlanRequestInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_interval_options'?: list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'delivery_interval'?: string|null, 'delivery_interval_count'?: int|null, 'description'?: string|null, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gifts_enabled'?: bool, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<UpdateSubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'plan_change_options'?: list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass>, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status'?: string, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_interval_options'?: list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'delivery_interval'?: string|null, 'delivery_interval_count'?: int|null, 'description'?: string|null, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gifts_enabled'?: bool, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<UpdateSubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'plan_change_options'?: list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status'?: string, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateSubscriptionPlanRequestInput')); }
     /** New unit of the plan's default billing period. Omit to keep it. A plan with its own `billing_interval_options` must list the new default pair among them, so send options that include it unless they already do. Existing subscriptions keep the interval they already bill on. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -137,12 +136,6 @@ final class UpdateSubscriptionPlanRequestInput extends Model {
      */
     public function getPlanChangeOptions(): array { return $this->get('plan_change_options'); }
     public function hasPlanChangeOptions(): bool { return $this->has('plan_change_options'); }
-    /** Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems: 1. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 1.
-     * @return list<int>
-     * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
-     */
-    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
-    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** New one-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Must be above zero and in the plan's currency. Omit to keep it; send `null` to remove it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_fee_money is omitted; use hasSetupFeeMoney() or valueOrDefault().

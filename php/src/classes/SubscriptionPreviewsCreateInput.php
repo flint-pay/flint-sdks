@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read mixed $body
+ * @property-read array{'destination': mixed, 'mode': string, 'subscription_id': string}|object|array{'mode': string, 'subscription': mixed}|object|array{'delivery_method': mixed, 'delivery_method_id': string, 'mode': string}|object|array{'delivery'?: mixed, 'mode': string, 'subscription_id': string}|object|array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'line_items'?: list<mixed>, 'mode': string, 'subscription_id': string, 'subscription_plan_id': string}|object|array{'billing_starts': string, 'expected_version'?: int, 'line_items': list<mixed>, 'mode': string, 'subscription_id': string}|object|array{'first_cycle'?: int, 'mode': string, 'promotion': mixed, 'replace_promotion_id'?: string, 'subscription_id': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPreviewsCreateInput extends Model {
-    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': mixed}|object $values */
+    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'destination': mixed, 'mode': string, 'subscription_id': string}|object|array{'mode': string, 'subscription': mixed}|object|array{'delivery_method': mixed, 'delivery_method_id': string, 'mode': string}|object|array{'delivery'?: mixed, 'mode': string, 'subscription_id': string}|object|array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'line_items'?: list<mixed>, 'mode': string, 'subscription_id': string, 'subscription_plan_id': string}|object|array{'billing_starts': string, 'expected_version'?: int, 'line_items': list<mixed>, 'mode': string, 'subscription_id': string}|object|array{'first_cycle'?: int, 'mode': string, 'promotion': mixed, 'replace_promotion_id'?: string, 'subscription_id': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewsCreateInput')); }
     /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
@@ -28,7 +28,7 @@ final class SubscriptionPreviewsCreateInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Preview subscription.
-     * @return mixed
+     * @return array{'destination': mixed, 'mode': string, 'subscription_id': string}|object|array{'mode': string, 'subscription': mixed}|object|array{'delivery_method': mixed, 'delivery_method_id': string, 'mode': string}|object|array{'delivery'?: mixed, 'mode': string, 'subscription_id': string}|object|array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'line_items'?: list<mixed>, 'mode': string, 'subscription_id': string, 'subscription_plan_id': string}|object|array{'billing_starts': string, 'expected_version'?: int, 'line_items': list<mixed>, 'mode': string, 'subscription_id': string}|object|array{'first_cycle'?: int, 'mode': string, 'promotion': mixed, 'replace_promotion_id'?: string, 'subscription_id': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): mixed { return $this->get('body'); }

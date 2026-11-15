@@ -16,5 +16,5 @@ The result of creating a customer account link. With link delivery it carries th
 | `recipient_email` | Required | string | Masked customer address receiving the account link. No credential is returned with email delivery. |
 | `return_url` | Required | string or null | The return_url from the request. Null when the request omitted it. |
 | `sent` | Required | boolean | True when Flint accepted the email into its durable delivery queue. Provider delivery runs asynchronously. Values: `true`. |
-| `url` | Optional | string | The single-use bearer URL, present only with link delivery. Format: `uri`. Example: `"https://example.com/receipt"`. |
+| `url` | Optional | string | The single-use bearer URL, present only with link delivery. Returned only to the credential that created it, and omitted when another credential replays the request. Format: `uri`. Example: `"https://example.com/receipt"`. |
 

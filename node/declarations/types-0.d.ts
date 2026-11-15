@@ -364,8 +364,11 @@ export type APIKeyResponse = {
  */
 export type APIKeyWithSecret = (Exclude<APIKey & object, readonly unknown[]>)
     & ({
-    /** One-time secret returned only when the API key is created. */
-    "secret_key": string;
+    /**
+     * One-time secret returned only when the API key is created. Returned only to the credential
+     * that created it, and omitted when another credential replays the request.
+     */
+    "secret_key"?: string;
 });
 /** A record of an API request and its response. */
 export type APIRequestLog = {
@@ -1195,10 +1198,11 @@ export type AccessLink = {
      * The link to send the person to. It carries a bearer credential, so anyone with it can open
      * what its purpose describes until expires_at or until it reaches its open limit. Customer
      * account links use the merchant's customer account host; onboarding links use Flint's
-     * dashboard host and carry the credential in the URL fragment. Format: uri. Example:
-     * "https://example.com/receipt".
+     * dashboard host and carry the credential in the URL fragment. Returned only to the credential
+     * that created it, and omitted when another credential replays the request. Format: uri.
+     * Example: "https://example.com/receipt".
      */
-    "url": string;
+    "url"?: string;
 };
 /** A response containing `AccessLink` data. */
 export type AccessLinkResponse = {

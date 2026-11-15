@@ -10,7 +10,6 @@ namespace Flint;
  * @property-read ?string $description
  * @property-read list<ExpandedSubscriptionPlanSummaryLineItemsItemVariant|ExpandedSubscriptionPlanSummaryLineItemsItemBundle|ExpandedSubscriptionPlanSummaryLineItemsItemCustom|\stdClass>|null $line_items
  * @property-read string $name
- * @property-read ?list<int> $quantity_options
  * @property-read ?MoneyValue $setup_fee_money
  * @property-read string $status
  * @property-read string $subscription_plan_id
@@ -18,7 +17,7 @@ namespace Flint;
  * @property-read ?string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedSubscriptionPlanSummary extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'created_at'?: string, 'currency': string, 'description'?: string, 'line_items'?: list<mixed>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: mixed, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<mixed>, 'created_at'?: string, 'currency': string, 'description'?: string, 'line_items'?: list<mixed>, 'name': string, 'setup_fee_money'?: mixed, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummary')); }
     /** Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with a count of 3 bills every three months. A new subscription starts on the pair the buyer chose from `billing_interval_options`, or on this one when they chose none. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -60,11 +59,6 @@ final class ExpandedSubscriptionPlanSummary extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending order. Flint accepts only a subscription quantity of 1, so you can set this list only to `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     * @return ?list<int>
-     */
-    public function getQuantityOptions(): ?array { return $this->get('quantity_options'); }
-    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** One-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return ?MoneyValue
      */

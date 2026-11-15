@@ -248,7 +248,6 @@ Present for active plan-backed payment links when authoritative subscription ter
 | `line_items` | Required | Array of object | Identified plan lines with buyer quantity permissions and bounds. The checkout freezes the terms when it is created. `line_items[]`: [field definitions](../models/CheckoutSessionResponse.md#checkoutsessionresponsedatasubscription_termsline_items). |
 | `plan_image` | Optional | [Image](../models/Image.md#image) | Plan image shown to the buyer, when configured. An image with its URL, size, and alt text. |
 | `plan_name` | Required | string | Plan name shown to the buyer. |
-| `quantity_options` | Required | Array of integer | Quantities the plan offers, which the buyer chooses among on the checkout this link opens. The same values as the subscription plan's `quantity_options`. maxItems: `10`. uniqueItems: `true`. Items: Format: `int32`. minimum: `1`. maximum: `100`. |
 | `recurring_total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Recurring total for one billing interval, including line quantities and resolved modifiers. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `setup_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Setup fee added to the first amount due, when configured. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `trial_period_days` | Optional | integer | Number of trial days before the first recurring charge, when configured. Format: `int32`. |

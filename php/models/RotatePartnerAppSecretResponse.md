@@ -43,7 +43,7 @@ Resource, collection, or operation result returned by this request. A partner ap
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now: accept_platform_terms while the current platform terms version isn't accepted, `[]` otherwise and for a deleted app. rotate-secret is an operation, not a lifecycle action, so it is never listed. Items values: `"accept_platform_terms"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Starts at 1 and increases by 1 each time the app is updated, its client secret is rotated, its platform terms are accepted, Flint decides on its platform review or changes its platform terms, or it is deleted. Usage in platform.limits.usage and the owning merchant's own onboarding don't change it. Send it as expected_version to apply an update only to the version you read. Format: `uint64`. minimum: `1`. |
-| `client_secret` | Required | string | Newly issued client secret, returned only once after rotation. |
+| `client_secret` | Optional | string | Newly issued client secret, returned only once after rotation. Returned only to the credential that created it, and omitted when another credential replays the request. |
 
 ### RotatePartnerAppSecretResponse.data.merchant_action_routing
 

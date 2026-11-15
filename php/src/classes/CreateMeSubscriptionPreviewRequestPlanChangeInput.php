@@ -5,12 +5,11 @@ namespace Flint;
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
  * @property-read string $mode
- * @property-read int $quantity
  * @property-read string $subscription_id
  * @property-read string $subscription_plan_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateMeSubscriptionPreviewRequestPlanChangeInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'mode': string, 'quantity'?: int, 'subscription_id': string, 'subscription_plan_id': string}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'mode': string, 'subscription_id': string, 'subscription_plan_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateMeSubscriptionPreviewRequestPlanChangeInput')); }
     /** Send with billing_interval_count to choose a target plan option. Omit both to keep the current interval if the target offers that pair, otherwise use the target plan's default interval and count. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -30,12 +29,6 @@ final class CreateMeSubscriptionPreviewRequestPlanChangeInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 1.
-     * @return int
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** The buyer's subscription to preview a plan change for. minLength: 1. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().

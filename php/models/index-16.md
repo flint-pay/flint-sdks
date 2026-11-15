@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# LookupTicketRequestInput to OAuthTokenResponseInput
+# LookupGiftCardRequestInput to OAuthTokenRequestTokenExchangeInput
 
+- [LookupGiftCardRequestInput](LookupGiftCardRequestInput.md)
 - [LookupTicketRequestInput](LookupTicketRequestInput.md)
 - [ManualDiscountRequestInput](ManualDiscountRequestInput.md)
 - [MarkFulfillmentNoShowRequestInput](MarkFulfillmentNoShowRequestInput.md)
@@ -101,5 +102,4 @@
 - [OAuthTokenRequestDeviceCodeInput](OAuthTokenRequestDeviceCodeInput.md)
 - [OAuthTokenRequestRefreshTokenInput](OAuthTokenRequestRefreshTokenInput.md)
 - [OAuthTokenRequestTokenExchangeInput](OAuthTokenRequestTokenExchangeInput.md)
-- [OAuthTokenResponseInput](OAuthTokenResponseInput.md)
 

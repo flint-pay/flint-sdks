@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DeliveryRateEvaluationAllocationInput to DisputeNeedsResponseInstalledMerchantsEventInput
+# DeliveryRateCallbackWithSecretResponseInput to DisputeLostMerchantEventInput
 
+- [DeliveryRateCallbackWithSecretResponseInput](DeliveryRateCallbackWithSecretResponseInput.md)
 - [DeliveryRateEvaluationAllocationInput](DeliveryRateEvaluationAllocationInput.md)
 - [DeliveryRateEvaluationCandidateInput](DeliveryRateEvaluationCandidateInput.md)
 - [DeliveryRateEvaluationExecutionLegInput](DeliveryRateEvaluationExecutionLegInput.md)
@@ -101,5 +102,4 @@
 - [DisputeListResponseInput](DisputeListResponseInput.md)
 - [DisputeLostInstalledMerchantsEventInput](DisputeLostInstalledMerchantsEventInput.md)
 - [DisputeLostMerchantEventInput](DisputeLostMerchantEventInput.md)
-- [DisputeNeedsResponseInstalledMerchantsEventInput](DisputeNeedsResponseInstalledMerchantsEventInput.md)
 

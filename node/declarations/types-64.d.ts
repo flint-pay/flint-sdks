@@ -85,7 +85,7 @@ export type SubscriptionsChangePlanParams = (InputValue<ChangeSubscriptionPlanRe
      */
     "Flint-Sandbox-Id"?: InputValue<string>;
 };
-export type SubscriptionsChangeQuantityParams = (ChangeSubscriptionQuantityRequestInput)
+export type SubscriptionsChangeQuantityParams = (InputValue<ChangeSubscriptionQuantityRequestInput>)
     & {
     /**
      * Merchant this request acts for. Required with an app-level partner app token; optional with
@@ -1335,8 +1335,11 @@ export type TaxCalculationCallbackResponse = {
 export type TaxCalculationCallbackSigningKey = {
     /** ID of the new HMAC signing key. Example: "cbkey_00112233445566778899aabb". */
     "key_id": string;
-    /** New HMAC shared secret. Returned only by this response. */
-    "secret": string;
+    /**
+     * New HMAC shared secret. Returned only by this response. Returned only to the credential that
+     * created it, and omitted when another credential replays the request.
+     */
+    "secret"?: string;
     /**
      * ID of the callback whose secret was issued or rotated, beginning with `tcb_`. Example:
      * "tcb_01KEZF7C00N7SER74Y2E6D1ZGT".

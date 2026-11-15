@@ -9,9 +9,9 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $launch_token_expires_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class MerchantAccountSessionInput extends Model {
-    /** @param array{'client_session': MerchantAccountSessionClientSessionInput|array<array-key, mixed>|\stdClass, 'components': list<string>, 'effective_policy': MerchantAccountSessionEffectivePolicyInput|array<array-key, mixed>|\stdClass, 'launch_token': string, 'launch_token_expires_at': string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'client_session'?: MerchantAccountSessionClientSessionInput|array<array-key, mixed>|\stdClass, 'components': list<string>, 'effective_policy': MerchantAccountSessionEffectivePolicyInput|array<array-key, mixed>|\stdClass, 'launch_token'?: string, 'launch_token_expires_at': string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MerchantAccountSessionInput')); }
-    /** Browser initialization data required to mount embedded account-management components. These instructions are not merchant account resource state. Short-lived browser initialization data for an embedded merchant account session.
+    /** Browser initialization data required to mount embedded account-management components. These instructions are not merchant account resource state. Returned only to the credential that created it, and omitted when another credential replays the request. Short-lived browser initialization data for an embedded merchant account session.
      * @return MerchantAccountSessionClientSessionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When client_session is omitted; use hasClientSession() or valueOrDefault().
      */
@@ -29,7 +29,7 @@ final class MerchantAccountSessionInput extends Model {
      */
     public function getEffectivePolicy(): mixed { return $this->get('effective_policy'); }
     public function hasEffectivePolicy(): bool { return $this->has('effective_policy'); }
-    /** Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new refresh operation rotates this token; a same-key retry replays the original token. The caller must still authenticate and authorize the human using the session.
+    /** Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new refresh operation rotates this token; a same-key retry replays the original token. The caller must still authenticate and authorize the human using the session. Returned only to the credential that created it, and omitted when another credential replays the request.
      * @return string
      * @throws SdkError When launch_token is omitted; use hasLaunchToken() or valueOrDefault().
      */

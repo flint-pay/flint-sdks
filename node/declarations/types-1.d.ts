@@ -31,7 +31,6 @@ import type { CreateBundleRequestInput } from './types-7.js';
 import type { UpdateBundleRequestInput } from './types-66.js';
 import type {
     BuyerPauseActionOptions,
-    BuyerPayBalanceActionOptions,
     BuyerPauseCapability,
     BuyerPauseCapabilityInput,
     BuyerErrorRemediation,
@@ -40,6 +39,7 @@ import type {
     BuyerCreateReturnResolutionPreviewRequestInput
 } from './types-2.js';
 import type {
+    BuyerPayBalanceActionOptions,
     BuyerRetryPaymentActionOptions,
     BuyerRetentionOffer,
     BuyerSkipCapability,

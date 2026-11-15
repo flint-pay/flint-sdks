@@ -490,6 +490,7 @@ export type { KnownWebhookEvent } from './declarations/types-35.js';
 export type { VerifiedWebhook } from './declarations/types-69.js';
 export {
     ClientOptions,
+    CheckoutQuickPayItemRequest,
     CheckoutQuickPayItemRequestInput,
     CheckoutRecoveryEmailSettings,
     CheckoutRecoveryEmailSettingsRequestInput,
@@ -535,7 +536,6 @@ export {
     CheckoutTipConfig,
     CheckoutTipConfigRequestInput,
     CloseCheckoutSessionRequest,
-    CloseCheckoutSessionRequestInput,
     CheckoutSessionsCloseParams,
     CheckoutSessionsConfirmCustomerVerificationParams,
     CheckoutSessionCustomerVerificationConfirmationResponse,
@@ -808,6 +808,7 @@ export {
     BuyerDeliveryFulfillmentDetails,
     BuyerDigitalFulfillmentDetails,
     BuyerEmailChangeRequest,
+    BuyerEmailChangeRequestListResponse,
     BuyerEmailChangeRequestResponse,
     BuyerErrorRemediation,
     BuyerExpandedOrderSummary,
@@ -854,10 +855,10 @@ export {
     BuyerPackageResponse,
     BuyerPauseActionOptions,
     BuyerPauseCapability,
-    BuyerPauseCapabilityInput,
-    BuyerPayBalanceActionOptions
+    BuyerPauseCapabilityInput
 } from './declarations/types-2.js';
 export {
+    BuyerPayBalanceActionOptions,
     BuyerPaymentAttemptPaymentIntent,
     BuyerPaymentCollection,
     BuyerPaymentCollectionStripe,
@@ -920,10 +921,10 @@ export {
     BuyerSubscription,
     BuyerSubscriptionCancellationDetails,
     BuyerSubscriptionInventoryWait,
-    BuyerSubscriptionLineItem,
-    BuyerSubscriptionListResponse
+    BuyerSubscriptionLineItem
 } from './declarations/types-3.js';
 export {
+    BuyerSubscriptionListResponse,
     BuyerSubscriptionPaymentRetry,
     BuyerSubscriptionPaymentRetryListResponse,
     BuyerSubscriptionPaymentRetryResponse,
@@ -975,7 +976,6 @@ export {
     CancelReturnLineItemRequestInput,
     CancelReturnRequest,
     CancelReturnRequestInput,
-    CancelReturnResolutionRequestInput,
     CLIContextsRequest,
     CLIContextsRequestInput,
     CLIContextsResponse,
@@ -1056,6 +1056,7 @@ export {
     makeCreateCheckoutSessionCustomerVerificationRequest
 } from './declarations/types-71.js';
 export {
+    CancelReturnResolutionRequestInput,
     CancelSubscriptionRequest,
     CancelSubscriptionRequestInput,
     CapabilityReadiness,
@@ -1109,7 +1110,6 @@ export {
     CheckoutProblemResource,
     CheckoutPromotionConfig,
     CheckoutPromotionConfigRequestInput,
-    CheckoutQuickPayItemRequest,
     CancelReturnResponse,
     CancelReturnResolutionResponse,
     CategoriesCreateParams,
@@ -1119,6 +1119,7 @@ export {
     CategoriesUpdateParams
 } from './declarations/types-5.js';
 export {
+    CloseCheckoutSessionRequestInput,
     CloseGiftCardRequest,
     CloseGiftCardRequestInput,
     CloseOrderRequest,
@@ -1180,7 +1181,6 @@ export {
     CreateCheckoutSessionPayToNewAddressVerificationRequestInput,
     CreateCheckoutSessionQuickPay,
     CreateCheckoutSessionQuickPayInput,
-    CreateCheckoutSessionRequest,
     CompleteReturnResponse,
     ConfirmReturnResolutionResponse
 } from './declarations/types-7.js';
@@ -1251,6 +1251,7 @@ export {
     makeCreateGiftCardRedemptionRequestManual
 } from './declarations/types-72.js';
 export {
+    CreateCheckoutSessionRequest,
     CreateCheckoutSessionRequestInput,
     CreateCheckoutSessionReturnResolution,
     CreateCheckoutSessionReturnResolutionInput,
@@ -1313,10 +1314,10 @@ export {
     CreateDeliveryRevocationTargetDeliveryRateCallbackRevisionInput,
     CreateDeliveryRevocationTargetDeliveryRateCallbackSigningKeyInput,
     CreateDeliveryRevocationTargetLocationGeographyInput,
-    CreateDeliverySelectionChoiceRequest,
-    CreateDeliverySelectionChoiceRequestInput
+    CreateDeliverySelectionChoiceRequest
 } from './declarations/types-8.js';
 export {
+    CreateDeliverySelectionChoiceRequestInput,
     CreateDeliverySelectionRequest,
     CreateDeliverySelectionRequestInput,
     CreateDeliveryZoneRequest,
@@ -1379,8 +1380,7 @@ export {
     CreateInventoryAdjustmentCountedRequest,
     CreateInventoryAdjustmentCountedRequestInput,
     CreateInventoryAdjustmentQuantityRequest,
-    CreateInventoryAdjustmentQuantityRequestInput,
-    CreateInventoryAdjustmentRequest
+    CreateInventoryAdjustmentQuantityRequestInput
 } from './declarations/types-9.js';
 export {
     makeCreateGiftCardRequest,
@@ -1449,6 +1449,7 @@ export {
     makeCreatePayoutRequest
 } from './declarations/types-73.js';
 export {
+    CreateInventoryAdjustmentRequest,
     CreateInventoryAdjustmentRequestInput,
     CreateInventoryAllocationPolicyRequest,
     CreateInventoryAllocationPolicyRequestInput,
@@ -1495,7 +1496,6 @@ export {
     CreateMeSubscriptionPreviewRequestNextRenewalInput,
     CreateMeSubscriptionPreviewRequestPlanChange,
     CreateMeSubscriptionPreviewRequestPlanChangeInput,
-    CreateMeSubscriptionPreviewRequestQuantityChange,
     CreateMeSubscriptionPreviewRequestQuantityChangeInput,
     CreateModifierGroupRequest,
     CreateModifierGroupRequestInput,

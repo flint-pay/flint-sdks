@@ -11,7 +11,8 @@ const result = await client.subscriptions.updateLineItem(
   "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   {
-    quantity: 1,
+    expected_version: 1,
+    variant_id: "var_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   },
   { idempotencyKey: idempotencyKey },
 );

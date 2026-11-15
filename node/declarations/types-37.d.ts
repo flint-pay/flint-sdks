@@ -357,10 +357,11 @@ export type Merchant = {
 export type MerchantAccountSession = {
     /**
      * Browser initialization data required to mount embedded account-management components. These
-     * instructions are not merchant account resource state. Short-lived browser initialization
-     * data for an embedded merchant account session.
+     * instructions are not merchant account resource state. Returned only to the credential that
+     * created it, and omitted when another credential replays the request. Short-lived browser
+     * initialization data for an embedded merchant account session.
      */
-    "client_session": MerchantAccountSessionClientSession;
+    "client_session"?: MerchantAccountSessionClientSession;
     /**
      * The components the session authorizes, in catalog order. minItems: 1. [] enum:
      * "account_onboarding", "account_management", "payouts", "balances", "tax_documents",
@@ -385,9 +386,10 @@ export type MerchantAccountSession = {
     /**
      * Signed Flint token to exchange at POST /v1/merchant-account-session-refreshes. Each new
      * refresh operation rotates this token; a same-key retry replays the original token. The
-     * caller must still authenticate and authorize the human using the session.
+     * caller must still authenticate and authorize the human using the session. Returned only to
+     * the credential that created it, and omitted when another credential replays the request.
      */
-    "launch_token": string;
+    "launch_token"?: string;
     /**
      * Expiry of launch_token in UTC. After expiry, create a new merchant account session. Format:
      * date-time. Example: "2026-08-02T16:00:00Z".
@@ -806,6 +808,24 @@ export type MerchantBillingBalance = {
      * represented as integer minor units plus an ISO 4217 currency code.
      */
     "outstanding_money": MoneyValue;
+    /**
+     * Due date of the oldest unpaid past-due amount, as an RFC 3339 UTC timestamp. Omitted when
+     * nothing is past due. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "past_due_at"?: string;
+    /**
+     * Amount that is past its due date and still unpaid. Zero when nothing is past due. Monetary
+     * amount represented as integer minor units plus an ISO 4217 currency code.
+     */
+    "past_due_money": MoneyValue;
+    /**
+     * Time at which Flint holds payouts if the past-due amount is still unpaid, as an RFC 3339 UTC
+     * timestamp. The hold can begin later than this while a collection is in progress. Payouts are
+     * actually held when `readiness.payouts.status_reason` on the Merchant is `billing_suspended`.
+     * Omitted when no hold is scheduled, for example when the only past-due amounts never hold
+     * payouts. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     */
+    "payout_hold_at"?: string;
 };
 /** A list of `MerchantBillingBalance` objects. */
 export type MerchantBillingBalanceListResponse = {
@@ -853,6 +873,9 @@ export type MerchantBillingBalanceUpdatedEvent = ((Exclude<MerchantWebhookEnvelo
             "merchant_billing_balance_id": string;
             "observed_at": string;
             "outstanding_money": MoneyValue;
+            "past_due_at"?: string;
+            "past_due_money": MoneyValue;
+            "payout_hold_at"?: string;
         };
         "previous_attributes"?: Partial<MerchantBillingBalance>;
     };

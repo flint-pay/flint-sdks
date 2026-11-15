@@ -12,10 +12,10 @@ import type {
     CancelPayoutRequestInput,
     CancelReturnDispositionRequestInput,
     CancelReturnLineItemRequestInput,
-    CancelReturnRequestInput,
-    CancelReturnResolutionRequestInput
+    CancelReturnRequestInput
 } from './types-4.js';
 import type {
+    CancelReturnResolutionRequestInput,
     CancelSubscriptionRequestInput,
     CapturePaymentIntentRequestInput,
     CapturePaymentSplitRequestInput,
@@ -42,10 +42,10 @@ import type {
     CheckoutSubscriptionTermsRequestInput,
     CheckoutTaxCalculationRequestInput,
     CheckoutTaxConfigRequestInput,
-    CheckoutTipConfigRequestInput,
-    CloseCheckoutSessionRequestInput
+    CheckoutTipConfigRequestInput
 } from './types-6.js';
 import type {
+    CloseCheckoutSessionRequestInput,
     CloseGiftCardRequestInput,
     CloseOrderRequestInput,
     CollectInvoiceRequestInput,

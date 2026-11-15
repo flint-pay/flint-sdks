@@ -1,3 +1,4 @@
+import type { CancelReturnRequestInput } from './types-4.js';
 import type { GetReturnResolutionResponse, GetReturnResponse, GiftCard } from './types-26.js';
 import type { ReadinessAction, ReadinessRequirements } from './types-52.js';
 import type { MoneyValue, MoneyValueInput } from './types-39.js';
@@ -18,7 +19,8 @@ import type { DeliveryInputRequirement } from './types-17.js';
 import type { DeliveryMerchantDiagnostic } from './types-18.js';
 import type { DeliveryQuoteChoiceGroupResource } from './types-20.js';
 import type { ErrorRemediation } from './types-24.js';
-import type { OrderLineItemTax } from './types-41.js';
+/** The request body for: Cancel return resolution. */
+export type CancelReturnResolutionRequestInput = CancelReturnRequestInput;
 export type CancelReturnResolutionResponse = GetReturnResolutionResponse;
 export type CancelReturnResponse = GetReturnResponse;
 /** Cancellation timing and the optional reason and comment recorded with the request. */
@@ -1783,12 +1785,6 @@ export type ChangeMeSubscriptionPlanRequest = ({
      */
     "expected_version"?: number;
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
      */
@@ -1813,12 +1809,6 @@ export type ChangeMeSubscriptionPlanRequestInput = ({
      * the operation and fields being changed. Format: uint64. minimum: 1.
      */
     "expected_version"?: number;
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
     /**
      * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
@@ -1896,12 +1886,6 @@ export type ChangeSubscriptionPlanRequest = ({
      */
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequest>;
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
      */
@@ -1944,19 +1928,13 @@ export type ChangeSubscriptionPlanRequestInput = ({
      */
     "line_items"?: Array<SubscriptionPlanChangeLineItemRequestInput>;
     /**
-     * Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use
-     * line_items for multiple units. Whole-number quantity; fractional quantities are not
-     * supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * The target subscription plan. minLength: 1. pattern: ^plan_[0-9A-HJKMNP-TV-Z]{26}$. Example:
      * "plan_01KEZF7C004CY5ZR33XST2AASV".
      */
     "subscription_plan_id": string;
 });
 /** The request body for: Change subscription quantity. */
-export type ChangeSubscriptionQuantityRequest = ({
+export type ChangeSubscriptionQuantityRequest = {
     /**
      * prorated_now charges the prorated difference now and keeps the current period and anchor;
      * next_renewal changes quantities now without charging; period_end schedules them for the next
@@ -1967,36 +1945,13 @@ export type ChangeSubscriptionQuantityRequest = ({
     "expected_version"?: number;
     /**
      * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
-     */
-    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequest>;
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-})
-    & (({
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity": number;
-})
-    | ({
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
+     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
      * SubscriptionQuantityChangeLineItemRequest}. Quantity for an existing subscription line.
      */
     "line_items": Array<SubscriptionQuantityChangeLineItemRequest>;
-})
-    | (Record<string, unknown>));
+};
 /** The request body for: Change subscription quantity. */
-export type ChangeSubscriptionQuantityRequestInput = ({
+export type ChangeSubscriptionQuantityRequestInput = {
     /**
      * prorated_now charges the prorated difference now and keeps the current period and anchor;
      * next_renewal changes quantities now without charging; period_end schedules them for the next
@@ -2007,33 +1962,11 @@ export type ChangeSubscriptionQuantityRequestInput = ({
     "expected_version"?: number;
     /**
      * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
-     * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
-     */
-    "line_items"?: Array<SubscriptionQuantityChangeLineItemRequestInput>;
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-})
-    & (({
-    /**
-     * The whole-number subscription multiplier; fractional quantities are not supported. Validated
-     * as on subscription PATCH. Omit to keep its current value. Send quantity or line_items.
-     * minimum: 1. maximum: 1.
-     */
-    "quantity": number;
-})
-    | ({
-    /**
-     * Quantities for existing subscription lines, with distinct IDs. Omitted lines keep their
-     * quantities. Send quantity or line_items. minItems: 1. maxItems: 50. [] (Value): {@link
+     * quantities. line_items is required. minItems: 1. maxItems: 50. [] (Value): {@link
      * SubscriptionQuantityChangeLineItemRequestInput}. Quantity for an existing subscription line.
      */
     "line_items": Array<SubscriptionQuantityChangeLineItemRequestInput>;
-}));
+};
 /** An optional admission code to verify and an optional version fence. */
 export type CheckInTicketRequest = {
     /**
@@ -2464,18 +2397,3 @@ export type CheckoutPromotionConfig = {
  * apply promotion codes.
  */
 export type CheckoutPromotionConfigRequestInput = CheckoutPromotionConfig;
-/**
- * A single custom item to charge on a checkout session, supplied as `quick_pay_item`: a name, an
- * amount, and optional tax settings.
- */
-export type CheckoutQuickPayItemRequest = {
-    /**
-     * Amount the buyer pays for the item. Monetary amount represented as integer minor units plus
-     * an ISO 4217 currency code.
-     */
-    "amount_money": MoneyValue;
-    /** Name shown for the item. minLength: 1. */
-    "name": string;
-    /** Tax settings for the item. A line item's tax category and whether it is taxable. */
-    "tax"?: OrderLineItemTax;
-};

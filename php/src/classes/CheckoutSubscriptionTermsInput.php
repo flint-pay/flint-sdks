@@ -15,8 +15,6 @@ namespace Flint;
  * @property-read bool $gifts_enabled
  * @property-read list<array{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object> $line_items
  * @property-read string $plan_name
- * @property-read int $quantity
- * @property-read list<int> $quantity_options
  * @property-read CheckoutSubscriptionRecurringShippingInput|array<array-key, mixed>|\stdClass $recurring_shipping
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $recurring_total_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $setup_fee_money
@@ -24,7 +22,7 @@ namespace Flint;
  * @property-read int $trial_period_days
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSubscriptionTermsInput extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_required': bool, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_recipient': array{'email': string, 'message': string|null, 'name': string|null, ...}|object|null, 'gifts_enabled': bool, 'line_items': list<array{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>, 'plan_name': string, 'quantity': int, 'quantity_options': list<int>, 'recurring_shipping'?: CheckoutSubscriptionRecurringShippingInput|array<array-key, mixed>|\stdClass, 'recurring_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'delivery_required': bool, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_recipient': array{'email': string, 'message': string|null, 'name': string|null, ...}|object|null, 'gifts_enabled': bool, 'line_items': list<array{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>, 'plan_name': string, 'recurring_shipping'?: CheckoutSubscriptionRecurringShippingInput|array<array-key, mixed>|\stdClass, 'recurring_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'subscription_plan_id': string, 'trial_period_days'?: int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSubscriptionTermsInput')); }
     /** Unit of the billing period this checkout currently charges on. It starts as the interval chosen when the checkout session was created, or the plan's default when none was chosen, and changes when the buyer picks another option. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -92,7 +90,7 @@ final class CheckoutSubscriptionTermsInput extends Model {
      */
     public function getGiftsEnabled(): bool { return $this->get('gifts_enabled'); }
     public function hasGiftsEnabled(): bool { return $this->has('gifts_enabled'); }
-    /** Identified frozen plan lines with buyer quantity permissions and bounds. [] (Value): object. [].allow_quantity_adjustment (Required): boolean. Whether the buyer may adjust this line quantity. [].max_quantity (Required): integer. Maximum buyer quantity, defaulting to 9999. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].min_quantity (Required): integer. Minimum buyer quantity, defaulting to 1. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].name (Required): string. The captured line name. [].quantity (Required): integer. The line quantity, before the subscription quantity multiplier. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].subscription_plan_line_item_id (Optional): string. The plan line whose terms were captured. Absent when an older snapshot did not record its plan line ID. pattern: ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N". [].unit_price_money (Required): {@see MoneyValueInput}. The captured unit price. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Identified frozen plan lines with buyer quantity permissions and bounds. [] (Value): object. [].allow_quantity_adjustment (Required): boolean. Whether the buyer may adjust this line quantity. [].max_quantity (Required): integer. Maximum buyer quantity, defaulting to 9999. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].min_quantity (Required): integer. Minimum buyer quantity, defaulting to 1. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].name (Required): string. The captured line name. [].quantity (Required): integer. The line quantity is the seat count. Nothing multiplies it. Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].subscription_plan_line_item_id (Optional): string. The plan line whose terms were captured. Absent when an older snapshot did not record its plan line ID. pattern: ^spli_[0-9A-HJKMNP-TV-Z]{26}$. Example: "spli_01KEZF7C00H9FGC2KBRF82H87N". [].unit_price_money (Required): {@see MoneyValueInput}. The captured unit price. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return list<array{'allow_quantity_adjustment': bool, 'max_quantity': int, 'min_quantity': int, 'name': string, 'quantity': int, 'subscription_plan_line_item_id'?: string, 'unit_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -104,18 +102,6 @@ final class CheckoutSubscriptionTermsInput extends Model {
      */
     public function getPlanName(): string { return $this->get('plan_name'); }
     public function hasPlanName(): bool { return $this->has('plan_name'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * @return int
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Quantities the plan offered when the session was created, in ascending order. The same values as the plan's `quantity_options`. Flint accepts only a subscription quantity of 1. minItems: 1. [] (Value): integer. Format: int32.
-     * @return list<int>
-     * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
-     */
-    public function getQuantityOptions(): array { return $this->get('quantity_options'); }
-    public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
     /** Shipping that renews with each charge, for the delivery method the buyer chose. Omitted when no delivery method applies to the plan's lines. Recurring shipping charged on a checkout's subscription: the delivery method name, whether the price is fixed or quoted, and the amount.
      * @return CheckoutSubscriptionRecurringShippingInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recurring_shipping is omitted; use hasRecurringShipping() or valueOrDefault().

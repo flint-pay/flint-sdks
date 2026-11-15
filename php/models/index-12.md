@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# GetReturnPolicyRevisionResponseInput to InventoryAdjustmentLineInput
+# GetReturnPolicyResponseInput to InventoryAdjustmentConditionChangeLineRequestInput
 
+- [GetReturnPolicyResponseInput](GetReturnPolicyResponseInput.md)
 - [GetReturnPolicyRevisionResponseInput](GetReturnPolicyRevisionResponseInput.md)
 - [GetReturnReasonResponseInput](GetReturnReasonResponseInput.md)
 - [GetReturnReceiptResponseInput](GetReturnReceiptResponseInput.md)
@@ -101,5 +102,4 @@
 - [InventoryActionRequiredInput](InventoryActionRequiredInput.md)
 - [InventoryAdjustmentInput](InventoryAdjustmentInput.md)
 - [InventoryAdjustmentConditionChangeLineRequestInput](InventoryAdjustmentConditionChangeLineRequestInput.md)
-- [InventoryAdjustmentLineInput](InventoryAdjustmentLineInput.md)
 

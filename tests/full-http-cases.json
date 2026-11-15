@@ -3023,5 +3023,432 @@
       "outcome": "not_sent"
     },
     "attempts": 0
+  },
+  {
+    "name": "Checkout confirm saved",
+    "operation": "confirmPaymentIntent",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "payment_intent_id": "pi_synthetic",
+      "body": {
+        "payment_source": {
+          "credential_type": "payment_method",
+          "payment_method_id": "pm_01ARZ3NDEKTSV4RRFFQ69G5FAV"
+        }
+      }
+    },
+    "options": {
+      "authMode": "checkout",
+      "credentials": {
+        "CheckoutSessionBearer": "checkout-synthetic"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/payment-intents/pi_synthetic/confirm",
+      "headers": {
+        "authorization": "Bearer checkout-synthetic",
+        "idempotency-key": "synthetic-fixture-action-key"
+      },
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
+      "body": "{\"payment_source\":{\"credential_type\":\"payment_method\",\"payment_method_id\":\"pm_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
+      }
+    ],
+    "error": {
+      "name": "InvalidRequestError",
+      "code": "SDK_TEST",
+      "status": 400,
+      "outcome": "response"
+    },
+    "attempts": 1
+  },
+  {
+    "name": "Checkout confirm confirmation token",
+    "operation": "confirmPaymentIntent",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "payment_intent_id": "pi_synthetic",
+      "body": {
+        "payment_source": {
+          "credential_type": "stripe_confirmation_token",
+          "stripe": {
+            "confirmation_token": "ctoken_synthetic"
+          }
+        }
+      }
+    },
+    "options": {
+      "authMode": "checkout",
+      "credentials": {
+        "CheckoutSessionBearer": "checkout-synthetic"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/payment-intents/pi_synthetic/confirm",
+      "headers": {
+        "authorization": "Bearer checkout-synthetic",
+        "idempotency-key": "synthetic-fixture-action-key"
+      },
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
+      "body": "{\"payment_source\":{\"credential_type\":\"stripe_confirmation_token\",\"stripe\":{\"confirmation_token\":\"ctoken_synthetic\"}}}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
+      }
+    ],
+    "error": {
+      "name": "InvalidRequestError",
+      "code": "SDK_TEST",
+      "status": 400,
+      "outcome": "response"
+    },
+    "attempts": 1
+  },
+  {
+    "name": "Checkout confirm Stripe method",
+    "operation": "confirmPaymentIntent",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "payment_intent_id": "pi_synthetic",
+      "body": {
+        "payment_source": {
+          "credential_type": "stripe_payment_method",
+          "stripe": {
+            "payment_method": "pm_synthetic"
+          }
+        }
+      }
+    },
+    "options": {
+      "authMode": "checkout",
+      "credentials": {
+        "CheckoutSessionBearer": "checkout-synthetic"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/payment-intents/pi_synthetic/confirm",
+      "headers": {
+        "authorization": "Bearer checkout-synthetic",
+        "idempotency-key": "synthetic-fixture-action-key"
+      },
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
+      "body": "{\"payment_source\":{\"credential_type\":\"stripe_payment_method\",\"stripe\":{\"payment_method\":\"pm_synthetic\"}}}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
+      }
+    ],
+    "error": {
+      "name": "InvalidRequestError",
+      "code": "SDK_TEST",
+      "status": 400,
+      "outcome": "response"
+    },
+    "attempts": 1
+  },
+  {
+    "name": "Checkout recovery confirm without a source",
+    "operation": "confirmPaymentIntent",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "payment_intent_id": "pi_synthetic",
+      "body": {}
+    },
+    "options": {
+      "authMode": "checkout",
+      "credentials": {
+        "CheckoutSessionBearer": "checkout-synthetic"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/payment-intents/pi_synthetic/confirm",
+      "headers": {
+        "authorization": "Bearer checkout-synthetic",
+        "idempotency-key": "synthetic-fixture-action-key"
+      },
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
+      "body": "{}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
+      }
+    ],
+    "error": {
+      "name": "InvalidRequestError",
+      "code": "SDK_TEST",
+      "status": 400,
+      "outcome": "response"
+    },
+    "attempts": 1
+  },
+  {
+    "name": "Flat order payment-intent creation uses the order counter",
+    "operation": "createPaymentIntent",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "body": {
+        "order_id": "ord_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        "expected_order_version": 1
+      }
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/payment-intents",
+      "headers": {
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "synthetic-fixture-action-key"
+      },
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
+      "body": "{\"expected_order_version\":1,\"order_id\":\"ord_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
+      }
+    ],
+    "error": {
+      "name": "InvalidRequestError",
+      "code": "SDK_TEST",
+      "status": 400,
+      "outcome": "response"
+    },
+    "attempts": 1
+  },
+  {
+    "name": "Continue setup without resending a credential",
+    "operation": "payOrder",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "order_id": "ord_synthetic",
+      "body": {
+        "action": "setup"
+      }
+    },
+    "options": {
+      "authMode": "checkout",
+      "credentials": {
+        "CheckoutSessionBearer": "checkout-synthetic"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/orders/ord_synthetic/pay",
+      "headers": {
+        "authorization": "Bearer checkout-synthetic",
+        "idempotency-key": "synthetic-fixture-action-key"
+      },
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
+      "body": "{\"action\":\"setup\"}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
+      }
+    ],
+    "error": {
+      "name": "InvalidRequestError",
+      "code": "SDK_TEST",
+      "status": 400,
+      "outcome": "response"
+    },
+    "attempts": 1
+  },
+  {
+    "name": "Subscription line quantities merchant",
+    "operation": "changeSubscriptionQuantity",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "subscription_id": "sub_synthetic",
+      "body": {
+        "billing_starts": "period_end",
+        "line_items": [
+          {
+            "subscription_line_item_id": "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+            "quantity": 6
+          }
+        ]
+      }
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/subscriptions/sub_synthetic/change-quantity",
+      "headers": {
+        "authorization": "Bearer merchant-test",
+        "idempotency-key": "synthetic-fixture-action-key"
+      },
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
+      "body": "{\"billing_starts\":\"period_end\",\"line_items\":[{\"quantity\":6,\"subscription_line_item_id\":\"sli_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}]}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
+      }
+    ],
+    "error": {
+      "name": "InvalidRequestError",
+      "code": "SDK_TEST",
+      "status": 400,
+      "outcome": "response"
+    },
+    "attempts": 1
+  },
+  {
+    "name": "Retired subscription multiplier rejected merchant",
+    "operation": "changeSubscriptionQuantity",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "subscription_id": "sub_synthetic",
+      "body": {
+        "billing_starts": "period_end",
+        "quantity": 1
+      }
+    },
+    "options": {
+      "authMode": "merchant",
+      "credentials": {
+        "BearerAuth": "merchant-test"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "responses": [],
+    "error": {
+      "name": "InvalidInputError",
+      "code": "INVALID_REQUEST",
+      "outcome": "not_sent"
+    },
+    "attempts": 0
+  },
+  {
+    "name": "Subscription line quantities buyer",
+    "operation": "changeMeSubscriptionQuantity",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "subscription_id": "sub_synthetic",
+      "body": {
+        "billing_starts": "period_end",
+        "line_items": [
+          {
+            "subscription_line_item_id": "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+            "quantity": 6
+          }
+        ]
+      }
+    },
+    "options": {
+      "authMode": "customer",
+      "credentials": {
+        "CustomerSessionBearer": "customer-synthetic"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "expected": {
+      "method": "POST",
+      "path": "/v1/me/subscriptions/sub_synthetic/change-quantity",
+      "headers": {
+        "authorization": "Bearer customer-synthetic",
+        "idempotency-key": "synthetic-fixture-action-key"
+      },
+      "absentHeaders": [
+        "x-checkout-session-id",
+        "x-checkout-session-secret"
+      ],
+      "body": "{\"billing_starts\":\"period_end\",\"line_items\":[{\"quantity\":6,\"subscription_line_item_id\":\"sli_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}]}"
+    },
+    "responses": [
+      {
+        "status": 400,
+        "body": "{\"error\":{\"code\":\"SDK_TEST\",\"message\":\"Synthetic error after dispatch\",\"doc_url\":\"https://developers.withflintpay.com/errors/SDK_TEST\",\"request_id\":\"req_00000000000000000000000000\",\"error_source\":\"flint\",\"remediation\":{\"retry\":\"none\"},\"type\":\"invalid_request_error\"}}"
+      }
+    ],
+    "error": {
+      "name": "InvalidRequestError",
+      "code": "SDK_TEST",
+      "status": 400,
+      "outcome": "response"
+    },
+    "attempts": 1
+  },
+  {
+    "name": "Retired subscription multiplier rejected buyer",
+    "operation": "changeMeSubscriptionQuantity",
+    "baseUrl": "https://api.example.invalid",
+    "input": {
+      "subscription_id": "sub_synthetic",
+      "body": {
+        "billing_starts": "period_end",
+        "quantity": 1
+      }
+    },
+    "options": {
+      "authMode": "customer",
+      "credentials": {
+        "CustomerSessionBearer": "customer-synthetic"
+      },
+      "idempotencyKey": "synthetic-fixture-action-key"
+    },
+    "responses": [],
+    "error": {
+      "name": "InvalidInputError",
+      "code": "INVALID_REQUEST",
+      "outcome": "not_sent"
+    },
+    "attempts": 0
   }
 ]

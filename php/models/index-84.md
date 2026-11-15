@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# SubscriptionPaymentRetrySucceededMerchantEventData to TicketVoidedInstalledMerchantsEvent
+# SubscriptionPaymentRetryFailedInstalledMerchantsEvent to TicketVoidedInstalledMerchantsEvent
 
+- [SubscriptionPaymentRetryFailedInstalledMerchantsEvent](SubscriptionPaymentRetryFailedInstalledMerchantsEvent.md)
+- [SubscriptionPaymentRetrySucceededMerchantEventDataObject](SubscriptionPaymentRetrySucceededMerchantEventDataObject.md)
 - [SubscriptionPaymentRetrySucceededMerchantEventData](SubscriptionPaymentRetrySucceededMerchantEventData.md)
 - [SubscriptionPaymentRetrySucceededMerchantEventRequest](SubscriptionPaymentRetrySucceededMerchantEventRequest.md)
 - [SubscriptionPaymentRetrySucceededMerchantEvent](SubscriptionPaymentRetrySucceededMerchantEvent.md)

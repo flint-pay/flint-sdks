@@ -5,12 +5,11 @@ namespace Flint;
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
  * @property-read list<SubscriptionPlanChangeLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
- * @property-read int $quantity
  * @property-read string $subscription_plan_id
  * @property-read string $type
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionPlanTermsRequestInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'line_items'?: list<SubscriptionPlanChangeLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'quantity'?: int, 'subscription_plan_id': string, 'type': string}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'line_items'?: list<SubscriptionPlanChangeLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'subscription_plan_id': string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPlanTermsRequestInput')); }
     /** Unit of the billing period to subscribe on. Send it with `billing_interval_count`, and only a pair the plan offers in `billing_interval_options`; omit both to use the plan's default pair. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
@@ -30,12 +29,6 @@ final class SubscriptionPlanTermsRequestInput extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32. minimum: 1. maximum: 1. Default: 1.
-     * @return int
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** ID of the plan to subscribe to. The plan must be active. minLength: 1. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().

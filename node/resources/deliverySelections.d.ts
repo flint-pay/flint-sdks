@@ -61,8 +61,7 @@ export type {
     CheckoutTheme,
     CheckoutTipConfig
 } from '../declarations/types-6.js';
-export type { CreateDeliverySelectionRequestInput } from '../declarations/types-9.js';
-export type { CreateDeliverySelectionChoiceRequestInput } from '../declarations/types-8.js';
+export type { CreateDeliverySelectionRequestInput, CreateDeliverySelectionChoiceRequestInput } from '../declarations/types-9.js';
 export type { AddressRequestInput, Address, AddressRequest } from '../declarations/types-0.js';
 export type {
     AuthMode,
@@ -186,8 +185,7 @@ export type {
     BuyerInstructionsConfig,
     BuyerExpandedOrderSummary,
     BuyerExpandedPaymentIntentSummary,
-    BuyerPauseActionOptions,
-    BuyerPayBalanceActionOptions
+    BuyerPauseActionOptions
 } from '../declarations/types-2.js';
 export type { DeliveryLocationSummaryResource, DeliveryMerchantDiagnostic } from '../declarations/types-18.js';
 export type { DeliveryRecipientRequirement, DeliveryRecipientResource } from '../declarations/types-21.js';
@@ -218,7 +216,7 @@ export type {
     PaymentSourceCardSummary,
     PaymentSourceCardPresentDetails
 } from '../declarations/types-47.js';
-export type { BuyerRefund, BuyerPaymentRefund, BuyerRetryPaymentActionOptions } from '../declarations/types-3.js';
+export type { BuyerRefund, BuyerPaymentRefund, BuyerPayBalanceActionOptions, BuyerRetryPaymentActionOptions } from '../declarations/types-3.js';
 export type {
     RefundLineItemAllocation,
     RefundLineItemAdjustmentRefund,

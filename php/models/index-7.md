@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CreditNoteInput to DecideReturnInspectionLineItemResponseInput
+# CreateWorkloadIdentityRequestInput to DecideReturnInspectionLineItemRequestInput
 
+- [CreateWorkloadIdentityRequestInput](CreateWorkloadIdentityRequestInput.md)
 - [CreditNoteInput](CreditNoteInput.md)
 - [CreditNoteAllocationInput](CreditNoteAllocationInput.md)
 - [CreditNoteAllocationCreatedInstalledMerchantsEventInput](CreditNoteAllocationCreatedInstalledMerchantsEventInput.md)
@@ -101,5 +102,4 @@
 - [CustomFieldAnswerTextInput](CustomFieldAnswerTextInput.md)
 - [CustomFieldAnswerTextareaInput](CustomFieldAnswerTextareaInput.md)
 - [DecideReturnInspectionLineItemRequestInput](DecideReturnInspectionLineItemRequestInput.md)
-- [DecideReturnInspectionLineItemResponseInput](DecideReturnInspectionLineItemResponseInput.md)
 

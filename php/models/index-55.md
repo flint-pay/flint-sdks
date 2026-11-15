@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# BalanceUpdatedInstalledMerchantsEventData to CheckoutSessionExpiredMerchantEventDataObjectCustomFieldAnswersItemText
+# BalanceUpdatedMerchantEvent to CheckoutSessionCreatedInstalledMerchantsEventSource
 
+- [BalanceUpdatedMerchantEvent](BalanceUpdatedMerchantEvent.md)
+- [BalanceUpdatedInstalledMerchantsEventDataObject](BalanceUpdatedInstalledMerchantsEventDataObject.md)
 - [BalanceUpdatedInstalledMerchantsEventData](BalanceUpdatedInstalledMerchantsEventData.md)
 - [BalanceUpdatedInstalledMerchantsEventSource](BalanceUpdatedInstalledMerchantsEventSource.md)
 - [BalanceUpdatedInstalledMerchantsEvent](BalanceUpdatedInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [CheckoutSessionCreatedInstalledMerchantsEventDataObject](CheckoutSessionCreatedInstalledMerchantsEventDataObject.md)
 - [CheckoutSessionCreatedInstalledMerchantsEventData](CheckoutSessionCreatedInstalledMerchantsEventData.md)
 - [CheckoutSessionCreatedInstalledMerchantsEventSource](CheckoutSessionCreatedInstalledMerchantsEventSource.md)
-- [CheckoutSessionCreatedInstalledMerchantsEvent](CheckoutSessionCreatedInstalledMerchantsEvent.md)
-- [CheckoutSessionExpiredMerchantEventDataObjectCustomFieldAnswersItemText](CheckoutSessionExpiredMerchantEventDataObjectCustomFieldAnswersItemText.md)
 

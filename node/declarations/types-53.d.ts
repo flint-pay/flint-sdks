@@ -45,46 +45,47 @@ export type RefundFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
+     * refund. A payment_returned refund that failed with refund_abandoned can't be retried through
+     * Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them
+     * another way if you haven't already. Fix the cause, then create a new refund with a new
+     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". object.idempotency_key (Optional): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response. object.initiated_by (Required):
+     * string. Who decided to make this refund: `merchant` for you or your integration, `flint` for
+     * a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". object.invoice_id (Optional): string. ID of the invoice whose credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. object.line_item_allocations[] (Value): {@link
+     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
+     * amount, tax, adjustments, and modifier allocations. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_edit_id
+     * (Optional): string. ID of the paid-order edit that created this refund. Present only on
+     * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * object.order_id (Optional): string. ID of the order the refund was issued against. For a
+     * refund with `reason` `payment_returned`, the order the returned payment was for; the order
+     * never received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
      * ID of the payment the refund was issued against, when it targeted one payment.
      * `payment_refunds` lists every payment it returned money through. Example:
@@ -185,26 +186,27 @@ export type RefundFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
          * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+         * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another
+         * way if you haven't already. Fix the cause, then create a new refund with a new
+         * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+         * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+         * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+         * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+         * "refund_failed". idempotency_key (Optional): string. The caller's Idempotency-Key when
+         * this refund was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. initiated_by (Required):
+         * string. Who decided to make this refund: `merchant` for you or your integration, `flint`
+         * for a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+         * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value enum:
+         * "merchant", "flint". invoice_id (Optional): string. ID of the invoice whose credit note
+         * this refund paid out. Present only on refunds issued through a credit note. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation}. How the refund applied to each order line item it covered,
+         * with quantity, tax, and adjustments. line_item_allocations[] (Value): {@link
+         * RefundLineItemAllocation}. How a refund applied to one order line item: quantity,
+         * refunded amount, tax, adjustments, and modifier allocations. merchant_id (Required):
+         * string. ID of the merchant this resource belongs to. Example:
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
          * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
          * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
@@ -335,13 +337,14 @@ export type RefundFailedMerchantEvent = (Exclude<MerchantWebhookEnvelope & objec
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -1211,46 +1214,47 @@ export type RefundPartiallySucceededInstalledMerchantsEvent = (Exclude<PartnerWe
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
+     * refund. A payment_returned refund that failed with refund_abandoned can't be retried through
+     * Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them
+     * another way if you haven't already. Fix the cause, then create a new refund with a new
+     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". object.idempotency_key (Optional): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response. object.initiated_by (Required):
+     * string. Who decided to make this refund: `merchant` for you or your integration, `flint` for
+     * a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". object.invoice_id (Optional): string. ID of the invoice whose credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. object.line_item_allocations[] (Value): {@link
+     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
+     * amount, tax, adjustments, and modifier allocations. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_edit_id
+     * (Optional): string. ID of the paid-order edit that created this refund. Present only on
+     * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * object.order_id (Optional): string. ID of the order the refund was issued against. For a
+     * refund with `reason` `payment_returned`, the order the returned payment was for; the order
+     * never received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
      * ID of the payment the refund was issued against, when it targeted one payment.
      * `payment_refunds` lists every payment it returned money through. Example:
@@ -1351,26 +1355,27 @@ export type RefundPartiallySucceededInstalledMerchantsEvent = (Exclude<PartnerWe
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
          * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+         * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another
+         * way if you haven't already. Fix the cause, then create a new refund with a new
+         * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+         * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+         * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+         * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+         * "refund_failed". idempotency_key (Optional): string. The caller's Idempotency-Key when
+         * this refund was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. initiated_by (Required):
+         * string. Who decided to make this refund: `merchant` for you or your integration, `flint`
+         * for a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+         * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value enum:
+         * "merchant", "flint". invoice_id (Optional): string. ID of the invoice whose credit note
+         * this refund paid out. Present only on refunds issued through a credit note. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation}. How the refund applied to each order line item it covered,
+         * with quantity, tax, and adjustments. line_item_allocations[] (Value): {@link
+         * RefundLineItemAllocation}. How a refund applied to one order line item: quantity,
+         * refunded amount, tax, adjustments, and modifier allocations. merchant_id (Required):
+         * string. ID of the merchant this resource belongs to. Example:
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
          * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
          * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
@@ -1501,13 +1506,14 @@ export type RefundPartiallySucceededInstalledMerchantsEvent = (Exclude<PartnerWe
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -1808,46 +1814,47 @@ export type RefundPartiallySucceededMerchantEvent = (Exclude<MerchantWebhookEnve
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
+     * refund. A payment_returned refund that failed with refund_abandoned can't be retried through
+     * Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them
+     * another way if you haven't already. Fix the cause, then create a new refund with a new
+     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". object.idempotency_key (Optional): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response. object.initiated_by (Required):
+     * string. Who decided to make this refund: `merchant` for you or your integration, `flint` for
+     * a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". object.invoice_id (Optional): string. ID of the invoice whose credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. object.line_item_allocations[] (Value): {@link
+     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
+     * amount, tax, adjustments, and modifier allocations. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_edit_id
+     * (Optional): string. ID of the paid-order edit that created this refund. Present only on
+     * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * object.order_id (Optional): string. ID of the order the refund was issued against. For a
+     * refund with `reason` `payment_returned`, the order the returned payment was for; the order
+     * never received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
      * ID of the payment the refund was issued against, when it targeted one payment.
      * `payment_refunds` lists every payment it returned money through. Example:
@@ -1948,26 +1955,27 @@ export type RefundPartiallySucceededMerchantEvent = (Exclude<MerchantWebhookEnve
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
          * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+         * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another
+         * way if you haven't already. Fix the cause, then create a new refund with a new
+         * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+         * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+         * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+         * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+         * "refund_failed". idempotency_key (Optional): string. The caller's Idempotency-Key when
+         * this refund was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. initiated_by (Required):
+         * string. Who decided to make this refund: `merchant` for you or your integration, `flint`
+         * for a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+         * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value enum:
+         * "merchant", "flint". invoice_id (Optional): string. ID of the invoice whose credit note
+         * this refund paid out. Present only on refunds issued through a credit note. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation}. How the refund applied to each order line item it covered,
+         * with quantity, tax, and adjustments. line_item_allocations[] (Value): {@link
+         * RefundLineItemAllocation}. How a refund applied to one order line item: quantity,
+         * refunded amount, tax, adjustments, and modifier allocations. merchant_id (Required):
+         * string. ID of the merchant this resource belongs to. Example:
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
          * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
          * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
@@ -2098,13 +2106,14 @@ export type RefundPartiallySucceededMerchantEvent = (Exclude<MerchantWebhookEnve
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -2549,46 +2558,47 @@ export type RefundSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
+     * refund. A payment_returned refund that failed with refund_abandoned can't be retried through
+     * Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them
+     * another way if you haven't already. Fix the cause, then create a new refund with a new
+     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". object.idempotency_key (Optional): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response. object.initiated_by (Required):
+     * string. Who decided to make this refund: `merchant` for you or your integration, `flint` for
+     * a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". object.invoice_id (Optional): string. ID of the invoice whose credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. object.line_item_allocations[] (Value): {@link
+     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
+     * amount, tax, adjustments, and modifier allocations. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_edit_id
+     * (Optional): string. ID of the paid-order edit that created this refund. Present only on
+     * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * object.order_id (Optional): string. ID of the order the refund was issued against. For a
+     * refund with `reason` `payment_returned`, the order the returned payment was for; the order
+     * never received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
      * ID of the payment the refund was issued against, when it targeted one payment.
      * `payment_refunds` lists every payment it returned money through. Example:
@@ -2689,26 +2699,27 @@ export type RefundSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
          * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+         * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another
+         * way if you haven't already. Fix the cause, then create a new refund with a new
+         * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+         * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+         * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+         * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+         * "refund_failed". idempotency_key (Optional): string. The caller's Idempotency-Key when
+         * this refund was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. initiated_by (Required):
+         * string. Who decided to make this refund: `merchant` for you or your integration, `flint`
+         * for a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+         * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value enum:
+         * "merchant", "flint". invoice_id (Optional): string. ID of the invoice whose credit note
+         * this refund paid out. Present only on refunds issued through a credit note. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation}. How the refund applied to each order line item it covered,
+         * with quantity, tax, and adjustments. line_item_allocations[] (Value): {@link
+         * RefundLineItemAllocation}. How a refund applied to one order line item: quantity,
+         * refunded amount, tax, adjustments, and modifier allocations. merchant_id (Required):
+         * string. ID of the merchant this resource belongs to. Example:
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
          * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
          * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
@@ -2839,13 +2850,14 @@ export type RefundSucceededInstalledMerchantsEvent = (Exclude<PartnerWebhookEnve
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -3146,46 +3158,47 @@ export type RefundSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
+     * refund. A payment_returned refund that failed with refund_abandoned can't be retried through
+     * Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them
+     * another way if you haven't already. Fix the cause, then create a new refund with a new
+     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". object.idempotency_key (Optional): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response. object.initiated_by (Required):
+     * string. Who decided to make this refund: `merchant` for you or your integration, `flint` for
+     * a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". object.invoice_id (Optional): string. ID of the invoice whose credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. object.line_item_allocations[] (Value): {@link
+     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
+     * amount, tax, adjustments, and modifier allocations. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_edit_id
+     * (Optional): string. ID of the paid-order edit that created this refund. Present only on
+     * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * object.order_id (Optional): string. ID of the order the refund was issued against. For a
+     * refund with `reason` `payment_returned`, the order the returned payment was for; the order
+     * never received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
      * ID of the payment the refund was issued against, when it targeted one payment.
      * `payment_refunds` lists every payment it returned money through. Example:
@@ -3286,26 +3299,27 @@ export type RefundSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
          * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+         * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another
+         * way if you haven't already. Fix the cause, then create a new refund with a new
+         * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+         * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+         * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+         * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+         * "refund_failed". idempotency_key (Optional): string. The caller's Idempotency-Key when
+         * this refund was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. initiated_by (Required):
+         * string. Who decided to make this refund: `merchant` for you or your integration, `flint`
+         * for a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+         * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value enum:
+         * "merchant", "flint". invoice_id (Optional): string. ID of the invoice whose credit note
+         * this refund paid out. Present only on refunds issued through a credit note. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation}. How the refund applied to each order line item it covered,
+         * with quantity, tax, and adjustments. line_item_allocations[] (Value): {@link
+         * RefundLineItemAllocation}. How a refund applied to one order line item: quantity,
+         * refunded amount, tax, adjustments, and modifier allocations. merchant_id (Required):
+         * string. ID of the merchant this resource belongs to. Example:
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
          * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
          * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
@@ -3436,13 +3450,14 @@ export type RefundSucceededMerchantEvent = (Exclude<MerchantWebhookEnvelope & ob
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -3766,9 +3781,10 @@ export type RefundTenderAllocation = {
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
      * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-     * payment_returned refund that failed with refund_abandoned cannot be retried through Flint;
-     * the store must arrange repayment outside Flint. Fix the cause, then create a new refund with
-     * a new idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
      * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
      * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
      * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
@@ -4399,46 +4415,47 @@ export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
+     * refund. A payment_returned refund that failed with refund_abandoned can't be retried through
+     * Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them
+     * another way if you haven't already. Fix the cause, then create a new refund with a new
+     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". object.idempotency_key (Optional): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response. object.initiated_by (Required):
+     * string. Who decided to make this refund: `merchant` for you or your integration, `flint` for
+     * a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". object.invoice_id (Optional): string. ID of the invoice whose credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. object.line_item_allocations[] (Value): {@link
+     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
+     * amount, tax, adjustments, and modifier allocations. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_edit_id
+     * (Optional): string. ID of the paid-order edit that created this refund. Present only on
+     * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * object.order_id (Optional): string. ID of the order the refund was issued against. For a
+     * refund with `reason` `payment_returned`, the order the returned payment was for; the order
+     * never received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
      * ID of the payment the refund was issued against, when it targeted one payment.
      * `payment_refunds` lists every payment it returned money through. Example:
@@ -4539,26 +4556,27 @@ export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
          * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+         * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another
+         * way if you haven't already. Fix the cause, then create a new refund with a new
+         * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+         * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+         * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+         * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+         * "refund_failed". idempotency_key (Optional): string. The caller's Idempotency-Key when
+         * this refund was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. initiated_by (Required):
+         * string. Who decided to make this refund: `merchant` for you or your integration, `flint`
+         * for a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+         * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value enum:
+         * "merchant", "flint". invoice_id (Optional): string. ID of the invoice whose credit note
+         * this refund paid out. Present only on refunds issued through a credit note. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation}. How the refund applied to each order line item it covered,
+         * with quantity, tax, and adjustments. line_item_allocations[] (Value): {@link
+         * RefundLineItemAllocation}. How a refund applied to one order line item: quantity,
+         * refunded amount, tax, adjustments, and modifier allocations. merchant_id (Required):
+         * string. ID of the merchant this resource belongs to. Example:
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
          * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
          * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
@@ -4689,13 +4707,14 @@ export type RefundUpdatedInstalledMerchantsEvent = (Exclude<PartnerWebhookEnvelo
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -4996,46 +5015,47 @@ export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
      * (Optional): string. Why a refund failed or a payment refund was canceled. Failed and
      * canceled amounts become refundable again, except a refund with reason payment_returned that
      * failed with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-     * refund. A payment_returned refund that failed with refund_abandoned cannot be retried
-     * through Flint; the store must arrange repayment outside Flint. Fix the cause, then create a
-     * new refund with a new idempotency key. Unknown provider values are returned as
-     * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-     * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-     * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-     * "payment_refund_not_attempted", "refund_failed". object.idempotency_key (Optional): string.
-     * The caller's Idempotency-Key when this refund was created, including refunds created by
-     * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-     * object.initiated_by (Required): string. Who decided to make this refund: `merchant` for you
-     * or your integration, `flint` for a refund Flint made on its own to return a payment it
-     * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential asked.
-     * Read-only. Value enum: "merchant", "flint". object.invoice_id (Optional): string. ID of the
-     * invoice whose credit note this refund paid out. Present only on refunds issued through a
-     * credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations
-     * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each order
-     * line item it covered, with quantity, tax, and adjustments. object.line_item_allocations[]
-     * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-     * quantity, refunded amount, tax, adjustments, and modifier allocations. object.merchant_id
-     * (Required): string. ID of the merchant this resource belongs to. Example:
-     * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". object.metadata (Optional): {@link MetadataMap}. Stored
-     * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
-     * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for
-     * Flint and are not returned. Writes follow the limits on MetadataInput and
-     * MetadataPatchInput; maps written before those limits may not satisfy them. object.order
-     * (Optional): {@link ExpandedOrderSummary} or null. Present only when `expand` includes
-     * `order`; `null` when expanded and there is no related order. object.order.anyOf[1] (Value):
-     * {@link ExpandedOrderSummary}. An order's summary fields, including status, payment and
-     * refund status, and pricing and settlement amounts, returned when the order is expanded.
-     * object.order.anyOf[2] (Value): null. object.order_edit_id (Optional): string. ID of the
-     * paid-order edit that created this refund. Present only on refunds issued through an order
-     * edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A". object.order_id (Optional): string. ID of
-     * the order the refund was issued against. For a refund with `reason` `payment_returned`, the
-     * order the returned payment was for; the order never received this money. Absent for a refund
-     * of a payment that has no order, and for a standalone gift card refund. Example:
-     * "ord_01KEZF7C0054GQKJ142A8X367A". object.payment_intent (Optional): {@link
-     * ExpandedPaymentIntentSummary} or null. Present only when `expand` includes `payment_intent`;
-     * `null` when expanded and there is no related payment intent. object.payment_intent.anyOf[1]
-     * (Value): {@link ExpandedPaymentIntentSummary}. A payment intent's summary fields, including
-     * amount, status, and capture method, returned when the payment intent is expanded.
+     * refund. A payment_returned refund that failed with refund_abandoned can't be retried through
+     * Flint either: the money is in your balance. Flint hasn't repaid the buyer. Repay them
+     * another way if you haven't already. Fix the cause, then create a new refund with a new
+     * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+     * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+     * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+     * "refund_failed". object.idempotency_key (Optional): string. The caller's Idempotency-Key
+     * when this refund was created, including refunds created by issuing a credit note. Use GET
+     * /v1/refunds?idempotency_key= to recover a lost response. object.initiated_by (Required):
+     * string. Who decided to make this refund: `merchant` for you or your integration, `flint` for
+     * a refund Flint made on its own to return a payment it couldn't accept. Unlike a Return's
+     * `initiated_by`, it doesn't say which credential asked. Read-only. Value enum: "merchant",
+     * "flint". object.invoice_id (Optional): string. ID of the invoice whose credit note this
+     * refund paid out. Present only on refunds issued through a credit note. Example:
+     * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". object.line_item_allocations (Optional): Array of {@link
+     * RefundLineItemAllocation}. How the refund applied to each order line item it covered, with
+     * quantity, tax, and adjustments. object.line_item_allocations[] (Value): {@link
+     * RefundLineItemAllocation}. How a refund applied to one order line item: quantity, refunded
+     * amount, tax, adjustments, and modifier allocations. object.merchant_id (Required): string.
+     * ID of the merchant this resource belongs to. Example: "mer_01KEZF7C00KPYH1DDFPCCX3B6E".
+     * object.metadata (Optional): {@link MetadataMap}. Stored caller-owned key-value data. See
+     * `MetadataInput` for key, value, and size rules. Caller-owned key-value data stored on a
+     * resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes
+     * follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits
+     * may not satisfy them. object.order (Optional): {@link ExpandedOrderSummary} or null. Present
+     * only when `expand` includes `order`; `null` when expanded and there is no related order.
+     * object.order.anyOf[1] (Value): {@link ExpandedOrderSummary}. An order's summary fields,
+     * including status, payment and refund status, and pricing and settlement amounts, returned
+     * when the order is expanded. object.order.anyOf[2] (Value): null. object.order_edit_id
+     * (Optional): string. ID of the paid-order edit that created this refund. Present only on
+     * refunds issued through an order edit. Example: "oed_01KEZF7C00A6BQ4TBGWFDJ944A".
+     * object.order_id (Optional): string. ID of the order the refund was issued against. For a
+     * refund with `reason` `payment_returned`, the order the returned payment was for; the order
+     * never received this money. Absent for a refund of a payment that has no order, and for a
+     * standalone gift card refund. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * object.payment_intent (Optional): {@link ExpandedPaymentIntentSummary} or null. Present only
+     * when `expand` includes `payment_intent`; `null` when expanded and there is no related
+     * payment intent. object.payment_intent.anyOf[1] (Value): {@link
+     * ExpandedPaymentIntentSummary}. A payment intent's summary fields, including amount, status,
+     * and capture method, returned when the payment intent is expanded.
      * object.payment_intent.anyOf[2] (Value): null. object.payment_intent_id (Optional): string.
      * ID of the payment the refund was issued against, when it targeted one payment.
      * `payment_refunds` lists every payment it returned money through. Example:
@@ -5136,26 +5156,27 @@ export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
          * refund failed or a payment refund was canceled. Failed and canceled amounts become
          * refundable again, except a refund with reason payment_returned that failed with
          * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-         * payment_returned refund that failed with refund_abandoned cannot be retried through
-         * Flint; the store must arrange repayment outside Flint. Fix the cause, then create a new
-         * refund with a new idempotency key. Unknown provider values are returned as
-         * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
-         * "insufficient_funds", "insufficient_available_balance", "declined", "merchant_request",
-         * "payment_disputed", "refund_abandoned", "payment_refund_failed",
-         * "payment_refund_not_attempted", "refund_failed". idempotency_key (Optional): string. The
-         * caller's Idempotency-Key when this refund was created, including refunds created by
-         * issuing a credit note. Use GET /v1/refunds?idempotency_key= to recover a lost response.
-         * initiated_by (Required): string. Who decided to make this refund: `merchant` for you or
-         * your integration, `flint` for a refund Flint made on its own to return a payment it
-         * couldn't accept. Unlike a Return's `initiated_by`, it doesn't say which credential
-         * asked. Read-only. Value enum: "merchant", "flint". invoice_id (Optional): string. ID of
-         * the invoice whose credit note this refund paid out. Present only on refunds issued
-         * through a credit note. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations
-         * (Optional): Array of {@link RefundLineItemAllocation}. How the refund applied to each
-         * order line item it covered, with quantity, tax, and adjustments. line_item_allocations[]
-         * (Value): {@link RefundLineItemAllocation}. How a refund applied to one order line item:
-         * quantity, refunded amount, tax, adjustments, and modifier allocations. merchant_id
-         * (Required): string. ID of the merchant this resource belongs to. Example:
+         * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+         * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another
+         * way if you haven't already. Fix the cause, then create a new refund with a new
+         * idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+         * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
+         * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
+         * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
+         * "refund_failed". idempotency_key (Optional): string. The caller's Idempotency-Key when
+         * this refund was created, including refunds created by issuing a credit note. Use GET
+         * /v1/refunds?idempotency_key= to recover a lost response. initiated_by (Required):
+         * string. Who decided to make this refund: `merchant` for you or your integration, `flint`
+         * for a refund Flint made on its own to return a payment it couldn't accept. Unlike a
+         * Return's `initiated_by`, it doesn't say which credential asked. Read-only. Value enum:
+         * "merchant", "flint". invoice_id (Optional): string. ID of the invoice whose credit note
+         * this refund paid out. Present only on refunds issued through a credit note. Example:
+         * "inv_01KEZF7C00A5GEBMWHEAJFSAR4". line_item_allocations (Optional): Array of {@link
+         * RefundLineItemAllocation}. How the refund applied to each order line item it covered,
+         * with quantity, tax, and adjustments. line_item_allocations[] (Value): {@link
+         * RefundLineItemAllocation}. How a refund applied to one order line item: quantity,
+         * refunded amount, tax, adjustments, and modifier allocations. merchant_id (Required):
+         * string. ID of the merchant this resource belongs to. Example:
          * "mer_01KEZF7C00KPYH1DDFPCCX3B6E". metadata (Optional): {@link MetadataMap}. Stored
          * caller-owned key-value data. See `MetadataInput` for key, value, and size rules.
          * Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved
@@ -5286,13 +5307,14 @@ export type RefundUpdatedMerchantEvent = (Exclude<MerchantWebhookEnvelope & obje
              * Why a refund failed or a payment refund was canceled. Failed and canceled amounts
              * become refundable again, except a refund with reason payment_returned that failed
              * with payment_disputed: the buyer won a dispute on the charge, so nothing is left to
-             * refund. A payment_returned refund that failed with refund_abandoned cannot be
-             * retried through Flint; the store must arrange repayment outside Flint. Fix the
-             * cause, then create a new refund with a new idempotency key. Unknown provider values
-             * are returned as refund_failed. Value enum: "expired_or_canceled_card",
-             * "lost_or_stolen_card", "insufficient_funds", "insufficient_available_balance",
-             * "declined", "merchant_request", "payment_disputed", "refund_abandoned",
-             * "payment_refund_failed", "payment_refund_not_attempted", "refund_failed".
+             * refund. A payment_returned refund that failed with refund_abandoned can't be retried
+             * through Flint either: the money is in your balance. Flint hasn't repaid the buyer.
+             * Repay them another way if you haven't already. Fix the cause, then create a new
+             * refund with a new idempotency key. Unknown provider values are returned as
+             * refund_failed. Value enum: "expired_or_canceled_card", "lost_or_stolen_card",
+             * "insufficient_funds", "insufficient_available_balance", "declined",
+             * "merchant_request", "payment_disputed", "refund_abandoned", "payment_refund_failed",
+             * "payment_refund_not_attempted", "refund_failed".
              */
             "failure_reason"?: "expired_or_canceled_card"
                 | "lost_or_stolen_card"
@@ -5570,9 +5592,10 @@ export type RefundWithGiftCardCodes = ({
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
      * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-     * payment_returned refund that failed with refund_abandoned cannot be retried through Flint;
-     * the store must arrange repayment outside Flint. Fix the cause, then create a new refund with
-     * a new idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
      * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
      * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
      * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",

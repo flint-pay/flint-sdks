@@ -6,10 +6,10 @@ namespace Flint;
  *
  * @property-read string $subscription_id
  * @property-read string $subscription_line_item_id
- * @property-read array{'expected_version'?: int, 'quantity'?: int, 'variant_id'?: string}|object $body
+ * @property-read array{'expected_version'?: int, 'variant_id'?: string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsUpdateLineItemInput extends Model {
-    /** @param array{'subscription_id': string, 'subscription_line_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version'?: int, 'quantity'?: int, 'variant_id'?: string}|object}|object $values */
+    /** @param array{'subscription_id': string, 'subscription_line_item_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version'?: int, 'variant_id'?: string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsUpdateLineItemInput')); }
     /** Subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
@@ -41,8 +41,8 @@ final class SubscriptionsUpdateLineItemInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update subscription line item. minProperties: 1. Example: {"expected_version":1,"quantity":2}.
-     * @return array{'expected_version'?: int, 'quantity'?: int, 'variant_id'?: string}|object
+    /** The request body for: Update subscription line item. minProperties: 1. Example: {"expected_version":1,"variant_id":"var_01KEZF7C00SDPKNHP9DAVYBQZ9"}.
+     * @return array{'expected_version'?: int, 'variant_id'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

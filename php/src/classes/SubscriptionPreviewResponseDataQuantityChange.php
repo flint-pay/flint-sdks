@@ -11,13 +11,12 @@ namespace Flint;
  * @property-read string $interval
  * @property-read int $interval_count
  * @property-read string $mode
- * @property-read int $quantity
  * @property-read MoneyValue $recurring_subtotal_money
  * @property-read SubscriptionRenewalEstimate $renewal
  * @property-read string $subscription_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPreviewResponseDataQuantityChange extends Model {
-    /** @param array{'billing_starts': string, 'credit_adjustment_money': mixed, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|null, 'interval': string, 'interval_count': int, 'mode': string, 'quantity': int, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, ...}|object $values */
+    /** @param array{'billing_starts': string, 'credit_adjustment_money': mixed, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|null, 'interval': string, 'interval_count': int, 'mode': string, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewResponseDataQuantityChange')); }
     /** When this quantity change is billed. Value enum: "prorated_now".
      * @return string
@@ -64,11 +63,6 @@ final class SubscriptionPreviewResponseDataQuantityChange extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * @return int
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** The full-period recurring item subtotal after the quantity change, before discounts, tax, or shipping. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */

@@ -62,8 +62,6 @@ Resource, collection, or operation result returned by this request. A customer's
 | `plan_change_options` | Required | Array of [BuyerSubscriptionPlanChangeOption](../models/BuyerSubscriptionPlanChangeOption.md#buyersubscriptionplanchangeoption) | Plans this subscription may choose, in the store's display order. Includes only active plans with the same currency and delivery requirement whose billing timing is allowed in this subscription's current state. Empty when no plan change is available. maxItems: `25`. `plan_change_options[]`: [field definitions](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedataplan_change_options). |
 | `promotions` | Required | Array of [SubscriptionPromotion](../models/SubscriptionPromotion.md#subscriptionpromotion) | Recurring promotions applying to the next charged cycle. Scheduled attachments are listed in scheduled_promotions. Empty when none apply; signup-only and exhausted promotions are excluded. `promotions[]`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions). |
 | `prorate_first_period` | Required | boolean | Whether this subscription was created to prorate its first anchored paid period. Set at creation and never changes; starting on the anchor day still bills a normal full period. |
-| `quantity` | Required | integer | How many of each line the subscription bills each period, as a whole number; fractional quantities are not supported. A change applies from the next renewal that has not been paid. Format: `int32`. |
-| `quantity_options` | Optional | Array of integer | Quantities this subscription can be changed to, from 1 to 100, in ascending order. A change to quantity must send one of these values, and the request is refused otherwise. A buyer can change quantity only when more than one is listed. For a subscription on a plan, the list follows the plan's current quantity_options. A subscription that came from an offer keeps the choices the offer had at signup. [1] when no other quantity is offered. maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
 | `recurring_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) or null | What one billing period's items cost before discounts, shipping, and tax: each line's price with modifiers, times quantity. It changes when items, quantity, or the plan change; editing the plan doesn't change it. For the next charge, use a subscription preview in next_renewal mode. `null` when a cancellation succeeds but Flint couldn't load the billing snapshot afterward, so the cancel response returns it as null. Retrieve the subscription again to get it. |
 | `remaining_cycles` | Required | integer or null | Charges left for a cycle limit, bounded by an earlier scheduled cancellation. Null when there is no cycle limit or the subscription is canceled. Format: `uint64`. minimum: `0`. |
 | `remaining_prepaid_deliveries` | Required | integer | Paid deliveries whose delivery order Flint hasn't created yet. A paid period starts with deliveries_per_period minus one. When delivery_hold is present and this count is positive, fixing delivery releases an already-paid delivery with shipping waived and no new charge. A next_renewal preview still estimates the next paid billing cycle. Skips, holds, and pauses consume none. Frozen on cancellation for manual refunds. Format: `int32`. minimum: `0`. maximum: `23`. |
@@ -131,7 +129,7 @@ An item included in a customer's recurring purchase.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `allow_quantity_adjustment` | Required | boolean | Whether the frozen terms allow the buyer to adjust this line quantity. |
-| `base_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit price multiplied by this line's `quantity`, before modifiers, discounts, and tax. It doesn't include the subscription's `quantity`. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `base_subtotal_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Unit price multiplied by this line's `quantity`, before modifiers, discounts, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `bundle_id` | Optional | string | ID of the bundle the line bills. Present on `bundle` lines. Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
 | `categories` | Optional | Array of [CategoryReference](../models/CategoryReference.md#categoryreference) | Catalog categories of the item, recorded when the line joined the subscription. `categories[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemscategories). |
 | `description` | Optional | string | Description of the item, recorded when the line joined the subscription. Omitted when none was recorded. |
@@ -209,7 +207,6 @@ The target plan's current summary. A subscription plan expanded on a buyer's ord
 | `description` | Optional | string | Description of the plan. Omitted when none is set. |
 | `line_items` | Optional | Array of (object and Alternative shapes (see declared variants)) | The lines a subscription on this plan bills each period, in the order you set them. Flint copied each catalog line's details from the catalog when it added the line. `line_items[]`: [declared alternatives](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedataplan_change_optionssubscription_planline_items). |
 | `name` | Required | string | Name of the plan. Buyers see it at checkout and on their subscription. |
-| `quantity_options` | Optional | Array of integer | Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending order. Flint accepts only a subscription quantity of 1, so you can set this list only to `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line item. A plan saved before that rule can still list up to 10 quantities. maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
 | `setup_fee_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | One-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `status` | Required | string | Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `subscription_plan_id` | Required | string | Unique identifier for this subscription plan, prefixed `plan_`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
@@ -299,7 +296,6 @@ Frozen target terms for the next charged renewal. Null when no plan change is sc
 | `billing_interval_count` | Conditional | integer | Number of target billing_interval units between charges. Format: `int32`. |
 | `effective_at` | Conditional | string or null | Expected boundary from the current billing schedule. Null when the subscription is paused without a scheduled resume or is waiting for an external billing date. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `line_items` | Conditional | Array of [BuyerSubscriptionLineItem](../models/BuyerSubscriptionLineItem.md#buyersubscriptionlineitem) | Frozen target lines, including buyer quantity permissions and bounds. `line_items[]`: [field definitions](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedataline_items). |
-| `quantity` | Conditional | integer | The frozen target subscription quantity. Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Frozen item subtotal per target billing period, before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `requested_by` | Conditional | string | Who scheduled the plan change. Values: `"buyer"`, `"merchant"`. |
 | `scheduled_at` | Conditional | string | When the plan change was scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -310,13 +306,13 @@ Frozen target terms for the next charged renewal. Null when no plan change is sc
 
 anyOf BuyerSubscriptionScheduledPlanChange: Frozen target terms that apply at the next charged renewal..
 
-- Required: `billing_interval`, `billing_interval_count`, `effective_at`, `line_items`, `quantity`, `recurring_subtotal_money`, `requested_by`, `scheduled_at`, `subscription_plan`, `subscription_plan_id`.
+- Required: `billing_interval`, `billing_interval_count`, `effective_at`, `line_items`, `recurring_subtotal_money`, `requested_by`, `scheduled_at`, `subscription_plan`, `subscription_plan_id`.
 
 ### BuyerSubscriptionResponse.data.scheduled_plan_change variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_interval`, `billing_interval_count`, `effective_at`, `line_items`, `quantity`, `recurring_subtotal_money`, `requested_by`, `scheduled_at`, `subscription_plan`, `subscription_plan_id`.
+- Undeclared: `billing_interval`, `billing_interval_count`, `effective_at`, `line_items`, `recurring_subtotal_money`, `requested_by`, `scheduled_at`, `subscription_plan`, `subscription_plan_id`.
 - Value shape: null. Frozen target terms for the next charged renewal. Null when no plan change is scheduled. Cancel with scheduled_plan_change: null on PATCH; replace through change-plan. 
 
 ### BuyerSubscriptionResponse.data.scheduled_plan_change variant 1.line_items[]
@@ -364,7 +360,6 @@ Current summary of the subscription plan behind the terms. Always included on bu
 | `description` | Conditional | string | Description of the plan. Omitted when none is set. |
 | `line_items` | Conditional | Array of (object and Alternative shapes (see declared variants)) | The lines a subscription on this plan bills each period, in the order you set them. Flint copied each catalog line's details from the catalog when it added the line. `line_items[]`: [declared alternatives](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedataplan_change_optionssubscription_planline_items). |
 | `name` | Conditional | string | Name of the plan. Buyers see it at checkout and on their subscription. |
-| `quantity_options` | Conditional | Array of integer | Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending order. Flint accepts only a subscription quantity of 1, so you can set this list only to `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line item. A plan saved before that rule can still list up to 10 quantities. maxItems: `10`. uniqueItems: `true`. Items: minimum: `1`. maximum: `100`. |
 | `setup_fee_money` | Conditional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | One-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `status` | Conditional | string | Active plans accept new signups. Inactive plans refuse new signups with ACTION_NOT_ALLOWED while existing subscriptions keep renewing. Archived plans are read-only and their status is set only by DELETE /v1/subscription-plans/{subscription_plan_id}. Values: `"active"`, `"inactive"`, `"archived"`. |
 | `subscription_plan_id` | Conditional | string | Unique identifier for this subscription plan, prefixed `plan_`. Example: `"plan_01KEZF7C004CY5ZR33XST2AASV"`. |
@@ -376,13 +371,13 @@ Current summary of the subscription plan behind the terms. Always included on bu
 anyOf BuyerExpandedSubscriptionPlanSummary: A subscription plan expanded on a buyer's order: billing interval, setup fee, trial length, status, and line items..
 
 - Required: `billing_interval`, `billing_interval_count`, `currency`, `name`, `status`, `subscription_plan_id`.
-- Optional: `billing_interval_options`, `created_at`, `description`, `line_items`, `quantity_options`, `setup_fee_money`, `trial_period_days`, `updated_at`.
+- Optional: `billing_interval_options`, `created_at`, `description`, `line_items`, `setup_fee_money`, `trial_period_days`, `updated_at`.
 
 ### BuyerSubscriptionResponse.data.subscription_plan variant 2
 
 anyOf variant 2.
 
-- Undeclared: `billing_interval`, `billing_interval_count`, `billing_interval_options`, `created_at`, `currency`, `description`, `line_items`, `name`, `quantity_options`, `setup_fee_money`, `status`, `subscription_plan_id`, `trial_period_days`, `updated_at`.
+- Undeclared: `billing_interval`, `billing_interval_count`, `billing_interval_options`, `created_at`, `currency`, `description`, `line_items`, `name`, `setup_fee_money`, `status`, `subscription_plan_id`, `trial_period_days`, `updated_at`.
 - Value shape: null. Current summary of the subscription plan behind the terms. Always included on buyer reads. `null` when the subscription has no plan because its `terms_type` is `subscription_offer`. 
 
 ### BuyerSubscriptionResponse.data.subscription_plan variant 1.line_items[]

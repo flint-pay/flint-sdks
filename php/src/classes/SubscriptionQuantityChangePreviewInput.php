@@ -11,13 +11,12 @@ namespace Flint;
  * @property-read string $interval
  * @property-read int $interval_count
  * @property-read string $mode
- * @property-read int $quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $recurring_subtotal_money
  * @property-read SubscriptionRenewalEstimateInput|array<array-key, mixed>|\stdClass $renewal
  * @property-read string $subscription_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionQuantityChangePreviewInput extends Model {
-    /** @param array{'billing_starts': string, 'credit_adjustment_money': array{'amount': string, 'currency': string}|object|null, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|\DateTimeInterface|null, 'interval': string, 'interval_count': int, 'mode': string, 'quantity': int, 'recurring_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'renewal': SubscriptionRenewalEstimateInput|array<array-key, mixed>|\stdClass, 'subscription_id': string, ...}|object $values */
+    /** @param array{'billing_starts': string, 'credit_adjustment_money': array{'amount': string, 'currency': string}|object|null, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|\DateTimeInterface|null, 'interval': string, 'interval_count': int, 'mode': string, 'recurring_subtotal_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'renewal': SubscriptionRenewalEstimateInput|array<array-key, mixed>|\stdClass, 'subscription_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionQuantityChangePreviewInput')); }
     /** When this quantity change is billed. Value enum: "prorated_now".
      * @return string
@@ -73,12 +72,6 @@ final class SubscriptionQuantityChangePreviewInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int32.
-     * @return int
-     * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
-     */
-    public function getQuantity(): int { return $this->get('quantity'); }
-    public function hasQuantity(): bool { return $this->has('quantity'); }
     /** The full-period recurring item subtotal after the quantity change, before discounts, tax, or shipping. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recurring_subtotal_money is omitted; use hasRecurringSubtotalMoney() or valueOrDefault().

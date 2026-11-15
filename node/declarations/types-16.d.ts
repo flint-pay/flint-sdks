@@ -115,11 +115,16 @@ export type CustomerSessionWithSecret = (Exclude<CustomerSession & object, reado
     & ({
     /**
      * Single-use refresh token. Returned only on create and refresh; retry rotation with the same
-     * Idempotency-Key.
+     * Idempotency-Key. Returned only to the credential that created it, and omitted when another
+     * credential replays the request.
      */
-    "refresh_token": string;
-    /** Current server-held customer session secret. Returned only on create and refresh. */
-    "secret": string;
+    "refresh_token"?: string;
+    /**
+     * Current server-held customer session secret. Returned only on create and refresh. Returned
+     * only to the credential that created it, and omitted when another credential replays the
+     * request.
+     */
+    "secret"?: string;
 });
 /** A response containing `CustomerSessionWithSecret` data. */
 export type CustomerSessionWithSecretResponse = {

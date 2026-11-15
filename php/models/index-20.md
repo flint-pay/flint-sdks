@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# PaymentMethodWithSetupInput to PlatformFeeRequestInput
+# PaymentMethodUpdatedMerchantEventInput to PlatformFeePayoutSucceededEventInput
 
+- [PaymentMethodUpdatedMerchantEventInput](PaymentMethodUpdatedMerchantEventInput.md)
 - [PaymentMethodWithSetupInput](PaymentMethodWithSetupInput.md)
 - [PaymentRefundInput](PaymentRefundInput.md)
 - [PaymentReviewInput](PaymentReviewInput.md)
@@ -101,5 +102,4 @@
 - [PlatformFeePayoutListResponseInput](PlatformFeePayoutListResponseInput.md)
 - [PlatformFeePayoutResponseInput](PlatformFeePayoutResponseInput.md)
 - [PlatformFeePayoutSucceededEventInput](PlatformFeePayoutSucceededEventInput.md)
-- [PlatformFeeRequestInput](PlatformFeeRequestInput.md)
 

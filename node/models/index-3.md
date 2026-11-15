@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerReturnPreviewResponse to CategoryUpdatedInstalledMerchantsEvent
+# BuyerReturnPreviewResolution to CategoryResponse
 
+- [BuyerReturnPreviewResolution](BuyerReturnPreviewResolution.md)
 - [BuyerReturnPreviewResponse](BuyerReturnPreviewResponse.md)
 - [BuyerReturnReplacementLineItemInputBundle](BuyerReturnReplacementLineItemInputBundle.md)
 - [BuyerReturnReplacementLineItemInputBundleInput](BuyerReturnReplacementLineItemInputBundleInput.md)
@@ -101,5 +102,4 @@
 - [CategoryListResponse](CategoryListResponse.md)
 - [CategoryReference](CategoryReference.md)
 - [CategoryResponse](CategoryResponse.md)
-- [CategoryUpdatedInstalledMerchantsEvent](CategoryUpdatedInstalledMerchantsEvent.md)
 

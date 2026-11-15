@@ -18,6 +18,6 @@ Request input.
 | `revoked_at` | Optional | string | When the session was first revoked. Present exactly when status is revoked. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `status` | Required | string | active means the session can be refreshed and its secret works until expires_at; revoked means none of its credentials work. Values: `"active"`, `"revoked"`. |
 | `supported_actions` | Required | Array of string | Lifecycle actions Flint accepts now, independent of the caller's permissions. Contains revoke for active and revoked sessions because repeating a revocation succeeds. Items values: `"revoke"`. |
-| `refresh_token` | Required | string | Single-use refresh token. Returned only on create and refresh; retry rotation with the same Idempotency-Key. |
-| `secret` | Required | string | Current server-held customer session secret. Returned only on create and refresh. |
+| `refresh_token` | Optional | string | Single-use refresh token. Returned only on create and refresh; retry rotation with the same Idempotency-Key. Returned only to the credential that created it, and omitted when another credential replays the request. |
+| `secret` | Optional | string | Current server-held customer session secret. Returned only on create and refresh. Returned only to the credential that created it, and omitted when another credential replays the request. |
 

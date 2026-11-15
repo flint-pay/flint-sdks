@@ -9,9 +9,11 @@ namespace Flint;
  * @property-read list<string> $past_due
  * @property-read list<string> $pending_verification
  * @property-read string $rejected_by
+ * @property-read list<string> $upcoming_due
+ * @property-read string|\DateTimeInterface $upcoming_due_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReadinessRequirementsInput extends Model {
-    /** @param array{'currently_due': list<string>, 'disabled_reason'?: string, 'due_at'?: string|\DateTimeInterface, 'eventually_due': list<string>, 'past_due': list<string>, 'pending_verification': list<string>, 'rejected_by'?: string, ...}|object $values */
+    /** @param array{'currently_due': list<string>, 'disabled_reason'?: string, 'due_at'?: string|\DateTimeInterface, 'eventually_due': list<string>, 'past_due': list<string>, 'pending_verification': list<string>, 'rejected_by'?: string, 'upcoming_due': list<string>, 'upcoming_due_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReadinessRequirementsInput')); }
     /** Flint requirement codes. New codes can appear; treat an unknown code as additional_account_information. [] enum: "additional_account_information", "business_address", "business_description", "business_directors", "business_executives", "business_name", "business_owners", "business_phone", "business_support_phone", "business_support_url", "business_tax_id", "business_verification_document", "business_website", "merchant_category_code", "owner_address", "owner_additional_identity_document", "owner_date_of_birth", "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four", "payout_destination", "representative_address", "representative_additional_identity_document", "representative_date_of_birth", "representative_email", "representative_first_name", "representative_identity_document", "representative_last_name", "representative_phone", "representative_tax_id", "representative_tax_id_last_four". [] (Value): string.  Value enum: "additional_account_information", "business_address", "business_description", "business_directors", "business_executives", "business_name", "business_owners", "business_phone", "business_support_phone", "business_support_url", "business_tax_id", "business_verification_document", "business_website", "merchant_category_code", "owner_address", "owner_additional_identity_document", "owner_date_of_birth", "owner_first_name", "owner_identity_document", "owner_last_name", "owner_tax_id_last_four", "payout_destination", "representative_address", "representative_additional_identity_document", "representative_date_of_birth", "representative_email", "representative_first_name", "representative_identity_document", "representative_last_name", "representative_phone", "representative_tax_id", "representative_tax_id_last_four".
      * @return list<string>
@@ -55,4 +57,16 @@ final class ReadinessRequirementsInput extends Model {
      */
     public function getRejectedBy(): string { return $this->get('rejected_by'); }
     public function hasRejectedBy(): bool { return $this->has('rejected_by'); }
+    /** Flint requirement codes the payment processor will start requiring on `upcoming_due_at`. Submit them before then; after that they move to `currently_due` or `past_due`. Empty when nothing is scheduled. New codes can appear; treat an unknown code as additional_account_information. [] (Value): string.
+     * @return list<string>
+     * @throws SdkError When upcoming_due is omitted; use hasUpcomingDue() or valueOrDefault().
+     */
+    public function getUpcomingDue(): array { return $this->get('upcoming_due'); }
+    public function hasUpcomingDue(): bool { return $this->has('upcoming_due'); }
+    /** Time at which the `upcoming_due` requirements start to apply, as an RFC 3339 UTC timestamp. Omitted when none are scheduled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When upcoming_due_at is omitted; use hasUpcomingDueAt() or valueOrDefault().
+     */
+    public function getUpcomingDueAt(): string|\DateTimeInterface { return $this->get('upcoming_due_at'); }
+    public function hasUpcomingDueAt(): bool { return $this->has('upcoming_due_at'); }
 }

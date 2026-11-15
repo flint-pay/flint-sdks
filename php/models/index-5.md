@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CreateDeliveryLocationSetRequestInput to CreateOrderTipInput
+# CreateDeliveryFulfillmentDetailsInput to CreateOrderRequestInput
 
+- [CreateDeliveryFulfillmentDetailsInput](CreateDeliveryFulfillmentDetailsInput.md)
 - [CreateDeliveryLocationSetRequestInput](CreateDeliveryLocationSetRequestInput.md)
 - [CreateDeliveryMethodRequestInput](CreateDeliveryMethodRequestInput.md)
 - [CreateDeliveryMethodRequestLocalDeliveryInput](CreateDeliveryMethodRequestLocalDeliveryInput.md)
@@ -101,5 +102,4 @@
 - [CreateOrderLineItemRequestInput](CreateOrderLineItemRequestInput.md)
 - [CreateOrderLineItemVariantInput](CreateOrderLineItemVariantInput.md)
 - [CreateOrderRequestInput](CreateOrderRequestInput.md)
-- [CreateOrderTipInput](CreateOrderTipInput.md)
 

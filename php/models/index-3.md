@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# BuyerSubscriptionCancellationDetailsInput to CheckoutSavedPaymentDetailsSettingsInput
+# BuyerSubscriptionInput to CheckoutRedirectsRequestInput
 
+- [BuyerSubscriptionInput](BuyerSubscriptionInput.md)
 - [BuyerSubscriptionCancellationDetailsInput](BuyerSubscriptionCancellationDetailsInput.md)
 - [BuyerSubscriptionInventoryWaitInput](BuyerSubscriptionInventoryWaitInput.md)
 - [BuyerSubscriptionLineItemInput](BuyerSubscriptionLineItemInput.md)
@@ -101,5 +102,4 @@
 - [CheckoutRecoveryEmailSettingsRequestInput](CheckoutRecoveryEmailSettingsRequestInput.md)
 - [CheckoutRedirectsInput](CheckoutRedirectsInput.md)
 - [CheckoutRedirectsRequestInput](CheckoutRedirectsRequestInput.md)
-- [CheckoutSavedPaymentDetailsSettingsInput](CheckoutSavedPaymentDetailsSettingsInput.md)
 

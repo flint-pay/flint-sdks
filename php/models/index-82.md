@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# ShipmentUpdatedMerchantEventData to SubscriptionPausedInstalledMerchantsEventDataObject
+# ShipmentCreatedInstalledMerchantsEvent to SubscriptionPausedMerchantEventRequest
 
+- [ShipmentCreatedInstalledMerchantsEvent](ShipmentCreatedInstalledMerchantsEvent.md)
+- [ShipmentUpdatedMerchantEventDataObject](ShipmentUpdatedMerchantEventDataObject.md)
 - [ShipmentUpdatedMerchantEventData](ShipmentUpdatedMerchantEventData.md)
 - [ShipmentUpdatedMerchantEventRequest](ShipmentUpdatedMerchantEventRequest.md)
 - [ShipmentUpdatedMerchantEvent](ShipmentUpdatedMerchantEvent.md)
@@ -100,6 +102,4 @@
 - [SubscriptionPausedMerchantEventDataObject](SubscriptionPausedMerchantEventDataObject.md)
 - [SubscriptionPausedMerchantEventData](SubscriptionPausedMerchantEventData.md)
 - [SubscriptionPausedMerchantEventRequest](SubscriptionPausedMerchantEventRequest.md)
-- [SubscriptionPausedMerchantEvent](SubscriptionPausedMerchantEvent.md)
-- [SubscriptionPausedInstalledMerchantsEventDataObject](SubscriptionPausedInstalledMerchantsEventDataObject.md)
 

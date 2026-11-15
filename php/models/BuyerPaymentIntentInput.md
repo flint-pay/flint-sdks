@@ -24,6 +24,7 @@ Request input.
 | `customer_presence` | Required | string | Whether you took part in the latest charge. absent means the store charged your saved card while you weren't there, such as for a renewal or a fee. Each payment attempt sets it again. Values: `"present"`, `"absent"`. |
 | `fulfillment_hold` | Optional | [PaymentFulfillmentHoldInput](../models/PaymentFulfillmentHoldInput.md#paymentfulfillmentholdinput) | Present when a payment provider asked Flint to pause fulfillment for this payment. While its status is active, open fulfillments are on hold. A hold on fulfillment tied to a payment, with the reason, the action required, and whether the hold is active or released. |
 | `invoice_id` | Optional | string | Bill this payment collects, when it pays a bill. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. |
+| `invoice_schedule_entry_id` | Optional | string | The bill installment this payment collects. Example: `"invse_01KEZF7C006JCPQBD8VZ0RNT6R"`. |
 | `last_payment_error` | Required | [PaymentErrorSummaryInput](../models/PaymentErrorSummaryInput.md#paymenterrorsummaryinput) or null | Most recent payment error. Null when no payment error is recorded. |
 | `merchant_id` | Optional | string | Merchant that owns this payment intent. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `order_id` | Optional | string | Order this payment belongs to. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |

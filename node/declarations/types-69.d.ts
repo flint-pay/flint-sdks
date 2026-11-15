@@ -6477,6 +6477,10 @@ export type WebhookPaymentIntent = ({
      */
     "invoice_id"?: string;
     /**
+     * The invoice installment this payment collects. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R".
+     */
+    "invoice_schedule_entry_id"?: string;
+    /**
      * Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value): {@link
      * PaymentErrorSummary}. A summary of why a payment attempt failed, with a normalized error
      * code, a message, the failure time, and remediation. anyOf[2] (Value): null.
@@ -6675,9 +6679,11 @@ export type WebhookPaymentIntent = ({
      * payments list only cancel; subscription payments list none. Order edit payments list confirm
      * while awaiting payment details or action. A listed action can still be refused due to an
      * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. Always
-     * empty for buyer credentials. New actions may be added. [] enum: "confirm", "capture",
-     * "cancel". [] (Value): string. Value enum: "confirm", "capture", "cancel".
+     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
+     * merchant list is credential-independent. Checkout credentials receive that list filtered to
+     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
+     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value):
+     * string. Value enum: "confirm", "capture", "cancel".
      */
     "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
     /**

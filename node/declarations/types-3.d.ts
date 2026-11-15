@@ -39,6 +39,16 @@ import type {
     SubscriptionIntervalOption
 } from './types-61.js';
 import type { SubscriptionPromotion, SubscriptionUpcomingDeliveryHold } from './types-63.js';
+/** The return resolutions the buyer can pay now. */
+export type BuyerPayBalanceActionOptions = {
+    /**
+     * Payable resolutions in creation order. Read each amount with GET
+     * /v1/me/return-resolutions/{return_resolution_id}, then create its checkout session with POST
+     * /v1/me/checkout-sessions and type return_resolution. minItems: 1. [] (Value): string.
+     * Example: "retres_01KEZF7C00C7RZJN31W9SGMEQ3".
+     */
+    "return_resolution_ids": Array<string>;
+};
 /**
  * The payment intent behind an order payment attempt, with its status, amounts, authorization
  * expiry, and last payment error.
@@ -357,6 +367,8 @@ export type BuyerPaymentIntent = {
      * Bill this payment collects, when it pays a bill. Example: "inv_01KEZF7C00A5GEBMWHEAJFSAR4".
      */
     "invoice_id"?: string;
+    /** The bill installment this payment collects. Example: "invse_01KEZF7C006JCPQBD8VZ0RNT6R". */
+    "invoice_schedule_entry_id"?: string;
     /**
      * Most recent payment error. Null when no payment error is recorded. anyOf[1] (Value): {@link
      * PaymentErrorSummary}. A summary of why a payment attempt failed, with a normalized error
@@ -648,9 +660,10 @@ export type BuyerPaymentRefund = {
      * Why a refund failed or a payment refund was canceled. Failed and canceled amounts become
      * refundable again, except a refund with reason payment_returned that failed with
      * payment_disputed: the buyer won a dispute on the charge, so nothing is left to refund. A
-     * payment_returned refund that failed with refund_abandoned cannot be retried through Flint;
-     * the store must arrange repayment outside Flint. Fix the cause, then create a new refund with
-     * a new idempotency key. Unknown provider values are returned as refund_failed. Value enum:
+     * payment_returned refund that failed with refund_abandoned can't be retried through Flint
+     * either: the money is in your balance. Flint hasn't repaid the buyer. Repay them another way
+     * if you haven't already. Fix the cause, then create a new refund with a new idempotency key.
+     * Unknown provider values are returned as refund_failed. Value enum:
      * "expired_or_canceled_card", "lost_or_stolen_card", "insufficient_funds",
      * "insufficient_available_balance", "declined", "merchant_request", "payment_disputed",
      * "refund_abandoned", "payment_refund_failed", "payment_refund_not_attempted",
@@ -3141,21 +3154,6 @@ export type BuyerSubscription = {
      */
     "prorate_first_period": boolean;
     /**
-     * How many of each line the subscription bills each period, as a whole number; fractional
-     * quantities are not supported. A change applies from the next renewal that has not been paid.
-     * Format: int32.
-     */
-    "quantity": number;
-    /**
-     * Quantities this subscription can be changed to, from 1 to 100, in ascending order. A change
-     * to quantity must send one of these values, and the request is refused otherwise. A buyer can
-     * change quantity only when more than one is listed. For a subscription on a plan, the list
-     * follows the plan's current quantity_options. A subscription that came from an offer keeps
-     * the choices the offer had at signup. [1] when no other quantity is offered. maxItems: 10.
-     * uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
-    /**
      * What one billing period's items cost before discounts, shipping, and tax: each line's price
      * with modifiers, times quantity. It changes when items, quantity, or the plan change; editing
      * the plan doesn't change it. For the next charge, use a subscription preview in next_renewal
@@ -3311,9 +3309,8 @@ export type BuyerSubscriptionLineItem = {
     /** Whether the frozen terms allow the buyer to adjust this line quantity. */
     "allow_quantity_adjustment": boolean;
     /**
-     * Unit price multiplied by this line's `quantity`, before modifiers, discounts, and tax. It
-     * doesn't include the subscription's `quantity`. Monetary amount represented as integer minor
-     * units plus an ISO 4217 currency code.
+     * Unit price multiplied by this line's `quantity`, before modifiers, discounts, and tax.
+     * Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      */
     "base_subtotal_money": MoneyValue;
     /**
@@ -3425,27 +3422,4 @@ export type BuyerSubscriptionLineItem = {
      * replaces it. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      */
     "variant_id"?: string;
-};
-/** A page of `BuyerSubscription` objects. */
-export type BuyerSubscriptionListResponse = {
-    /**
-     * Resource, collection, or operation result returned by this request. [] (Value): {@link
-     * BuyerSubscription}. A customer's recurring purchase.
-     */
-    "data": Array<BuyerSubscription>;
-    /**
-     * Additional information about this response. Metadata returned with a response: the
-     * `api_version`, `trace_id`, whether an idempotent request was replayed, and any warnings.
-     */
-    "meta"?: ResponseMeta;
-    /**
-     * Opaque token to send as `page_token` to retrieve the next page. Omitted when there is no
-     * next page.
-     */
-    "next_page_token"?: string;
-    /**
-     * Identifier of this API request, used to correlate logs and support requests. maxLength: 128.
-     * pattern: ^req_[0-9A-HJKMNP-TV-Z]{26}$. Example: "req_01KWM6WAHG3N9Q8T2V5XRZ7C4D".
-     */
-    "request_id": string;
 };

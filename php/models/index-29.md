@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# WebhookEndpointListResponseInput to DeliveryProfileResponse
+# WebhookEndpointInput to DeliveryPreviewResponse
 
+- [WebhookEndpointInput](WebhookEndpointInput.md)
 - [WebhookEndpointListResponseInput](WebhookEndpointListResponseInput.md)
 - [WebhookEndpointResponseInput](WebhookEndpointResponseInput.md)
 - [WebhookEndpointWithSecretInput](WebhookEndpointWithSecretInput.md)
@@ -101,5 +102,4 @@
 - [DeliveryLocationSetResponse](DeliveryLocationSetResponse.md)
 - [DeliveryMethodResponse](DeliveryMethodResponse.md)
 - [DeliveryPreviewResponse](DeliveryPreviewResponse.md)
-- [DeliveryProfileResponse](DeliveryProfileResponse.md)
 

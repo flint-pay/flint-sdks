@@ -2970,7 +2970,7 @@ export type PaymentLinkSubscriptionPreview = {
      * (Required): integer. Minimum buyer quantity, defaulting to 1. Whole-number quantity;
      * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999. [].name
      * (Required): string. The captured line name. [].quantity (Required): integer. The line
-     * quantity, before the subscription quantity multiplier. Whole-number quantity; fractional
+     * quantity is the seat count. Nothing multiplies it. Whole-number quantity; fractional
      * quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
      * [].subscription_plan_line_item_id (Optional): string. The plan line whose terms were
      * captured. Absent when an older snapshot did not record its plan line ID. pattern:
@@ -2994,7 +2994,7 @@ export type PaymentLinkSubscriptionPreview = {
         /** The captured line name. */
         "name": string;
         /**
-         * The line quantity, before the subscription quantity multiplier. Whole-number quantity;
+         * The line quantity is the seat count. Nothing multiplies it. Whole-number quantity;
          * fractional quantities are not supported. Format: int32. minimum: 1. maximum: 9999.
          */
         "quantity": number;
@@ -3016,12 +3016,6 @@ export type PaymentLinkSubscriptionPreview = {
     "plan_image"?: Image;
     /** Plan name shown to the buyer. */
     "plan_name": string;
-    /**
-     * Quantities the plan offers, which the buyer chooses among on the checkout this link opens.
-     * The same values as the subscription plan's `quantity_options`. maxItems: 10. uniqueItems:
-     * true. [] (Value): integer. Format: int32. minimum: 1. maximum: 100.
-     */
-    "quantity_options": Array<number>;
     /**
      * Recurring total for one billing interval, including line quantities and resolved modifiers.
      * Monetary amount represented as integer minor units plus an ISO 4217 currency code.

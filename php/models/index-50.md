@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled to SubscriptionPreviewError
+# CreateReturnPreviewResponseDataResolutionEligibilityPolicyEvaluation to SelectableErrorResource
 
+- [CreateReturnPreviewResponseDataResolutionEligibilityPolicyEvaluation](CreateReturnPreviewResponseDataResolutionEligibilityPolicyEvaluation.md)
+- [CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilledLineItemsItem](CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilledLineItemsItem.md)
 - [CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled](CreateReturnPreviewResponseDataResolutionEligibilitySelectionAllRemainingFulfilled.md)
 - [CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItemsLineItemsItem](CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItemsLineItemsItem.md)
 - [CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItems](CreateReturnPreviewResponseDataResolutionEligibilitySelectionLineItems.md)
@@ -100,6 +102,4 @@
 - [QuotaDetails](QuotaDetails.md)
 - [ScopeRequirement](ScopeRequirement.md)
 - [SelectableErrorResource](SelectableErrorResource.md)
-- [ErrorDetail](ErrorDetail.md)
-- [SubscriptionPreviewError](SubscriptionPreviewError.md)
 

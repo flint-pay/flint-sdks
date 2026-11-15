@@ -43,6 +43,12 @@ One-time API keys, customer session secrets, partner app secrets, access-link UR
 
 Refund creation now uses the public idempotency record: a duplicate in progress returns `IDEMPOTENCY_KEY_IN_PROGRESS`, and a completed same-key retry returns the first response rather than a later resource state. Gift-card and inventory keys follow the caller's public namespace and operation; partner installs have separate namespaces on the routes already migrated. Review the API migration notes for [replay access](https://developers.withflintpay.com/changelog/2026-11-14-idempotent-replays-respect-the-reader), [gift-card keys](https://developers.withflintpay.com/changelog/2026-11-15-gift-card-keys-follow-the-caller-and-operation), and [inventory keys](https://developers.withflintpay.com/changelog/2026-11-15-inventory-idempotency).
 
+### Other generated model changes
+
+`me.listEmailChangeRequests` now uses `BuyerEmailChangeRequestListResponse` and buyer email-change items instead of the merchant `EmailChangeRequestListResponse`. In PHP, update any response-class checks or constructed fixtures to the new class. In Node, use `CreateSubscriptionPreviewRequestQuantityChange` instead of the removed `CreateMeSubscriptionPreviewRequestQuantityChange` alias. PHP no longer exposes `getQuantity` or `getQuantityOptions` on the affected subscription, plan, preview, checkout-term, and webhook snapshot models; read each line's quantity instead.
+
+Constructed merchant billing balances require `past_due_money` (zero when nothing is past due), and readiness requirements require `upcoming_due` (an empty list when none are scheduled). Handle optional `past_due_at`, `payout_hold_at`, and `upcoming_due_at` timestamps. Generated GET and webhook models include these declarations where their resource projection does. The beta.3 comparison contains 287 breaking, 652 review, and 33 additive findings, including the subscription getter removals, optional replay fields, checkout authentication, and these model changes.
+
 ## Changes in 8.0.0-beta.3
 
 The `8.0.0-beta.3` prerelease pins Flint `main` at `323766dba32c7945254bbcc0ff23b160f4076b18` (API date still `2026-09-07`). The API changes below already apply to every supported API version, so upgrade your calls with the SDK. Field-level request and response changes are listed in the [API changelog](https://developers.withflintpay.com/changelog).

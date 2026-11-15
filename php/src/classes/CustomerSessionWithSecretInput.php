@@ -14,7 +14,7 @@ namespace Flint;
  * @property-read string $secret
  * Presence-aware input; omitted fields throw when accessed. */
 final class CustomerSessionWithSecretInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'customer_id': string, 'customer_session_id': string, 'expires_at': string|\DateTimeInterface, 'refresh_token_expires_at': string|\DateTimeInterface, 'revoked_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'refresh_token': string, 'secret': string, ...}|object $values */
+    /** @param array{'created_at': string|\DateTimeInterface, 'customer_id': string, 'customer_session_id': string, 'expires_at': string|\DateTimeInterface, 'refresh_token_expires_at': string|\DateTimeInterface, 'revoked_at'?: string|\DateTimeInterface, 'status': string, 'supported_actions': list<string>, 'refresh_token'?: string, 'secret'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CustomerSessionWithSecretInput')); }
     /** When the session was created. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
@@ -64,13 +64,13 @@ final class CustomerSessionWithSecretInput extends Model {
      */
     public function getSupportedActions(): array { return $this->get('supported_actions'); }
     public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
-    /** Single-use refresh token. Returned only on create and refresh; retry rotation with the same Idempotency-Key.
+    /** Single-use refresh token. Returned only on create and refresh; retry rotation with the same Idempotency-Key. Returned only to the credential that created it, and omitted when another credential replays the request.
      * @return string
      * @throws SdkError When refresh_token is omitted; use hasRefreshToken() or valueOrDefault().
      */
     public function getRefreshToken(): string { return $this->get('refresh_token'); }
     public function hasRefreshToken(): bool { return $this->has('refresh_token'); }
-    /** Current server-held customer session secret. Returned only on create and refresh.
+    /** Current server-held customer session secret. Returned only on create and refresh. Returned only to the credential that created it, and omitted when another credential replays the request.
      * @return string
      * @throws SdkError When secret is omitted; use hasSecret() or valueOrDefault().
      */

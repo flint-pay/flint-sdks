@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# DeliveryPickupAvailabilityInput to DeliveryRateCallbackWithSecretResponseInput
+# DeliveryPendingCallerRateRequestInput to DeliveryRateCallbackWithSecretInput
 
+- [DeliveryPendingCallerRateRequestInput](DeliveryPendingCallerRateRequestInput.md)
 - [DeliveryPickupAvailabilityInput](DeliveryPickupAvailabilityInput.md)
 - [DeliveryPickupAvailabilityCandidateOutcomeInput](DeliveryPickupAvailabilityCandidateOutcomeInput.md)
 - [DeliveryPickupAvailabilityDiagnosticInput](DeliveryPickupAvailabilityDiagnosticInput.md)
@@ -101,5 +102,4 @@
 - [DeliveryRateCallbackUpdatedInstalledMerchantsEventInput](DeliveryRateCallbackUpdatedInstalledMerchantsEventInput.md)
 - [DeliveryRateCallbackUpdatedMerchantEventInput](DeliveryRateCallbackUpdatedMerchantEventInput.md)
 - [DeliveryRateCallbackWithSecretInput](DeliveryRateCallbackWithSecretInput.md)
-- [DeliveryRateCallbackWithSecretResponseInput](DeliveryRateCallbackWithSecretResponseInput.md)
 

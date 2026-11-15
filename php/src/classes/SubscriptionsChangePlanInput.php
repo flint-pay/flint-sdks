@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $subscription_id
- * @property-read array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'expected_version'?: int, 'line_items'?: list<mixed>, 'quantity'?: int, 'subscription_plan_id': string}|object $body
+ * @property-read array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'expected_version'?: int, 'line_items'?: list<mixed>, 'subscription_plan_id': string}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class SubscriptionsChangePlanInput extends Model {
-    /** @param array{'subscription_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'expected_version'?: int, 'line_items'?: list<mixed>, 'quantity'?: int, 'subscription_plan_id': string}|object}|object $values */
+    /** @param array{'subscription_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'expected_version'?: int, 'line_items'?: list<mixed>, 'subscription_plan_id': string}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionsChangePlanInput')); }
     /** Subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
@@ -35,7 +35,7 @@ final class SubscriptionsChangePlanInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Change subscription plan. Example: {"billing_interval":"monthly","billing_interval_count":1,"billing_starts":"now","expected_version":1,"subscription_plan_id":"plan_01KEZF7C00H4XP3KVYSYYWA181"}.
-     * @return array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'expected_version'?: int, 'line_items'?: list<mixed>, 'quantity'?: int, 'subscription_plan_id': string}|object
+     * @return array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_starts': string, 'expected_version'?: int, 'line_items'?: list<mixed>, 'subscription_plan_id': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# OrderPaymentIntentSelectionInput to PaymentAttemptPaymentIntentInput
+# OrderPaymentAttemptResponseInput to PaymentAttemptGiftCardRedemptionInput
 
+- [OrderPaymentAttemptResponseInput](OrderPaymentAttemptResponseInput.md)
 - [OrderPaymentIntentSelectionInput](OrderPaymentIntentSelectionInput.md)
 - [OrderPaymentSourceCardSelectionInput](OrderPaymentSourceCardSelectionInput.md)
 - [OrderPaymentSourceSelectionInput](OrderPaymentSourceSelectionInput.md)
@@ -101,5 +102,4 @@
 - [PauseSubscriptionRequestInput](PauseSubscriptionRequestInput.md)
 - [PaymentAddOnFeeInput](PaymentAddOnFeeInput.md)
 - [PaymentAttemptGiftCardRedemptionInput](PaymentAttemptGiftCardRedemptionInput.md)
-- [PaymentAttemptPaymentIntentInput](PaymentAttemptPaymentIntentInput.md)
 

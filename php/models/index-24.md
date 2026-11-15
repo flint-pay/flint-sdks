@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# ReturnReceiptLineItemInput to SelectableErrorResourceInput
+# ReturnReceiptCreatedMerchantEventInput to ScopeRequirementInput
 
+- [ReturnReceiptCreatedMerchantEventInput](ReturnReceiptCreatedMerchantEventInput.md)
 - [ReturnReceiptLineItemInput](ReturnReceiptLineItemInput.md)
 - [ReturnReceiptLineItemInputExcessInput](ReturnReceiptLineItemInputExcessInput.md)
 - [ReturnReceiptLineItemInputMatchedInput](ReturnReceiptLineItemInputMatchedInput.md)
@@ -101,5 +102,4 @@
 - [SavePaymentMethodResponseInput](SavePaymentMethodResponseInput.md)
 - [ScheduleFulfillmentRequestInput](ScheduleFulfillmentRequestInput.md)
 - [ScopeRequirementInput](ScopeRequirementInput.md)
-- [SelectableErrorResourceInput](SelectableErrorResourceInput.md)
 

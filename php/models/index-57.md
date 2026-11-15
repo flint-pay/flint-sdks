@@ -1,7 +1,9 @@
 [Model index](../MODELS.md)
 
-# CreditNoteUpdatedInstalledMerchantsEventData to DeliveryMethodCreatedMerchantEventDataObject
+# CreditNoteUpdatedMerchantEvent to DeliveryMethodArchivedInstalledMerchantsEventSource
 
+- [CreditNoteUpdatedMerchantEvent](CreditNoteUpdatedMerchantEvent.md)
+- [CreditNoteUpdatedInstalledMerchantsEventDataObject](CreditNoteUpdatedInstalledMerchantsEventDataObject.md)
 - [CreditNoteUpdatedInstalledMerchantsEventData](CreditNoteUpdatedInstalledMerchantsEventData.md)
 - [CreditNoteUpdatedInstalledMerchantsEventSource](CreditNoteUpdatedInstalledMerchantsEventSource.md)
 - [CreditNoteUpdatedInstalledMerchantsEvent](CreditNoteUpdatedInstalledMerchantsEvent.md)
@@ -100,6 +102,4 @@
 - [DeliveryMethodArchivedInstalledMerchantsEventDataObject](DeliveryMethodArchivedInstalledMerchantsEventDataObject.md)
 - [DeliveryMethodArchivedInstalledMerchantsEventData](DeliveryMethodArchivedInstalledMerchantsEventData.md)
 - [DeliveryMethodArchivedInstalledMerchantsEventSource](DeliveryMethodArchivedInstalledMerchantsEventSource.md)
-- [DeliveryMethodArchivedInstalledMerchantsEvent](DeliveryMethodArchivedInstalledMerchantsEvent.md)
-- [DeliveryMethodCreatedMerchantEventDataObject](DeliveryMethodCreatedMerchantEventDataObject.md)
 

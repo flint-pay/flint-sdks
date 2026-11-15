@@ -131,7 +131,7 @@ $result = $client->me->cancelSubscription('sub_01KEZF7C00BVRE8YDBXQB74BBM', null
 
 ### me.changeSubscriptionPlan
 
-Changes to a plan in the subscription's plan_change_options. Flint uses that option's billing_starts: now charges a new period with credit for unused paid item time and changes the plan only when payment succeeds; prorated_now charges the difference for the rest of the current period, keeps the period and anchor, and requires an unchanged interval; next_renewal changes the plan immediately without charging and keeps the current period and next billing date. Omit interval and quantity to keep their current values; the target plan must offer them. Requires a full buyer session and Idempotency-Key. Send expected_version to reject a concurrent change. Retry with the same key to recover the same result. Returns 200 including on decline, with the unchanged subscription, a closed unpaid order, and a failed order_payment_attempt. Inspect order_payment_attempt.last_payment_error before trying again. The order and order_payment_attempt are null when billing starts at the next renewal. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
+Changes to a plan in the subscription's plan_change_options. Flint uses that option's billing_starts: now charges a new period with credit for unused paid item time and changes the plan only when payment succeeds; prorated_now charges the difference for the rest of the current period, keeps the period and anchor, and requires an unchanged interval; next_renewal changes the plan immediately without charging and keeps the current period and next billing date. Omit the interval pair to keep the current interval when the target plan offers it, otherwise use the target default. Requires a full buyer session and Idempotency-Key. Send expected_version to reject a concurrent change. Retry with the same key to recover the same result. Returns 200 including on decline, with the unchanged subscription, a closed unpaid order, and a failed order_payment_attempt. Inspect order_payment_attempt.last_payment_error before trying again. The order and order_payment_attempt are null when billing starts at the next renewal. When the store cannot accept payments, a new payment fails with 409 MERCHANT_NOT_READY and reason processing_restricted. Changes billed at a future renewal remain available. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `POST /v1/me/subscriptions/{subscription_id}/change-plan`
 
@@ -153,7 +153,6 @@ Body model: [ChangeMeSubscriptionPlanRequestInput](../models/ChangeMeSubscriptio
 | `billing_interval` | Optional | string | Send with billing_interval_count to choose a target plan option. Omit both to keep the current interval if the target offers that pair, otherwise use the target plan's default interval and count. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Optional | integer | Required when billing_interval is sent; billing_interval is required when this field is sent. minimum: `1`. maximum: `365`. |
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
-| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted; omission keeps the current quantity. Use line_items for multiple units. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `subscription_plan_id` | Required | string | The target subscription plan. minLength: `1`. pattern: `^plan_[0-9A-HJKMNP-TV-Z]{26}$`. |
 
 #### Response
@@ -1058,7 +1057,6 @@ Estimated pricing for a subscription plan change, including the recurring item s
 | `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
 | `effective_at` | Required | string or null | When the plan is expected to take effect. Null when no billing time is scheduled. Format: `date-time`. |
 | `mode` | Required | string | The preview kind. Every plan change preview has the same value. Values: `"plan_change"`. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Required | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The recurring charge for one billing period's items on the new plan, including modifiers and quantities, before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `renewal` | Required | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimate of the charge the change produces: item subtotal, discounts (including any credit for unused time), shipping, tax, and total. Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. |
 | `subscription_id` | Required | string | ID of the subscription the change was previewed for. |
@@ -1079,7 +1077,6 @@ Estimated pricing for a quantity change that keeps the billing period and anchor
 | `interval` | Required | string | The subscription billing interval after the quantity change. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `interval_count` | Required | integer | The number of interval units in each billing period. Format: `int32`. |
 | `mode` | Required | string | The kind of subscription pricing estimate. Values: `"quantity_change"`. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `recurring_subtotal_money` | Required | [MoneyValue](../models/DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariantGiftCardPurchaseFaceValueMoney.md#deliverypreviewresponsedatadeliveryoptionslineitemsitemvariantgiftcardpurchasefacevaluemoney) | The full-period recurring item subtotal after the quantity change, before discounts, tax, or shipping. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `renewal` | Required | [SubscriptionRenewalEstimate](../models/SubscriptionRenewalEstimate.md#subscriptionrenewalestimate) | Estimated charge for this quantity change, including proration, unused-time credit, discounts, and tax. Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax. |
 | `subscription_id` | Required | string | The subscription whose quantities were estimated. |
@@ -2486,7 +2483,7 @@ Field definitions: [shared fields](feedbackReports.md#request-fields-2).
 
 #### Response
 
-Returned payload: [EmailChangeRequestListResponse](../models/EmailChangeRequestListResponse.md#emailchangerequestlistresponse).
+Returned payload: [BuyerEmailChangeRequestListResponse](../models/BuyerEmailChangeRequestListResponse.md#buyeremailchangerequestlistresponse).
 
 #### Errors
 
@@ -4364,7 +4361,7 @@ $result = $client->me->updateEmailPreferences([
 
 ### me.updateSubscription
 
-Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery, billing interval and quantity when the matching buyer action is available. Send billing_interval and billing_interval_count together. Mixed changes commit atomically. A scoped card-update session may send only payment_method_id and expected_version. Send expected_version to reject concurrent changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
+Updates payment_method_id, cancel_at_period_end: false, scheduled_plan_change: null, delivery and billing interval when the matching buyer action is available. Send billing_interval and billing_interval_count together. Mixed changes commit atomically. A scoped card-update session may send only payment_method_id and expected_version. Send expected_version to reject concurrent changes. A card whose setup hasn't finished fails with `ACTION_NOT_ALLOWED` and reason `status_not_reached`. Once setup finishes, send a new request with a new idempotency key. A closed store is read-only: commerce changes fail with 409 ACTION_NOT_ALLOWED and reason terminal_status. Receipts and order history remain readable.
 
 `PATCH /v1/me/subscriptions/{subscription_id}`
 
@@ -4389,7 +4386,6 @@ Body model: [UpdateMeSubscriptionRequestInput](../models/UpdateMeSubscriptionReq
 | `delivery` | Optional | [SubscriptionDeliveryRequestInput](../models/SubscriptionDeliveryRequestInput.md#subscriptiondeliveryrequestinput) | Replaces the whole saved delivery preference. The delivery method must be one the subscription's plan offers. Not accepted as null. The delivery preference to set on a subscription: delivery method, type, destination, and recipient. |
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
 | `payment_method_id` | Optional | string | ID of the saved payment method to charge for renewals. It must belong to the subscription's customer, be active, and allow charges without the buyer present. Not accepted as null. minLength: `1`. |
-| `quantity` | Optional | integer | Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: `1`. maximum: `1`. |
 | `scheduled_plan_change` | Optional | null | Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it unchanged. Schedule or replace through change-plan. |
 
 #### Response
@@ -4431,7 +4427,7 @@ Authentication modes: `customer`. [Credential setup](../RUNTIME.md#authenticatio
 $idempotencyKey = bin2hex(random_bytes(16));
 
 $result = $client->me->updateSubscription('sub_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
-  'quantity' => 1,
+  'payment_method_id' => 'pm_01ARZ3NDEKTSV4RRFFQ69G5FAV',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
 ```
 

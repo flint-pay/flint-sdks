@@ -206,10 +206,16 @@ export interface PaymentIntentsResource {
  * null while status is requires_action if Flint cannot produce the action yet; call confirm again
  * without payment_source. For an order leg, Flint applies the order payment effects and continues
  * its holding attempt without creating another. Starts that need several legs or gift cards return
- * managed_by_owner naming pay_order. Invoice-owned and subscription-owned payments refuse both
- * start and continuation with managed_by_owner naming collect_invoice or
- * create_subscription_payment_retry. save_payment_method saves for the order customer for
- * off-session reuse; an order without a customer returns configuration_required.
+ * managed_by_owner naming pay_order. Merchant credentials cannot confirm invoice-owned payments;
+ * use collect_invoice. The invoice checkout credential confirms its own session's legs through the
+ * invoice collection steps. Subscription-owned payments refuse both start and continuation with
+ * managed_by_owner naming create_subscription_payment_retry. Checkout recovery credentials can
+ * only continue the legs held by their recovery payment attempt, without payment_source; other
+ * attempts' legs return 404 RESOURCE_NOT_FOUND. Checkout credentials outside recovery can start
+ * and continue only their own session's payment intents; other sessions' intents and standalone
+ * intents return 404 RESOURCE_NOT_FOUND. Checkout credentials cannot send save_payment_method;
+ * save a card through order pay. save_payment_method saves for the order customer for off-session
+ * reuse; an order without a customer returns configuration_required.
  *
  * `POST /v1/payment-intents/{payment_intent_id}/confirm`
  * @param payment_intent_id Flint payment intent ID.
@@ -221,7 +227,7 @@ export interface PaymentIntentsResource {
  * client.paymentIntents.confirm("pi_01KEZF7C00G8H9D509YEV22P7R", undefined, { idempotencyKey:
  * idempotencyKey })
  */
-    confirm(payment_intent_id: InputValue<string>, params?: PaymentIntentsConfirmParams, options?: RequestOptions<"merchant">): Promise<WithResponseInfo<PaymentIntentWithAction, ConfirmPaymentIntentResponse>>;
+    confirm(payment_intent_id: InputValue<string>, params?: PaymentIntentsConfirmParams, options?: RequestOptions<"checkout" | "merchant">): Promise<WithResponseInfo<PaymentIntentWithAction, ConfirmPaymentIntentResponse>>;
     /**
  * Creates a standalone payment intent, or an immutable payment leg when order_id is sent. Order
  * legs use the order currency, amount, capture and tax rules; omit amount_money to use the

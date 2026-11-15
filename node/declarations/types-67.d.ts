@@ -918,11 +918,6 @@ export type UpdateMeSubscriptionRequest = ({
      */
     "payment_method_id"?: string;
     /**
-     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
-     * quantities are not supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
-    /**
      * Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it
      * unchanged. Schedule or replace through change-plan.
      */
@@ -966,11 +961,6 @@ export type UpdateMeSubscriptionRequestInput = ({
      * minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      */
     "payment_method_id"?: string;
-    /**
-     * Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional
-     * quantities are not supported. minimum: 1. maximum: 1.
-     */
-    "quantity"?: number;
     /**
      * Send null to cancel a scheduled plan change and keep the current plan. Omit to leave it
      * unchanged. Schedule or replace through change-plan.

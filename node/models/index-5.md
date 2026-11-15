@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# CompleteReturnRequestInput to CreateDeliveryPreviewRequest
+# CompleteReturnRequest to CreateDeliveryPickupLocationsPreviewRequestInput
 
+- [CompleteReturnRequest](CompleteReturnRequest.md)
 - [CompleteReturnRequestInput](CompleteReturnRequestInput.md)
 - [ConfigurationVersionRequestInput](ConfigurationVersionRequestInput.md)
 - [ConfirmCheckoutSessionCustomerVerificationRequest](ConfirmCheckoutSessionCustomerVerificationRequest.md)
@@ -101,5 +102,4 @@
 - [CreateDeliveryOptionsPreviewRequestInput](CreateDeliveryOptionsPreviewRequestInput.md)
 - [CreateDeliveryPickupLocationsPreviewRequest](CreateDeliveryPickupLocationsPreviewRequest.md)
 - [CreateDeliveryPickupLocationsPreviewRequestInput](CreateDeliveryPickupLocationsPreviewRequestInput.md)
-- [CreateDeliveryPreviewRequest](CreateDeliveryPreviewRequest.md)
 

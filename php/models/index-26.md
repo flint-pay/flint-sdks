@@ -1,7 +1,8 @@
 [Model index](../MODELS.md)
 
-# SubscriptionEndAfterCyclesInput to SubscriptionTrialEndingMerchantEventInput
+# SubscriptionEndAfterInput to SubscriptionTrialEndingInstalledMerchantsEventInput
 
+- [SubscriptionEndAfterInput](SubscriptionEndAfterInput.md)
 - [SubscriptionEndAfterCyclesInput](SubscriptionEndAfterCyclesInput.md)
 - [SubscriptionEndAfterCyclesRequestInput](SubscriptionEndAfterCyclesRequestInput.md)
 - [SubscriptionEndAfterDateInput](SubscriptionEndAfterDateInput.md)
@@ -101,5 +102,4 @@
 - [SubscriptionTaxRequestInput](SubscriptionTaxRequestInput.md)
 - [SubscriptionTermsRequestInput](SubscriptionTermsRequestInput.md)
 - [SubscriptionTrialEndingInstalledMerchantsEventInput](SubscriptionTrialEndingInstalledMerchantsEventInput.md)
-- [SubscriptionTrialEndingMerchantEventInput](SubscriptionTrialEndingMerchantEventInput.md)
 

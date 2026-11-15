@@ -5,10 +5,10 @@ namespace Flint;
  * @property-read string $expires_at
  * @property-read string $purpose
  * @property-read string|null $return_url
- * @property-read string $url
+ * @property-read ?string $url
  * Presence-aware response; omitted optional fields return null. */
 final class AccessLink extends Model {
-    /** @param array{'expires_at': string, 'purpose': string, 'return_url': string|null, 'url': string, ...}|object $values */
+    /** @param array{'expires_at': string, 'purpose': string, 'return_url': string|null, 'url'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AccessLink')); }
     /** When the link stops opening what its purpose describes. Format: date-time.
      * @return string
@@ -25,9 +25,9 @@ final class AccessLink extends Model {
      */
     public function getReturnUrl(): string|null { return $this->get('return_url'); }
     public function hasReturnUrl(): bool { return $this->has('return_url'); }
-    /** The link to send the person to. It carries a bearer credential, so anyone with it can open what its purpose describes until expires_at or until it reaches its open limit. Customer account links use the merchant's customer account host; onboarding links use Flint's dashboard host and carry the credential in the URL fragment. Format: uri.
-     * @return string
+    /** The link to send the person to. It carries a bearer credential, so anyone with it can open what its purpose describes until expires_at or until it reaches its open limit. Customer account links use the merchant's customer account host; onboarding links use Flint's dashboard host and carry the credential in the URL fragment. Returned only to the credential that created it, and omitted when another credential replays the request. Format: uri.
+     * @return ?string
      */
-    public function getUrl(): string { return $this->get('url'); }
+    public function getUrl(): ?string { return $this->get('url'); }
     public function hasUrl(): bool { return $this->has('url'); }
 }

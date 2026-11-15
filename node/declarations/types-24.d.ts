@@ -2345,9 +2345,11 @@ export type ExpandedPaymentIntentSummary = {
      * payments list only cancel; subscription payments list none. Order edit payments list confirm
      * while awaiting payment details or action. A listed action can still be refused due to an
      * open risk review, an order payment attempt, a closed order, or the merchant account. A
-     * managed_by_owner refusal names the owner and its command in remediation.next_actions. Always
-     * empty for buyer credentials. New actions may be added. [] enum: "confirm", "capture",
-     * "cancel". [] (Value): string. Value enum: "confirm", "capture", "cancel".
+     * managed_by_owner refusal names the owner and its command in remediation.next_actions. The
+     * merchant list is credential-independent. Checkout credentials receive that list filtered to
+     * confirm and cancel on their own session's intents, never capture. Customer sessions omit
+     * this field. New actions may be added. [] enum: "confirm", "capture", "cancel". [] (Value):
+     * string. Value enum: "confirm", "capture", "cancel".
      */
     "supported_actions": Array<"confirm" | "capture" | "cancel" | (string & {})>;
     /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z". */
@@ -2659,14 +2661,6 @@ export type ExpandedSubscriptionPlanSummary = {
     "line_items"?: Array<SubscriptionPlanLineItem>;
     /** Name of the plan. Buyers see it at checkout and on their subscription. */
     "name": string;
-    /**
-     * Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending
-     * order. Flint accepts only a subscription quantity of 1, so you can set this list only to
-     * `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line
-     * item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10.
-     * uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
-     */
-    "quantity_options"?: Array<number>;
     /**
      * One-time fee charged with the first payment of a new subscription, except one that continues
      * an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented
@@ -3394,9 +3388,10 @@ export type FileUpload = {
     "method": "PUT" | (string & {});
     /**
      * A signed upload target. Send the bytes with method and headers verbatim; keep the URL out of
-     * logs. Format: uri. Example: "https://example.com/receipt".
+     * logs. Returned only to the credential that created it, and omitted when another credential
+     * replays the request. Format: uri. Example: "https://example.com/receipt".
      */
-    "url": string;
+    "url"?: string;
 };
 export type FilesCompleteParams = (InputValue<{}> | {})
     & {
