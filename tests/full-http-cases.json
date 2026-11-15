@@ -3239,7 +3239,7 @@
         "x-checkout-session-id",
         "x-checkout-session-secret"
       ],
-      "body": "{\"expected_order_version\":1,\"order_id\":\"ord_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}"
+      "body": "{\"order_id\":\"ord_01ARZ3NDEKTSV4RRFFQ69G5FAV\",\"expected_order_version\":1}"
     },
     "responses": [
       {
@@ -3333,7 +3333,7 @@
         "x-checkout-session-id",
         "x-checkout-session-secret"
       ],
-      "body": "{\"billing_starts\":\"period_end\",\"line_items\":[{\"quantity\":6,\"subscription_line_item_id\":\"sli_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}]}"
+      "body": "{\"billing_starts\":\"period_end\",\"line_items\":[{\"subscription_line_item_id\":\"sli_01ARZ3NDEKTSV4RRFFQ69G5FAV\",\"quantity\":6}]}"
     },
     "responses": [
       {
@@ -3409,7 +3409,7 @@
         "x-checkout-session-id",
         "x-checkout-session-secret"
       ],
-      "body": "{\"billing_starts\":\"period_end\",\"line_items\":[{\"quantity\":6,\"subscription_line_item_id\":\"sli_01ARZ3NDEKTSV4RRFFQ69G5FAV\"}]}"
+      "body": "{\"billing_starts\":\"period_end\",\"line_items\":[{\"subscription_line_item_id\":\"sli_01ARZ3NDEKTSV4RRFFQ69G5FAV\",\"quantity\":6}]}"
     },
     "responses": [
       {
