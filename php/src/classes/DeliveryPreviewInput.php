@@ -19,13 +19,13 @@ namespace Flint;
 final class DeliveryPreviewInput extends Model {
     /** @param array{'buyer_location'?: DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass, 'choice_groups': list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: AddressInput|array<array-key, mixed>|\stdClass, 'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'expires_at': string|\DateTimeInterface, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'line_items': list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryMerchantDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string, 'pickup_location_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewInput')); }
-    /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote.
+    /** Buyer location used to evaluate delivery availability and pickup proximity. Omitted when the request sent none. The normalized buyer address or coordinate used for this quote.
      * @return DeliveryBuyerLocationResourceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_location is omitted; use hasBuyerLocation() or valueOrDefault().
      */
     public function getBuyerLocation(): mixed { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
-    /**  [] (Value): {@see DeliveryPreviewChoiceGroupResourceInput}. One group of order items in a delivery options preview, with the options a buyer could choose, its availability status, and any input still needed.
+    /** Groups of order items that each choose their own delivery option. [] (Value): {@see DeliveryPreviewChoiceGroupResourceInput}. One group of order items in a delivery options preview, with the options a buyer could choose, its availability status, and any input still needed.
      * @return list<DeliveryPreviewChoiceGroupResourceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When choice_groups is omitted; use hasChoiceGroups() or valueOrDefault().
      */
@@ -37,31 +37,31 @@ final class DeliveryPreviewInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /**  [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
+    /** Delivery methods the preview evaluated. [] (Value): string. Example: "dmet_01KEZF7C00YSG3X2D1TZJ36TM0".
      * @return list<string>
      * @throws SdkError When delivery_method_ids is omitted; use hasDeliveryMethodIds() or valueOrDefault().
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** Destination address used to evaluate shipment and local delivery options. Omitted when the request sent none. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return AddressInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When destination_address is omitted; use hasDestinationAddress() or valueOrDefault().
      */
     public function getDestinationAddress(): mixed { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** Time Flint computed this preview. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().
      */
     public function getEvaluatedAt(): string|\DateTimeInterface { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /** Value enum: "complete", "incomplete", "degraded".
+    /** How completely Flint evaluated the candidate delivery methods. Value enum: "complete", "incomplete", "degraded".
      * @return string
      * @throws SdkError When evaluation_status is omitted; use hasEvaluationStatus() or valueOrDefault().
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
     public function hasEvaluationStatus(): bool { return $this->has('evaluation_status'); }
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** Request a new preview after this time, because prices and availability may have changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
      */
@@ -73,7 +73,7 @@ final class DeliveryPreviewInput extends Model {
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
-    /**  [] (Value): {@see CreateOrderLineItemInput}. A line item in a delivery preview: a catalog variant, a bundle, or a custom item with a name and unit price.
+    /** Items the preview evaluated. [] (Value): {@see CreateOrderLineItemInput}. A line item in a delivery preview: a catalog variant, a bundle, or a custom item with a name and unit price.
      * @return list<CreateOrderLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
@@ -91,7 +91,7 @@ final class DeliveryPreviewInput extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the Location at which pickup methods were priced. Omitted when the request sent none. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When pickup_location_id is omitted; use hasPickupLocationId() or valueOrDefault().
      */

@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryBusinessDayRangeRequestInput extends Model {
     /** @param array{'maximum': int, 'minimum': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryBusinessDayRangeRequestInput')); }
-    /** maximum
+    /** Most business days, from `minimum` to 365.
      * @return int
      * @throws SdkError When maximum is omitted; use hasMaximum() or valueOrDefault().
      */
     public function getMaximum(): int { return $this->get('maximum'); }
     public function hasMaximum(): bool { return $this->has('maximum'); }
-    /** minimum
+    /** Fewest business days, from 0.
      * @return int
      * @throws SdkError When minimum is omitted; use hasMinimum() or valueOrDefault().
      */

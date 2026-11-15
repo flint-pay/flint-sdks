@@ -7,18 +7,18 @@ namespace Flint;
  * @property-read string $product_id
  * @property-read list<ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemSelectedOptionsItem> $selected_options
  * @property-read ?string $sku
- * @property-read MoneyValue|null $unit_price_money
+ * @property-read ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemUnitPriceMoney $unit_price_money
  * @property-read string $variant_id
  * Presence-aware response; omitted optional fields return null. */
 final class ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItem extends Model {
     /** @param array{'image'?: mixed, 'name': string, 'product_id': string, 'selected_options': list<mixed>, 'sku'?: string, 'unit_price_money': mixed, 'variant_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItem')); }
-    /** An image with its URL, size, and alt text.
+    /** Primary image of the variant or its product. Omitted when there is none. An image with its URL, size, and alt text.
      * @return ?ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemImage
      */
     public function getImage(): ?ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemImage { return $this->get('image'); }
     public function hasImage(): bool { return $this->has('image'); }
-    /** name
+    /** Name of the variant, as the catalog shows it now: the product name, with the variant name when the variant has options.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
@@ -28,22 +28,22 @@ final class ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItem 
      */
     public function getProductId(): string { return $this->get('product_id'); }
     public function hasProductId(): bool { return $this->has('product_id'); }
-    /**  [] (Value): {@see ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
+    /** Option values that identify the variant, such as size and color. [] (Value): {@see ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
      * @return list<ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemSelectedOptionsItem>
      */
     public function getSelectedOptions(): array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** sku
+    /** SKU of the variant. Omitted when it has none.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
     public function hasSku(): bool { return $this->has('sku'); }
-    /**  anyOf[1] (Value): {@see MoneyValue}. anyOf[2] (Value): null.
-     * @return MoneyValue|null
+    /** Current price of one unit of the variant, in the plan's currency. Flint leaves out a variant that has no price or is priced in another currency. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+     * @return ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemUnitPriceMoney
      */
-    public function getUnitPriceMoney(): MoneyValue|null { return $this->get('unit_price_money'); }
+    public function getUnitPriceMoney(): ExpandedSubscriptionPlanSummaryLineItemsItemVariantSwapVariantsItemUnitPriceMoney { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** ID of the variant a subscriber can swap to. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
      */
     public function getVariantId(): string { return $this->get('variant_id'); }

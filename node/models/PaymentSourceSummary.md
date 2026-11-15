@@ -10,7 +10,7 @@ A summary of the payment source used for a payment, by funding-method family, wi
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `ach_debit` | Optional | [PaymentSourceAchDebitSummary](../models/PaymentSourceAchDebitSummary.md#paymentsourceachdebitsummary) | Display details for a bank account payment source: account type, bank name, and last four digits. |
-| `card` | Optional | [PaymentSourceCardSummary](../models/PaymentSourceCardSummary.md#paymentsourcecardsummary) | Display details for a card payment source: brand, last four digits, and payment method ID. |
+| `ach_debit` | Optional | [PaymentSourceAchDebitSummary](../models/PaymentSourceAchDebitSummary.md#paymentsourceachdebitsummary) | Bank account details. Present when type is ach_debit. Display details for a bank account payment source: account type, bank name, and last four digits. |
+| `card` | Optional | [PaymentSourceCardSummary](../models/PaymentSourceCardSummary.md#paymentsourcecardsummary) | Card details. Present when type is card. Display details for a card payment source: brand, last four digits, and payment method ID. |
 | `type` | Required | string | Funding-method family. Wallet payment options use card because their underlying funding source is a card. Values: `"card"`, `"ach_debit"`, `"affirm"`. |
 

@@ -36,7 +36,7 @@ final class BuyerReturnHandoffRequirementInput extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Format: int64.
+    /** Reserved. Flint doesn't set it today, so it's always omitted. Format: int64.
      * @return int
      * @throws SdkError When shipment_count is omitted; use hasShipmentCount() or valueOrDefault().
      */

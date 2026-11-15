@@ -10,7 +10,7 @@ namespace Flint;
 final class DeliverySelectionListResponse extends Model {
     /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionListResponse')); }
-    /** Resource, collection, or operation result returned by this request. [] (Value): {@see DeliverySelection}. The delivery choice selected for a checkout or order.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see DeliverySelection}. The delivery choice selected for a checkout or order. Poll GET /v1/delivery-selections/{delivery_selection_id} or list delivery selections to read its current status.
      * @return list<DeliverySelection>
      */
     public function getData(): array { return $this->get('data'); }

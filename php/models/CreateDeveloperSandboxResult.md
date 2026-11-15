@@ -9,7 +9,7 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_key` | Optional | [APIKey](../models/APIKey.md#apikey) | The newly issued test API key. Present exactly when issue_test_key is true. A credential used to authenticate API requests. `api_key`: [field definitions](../models/CreateDeveloperSandboxResult.md#createdevelopersandboxresultapi_key). |
-| `sandbox` | Required | [Sandbox](../models/Sandbox.md#sandbox) | An isolated environment for testing an integration. `sandbox`: [field definitions](../models/SandboxListResponse.md#sandboxlistresponsedata). |
+| `sandbox` | Required | [Sandbox](../models/Sandbox.md#sandbox) | The sandbox Flint created. An isolated environment for testing an integration. `sandbox`: [field definitions](../models/CreateDeveloperSandboxResult.md#createdevelopersandboxresultsandbox). |
 | `secret_key` | Optional | string | The one-time secret for api_key. Present exactly when issue_test_key is true. |
 
 ### CreateDeveloperSandboxResult.api_key
@@ -24,5 +24,7 @@ Field definitions: [CreateAPIKeyResponse.data.created_by](../models/CreateAPIKey
 
 ### CreateDeveloperSandboxResult.sandbox
 
-Field definitions: [SandboxListResponse.data[]](../models/SandboxListResponse.md#sandboxlistresponsedata).
+The sandbox Flint created. An isolated environment for testing an integration.
+
+Field definitions: [shared fields](SandboxInput.md#sandboxinput).
 

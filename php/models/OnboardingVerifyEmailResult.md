@@ -8,8 +8,8 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `can_issue_api_key` | Required | boolean | Whether the merchant has no external API key and a default sandbox exists. |
 | `default_sandbox_id` | Optional | string | ID of the merchant's default sandbox for testing API calls. Omitted when the merchant has no default sandbox. |
+| `fresh_verification_expires_at` | Required | string | The last instant this session counts as freshly verified, 5 minutes after verification. Until then it can create keys with full or read_only access or with accounts.api_keys.write, accounts.workload_identities.write or commerce.gift_cards.secrets.write. Create the first sandbox key with POST /v1/api-keys before this time; afterward verify the email again for a fresh session. Format: `date-time`. |
 | `merchant` | Required | [Merchant](../models/Merchant.md#merchant) | The merchant the onboarding session acts for, whether newly provisioned or already associated with the user. Its readiness describes the default sandbox identified by default_sandbox_id, matching GET /v1/merchant with this onboarding session. The business accepting payments. `merchant`: [field definitions](../models/OnboardingVerifyEmailResponse.md#onboardingverifyemailresponsedatamerchant). |
 | `onboarding_session_expires_at` | Required | string | Expiry of onboarding_session_token. The token cannot be refreshed; verify the email again to get a new one. Format: `date-time`. |
 | `onboarding_session_token` | Required | string | Bearer token for the verified user's onboarding session. Keep it secret and send it in the Authorization header for subsequent onboarding calls. |

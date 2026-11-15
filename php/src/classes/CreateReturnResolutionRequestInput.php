@@ -12,9 +12,10 @@ namespace Flint;
  * @property-read string $pricing_basis
  * @property-read list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass> $replacement_line_items
  * @property-read string $resolution_type
+ * @property-read string $return_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnResolutionRequestInput extends Model {
-    /** @param array{'adjustments'?: list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string}|object|array{'adjustments': list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'resolution_type': string}|object $values */
+    /** @param array{'adjustments'?: list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'pricing_basis'?: string, 'replacement_line_items'?: list<ReturnReplacementLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'resolution_type': string, 'return_id': string}|object|array{'adjustments': list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>, 'corrects_return_resolution_id': string, 'expected_return_version'?: int, 'external_reference_id'?: string, 'gift_card_refund_destination'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string}|object $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnResolutionRequestInput')); }
     /** Fees and credits to apply to the resolution, at most 50. [] (Value): {@see ReturnResolutionAdjustmentRequestInput}. A fee or credit to apply to a return resolution, with the assessed and applied amounts and whether it is applied or waived.
      * @return list<ReturnResolutionAdjustmentRequestInput|array<array-key, mixed>|\stdClass>
@@ -40,7 +41,7 @@ final class CreateReturnResolutionRequestInput extends Model {
      */
     public function getExternalReferenceId(): string { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
-    /** Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
+    /** Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
      * @return string
      * @throws SdkError When gift_card_refund_destination is omitted; use hasGiftCardRefundDestination() or valueOrDefault().
      */
@@ -76,4 +77,10 @@ final class CreateReturnResolutionRequestInput extends Model {
      */
     public function getResolutionType(): string { return $this->get('resolution_type'); }
     public function hasResolutionType(): bool { return $this->has('resolution_type'); }
+    /** ID of the Return the resolution is for. minLength: 1. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
 }

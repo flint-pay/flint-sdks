@@ -15,12 +15,6 @@ $client = new Client(new ClientOptions(
 ));
 $result = $client->orderEditPreviews->create([
   'order_id' => 'ord_01KEZF7C0054GQKJ142A8X367A',
-  'remove_line_items' => [
-    (object) [
-      'order_line_item_id' => 'li_01KEZF7C008YPRCK7VDKTGWR31',
-      'quantity' => 1,
-    ],
-  ],
 ]);
 echo $result->order_id . PHP_EOL;
 $client->close();

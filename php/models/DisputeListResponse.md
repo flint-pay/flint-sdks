@@ -31,6 +31,10 @@ Declared alternatives: [DisputeResponse.data.order](../models/DisputeResponse.md
 
 Declared alternatives: [DisputeResponse.data.payment_intent](../models/DisputeResponse.md#disputeresponsedatapayment_intent).
 
+### DisputeListResponse.data[].split_reversals[]
+
+Field definitions: [DisputeResponse.data.split_reversals[]](../models/DisputeResponse.md#disputeresponsedatasplit_reversals).
+
 ### DisputeListResponse.meta
 
 Field definitions: [DisputeResponse.meta](../models/DisputeResponse.md#disputeresponsemeta).

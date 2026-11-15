@@ -5,10 +5,11 @@ namespace Flint;
  * @property-read OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass $calculation
  * @property-read DeliveryChargeTaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass $delivery_charge_calculation
  * @property-read bool $enabled
+ * @property-read OrderTaxExemptionRequestInput|array<array-key, mixed>|\stdClass $exemption
  * @property-read OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass $location
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderTaxRequestInput extends Model {
-    /** @param array{'calculation'?: OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'delivery_charge_calculation'?: DeliveryChargeTaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass, 'enabled'?: bool, 'location'?: OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass}|object $values */
+    /** @param array{'calculation'?: OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass, 'delivery_charge_calculation'?: DeliveryChargeTaxCalculationRequestModelInput|array<array-key, mixed>|\stdClass, 'enabled'?: bool, 'exemption'?: OrderTaxExemptionRequestInput|array<array-key, mixed>|\stdClass, 'location'?: OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderTaxRequestInput')); }
     /** How tax is calculated: automatically through Flint's tax connection, or from components you supply. How tax is calculated on an order: automatically, or externally with the tax components you supply.
      * @return OrderTaxCalculationRequestInput|array<array-key, mixed>|\stdClass
@@ -22,12 +23,18 @@ final class OrderTaxRequestInput extends Model {
      */
     public function getDeliveryChargeCalculation(): mixed { return $this->get('delivery_charge_calculation'); }
     public function hasDeliveryChargeCalculation(): bool { return $this->has('delivery_charge_calculation'); }
-    /** Whether Flint calculates tax for the order. When `false`, no tax applies. Default: true.
+    /** Whether Flint calculates tax. When exemption is the only tax field, omission uses the merchant's tax defaults. Other tax inputs default to true. When false, calculation, location, delivery_charge_calculation, and exemption must be omitted.
      * @return bool
      * @throws SdkError When enabled is omitted; use hasEnabled() or valueOrDefault().
      */
     public function getEnabled(): bool { return $this->get('enabled'); }
     public function hasEnabled(): bool { return $this->has('enabled'); }
+    /** Replaced as a whole: send every field you want to keep. Defaults to customer assessment on create: the customer's blanket tax_exempt flag, then applicable exemption records. Cannot be null. Replaced as a whole: send every field you want to keep. Choose customer assessment, no exemption, or a one-off order declaration. Write-only: responses return the exemption that applied in tax.exemption, not this selection. Cannot change after tax commits; a change returns 409 ACTION_NOT_ALLOWED with reason payment_collected.
+     * @return OrderTaxExemptionRequestInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When exemption is omitted; use hasExemption() or valueOrDefault().
+     */
+    public function getExemption(): mixed { return $this->get('exemption'); }
+    public function hasExemption(): bool { return $this->has('exemption'); }
     /** The address Flint calculates automatic tax at for items and charges without a fulfillment destination of their own. The tax location you supply for an order, as a postal code or a full address, with or without an address type.
      * @return OrderTaxLocationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When location is omitted; use hasLocation() or valueOrDefault().

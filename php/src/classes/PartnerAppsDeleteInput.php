@@ -16,7 +16,7 @@ final class PartnerAppsDeleteInput extends Model {
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** Apply only if the app has this version. Format: uint64. minimum: 1.
+    /** Apply only if the app has this version. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

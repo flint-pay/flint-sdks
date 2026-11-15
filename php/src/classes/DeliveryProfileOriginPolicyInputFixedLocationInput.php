@@ -8,13 +8,13 @@ namespace Flint;
 final class DeliveryProfileOriginPolicyInputFixedLocationInput extends Model {
     /** @param array{'location_id': string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileOriginPolicyInputFixedLocationInput')); }
-    /** minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** ID of the Location items leave from. Required for `fixed_location` and not allowed otherwise. minLength: 1. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Value enum: "fixed_location".
+    /** Where items under the profile leave from. Value enum: "fixed_location".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

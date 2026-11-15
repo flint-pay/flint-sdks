@@ -12,6 +12,7 @@ namespace Flint;
  * @property-read list<string>|string $refund_status
  * @property-read list<string>|string $fulfillment_status
  * @property-read string $order_number
+ * @property-read bool $has_invoice
  * @property-read list<string>|string $origin
  * @property-read string $query
  * @property-read string $subscription_id
@@ -27,7 +28,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $updated_before
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeListOrdersInput extends Model {
-    /** @param array{'page_size'?: int, 'page_token'?: string, 'closed_reason'?: list<string>|string, 'status'?: list<string>|string, 'payment_status'?: list<string>|string, 'refund_status'?: list<string>|string, 'fulfillment_status'?: list<string>|string, 'order_number'?: string, 'origin'?: list<string>|string, 'query'?: string, 'subscription_id'?: string, 'subscription_delivery_changed'?: bool, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
+    /** @param array{'page_size'?: int, 'page_token'?: string, 'closed_reason'?: list<string>|string, 'status'?: list<string>|string, 'payment_status'?: list<string>|string, 'refund_status'?: list<string>|string, 'fulfillment_status'?: list<string>|string, 'order_number'?: string, 'has_invoice'?: bool, 'origin'?: list<string>|string, 'query'?: string, 'subscription_id'?: string, 'subscription_delivery_changed'?: bool, 'min_amount'?: int, 'max_amount'?: int, 'currency'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeListOrdersInput')); }
     /** Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: 1. maximum: 100. Default: 20.
      * @return int
@@ -41,7 +42,7 @@ final class MeListOrdersInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[1][] (Value): string.  Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): string.  Value enum: "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
+    /** Why a closed order closed. Matches orders closed for any reason given. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[1][] (Value): string.  Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other". anyOf[2] (Value): string.  Value enum: "invoice_voided", "paid", "closed_by_merchant", "checkout_expired", "written_off", "superseded", "return_resolution_canceled", "other".
      * @return list<string>|string
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
      */
@@ -77,7 +78,13 @@ final class MeListOrdersInput extends Model {
      */
     public function getOrderNumber(): string { return $this->get('order_number'); }
     public function hasOrderNumber(): bool { return $this->has('order_number'); }
-    /** Separate subscription renewal purchases (subscription) from orders placed through other channels. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". anyOf[1][] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription". anyOf[2] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription".
+    /** Filter by whether invoice_id is set, including a voided invoice. False includes orders with no invoice.
+     * @return bool
+     * @throws SdkError When has_invoice is omitted; use hasHasInvoice() or valueOrDefault().
+     */
+    public function getHasInvoice(): bool { return $this->get('has_invoice'); }
+    public function hasHasInvoice(): bool { return $this->has('has_invoice'); }
+    /** Separate subscription renewal purchases (subscription) from orders placed through other channels. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[1][] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice". anyOf[2] (Value): string.  Value enum: "virtual_terminal", "payment_link", "checkout", "api", "subscription", "invoice".
      * @return list<string>|string
      * @throws SdkError When origin is omitted; use hasOrigin() or valueOrDefault().
      */
@@ -89,7 +96,7 @@ final class MeListOrdersInput extends Model {
      */
     public function getQuery(): string { return $this->get('query'); }
     public function hasQuery(): bool { return $this->has('query'); }
-    /** Filter by subscription ID. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
+    /** Filter by subscription ID. pattern: ^sub_[0-9A-HJKMNP-TV-Z]{26}$. Example: "sub_01KEZF7C00BVRE8YDBXQB74BBM".
      * @return string
      * @throws SdkError When subscription_id is omitted; use hasSubscriptionId() or valueOrDefault().
      */

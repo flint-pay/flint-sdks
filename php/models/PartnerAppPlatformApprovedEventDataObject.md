@@ -10,6 +10,14 @@ Response model.
 
 Field definitions: [shared fields](PartnerApp.md#partnerapp).
 
+### PartnerAppPlatformApprovedEventDataObject.merchant_action_routing
+
+Field definitions: [PartnerAppResponse.data.merchant_action_routing](../models/PartnerAppResponse.md#partnerappresponsedatamerchant_action_routing).
+
+### PartnerAppPlatformApprovedEventDataObject.payment_splits
+
+Field definitions: [PartnerAppResponse.data.payment_splits](../models/PartnerAppResponse.md#partnerappresponsedatapayment_splits).
+
 ### PartnerAppPlatformApprovedEventDataObject.permission_manifest[]
 
 Field definitions: [PartnerAppResponse.data.permission_manifest[]](../models/PartnerAppResponse.md#partnerappresponsedatapermission_manifest).

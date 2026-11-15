@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|null $bundle_component_id
  * @property-read string|\DateTimeInterface $created_at
  * @property-read string $fulfillment_id
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
@@ -16,8 +17,14 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackageItemInput extends Model {
-    /** @param array{'created_at': string|\DateTimeInterface, 'fulfillment_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': int, 'shipment_id': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'bundle_component_id': string|null, 'created_at': string|\DateTimeInterface, 'fulfillment_id': string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': int, 'shipment_id': string, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageItemInput')); }
+    /** Bundle component this item counts, in component units. `null` when the line isn't a bundle component or a legacy allocation has no component recorded. Look the component up in the order line's bundle_components. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     * @return string|null
+     * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
+     */
+    public function getBundleComponentId(): string|null { return $this->get('bundle_component_id'); }
+    public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
     /** Creation timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When created_at is omitted; use hasCreatedAt() or valueOrDefault().
@@ -66,7 +73,7 @@ final class PackageItemInput extends Model {
      */
     public function getPackageItemId(): string { return $this->get('package_item_id'); }
     public function hasPackageItemId(): bool { return $this->has('package_item_id'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64.
+    /** Whole-number quantity in component units for a bundle component, or line units otherwise; fractional quantities are not supported. Format: int64.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */

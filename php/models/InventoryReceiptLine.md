@@ -17,5 +17,6 @@ Response model.
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `receiving_location_id` | Required | string | ID of the Location that receives the units. |
 | `return_disposition_id` | Optional | string | ID of the Return disposition this receipt records. Absent when the receipt isn't linked to a Return. |
+| `return_id` | Required | string or null | Return that owns return_line_item_id. `null` when return_line_item_id is null. |
 | `return_line_item_id` | Optional | string | ID of the Return line item these units belong to. Absent when the line isn't linked to a Return. |
 

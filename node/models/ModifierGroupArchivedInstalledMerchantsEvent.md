@@ -38,7 +38,7 @@ Field definitions: [shared fields](ModifierGroup.md#modifiergroup).
 
 ### ModifierGroupArchivedInstalledMerchantsEvent.data.object.metadata
 
-Field definitions: [CreateOrderLineItem variant 1.metadata](../models/CreateOrderLineItem.md#createorderlineitem-variant-1metadata).
+Field definitions: [CreateOrderLineItem.metadata](../models/CreateOrderLineItem.md#createorderlineitemmetadata).
 
 ### ModifierGroupArchivedInstalledMerchantsEvent.source
 

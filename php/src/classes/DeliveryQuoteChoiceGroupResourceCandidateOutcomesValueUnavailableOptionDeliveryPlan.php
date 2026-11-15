@@ -20,12 +20,12 @@ final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueUnavailableOpt
      */
     public function getFirstArrivalAt(): ?string { return $this->get('first_arrival_at'); }
     public function hasFirstArrivalAt(): bool { return $this->has('first_arrival_at'); }
-    /** planned_delivery_count
+    /** Number of deliveries the plan makes.
      * @return ?int
      */
     public function getPlannedDeliveryCount(): ?int { return $this->get('planned_delivery_count'); }
     public function hasPlannedDeliveryCount(): bool { return $this->has('planned_delivery_count'); }
-    /** Value enum: "single_delivery", "multiple_deliveries".
+    /** Whether the items arrive together. Value enum: "single_delivery", "multiple_deliveries".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }

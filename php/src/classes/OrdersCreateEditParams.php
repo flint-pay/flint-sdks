@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass> $add_line_items
  * @property-read list<RefundChargeInput|array<array-key, mixed>|\stdClass> $charge_refunds
  * @property-read RefundDestinationsInput|array<array-key, mixed>|\stdClass $destinations
  * @property-read int $expected_order_version
@@ -10,9 +11,15 @@ namespace Flint;
  * @property-read list<OrderEditRemovalRequestInput|array<array-key, mixed>|\stdClass> $remove_line_items
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreateEditParams extends Model {
-    /** @param array{'charge_refunds'?: list<RefundChargeInput|array<array-key, mixed>|\stdClass>, 'destinations'?: RefundDestinationsInput|array<array-key, mixed>|\stdClass, 'expected_order_version': int, 'note'?: string, 'reason'?: string, 'remove_line_items': list<OrderEditRemovalRequestInput|array<array-key, mixed>|\stdClass>, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreateEditParams')); }
-    /** Charges to refund. Omitting amount_money refunds the charge's remaining refundable amount. Other charges are unchanged. maxItems: 100. [] (Value): {@see RefundChargeInput}. An order charge to refund when creating a refund, with an optional amount to refund.
+    /** @param mixed $values */
+    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreateEditParams')); }
+    /** Lines to add after removals, in the same shape as POST /v1/orders/{order_id}/line-items. Only variant, bundle, and custom lines with a delivery requirement can be added. Added lines are priced and taxed as usual, without promotions, and do not join the order's delivery selection. minItems: 1. maxItems: 100. [] (Value): {@see CreateOrderLineItemRequestInput}. A line item to add to an order: a catalog variant, a bundle, or a custom item with a name and unit price.
+     * @return list<CreateOrderLineItemRequestInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When add_line_items is omitted; use hasAddLineItems() or valueOrDefault().
+     */
+    public function getAddLineItems(): array { return $this->get('add_line_items'); }
+    public function hasAddLineItems(): bool { return $this->has('add_line_items'); }
+    /** Charges to release. Released value pays for added lines first and the rest is refunded. Omitting amount_money releases the charge's remaining refundable amount. maxItems: 100. [] (Value): {@see RefundChargeInput}. An order charge to refund when creating a refund, with an optional amount to refund.
      * @return list<RefundChargeInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When charge_refunds is omitted; use hasChargeRefunds() or valueOrDefault().
      */
@@ -42,7 +49,7 @@ final class OrdersCreateEditParams extends Model {
      */
     public function getReason(): string { return $this->get('reason'); }
     public function hasReason(): bool { return $this->has('reason'); }
-    /** Whole unassigned units to remove. Each line appears once. Original quantities and pricing stay unchanged. minItems: 1. maxItems: 100. [] (Value): {@see OrderEditRemovalRequestInput}. An order line and the whole units to take off it.
+    /** Whole unassigned units to remove. Each line appears once. Original quantities and pricing stay unchanged. Send remove_line_items, add_line_items, or both. minItems: 1. maxItems: 100. [] (Value): {@see OrderEditRemovalRequestInput}. An order line and the whole units to take off it.
      * @return list<OrderEditRemovalRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When remove_line_items is omitted; use hasRemoveLineItems() or valueOrDefault().
      */

@@ -37,6 +37,7 @@ namespace Flint;
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $replacement_total_money
  * @property-read string $resolution_type
  * @property-read string $return_id
+ * @property-read string|null $return_policy_id
  * @property-read string $return_policy_revision_id
  * @property-read string $return_resolution_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $returned_total_money
@@ -46,7 +47,7 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnResolutionInput extends Model {
-    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<ReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_at'?: string|\DateTimeInterface, 'canceled_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'confirmed_at'?: string|\DateTimeInterface, 'confirmed_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'corrects_return_resolution_id'?: string, 'created_at': string|\DateTimeInterface, 'created_by': ReturnActorInput|array<array-key, mixed>|\stdClass, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'execution_blockers': list<ReturnResolutionExecutionBlockerInput|array<array-key, mixed>|\stdClass>, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string|\DateTimeInterface, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids': list<string>, 'payment_intents'?: list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass>, 'pricing_basis'?: string, 'refund_ids': list<string>, 'refunds'?: list<RefundInput|array<array-key, mixed>|\stdClass>, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'replacement_order_id'?: string, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'return_policy_revision_id'?: string, 'return_resolution_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
+    /** @param array{'action_reason'?: string, 'action_required_by'?: string, 'adjustments': list<ReturnResolutionAdjustmentInput|array<array-key, mixed>|\stdClass>, 'buyer_payment_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'buyer_refund_amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'canceled_at'?: string|\DateTimeInterface, 'canceled_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'cancellation_reason'?: string, 'cancellation_reason_message'?: string, 'confirmed_at'?: string|\DateTimeInterface, 'confirmed_by'?: ReturnActorInput|array<array-key, mixed>|\stdClass, 'corrects_return_resolution_id'?: string, 'created_at': string|\DateTimeInterface, 'created_by': ReturnActorInput|array<array-key, mixed>|\stdClass, 'credit_adjustment_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'deduction_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'execution_blockers': list<ReturnResolutionExecutionBlockerInput|array<array-key, mixed>|\stdClass>, 'external_reference_id'?: string, 'failure_code'?: string, 'failure_message'?: string, 'fulfilled_at'?: string|\DateTimeInterface, 'gift_card_refund_destination'?: string, 'line_items': list<ReturnResolutionLineItemInput|array<array-key, mixed>|\stdClass>, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'payment_intent_ids': list<string>, 'payment_intents'?: list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass>, 'pricing_basis'?: string, 'refund_ids': list<string>, 'refunds'?: list<RefundInput|array<array-key, mixed>|\stdClass>, 'replacement_line_items': list<ReturnReplacementLineItemInput|array<array-key, mixed>|\stdClass>, 'replacement_order'?: array{'buyer_contact'?: CheckoutBuyerContactInput|array<array-key, mixed>|\stdClass, 'closed_at'?: string|\DateTimeInterface, 'closed_reason'?: string, 'created_at'?: string|\DateTimeInterface, 'customer_id'?: string, 'deferred_promotions': list<DeferredPromotionInput|array<array-key, mixed>|\stdClass>, 'fulfillment_status'?: string, 'governing_delivery_selection_id': string|null, 'order_id': string, 'order_number'?: string, 'paid_at': string|\DateTimeInterface|null, 'payment_intent_ids'?: list<string>, 'payment_status': string, 'pricing_amounts': PricingAmountsInput|array<array-key, mixed>|\stdClass, 'refund_status': string, 'settlement_amounts': OrderSettlementAmountsInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at'?: string|\DateTimeInterface, ...}|object|null, 'replacement_order_id'?: string, 'replacement_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'resolution_type': string, 'return_id': string, 'return_policy_id': string|null, 'return_policy_revision_id'?: string, 'return_resolution_id': string, 'returned_total_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnResolutionInput')); }
     /** Why a requires_action resolution is waiting. buyer_payment means the buyer must pay the exchange balance; manual_release means the merchant must release the resolution. Value enum: "buyer_payment", "manual_release".
      * @return string
@@ -168,13 +169,13 @@ final class ReturnResolutionInput extends Model {
      */
     public function getFailureMessage(): string { return $this->get('failure_message'); }
     public function hasFailureMessage(): bool { return $this->has('failure_message'); }
-    /** When the resolution became fulfilled. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** When the resolution completed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When fulfilled_at is omitted; use hasFulfilledAt() or valueOrDefault().
      */
     public function getFulfilledAt(): string|\DateTimeInterface { return $this->get('fulfilled_at'); }
     public function hasFulfilledAt(): bool { return $this->has('fulfilled_at'); }
-    /** Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail and conflicting_fields naming resolution_type and gift_card_refund_destination. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
+    /** Where the gift-card-paid portion is refunded. original credits the original gift card; new_gift_card issues new gift cards. Accepted for refund, exchange, and correction, except a correction of store_credit. Omit for store_credit, replacement, and no_monetary_action; sending it returns INVALID_REQUEST with a NOT_ALLOWED detail at gift_card_refund_destination and conflicting_fields naming resolution_type. Store credit and its corrections always issue new gift cards. PATCH can change it only while proposed. Retry persists the chosen destination before starting the new attempt. Default: "original". Value enum: "original", "new_gift_card".
      * @return string
      * @throws SdkError When gift_card_refund_destination is omitted; use hasGiftCardRefundDestination() or valueOrDefault().
      */
@@ -192,13 +193,13 @@ final class ReturnResolutionInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /**  [] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+    /** IDs of the payment intents that collect the buyer's balance for this resolution, in the order Flint linked them. Empty until a payment exists. [] (Value): string. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return list<string>
      * @throws SdkError When payment_intent_ids is omitted; use hasPaymentIntentIds() or valueOrDefault().
      */
     public function getPaymentIntentIds(): array { return $this->get('payment_intent_ids'); }
     public function hasPaymentIntentIds(): bool { return $this->has('payment_intent_ids'); }
-    /**  [] (Value): {@see ExpandedPaymentIntentSummaryInput}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
+    /** Present only when `expand` includes `payment_intents`. Summaries of the payment intents in `payment_intent_ids`, in the same order. [] (Value): {@see ExpandedPaymentIntentSummaryInput}. A payment intent's summary fields, including amount, status, and capture method, returned when the payment intent is expanded.
      * @return list<ExpandedPaymentIntentSummaryInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When payment_intents is omitted; use hasPaymentIntents() or valueOrDefault().
      */
@@ -210,13 +211,13 @@ final class ReturnResolutionInput extends Model {
      */
     public function getPricingBasis(): string { return $this->get('pricing_basis'); }
     public function hasPricingBasis(): bool { return $this->has('pricing_basis'); }
-    /**  [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
+    /** IDs of the Refunds that pay the buyer for this resolution, in the order Flint linked them. Empty until a Refund exists. [] (Value): string. Example: "ref_01KEZF7C003DTD59WKYHEXYQ1K".
      * @return list<string>
      * @throws SdkError When refund_ids is omitted; use hasRefundIds() or valueOrDefault().
      */
     public function getRefundIds(): array { return $this->get('refund_ids'); }
     public function hasRefundIds(): bool { return $this->has('refund_ids'); }
-    /**  [] (Value): {@see RefundInput}. Money returned against a collected payment.
+    /** Present only when `expand` includes `refunds`. The refunds in `refund_ids`, in the same order. [] (Value): {@see RefundInput}. Money returned against a collected payment.
      * @return list<RefundInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When refunds is omitted; use hasRefunds() or valueOrDefault().
      */
@@ -258,7 +259,13 @@ final class ReturnResolutionInput extends Model {
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
+    /** Policy that owns return_policy_revision_id. `null` when return_policy_revision_id is null. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
+     * @return string|null
+     * @throws SdkError When return_policy_id is omitted; use hasReturnPolicyId() or valueOrDefault().
+     */
+    public function getReturnPolicyId(): string|null { return $this->get('return_policy_id'); }
+    public function hasReturnPolicyId(): bool { return $this->has('return_policy_id'); }
+    /** ID of the return policy revision that judged the lines. Set only when Flint created the resolution itself and no merchant decision overrode the policy. Absent otherwise, including on resolutions you create and on corrections. Example: "rpolv_01KEZF7C007AWH6P4QC14Q25TC".
      * @return string
      * @throws SdkError When return_policy_revision_id is omitted; use hasReturnPolicyRevisionId() or valueOrDefault().
      */
@@ -276,13 +283,13 @@ final class ReturnResolutionInput extends Model {
      */
     public function getReturnedTotalMoney(): mixed { return $this->get('returned_total_money'); }
     public function hasReturnedTotalMoney(): bool { return $this->has('returned_total_money'); }
-    /** fulfilled means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "fulfilled", "failed", "canceled".
+    /** completed means the buyer has the value: every linked Refund succeeded, any balance was collected, and any replacement Order's fulfillment_status is fulfilled or not_applicable. Value enum: "proposed", "pending", "requires_action", "completed", "failed", "canceled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Actions that can succeed now. Empty unless the parent Return is open, except checkout_session. A failed resolution lists retry while it has a failed effect and its failure code permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. [] enum: "cancel", "checkout_session", "confirm", "release", "retry". [] (Value): string.  Value enum: "cancel", "checkout_session", "confirm", "release", "retry".
+    /** Actions that can succeed now. Empty unless the parent Return is open. A failed resolution lists retry while it has a failed effect and its failure code permits retry. It lists cancel when it never created a Refund, PaymentIntent, or Order. [] enum: "cancel", "confirm", "release", "retry". [] (Value): string.  Value enum: "cancel", "confirm", "release", "retry".
      * @return list<string>
      * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
      */

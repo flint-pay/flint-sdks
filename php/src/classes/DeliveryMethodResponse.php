@@ -9,7 +9,7 @@ namespace Flint;
 final class DeliveryMethodResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodResponse')); }
-    /** Resource, collection, or operation result returned by this request. A configured shipping, pickup, local delivery, or service option.
+    /** Resource, collection, or operation result returned by this request. A configured shipping, pickup, or local delivery option.
      * @return DeliveryMethod
      */
     public function getData(): DeliveryMethod { return $this->get('data'); }

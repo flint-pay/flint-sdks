@@ -5,16 +5,25 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/packages.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import r0 from '../descriptors/resources/packages.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createPackageItem"]:r0,["deletePackageItem"]:r0,["getPackage"]:r0,["getPackageItem"]:r0,["listPackageItems"]:r0,["listPackages"]:r0,["markPackageDelivered"]:r0,["markPackageDeliveryAttempted"]:r0,["markPackageException"]:r0,["markPackageInTransit"]:r0,["markPackageOutForDelivery"]:r0,["markPackagePacked"]:r0,["markPackageReturned"]:r0,["markPackageShipped"]:r0,["updatePackage"]:r0,["updatePackageItem"]:r0,["voidPackage"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createPackage"]:r0,["createPackageItem"]:r0,["deletePackageItem"]:r0,["getPackage"]:r0,["getPackageItem"]:r0,["listPackageItems"]:r0,["listPackages"]:r0,["markPackageDelivered"]:r0,["markPackageDeliveryAttempted"]:r0,["markPackageException"]:r0,["markPackageInTransit"]:r0,["markPackageOutForDelivery"]:r0,["markPackagePacked"]:r0,["markPackageReturned"]:r0,["markPackageShipped"]:r0,["updatePackage"]:r0,["updatePackageItem"]:r0,["voidPackage"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.packages = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createPackage", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPackage", result, path))),
       createItem: async (package_id, params, options) => this.#runtime.request("createPackageItem", _sdkRequestInput([
   "package_id"
 ], [package_id], [
@@ -301,6 +310,9 @@ this.packages = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeCreatePackageItemRequest } from '../models/CreatePackageItemRequest.js';
+export { makeCreatePackageRequest } from '../models/CreatePackageRequest.js';
+export { makeCreatePackageRequestCreated } from '../models/CreatePackageRequestCreated.js';
+export { makeCreatePackageRequestShipped } from '../models/CreatePackageRequestShipped.js';
 export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
 export { makeMarkPackageDeliveredRequest } from '../models/MarkPackageDeliveredRequest.js';
 export { makeMarkPackageDeliveryAttemptedRequest } from '../models/MarkPackageDeliveryAttemptedRequest.js';
@@ -313,7 +325,7 @@ export { makeMarkPackageShippedRequest } from '../models/MarkPackageShippedReque
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
-export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
+export { makeReturnShipmentLineItemAllocationRequest } from '../models/ReturnShipmentLineItemAllocationRequest.js';
 export { makeUpdatePackageItemRequest } from '../models/UpdatePackageItemRequest.js';
 export { makeUpdatePackageRequest } from '../models/UpdatePackageRequest.js';
 export { makeVoidPackageRequest } from '../models/VoidPackageRequest.js';

@@ -24,11 +24,11 @@ The `bundle` variant of `ReturnReplacementLineItemInput`.
 
 Fulfillment requirements for custom replacement merchandise, using the same input as an order line. Required for custom lines; catalog lines use their catalog fulfillment profile. Fulfillment requirements you supply for an order line item, such as allowed fulfillment types, package size and weight, and origin.
 
-Field definitions: [shared fields](AddLineItemsRequest.md#addlineitemsrequestline_itemsfulfillment).
+Field definitions: [shared fields](CreateOrderLineItemInputBundle.md#createorderlineiteminputbundlefulfillment).
 
 ### ReturnReplacementLineItemInputBundle.fulfillment.origin_policy
 
-Field definitions: [AddLineItemsRequest.line_items[].fulfillment.origin_policy](../models/AddLineItemsRequest.md#addlineitemsrequestline_itemsfulfillmentorigin_policy).
+Field definitions: [CreateOrderLineItemInputBundle.fulfillment.origin_policy](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundlefulfillmentorigin_policy).
 
 ### ReturnReplacementLineItemInputBundle.unit_price_money
 

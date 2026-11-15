@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/flint-pay/sdk-generator/4e727e1e3027cc354518aee1332545b9b968f05f/sdk-config.schema.json",
-  "version": "8.0.0-beta.2",
+  "version": "8.0.0-beta.3",
   "npm": {
     "name": "@flintpay/node",
     "access": "public"
@@ -699,7 +699,12 @@
       "customer_tax_exemptions": "customer-tax-exemptions",
       "price-lists": "price-lists",
       "tax_calculation_callbacks": "tax-calculation-callbacks",
-      "tickets": "tickets"
+      "tickets": "tickets",
+      "merchant_signups": "merchant-signups",
+      "payment_splits": "payment-splits",
+      "platform_fees": "platform-fees",
+      "readers": "readers",
+      "remembered_buyers": "remembered-buyers"
     },
     "exampleValues": {
       "customer_address_id": "caddr_01ARZ3NDEKTSV4RRFFQ69G5FAV",
@@ -1092,57 +1097,6 @@
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
       },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "createCheckoutSessionDeliveryQuote": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "getCheckoutSessionDeliveryQuote": {
-      "idempotency": false,
-      "pagination": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "createCheckoutSessionDeliverySelection": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "deleteCheckoutSessionCurrentDeliverySelection": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "getCheckoutSessionCurrentDeliverySelection": {
-      "idempotency": false,
-      "pagination": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "getCheckoutSessionDeliverySelection": {
-      "idempotency": false,
-      "pagination": false,
       "retry": {
         "maxAttempts": 3
       }
@@ -1814,19 +1768,6 @@
       "retry": {
         "maxAttempts": 3
       }
-    },
-    "rotateDeliveryRateCallbackSigningKey": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      },
-      "resource": "deliveryRateCallbacks",
-      "method": "rotateSecret",
-      "namingReason": "Follow the rotate-secret path pending the operation-ID correction (FLI-428)."
     },
     "createDeliveryRateCallbackTestDelivery": {
       "pagination": false,
@@ -3105,20 +3046,6 @@
         "maxAttempts": 3
       }
     },
-    "createInvoiceCheckoutSession": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      }
-    },
     "collectInvoice": {
       "pagination": false,
       "idempotency": {
@@ -3620,20 +3547,6 @@
         "maxAttempts": 3
       }
     },
-    "createMeInvoiceCheckoutSession": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      }
-    },
     "listMeCreditNotes": {
       "response": {
         "payloadPath": null
@@ -3805,16 +3718,6 @@
         "maxAttempts": 3
       }
     },
-    "createMeReturnResolutionCheckoutSession": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "listMeReturns": {
       "response": {
         "payloadPath": null
@@ -3919,7 +3822,7 @@
       },
       "example": {
         "body": {
-          "quantity": 2
+          "quantity": 1
         },
         "subscription_id": "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
@@ -4227,16 +4130,6 @@
         "maxAttempts": 3
       }
     },
-    "createOnboardingAPIKey": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "startOnboarding": {
       "pagination": false,
       "idempotency": {
@@ -4420,13 +4313,6 @@
         "deadlineMs": 300000
       }
     },
-    "getOrderCurrentDeliverySelection": {
-      "idempotency": false,
-      "pagination": false,
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "applyOrderDiscount": {
       "pagination": false,
       "idempotency": {
@@ -4593,20 +4479,6 @@
       "idempotency": {
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      },
-      "defaults": {
-        "timeoutMs": 150000,
-        "deadlineMs": 300000
-      }
-    },
-    "createOrderPaymentIntent": {
-      "pagination": false,
-      "idempotency": {
-        "auto": false,
-        "retention": "As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent."
       },
       "retry": {
         "maxAttempts": 3
@@ -5780,16 +5652,6 @@
         "maxAttempts": 3
       }
     },
-    "createReturnResolutionCheckoutSession": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "confirmReturnResolution": {
       "pagination": false,
       "idempotency": {
@@ -6049,7 +5911,6 @@
     "createReturnResolution": {
       "pagination": false,
       "example": {
-        "return_id": "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "body": {
           "resolution_type": "refund",
           "line_items": [
@@ -6057,7 +5918,8 @@
               "return_line_item_id": "retli_01ARZ3NDEKTSV4RRFFQ69G5FAV",
               "quantity": 1
             }
-          ]
+          ],
+          "return_id": "ret_01ARZ3NDEKTSV4RRFFQ69G5FAV"
         }
       },
       "idempotency": {
@@ -6525,7 +6387,7 @@
       },
       "example": {
         "body": {
-          "quantity": 2
+          "quantity": 1
         },
         "subscription_id": "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
@@ -6606,7 +6468,7 @@
       },
       "example": {
         "body": {
-          "quantity": 2
+          "quantity": 1
         },
         "subscription_id": "sub_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         "subscription_line_item_id": "sli_01ARZ3NDEKTSV4RRFFQ69G5FAV"
@@ -6891,16 +6753,6 @@
         "workload_identity_id": "wid_01ARZ3NDEKTSV4RRFFQ69G5FAV"
       }
     },
-    "createSandboxAPIKey": {
-      "pagination": false,
-      "idempotency": {
-        "auto": true,
-        "autoKeyPrefix": "flint-sdk-"
-      },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
     "listMeSubscriptionPaymentRetries": {
       "response": {
         "payloadPath": null
@@ -6942,15 +6794,6 @@
         "auto": true,
         "autoKeyPrefix": "flint-sdk-"
       },
-      "retry": {
-        "maxAttempts": 3
-      }
-    },
-    "listCheckoutSessionDeliverySelections": {
-      "response": {
-        "payloadPath": null
-      },
-      "idempotency": false,
       "retry": {
         "maxAttempts": 3
       }
@@ -7964,6 +7807,455 @@
         "maxAttempts": 3
       },
       "pagination": false
+    },
+    "listCheckoutSessionCustomerVerifications": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "getCheckoutSessionCustomerVerification": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listCustomerVerifications": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "getCustomerVerification": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "createDeliveryQuote": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "rotateDeliveryRateCallbackSecret": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listDeliverySelections": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "createDeliverySelection": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getDeliverySelection": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "releaseDeliverySelection": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "createMeCheckoutSession": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listMerchantSignups": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "createMerchantSignup": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getMerchantSignup": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "cancelMerchantSignup": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "resendMerchantSignupCode": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "rotateMerchantSignupAuthorizationCodes": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "verifyMerchantSignup": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "createOnboardingAccessLink": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listPaymentSplits": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "getPaymentSplit": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listPlatformFeeBalanceTransactions": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "getPlatformFeeBalanceTransaction": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listPlatformFeeBalances": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "listPlatformFeePayouts": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "getPlatformFeePayout": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listPlatformFees": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "getPlatformFee": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listReaders": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "createReader": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "deleteReader": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getReader": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "updateReader": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "createReaderConnectionSession": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "simulateReader": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listOrderCharges": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "listOrderLineItems": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "signWebhookEndpointDelivery": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      },
+      "pagination": false
+    },
+    "listCustomerEmailChangeRequests": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "createCustomerEmailChangeRequest": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "getCustomerEmailChangeRequest": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "cancelCustomerEmailChangeRequest": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listInvoiceLateFees": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "listMeRememberedBuyers": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      },
+      "pagination": false
+    },
+    "revokeMeRememberedBuyer": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "lookupRememberedBuyer": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 1,
+        "statuses": [],
+        "transport": false
+      },
+      "pagination": false
+    },
+    "revokeRememberedBuyer": {
+      "idempotency": {
+        "auto": true,
+        "autoKeyPrefix": "flint-sdk-"
+      },
+      "retry": {
+        "maxAttempts": 3
+      },
+      "pagination": false
+    },
+    "listSubscriptionLineItems": {
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      },
+      "response": {
+        "payloadPath": null
+      }
+    },
+    "getMeEmailChangeRequest": {
+      "pagination": false,
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
+    },
+    "listMeEmailChangeRequests": {
+      "response": {
+        "payloadPath": null
+      },
+      "idempotency": false,
+      "retry": {
+        "maxAttempts": 3
+      }
     }
   },
   "requests": {

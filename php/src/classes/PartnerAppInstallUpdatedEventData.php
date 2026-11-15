@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppInstallUpdatedEventData extends Model {
-    /** @param array{'object': object{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'object': object{'created_at': string, 'environment_grants'?: list<mixed>, 'installed_by_user_id'?: string, 'merchant_id': string, 'merchant_signup_id'?: string, 'partner_app_id': string, 'partner_app_install_id': string, 'partner_app_name': string, 'revoked_at'?: string, 'revoked_by'?: string, 'revoked_by_user_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppInstallUpdatedEventData')); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return PartnerAppInstallUpdatedEventDataObject

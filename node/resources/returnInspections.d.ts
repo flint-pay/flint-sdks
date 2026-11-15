@@ -1,16 +1,18 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { DecideReturnInspectionLineItemResponse } from '../declarations/types-15.js';
-import type { GetReturnInspectionResponse } from '../declarations/types-25.js';
-import type { ListReturnInspectionsResponse } from '../declarations/types-34.js';
-import type { RequestOptions } from '../declarations/types-51.js';
+import type { CreateReturnInspectionResponse } from '../declarations/types-12.js';
+import type { DecideReturnInspectionLineItemResponse } from '../declarations/types-16.js';
+import type { GetReturnInspectionResponse } from '../declarations/types-26.js';
+import type { ListReturnInspectionsResponse } from '../declarations/types-35.js';
+import type { RequestOptions } from '../declarations/types-54.js';
 import type {
     ReturnInspection,
+    ReturnInspectionsCreateParams,
     ReturnInspectionsDecideLineItemParams,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams
-} from '../declarations/types-52.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-55.js';
+import type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -26,30 +28,53 @@ export type {
     WorkloadIdentitySource
 } from '../runtime.js';
 export type {
-    ReturnInspectionsDecideLineItemParams,
+    ReturnInspectionsCreateParams,
     ReturnInspection,
+    ReturnInspectionsDecideLineItemParams,
     ReturnInspectionsGetParams,
     ReturnInspectionsListParams,
+    ReturnInspectionLineItemRequestInput,
     ReturnDisposition,
-    ReturnActor,
     ReturnInspectionLineItem
-} from '../declarations/types-52.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-15.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
-export type { GetReturnInspectionResponse } from '../declarations/types-25.js';
-export type { ListReturnInspectionsResponse } from '../declarations/types-34.js';
+} from '../declarations/types-55.js';
+export type { _SdkRequiredIdempotency, _SdkWithoutIdempotency } from '../declarations/types-70.js';
+export type { RequestOptions, ReturnActor, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { CreateReturnInspectionResponse, CreateReturnInspectionRequestInput } from '../declarations/types-12.js';
+export type { DecideReturnInspectionLineItemResponse, DecideReturnInspectionLineItemRequestInput } from '../declarations/types-16.js';
+export type { GetReturnInspectionResponse } from '../declarations/types-26.js';
+export type { ListReturnInspectionsResponse } from '../declarations/types-35.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { MetadataMap } from '../declarations/types-36.js';
-export type { ReturnSourceSystem } from '../declarations/types-54.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-71.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
+export type { ReturnSourceSystemRequestInput, ReturnSourceSystem } from '../declarations/types-57.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { MetadataMap } from '../declarations/types-38.js';
+export type { NextAction, MoneyValue } from '../declarations/types-39.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCreateReturnInspectionRequest } from '../declarations/types-74.js';
+export { makeDecideReturnInspectionLineItemRequest } from '../declarations/types-75.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeReturnInspectionLineItemRequest, makeReturnSourceSystemRequest } from '../declarations/types-81.js';
 export interface ReturnInspectionsResource {
+    /**
+ * Record an immutable inspection observation. Corrections supersede an earlier inspection instead
+ * of editing physical history. Read inspections with `GET /v1/return-inspections?return_id=` or
+ * expand `return_inspections` on `client.returns.get`.
+ *
+ * `POST /v1/return-inspections`
+ * @see https://developers.withflintpay.com/docs/api/return-inspections#createReturnInspection
+ * @throws {SdkError} When the request fails; inspect `kind`, `code` and `outcome`.
+ * @example
+ * // Persist this key with the action before sending; reuse it for every resubmission.
+ * const idempotencyKey = crypto.randomUUID();
+ * client.returnInspections.create({inspected_at: "2026-09-08T14:15:00Z", inspection_location_id:
+ * "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX", line_items: [{acceptance_status: "accepted", condition:
+ * "unopened", finding_codes: ["matches_expected_item"], quantity: 1, return_receipt_line_item_id:
+ * "retrcli_01KEZF7C00BCEA2ZKN4H8WYWXE"}], return_id: "ret_01KEZF7C00VDTZH2NK73DBK2HZ",
+ * return_receipt_id: "retrc_01KEZF7C008V637A0ZWN32RQ7A", source_system: {source_system_type:
+ * "manual"}}, { idempotencyKey: idempotencyKey })
+ */
+    create(params: ReturnInspectionsCreateParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>): Promise<WithResponseInfo<ReturnInspection, CreateReturnInspectionResponse>>;
     /**
  * Record the accept or reject outcome for inspected quantity. expected_version compares against
  * the inspection version. Accepted quantity becomes dispositionable and satisfies after_inspection

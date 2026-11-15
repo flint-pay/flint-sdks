@@ -13,7 +13,7 @@ An immutable record of a single quantity change, including the level state it pr
 | `backordered_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `committed_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `created_by` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The credential that recorded this movement. `null` when Flint recorded it on its own, such as an expired hold or a fulfillment handoff. |
+| `created_by` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The credential that recorded this movement. `null` when Flint recorded it on its own, such as an expired hold or a fulfillment handoff. `created_by`: [declared alternatives](../models/InventoryMovement.md#inventorymovementcreated_by). |
 | `damaged_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `external_actor_id` | Optional | string | Your identifier for the actor who recorded the event. Don't put secrets in this field. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `held_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
@@ -38,7 +38,7 @@ An immutable record of a single quantity change, including the level state it pr
 | `return_id` | Optional | string | ID of the Return whose receipt wrote this movement. Absent on other movements. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `safety_stock_quantity_delta` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `source_observation_sequence` | Optional | integer | Format: `int64`. minimum: `0`. |
-| `source_reference` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) | The GET-able resource whose write recorded this movement. A reference to another resource by `resource_type` and `resource_id`. |
+| `source_reference` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) | The GET-able resource whose write recorded this movement. A reference to another resource by `resource_type` and `resource_id`. `source_reference`: [field definitions](../models/InventoryMovement.md#inventorymovementsource_reference). |
 | `source_system` | Required | [InventorySourceSystem](../models/InventorySourceSystem.md#inventorysourcesystem) or null | System the change came from, such as a point-of-sale or warehouse system. `null` when the request named no source system. |
 | `type` | Required | string | What caused this movement. Values: [16 declared values](#inventorymovement-type-values). |
 
@@ -60,4 +60,29 @@ An immutable record of a single quantity change, including the level state it pr
 - `"transfer_received"`
 - `"transfer_returned"`
 - `"transfer_lost"`
+
+### InventoryMovement.created_by
+
+The credential that recorded this movement. `null` when Flint recorded it on its own, such as an expired hold or a fulfillment handoff.
+
+Field definitions: [shared fields](GiftCardTransaction.md#giftcardtransactionsource).
+
+### InventoryMovement.created_by variant 1
+
+anyOf ResourceReference: A reference to another resource by `resource_type` and `resource_id`..
+
+- Required: `resource_id`, `resource_type`.
+
+### InventoryMovement.created_by variant 2
+
+anyOf variant 2.
+
+- Undeclared: `resource_id`, `resource_type`.
+- Value shape: null. The credential that recorded this movement. `null` when Flint recorded it on its own, such as an expired hold or a fulfillment handoff. 
+
+### InventoryMovement.source_reference
+
+The GET-able resource whose write recorded this movement. A reference to another resource by `resource_type` and `resource_id`.
+
+Field definitions: [shared fields](APIRequestLog.md#apirequestlogcaller).
 

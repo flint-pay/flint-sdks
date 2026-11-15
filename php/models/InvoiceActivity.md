@@ -16,14 +16,15 @@ Response model.
 | `checkout_session_id` | Optional | string | Checkout session the buyer paid through. Present on payment_attempt_started for hosted payments. |
 | `collection_block_reason` | Optional | string | Why collection was blocked or unblocked. Present on collection_blocked and collection_block_resolved. Values: `"inventory_unavailable"`, `"inventory_restored"`. |
 | `created_at` | Required | string | When the activity happened. Format: `date-time`. |
-| `credit_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `credit_note_id` | Optional | string | Credit note that requested the refund. Present on updated when a credit note refund was requested or changed. |
+| `credited_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `description` | Required | string | Human-readable Flint description of the activity. |
 | `due_at` | Optional | string | Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due. Format: `date-time`. |
 | `error_code` | Optional | string | Public error code of the failed scheduled issue. Present on issue_failed. |
 | `expected_amount_money` | Optional | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Amount the processing payment is expected to settle. Present on payment_processing. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `invoice_activity_id` | Required | string | Flint invoice activity ID. IDs begin with inevt_. |
 | `invoice_delivery_attempt_id` | Optional | string | The delivery attempt that sent the email. Present on delivery_sent and reminder_sent. |
+| `invoice_id` | Required | string | Invoice whose history contains this activity and owns its referenced delivery attempt, late fee, or manual payment. |
 | `invoice_late_fee_id` | Optional | string | The late fee. Present on late_fee_assessed and late_fee_waived. |
 | `invoice_manual_payment_id` | Optional | string | The manual payment. Present on manual_payment_recorded and manual_payment_reversed. |
 | `invoice_payment_attempt_id` | Optional | string | The payment attempt. Present on payment_attempt_started and payment_processing. |

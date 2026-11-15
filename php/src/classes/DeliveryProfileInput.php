@@ -11,13 +11,14 @@ namespace Flint;
  * @property-read MetadataMapInput|array<array-key, mixed>|\stdClass $metadata
  * @property-read string $name
  * @property-read string $status
+ * @property-read array{'accepted_at': string|\DateTimeInterface, 'bundle_components_remaining': int, 'cancellation_reason'?: string, 'completed_at'?: string|\DateTimeInterface, 'failure_reason'?: string, 'product_variants_remaining': int, 'status': string}|object|null $unconfigured_assignment
  * @property-read string|\DateTimeInterface $updated_at
  * @property-read int $version
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryProfileInput extends Model {
-    /** @param array{'configuration': DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: DeliveryProfileDiagnosticsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'status': string, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
+    /** @param array{'configuration': DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass, 'created_at': string|\DateTimeInterface, 'current_delivery_profile_revision_id': string, 'delivery_profile_id': string, 'diagnostics'?: DeliveryProfileDiagnosticsInput|array<array-key, mixed>|\stdClass, 'external_reference_id'?: string, 'metadata'?: MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'status': string, 'unconfigured_assignment'?: array{'accepted_at': string|\DateTimeInterface, 'bundle_components_remaining': int, 'cancellation_reason'?: string, 'completed_at'?: string|\DateTimeInterface, 'failure_reason'?: string, 'product_variants_remaining': int, 'status': string}|object|null, 'updated_at': string|\DateTimeInterface, 'version': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryProfileInput')); }
-    /** Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, packing rules, weight, and dimensions.
+    /** Current delivery requirement and grouping policy. Whether delivery planning applies to items under a delivery profile, and if so the allowed delivery types, resolution mode, origin policy, and grouping and splitting rules.
      * @return DeliveryProfileConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
@@ -71,6 +72,12 @@ final class DeliveryProfileInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
+    /** Progress of the profile's latest bulk assignment through `POST /v1/delivery-profiles/{delivery_profile_id}/assign-to-unconfigured`. `null` when the profile has never had one. Omitted when the response is a write response or a webhook object; retrieve and list responses include it. Flint updates it as the assignment's runs commit, without changing the profile's `version` or sending `delivery_profile.updated`; each batch's `product_variant.updated`, `product.updated`, and `bundle.updated` events report the items it assigned. anyOf[1] (Value): {@see DeliveryProfileUnconfiguredAssignmentInput}. Progress of a delivery profile's latest bulk assignment to catalog items that have no delivery profile. It moves from `processing` to `completed`, to `canceled` when it stops early, or to `failed` when Flint can't finish it. anyOf[2] (Value): null.
+     * @return array{'accepted_at': string|\DateTimeInterface, 'bundle_components_remaining': int, 'cancellation_reason'?: string, 'completed_at'?: string|\DateTimeInterface, 'failure_reason'?: string, 'product_variants_remaining': int, 'status': string}|object|null
+     * @throws SdkError When unconfigured_assignment is omitted; use hasUnconfiguredAssignment() or valueOrDefault().
+     */
+    public function getUnconfiguredAssignment(): mixed { return $this->get('unconfigured_assignment'); }
+    public function hasUnconfiguredAssignment(): bool { return $this->has('unconfigured_assignment'); }
     /** Time the profile last changed. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When updated_at is omitted; use hasUpdatedAt() or valueOrDefault().

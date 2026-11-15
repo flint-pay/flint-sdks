@@ -8,8 +8,8 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `demand_key` | Required | string | minLength: `1`. |
-| `inventory_item_id` | Required | string | minLength: `1`. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. |
-| `location_id` | Required | string | minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `demand_key` | Required | string | Key of the inventory demand this assignment serves. minLength: `1`. |
+| `inventory_item_id` | Required | string | ID of the inventory item assigned. minLength: `1`. Example: `"invi_01KEZF7C00A6YEM25MTHW2MPZY"`. |
+| `location_id` | Required | string | ID of the Location the stock is assigned from. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 

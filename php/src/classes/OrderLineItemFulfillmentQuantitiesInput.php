@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read int $assigned_quantity
- * @property-read string $bundle_component_id
+ * @property-read string|null $bundle_component_id
  * @property-read int $canceled_quantity
  * @property-read int $failed_quantity
  * @property-read int $fulfilled_quantity
@@ -12,7 +12,7 @@ namespace Flint;
  * @property-read int $unassigned_quantity
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderLineItemFulfillmentQuantitiesInput extends Model {
-    /** @param array{'assigned_quantity': int, 'bundle_component_id'?: string, 'canceled_quantity': int, 'failed_quantity': int, 'fulfilled_quantity': int, 'removed_quantity': int, 'required_quantity': int, 'unassigned_quantity': int, ...}|object $values */
+    /** @param array{'assigned_quantity': int, 'bundle_component_id': string|null, 'canceled_quantity': int, 'failed_quantity': int, 'fulfilled_quantity': int, 'removed_quantity': int, 'required_quantity': int, 'unassigned_quantity': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineItemFulfillmentQuantitiesInput')); }
     /** Whole-number quantity; fractional quantities are not supported. Quantity owned by a non-terminal fulfillment, including a fulfillment on hold. Format: int64.
      * @return int
@@ -20,11 +20,11 @@ final class OrderLineItemFulfillmentQuantitiesInput extends Model {
      */
     public function getAssignedQuantity(): int { return $this->get('assigned_quantity'); }
     public function hasAssignedQuantity(): bool { return $this->has('assigned_quantity'); }
-    /** ID of the bundle component these quantities describe. Omitted for a single item. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
-     * @return string
+    /** ID of the bundle component these quantities describe. `null` when the line isn't a bundle component. Example: "bunc_01KEZF7C00CQASEZGAPEANTGD1".
+     * @return string|null
      * @throws SdkError When bundle_component_id is omitted; use hasBundleComponentId() or valueOrDefault().
      */
-    public function getBundleComponentId(): string { return $this->get('bundle_component_id'); }
+    public function getBundleComponentId(): string|null { return $this->get('bundle_component_id'); }
     public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
     /** Whole-number quantity; fractional quantities are not supported. Quantity owned by canceled or no_show fulfillments. Format: int64.
      * @return int

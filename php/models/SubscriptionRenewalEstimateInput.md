@@ -8,14 +8,17 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_at` | Required | string or null | Expected billing time, or null when billing is not scheduled. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `billing_at` | Required | string or null | Expected billing time. `null` when no renewal charge is scheduled, such as when the subscription is set to cancel at the end of its period, is in its final `end_after` cycle, is paused with no resume time, or is on an external billing schedule with no next billing date. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `currency` | Required | string | ISO 4217 currency code. minLength: `3`. maxLength: `3`. pattern: `^[A-Z]{3}$`. Example: `"USD"`. |
-| `discount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `discounts` | Required | Array of [SubscriptionRenewalEstimateDiscountInput](../models/SubscriptionRenewalEstimateDiscountInput.md#subscriptionrenewalestimatediscountinput) |  |
-| `line_items` | Required | Array of [SubscriptionRenewalEstimateLineItemInput](../models/SubscriptionRenewalEstimateLineItemInput.md#subscriptionrenewalestimatelineiteminput) |  |
-| `shipping_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Estimated shipping; null for a digital subscription. |
-| `subscription_cycle` | Required | integer | Format: `uint64`. minimum: `0`. |
-| `subtotal_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `tax_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Estimated tax; null when tax can't be calculated yet. |
-| `total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `deliveries_per_period` | Required | integer | Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: `int32`. minimum: `1`. maximum: `24`. |
+| `delivery_interval` | Required | string or null | Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`, `null`. |
+| `delivery_interval_count` | Required | integer or null | Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: `int32`. minimum: `1`. |
+| `discount_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Estimated discount total. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `discounts` | Required | Array of [SubscriptionRenewalEstimateDiscountInput](../models/SubscriptionRenewalEstimateDiscountInput.md#subscriptionrenewalestimatediscountinput) | Promotions and credits applied to this estimated renewal; [] when none apply. |
+| `line_items` | Required | Array of [SubscriptionRenewalEstimateLineItemInput](../models/SubscriptionRenewalEstimateLineItemInput.md#subscriptionrenewalestimatelineiteminput) | Items and quantities included in this estimated renewal. |
+| `shipping_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Estimated shipping. `null` when the estimate prices no delivery: the subscription has none, such as a digital subscription, or the preview is of a change billed `prorated_now`. |
+| `subscription_cycle` | Required | integer | The billing cycle this estimate would charge, continuing imported completed_cycles. Format: `uint64`. minimum: `0`. |
+| `subtotal_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Estimated item subtotal before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `tax_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) or null | Estimated tax. `null` when tax is enabled for the subscription but can't be calculated yet. |
+| `total_money` | Required | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Estimated renewal total, excluding unresolved tax when tax_money is null. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 

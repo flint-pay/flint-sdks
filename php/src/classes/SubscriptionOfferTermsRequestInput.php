@@ -10,25 +10,25 @@ namespace Flint;
 final class SubscriptionOfferTermsRequestInput extends Model {
     /** @param array{'billing_interval': string, 'billing_interval_count': int, 'line_items': list<SubscriptionOfferLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOfferTermsRequestInput')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the billing period to subscribe on. It must be a pair that every line's offer lists in `billing_interval_options`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32. minimum: 1. maximum: 365.
+    /** Number of `billing_interval` units between charges. It must be a pair that every line's offer lists in `billing_interval_options`. Format: int32. minimum: 1. maximum: 365.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** minItems: 1. [] (Value): {@see SubscriptionOfferLineItemRequestInput}. A subscription offer and variant to include in subscription offer terms.
+    /** The catalog variants to subscribe to, each with the offer that covers it. At least one, with no repeated variant. minItems: 1. [] (Value): {@see SubscriptionOfferLineItemRequestInput}. A subscription offer and variant to include in subscription offer terms.
      * @return list<SubscriptionOfferLineItemRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Value enum: "subscription_offer".
+    /** Start the subscription from subscription offers, one per catalog variant. Value enum: "subscription_offer".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

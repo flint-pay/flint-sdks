@@ -2,7 +2,7 @@
 
 ## UpdatePromotionRequest
 
-The request body for: Update promotion.
+The request body for: Update promotion. minProperties: `1`.
 
 
 

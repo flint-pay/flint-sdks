@@ -9,7 +9,7 @@ namespace Flint;
 final class PaymentSourceCredentialPaymentMethodInput extends Model {
     /** @param array{'credential_type': string, 'customer_presence'?: string, 'payment_method_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceCredentialPaymentMethodInput')); }
-    /** Value enum: "payment_method".
+    /** Selects the credential supplied for this payment. Value enum: "payment_method".
      * @return string
      * @throws SdkError When credential_type is omitted; use hasCredentialType() or valueOrDefault().
      */
@@ -21,7 +21,7 @@ final class PaymentSourceCredentialPaymentMethodInput extends Model {
      */
     public function getCustomerPresence(): string { return $this->get('customer_presence'); }
     public function hasCustomerPresence(): bool { return $this->has('customer_presence'); }
-    /** Saved Flint payment method ID belonging to the customer making this payment. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** A payment method saved in Flint for the customer making this payment. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */

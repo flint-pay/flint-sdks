@@ -28,19 +28,19 @@ final class GiftCardRedemptionsListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+    /** Exact, case-sensitive filter. maxLength: 255. pattern: ^gc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
     public function getIdempotencyKey(): string { return $this->get('idempotency_key'); }
     public function hasIdempotencyKey(): bool { return $this->has('idempotency_key'); }
-    /** Exact, case-sensitive filter. maxLength: 255. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Exact, case-sensitive filter. maxLength: 255. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */

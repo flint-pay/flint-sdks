@@ -69,7 +69,7 @@ Declared alternatives: [FulfillmentResponse.data.order](../models/FulfillmentRes
 
 A return line and the quantity placed in a return shipment or package.
 
-Field definitions: [shared fields](ReturnShipmentLineItemAllocationRequestInput.md#returnshipmentlineitemallocationrequestinput).
+Field definitions: [shared fields](ReturnShipmentLineItemAllocationInput.md#returnshipmentlineitemallocationinput).
 
 ### PackageResponse.meta
 

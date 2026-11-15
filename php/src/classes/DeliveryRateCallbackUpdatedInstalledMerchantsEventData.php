@@ -6,7 +6,7 @@ namespace Flint;
  * @property-read ?array<array-key, mixed> $previous_attributes
  * Presence-aware response; omitted optional fields return null. */
 final class DeliveryRateCallbackUpdatedInstalledMerchantsEventData extends Model {
-    /** @param array{'object': object{'circuit_failure_count': int, 'circuit_state': string, 'configuration': mixed, 'created_at': string, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'delivery_revocation_id': string|null, 'external_reference_id'?: string, 'key_id'?: string, 'name': string, 'secret'?: string, 'signing_methods': list<string>, 'status': string, 'updated_at': string, 'version': int}, 'previous_attributes'?: \stdClass, ...}|object $values */
+    /** @param array{'object': object{'circuit_failure_count': int, 'circuit_state': string, 'configuration': mixed, 'created_at': string, 'current_delivery_rate_callback_revision_id': string, 'delivery_rate_callback_id': string, 'delivery_revocation_id': string|null, 'external_reference_id'?: string, 'name': string, 'signing_methods': list<string>, 'status': string, 'updated_at': string, 'version': int}, 'previous_attributes'?: \stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryRateCallbackUpdatedInstalledMerchantsEventData')); }
     /** The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
      * @return DeliveryRateCallbackUpdatedInstalledMerchantsEventDataObject

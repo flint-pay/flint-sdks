@@ -13,7 +13,7 @@ Response model.
 | `card` | Optional | [CardDetails](../models/CardDetails.md#carddetails) | Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
 | `customer` | Optional | [ExpandedCustomerSummary](../models/ExpandedCustomerSummary.md#expandedcustomersummary) or null | Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. |
-| `customer_id` | Required | string |  |
+| `customer_id` | Required | string | Customer this payment method belongs to. |
 | `fingerprint` | Optional | string | A value that is the same for every saved copy of one card number at this merchant and environment, so you can spot duplicates. It doesn't identify the card anywhere else. A card added through Apple Pay or Google Pay can have a different fingerprint from the same card typed in. |
 | `is_default` | Required | boolean | Whether this is the customer's default payment method, the one Customer.default_payment_method_id names. Change the default with PATCH /v1/customers/{customer_id}; that sends customer.updated, not a payment method event. |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. |

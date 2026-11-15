@@ -5,7 +5,7 @@ namespace Flint;
  * @property-read list<mixed> $all
  * @property-read list<mixed> $any
  * @property-read DeliveryCountryConditionInput|array<array-key, mixed>|\stdClass $country
- * @property-read mixed $not
+ * @property-read DeliveryZoneConfigurationInput|array<array-key, mixed>|\stdClass $not
  * @property-read DeliveryPostalCodeConditionInput|array<array-key, mixed>|\stdClass $postal_code
  * @property-read DeliveryRadiusConditionInput|array<array-key, mixed>|\stdClass $radius
  * @property-read DeliveryStateConditionInput|array<array-key, mixed>|\stdClass $state
@@ -13,43 +13,43 @@ namespace Flint;
 final class DeliveryZoneConfigurationInput extends Model {
     /** @param mixed $values */
     public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZoneConfigurationInput')); }
-    /** minItems: 1. maxItems: 100. [] (Value): {@see DeliveryZoneConfigurationInput}. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
+    /** Matches when every nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@see DeliveryZoneConfigurationInput}. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
      * @return list<mixed>
      * @throws SdkError When all is omitted; use hasAll() or valueOrDefault().
      */
     public function getAll(): array { return $this->get('all'); }
     public function hasAll(): bool { return $this->has('all'); }
-    /** minItems: 1. maxItems: 100. [] (Value): {@see DeliveryZoneConfigurationInput}. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
+    /** Matches when at least one nested expression matches. minItems: 1. maxItems: 100. [] (Value): {@see DeliveryZoneConfigurationInput}. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
      * @return list<mixed>
      * @throws SdkError When any is omitted; use hasAny() or valueOrDefault().
      */
     public function getAny(): array { return $this->get('any'); }
     public function hasAny(): bool { return $this->has('any'); }
-    /** A delivery eligibility condition that matches when the address country is one of `values`.
+    /** Matches when the address is in one of the listed countries. A delivery eligibility condition that matches when the address country is one of `values`.
      * @return DeliveryCountryConditionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When country is omitted; use hasCountry() or valueOrDefault().
      */
     public function getCountry(): mixed { return $this->get('country'); }
     public function hasCountry(): bool { return $this->has('country'); }
-    /** A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
-     * @return mixed
+    /** Matches when the nested expression does not match. A reusable geographic predicate containing only country, state, postal_code, and radius conditions.
+     * @return DeliveryZoneConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When not is omitted; use hasNot() or valueOrDefault().
      */
     public function getNot(): mixed { return $this->get('not'); }
     public function hasNot(): bool { return $this->has('not'); }
-    /** A delivery eligibility condition that matches the address postal code against exact or prefix `values`.
+    /** Matches when the address postal code matches one of the listed codes. A delivery eligibility condition that matches the address postal code against exact or prefix `values`.
      * @return DeliveryPostalCodeConditionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When postal_code is omitted; use hasPostalCode() or valueOrDefault().
      */
     public function getPostalCode(): mixed { return $this->get('postal_code'); }
     public function hasPostalCode(): bool { return $this->has('postal_code'); }
-    /** Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line.
+    /** Matches when the address is within a set distance of an origin. Eligibility condition that matches when the destination or buyer location is within `maximum_distance` of an origin, measured in a straight line.
      * @return DeliveryRadiusConditionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When radius is omitted; use hasRadius() or valueOrDefault().
      */
     public function getRadius(): mixed { return $this->get('radius'); }
     public function hasRadius(): bool { return $this->has('radius'); }
-    /** Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes.
+    /** Matches when the address is in one of the listed states or provinces. Eligibility condition that matches when the destination or buyer location is in one of the listed states or provinces, given as ISO 3166-2 codes.
      * @return DeliveryStateConditionInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When state is omitted; use hasState() or valueOrDefault().
      */

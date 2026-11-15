@@ -23,7 +23,7 @@ final class SubscriptionsDeleteLineItemInput extends Model {
      */
     public function getSubscriptionLineItemId(): string { return $this->get('subscription_line_item_id'); }
     public function hasSubscriptionLineItemId(): bool { return $this->has('subscription_line_item_id'); }
-    /** Reject the deletion if the subscription version has changed. Format: uint64. minimum: 1.
+    /** Reject the deletion if the subscription version has changed. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

@@ -38,10 +38,6 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](Subscription.md#subscription).
 
-### SubscriptionActivatedMerchantEvent.data fields 1.object.buyer_actions[]
-
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
-
 ### SubscriptionActivatedMerchantEvent.data fields 1.object.cancellation_details
 
 Field definitions: [SubscriptionResponse.data.cancellation_details](../models/SubscriptionResponse.md#subscriptionresponsedatacancellation_details).

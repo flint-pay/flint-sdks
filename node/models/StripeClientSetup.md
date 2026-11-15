@@ -10,5 +10,5 @@ Stripe.js setup authority returned while saving a payment method. Follow its str
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `stripe` | Optional | [StripeClientSetupStripe](../models/StripeClientSetupStripe.md#stripeclientsetupstripe) | Stripe.js initialization context and SetupIntent setup authority. |
+| `stripe` | Optional | [StripeClientSetupStripe](../models/StripeClientSetupStripe.md#stripeclientsetupstripe) | Stripe.js initialization context and the SetupIntent authority for saving the payment method. Stripe.js initialization context and SetupIntent setup authority. |
 

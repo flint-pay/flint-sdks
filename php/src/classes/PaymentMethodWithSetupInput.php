@@ -38,7 +38,7 @@ final class PaymentMethodWithSetupInput extends Model {
      */
     public function getCustomer(): mixed { return $this->get('customer'); }
     public function hasCustomer(): bool { return $this->has('customer'); }
-    /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Customer this payment method belongs to. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */

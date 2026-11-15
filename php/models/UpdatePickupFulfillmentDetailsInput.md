@@ -11,10 +11,10 @@ Request input.
 | `address` | Optional | [AddressRequestInput](../models/AddressRequestInput.md#addressrequestinput) or null | Address where the buyer collects the order. |
 | `curbside_instructions` | Optional | string or null | Instructions specific to curbside handoff. Send null to clear it. minLength: `1`. maxLength: `2048`. |
 | `customer_arrived_at` | Optional | string or null | Buyer-reported arrival time for curbside or counter pickup. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
-| `expires_at` | Optional | string or null | Deadline after which an uncollected pickup should enter merchant review. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `instructions` | Optional | string or null | Pickup instructions for the buyer, such as where to go on arrival. Send null to clear it. minLength: `1`. |
 | `location_name` | Optional | string or null | Name of the store or place where the buyer collects the order. Send null to clear it. minLength: `1`. |
 | `picked_up_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
+| `pickup_due_at` | Optional | string or null | Time by which the buyer should collect the order. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |
 | `pickup_window_duration_seconds` | Optional | integer or null | Width of the promised pickup window, from 0 to 86400 seconds. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `prep_time_duration_seconds` | Optional | integer or null | Expected preparation time for restaurant and made-to-order pickup, from 0 to 86400 seconds. Format: `int64`. minimum: `0`. maximum: `86400`. |
 | `ready_at` | Optional | string or null | RFC3339 timestamp. Send null to clear it. Format: `date-time`. minLength: `1`. Example: `"2026-08-02T16:00:00Z"`. |

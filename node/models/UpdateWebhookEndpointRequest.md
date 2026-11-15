@@ -2,7 +2,7 @@
 
 ## UpdateWebhookEndpointRequest
 
-The request body for: Update webhook endpoint.
+The request body for: Update webhook endpoint. minProperties: `1`.
 
 
 

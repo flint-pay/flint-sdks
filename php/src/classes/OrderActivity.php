@@ -7,20 +7,23 @@ namespace Flint;
  * @property-read ?string $checkout_session_id
  * @property-read string $created_at
  * @property-read string $description
+ * @property-read ?string $dispute_id
  * @property-read ?string $fulfillment_id
  * @property-read string $order_activity_id
  * @property-read ?string $order_charge_id
  * @property-read ?string $order_discount_id
+ * @property-read string $order_id
  * @property-read ?string $order_line_item_id
  * @property-read ?string $order_tip_id
  * @property-read ?string $payment_intent_id
+ * @property-read ?string $payment_review_id
  * @property-read ?string $refund_id
  * @property-read SignedMoney $running_balance_money
  * Presence-aware response; omitted optional fields return null. */
 final class OrderActivity extends Model {
-    /** @param array{'activity_type'?: string, 'balance_delta_money': mixed, 'checkout_session_id'?: string, 'created_at': string, 'description': string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'refund_id'?: string, 'running_balance_money': mixed, ...}|object $values */
+    /** @param array{'activity_type'?: string, 'balance_delta_money': mixed, 'checkout_session_id'?: string, 'created_at': string, 'description': string, 'dispute_id'?: string, 'fulfillment_id'?: string, 'order_activity_id': string, 'order_charge_id'?: string, 'order_discount_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'order_tip_id'?: string, 'payment_intent_id'?: string, 'payment_review_id'?: string, 'refund_id'?: string, 'running_balance_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderActivity')); }
-    /** The action recorded on the order. Omitted when the activity type cannot be identified. Clients must accept values added in future releases. Value enum: "created", "line_item_added", "line_item_updated", "line_item_removed", "discount_applied", "discount_removed", "tax_updated", "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added", "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_edited", "order_updated", "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed", "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed".
+    /** The action recorded on the order. Omitted when the activity type cannot be identified. Clients must accept values added in future releases. Value enum: "created", "dispute_opened", "dispute_closed", "line_item_added", "line_item_updated", "line_item_removed", "discount_applied", "discount_removed", "tax_updated", "requested_tip_added", "requested_tip_updated", "requested_tip_removed", "charge_added", "charge_updated", "charge_removed", "charge_fulfillment_updated", "order_edited", "payment_review_opened", "payment_review_closed", "order_updated", "adjustment", "closed", "payment", "payment_failed", "refund", "refund_failed", "checkout_session_created", "checkout_session_expired", "checkout_session_invalidated", "fulfillment_created", "fulfillment_updated", "fulfillment_state_changed".
      * @return ?string
      */
     public function getActivityType(): ?string { return $this->get('activity_type'); }
@@ -45,6 +48,11 @@ final class OrderActivity extends Model {
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
+    /** Related Flint dispute, prefixed du_, for dispute_opened and dispute_closed activities. Omitted for other activities. Dispute activities do not change the order balance. Merchant reads only. Buyer activity lists omit it.
+     * @return ?string
+     */
+    public function getDisputeId(): ?string { return $this->get('dispute_id'); }
+    public function hasDisputeId(): bool { return $this->has('dispute_id'); }
     /** Related fulfillment for a fulfillment_created, fulfillment_updated, or fulfillment_state_changed activity. Omitted when the row does not identify one fulfillment.
      * @return ?string
      */
@@ -65,6 +73,11 @@ final class OrderActivity extends Model {
      */
     public function getOrderDiscountId(): ?string { return $this->get('order_discount_id'); }
     public function hasOrderDiscountId(): bool { return $this->has('order_discount_id'); }
+    /** Order that owns this record or its referenced line item and charge.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** Related line item for a line_item_added, line_item_updated, or line_item_removed activity. Omitted when the row does not identify one line item.
      * @return ?string
      */
@@ -80,6 +93,11 @@ final class OrderActivity extends Model {
      */
     public function getPaymentIntentId(): ?string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
+    /** Payment review recorded by this row. Omitted for activities unrelated to payment reviews.
+     * @return ?string
+     */
+    public function getPaymentReviewId(): ?string { return $this->get('payment_review_id'); }
+    public function hasPaymentReviewId(): bool { return $this->has('payment_review_id'); }
     /** Related refund when activity_type points at a refund outcome. Read the refund for the authoritative outcome.
      * @return ?string
      */

@@ -2,7 +2,7 @@
 
 ## CreateEmailChangeRequest
 
-The request body for: Request an email change.
+The request body for: Request a customer email change; Request an email change.
 
 
 

@@ -8,7 +8,7 @@ namespace Flint;
 final class RetryOrderEditRefundResultInput extends Model {
     /** @param array{'order_edit': OrderEditInput|array<array-key, mixed>|\stdClass, 'refunds': list<RefundInput|array<array-key, mixed>|\stdClass>, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RetryOrderEditRefundResultInput')); }
-    /** The edit with its current unrefunded money and supported actions. Nested child of an order: an immutable, completed removal with frozen refund amounts. Refund completion is tracked on the refunds.
+    /** The edit with its current unrefunded money and supported actions. Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
      * @return OrderEditInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When order_edit is omitted; use hasOrderEdit() or valueOrDefault().
      */

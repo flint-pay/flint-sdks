@@ -4,6 +4,8 @@
 
 The attendee name to set or clear.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |

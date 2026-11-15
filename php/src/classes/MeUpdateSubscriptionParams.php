@@ -14,25 +14,25 @@ namespace Flint;
 final class MeUpdateSubscriptionParams extends Model {
     /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'cancel_at_period_end'?: bool, 'delivery'?: SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass, 'expected_version'?: int, 'payment_method_id'?: string, 'quantity'?: int, 'scheduled_plan_change'?: null}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeUpdateSubscriptionParams')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** New billing interval unit. Send it with `billing_interval_count`; the pair must be one the subscription's `billing_interval_options` offer. It applies from the next renewal that has not been paid, and it is refused while a plan change is scheduled. Not accepted as null. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** minimum: 1. maximum: 365.
+    /** Number of `billing_interval` units between charges, from 1 to 365. Send it with `billing_interval`. Not accepted as null. minimum: 1. maximum: 365.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Value enum: false.
+    /** Send `false` to undo a scheduled cancellation. `true` isn't accepted: schedule a cancellation with POST /v1/me/subscriptions/{subscription_id}/cancel. Not accepted as null. Value enum: false.
      * @return bool
      * @throws SdkError When cancel_at_period_end is omitted; use hasCancelAtPeriodEnd() or valueOrDefault().
      */
     public function getCancelAtPeriodEnd(): bool { return $this->get('cancel_at_period_end'); }
     public function hasCancelAtPeriodEnd(): bool { return $this->has('cancel_at_period_end'); }
-    /** The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
+    /** Replaces the whole saved delivery preference. The delivery method must be one the subscription's plan offers. Not accepted as null. The delivery preference to set on a subscription: delivery method, type, destination, and recipient.
      * @return SubscriptionDeliveryRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When delivery is omitted; use hasDelivery() or valueOrDefault().
      */
@@ -44,13 +44,13 @@ final class MeUpdateSubscriptionParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
+    /** ID of the saved payment method to charge for renewals. It must belong to the subscription's customer, be active, and allow charges without the buyer present. Not accepted as null. minLength: 1. Example: "pm_01KEZF7C0034B248TXXE4NXYFZ".
      * @return string
      * @throws SdkError When payment_method_id is omitted; use hasPaymentMethodId() or valueOrDefault().
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }
     public function hasPaymentMethodId(): bool { return $this->has('payment_method_id'); }
-    /** Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 100.
+    /** Legacy subscription multiplier. Only 1 is accepted. Whole-number quantity; fractional quantities are not supported. minimum: 1. maximum: 1.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().
      */

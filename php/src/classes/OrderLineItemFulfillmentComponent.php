@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $bundle_component_id
- * @property-read OrderLineItemFulfillmentProfile|null $profile
+ * @property-read OrderLineItemFulfillmentProfile $profile
  * @property-read int $quantity_per_line_item_unit
  * Presence-aware response; omitted optional fields return null. */
 final class OrderLineItemFulfillmentComponent extends Model {
@@ -14,10 +14,10 @@ final class OrderLineItemFulfillmentComponent extends Model {
      */
     public function getBundleComponentId(): string { return $this->get('bundle_component_id'); }
     public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
-    /** Fulfillment requirements for this component. anyOf[1] (Value): {@see OrderLineItemFulfillmentProfile}. Whether an order line item requires fulfillment, and the fulfillment types it allows. anyOf[2] (Value): null.
-     * @return OrderLineItemFulfillmentProfile|null
+    /** Fulfillment requirements for this component. Whether an order line item requires fulfillment, and the fulfillment types it allows.
+     * @return OrderLineItemFulfillmentProfile
      */
-    public function getProfile(): OrderLineItemFulfillmentProfile|null { return $this->get('profile'); }
+    public function getProfile(): OrderLineItemFulfillmentProfile { return $this->get('profile'); }
     public function hasProfile(): bool { return $this->has('profile'); }
     /** Number of this component per unit of the order line item; fractional quantities are not supported. Format: int64.
      * @return int

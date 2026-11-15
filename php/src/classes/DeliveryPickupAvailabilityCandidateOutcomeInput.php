@@ -12,7 +12,7 @@ namespace Flint;
 final class DeliveryPickupAvailabilityCandidateOutcomeInput extends Model {
     /** @param array{'address_advisories'?: list<DeliveryAddressAdvisoryResourceInput|array<array-key, mixed>|\stdClass>, 'failure_category'?: string, 'input_requirements'?: list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'retryable'?: bool, 'type': string, 'unavailable_reason'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityCandidateOutcomeInput')); }
-    /**  [] (Value): {@see DeliveryAddressAdvisoryResourceInput}. An address verification result for a delivery address or buyer location. `suggested_address` may offer a correction.
+    /** Address verification results that affected this method. Omitted when there are none. [] (Value): {@see DeliveryAddressAdvisoryResourceInput}. An address verification result for a delivery address or buyer location. `suggested_address` may offer a correction.
      * @return list<DeliveryAddressAdvisoryResourceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When address_advisories is omitted; use hasAddressAdvisories() or valueOrDefault().
      */
@@ -24,19 +24,19 @@ final class DeliveryPickupAvailabilityCandidateOutcomeInput extends Model {
      */
     public function getFailureCategory(): string { return $this->get('failure_category'); }
     public function hasFailureCategory(): bool { return $this->has('failure_category'); }
-    /**  [] (Value): {@see DeliveryInputRequirementInput}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
+    /** Inputs the method needs before Flint can price it. Set only when `type` is `input_required`. [] (Value): {@see DeliveryInputRequirementInput}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
      * @return list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When input_requirements is omitted; use hasInputRequirements() or valueOrDefault().
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
-    /** retryable
+    /** Whether trying again later can succeed. Set only when `type` is `cannot_calculate`.
      * @return bool
      * @throws SdkError When retryable is omitted; use hasRetryable() or valueOrDefault().
      */
     public function getRetryable(): bool { return $this->get('retryable'); }
     public function hasRetryable(): bool { return $this->has('retryable'); }
-    /** Value enum: "available", "unavailable", "input_required", "cannot_calculate".
+    /** What happened when Flint evaluated this delivery method. Value enum: "available", "unavailable", "input_required", "cannot_calculate".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

@@ -10,6 +10,6 @@ The voided shipment and its affected packages. The shipment is the primary resou
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `packages` | Required | Array of [Package](../models/Package.md#package) |  |
-| `shipment` | Required | [Shipment](../models/Shipment.md#shipment) | A shipment carrying fulfilled order items. |
+| `packages` | Required | Array of [Package](../models/Package.md#package) | The shipment's packages after the void, each with status `voided`. Packages that were already voided are included. |
+| `shipment` | Required | [Shipment](../models/Shipment.md#shipment) | The shipment after the void, with status `voided`. A shipment carrying fulfilled order items. |
 

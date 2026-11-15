@@ -9,12 +9,13 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $inspected_at
  * @property-read string $inspection_location_id
  * @property-read list<ReturnInspectionLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
+ * @property-read string $return_id
  * @property-read string $return_receipt_id
  * @property-read ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass $source_system
  * @property-read string $supersedes_return_inspection_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnInspectionRequestInput extends Model {
-    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'inspected_at': string|\DateTimeInterface, 'inspection_location_id': string, 'line_items': list<ReturnInspectionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'return_receipt_id': string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass, 'supersedes_return_inspection_id'?: string}|object $values */
+    /** @param array{'correction_reason'?: string, 'correction_reason_message'?: string, 'external_actor_id'?: string, 'external_reference_id'?: string, 'inspected_at': string|\DateTimeInterface, 'inspection_location_id': string, 'line_items': list<ReturnInspectionLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'return_id': string, 'return_receipt_id': string, 'source_system'?: ReturnSourceSystemRequestInput|array<array-key, mixed>|\stdClass, 'supersedes_return_inspection_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnInspectionRequestInput')); }
     /** Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Value enum: "entry_error", "duplicate_observation", "source_correction", "reconciliation_correction", "other".
      * @return string
@@ -58,6 +59,12 @@ final class CreateReturnInspectionRequestInput extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
+    /** ID of the Return the goods belong to. minLength: 1. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the receipt being inspected. minLength: 1. Example: "retrc_01KEZF7C0052GWDW41D9AJAVJZ".
      * @return string
      * @throws SdkError When return_receipt_id is omitted; use hasReturnReceiptId() or valueOrDefault().

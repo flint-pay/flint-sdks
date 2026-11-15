@@ -8,6 +8,6 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `location_id` | Optional | string |  |
-| `type` | Required | string | Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
+| `location_id` | Optional | string | ID of the Location items leave from. Required for `fixed_location` and not allowed otherwise. |
+| `type` | Required | string | Where items under the profile leave from. Values: `"fixed_location"`, `"inventory_routing"`, `"method_origin"`. |
 

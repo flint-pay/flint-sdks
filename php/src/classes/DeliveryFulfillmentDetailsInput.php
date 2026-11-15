@@ -8,9 +8,9 @@ namespace Flint;
  * @property-read string $courier_provider_name
  * @property-read string $courier_support_phone
  * @property-read string|\DateTimeInterface $delivered_at
+ * @property-read string|\DateTimeInterface $delivery_due_at
  * @property-read string|\DateTimeInterface $dispatched_at
  * @property-read string $dropoff_notes
- * @property-read string|\DateTimeInterface $expires_at
  * @property-read string $external_delivery_id
  * @property-read string $instructions
  * @property-read bool $no_contact
@@ -23,7 +23,7 @@ namespace Flint;
  * @property-read string|\DateTimeInterface $window_start_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class DeliveryFulfillmentDetailsInput extends Model {
-    /** @param array{'carrier'?: string, 'courier_pickup_at'?: string|\DateTimeInterface, 'courier_pickup_window_duration_seconds'?: int, 'courier_provider_name'?: string, 'courier_support_phone'?: string, 'delivered_at'?: string|\DateTimeInterface, 'dispatched_at'?: string|\DateTimeInterface, 'dropoff_notes'?: string, 'expires_at'?: string|\DateTimeInterface, 'external_delivery_id'?: string, 'instructions'?: string, 'no_contact'?: bool, 'prep_time_duration_seconds'?: int, 'ready_at'?: string|\DateTimeInterface, 'service_area_id'?: string, 'timezone'?: string, 'tracking_url'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'carrier'?: string, 'courier_pickup_at'?: string|\DateTimeInterface, 'courier_pickup_window_duration_seconds'?: int, 'courier_provider_name'?: string, 'courier_support_phone'?: string, 'delivered_at'?: string|\DateTimeInterface, 'delivery_due_at'?: string|\DateTimeInterface, 'dispatched_at'?: string|\DateTimeInterface, 'dropoff_notes'?: string, 'external_delivery_id'?: string, 'instructions'?: string, 'no_contact'?: bool, 'prep_time_duration_seconds'?: int, 'ready_at'?: string|\DateTimeInterface, 'service_area_id'?: string, 'timezone'?: string, 'tracking_url'?: string, 'window_end_at'?: string|\DateTimeInterface, 'window_start_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryFulfillmentDetailsInput')); }
     /** Carrier responsible for the local delivery.
      * @return string
@@ -61,6 +61,12 @@ final class DeliveryFulfillmentDetailsInput extends Model {
      */
     public function getDeliveredAt(): string|\DateTimeInterface { return $this->get('delivered_at'); }
     public function hasDeliveredAt(): bool { return $this->has('delivered_at'); }
+    /** Time by which the order should be delivered. Passing it does not change status or emit an event automatically; the merchant decides how to follow up. Format: date-time. Example: "2026-08-02T16:00:00Z".
+     * @return string|\DateTimeInterface
+     * @throws SdkError When delivery_due_at is omitted; use hasDeliveryDueAt() or valueOrDefault().
+     */
+    public function getDeliveryDueAt(): string|\DateTimeInterface { return $this->get('delivery_due_at'); }
+    public function hasDeliveryDueAt(): bool { return $this->has('delivery_due_at'); }
     /** When the delivery was dispatched, in RFC3339 format. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When dispatched_at is omitted; use hasDispatchedAt() or valueOrDefault().
@@ -73,12 +79,6 @@ final class DeliveryFulfillmentDetailsInput extends Model {
      */
     public function getDropoffNotes(): string { return $this->get('dropoff_notes'); }
     public function hasDropoffNotes(): bool { return $this->has('dropoff_notes'); }
-    /** Deadline after which an undelivered job should enter merchant review. Format: date-time. Example: "2026-08-02T16:00:00Z".
-     * @return string|\DateTimeInterface
-     * @throws SdkError When expires_at is omitted; use hasExpiresAt() or valueOrDefault().
-     */
-    public function getExpiresAt(): string|\DateTimeInterface { return $this->get('expires_at'); }
-    public function hasExpiresAt(): bool { return $this->has('expires_at'); }
     /** Stable delivery job ID owned by the courier or merchant dispatch system. maxLength: 255. Example: "warehouse-1842".
      * @return string
      * @throws SdkError When external_delivery_id is omitted; use hasExternalDeliveryId() or valueOrDefault().

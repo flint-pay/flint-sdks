@@ -8,11 +8,12 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `modes` | Optional | Array of string | Modes this credential can mint partner app tokens for, with grant_type=client_credentials or an authorization code exchange. Defaults to ["live", "test"]. Send ["test"] for a staging or CI deployment so its key can't mint live tokens. A mint for another mode returns 400 unauthorized_client. Can't be changed after creation. minItems: `1`. maxItems: `2`. uniqueItems: `true`. Items values: `"live"`, `"test"`. |
 | `name` | Optional | string | Optional name to identify this credential. minLength: `1`. maxLength: `100`. |
-| `public_key` | Conditional | [PartnerAppCredentialPublicKeyRequestInput](../models/PartnerAppCredentialPublicKeyRequestInput.md#partnerappcredentialpublickeyrequestinput) | The public JSON Web Key to register for client authentication. |
+| `public_key` | Conditional | [PartnerAppCredentialPublicKeyRequestInput](../models/PartnerAppCredentialPublicKeyRequestInput.md#partnerappcredentialpublickeyrequestinput) | The public JSON Web Key to register. Required when type is public_key and not accepted otherwise. The public JSON Web Key to register for client authentication. |
 | `type` | Required | string | Credential type. |
-| `jwks_url` | Conditional | [PartnerAppCredentialJWKSURLRequestInput](../models/PartnerAppCredentialJWKSURLRequestInput.md#partnerappcredentialjwksurlrequestinput) | A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before registering the credential. |
-| `workload_identity` | Conditional | [PartnerAppCredentialWorkloadIdentityRequestInput](../models/PartnerAppCredentialWorkloadIdentityRequestInput.md#partnerappcredentialworkloadidentityrequestinput) | An external OIDC identity whose subject and claim conditions must match exactly the registered policy. |
+| `jwks_url` | Conditional | [PartnerAppCredentialJWKSURLRequestInput](../models/PartnerAppCredentialJWKSURLRequestInput.md#partnerappcredentialjwksurlrequestinput) | The JSON Web Key Set URL to register. Required when type is jwks_url and not accepted otherwise. A public HTTPS JSON Web Key Set URL. Flint validates and fetches it before registering the credential. |
+| `workload_identity` | Conditional | [PartnerAppCredentialWorkloadIdentityRequestInput](../models/PartnerAppCredentialWorkloadIdentityRequestInput.md#partnerappcredentialworkloadidentityrequestinput) | The external OIDC identity to register. Required when type is workload_identity and not accepted otherwise. An external OIDC identity whose subject and claim conditions must match exactly the registered policy. |
 
 ### CreatePartnerAppCredentialRequestInput variant 1: `type` = `"public_key"`
 

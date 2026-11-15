@@ -1,1 +1,1 @@
-{"shared":"CheckoutTaxConfig","dependencies":["CheckoutTaxConfig"]}
+{"shared":"CheckoutTaxConfig","dependencies":["CheckoutTaxCalculation","CheckoutTaxConfig"]}

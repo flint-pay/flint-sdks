@@ -8,13 +8,13 @@ namespace Flint;
 final class SubscriptionServiceLocationInputCustomerAddressInput extends Model {
     /** @param array{'customer_address_id': string, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionServiceLocationInputCustomerAddressInput')); }
-    /** minLength: 1. Example: "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
+    /** ID of a saved address of the subscription's customer. Flint copies the address. minLength: 1. Example: "caddr_01KEZF7C00K2Q127FBJAXWB0FP".
      * @return string
      * @throws SdkError When customer_address_id is omitted; use hasCustomerAddressId() or valueOrDefault().
      */
     public function getCustomerAddressId(): string { return $this->get('customer_address_id'); }
     public function hasCustomerAddressId(): bool { return $this->has('customer_address_id'); }
-    /** Value enum: "customer_address".
+    /** How the service location is given: a saved customer address or an inline address. Value enum: "customer_address".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

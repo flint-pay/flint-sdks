@@ -7,7 +7,7 @@ namespace Flint;
 final class SubscriptionBillingScheduleInputExternalInput extends Model {
     /** @param array{'owner': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionBillingScheduleInputExternalInput')); }
-    /** Value enum: "external".
+    /** Who supplies billing dates: `flint` computes each next billing date; `external` waits for you to set `next_billing_at`. Value enum: "external".
      * @return string
      * @throws SdkError When owner is omitted; use hasOwner() or valueOrDefault().
      */

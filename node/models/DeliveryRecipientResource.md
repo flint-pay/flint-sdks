@@ -10,7 +10,7 @@ The person receiving a delivery selection, with optional `name`, `email`, and `p
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `email` | Optional | string |  |
-| `name` | Optional | string |  |
-| `phone` | Optional | string |  |
+| `email` | Optional | string | Email address for contacting the recipient about delivery. |
+| `name` | Optional | string | Name of the person receiving or collecting the items. |
+| `phone` | Optional | string | Phone number for contacting the recipient about delivery. |
 

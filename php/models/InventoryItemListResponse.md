@@ -25,7 +25,7 @@ Field definitions: [InventoryItemResponse.data.backorder](../models/InventoryIte
 
 ### InventoryItemListResponse.data[].metadata
 
-Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
+Field definitions: [DeliveryLocationSetResponse.data.metadata](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata).
 
 ### InventoryItemListResponse.meta
 

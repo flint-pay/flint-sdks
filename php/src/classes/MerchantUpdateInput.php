@@ -27,7 +27,7 @@ final class MerchantUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update merchant. Example: {"business_name":"Flint Events LLC","metadata":{"segment":"festivals"},"phone":"+14155550000","support_email":"help@example.com"}.
+    /** The request body for: Update merchant. minProperties: 1. Example: {"business_name":"Flint Events LLC","metadata":{"segment":"festivals"},"phone":"+14155550000","support_email":"help@example.com"}.
      * @return array{'address'?: mixed, 'api_version'?: string, 'business_name'?: string, 'email'?: string|null, 'expected_api_version'?: string, 'expected_version'?: int, 'icon'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'logo'?: array{'alt'?: string, 'file_id'?: string, 'source_reference'?: string, 'source_url': string}|object|array{'alt'?: string, 'file_id': string, 'source_reference'?: string, 'source_url'?: string}|object|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'phone'?: string|null, 'support_email'?: string|null, 'support_phone'?: string|null, 'support_url'?: string|null, 'timezone'?: string, 'website_url'?: string|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

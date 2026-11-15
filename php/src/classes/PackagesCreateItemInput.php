@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $package_id
- * @property-read array{'metadata'?: mixed, 'order_line_item_id': string, 'quantity': int}|object $body
+ * @property-read array{'bundle_component_id'?: string|null, 'metadata'?: mixed, 'order_line_item_id': string, 'quantity': int}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class PackagesCreateItemInput extends Model {
-    /** @param array{'package_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'metadata'?: mixed, 'order_line_item_id': string, 'quantity': int}|object}|object $values */
+    /** @param array{'package_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'bundle_component_id'?: string|null, 'metadata'?: mixed, 'order_line_item_id': string, 'quantity': int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackagesCreateItemInput')); }
     /** Flint package ID. Example: "pkg_01KEZF7C00ZZA16BJCEJBWKJ5R".
      * @return string
@@ -35,7 +35,7 @@ final class PackagesCreateItemInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Create package item. Example: {"metadata":{"slot":"A"},"order_line_item_id":"li_01KEZF7C0003GP5Y88KW1687AP","quantity":1}.
-     * @return array{'metadata'?: mixed, 'order_line_item_id': string, 'quantity': int}|object
+     * @return array{'bundle_component_id'?: string|null, 'metadata'?: mixed, 'order_line_item_id': string, 'quantity': int}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

@@ -175,7 +175,7 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
      */
     public function getPromotionConfig(): ?CheckoutPromotionConfig { return $this->get('promotion_config'); }
     public function hasPromotionConfig(): bool { return $this->has('promotion_config'); }
-    /** Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url.
+    /** Where checkout sessions started from this payment link send the buyer after payment, cancellation, or expiration. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url.
      * @return ?CheckoutRedirects
      */
     public function getRedirects(): ?CheckoutRedirects { return $this->get('redirects'); }
@@ -200,7 +200,7 @@ final class PaymentLinkCreatedMerchantEventDataObject extends Model {
      */
     public function getSubscriptionPlan(): ExpandedSubscriptionPlanSummary|null { return $this->get('subscription_plan'); }
     public function hasSubscriptionPlan(): bool { return $this->has('subscription_plan'); }
-    /** subscription_plan_id
+    /** ID of the subscription plan the link sells. Absent for a link that doesn't sell a subscription.
      * @return ?string
      */
     public function getSubscriptionPlanId(): ?string { return $this->get('subscription_plan_id'); }

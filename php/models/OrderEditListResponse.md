@@ -15,9 +15,13 @@ Response model.
 
 ### OrderEditListResponse.data[]
 
-Nested child of an order: an immutable, completed removal with frozen refund amounts. Refund completion is tracked on the refunds.
+Nested child of an order: immutable, completed item changes with frozen values and refund amounts. Refund completion is tracked on the refunds.
 
 Field definitions: [shared fields](OrderEditResponse.md#ordereditresponsedata).
+
+### OrderEditListResponse.data[].add_line_items[]
+
+Field definitions: [OrderEditResponse.data.add_line_items[]](../models/OrderEditResponse.md#ordereditresponsedataadd_line_items).
 
 ### OrderEditListResponse.data[].charge_refunds[]
 

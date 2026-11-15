@@ -38,6 +38,14 @@ The affected public resource without expansions, client authority fields, or fie
 
 Field definitions: [shared fields](PartnerApp.md#partnerapp).
 
+### PartnerAppPlatformApprovedEvent.data fields 1.object.merchant_action_routing
+
+Field definitions: [PartnerAppResponse.data.merchant_action_routing](../models/PartnerAppResponse.md#partnerappresponsedatamerchant_action_routing).
+
+### PartnerAppPlatformApprovedEvent.data fields 1.object.payment_splits
+
+Field definitions: [PartnerAppResponse.data.payment_splits](../models/PartnerAppResponse.md#partnerappresponsedatapayment_splits).
+
 ### PartnerAppPlatformApprovedEvent.data fields 1.object.permission_manifest[]
 
 Field definitions: [PartnerAppResponse.data.permission_manifest[]](../models/PartnerAppResponse.md#partnerappresponsedatapermission_manifest).

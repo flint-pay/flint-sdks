@@ -18,7 +18,7 @@ Resource, collection, or operation result returned by this request. A request to
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time; merchant reads and webhooks get an empty list. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Example: `[]`. `buyer_actions[]`: [field definitions](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions). |
+| `buyer_actions` | Required | Array of [BuyerAction](../models/BuyerAction.md#buyeraction) | What the buyer can do with the return, in this order: withdraw, ship_items, then pay_balance. A buyer's read or change through a customer session on /v1/me, or in Flint's buyer account, lists all three every time. Merchant responses and webhooks omit this field. ship_items is required while handoff_requirements is not empty, due by the earliest expires_at there. pay_balance is required while a resolution waits for the buyer's payment. Example: `[]`. `buyer_actions[]`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions). |
 | `canceled_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `cancellation_reason` | Optional | string | Why the Return was canceled. Values: `"buyer_request"`, `"merchant_request"`, `"duplicate"`, `"expired"`, `"created_in_error"`, `"other"`. |
 | `completed_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
@@ -34,12 +34,11 @@ Resource, collection, or operation result returned by this request. A request to
 | `merchandise_status` | Required | string | On the Return, the least-finished line's value. Values: [10 declared values](#buyerreturnresponsedata-merchandise_status-values). |
 | `metadata` | Required | object | Always empty for buyer credentials. maxProperties: `0`. |
 | `order_id` | Required | string | ID of the Order the Return is against. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `resolution_status` | Required | string | Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Values: `"not_selected"`, `"pending"`, `"partially_fulfilled"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
+| `resolution_status` | Required | string | Whether the buyer has received the value they are owed. Combines the Return's resolutions and its unsettled corrections. Values: `"not_selected"`, `"pending"`, `"partially_completed"`, `"requires_action"`, `"completed"`, `"failed"`. |
 | `return_id` | Required | string | Unique identifier for this return, prefixed `ret_`. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `return_number` | Required | string | Human-readable number for the Return. |
 | `return_resolution_ids` | Required | Array of string | IDs of every resolution created for this Return, oldest first, including failed and canceled resolutions. Expand `return_resolutions` on `GET /v1/returns/{return_id}` to read them inline. Items: Example: `"retres_01KEZF7C00C7RZJN31W9SGMEQ3"`. |
 | `status` | Required | string | Where the whole Return stands. Read `decision_status`, `merchandise_status`, and `resolution_status` for the part you need. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
-| `supported_actions` | Required | Array of string | Items values: `"cancel"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Goes up with every change to the Return. Each activity's `return_version` is the version that activity produced. A write that takes `expected_version` or `expected_return_version` for this Return compares it with this value. Format: `int64`. minimum: `0`. |
 
@@ -58,7 +57,43 @@ Resource, collection, or operation result returned by this request. A request to
 
 ### BuyerReturnResponse.data.buyer_actions[]
 
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
+One thing a buyer can do with an order, subscription, invoice or return they read through /v1/me. Show the actions with is_required as what needs the buyer's attention, and the first available action as the primary action on the resource's page in your account.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `cancel` | Optional | [BuyerCancelActionOptions](../models/BuyerCancelActionOptions.md#buyercancelactionoptions) | Present only on an available cancel action. The cancellation choices this subscription accepts from its buyer. |
+| `due_at` | Optional | string | When the buyer needs to act by. Omitted when the action has no deadline, or when the resource's state or the store's policy doesn't allow it. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
+| `is_available` | Required | boolean | Whether this session can take the action now. |
+| `is_required` | Required | boolean | Whether the store needs the buyer to take the action, such as paying a due invoice. It stays true when the only thing in the way is signing in. |
+| `kind` | Required | string | What the action is. Each resource lists its own kinds in a fixed order. New kinds may be added; ignore kinds you don't recognize. Values: [20 declared values](BuyerActionInput.md#buyeractioninput-kind-values). |
+| `pause` | Optional | [BuyerPauseActionOptions](../models/BuyerPauseActionOptions.md#buyerpauseactionoptions) | Present only on an available pause action. The pause lengths this subscription accepts from its buyer. |
+| `pay_balance` | Optional | [BuyerPayBalanceActionOptions](../models/BuyerPayBalanceActionOptions.md#buyerpaybalanceactionoptions) | Present only on an available pay_balance action. The return resolutions the buyer can pay now. `pay_balance`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actionspay_balance). |
+| `retry_payment` | Optional | [BuyerRetryPaymentActionOptions](../models/BuyerRetryPaymentActionOptions.md#buyerretrypaymentactionoptions) | How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running. `retry_payment`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actionsretry_payment). |
+| `unavailable_reason` | Optional | string | Why the action can't be taken now. Present exactly when is_available is false. New reasons may be added; show a general message for a reason you don't recognize. Values: [9 declared values](#buyerreturnresponsedatabuyer_actions-unavailable_reason-values). |
+
+#### BuyerReturnResponse.data.buyer_actions[] unavailable_reason values
+
+- `"sign_in_required"`
+- `"store_policy"`
+- `"not_in_state"`
+- `"window_closed"`
+- `"nothing_to_return"`
+- `"collection_unavailable"`
+- `"limit_reached"`
+- `"delivery_hold"`
+- `"in_progress"`
+
+### BuyerReturnResponse.data.buyer_actions[].pay_balance
+
+Present only on an available pay_balance action. The return resolutions the buyer can pay now.
+
+Field definitions: [shared fields](BuyerPayBalanceActionOptionsInput.md#buyerpaybalanceactionoptionsinput).
+
+### BuyerReturnResponse.data.buyer_actions[].retry_payment
+
+How many payment retries the buyer has left this billing period, and the retry that is running. Present while the subscription is past due, including when the action is unavailable. How many payment retries the buyer has left this billing period, and the retry that is running.
+
+Field definitions: [shared fields](BuyerRetryPaymentActionOptionsInput.md#buyerretrypaymentactionoptionsinput).
 
 ### BuyerReturnResponse.data.completion_blockers[]
 
@@ -76,7 +111,7 @@ The merchandise quantities the buyer must hand off, with their destination, inst
 | `expires_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `instructions` | Optional | string | Instructions for the buyer on sending the merchandise. |
 | `line_items` | Required | Array of [ReturnHandoffRequirementLineItem](../models/ReturnHandoffRequirementLineItem.md#returnhandoffrequirementlineitem) | Return lines and the quantities still expected. `line_items[]`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedatahandoff_requirementsline_items). |
-| `shipment_count` | Optional | integer | Format: `int64`. |
+| `shipment_count` | Optional | integer | Reserved. Flint doesn't set it today, so it's always omitted. Format: `int64`. |
 | `status` | Required | string | Whether the buyer has started sending merchandise back. A requirement leaves handoff_requirements entirely once it is satisfied, so there is no terminal status and an empty array means nothing is waiting on the buyer. Values: `"pending"`, `"in_progress"`. |
 
 ### BuyerReturnResponse.data.handoff_requirements[].line_items[]
@@ -95,7 +130,7 @@ An item included in a return request.
 | `allowed_resolution_types` | Required | Array of string | Resolution types that can settle this line's approved quantity. Items values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. |
 | `approved_quantity` | Required | integer | Units the decision approved. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `automatic_resolution_type` | Optional | string | The refund, store_credit, or no_monetary_action resolution Flint creates and confirms automatically. Absent when the merchant resolves manually. Example: `"refund"`. Values: `"refund"`, `"store_credit"`, `"no_monetary_action"`. |
-| `available_resolution_quantity` | Required | integer | Approved quantity that can still be assigned to a new resolution. Every non-canceled resolution reserves its line quantity, including proposed, pending, action-required, failed, and fulfilled resolutions. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `available_resolution_quantity` | Required | integer | Approved quantity that can still be assigned to a new resolution. Every non-canceled resolution reserves its line quantity, including proposed, pending, action-required, failed, and completed resolutions. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `bundle_components` | Required | Array of [BundleComponent](../models/BundleComponent.md#bundlecomponent) | Components of the bundle the line was sold from. `bundle_components[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_components). |
 | `bundle_id` | Optional | string | ID of the bundle the line was sold from. Example: `"bun_01KEZF7C00TQ6S76Z6CVQF5SVN"`. |
 | `buyer_note` | Optional | string | Note the buyer gave about this line. Some return reasons require one. |
@@ -117,6 +152,7 @@ An item included in a return request.
 | `merchandise_status` | Required | string | Where this line's merchandise stands, from handoff through disposition. Values: [9 declared values](#buyerreturnresponsedataline_items-merchandise_status-values). |
 | `modifiers` | Required | Array of [BuyerReturnLineItemModifier](../models/BuyerReturnLineItemModifier.md#buyerreturnlineitemmodifier) | Modifiers selected on the order line, with their prices. `modifiers[]`: [field definitions](../models/BuyerReturnResponse.md#buyerreturnresponsedataline_itemsmodifiers). |
 | `name` | Required | string | Name of the item as sold. |
+| `order_id` | Required | string | Order that owns order_line_item_id. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
 | `order_line_item_id` | Required | string | ID of the order line item the units come from. Example: `"li_01KEZF7C008YPRCK7VDKTGWR31"`. |
 | `product_id` | Optional | string | ID of the catalog product the item was sold from. Example: `"prod_01KEZF7C00BVSHCNWVH528HB66"`. |
 | `received_quantity` | Required | integer | Units that arrived. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
@@ -124,7 +160,7 @@ An item included in a return request.
 | `release_timing` | Optional | string | Committed resolution execution gate, filled for every approved line: after_inspection when merchandise and inspection are required, after_receipt when merchandise is required without inspection, or after_approval when merchandise is not required, unless the policy or decision sets a timing explicitly. Applies to every resolution type, including exchanges and replacements. manual is held until a merchant calls POST /v1/return-resolutions/{id}/release. Values: `"after_approval"`, `"after_handoff"`, `"after_receipt"`, `"after_inspection"`, `"manual"`. |
 | `requested_quantity` | Required | integer | Units the request asked to return. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `requested_resolution_type` | Optional | string | Outcome requested for this line when it was created. Absent when none was requested. Values: `"refund"`, `"exchange"`, `"replacement"`, `"no_monetary_action"`, `"store_credit"`. |
-| `resolution_status` | Required | string | Whether the value for this line's approved quantity has been delivered. Values: `"not_selected"`, `"pending"`, `"requires_action"`, `"fulfilled"`, `"failed"`. |
+| `resolution_status` | Required | string | Whether the value for this line's approved quantity has been delivered. Values: `"not_selected"`, `"pending"`, `"requires_action"`, `"completed"`, `"failed"`. |
 | `resolved_quantity` | Required | integer | Units whose resolution has finished. Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `return_id` | Required | string | ID of the Return this line belongs to. Example: `"ret_01KEZF7C00PG93650ZKVQNGF7X"`. |
 | `return_line_item_id` | Required | string | Unique identifier for this return line item, prefixed `retli_`. Example: `"retli_01KEZF7C00R813VR7ECXS062QG"`. |
@@ -138,7 +174,6 @@ An item included in a return request.
 | `selected_options` | Required | Array of [SelectedProductOption](../models/SelectedProductOption.md#selectedproductoption) | Variant options selected for the item, such as size and color. `selected_options[]`: [field definitions](../models/OrderResponse.md#orderresponsedataline_itemsbundle_componentsvariantselected_options). |
 | `sku` | Optional | string | SKU of the item as sold. |
 | `status` | Required | string | Where this line stands. Same values and meanings as the Return's `status`, applied to the line. Values: `"requested"`, `"open"`, `"completed"`, `"declined"`, `"canceled"`. |
-| `supported_actions` | Required | Array of string | Always empty for buyer credentials. maxItems: `0`. Items values: `"cancel"`, `"waive_inspection"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `variant_id` | Optional | string | ID of the catalog variant the item was sold from. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 
@@ -173,6 +208,7 @@ How the pinned return policy judged this line when the Return was created, with 
 | `policy_adjustment_proposals` | Required | Array of [ReturnPolicyAdjustmentProposal](../models/ReturnPolicyAdjustmentProposal.md#returnpolicyadjustmentproposal) | Fees or credits the policy proposes for this line, to add to a resolution as adjustments. |
 | `reason` | Required | string | Why the line got this result. Values: [9 declared values](#buyerreturnresponsedataline_itemseligibility-reason-values). |
 | `reason_message` | Required | string | Explanation of `reason`. |
+| `return_shipping_payer` | Required | string or null | Who pays return shipping under the policy. Null when the line is not eligible, requires no merchandise return, or the policy does not specify a payer. This field does not promise a prepaid label. Values: `"merchant"`, `"buyer"`, `null`. |
 | `status` | Required | string | Whether the policy lets the buyer return this. `review_required` means the merchant decides. Values: `"eligible"`, `"ineligible"`, `"review_required"`. |
 
 #### BuyerReturnResponse.data.line_items[].eligibility reason values
@@ -199,10 +235,10 @@ A selected modifier recorded on an item in the buyer's Return, including its mod
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `metadata` | Required | object | maxProperties: `0`. |
+| `metadata` | Required | object | Always empty for buyer credentials. maxProperties: `0`. |
 | `modifier_group_name` | Required | string | Name of the modifier group recorded when this selection was added to the order line item. |
 | `name` | Required | string | Name of the selected modifier recorded on the order line item. |
-| `pricing_scope` | Required | string | Values: `"per_item"`, `"per_line"`. |
+| `pricing_scope` | Required | string | Whether this selection's price applies to each unit of the line item or once to the whole line. Values: `"per_item"`, `"per_line"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `show_on_fulfillment` | Required | boolean | Whether this selection appears in fulfillment details, recorded when selected. |
 | `show_on_receipt` | Required | boolean | Whether this selection appears on buyer receipts, recorded when selected. |

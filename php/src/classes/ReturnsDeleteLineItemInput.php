@@ -23,7 +23,7 @@ final class ReturnsDeleteLineItemInput extends Model {
      */
     public function getReturnLineItemId(): string { return $this->get('return_line_item_id'); }
     public function hasReturnLineItemId(): bool { return $this->has('return_line_item_id'); }
-    /** Optional version of the parent Return. Supply exactly once. A stale value returns VERSION_CONFLICT with the current Return version. Format: int64. minimum: 1.
+    /** Optional version of the parent Return. Supply exactly once. A stale value returns VERSION_CONFLICT with the current Return version. Format: int64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

@@ -7,6 +7,7 @@ namespace Flint;
  * @property-read string $external_event_id
  * @property-read string $external_status
  * @property-read string $external_system
+ * @property-read string $fulfillment_id
  * @property-read string $location_description
  * @property-read string $message
  * @property-read string|\DateTimeInterface $occurred_at
@@ -14,7 +15,7 @@ namespace Flint;
  * @property-read string $shipment_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateFulfillmentEventRequestInput extends Model {
-    /** @param array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string}|object $values */
+    /** @param array{'custom_details'?: array<array-key, string>|\stdClass, 'event_type': string, 'external_event_id'?: string, 'external_status'?: string, 'external_system'?: string, 'fulfillment_id': string, 'location_description'?: string, 'message'?: string, 'occurred_at'?: string|\DateTimeInterface, 'package_id'?: string, 'shipment_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateFulfillmentEventRequestInput')); }
     /** Free-form details attached to the event. * (Value): string. minLength: 1.
      * @return array<array-key, string>|\stdClass
@@ -46,6 +47,12 @@ final class CreateFulfillmentEventRequestInput extends Model {
      */
     public function getExternalSystem(): string { return $this->get('external_system'); }
     public function hasExternalSystem(): bool { return $this->has('external_system'); }
+    /** Fulfillment that owns this event. minLength: 1. Example: "ful_01KEZF7C00F24WVSTTWR1FQX5T".
+     * @return string
+     * @throws SdkError When fulfillment_id is omitted; use hasFulfillmentId() or valueOrDefault().
+     */
+    public function getFulfillmentId(): string { return $this->get('fulfillment_id'); }
+    public function hasFulfillmentId(): bool { return $this->has('fulfillment_id'); }
     /** Where the event happened, such as `Louisville, KY`. minLength: 1.
      * @return string
      * @throws SdkError When location_description is omitted; use hasLocationDescription() or valueOrDefault().
@@ -70,7 +77,7 @@ final class CreateFulfillmentEventRequestInput extends Model {
      */
     public function getPackageId(): string { return $this->get('package_id'); }
     public function hasPackageId(): bool { return $this->has('package_id'); }
-    /** Nested shipment associated with this observational event. Flint validates that it belongs to the fulfillment in the path. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
+    /** Nested shipment associated with this observational event. Flint validates that it belongs to fulfillment_id. minLength: 1. Example: "shp_01KEZF7C00Q2AFXWXHMCDR3F68".
      * @return string
      * @throws SdkError When shipment_id is omitted; use hasShipmentId() or valueOrDefault().
      */

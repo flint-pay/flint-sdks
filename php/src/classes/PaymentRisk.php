@@ -19,27 +19,27 @@ final class PaymentRisk extends Model {
      */
     public function getEvaluatedAt(): string { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /** Value enum: "normal", "elevated", "highest", "not_assessed".
+    /** Fraud risk level from the card processor's screening of the payment intent's latest payment attempt. Value enum: "normal", "elevated", "highest", "not_assessed".
      * @return string
      */
     public function getLevel(): string { return $this->get('level'); }
     public function hasLevel(): bool { return $this->has('level'); }
-    /** matched_risk_rule_id
+    /** The risk rule that decided the outcome. Absent when no risk rule did.
      * @return ?string
      */
     public function getMatchedRiskRuleId(): ?string { return $this->get('matched_risk_rule_id'); }
     public function hasMatchedRiskRuleId(): bool { return $this->has('matched_risk_rule_id'); }
-    /** Value enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null.
+    /** What the risk evaluation decided about the payment intent's latest payment attempt. `null` when the evaluation has no outcome to report, such as when the attempt was canceled. Value enum: "authorized", "manual_review", "blocked", "issuer_declined", "invalid", null.
      * @return string|null
      */
     public function getOutcome(): string|null { return $this->get('outcome'); }
     public function hasOutcome(): bool { return $this->has('outcome'); }
-    /** Value enum: "highest_risk", "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null.
+    /** Why the evaluation reached its outcome. `null` when the evaluation has no reason to report, such as an authorized payment that raised no flags. Value enum: "highest_risk", "elevated_risk", "low_authorization_probability", "risk_rule", "risk_policy", null.
      * @return string|null
      */
     public function getOutcomeReason(): string|null { return $this->get('outcome_reason'); }
     public function hasOutcomeReason(): bool { return $this->has('outcome_reason'); }
-    /** payment_review_id
+    /** The payment review opened for the attempt. Present only when the outcome is manual_review.
      * @return ?string
      */
     public function getPaymentReviewId(): ?string { return $this->get('payment_review_id'); }
@@ -49,7 +49,7 @@ final class PaymentRisk extends Model {
      */
     public function getScore(): ?int { return $this->get('score'); }
     public function hasScore(): bool { return $this->has('score'); }
-    /** statement
+    /** A plain-language summary of the evaluation.
      * @return string
      */
     public function getStatement(): string { return $this->get('statement'); }

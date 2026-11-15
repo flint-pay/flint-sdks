@@ -30,7 +30,7 @@ anyOf InvoiceCollectionInputExternal: Declared schema InvoiceCollectionInputExte
 - Condition: not (at least one(present(`payment_method_id`); present(`payment_policy`))).
 - Constraints for `mode`: How the invoice is collected. merchant_default resolves when the draft is written, and reads return the resolved mode. Values: `"external"`.
 - Constraints for `payment_method_id`: The customer's saved card to charge. Accepted only with automatic. Without one, Flint charges the customer's default card, selected when the invoice is issued. Send null to clear it. minLength: `1`.
-- Constraints for `payment_policy`: The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings payment_policy, or the checkout payment options when that isn't set.
+- Constraints for `payment_policy`: The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An explicit policy takes precedence over invoices.payment_policy, then checkout payment options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when the draft is written; later settings changes do not change its stored policy. Wallets appear only on supported devices over HTTPS with the payment domain registered.
 
 ### InvoiceCollectionExternal variant 1.payment_policy
 
@@ -38,7 +38,7 @@ Field definitions: [InvoiceCollection.payment_policy](../models/InvoiceCollectio
 
 ### InvoiceCollectionExternal variant 2.payment_policy
 
-The payment options the hosted invoice page offers. Accepted only with buyer_initiated. Omit it to use the invoice settings payment_policy, or the checkout payment options when that isn't set. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison.
+The payment options the hosted invoice page offers. Accepted only with buyer_initiated. An explicit policy takes precedence over invoices.payment_policy, then checkout payment options, then the platform default of card, apple_pay, and google_pay. Defaults resolve when the draft is written; later settings changes do not change its stored policy. Wallets appear only on supported devices over HTTPS with the payment domain registered. Which payment options an invoice accepts, any per-option total limits, and whether to show a cost comparison.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |

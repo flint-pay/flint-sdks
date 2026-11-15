@@ -21,7 +21,7 @@ Field definitions: [shared fields](SubscriptionPaymentRetryResponse.md#subscript
 
 ### SubscriptionPaymentRetryListResponse.data[].last_payment_error
 
-Field definitions: [OrderResponse.data.active_payment_attempt.payment_intents[].last_payment_error](../models/OrderResponse.md#orderresponsedataactive_payment_attemptpayment_intentslast_payment_error).
+Field definitions: [BuyerSubscriptionPaymentRetryResponse.data.last_payment_error](../models/BuyerSubscriptionPaymentRetryResponse.md#buyersubscriptionpaymentretryresponsedatalast_payment_error).
 
 ### SubscriptionPaymentRetryListResponse.meta
 

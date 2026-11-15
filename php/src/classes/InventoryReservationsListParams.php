@@ -35,19 +35,19 @@ final class InventoryReservationsListParams extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by an inventory item on a reservation line. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+    /** Filter by an inventory item on a reservation line. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Filter by a location on a reservation line. Combined with inventory_item_id, the same line must match both. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by a location on a reservation line. Combined with inventory_item_id, the same line must match both. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
     public function getLocationId(): string { return $this->get('location_id'); }
     public function hasLocationId(): bool { return $this->has('location_id'); }
-    /** Filter by the reservation's resolved owner order. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by the reservation's resolved owner order. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -71,7 +71,7 @@ final class InventoryReservationsListParams extends Model {
      */
     public function getOwnerKey(): string { return $this->get('owner_key'); }
     public function hasOwnerKey(): bool { return $this->has('owner_key'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */
@@ -83,7 +83,7 @@ final class InventoryReservationsListParams extends Model {
      */
     public function getHasAtRiskQuantity(): bool { return $this->get('has_at_risk_quantity'); }
     public function hasHasAtRiskQuantity(): bool { return $this->has('has_at_risk_quantity'); }
-    /** Filter by how the reservation ended. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "consumed", "released", "expired", "reallocated", "mixed". Value enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[1][] (Value): string.  Value enum: "consumed", "released", "expired", "reallocated", "mixed". anyOf[2] (Value): string.  Value enum: "consumed", "released", "expired", "reallocated", "mixed".
+    /** Filter by how the reservation ended. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. [] enum: "consumed", "released", "expired", "reallocated", "mixed", "adopted". Value enum: "consumed", "released", "expired", "reallocated", "mixed", "adopted". anyOf[1] (Value): Array of string. minItems: 1. [] enum: "consumed", "released", "expired", "reallocated", "mixed", "adopted". anyOf[1][] (Value): string.  Value enum: "consumed", "released", "expired", "reallocated", "mixed", "adopted". anyOf[2] (Value): string.  Value enum: "consumed", "released", "expired", "reallocated", "mixed", "adopted".
      * @return list<string>|string
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
      */

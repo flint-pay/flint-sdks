@@ -29,7 +29,7 @@ Field definitions: [OrderResponse.data.authorization_amounts](../models/OrderRes
 
 ### BuyerOrderListResponse.data[].buyer_actions[]
 
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
+Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
 
 ### BuyerOrderListResponse.data[].buyer_contact
 
@@ -42,6 +42,10 @@ Field definitions: [BuyerSubscriptionPlanChangeResultResponse.data.order variant
 ### BuyerOrderListResponse.data[].deferred_promotions[]
 
 Field definitions: [DisputeResponse.data.order variant 1.deferred_promotions[]](../models/DisputeResponse.md#disputeresponsedataorder-variant-1deferred_promotions).
+
+### BuyerOrderListResponse.data[].delivery
+
+Field definitions: [OrderResponse.data.delivery](../models/OrderResponse.md#orderresponsedatadelivery).
 
 ### BuyerOrderListResponse.data[].delivery_destination
 
@@ -70,6 +74,10 @@ Field definitions: [BuyerSubscriptionPlanChangeResultResponse.data.order variant
 ### BuyerOrderListResponse.data[].return_credit_settlements[]
 
 Field definitions: [OrderResponse.data.return_credit_settlements[]](../models/OrderResponse.md#orderresponsedatareturn_credit_settlements).
+
+### BuyerOrderListResponse.data[].tax
+
+Field definitions: [BuyerSubscriptionPlanChangeResultResponse.data.order variant 1.tax](../models/BuyerSubscriptionPlanChangeResultResponse.md#buyersubscriptionplanchangeresultresponsedataorder-variant-1tax).
 
 ### BuyerOrderListResponse.data[].ticketed_event
 

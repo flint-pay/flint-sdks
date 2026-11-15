@@ -16,14 +16,15 @@ Request input.
 | `checkout_session_id` | Optional | string | Checkout session the buyer paid through. Present on payment_attempt_started for hosted payments. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `collection_block_reason` | Optional | string | Why collection was blocked or unblocked. Present on collection_blocked and collection_block_resolved. Values: `"inventory_unavailable"`, `"inventory_restored"`. |
 | `created_at` | Required | string | When the activity happened. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `credit_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `credit_note_id` | Optional | string | Credit note that requested the refund. Present on updated when a credit note refund was requested or changed. Example: `"cn_01KEZF7C00N1TRRCVDNY8S471H"`. |
+| `credited_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Total credit applied to the invoice. Present on credited. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `description` | Required | string | Human-readable Flint description of the activity. |
 | `due_at` | Optional | string | Due date that triggered the activity. Present on overdue, reminder_due, and late_fee_due. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `error_code` | Optional | string | Public error code of the failed scheduled issue. Present on issue_failed. |
 | `expected_amount_money` | Optional | [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Amount the processing payment is expected to settle. Present on payment_processing. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `invoice_activity_id` | Required | string | Flint invoice activity ID. IDs begin with inevt_. Example: `"inevt_01KEZF7C00RQVKGDVE88YNX9FQ"`. |
 | `invoice_delivery_attempt_id` | Optional | string | The delivery attempt that sent the email. Present on delivery_sent and reminder_sent. Example: `"indel_01KEZF7C001BBS41T0ZVY8VMEQ"`. |
+| `invoice_id` | Required | string | Invoice whose history contains this activity and owns its referenced delivery attempt, late fee, or manual payment. Example: `"inv_01KEZF7C00A5GEBMWHEAJFSAR4"`. |
 | `invoice_late_fee_id` | Optional | string | The late fee. Present on late_fee_assessed and late_fee_waived. Example: `"inlf_01KEZF7C00NVR97MBH5AHR4W1X"`. |
 | `invoice_manual_payment_id` | Optional | string | The manual payment. Present on manual_payment_recorded and manual_payment_reversed. Example: `"omp_01KEZF7C007J18203RBJKB9TYE"`. |
 | `invoice_payment_attempt_id` | Optional | string | The payment attempt. Present on payment_attempt_started and payment_processing. Example: `"invpa_01KEZF7C00PMWEDPAYYEKDTPBX"`. |

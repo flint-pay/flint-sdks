@@ -32,7 +32,7 @@ final class UpdateCustomerRequestInput extends Model {
      */
     public function getDefaultPaymentMethodId(): string|null { return $this->get('default_payment_method_id'); }
     public function hasDefaultPaymentMethodId(): bool { return $this->has('default_payment_method_id'); }
-    /** The customer's email. Omit to leave unchanged. You can set an email when the customer has none in either customer account mode. Changing or clearing an existing email requires `customer_account.mode` to be `merchant_hosted`; null clears it. In `flint_hosted` mode, the buyer must confirm a change to an existing email. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
+    /** The customer's email. Omit to leave unchanged; null clears it. In `flint_hosted` mode, you can set, correct, or clear the email until the buyer authenticates or verifies ownership of it. Existing identities with unknown sign-in history remain protected and require a buyer-confirmed change. In `merchant_hosted` mode, you can set, change, or clear it. An email change ends customer sessions and access links for the old address. Format: email. minLength: 1. maxLength: 320. Example: "buyer@example.com".
      * @return string|null
      * @throws SdkError When email is omitted; use hasEmail() or valueOrDefault().
      */
@@ -98,7 +98,7 @@ final class UpdateCustomerRequestInput extends Model {
      */
     public function getTaxExempt(): bool { return $this->get('tax_exempt'); }
     public function hasTaxExempt(): bool { return $this->has('tax_exempt'); }
-    /** Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. Omit to leave unchanged; null clears it. anyOf[1] (Value): {@see TaxIdentityPatchInput}. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
+    /** Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. Omit to leave unchanged; null clears it. anyOf[1] (Value): {@see TaxIdentityPatchInput}. Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one. anyOf[2] (Value): null.
      * @return array{'legal_name'?: string|null, 'registered_address'?: array{'city': string, 'country': string, 'line1': string, 'line2'?: string|null, 'postal_code'?: string|null, 'state'?: string|null}|object|null, 'tax_ids'?: list<DocumentTaxIDRequestInput|array<array-key, mixed>|\stdClass>}|object|null
      * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
      */

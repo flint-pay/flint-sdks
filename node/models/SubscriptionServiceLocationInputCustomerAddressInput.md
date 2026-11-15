@@ -12,6 +12,6 @@ The `customer_address` variant of `SubscriptionServiceLocationInput`.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `customer_address_id` | Required | string | minLength: `1`. Example: `"caddr_01KEZF7C00K2Q127FBJAXWB0FP"`. |
-| `type` | Required | string | Values: `"customer_address"`. |
+| `customer_address_id` | Required | string | ID of a saved address of the subscription's customer. Flint copies the address. minLength: `1`. Example: `"caddr_01KEZF7C00K2Q127FBJAXWB0FP"`. |
+| `type` | Required | string | How the service location is given: a saved customer address or an inline address. Values: `"customer_address"`. |
 

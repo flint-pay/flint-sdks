@@ -8,12 +8,12 @@ namespace Flint;
 final class VoidShipmentResult extends Model {
     /** @param array{'packages': list<mixed>, 'shipment': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('VoidShipmentResult')); }
-    /**  [] (Value): {@see Package}. A package within a shipment.
+    /** The shipment's packages after the void, each with status `voided`. Packages that were already voided are included. [] (Value): {@see Package}. A package within a shipment.
      * @return list<Package>
      */
     public function getPackages(): array { return $this->get('packages'); }
     public function hasPackages(): bool { return $this->has('packages'); }
-    /** A shipment carrying fulfilled order items.
+    /** The shipment after the void, with status `voided`. A shipment carrying fulfilled order items.
      * @return Shipment
      */
     public function getShipment(): Shipment { return $this->get('shipment'); }

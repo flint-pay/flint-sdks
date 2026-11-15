@@ -2,7 +2,7 @@
 
 ## BuyerReturnPreviewResponseDataResolutionEligibilityLineItemsItemModifiersItemMetadata
 
-
+Always empty for buyer credentials.
 
 Response model.
 

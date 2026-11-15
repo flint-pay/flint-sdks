@@ -48,7 +48,7 @@ The affected public resource without expansions, client authority fields, or fie
 | `posted_at` | Required | string | When the transaction was posted to the card. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `reason` | Required | string or null | Your adjustment reason on adjustment transactions, and customer_request on cash_out. `null` when the transaction is any other type. Values: [7 declared values](#giftcardtransactioncreatedinstalledmerchantseventdataobject-reason-values). |
 | `sequence` | Required | integer | Position of this transaction in the card's history. It increases by one with each transaction posted to the card. Format: `int64`. |
-| `source` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. `null` when the cause has no public resource. |
+| `source` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. `null` when the cause has no public resource. `source`: [declared alternatives](../models/GiftCardTransaction.md#giftcardtransactionsource). |
 | `transaction_type` | Required | string | Kind of movement, such as load, redeem, refund, adjustment, or cash_out. Values: [11 declared values](#giftcardtransactioncreatedinstalledmerchantseventdataobject-transaction_type-values). |
 
 #### GiftCardTransactionCreatedInstalledMerchantsEvent.data.object reason values
@@ -86,6 +86,10 @@ Field definitions: [BuyerGiftCardTransaction.balance_after_money](../models/Buye
 ### GiftCardTransactionCreatedInstalledMerchantsEvent.data.object.balance_before_money
 
 Field definitions: [BuyerGiftCardTransaction.balance_before_money](../models/BuyerGiftCardTransaction.md#buyergiftcardtransactionbalance_before_money).
+
+### GiftCardTransactionCreatedInstalledMerchantsEvent.data.object.source
+
+Declared alternatives: [GiftCardTransaction.source](../models/GiftCardTransaction.md#giftcardtransactionsource).
 
 ### GiftCardTransactionCreatedInstalledMerchantsEvent.source
 

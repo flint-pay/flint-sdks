@@ -2,7 +2,7 @@
 
 ## UpdateDeviceRequest
 
-The request body for: Update device.
+The request body for: Update device. minProperties: `1`.
 
 
 

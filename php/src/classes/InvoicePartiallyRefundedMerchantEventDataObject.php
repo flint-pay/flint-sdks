@@ -7,8 +7,6 @@ namespace Flint;
  * @property-read InvoicePartiallyRefundedMerchantEventDataObjectCollectionBuyerInitiated|InvoicePartiallyRefundedMerchantEventDataObjectCollectionAutomatic|InvoicePartiallyRefundedMerchantEventDataObjectCollectionExternal|\stdClass $collection
  * @property-read string $collection_block_status
  * @property-read string $created_at
- * @property-read MoneyValue $credit_money
- * @property-read MoneyValue $currently_due_money
  * @property-read ExpandedCustomerSummary|null $customer
  * @property-read ?string $customer_id
  * @property-read ?string $delivery_mode
@@ -19,45 +17,40 @@ namespace Flint;
  * @property-read ?string $invoice_number
  * @property-read bool $is_overdue
  * @property-read ?string $issued_at
- * @property-read MoneyValue $late_fee_money
  * @property-read list<InvoiceLateFee> $late_fees
  * @property-read string|null $memo
  * @property-read string $merchant_id
  * @property-read ?array<array-key, string> $metadata
  * @property-read ExpandedOrderSummary|null $order
  * @property-read string $order_id
- * @property-read MoneyValue $outstanding_money
  * @property-read ?string $paid_at
- * @property-read MoneyValue $paid_money
  * @property-read InvoicePartiallyRefundedMerchantEventDataObjectPaymentDueNone|InvoicePartiallyRefundedMerchantEventDataObjectPaymentDueDate|InvoicePartiallyRefundedMerchantEventDataObjectPaymentDuePaymentTerms|\stdClass $payment_due
  * @property-read ?InvoicePaymentTermsSnapshot $payment_terms_snapshot
  * @property-read string|null $po_number
- * @property-read ?string $public_url
+ * @property-read PricingAmounts $pricing_amounts
  * @property-read string|null $recipient_email
  * @property-read string|null $reference
  * @property-read string $refund_status
- * @property-read MoneyValue $refunded_money
  * @property-read bool $reminders_paused
  * @property-read ?string $reminders_paused_at
  * @property-read ?Address $remit_to_address
  * @property-read list<InvoiceScheduleEntry> $schedule_entries
  * @property-read string|null $scheduled_issue_at
  * @property-read string|null $service_date
+ * @property-read InvoiceSettlementAmounts $settlement_amounts
  * @property-read ?InvoiceSnapshot $snapshot
  * @property-read string $status
  * @property-read string|null $subscription_id
  * @property-read list<string> $supported_actions
  * @property-read ?string $timezone
- * @property-read MoneyValue $total_money
  * @property-read ?string $uncollectible_at
  * @property-read string $updated_at
  * @property-read int $version
  * @property-read ?string $viewed_at
  * @property-read ?string $voided_at
- * @property-read MoneyValue $written_off_money
  * Presence-aware response; omitted optional fields return null. */
 final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
-    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at': string, 'credit_money': mixed, 'currently_due_money': mixed, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fee_money': mixed, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'outstanding_money': mixed, 'paid_at'?: string, 'paid_money': mixed, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'public_url'?: string, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'refunded_money': mixed, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'total_money': mixed, 'uncollectible_at'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, 'written_off_money': mixed, ...}|object $values */
+    /** @param array{'cc_emails': list<string>, 'closed_at'?: string, 'collection': mixed, 'collection_block_status': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'delivery_mode'?: string, 'due_date'?: string, 'external_reference_id': string|null, 'footer': string|null, 'invoice_id': string, 'invoice_number'?: string, 'is_overdue': bool, 'issued_at'?: string, 'late_fees': list<mixed>, 'memo': string|null, 'merchant_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'paid_at'?: string, 'payment_due': mixed, 'payment_terms_snapshot'?: mixed, 'po_number': string|null, 'pricing_amounts': mixed, 'recipient_email': string|null, 'reference': string|null, 'refund_status': string, 'reminders_paused': bool, 'reminders_paused_at'?: string, 'remit_to_address'?: mixed, 'schedule_entries': list<mixed>, 'scheduled_issue_at': string|null, 'service_date': string|null, 'settlement_amounts': mixed, 'snapshot'?: mixed, 'status': string, 'subscription_id': string|null, 'supported_actions': list<string>, 'timezone'?: string, 'uncollectible_at'?: string, 'updated_at': string, 'version': int, 'viewed_at'?: string, 'voided_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InvoicePartiallyRefundedMerchantEventDataObject')); }
     /** Additional recipients copied on the invoice email and every reminder. [] (Value): string.
      * @return list<string>
@@ -84,16 +77,6 @@ final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** Credit note credit allocated to this invoice, minus reversed allocations. Unallocated credit isn't included. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getCreditMoney(): MoneyValue { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
-    /** The part of the balance due now. Without schedule_entries, it equals outstanding_money. With schedule_entries, it is the outstanding amount of the first entry, in schedule order, whose due date has started and that still has a balance, or 0 when there is none. It is the amount the next collect call or checkout session charges. To total everything overdue, add the outstanding_money of the entries whose status is overdue. Always 0 unless the invoice is open or partially_paid. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getCurrentlyDueMoney(): MoneyValue { return $this->get('currently_due_money'); }
-    public function hasCurrentlyDueMoney(): bool { return $this->has('currently_due_money'); }
     /** Summary of the billed customer. Returned only with expand=customer. Present only when `expand` includes `customer`; `null` when expanded and there is no related customer. anyOf[1] (Value): {@see ExpandedCustomerSummary}. A customer's summary fields, returned in place of a customer ID when the customer is expanded. anyOf[2] (Value): null.
      * @return ExpandedCustomerSummary|null
      */
@@ -144,12 +127,7 @@ final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getIssuedAt(): ?string { return $this->get('issued_at'); }
     public function hasIssuedAt(): bool { return $this->has('issued_at'); }
-    /** Late fees assessed after issue, minus waivers, including amounts since paid or written off. Itemized in late_fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getLateFeeMoney(): MoneyValue { return $this->get('late_fee_money'); }
-    public function hasLateFeeMoney(): bool { return $this->has('late_fee_money'); }
-    /** Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. late_fee_money is their assessed total minus waivers. [] (Value): {@see InvoiceLateFee}. A charge assessed because an invoice payment is overdue.
+    /** Late fees assessed on this invoice, each with its paid, waived, written-off, and outstanding amounts. settlement_amounts.late_fee_money is their assessed total minus waivers. [] (Value): {@see InvoiceLateFee}. A charge assessed because an invoice payment is overdue.
      * @return list<InvoiceLateFee>
      */
     public function getLateFees(): array { return $this->get('late_fees'); }
@@ -179,21 +157,11 @@ final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getOrderId(): string { return $this->get('order_id'); }
     public function hasOrderId(): bool { return $this->has('order_id'); }
-    /** What is still owed: total_money + late_fee_money - paid_money - credit_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to total_money on a draft. Refunds don't change it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getOutstandingMoney(): MoneyValue { return $this->get('outstanding_money'); }
-    public function hasOutstandingMoney(): bool { return $this->has('outstanding_money'); }
     /** When the invoice most recently became paid. Cleared when status leaves paid and set again on a later paid transition. Format: date-time.
      * @return ?string
      */
     public function getPaidAt(): ?string { return $this->get('paid_at'); }
     public function hasPaidAt(): bool { return $this->has('paid_at'); }
-    /** Payments collected toward this invoice, online or as recorded manual payments, minus reversed payments, including payments toward late fees. Never below zero. Refunds don't reduce it; they are in refunded_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getPaidMoney(): MoneyValue { return $this->get('paid_money'); }
-    public function hasPaidMoney(): bool { return $this->has('paid_money'); }
     /** The resolved due-date policy. Send this object back when updating the draft; payment_terms captures the term's current revision again. The invoice due-date policy resolved at write time. The object can be sent back when updating a draft.
      * @return InvoicePartiallyRefundedMerchantEventDataObjectPaymentDueNone|InvoicePartiallyRefundedMerchantEventDataObjectPaymentDueDate|InvoicePartiallyRefundedMerchantEventDataObjectPaymentDuePaymentTerms|\stdClass
      */
@@ -209,11 +177,11 @@ final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getPoNumber(): string|null { return $this->get('po_number'); }
     public function hasPoNumber(): bool { return $this->has('po_number'); }
-    /** The hosted invoice link where the buyer views and pays the invoice. Present after issue on API reads, except a list filtered by idempotency_key; webhook payloads leave it out. regenerate-public-link replaces it. Anyone with the link can open the invoice, so treat it as a secret.
-     * @return ?string
+    /** The invoice pricing totals, frozen at issue. A draft previews the backing order. total_money excludes late fees, which are in settlement_amounts.late_fee_money. The money totals for an order or invoice: subtotal, discounts, charges, tax, requested tip, and total.
+     * @return PricingAmounts
      */
-    public function getPublicUrl(): ?string { return $this->get('public_url'); }
-    public function hasPublicUrl(): bool { return $this->has('public_url'); }
+    public function getPricingAmounts(): PricingAmounts { return $this->get('pricing_amounts'); }
+    public function hasPricingAmounts(): bool { return $this->has('pricing_amounts'); }
     /** Where Flint emails the invoice and its reminders. Email delivery requires it at issue. `null` when unset.
      * @return string|null
      */
@@ -229,11 +197,6 @@ final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getRefundStatus(): string { return $this->get('refund_status'); }
     public function hasRefundStatus(): bool { return $this->has('refund_status'); }
-    /** Money refunded to the buyer after collection. Refunds don't reopen the balance; refund_status summarizes them. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getRefundedMoney(): MoneyValue { return $this->get('refunded_money'); }
-    public function hasRefundedMoney(): bool { return $this->has('refunded_money'); }
     /** Whether automatic reminders are paused. Set reminders_paused on PATCH /v1/invoices/{invoice_id} to change it.
      * @return bool
      */
@@ -264,12 +227,17 @@ final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getServiceDate(): string|null { return $this->get('service_date'); }
     public function hasServiceDate(): bool { return $this->has('service_date'); }
-    /** The billing content of the invoice: line items, discounts, charges, tip, tax, and totals. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts.
+    /** Payments, refunds, write-offs, allocated credit notes, late fees, and the remaining invoice balance. What is still owed: pricing_amounts.total_money + late_fee_money - paid_money - credited_money - written_off_money, never below zero. 0 on paid, credited, uncollectible, and voided invoices; equal to pricing_amounts.total_money on a draft. Refunds and dispute losses don't change it. The bill settlement amounts plus credit notes, the amount due now, and late fees. Invoice paid_money includes late-fee payments and excludes reversed payments. Refunds and dispute losses do not reopen outstanding_money or reduce paid_money. net_collected_money is paid_money minus refunded_money, never below zero. Money collected, returned, waived, and still owed on a bill.
+     * @return InvoiceSettlementAmounts
+     */
+    public function getSettlementAmounts(): InvoiceSettlementAmounts { return $this->get('settlement_amounts'); }
+    public function hasSettlementAmounts(): bool { return $this->has('settlement_amounts'); }
+    /** The billing content of the invoice: line items, discounts, charges, tip, and tax. A draft previews the backing order; issue freezes it, and later order changes don't reach an issued invoice. A frozen copy of an issued invoice's content, including line items, charges, discounts, tax identities, and pricing amounts.
      * @return ?InvoiceSnapshot
      */
     public function getSnapshot(): ?InvoiceSnapshot { return $this->get('snapshot'); }
     public function hasSnapshot(): bool { return $this->has('snapshot'); }
-    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
+    /** Current invoice status. paid and credited close the current balance and can reopen to open or partially_paid after a payment or credit allocation reversal; invoice.reopened reports that change. An uncollectible invoice accepts manual recovery payments and becomes paid when fully recovered; reversals restore the write-off. voided is final. Refunds change refund_status without reopening the balance. A lost dispute leaves paid_money, the balance, and status unchanged; collecting it again requires a new invoice. Value enum: "draft", "open", "partially_paid", "paid", "voided", "uncollectible", "credited".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -289,11 +257,6 @@ final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** What the issued invoice bills, equal to snapshot.pricing_amounts.total_money. Fixed at issue; a draft previews the backing order total. Late fees are in late_fee_money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getTotalMoney(): MoneyValue { return $this->get('total_money'); }
-    public function hasTotalMoney(): bool { return $this->has('total_money'); }
     /** When the invoice was marked uncollectible. Format: date-time.
      * @return ?string
      */
@@ -319,9 +282,4 @@ final class InvoicePartiallyRefundedMerchantEventDataObject extends Model {
      */
     public function getVoidedAt(): ?string { return $this->get('voided_at'); }
     public function hasVoidedAt(): bool { return $this->has('voided_at'); }
-    /** The balance written off when the invoice was marked uncollectible, including unpaid late fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
-     * @return MoneyValue
-     */
-    public function getWrittenOffMoney(): MoneyValue { return $this->get('written_off_money'); }
-    public function hasWrittenOffMoney(): bool { return $this->has('written_off_money'); }
 }

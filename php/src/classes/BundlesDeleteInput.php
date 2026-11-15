@@ -16,7 +16,7 @@ final class BundlesDeleteInput extends Model {
      */
     public function getBundleId(): string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /** Optional bundle version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional bundle version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

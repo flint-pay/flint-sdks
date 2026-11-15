@@ -10,9 +10,9 @@ import type {
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse,
     CustomerSessionsRevokeParams
-} from '../declarations/types-15.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkRequiredIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-16.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkRequiredIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -37,19 +37,22 @@ export type {
     CustomerSessionResponse,
     CustomerSessionsRevocation,
     CustomerSessionsRevocationResponse
-} from '../declarations/types-15.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type { _SdkRequiredIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-16.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { _SdkRequiredIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type { CreateCustomerSessionRequestInput, CreateCustomerSessionRequest } from '../declarations/types-8.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { NextAction, MoneyValue } from '../declarations/types-37.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { RefreshCustomerSessionRequestInput, RefreshCustomerSessionRequest } from '../declarations/types-50.js';
-export { makeCreateCustomerSessionRequest } from '../declarations/types-68.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeRefreshCustomerSessionRequest } from '../declarations/types-77.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { NextAction, MoneyValue } from '../declarations/types-39.js';
+export type {
+    ReadinessMerchantAccountSession,
+    RefreshCustomerSessionRequestInput,
+    RefreshCustomerSessionRequest
+} from '../declarations/types-52.js';
+export { makeCreateCustomerSessionRequest } from '../declarations/types-72.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
+export { makeRefreshCustomerSessionRequest } from '../declarations/types-80.js';
 export interface CustomerSessionsResource {
     /**
  * Mints a server-side, customer-scoped credential after the merchant has authenticated the buyer.

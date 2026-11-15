@@ -36,5 +36,9 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit no additional fields.
 
-Field definitions: [shared fields](CustomerDeletionRequestCompletedEventDataObject.md#customerdeletionrequestcompletedeventdataobject).
+Field definitions: [shared fields](CustomerDeletionRequest.md#customerdeletionrequest).
+
+### CustomerDeletionRequestCompletedEvent.data fields 1.object.blocking_resources[]
+
+Field definitions: [CustomerDeletionRequestResponse.data.blocking_resources[]](../models/CustomerDeletionRequestResponse.md#customerdeletionrequestresponsedatablocking_resources).
 

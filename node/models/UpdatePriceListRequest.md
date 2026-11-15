@@ -2,7 +2,7 @@
 
 ## UpdatePriceListRequest
 
-Fields to change on an unarchived price list. Omitted fields remain unchanged.
+Fields to change on an unarchived price list. Omitted fields remain unchanged. minProperties: `1`.
 
 
 

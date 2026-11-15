@@ -13,27 +13,27 @@ namespace Flint;
 final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableInputRequirementsItem extends Model {
     /** @param array{'constraint': mixed, 'delivery_choice_group_ids'?: list<string>, 'delivery_input_requirement_id': string, 'delivery_method_ids'?: list<string>, 'delivery_option_ids'?: list<string>, 'field_path': string, 'purpose': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableInputRequirementsItem')); }
-    /** The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered time windows.
+    /** The rules the input must follow. The rules for an input a delivery method needs, chosen by `type`, such as allowed values, length limits, supported countries, or offered time windows.
      * @return DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableInputRequirementsItemConstraint
      */
     public function getConstraint(): DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableInputRequirementsItemConstraint { return $this->get('constraint'); }
     public function hasConstraint(): bool { return $this->has('constraint'); }
-    /**  [] (Value): string.
+    /** Choice groups that need this input. [] (Value): string.
      * @return ?list<string>
      */
     public function getDeliveryChoiceGroupIds(): ?array { return $this->get('delivery_choice_group_ids'); }
     public function hasDeliveryChoiceGroupIds(): bool { return $this->has('delivery_choice_group_ids'); }
-    /** delivery_input_requirement_id
+    /** Unique ID of this requirement.
      * @return string
      */
     public function getDeliveryInputRequirementId(): string { return $this->get('delivery_input_requirement_id'); }
     public function hasDeliveryInputRequirementId(): bool { return $this->has('delivery_input_requirement_id'); }
-    /**  [] (Value): string.
+    /** Delivery methods that need this input. [] (Value): string.
      * @return ?list<string>
      */
     public function getDeliveryMethodIds(): ?array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /**  [] (Value): string.
+    /** Delivery options that need this input. Omitted when the requirement applies to the choice group or method as a whole. [] (Value): string.
      * @return ?list<string>
      */
     public function getDeliveryOptionIds(): ?array { return $this->get('delivery_option_ids'); }
@@ -43,7 +43,7 @@ final class DeliveryPreviewChoiceGroupResourceCandidateOutcomesValueUnavailableI
      */
     public function getFieldPath(): string { return $this->get('field_path'); }
     public function hasFieldPath(): bool { return $this->has('field_path'); }
-    /** Value enum: "quote", "selection", "pickup_availability".
+    /** When the input is needed. Value enum: "quote", "selection", "pickup_availability".
      * @return string
      */
     public function getPurpose(): string { return $this->get('purpose'); }

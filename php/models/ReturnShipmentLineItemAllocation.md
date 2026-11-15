@@ -9,5 +9,6 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `return_id` | Required | string | Return that owns return_line_item_id. |
 | `return_line_item_id` | Required | string | Return line whose quantity is allocated to the shipment or package. minLength: `1`. |
 

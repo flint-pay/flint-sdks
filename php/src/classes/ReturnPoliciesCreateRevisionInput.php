@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $return_policy_id
- * @property-read array{'expected_version': int, 'revision': mixed}|object $body
+ * @property-read array{'expected_return_policy_version': int, 'revision': mixed}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class ReturnPoliciesCreateRevisionInput extends Model {
-    /** @param array{'return_policy_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_version': int, 'revision': mixed}|object}|object $values */
+    /** @param array{'return_policy_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'expected_return_policy_version': int, 'revision': mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnPoliciesCreateRevisionInput')); }
     /** Flint return policy id. Example: "rpol_01KEZF7C00H8C042BEK6HBRANX".
      * @return string
@@ -35,7 +35,7 @@ final class ReturnPoliciesCreateRevisionInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Publish return policy revision.
-     * @return array{'expected_version': int, 'revision': mixed}|object
+     * @return array{'expected_return_policy_version': int, 'revision': mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

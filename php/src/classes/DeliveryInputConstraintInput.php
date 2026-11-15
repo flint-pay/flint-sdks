@@ -15,43 +15,43 @@ namespace Flint;
 final class DeliveryInputConstraintInput extends Model {
     /** @param array{'allowed_values'?: list<string>, 'earliest_at'?: string|\DateTimeInterface, 'format'?: string, 'latest_at'?: string|\DateTimeInterface, 'maximum_length'?: int, 'minimum_length'?: int, 'offered_windows'?: list<DeliveryWindowResourceInput|array<array-key, mixed>|\stdClass>, 'supported_countries'?: list<string>, 'type': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryInputConstraintInput')); }
-    /**  [] (Value): string.
+    /** Values the input must be one of. [] (Value): string.
      * @return list<string>
      * @throws SdkError When allowed_values is omitted; use hasAllowedValues() or valueOrDefault().
      */
     public function getAllowedValues(): array { return $this->get('allowed_values'); }
     public function hasAllowedValues(): bool { return $this->has('allowed_values'); }
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** Earliest time the input can name. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When earliest_at is omitted; use hasEarliestAt() or valueOrDefault().
      */
     public function getEarliestAt(): string|\DateTimeInterface { return $this->get('earliest_at'); }
     public function hasEarliestAt(): bool { return $this->has('earliest_at'); }
-    /** format
+    /** Format the input must follow.
      * @return string
      * @throws SdkError When format is omitted; use hasFormat() or valueOrDefault().
      */
     public function getFormat(): string { return $this->get('format'); }
     public function hasFormat(): bool { return $this->has('format'); }
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** Latest time the input can name. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When latest_at is omitted; use hasLatestAt() or valueOrDefault().
      */
     public function getLatestAt(): string|\DateTimeInterface { return $this->get('latest_at'); }
     public function hasLatestAt(): bool { return $this->has('latest_at'); }
-    /** Format: int32.
+    /** Most characters the input can have. Format: int32.
      * @return int
      * @throws SdkError When maximum_length is omitted; use hasMaximumLength() or valueOrDefault().
      */
     public function getMaximumLength(): int { return $this->get('maximum_length'); }
     public function hasMaximumLength(): bool { return $this->has('maximum_length'); }
-    /** Format: int32.
+    /** Fewest characters the input can have. Format: int32.
      * @return int
      * @throws SdkError When minimum_length is omitted; use hasMinimumLength() or valueOrDefault().
      */
     public function getMinimumLength(): int { return $this->get('minimum_length'); }
     public function hasMinimumLength(): bool { return $this->has('minimum_length'); }
-    /**  [] (Value): {@see DeliveryWindowResourceInput}. A time window a buyer can choose for a delivery, with its start, end, price, and the last moment it can be chosen.
+    /** Delivery windows the buyer can choose from. [] (Value): {@see DeliveryWindowResourceInput}. A time window a buyer can choose for a delivery, with its start, end, price, and the last moment it can be chosen.
      * @return list<DeliveryWindowResourceInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When offered_windows is omitted; use hasOfferedWindows() or valueOrDefault().
      */
@@ -63,7 +63,7 @@ final class DeliveryInputConstraintInput extends Model {
      */
     public function getSupportedCountries(): array { return $this->get('supported_countries'); }
     public function hasSupportedCountries(): bool { return $this->has('supported_countries'); }
-    /** Value enum: "string", "address_field", "email", "phone", "time_window", "coordinate", "caller_supplied_rate".
+    /** Kind of input the requirement asks for. Value enum: "string", "address_field", "email", "phone", "time_window", "coordinate", "caller_supplied_rate".
      * @return string
      * @throws SdkError When type is omitted; use hasType() or valueOrDefault().
      */

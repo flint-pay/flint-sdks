@@ -2,7 +2,7 @@
 
 ## UpdateInventoryTransferRequest
 
-The request body for: Update inventory transfer.
+The request body for: Update inventory transfer. minProperties: `1`.
 
 
 

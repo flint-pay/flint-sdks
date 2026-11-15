@@ -32,7 +32,7 @@ final class ReturnHandoffRequirement extends Model {
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** Format: int64.
+    /** Reserved. Flint doesn't set it today, so it's always omitted. Format: int64.
      * @return ?int
      */
     public function getShipmentCount(): ?int { return $this->get('shipment_count'); }

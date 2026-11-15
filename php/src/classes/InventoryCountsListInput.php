@@ -30,13 +30,13 @@ final class InventoryCountsListInput extends Model {
      */
     public function getPageToken(): string { return $this->get('page_token'); }
     public function hasPageToken(): bool { return $this->has('page_token'); }
-    /** Filter by a counted inventory item. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
+    /** Filter by a counted inventory item. pattern: ^invi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "invi_01KEZF7C00A6YEM25MTHW2MPZY".
      * @return string
      * @throws SdkError When inventory_item_id is omitted; use hasInventoryItemId() or valueOrDefault().
      */
     public function getInventoryItemId(): string { return $this->get('inventory_item_id'); }
     public function hasInventoryItemId(): bool { return $this->has('inventory_item_id'); }
-    /** Filter by Location. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */
@@ -48,7 +48,7 @@ final class InventoryCountsListInput extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255.
+    /** Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: 1. maxLength: 255. pattern: ^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$.
      * @return string
      * @throws SdkError When idempotency_key is omitted; use hasIdempotencyKey() or valueOrDefault().
      */

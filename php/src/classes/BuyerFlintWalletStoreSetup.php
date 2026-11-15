@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read StripeClientSetup|null $client_setup
+ * @property-read StripeClientSetup $client_setup
  * @property-read string $payment_method_id
  * @property-read string $status
  * @property-read string $store_setup_id
@@ -10,10 +10,10 @@ namespace Flint;
 final class BuyerFlintWalletStoreSetup extends Model {
     /** @param array{'client_setup': mixed, 'payment_method_id': string, 'status': string, 'store_setup_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerFlintWalletStoreSetup')); }
-    /**  anyOf[1] (Value): {@see StripeClientSetup}. Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead and never carries a secret. anyOf[2] (Value): null.
-     * @return StripeClientSetup|null
+    /** Stripe.js setup authority for saving this card at the store. Follow its stripe_js_call to finish the setup. Stripe.js setup authority returned while saving a payment method. Follow its stripe_js_call now. setup_collection is guidance instead and never carries a secret.
+     * @return StripeClientSetup
      */
-    public function getClientSetup(): StripeClientSetup|null { return $this->get('client_setup'); }
+    public function getClientSetup(): StripeClientSetup { return $this->get('client_setup'); }
     public function hasClientSetup(): bool { return $this->has('client_setup'); }
     /** ID of the store's card copy this setup creates. The copy can be used for payments once `status` is `active`.
      * @return string

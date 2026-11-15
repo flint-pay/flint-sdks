@@ -1,0 +1,1 @@
+{"shared":"OrderHandover","phpRepresentation":{"kind":"record","fields":{"location_id":{"kind":"value","type":"string"}}},"dependencies":["OrderHandover"]}

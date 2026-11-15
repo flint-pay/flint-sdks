@@ -16,7 +16,7 @@ final class SubscriptionOffersDeleteInput extends Model {
      */
     public function getSubscriptionOfferId(): string { return $this->get('subscription_offer_id'); }
     public function hasSubscriptionOfferId(): bool { return $this->has('subscription_offer_id'); }
-    /** Resource version last read by the caller. Refuses the deletion if the offer has changed. Format: uint64. minimum: 1.
+    /** Resource version last read by the caller. Refuses the deletion if the offer has changed. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

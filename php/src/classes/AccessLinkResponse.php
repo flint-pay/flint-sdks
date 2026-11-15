@@ -9,7 +9,7 @@ namespace Flint;
 final class AccessLinkResponse extends Model {
     /** @param array{'data': mixed, 'meta'?: mixed, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('AccessLinkResponse')); }
-    /** Resource, collection, or operation result returned by this request. A link that opens an order, subscription, Return, or customer's account in the merchant's Flint-hosted customer account. Its purpose describes whether it signs the buyer in and how long it works. Its url is a bearer credential, returned only when the link is created.
+    /** Resource, collection, or operation result returned by this request. A link into a Flint-hosted page: an order, subscription, Return, or customer's account in the merchant's Flint-hosted customer account, or the merchant's onboarding. Its purpose describes what it opens and how long it works. Its url is a bearer credential, returned only when the link is created.
      * @return AccessLink
      */
     public function getData(): AccessLink { return $this->get('data'); }

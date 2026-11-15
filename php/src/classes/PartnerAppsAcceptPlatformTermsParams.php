@@ -14,7 +14,7 @@ final class PartnerAppsAcceptPlatformTermsParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** The platform terms version you accept. It must be the current version; any other value returns 400 INVALID_REQUEST with detail INVALID_VALUE. The current version is 2026-11-01. minLength: 1.
+    /** The platform terms version you accept: the app's platform.current_terms.platform_terms_version. Any other value returns 400 INVALID_REQUEST with detail INVALID_VALUE. minLength: 1.
      * @return string
      * @throws SdkError When platform_terms_version is omitted; use hasPlatformTermsVersion() or valueOrDefault().
      */

@@ -7,7 +7,7 @@ namespace Flint;
 final class PendingPaymentActionSetupPaymentSourceSubject extends Model {
     /** @param array{'payment_method_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PendingPaymentActionSetupPaymentSourceSubject')); }
-    /** payment_method_id
+    /** ID of the payment method being saved, which needs the buyer's authentication first.
      * @return string
      */
     public function getPaymentMethodId(): string { return $this->get('payment_method_id'); }

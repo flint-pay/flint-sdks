@@ -19,7 +19,7 @@ namespace Flint;
 final class SubscriptionOfferInput extends Model {
     /** @param array{'billing_interval_options': list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at': string|\DateTimeInterface, 'external_reference_id'?: string, 'metadata': MetadataMapInput|array<array-key, mixed>|\stdClass, 'name': string, 'product_ids': list<string>, 'promotion_id': string|null, 'status': string, 'subscription_delivery_method_ids': list<string>, 'subscription_offer_id': string, 'updated_at': string|\DateTimeInterface, 'variant_ids': list<string>, 'version': int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionOfferInput')); }
-    /** Offered billing interval and count pairs. Every option bills the same catalog line prices once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Offered billing interval and count pairs. Every option bills the same catalog line prices once per period; changing cadence does not scale prices. minItems: 1. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans.
      * @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
@@ -43,7 +43,7 @@ final class SubscriptionOfferInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1. maxLength: 255.
+    /** Name of the offer. Buyers see it on the order lines it covers, so write it for them. minLength: 1. maxLength: 255.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -55,7 +55,7 @@ final class SubscriptionOfferInput extends Model {
      */
     public function getProductIds(): array { return $this->get('product_ids'); }
     public function hasProductIds(): bool { return $this->has('product_ids'); }
-    /** An active promotion with forever recurrence. On PATCH, null removes the discount for new signups; omission keeps it. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+    /** ID of the promotion that discounts new signups on this offer: an active promotion with forever recurrence. Null when the offer gives no discount. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
      * @return string|null
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */

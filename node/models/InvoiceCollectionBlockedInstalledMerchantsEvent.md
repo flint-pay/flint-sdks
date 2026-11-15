@@ -27,50 +27,18 @@ The resource snapshot recorded for this event and rendered at the delivery API v
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `object` | Required | object | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. `object`: [field definitions](../models/InvoiceCollectionBlockedInstalledMerchantsEvent.md#invoicecollectionblockedinstalledmerchantseventdataobject). |
+| `object` | Required | object and [WebhookInvoice](../models/WebhookInvoice.md#webhookinvoice) | The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `public_url`. `object`: [field definitions](../models/InvoiceCollectionBlockedInstalledMerchantsEvent.md#invoicecollectionblockedinstalledmerchantseventdataobject). |
 | `previous_attributes` | Optional | object | Previous values of changed top-level fields in data.object, at this delivery's API version. Nested changes include the whole previous top-level value. A value is null when the field was absent before the change. Omitted when Flint did not record the previous state, including synthetic test events. |
 
 ### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller. The resource snapshot, without expansions. Webhooks omit these fields: `public_url`.
 
-Field definitions: [shared fields](Invoice.md#invoice).
-
-### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.credit_money
-
-Field definitions: [BuyerInvoice.credit_money](../models/BuyerInvoice.md#buyerinvoicecredit_money).
-
-### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.currently_due_money
-
-Field definitions: [BuyerInvoice.currently_due_money](../models/BuyerInvoice.md#buyerinvoicecurrently_due_money).
-
-### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.late_fee_money
-
-Field definitions: [BuyerInvoice.late_fee_money](../models/BuyerInvoice.md#buyerinvoicelate_fee_money).
+Field definitions: [shared fields](WebhookInvoice.md#webhookinvoice).
 
 ### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.metadata
 
 Field definitions: [DeliveryLocationSet.metadata](../models/DeliveryLocationSet.md#deliverylocationsetmetadata).
-
-### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.outstanding_money
-
-Field definitions: [Invoice.outstanding_money](../models/Invoice.md#invoiceoutstanding_money).
-
-### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.paid_money
-
-Field definitions: [BuyerInvoice.paid_money](../models/BuyerInvoice.md#buyerinvoicepaid_money).
-
-### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.refunded_money
-
-Field definitions: [BuyerInvoice.refunded_money](../models/BuyerInvoice.md#buyerinvoicerefunded_money).
-
-### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.total_money
-
-Field definitions: [Invoice.total_money](../models/Invoice.md#invoicetotal_money).
-
-### InvoiceCollectionBlockedInstalledMerchantsEvent.data.object.written_off_money
-
-Field definitions: [Invoice.written_off_money](../models/Invoice.md#invoicewritten_off_money).
 
 ### InvoiceCollectionBlockedInstalledMerchantsEvent.source
 

@@ -64,7 +64,7 @@ final class ErrorObjectInput extends Model {
      */
     public function getRequestId(): string { return $this->get('request_id'); }
     public function hasRequestId(): bool { return $this->has('request_id'); }
-    /** Path of this request's log in the request-logs API, present when the credential can read it. Flint writes the log just after responding, so a read sent immediately can return 404 RESOURCE_NOT_FOUND; retry after a second.
+    /** Path of this request's log in the request-logs API, present when the credential can read it. The detail endpoint waits up to three seconds for a recent request log to become available.
      * @return string
      * @throws SdkError When request_log_url is omitted; use hasRequestLogUrl() or valueOrDefault().
      */

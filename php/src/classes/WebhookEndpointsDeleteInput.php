@@ -16,7 +16,7 @@ final class WebhookEndpointsDeleteInput extends Model {
      */
     public function getWebhookEndpointId(): string { return $this->get('webhook_endpoint_id'); }
     public function hasWebhookEndpointId(): bool { return $this->has('webhook_endpoint_id'); }
-    /** Optional configuration version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional configuration version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

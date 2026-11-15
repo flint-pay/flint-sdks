@@ -25,6 +25,7 @@ Resource, collection, or operation result returned by this request. The result o
 | `merchant_icon` | Optional | [Image](../models/Image.md#image) | The merchant's icon. An image with its URL, size, and alt text. |
 | `merchant_logo` | Optional | [Image](../models/Image.md#image) | The merchant's logo. An image with its URL, size, and alt text. |
 | `merchant_name` | Optional | string | The merchant's name. |
+| `merchant_support` | Optional | [CheckoutMerchantSupport](../models/CheckoutMerchantSupport.md#checkoutmerchantsupport) | How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Omitted when the merchant set none. The merchant's support contact. Each field is omitted when the merchant has not set it. `merchant_support`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedatamerchant_support). |
 | `payment_link` | Required | [PublicPaymentLink](../models/PublicPaymentLink.md#publicpaymentlink) | The payment link that was resolved. The buyer-facing view of a payment link, with its line items, custom fields, legal and payment settings, and status. `payment_link`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedatapayment_link). |
 | `remaining_quantity` | Optional | integer | Event links with a ticket limit: tickets left after tickets sold and tickets held by payments in progress. Absent when the event has no ticket limit. Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `resolution_context` | Required | string | Private resolution context for this payment link. Send it unchanged to resolve the same link before checkout_start_due_at. The credential expires at resolution_context_expires_at. Keep the context private and do not cache this response; it is returned with Cache-Control: private, no-store. |
@@ -32,6 +33,12 @@ Resource, collection, or operation result returned by this request. The result o
 | `resolved_line_items` | Optional | Array of [PublicResolvedLineItemInfo](../models/PublicResolvedLineItemInfo.md#publicresolvedlineiteminfo) | The link's line items with their current catalog values. `resolved_line_items[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_items). |
 | `show_flint_mark` | Required | boolean | Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when the merchant's agreement with Flint removes it. |
 | `subscription_preview` | Optional | [PaymentLinkSubscriptionPreview](../models/PaymentLinkSubscriptionPreview.md#paymentlinksubscriptionpreview) | Present for active plan-backed payment links when authoritative subscription terms are available. Subscription terms shown before an active plan-backed payment link creates a checkout session. `subscription_preview`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedatasubscription_preview). |
+
+### PublicPaymentLinkResponse.data.merchant_support
+
+How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Omitted when the merchant set none. The merchant's support contact. Each field is omitted when the merchant has not set it.
+
+Field definitions: [shared fields](CheckoutMerchantSupportInput.md#checkoutmerchantsupportinput).
 
 ### PublicPaymentLinkResponse.data.payment_link
 
@@ -104,21 +111,21 @@ A modifier group as resolved for a payment link line item, with its selection li
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `allow_quantities` | Optional | boolean |  |
+| `allow_quantities` | Optional | boolean | Whether the buyer can select more than one unit of an option. Omitted when they can't. |
 | `max_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `max_selected` | Optional | integer | Format: `int32`. |
+| `max_selected` | Optional | integer | Most options the buyer can select from a list group. Omitted when the group sets no limit. Format: `int32`. |
 | `max_total_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `min_quantity` | Optional | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
-| `min_selected` | Optional | integer | Format: `int32`. |
-| `modifier_group_id` | Required | string | Example: `"mg_01KEZF7C00XKJJATARG7KDBYM9"`. |
-| `modifier_group_type` | Required | string | Values: `"list"`, `"text"`. |
-| `name` | Required | string |  |
-| `options` | Optional | Array of [PublicResolvedModifierOption](../models/PublicResolvedModifierOption.md#publicresolvedmodifieroption) | `options[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsavailable_modifiersoptions). |
-| `position` | Optional | integer | Format: `int32`. |
-| `pricing_scope` | Optional | string | Values: `"per_item"`. |
-| `show_on_fulfillment` | Optional | boolean |  |
-| `show_on_receipt` | Optional | boolean |  |
-| `text` | Optional | [PublicResolvedTextModifier](../models/PublicResolvedTextModifier.md#publicresolvedtextmodifier) | Input rules for a free-text modifier group on a payment link line item: required, multiline, and length limits. |
+| `min_selected` | Optional | integer | Fewest options the buyer must select from a list group. Omitted when the group sets no minimum. Format: `int32`. |
+| `modifier_group_id` | Required | string | ID of the modifier group. Example: `"mg_01KEZF7C00XKJJATARG7KDBYM9"`. |
+| `modifier_group_type` | Required | string | Whether the buyer chooses from a list of options or enters text. Values: `"list"`, `"text"`. |
+| `name` | Required | string | Name of the group shown to the buyer. |
+| `options` | Optional | Array of [PublicResolvedModifierOption](../models/PublicResolvedModifierOption.md#publicresolvedmodifieroption) | Options the buyer can choose from in a list group. Empty for a text group. `options[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_itemsavailable_modifiersoptions). |
+| `position` | Optional | integer | Position of the group among the groups offered for the line item. Lower values appear first. Format: `int32`. |
+| `pricing_scope` | Optional | string | How the price of a selected option scales with the line item's quantity. Values: `"per_item"`, `"per_line"`. |
+| `show_on_fulfillment` | Optional | boolean | Whether the buyer's selections from this group appear in fulfillment details. Omitted when they don't. |
+| `show_on_receipt` | Optional | boolean | Whether the buyer's selections from this group appear on receipts. Omitted when they don't. |
+| `text` | Optional | [PublicResolvedTextModifier](../models/PublicResolvedTextModifier.md#publicresolvedtextmodifier) | Entry rules for a text group. Omitted for a list group. Input rules for a free-text modifier group on a payment link line item: required, multiline, and length limits. |
 
 ### PublicPaymentLinkResponse.data.resolved_line_items[].available_modifiers[].options[]
 
@@ -232,7 +239,7 @@ Present for active plan-backed payment links when authoritative subscription ter
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `billing_interval` | Required | string | Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
+| `billing_interval` | Required | string | Unit of the billing period the plan charges on by default. Read with `billing_interval_count`. Values: `"daily"`, `"weekly"`, `"monthly"`, `"yearly"`. |
 | `billing_interval_count` | Required | integer | Number of billing intervals between recurring charges. Format: `int32`. |
 | `billing_interval_options` | Required | Array of [SubscriptionIntervalOption](../models/SubscriptionIntervalOption.md#subscriptionintervaloption) | Billing intervals the plan offers, which the buyer chooses among on the checkout this link opens. The same values as the subscription plan's `billing_interval_options`. maxItems: `12`. uniqueItems: `true`. |
 | `contract_term_months` | Optional | integer | The term agreed with the buyer, in months, when configured. Flint records it on the subscription and does not stop the buyer from canceling earlier. Format: `int32`. |

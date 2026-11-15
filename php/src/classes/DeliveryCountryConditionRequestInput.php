@@ -14,7 +14,7 @@ final class DeliveryCountryConditionRequestInput extends Model {
      */
     public function getSubject(): string { return $this->get('subject'); }
     public function hasSubject(): bool { return $this->has('subject'); }
-    /** Example: ["US"]. [] (Value): string. minLength: 1.
+    /** ISO 3166-1 alpha-2 country codes, such as `US`. The address matches when its country is one of them. Example: ["US"]. [] (Value): string. minLength: 1.
      * @return list<string>
      * @throws SdkError When values is omitted; use hasValues() or valueOrDefault().
      */

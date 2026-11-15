@@ -21,7 +21,7 @@ final class ReturnRestockingFeePolicyInput extends Model {
      */
     public function getFlatMoney(): mixed { return $this->get('flat_money'); }
     public function hasFlatMoney(): bool { return $this->has('flat_money'); }
-    /** Percentage points of the returned units' subtotal, from 1 to 100 with up to four decimal places. `10` means 10%. Format: double. multipleOf: 0.0001.
+    /** Percentage points of the returned units' subtotal, from 1 through 100 with at most four decimal places on every revision. `10` means 10%. Format: double. minimum: 1. maximum: 100. multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent is omitted; use hasPercent() or valueOrDefault().
      */

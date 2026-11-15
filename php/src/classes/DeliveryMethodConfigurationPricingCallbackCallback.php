@@ -11,12 +11,12 @@ namespace Flint;
 final class DeliveryMethodConfigurationPricingCallbackCallback extends Model {
     /** @param array{'delivery_rate_callback_id'?: string, 'delivery_rate_callback_revision_id'?: string, 'maximum_fee_currency_options': \stdClass, 'minimum_fee_currency_options': \stdClass, 'preview_enabled'?: bool, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryMethodConfigurationPricingCallbackCallback')); }
-    /** delivery_rate_callback_id
+    /** ID of the delivery rate callback that supplies the price.
      * @return ?string
      */
     public function getDeliveryRateCallbackId(): ?string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** delivery_rate_callback_revision_id
+    /** ID of the rate callback revision the method uses.
      * @return ?string
      */
     public function getDeliveryRateCallbackRevisionId(): ?string { return $this->get('delivery_rate_callback_revision_id'); }
@@ -31,7 +31,7 @@ final class DeliveryMethodConfigurationPricingCallbackCallback extends Model {
      */
     public function getMinimumFeeCurrencyOptions(): array { return $this->get('minimum_fee_currency_options'); }
     public function hasMinimumFeeCurrencyOptions(): bool { return $this->has('minimum_fee_currency_options'); }
-    /** preview_enabled
+    /** Whether delivery previews call the rate callback. Previews call it only when this setting and the callback's `preview_enabled` setting are both `true`.
      * @return ?bool
      */
     public function getPreviewEnabled(): ?bool { return $this->get('preview_enabled'); }

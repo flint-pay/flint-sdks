@@ -9,12 +9,12 @@ namespace Flint;
 final class PaymentSourceSummary extends Model {
     /** @param array{'ach_debit'?: mixed, 'card'?: mixed, 'type': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentSourceSummary')); }
-    /** Display details for a bank account payment source: account type, bank name, and last four digits.
+    /** Bank account details. Present when type is ach_debit. Display details for a bank account payment source: account type, bank name, and last four digits.
      * @return ?PaymentSourceAchDebitSummary
      */
     public function getAchDebit(): ?PaymentSourceAchDebitSummary { return $this->get('ach_debit'); }
     public function hasAchDebit(): bool { return $this->has('ach_debit'); }
-    /** Display details for a card payment source: brand, last four digits, and payment method ID.
+    /** Card details. Present when type is card. Display details for a card payment source: brand, last four digits, and payment method ID.
      * @return ?PaymentSourceCardSummary
      */
     public function getCard(): ?PaymentSourceCardSummary { return $this->get('card'); }

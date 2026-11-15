@@ -4,10 +4,12 @@
 
 The request body for: Swap subscription variant.
 
+minProperties: `1`.
+
 Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `expected_version` | Optional | integer | Version last read from the resource returned in `data` (the primary resource for a result object). The write fails with `VERSION_CONFLICT` if it has changed. Requiredness depends on the operation and fields being changed. Format: `uint64`. minimum: `1`. |
-| `variant_id` | Required | string | minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
+| `variant_id` | Required | string | ID of the variant to swap the line to. It must be the line's own variant or one of the swap variants its plan line allows. The line keeps its quantity and is priced from the variant's catalog price for the subscription's customer. minLength: `1`. pattern: `^var_[0-9A-HJKMNP-TV-Z]{26}$`. Example: `"var_01KEZF7C004GSH2KT8CNYVMHGX"`. |
 

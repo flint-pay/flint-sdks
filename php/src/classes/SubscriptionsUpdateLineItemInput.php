@@ -41,7 +41,7 @@ final class SubscriptionsUpdateLineItemInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update subscription line item. Example: {"expected_version":1,"quantity":2}.
+    /** The request body for: Update subscription line item. minProperties: 1. Example: {"expected_version":1,"quantity":2}.
      * @return array{'expected_version'?: int, 'quantity'?: int, 'variant_id'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

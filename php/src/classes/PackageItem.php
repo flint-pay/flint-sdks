@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read string|null $bundle_component_id
  * @property-read string $created_at
  * @property-read string $fulfillment_id
  * @property-read ?array<array-key, string> $metadata
@@ -16,8 +17,13 @@ namespace Flint;
  * @property-read int $version
  * Presence-aware response; omitted optional fields return null. */
 final class PackageItem extends Model {
-    /** @param array{'created_at': string, 'fulfillment_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': int, 'shipment_id': string, 'updated_at': string, 'version': int, ...}|object $values */
+    /** @param array{'bundle_component_id': string|null, 'created_at': string, 'fulfillment_id': string, 'metadata'?: mixed, 'order'?: mixed, 'order_id': string, 'order_line_item_id': string, 'package_id': string, 'package_item_id': string, 'quantity': int, 'shipment_id': string, 'updated_at': string, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PackageItem')); }
+    /** Bundle component this item counts, in component units. `null` when the line isn't a bundle component or a legacy allocation has no component recorded. Look the component up in the order line's bundle_components.
+     * @return string|null
+     */
+    public function getBundleComponentId(): string|null { return $this->get('bundle_component_id'); }
+    public function hasBundleComponentId(): bool { return $this->has('bundle_component_id'); }
     /** Creation timestamp. Format: date-time.
      * @return string
      */
@@ -58,7 +64,7 @@ final class PackageItem extends Model {
      */
     public function getPackageItemId(): string { return $this->get('package_item_id'); }
     public function hasPackageItemId(): bool { return $this->has('package_item_id'); }
-    /** Whole-number quantity; fractional quantities are not supported. Format: int64.
+    /** Whole-number quantity in component units for a bundle component, or line units otherwise; fractional quantities are not supported. Format: int64.
      * @return int
      */
     public function getQuantity(): int { return $this->get('quantity'); }

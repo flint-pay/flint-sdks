@@ -8,6 +8,7 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `bundle_component_id` | Required | string or null | Bundle component this item counts, in component units. `null` when the line isn't a bundle component or a legacy allocation has no component recorded. Look the component up in the order line's bundle_components. |
 | `created_at` | Required | string | Creation timestamp. Format: `date-time`. |
 | `fulfillment_id` | Required | string | Fulfillment containing this package item. |
 | `metadata` | Optional | Map of string | Caller-owned metadata for this package item. Caller-owned key-value data stored on a resource. Keys starting with flint_ are reserved for Flint and are not returned. Writes follow the limits on MetadataInput and MetadataPatchInput; maps written before those limits may not satisfy them. Map values: maxLength: `4096`. `metadata`: [field definitions](../models/PackageItemResponse.md#packageitemresponsedatametadata). |
@@ -16,7 +17,7 @@ Response model.
 | `order_line_item_id` | Required | string | Order line whose quantity this package item allocates. |
 | `package_id` | Required | string | Package containing this item. |
 | `package_item_id` | Required | string | Unique identifier for this package allocation. |
-| `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
+| `quantity` | Required | integer | Whole-number quantity in component units for a bundle component, or line units otherwise; fractional quantities are not supported. Format: `int64`. |
 | `shipment_id` | Required | string | Shipment containing the package. |
 | `updated_at` | Required | string | Last update timestamp. Format: `date-time`. |
 | `version` | Required | integer | Persisted item version, independent of package shipment and capacity guards. Format: `uint64`. minimum: `1`. |

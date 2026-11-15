@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `account_type` | Optional | string | Values: `"checking"`, `"savings"`, `"other"`. |
-| `bank_name` | Optional | string |  |
-| `last4` | Optional | string |  |
+| `account_type` | Optional | string | The kind of bank account. Values: `"checking"`, `"savings"`, `"other"`. |
+| `bank_name` | Optional | string | Name of the bank that holds the account. |
+| `last4` | Optional | string | Last four digits of the bank account number. |
 

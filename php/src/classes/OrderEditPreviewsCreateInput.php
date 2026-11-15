@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read array{'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'order_id': string, 'reason'?: string, 'remove_line_items': list<mixed>}|object $body
+ * @property-read array{'add_line_items'?: list<mixed>, 'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'order_id': string, 'reason'?: string, 'remove_line_items'?: list<mixed>}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrderEditPreviewsCreateInput extends Model {
-    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'order_id': string, 'reason'?: string, 'remove_line_items': list<mixed>}|object}|object $values */
+    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'add_line_items'?: list<mixed>, 'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'order_id': string, 'reason'?: string, 'remove_line_items'?: list<mixed>}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderEditPreviewsCreateInput')); }
     /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
@@ -28,7 +28,7 @@ final class OrderEditPreviewsCreateInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** Compute a paid-order removal without reserving quantities or refund capacity.
-     * @return array{'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'order_id': string, 'reason'?: string, 'remove_line_items': list<mixed>}|object
+     * @return array{'add_line_items'?: list<mixed>, 'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'order_id': string, 'reason'?: string, 'remove_line_items'?: list<mixed>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

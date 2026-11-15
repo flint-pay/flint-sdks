@@ -9,5 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `last_fetched_at` | Required | string | Most recent successful fetch of this URL by Flint. Updated at most once per minute. Format: `date-time`. |
-| `url` | Required | string |  |
+| `url` | Required | string | The registered HTTPS URL of the JSON Web Key Set Flint fetches to verify the app's client assertions. |
 

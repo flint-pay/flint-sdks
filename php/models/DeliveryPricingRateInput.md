@@ -8,12 +8,14 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `currency_options` | Required | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) |  |
-| `delivery_rate_id` | Required | string | Example: `"drate_01KEZF7C00FD0B4QEC0M00MJ4S"`. |
+| `currency_options` | Required | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Price by ISO 4217 currency code. Each key must equal the currency of its Money value. |
+| `delivery_rate_id` | Required | string | ID of this rate. Flint assigns it. Example: `"drate_01KEZF7C00FD0B4QEC0M00MJ4S"`. |
 | `priority` | Required | integer | Rates are checked from the highest priority to the lowest. The first matching rate sets the price. Priorities must be unique and at least 0. Format: `int32`. |
-| `when` | Required | [DeliveryEligibilityExpressionInput](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninput) or null | `when`: [declared alternatives](../models/DeliveryPricingRateInput.md#deliverypricingrateinputwhen). |
+| `when` | Required | [DeliveryEligibilityExpressionInput](../models/DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninput) or null | Eligibility expression that decides whether this rate applies. The rate matches when the expression matches. `null` when a stored rate has no condition. Flint requires a condition on every rate, so expect an expression. `when`: [declared alternatives](../models/DeliveryPricingRateInput.md#deliverypricingrateinputwhen). |
 
 ### DeliveryPricingRateInput.when
+
+Eligibility expression that decides whether this rate applies. The rate matches when the expression matches. `null` when a stored rate has no condition. Flint requires a condition on every rate, so expect an expression.
 
 Field definitions: [shared fields](DeliveryEligibilityExpressionInput.md#deliveryeligibilityexpressioninputall).
 
@@ -120,5 +122,5 @@ anyOf DeliveryEligibilityExpression: A boolean expression containing exactly one
 anyOf variant 2.
 
 - Undeclared: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
-- Value shape: null.  
+- Value shape: null. Eligibility expression that decides whether this rate applies. The rate matches when the expression matches. `null` when a stored rate has no condition. Flint requires a condition on every rate, so expect an expression. 
 

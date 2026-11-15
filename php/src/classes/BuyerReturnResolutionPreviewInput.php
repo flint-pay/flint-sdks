@@ -31,13 +31,13 @@ final class BuyerReturnResolutionPreviewInput extends Model {
      */
     public function getBasedOnReturnVersion(): int { return $this->get('based_on_return_version'); }
     public function hasBasedOnReturnVersion(): bool { return $this->has('based_on_return_version'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Amount the buyer owes when `deduction_money` and `replacement_total_money` exceed `returned_total_money` plus `credit_adjustment_money`. Zero when the buyer is owed a refund and for `no_monetary_action`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_payment_amount_money is omitted; use hasBuyerPaymentAmountMoney() or valueOrDefault().
      */
     public function getBuyerPaymentAmountMoney(): mixed { return $this->get('buyer_payment_amount_money'); }
     public function hasBuyerPaymentAmountMoney(): bool { return $this->has('buyer_payment_amount_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Value that goes back to the buyer: `returned_total_money` plus `credit_adjustment_money`, minus `deduction_money` and `replacement_total_money`, when that balance is zero or more. For `store_credit`, the value issued on new gift cards. Zero for `no_monetary_action`. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_refund_amount_money is omitted; use hasBuyerRefundAmountMoney() or valueOrDefault().
      */
@@ -55,7 +55,7 @@ final class BuyerReturnResolutionPreviewInput extends Model {
      */
     public function getCreditAdjustmentMoney(): mixed { return $this->get('credit_adjustment_money'); }
     public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Deductions the proposed resolution's adjustments would take, such as a restocking fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When deduction_money is omitted; use hasDeductionMoney() or valueOrDefault().
      */
@@ -73,7 +73,7 @@ final class BuyerReturnResolutionPreviewInput extends Model {
      */
     public function getReplacementLineItems(): array { return $this->get('replacement_line_items'); }
     public function hasReplacementLineItems(): bool { return $this->has('replacement_line_items'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Total of the replacement items the buyer would receive. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When replacement_total_money is omitted; use hasReplacementTotalMoney() or valueOrDefault().
      */
@@ -91,7 +91,7 @@ final class BuyerReturnResolutionPreviewInput extends Model {
      */
     public function getReturnId(): string { return $this->get('return_id'); }
     public function hasReturnId(): bool { return $this->has('return_id'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Value of the returned units the proposed resolution covers. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When returned_total_money is omitted; use hasReturnedTotalMoney() or valueOrDefault().
      */

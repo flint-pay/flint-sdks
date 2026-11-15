@@ -21,7 +21,11 @@ Field definitions: [shared fields](DeliveryProfileResponse.md#deliveryprofileres
 
 ### DeliveryProfileListResponse.data[].metadata
 
-Field definitions: [CollectInvoiceResponse.data.invoice.metadata](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicemetadata).
+Field definitions: [DeliveryLocationSetResponse.data.metadata](../models/DeliveryLocationSetResponse.md#deliverylocationsetresponsedatametadata).
+
+### DeliveryProfileListResponse.data[].unconfigured_assignment
+
+Declared alternatives: [DeliveryProfileResponse.data.unconfigured_assignment](../models/DeliveryProfileResponse.md#deliveryprofileresponsedataunconfigured_assignment).
 
 ### DeliveryProfileListResponse.meta
 

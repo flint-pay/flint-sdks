@@ -8,6 +8,6 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `unit` | Required | string | Values: `"meter"`, `"kilometer"`, `"mile"`. |
-| `value` | Required | number |  |
+| `unit` | Required | string | Unit of `value`. Values: `"meter"`, `"kilometer"`, `"mile"`. |
+| `value` | Required | number | Distance, in `unit`. |
 

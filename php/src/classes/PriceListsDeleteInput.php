@@ -16,7 +16,7 @@ final class PriceListsDeleteInput extends Model {
      */
     public function getPriceListId(): string { return $this->get('price_list_id'); }
     public function hasPriceListId(): bool { return $this->has('price_list_id'); }
-    /** Version last read by the caller. Format: uint64. minimum: 1.
+    /** Version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

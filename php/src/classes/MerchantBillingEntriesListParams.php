@@ -54,25 +54,25 @@ final class MerchantBillingEntriesListParams extends Model {
      */
     public function getCreatedBefore(): string|\DateTimeInterface { return $this->get('created_before'); }
     public function hasCreatedBefore(): bool { return $this->has('created_before'); }
-    /** Filter by Flint payment intent ID. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
+    /** Filter by Flint payment intent ID. pattern: ^pi_[0-9A-HJKMNP-TV-Z]{26}$. Example: "pi_01KEZF7C00G8H9D509YEV22P7R".
      * @return string
      * @throws SdkError When payment_intent_id is omitted; use hasPaymentIntentId() or valueOrDefault().
      */
     public function getPaymentIntentId(): string { return $this->get('payment_intent_id'); }
     public function hasPaymentIntentId(): bool { return $this->has('payment_intent_id'); }
-    /** Filter by Flint dispute ID. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
+    /** Filter by Flint dispute ID. pattern: ^du_[0-9A-HJKMNP-TV-Z]{26}$. Example: "du_01KEZF7C00DEJSF1KTXRT4BBQD".
      * @return string
      * @throws SdkError When dispute_id is omitted; use hasDisputeId() or valueOrDefault().
      */
     public function getDisputeId(): string { return $this->get('dispute_id'); }
     public function hasDisputeId(): bool { return $this->has('dispute_id'); }
-    /** Filter by Flint merchant billing invoice ID. Example: "msinv_01KEZF7C00MB754KPEPACGRMNP".
+    /** Filter by Flint merchant billing invoice ID. pattern: ^msinv_[0-9A-HJKMNP-TV-Z]{26}$. Example: "msinv_01KEZF7C00MB754KPEPACGRMNP".
      * @return string
      * @throws SdkError When merchant_billing_invoice_id is omitted; use hasMerchantBillingInvoiceId() or valueOrDefault().
      */
     public function getMerchantBillingInvoiceId(): string { return $this->get('merchant_billing_invoice_id'); }
     public function hasMerchantBillingInvoiceId(): bool { return $this->has('merchant_billing_invoice_id'); }
-    /** Filter by Flint balance transaction ID. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
+    /** Filter by Flint balance transaction ID. pattern: ^btxn_[0-9A-HJKMNP-TV-Z]{26}$. Example: "btxn_01KEZF7C00H1Z82CMFWWXMZGHZ".
      * @return string
      * @throws SdkError When balance_transaction_id is omitted; use hasBalanceTransactionId() or valueOrDefault().
      */

@@ -15,13 +15,13 @@ final class WorkloadIdentityClaimConditionInput extends Model {
      */
     public function getClaim(): string { return $this->get('claim'); }
     public function hasClaim(): bool { return $this->has('claim'); }
-    /** Default: "exact". Value enum: "exact", "glob".
+    /** How `value` is compared with the claim. Defaults to exact. Default: "exact". Value enum: "exact", "glob".
      * @return string
      * @throws SdkError When match is omitted; use hasMatch() or valueOrDefault().
      */
     public function getMatch(): string { return $this->get('match'); }
     public function hasMatch(): bool { return $this->has('match'); }
-    /** value
+    /** The value the claim must have, not empty. Strings compare as sent, booleans as `true` or `false`, and numbers as canonical decimal text. A claim that is missing, `null`, an array, or an object never matches.
      * @return string
      * @throws SdkError When value is omitted; use hasValue() or valueOrDefault().
      */

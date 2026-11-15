@@ -9,7 +9,7 @@ namespace Flint;
 final class PayoutSettingsUpdateInput extends Model {
     /** @param array{'body': array{'default_payout_destinations'?: array<array-key, string>|\stdClass, 'delay_days_override'?: int|null, 'expected_version'?: int, 'interval'?: string, 'minimum_balance_currency_options'?: array<array-key, array{'amount': string, 'currency': string}|object|null>|\stdClass, 'monthly_payout_days'?: list<int>, 'statement_descriptor'?: string|null, 'weekly_payout_days'?: list<string>}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PayoutSettingsUpdateInput')); }
-    /** The request body for: Update payout settings.
+    /** The request body for: Update payout settings. minProperties: 1.
      * @return array{'default_payout_destinations'?: array<array-key, string>|\stdClass, 'delay_days_override'?: int|null, 'expected_version'?: int, 'interval'?: string, 'minimum_balance_currency_options'?: array<array-key, array{'amount': string, 'currency': string}|object|null>|\stdClass, 'monthly_payout_days'?: list<int>, 'statement_descriptor'?: string|null, 'weekly_payout_days'?: list<string>}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

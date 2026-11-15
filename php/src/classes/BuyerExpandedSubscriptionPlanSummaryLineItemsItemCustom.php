@@ -30,22 +30,22 @@ final class BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustom extends Mode
      */
     public function getAllowQuantityAdjustment(): ?bool { return $this->get('allow_quantity_adjustment'); }
     public function hasAllowQuantityAdjustment(): bool { return $this->has('allow_quantity_adjustment'); }
-    /** bundle_id
+    /** ID of the catalog bundle the line sells. Present on a bundle line.
      * @return ?string
      */
     public function getBundleId(): ?string { return $this->get('bundle_id'); }
     public function hasBundleId(): bool { return $this->has('bundle_id'); }
-    /**  [] (Value): {@see BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomCategoriesItem}. A reference to a product category by ID, handle, and name.
+    /** Catalog categories of the product or bundle, fixed when the line was added. Omitted on custom lines. [] (Value): {@see BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomCategoriesItem}. A reference to a product category by ID, handle, and name.
      * @return ?list<BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomCategoriesItem>
      */
     public function getCategories(): ?array { return $this->get('categories'); }
     public function hasCategories(): bool { return $this->has('categories'); }
-    /** description
+    /** Description of the line. A variant line uses the product description and a bundle line uses the bundle description; Flint copied it when the line was added. A custom line uses the description you sent. Omitted when there is none.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** An image with its URL, size, and alt text.
+    /** Primary image of the variant (or its product) or bundle, fixed when the line was added. Omitted on custom lines and when the item has no image. An image with its URL, size, and alt text.
      * @return ?BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomImage
      */
     public function getImage(): ?BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomImage { return $this->get('image'); }
@@ -60,12 +60,12 @@ final class BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustom extends Mode
      */
     public function getMinQuantity(): ?int { return $this->get('min_quantity'); }
     public function hasMinQuantity(): bool { return $this->has('min_quantity'); }
-    /** name
+    /** Name of the line. A variant line uses the product name, followed by the variant name when the variant has options, and a bundle line uses the bundle name; Flint copied it when the line was added. A custom line uses the name you sent.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** product_id
+    /** ID of the product the line's variant belongs to. Present on a variant line; absent on bundle and custom lines, which have no parent product.
      * @return ?string
      */
     public function getProductId(): ?string { return $this->get('product_id'); }
@@ -75,12 +75,12 @@ final class BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustom extends Mode
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /**  [] (Value): {@see BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
+    /** Option values that identify the variant, such as size and color, fixed when the line was added. Omitted on bundle and custom lines. [] (Value): {@see BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSelectedOptionsItem}. An option and value chosen for a product variant, such as size Large.
      * @return ?list<BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomSelectedOptionsItem>
      */
     public function getSelectedOptions(): ?array { return $this->get('selected_options'); }
     public function hasSelectedOptions(): bool { return $this->has('selected_options'); }
-    /** sku
+    /** SKU of the variant or bundle, fixed when the line was added. Omitted on custom lines and when the item has no SKU.
      * @return ?string
      */
     public function getSku(): ?string { return $this->get('sku'); }
@@ -90,7 +90,7 @@ final class BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustom extends Mode
      */
     public function getSubscriptionPlanLineItemId(): string { return $this->get('subscription_plan_line_item_id'); }
     public function hasSubscriptionPlanLineItemId(): bool { return $this->has('subscription_plan_line_item_id'); }
-    /** maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
+    /** IDs of the variants a subscriber can swap this line to, in the order you set. Empty when none are set, and always empty on bundle and custom lines. maxItems: 25. uniqueItems: true. [] (Value): string. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return list<string>
      */
     public function getSwapVariantIds(): array { return $this->get('swap_variant_ids'); }
@@ -100,22 +100,22 @@ final class BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustom extends Mode
      */
     public function getSwapVariants(): ?array { return $this->get('swap_variants'); }
     public function hasSwapVariants(): bool { return $this->has('swap_variants'); }
-    /** A line item's tax category and whether it is taxable.
+    /** How tax applies to the line. A variant line takes its taxable setting and tax category from the variant, and a bundle line from its components; Flint copied them when the line was added. A taxable variant or bundle line with no tax category gets your default line item tax category, or `general`. A custom line has the tax you sent. A line item's tax category and whether it is taxable.
      * @return ?BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomTax
      */
     public function getTax(): ?BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomTax { return $this->get('tax'); }
     public function hasTax(): bool { return $this->has('tax'); }
-    /** Value enum: "custom".
+    /** How the line is sold: from a catalog variant, from a catalog bundle, or as a custom line. Value enum: "custom".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Price of one unit in the plan's currency, before modifiers, discounts, and tax. A variant or bundle line keeps the catalog price from when the line was added. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomUnitPriceMoney
      */
     public function getUnitPriceMoney(): BuyerExpandedSubscriptionPlanSummaryLineItemsItemCustomUnitPriceMoney { return $this->get('unit_price_money'); }
     public function hasUnitPriceMoney(): bool { return $this->has('unit_price_money'); }
-    /** variant_id
+    /** ID of the catalog variant the line sells. Present on a variant line.
      * @return ?string
      */
     public function getVariantId(): ?string { return $this->get('variant_id'); }

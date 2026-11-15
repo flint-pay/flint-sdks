@@ -27,7 +27,7 @@ final class BuyerPaymentMethod extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** customer_id
+    /** Customer this payment method belongs to.
      * @return string
      */
     public function getCustomerId(): string { return $this->get('customer_id'); }

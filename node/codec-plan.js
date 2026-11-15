@@ -122,8 +122,72 @@ export function discriminatorBindings(schema) {
     }
     return result;
 }
+/** A null-only proof that does not close open response enums. */
+export function nullOnlySchema(schema, depth = 0) {
+    if (depth > 128 || schema['x-sdk-ref'] || Object.hasOwn(schema, '$ref'))
+        return false;
+    const acceptsNull = (s, level) => {
+        if (level > 128 || s['x-sdk-ref'] || Object.hasOwn(s, '$ref'))
+            return undefined;
+        const types = Array.isArray(s.type) ? s.type : s.type === undefined ? undefined : [s.type];
+        if (types && !types.includes('null'))
+            return false;
+        if (Object.hasOwn(s, 'const') && s.const !== null)
+            return false;
+        if (s.enum && !s.enum.includes(null))
+            return false;
+        let uncertain = false;
+        for (const key of ['allOf', 'anyOf', 'oneOf']) {
+            if (!s[key])
+                continue;
+            const values = s[key].map((v) => acceptsNull(v, level + 1));
+            const count = values.filter((v) => v === true).length;
+            const unknown = values.includes(undefined);
+            if (key === 'allOf') {
+                if (values.includes(false))
+                    return false;
+                uncertain ||= unknown;
+            }
+            else if (key === 'anyOf') {
+                if (!count && !unknown)
+                    return false;
+                uncertain ||= !count;
+            }
+            else {
+                if (count > 1 || (!count && !unknown))
+                    return false;
+                uncertain ||= unknown;
+            }
+        }
+        if (s.not) {
+            const value = acceptsNull(s.not, level + 1);
+            if (value === true)
+                return false;
+            uncertain ||= value === undefined;
+        }
+        if (s.if) {
+            const condition = acceptsNull(s.if, level + 1);
+            const branches = condition === undefined ? [s.then, s.else] : [condition ? s.then : s.else];
+            const values = branches.map((v) => (v ? acceptsNull(v, level + 1) : true));
+            if (values.every((v) => v === false))
+                return false;
+            uncertain ||= !values.every((v) => v === true);
+        }
+        return uncertain ? undefined : true;
+    };
+    if (acceptsNull(schema, depth) !== true)
+        return false;
+    return (schema.type === 'null' ||
+        (Array.isArray(schema.type) &&
+            schema.type.length > 0 &&
+            schema.type.every((v) => v === 'null')) ||
+        (Object.hasOwn(schema, 'const') && schema.const === null) ||
+        Boolean(schema.allOf?.some((v) => nullOnlySchema(v, depth + 1))) ||
+        Boolean((schema.anyOf ?? schema.oneOf)?.length &&
+            (schema.anyOf ?? schema.oneOf)?.every((v) => nullOnlySchema(v, depth + 1))));
+}
 /** Nullable wrappers describe one known value, rather than future response variants.
- * Stay conservative: require one explicitly non-null branch and a plain null branch.
+ * Stay conservative: require one explicitly non-null branch and a provably null-only branch.
  */
 export function nullableAlternative(schema) {
     if (schema.oneOf && schema.anyOf)
@@ -131,8 +195,8 @@ export function nullableAlternative(schema) {
     const branches = schema.oneOf ?? schema.anyOf;
     if (branches?.length !== 2)
         return undefined;
-    const nullIndex = branches.findIndex((branch) => branch.type === 'null' &&
-        Object.keys(branch).every((key) => ['type', 'description', 'title', 'deprecated', 'readOnly', 'writeOnly'].includes(key)));
+    // The policy requires the emitted branch to have a literal null instruction.
+    const nullIndex = branches.findIndex((branch) => branch.type === 'null' && nullOnlySchema(branch));
     if (nullIndex < 0)
         return undefined;
     const index = nullIndex === 0 ? 1 : 0;

@@ -2,7 +2,7 @@
 
 ## UpdateInvoiceRequest
 
-The request body for: Update invoice.
+The request body for: Update invoice. minProperties: `1`.
 
 
 

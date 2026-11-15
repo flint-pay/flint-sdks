@@ -2,7 +2,7 @@
 
 ## UpdateCustomerRequest
 
-The request body for: Update customer.
+The request body for: Update customer. minProperties: `1`.
 
 
 
@@ -12,7 +12,7 @@ The request body for: Update customer.
 | --- | --- | --- | --- |
 | `default_invoice_payment_term_id` | Optional | string or null | Default payment term for this customer's invoices. Send null to clear it. minLength: `1`. Example: `"ipt_01KEZF7C0064N1V301BBMQ37R4"`. |
 | `default_payment_method_id` | Optional | string or null | The active off_session payment method to use by default. Omit to leave unchanged; null clears it. A change sends customer.updated. minLength: `1`. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |
-| `email` | Optional | string or null | The customer's email. Omit to leave unchanged. You can set an email when the customer has none in either customer account mode. Changing or clearing an existing email requires `customer_account.mode` to be `merchant_hosted`; null clears it. In `flint_hosted` mode, the buyer must confirm a change to an existing email. Format: `email`. minLength: `1`. maxLength: `320`. Example: `"buyer@example.com"`. |
+| `email` | Optional | string or null | The customer's email. Omit to leave unchanged; null clears it. In `flint_hosted` mode, you can set, correct, or clear the email until the buyer authenticates or verifies ownership of it. Existing identities with unknown sign-in history remain protected and require a buyer-confirmed change. In `merchant_hosted` mode, you can set, change, or clear it. An email change ends customer sessions and access links for the old address. Format: `email`. minLength: `1`. maxLength: `320`. Example: `"buyer@example.com"`. |
 | `expected_version` | Optional | integer | Required when tax_identity is null or tax_identity.tax_ids is present. Stale versions return a conflict. Format: `uint64`. minimum: `1`. |
 | `external_reference_id` | Optional | string or null | Caller-owned identifier for this resource in an external system. Omit to leave unchanged; null clears it. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `internal_note` | Optional | string or null | Internal note about this customer. Omit to leave unchanged; null clears it. minLength: `1`. |

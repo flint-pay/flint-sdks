@@ -8,6 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
+| `calculation` | Optional | [CheckoutTaxCalculationInput](../models/CheckoutTaxCalculationInput.md#checkouttaxcalculationinput) | The calculation the session's order uses, as set when the session was created. Omitted when the session followed `tax.default_calculation` from your settings; read `tax` on the order for what it uses. The calculation the order Flint creates uses while tax is enabled. Replaced as a whole: send every field you want to keep. Omit it to use `tax.default_calculation` from your settings; a `provided` default applies only to orders you create, so it means automatic here. |
 | `enabled` | Optional | boolean | Whether the session collects tax, as set when it was created. |
 | `location_fixed_by_merchant` | Optional | [AddressInput](../models/AddressInput.md#addressinput) | The tax location your order already held when this session was created over it. Hosted checkout shows it and does not ask the buyer for another. Omitted when the buyer may give or change the location. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country. |
 

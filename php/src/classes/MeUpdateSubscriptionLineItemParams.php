@@ -14,7 +14,7 @@ final class MeUpdateSubscriptionLineItemParams extends Model {
      */
     public function getExpectedVersion(): int { return $this->get('expected_version'); }
     public function hasExpectedVersion(): bool { return $this->has('expected_version'); }
-    /** minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** ID of the variant to swap the line to. It must be the line's own variant or one of the swap variants its plan line allows. The line keeps its quantity and is priced from the variant's catalog price for the subscription's customer. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

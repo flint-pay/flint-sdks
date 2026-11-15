@@ -5,11 +5,11 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/me.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import r0 from '../descriptors/resources/me.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPlan"]:r0,["changeMeSubscriptionQuantity"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMeInvoiceCheckoutSession"]:r0,["createMePaymentMethod"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeReturnResolutionCheckoutSession"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["createMeSubscriptionPreview"]:r0,["deleteMeAddress"]:r0,["deleteMePaymentMethod"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeFulfillment"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMeOrderReceiptPDF"]:r0,["getMePackage"]:r0,["getMePaymentIntent"]:r0,["getMePaymentMethod"]:r0,["getMeRefund"]:r0,["getMeReturn"]:r0,["getMeReturnResolution"]:r0,["getMeShipment"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeFlintWalletCards"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentIntents"]:r0,["listMePaymentMethods"]:r0,["listMeRefunds"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptionPaymentRetries"]:r0,["listMeSubscriptions"]:r0,["listMeTickets"]:r0,["pauseMeSubscription"]:r0,["removeMeGiftCard"]:r0,["renewMeSubscription"]:r0,["resumeMeSubscription"]:r0,["revokeMeSession"]:r0,["saveMeGiftCard"]:r0,["sendMeOrderReceipt"]:r0,["skipMeSubscriptionCycle"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0,["updateMeSubscription"]:r0,["updateMeSubscriptionLineItem"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["cancelMeReturn"]:r0,["cancelMeSubscription"]:r0,["changeMeSubscriptionPlan"]:r0,["changeMeSubscriptionQuantity"]:r0,["confirmMeEmailChangeRequest"]:r0,["createMeAddress"]:r0,["createMeCheckoutSession"]:r0,["createMeDeletionRequest"]:r0,["createMeEmailChangeRequest"]:r0,["createMeFlintWalletStoreSetup"]:r0,["createMePaymentMethod"]:r0,["createMeReturn"]:r0,["createMeReturnPreview"]:r0,["createMeSubscriptionPaymentRetry"]:r0,["createMeSubscriptionPreview"]:r0,["deleteMeAddress"]:r0,["deleteMePaymentMethod"]:r0,["getMe"]:r0,["getMeAddress"]:r0,["getMeCreditNote"]:r0,["getMeCreditNotePDF"]:r0,["getMeDeletionRequest"]:r0,["getMeEmailChangeRequest"]:r0,["getMeEmailPreferences"]:r0,["getMeFulfillment"]:r0,["getMeGiftCard"]:r0,["getMeInvoice"]:r0,["getMeInvoicePDF"]:r0,["getMeOrder"]:r0,["getMeOrderReceiptPDF"]:r0,["getMePackage"]:r0,["getMePaymentIntent"]:r0,["getMePaymentMethod"]:r0,["getMeRefund"]:r0,["getMeReturn"]:r0,["getMeReturnResolution"]:r0,["getMeShipment"]:r0,["getMeSubscription"]:r0,["getMeSubscriptionPaymentRetry"]:r0,["listMeAddresses"]:r0,["listMeCreditNotes"]:r0,["listMeDeletionRequests"]:r0,["listMeEmailChangeRequests"]:r0,["listMeFlintWalletCards"]:r0,["listMeFulfillmentEvents"]:r0,["listMeFulfillments"]:r0,["listMeGiftCards"]:r0,["listMeGiftCardTransactions"]:r0,["listMeInvoices"]:r0,["listMeOrderActivities"]:r0,["listMeOrders"]:r0,["listMePackages"]:r0,["listMePaymentIntents"]:r0,["listMePaymentMethods"]:r0,["listMeRefunds"]:r0,["listMeRememberedBuyers"]:r0,["listMeReturns"]:r0,["listMeShipments"]:r0,["listMeSubscriptionPaymentRetries"]:r0,["listMeSubscriptions"]:r0,["listMeTickets"]:r0,["pauseMeSubscription"]:r0,["removeMeGiftCard"]:r0,["renewMeSubscription"]:r0,["resumeMeSubscription"]:r0,["revokeMeRememberedBuyer"]:r0,["revokeMeSession"]:r0,["saveMeGiftCard"]:r0,["sendMeOrderReceipt"]:r0,["skipMeSubscriptionCycle"]:r0,["updateMe"]:r0,["updateMeAddress"]:r0,["updateMeEmailPreferences"]:r0,["updateMeSubscription"]:r0,["updateMeSubscriptionLineItem"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
@@ -55,6 +55,11 @@ this.me = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeAddress", result, path))),
+      createCheckoutSession: async (params, options) => this.#runtime.request("createMeCheckoutSession", _sdkRequestInput([], [], [], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeCheckoutSession", result, path))),
       createDeletionRequest: async (params, options) => this.#runtime.request("createMeDeletionRequest", _sdkRequestInput([], [], [], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -72,13 +77,6 @@ this.me = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeFlintWalletStoreSetup", result, path))),
-      createInvoiceCheckoutSession: async (invoice_id, params, options) => this.#runtime.request("createMeInvoiceCheckoutSession", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeInvoiceCheckoutSession", result, path))),
       createPaymentMethod: async (params, options) => this.#runtime.request("createMePaymentMethod", _sdkRequestInput([], [], [], true, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -93,13 +91,6 @@ this.me = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeReturnPreview", result, path))),
-      createReturnResolutionCheckoutSession: async (return_resolution_id, params, options) => this.#runtime.request("createMeReturnResolutionCheckoutSession", _sdkRequestInput([
-  "return_resolution_id"
-], [return_resolution_id], [], true, false, params, [
-  "Idempotency-Key",
-  "Flint-Version",
-  "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createMeReturnResolutionCheckoutSession", result, path))),
       createSubscriptionPaymentRetry: async (subscription_id, params, options) => this.#runtime.request("createMeSubscriptionPaymentRetry", _sdkRequestInput([
   "subscription_id"
 ], [subscription_id], [], true, false, params, [
@@ -137,17 +128,15 @@ this.me = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeAddress", result, path))),
-      getCreditNote: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
-  "invoice_id",
+      getCreditNote: async (credit_note_id, params, options) => this.#runtime.request("getMeCreditNote", _sdkRequestInput([
   "credit_note_id"
-], [invoice_id, credit_note_id], [], false, false, params, [
+], [credit_note_id], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeCreditNote", result, path))),
-      getCreditNotePDF: async (invoice_id, credit_note_id, params, options) => this.#runtime.request("getMeCreditNotePDF", _sdkRequestInput([
-  "invoice_id",
+      getCreditNotePDF: async (credit_note_id, params, options) => this.#runtime.request("getMeCreditNotePDF", _sdkRequestInput([
   "credit_note_id"
-], [invoice_id, credit_note_id], [], false, false, params, [
+], [credit_note_id], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options),
@@ -157,6 +146,12 @@ this.me = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeDeletionRequest", result, path))),
+      getEmailChangeRequest: async (email_change_request_id, params, options) => this.#runtime.request("getMeEmailChangeRequest", _sdkRequestInput([
+  "email_change_request_id"
+], [email_change_request_id], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("getMeEmailChangeRequest", result, path))),
       getEmailPreferences: async (params, options) => this.#runtime.request("getMeEmailPreferences", _sdkRequestInput([], [], [], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
@@ -273,31 +268,28 @@ this.me = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options),
-      listCreditNotes: async (invoice_id, params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotes: async (params, options) => this.#runtime.request("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeCreditNotes", result, path))),
-      listCreditNotesPages: (invoice_id, params, options) => _sdkPayloadPages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotesPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
   "X-Request-Id"
 ]), options), [], (result, path) => this.#runtime.decodePayload("listMeCreditNotes", result, path)),
-      listCreditNotesItems: (invoice_id, params, options) => this.#runtime.items("listMeCreditNotes", _sdkRequestInput([
-  "invoice_id"
-], [invoice_id], [
+      listCreditNotesItems: (params, options) => this.#runtime.items("listMeCreditNotes", _sdkRequestInput([], [], [
   "page_size",
   "page_token",
+  "invoice_id",
   "status"
 ], false, false, params, [
   "Flint-Version",
@@ -321,6 +313,27 @@ this.me = Object.freeze({
 ]), options), [], (result, path) => this.#runtime.decodePayload("listMeDeletionRequests", result, path)),
       listDeletionRequestsItems: (params, options) => this.#runtime.items("listMeDeletionRequests", _sdkRequestInput([], [], [
   "status",
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options),
+      listEmailChangeRequests: async (params, options) => this.#runtime.request("listMeEmailChangeRequests", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeEmailChangeRequests", result, path))),
+      listEmailChangeRequestsPages: (params, options) => _sdkPayloadPages(this.#runtime.pages("listMeEmailChangeRequests", _sdkRequestInput([], [], [
+  "page_size",
+  "page_token"
+], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options), [], (result, path) => this.#runtime.decodePayload("listMeEmailChangeRequests", result, path)),
+      listEmailChangeRequestsItems: (params, options) => this.#runtime.items("listMeEmailChangeRequests", _sdkRequestInput([], [], [
   "page_size",
   "page_token"
 ], false, false, params, [
@@ -550,6 +563,7 @@ this.me = Object.freeze({
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_invoice",
   "origin",
   "query",
   "subscription_id",
@@ -576,6 +590,7 @@ this.me = Object.freeze({
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_invoice",
   "origin",
   "query",
   "subscription_id",
@@ -602,6 +617,7 @@ this.me = Object.freeze({
   "refund_status",
   "fulfillment_status",
   "order_number",
+  "has_invoice",
   "origin",
   "query",
   "subscription_id",
@@ -814,6 +830,10 @@ this.me = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options),
+      listRememberedBuyers: async (params, options) => this.#runtime.request("listMeRememberedBuyers", _sdkRequestInput([], [], [], false, false, params, [
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, [], (result, path) => this.#runtime.decodePayload("listMeRememberedBuyers", result, path))),
       listReturns: async (params, options) => this.#runtime.request("listMeReturns", _sdkRequestInput([], [], [
   "created_after",
   "created_before",
@@ -1064,6 +1084,13 @@ this.me = Object.freeze({
   "Flint-Version",
   "X-Request-Id"
 ]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("resumeMeSubscription", result, path))),
+      revokeRememberedBuyer: async (remembered_buyer_id, params, options) => this.#runtime.request("revokeMeRememberedBuyer", _sdkRequestInput([
+  "remembered_buyer_id"
+], [remembered_buyer_id], [], false, false, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("revokeMeRememberedBuyer", result, path))),
       revokeSession: async (params, options) => this.#runtime.request("revokeMeSession", _sdkRequestInput([], [], [], false, false, params, [
   "Idempotency-Key",
   "Flint-Version",
@@ -1144,6 +1171,10 @@ export { makeConfirmEmailChangeRequest } from '../models/ConfirmEmailChangeReque
 export { makeConfirmReturnResolutionRequest } from '../models/ConfirmReturnResolutionRequest.js';
 export { makeCreateCustomerAddressRequest } from '../models/CreateCustomerAddressRequest.js';
 export { makeCreateEmailChangeRequest } from '../models/CreateEmailChangeRequest.js';
+export { makeCreateMeCheckoutSessionInvoice } from '../models/CreateMeCheckoutSessionInvoice.js';
+export { makeCreateMeCheckoutSessionRequest } from '../models/CreateMeCheckoutSessionRequest.js';
+export { makeCreateMeCheckoutSessionReturnResolution } from '../models/CreateMeCheckoutSessionReturnResolution.js';
+export { makeCreateMerchantSignupRequest } from '../models/CreateMerchantSignupRequest.js';
 export { makeCreateMeSubscriptionPreviewRequest } from '../models/CreateMeSubscriptionPreviewRequest.js';
 export { makeCreateMeSubscriptionPreviewRequestDeliveryOptions } from '../models/CreateMeSubscriptionPreviewRequestDeliveryOptions.js';
 export { makeCreateMeSubscriptionPreviewRequestNextRenewal } from '../models/CreateMeSubscriptionPreviewRequestNextRenewal.js';
@@ -1152,13 +1183,14 @@ export { makeCreateMeSubscriptionPreviewRequestQuantityChange } from '../models/
 export { makeCreateReturnEligibilityPreviewRequest } from '../models/CreateReturnEligibilityPreviewRequest.js';
 export { makeDeliverySelectionRecipientRequest } from '../models/DeliverySelectionRecipientRequest.js';
 export { makeDeliveryWindowRequest } from '../models/DeliveryWindowRequest.js';
-export { makeGetOrCreateReturnResolutionCheckoutSessionRequest } from '../models/GetOrCreateReturnResolutionCheckoutSessionRequest.js';
 export { makeImageInputFile } from '../models/ImageInputFile.js';
 export { makeImageInputSourceURL } from '../models/ImageInputSourceURL.js';
 export { makeImageRequest } from '../models/ImageRequest.js';
-export { makeInvoiceCheckoutSessionRequest } from '../models/InvoiceCheckoutSessionRequest.js';
 export { makeMerchantAccountSessionCreateRequest } from '../models/MerchantAccountSessionCreateRequest.js';
 export { makeMerchantAccountSessionRefreshRequest } from '../models/MerchantAccountSessionRefreshRequest.js';
+export { makeMerchantSignupOwnerRequest } from '../models/MerchantSignupOwnerRequest.js';
+export { makeMerchantSignupTermsAcceptanceRequest } from '../models/MerchantSignupTermsAcceptanceRequest.js';
+export { makeMerchantSignupVersionRequest } from '../models/MerchantSignupVersionRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
@@ -1181,6 +1213,7 @@ export { makeSubscriptionDeliveryDestinationInputCustomerAddress } from '../mode
 export { makeSubscriptionDeliveryDestinationRequest } from '../models/SubscriptionDeliveryDestinationRequest.js';
 export { makeSubscriptionDeliveryRequest } from '../models/SubscriptionDeliveryRequest.js';
 export { makeSubscriptionQuantityChangeLineItemRequest } from '../models/SubscriptionQuantityChangeLineItemRequest.js';
+export { makeSubscriptionSwapPreviewRequest } from '../models/SubscriptionSwapPreviewRequest.js';
 export { makeTextModifierRequest } from '../models/TextModifierRequest.js';
 export { makeUpdateCustomerAddressRequest } from '../models/UpdateCustomerAddressRequest.js';
 export { makeUpdateCustomerEmailPreferencesRequest } from '../models/UpdateCustomerEmailPreferencesRequest.js';
@@ -1188,3 +1221,4 @@ export { makeUpdateMerchantRequest } from '../models/UpdateMerchantRequest.js';
 export { makeUpdateMeRequest } from '../models/UpdateMeRequest.js';
 export { makeUpdateMeSubscriptionLineItemRequest } from '../models/UpdateMeSubscriptionLineItemRequest.js';
 export { makeUpdateMeSubscriptionRequest } from '../models/UpdateMeSubscriptionRequest.js';
+export { makeVerifyMerchantSignupRequest } from '../models/VerifyMerchantSignupRequest.js';

@@ -43,7 +43,7 @@ final class InvoiceDiscount extends Model {
      */
     public function getPromotionId(): ?string { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
-    /** Where the discount came from. Value enum: "manual", "promotion", "plan_change_credit", "proration".
+    /** Where the discount came from. Value enum: "manual", "promotion", "plan_change_credit", "proration", "prepaid_delivery".
      * @return string
      */
     public function getSource(): string { return $this->get('source'); }

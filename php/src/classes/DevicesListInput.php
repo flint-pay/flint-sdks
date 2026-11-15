@@ -33,7 +33,7 @@ final class DevicesListInput extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by assigned Flint location ID. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by assigned Flint location ID. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

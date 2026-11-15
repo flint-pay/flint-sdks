@@ -20,8 +20,8 @@ Request input.
 | `note` | Optional | string | Free-text note about the transfer. |
 | `origin_location_id` | Required | string | ID of the Location the stock leaves. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
 | `received_at` | Optional | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `status` | Required | string | Values: `"draft"`, `"in_transit"`, `"partially_resolved"`, `"closed"`. |
-| `supported_actions` | Required | Array of string | Items values: `"depart"`, `"receive"`, `"return_to_origin"`, `"report_loss"`, `"cancel"`. |
+| `status` | Required | string | Where the transfer stands, worked out from the quantities that have left the origin and have since been received, returned, or reported lost. Values: `"draft"`, `"in_transit"`, `"partially_resolved"`, `"closed"`. |
+| `supported_actions` | Required | Array of string | Actions that can change this transfer now. `depart` and `cancel` need units that haven't left the origin. `receive`, `return_to_origin`, and `report_loss` need units in transit. Empty once the transfer is closed. Items values: `"depart"`, `"receive"`, `"return_to_origin"`, `"report_loss"`, `"cancel"`. |
 | `updated_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `version` | Required | integer | Current version of this resource's owned state. Send it as `expected_version` when changing the resource to reject a stale write. Format: `uint64`. minimum: `1`. |
 

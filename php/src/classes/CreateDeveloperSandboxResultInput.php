@@ -15,7 +15,7 @@ final class CreateDeveloperSandboxResultInput extends Model {
      */
     public function getApiKey(): mixed { return $this->get('api_key'); }
     public function hasApiKey(): bool { return $this->has('api_key'); }
-    /** An isolated environment for testing an integration.
+    /** The sandbox Flint created. An isolated environment for testing an integration.
      * @return SandboxInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When sandbox is omitted; use hasSandbox() or valueOrDefault().
      */

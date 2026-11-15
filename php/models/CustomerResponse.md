@@ -130,11 +130,11 @@ anyOf variant 2.
 
 Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. `null` when none is set. Always `null` for customer sessions.
 
-Field definitions: [shared fields](CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity).
+Field definitions: [shared fields](CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity).
 
 ### CustomerResponse.data.tax_identity variant 1
 
-anyOf TaxIdentity: Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one..
+anyOf TaxIdentity: Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one..
 
 - Required: `legal_name`, `registered_address`, `tax_ids`.
 
@@ -147,11 +147,11 @@ anyOf variant 2.
 
 ### CustomerResponse.data.tax_identity variant 1.registered_address
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.snapshot.buyer_tax_identity variant 1.registered_address](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity-variant-1registered_address).
+Declared alternatives: [CreditNoteResponse.data.buyer_tax_identity variant 1.registered_address](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1registered_address).
 
 ### CustomerResponse.data.tax_identity variant 1.tax_ids[]
 
-Field definitions: [CollectInvoiceResponse.data.invoice.snapshot.buyer_tax_identity variant 1.tax_ids[]](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicesnapshotbuyer_tax_identity-variant-1tax_ids).
+Field definitions: [CreditNoteResponse.data.buyer_tax_identity variant 1.tax_ids[]](../models/CreditNoteResponse.md#creditnoteresponsedatabuyer_tax_identity-variant-1tax_ids).
 
 ### CustomerResponse.meta
 

@@ -10,8 +10,8 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `end_local` | Required | string | minLength: `1`. |
-| `start_local` | Required | string | minLength: `1`. |
+| `end_local` | Required | string | Local date and time the blackout ends, as `YYYY-MM-DDTHH:MM:SS` in the schedule's timezone. minLength: `1`. |
+| `start_local` | Required | string | Local date and time the blackout starts, as `YYYY-MM-DDTHH:MM:SS` in the schedule's timezone. minLength: `1`. |
 
 ### DeliveryBlackoutInterval variant 1
 

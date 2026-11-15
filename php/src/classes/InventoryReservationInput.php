@@ -21,7 +21,7 @@ namespace Flint;
 final class InventoryReservationInput extends Model {
     /** @param array{'closed_reason'?: string|null, 'created_at': string|\DateTimeInterface, 'expires_at': string|\DateTimeInterface|null, 'idempotency_key'?: string, 'inventory_action_required'?: InventoryActionRequiredInput|array<array-key, mixed>|\stdClass, 'inventory_reservation_id': string, 'inventory_routing_source': InventoryRoutingSourceInput|array<array-key, mixed>|\stdClass, 'lines': list<InventoryReservationLineInput|array<array-key, mixed>|\stdClass>, 'owner': InventoryReservationOwnerInput|array<array-key, mixed>|\stdClass, 'replacement_inventory_reservation_id'?: string, 'source_inventory_reservation_id'?: string, 'status': string, 'supported_actions': list<string>, 'updated_at': string|\DateTimeInterface, 'version': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReservationInput')); }
-    /** How the reservation ended. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "mixed", null.
+    /** How the reservation ended. adopted when its remaining held stock moved to a delivery selection. mixed when more than one terminal outcome applied. `null` when the reservation isn't closed. Value enum: "consumed", "released", "expired", "reallocated", "adopted", "mixed", null.
      * @return string|null
      * @throws SdkError When closed_reason is omitted; use hasClosedReason() or valueOrDefault().
      */

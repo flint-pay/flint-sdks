@@ -354,6 +354,13 @@ export interface Contract {
     apiVersion: string;
     operations: Operation[];
     incoming?: IncomingWebhook[];
+    /** Incoming callback bodies retain their direction and public model identity. */
+    callbackBodies?: {
+        operationId: string;
+        pointer: string;
+        direction: 'request' | 'response';
+        model: string;
+    }[];
     models: Record<string, Schema>;
     definitions?: Record<string, Schema>;
     modelDependencies?: Record<string, string[]>;

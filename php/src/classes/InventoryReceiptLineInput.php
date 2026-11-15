@@ -11,10 +11,11 @@ namespace Flint;
  * @property-read int $quantity
  * @property-read string $receiving_location_id
  * @property-read string $return_disposition_id
+ * @property-read string|null $return_id
  * @property-read string $return_line_item_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class InventoryReceiptLineInput extends Model {
-    /** @param array{'disposition': string, 'inventory_item_id': string, 'inventory_movement_id'?: string, 'inventory_receipt_line_id': string, 'inventory_reservation_id'?: string, 'inventory_reservation_line_id'?: string, 'quantity': int, 'receiving_location_id': string, 'return_disposition_id'?: string, 'return_line_item_id'?: string, ...}|object $values */
+    /** @param array{'disposition': string, 'inventory_item_id': string, 'inventory_movement_id'?: string, 'inventory_receipt_line_id': string, 'inventory_reservation_id'?: string, 'inventory_reservation_line_id'?: string, 'quantity': int, 'receiving_location_id': string, 'return_disposition_id'?: string, 'return_id': string|null, 'return_line_item_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('InventoryReceiptLineInput')); }
     /** sellable adds on-hand stock available for sale. quality_control, damaged, and quarantined add on-hand stock to the matching condition bucket. lost records returned units that were lost and changes no stock quantity. Value enum: "sellable", "quality_control", "damaged", "quarantined", "lost".
      * @return string
@@ -70,6 +71,12 @@ final class InventoryReceiptLineInput extends Model {
      */
     public function getReturnDispositionId(): string { return $this->get('return_disposition_id'); }
     public function hasReturnDispositionId(): bool { return $this->has('return_disposition_id'); }
+    /** Return that owns return_line_item_id. `null` when return_line_item_id is null. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string|null
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string|null { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the Return line item these units belong to. Absent when the line isn't linked to a Return. Example: "retli_01KEZF7C00R813VR7ECXS062QG".
      * @return string
      * @throws SdkError When return_line_item_id is omitted; use hasReturnLineItemId() or valueOrDefault().

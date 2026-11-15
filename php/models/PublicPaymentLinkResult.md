@@ -15,6 +15,7 @@ Response model.
 | `merchant_icon` | Optional | [Image](../models/Image.md#image) | The merchant's icon. An image with its URL, size, and alt text. |
 | `merchant_logo` | Optional | [Image](../models/Image.md#image) | The merchant's logo. An image with its URL, size, and alt text. |
 | `merchant_name` | Optional | string | The merchant's name. |
+| `merchant_support` | Optional | [CheckoutMerchantSupport](../models/CheckoutMerchantSupport.md#checkoutmerchantsupport) | How the buyer can reach the merchant for help: the support email, phone, and URL the merchant set. Omitted when the merchant set none. The merchant's support contact. Each field is omitted when the merchant has not set it. `merchant_support`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedatamerchant_support). |
 | `payment_link` | Required | [PublicPaymentLink](../models/PublicPaymentLink.md#publicpaymentlink) | The payment link that was resolved. The buyer-facing view of a payment link, with its line items, custom fields, legal and payment settings, and status. `payment_link`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedatapayment_link). |
 | `remaining_quantity` | Optional | integer | Event links with a ticket limit: tickets left after tickets sold and tickets held by payments in progress. Absent when the event has no ticket limit. Whole-number quantity; fractional quantities are not supported. Format: `int32`. |
 | `resolution_context` | Required | string | Private resolution context for this payment link. Send it unchanged to resolve the same link before checkout_start_due_at. The credential expires at resolution_context_expires_at. Keep the context private and do not cache this response; it is returned with Cache-Control: private, no-store. |
@@ -22,6 +23,10 @@ Response model.
 | `resolved_line_items` | Optional | Array of [PublicResolvedLineItemInfo](../models/PublicResolvedLineItemInfo.md#publicresolvedlineiteminfo) | The link's line items with their current catalog values. `resolved_line_items[]`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedataresolved_line_items). |
 | `show_flint_mark` | Required | boolean | Whether Flint's hosted pages show the Powered by Flint mark for this merchant. `false` when the merchant's agreement with Flint removes it. |
 | `subscription_preview` | Optional | [PaymentLinkSubscriptionPreview](../models/PaymentLinkSubscriptionPreview.md#paymentlinksubscriptionpreview) | Present for active plan-backed payment links when authoritative subscription terms are available. Subscription terms shown before an active plan-backed payment link creates a checkout session. `subscription_preview`: [field definitions](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedatasubscription_preview). |
+
+### PublicPaymentLinkResult.merchant_support
+
+Field definitions: [PublicPaymentLinkResponse.data.merchant_support](../models/PublicPaymentLinkResponse.md#publicpaymentlinkresponsedatamerchant_support).
 
 ### PublicPaymentLinkResult.payment_link
 

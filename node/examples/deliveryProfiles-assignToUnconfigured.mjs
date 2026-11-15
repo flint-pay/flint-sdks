@@ -13,3 +13,4 @@ const result = await client.deliveryProfiles.assignToUnconfigured(
   { idempotencyKey: idempotencyKey },
 );
 console.log(result.delivery_profile_id);
+console.log(result.unconfigured_assignment.status);

@@ -16,7 +16,7 @@ final class TicketsUpdateInput extends Model {
      */
     public function getTicketId(): string { return $this->get('ticket_id'); }
     public function hasTicketId(): bool { return $this->has('ticket_id'); }
-    /** The attendee name to set or clear. Example: {"attendee_name":"Alex Rivera"}.
+    /** The attendee name to set or clear. minProperties: 1. Example: {"attendee_name":"Alex Rivera"}.
      * @return array{'attendee_name': string|null, 'expected_version'?: int}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

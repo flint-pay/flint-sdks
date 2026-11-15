@@ -8,13 +8,13 @@ namespace Flint;
 final class OrderLineSubscriptionOfferDiscountInput extends Model {
     /** @param array{'amount_off_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'percent_off'?: int|float, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrderLineSubscriptionOfferDiscountInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Fixed amount the promotion is set to take off, in the order's currency. Depending on the promotion's allocation it can apply to each eligible unit, so a charge can take off more. Present for an amount-off promotion, and absent for a percentage. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_off_money is omitted; use hasAmountOffMoney() or valueOrDefault().
      */
     public function getAmountOffMoney(): mixed { return $this->get('amount_off_money'); }
     public function hasAmountOffMoney(): bool { return $this->has('amount_off_money'); }
-    /** multipleOf: 0.0001.
+    /** Percentage the promotion takes off each charge. Present for a percent-off promotion, and absent for a fixed amount. multipleOf: 0.0001.
      * @return int|float
      * @throws SdkError When percent_off is omitted; use hasPercentOff() or valueOrDefault().
      */

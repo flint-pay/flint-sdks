@@ -11,11 +11,12 @@ namespace Flint;
  * @property-read string $reason
  * @property-read string $reason_message
  * @property-read string $replaces_return_disposition_id
+ * @property-read string $return_id
  * @property-read string $return_inspection_line_item_id
  * @property-read string $return_receipt_line_item_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateReturnDispositionRequestReceiptLineInput extends Model {
-    /** @param array{'disposition_type': string, 'external_reference_id'?: string, 'inventory_location_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'quantity': int, 'reason': string, 'reason_message'?: string, 'replaces_return_disposition_id'?: string, 'return_inspection_line_item_id'?: string, 'return_receipt_line_item_id': string}|object $values */
+    /** @param array{'disposition_type': string, 'external_reference_id'?: string, 'inventory_location_id'?: string, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'occurred_at': string|\DateTimeInterface, 'quantity': int, 'reason': string, 'reason_message'?: string, 'replaces_return_disposition_id'?: string, 'return_id': string, 'return_inspection_line_item_id'?: string, 'return_receipt_line_item_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateReturnDispositionRequestReceiptLineInput')); }
     /** What happens to the received units. Value enum: "sellable", "quality_control", "damaged", "quarantined", "repair", "refurbish", "liquidate", "donate", "discard", "return_to_buyer", "lost".
      * @return string
@@ -71,6 +72,12 @@ final class CreateReturnDispositionRequestReceiptLineInput extends Model {
      */
     public function getReplacesReturnDispositionId(): string { return $this->get('replaces_return_disposition_id'); }
     public function hasReplacesReturnDispositionId(): bool { return $this->has('replaces_return_disposition_id'); }
+    /** ID of the Return the disposition belongs to. minLength: 1. Example: "ret_01KEZF7C00PG93650ZKVQNGF7X".
+     * @return string
+     * @throws SdkError When return_id is omitted; use hasReturnId() or valueOrDefault().
+     */
+    public function getReturnId(): string { return $this->get('return_id'); }
+    public function hasReturnId(): bool { return $this->has('return_id'); }
     /** ID of the inspection line the disposition covers. Absent when it covers a receipt line. minLength: 1. Example: "retinli_01KEZF7C0039VC3XNJ3ZTX8PV4".
      * @return string
      * @throws SdkError When return_inspection_line_item_id is omitted; use hasReturnInspectionLineItemId() or valueOrDefault().

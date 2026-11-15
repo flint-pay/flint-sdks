@@ -12,19 +12,19 @@ namespace Flint;
 final class DeliveryPickupAvailabilityInput extends Model {
     /** @param array{'evaluated_at': string|\DateTimeInterface, 'evaluation_status': string, 'input_requirements': list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>, 'locations': list<DeliveryPickupAvailabilityLocationResourceInput|array<array-key, mixed>|\stdClass>, 'merchant_diagnostics'?: list<DeliveryPickupAvailabilityDiagnosticInput|array<array-key, mixed>|\stdClass>, 'mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPickupAvailabilityInput')); }
-    /** RFC3339 timestamp. Format: date-time. Example: "2026-08-02T16:00:00Z".
+    /** Time Flint evaluated pickup availability. Format: date-time. Example: "2026-08-02T16:00:00Z".
      * @return string|\DateTimeInterface
      * @throws SdkError When evaluated_at is omitted; use hasEvaluatedAt() or valueOrDefault().
      */
     public function getEvaluatedAt(): string|\DateTimeInterface { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /** Value enum: "complete", "incomplete", "degraded".
+    /** How completely Flint evaluated the pickup Locations. Value enum: "complete", "incomplete", "degraded".
      * @return string
      * @throws SdkError When evaluation_status is omitted; use hasEvaluationStatus() or valueOrDefault().
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
     public function hasEvaluationStatus(): bool { return $this->has('evaluation_status'); }
-    /**  [] (Value): {@see DeliveryInputRequirementInput}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
+    /** Inputs the pickup methods need before Flint can evaluate them. [] (Value): {@see DeliveryInputRequirementInput}. An input a delivery method needs, such as an address field or time window, with its `field_path`, purpose, and constraint.
      * @return list<DeliveryInputRequirementInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When input_requirements is omitted; use hasInputRequirements() or valueOrDefault().
      */

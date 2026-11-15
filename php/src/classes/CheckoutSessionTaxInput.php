@@ -2,12 +2,19 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read CheckoutTaxCalculationInput|array<array-key, mixed>|\stdClass $calculation
  * @property-read bool $enabled
  * @property-read AddressInput|array<array-key, mixed>|\stdClass $location_fixed_by_merchant
  * Presence-aware input; omitted fields throw when accessed. */
 final class CheckoutSessionTaxInput extends Model {
-    /** @param array{'enabled'?: bool, 'location_fixed_by_merchant'?: AddressInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'calculation'?: CheckoutTaxCalculationInput|array<array-key, mixed>|\stdClass, 'enabled'?: bool, 'location_fixed_by_merchant'?: AddressInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionTaxInput')); }
+    /** The calculation the session's order uses, as set when the session was created. Omitted when the session followed `tax.default_calculation` from your settings; read `tax` on the order for what it uses. The calculation the order Flint creates uses while tax is enabled. Replaced as a whole: send every field you want to keep. Omit it to use `tax.default_calculation` from your settings; a `provided` default applies only to orders you create, so it means automatic here.
+     * @return CheckoutTaxCalculationInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When calculation is omitted; use hasCalculation() or valueOrDefault().
+     */
+    public function getCalculation(): mixed { return $this->get('calculation'); }
+    public function hasCalculation(): bool { return $this->has('calculation'); }
     /** Whether the session collects tax, as set when it was created.
      * @return bool
      * @throws SdkError When enabled is omitted; use hasEnabled() or valueOrDefault().

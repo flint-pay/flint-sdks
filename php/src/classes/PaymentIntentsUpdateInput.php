@@ -34,7 +34,7 @@ final class PaymentIntentsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update payment intent.
+    /** The request body for: Update payment intent. minProperties: 1.
      * @return array{'amount_money'?: mixed, 'customer_id'?: string, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'receipt_email'?: string|null, 'tip_money'?: array{'amount': string, 'currency': string}|object|null}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

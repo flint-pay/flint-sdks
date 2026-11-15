@@ -20,19 +20,19 @@ namespace Flint;
 final class ExpandedSubscriptionPlanSummaryInput extends Model {
     /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_interval_options'?: list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>, 'created_at'?: string|\DateTimeInterface, 'currency': string, 'description'?: string, 'line_items'?: list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>, 'name': string, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status': string, 'subscription_plan_id': string, 'trial_period_days'?: int, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionPlanSummaryInput')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the plan's default billing period. Read with `billing_interval_count`: monthly with a count of 3 bills every three months. A new subscription starts on the pair the buyer chose from `billing_interval_options`, or on this one when they chose none. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32.
+    /** Number of `billing_interval` units between charges on the plan's default pair. Format: int32.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Offered billing interval and count pairs, including the plan's default pair. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Offered billing interval and count pairs, including the plan's default pair. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionInput}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans.
      * @return list<SubscriptionIntervalOptionInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
@@ -50,31 +50,31 @@ final class ExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /** description
+    /** Description of the plan. Omitted when none is set.
      * @return string
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
      */
     public function getDescription(): string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /**  [] (Value): {@see SubscriptionPlanLineItemInput}. A line item on a subscription plan.
+    /** The lines a subscription on this plan bills each period, in the order you set them. Flint copied each catalog line's details from the catalog when it added the line. [] (Value): {@see SubscriptionPlanLineItemInput}. A line item on a subscription plan.
      * @return list<SubscriptionPlanLineItemInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When line_items is omitted; use hasLineItems() or valueOrDefault().
      */
     public function getLineItems(): array { return $this->get('line_items'); }
     public function hasLineItems(): bool { return $this->has('line_items'); }
-    /** name
+    /** Name of the plan. Buyers see it at checkout and on their subscription.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+    /** Quantities of the whole subscription that this plan lists, from 1 to 100, in ascending order. Flint accepts only a subscription quantity of 1, so you can set this list only to `[1]`. To let buyers choose a seat count, set `allow_quantity_adjustment` on a plan line item. A plan saved before that rule can still list up to 10 quantities. maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
      * @return list<int>
      * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
      */
     public function getQuantityOptions(): array { return $this->get('quantity_options'); }
     public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** One-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Omitted when the plan has no setup fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_fee_money is omitted; use hasSetupFeeMoney() or valueOrDefault().
      */
@@ -92,7 +92,7 @@ final class ExpandedSubscriptionPlanSummaryInput extends Model {
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Format: int32.
+    /** Days of free trial before the first recurring charge. Omitted or 0 when the plan has no trial. Format: int32.
      * @return int
      * @throws SdkError When trial_period_days is omitted; use hasTrialPeriodDays() or valueOrDefault().
      */

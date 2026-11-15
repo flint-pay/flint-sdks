@@ -8,7 +8,6 @@ const client = new Client({
   customerToken,
 });
 const result = await client.me.getCreditNote(
-  "inv_01KEZF7C00A5GEBMWHEAJFSAR4",
   "cn_01KEZF7C00N1TRRCVDNY8S471H"
 );
 console.log(result.credit_note_id);

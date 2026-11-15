@@ -34,7 +34,7 @@ final class CheckoutSessionsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update checkout session. Example: {"buyer_contact":{"email":"ada@example.com","phone":"+14155551234"}}.
+    /** The request body for: Update checkout session. minProperties: 1. Example: {"buyer_contact":{"email":"ada@example.com","phone":"+14155551234"}}.
      * @return array{'buyer_contact'?: mixed, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'subscription_terms'?: mixed, 'timezone'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

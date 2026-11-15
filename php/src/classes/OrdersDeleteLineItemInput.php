@@ -23,7 +23,7 @@ final class OrdersDeleteLineItemInput extends Model {
      */
     public function getOrderLineItemId(): string { return $this->get('order_line_item_id'); }
     public function hasOrderLineItemId(): bool { return $this->has('order_line_item_id'); }
-    /** Order version from the last order read. The mutation fails if the order changed. Format: int64. minimum: 1.
+    /** Order version from the last order read. The mutation fails if the order changed. Format: int64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

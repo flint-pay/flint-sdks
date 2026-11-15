@@ -12,7 +12,7 @@ Response model.
 | --- | --- | --- | --- |
 | `card` | Optional | [CardDetails](../models/CardDetails.md#carddetails) | Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `customer_id` | Required | string |  |
+| `customer_id` | Required | string | Customer this payment method belongs to. |
 | `is_default` | Required | boolean | Whether this is the customer's default payment method, the one BuyerCustomer.default_payment_method_id names. Change it with default_payment_method_id on PATCH /v1/me. |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. |
 | `payment_method_id` | Required | string | Unique identifier for this payment method, prefixed `pm_`. |

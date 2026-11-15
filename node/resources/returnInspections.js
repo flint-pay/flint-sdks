@@ -5,16 +5,25 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/returnInspections.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import r0 from '../descriptors/resources/returnInspections.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["decideReturnInspectionLineItem"]:r0,["getReturnInspection"]:r0,["listReturnInspections"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createReturnInspection"]:r0,["decideReturnInspectionLineItem"]:r0,["getReturnInspection"]:r0,["listReturnInspections"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.returnInspections = Object.freeze({
+      create: async (params, options) => this.#runtime.request("createReturnInspection", _sdkRequestInput([], [], [
+  "Flint-Merchant-Id",
+  "Flint-Mode",
+  "Flint-Sandbox-Id"
+], true, true, params, [
+  "Idempotency-Key",
+  "Flint-Version",
+  "X-Request-Id"
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createReturnInspection", result, path))),
       decideLineItem: async (return_inspection_id, return_inspection_line_item_id, params, options) => this.#runtime.request("decideReturnInspectionLineItem", _sdkRequestInput([
   "return_inspection_id",
   "return_inspection_line_item_id"
@@ -120,5 +129,8 @@ this.returnInspections = Object.freeze({
 [Symbol.for('nodejs.util.inspect.custom')]() { return { resources: Object.keys(this).length }; }
 close() { return this.#runtime.close(); }
 }
+export { makeCreateReturnInspectionRequest } from '../models/CreateReturnInspectionRequest.js';
 export { makeDecideReturnInspectionLineItemRequest } from '../models/DecideReturnInspectionLineItemRequest.js';
 export { makeMoneyValue } from '../models/MoneyValue.js';
+export { makeReturnInspectionLineItemRequest } from '../models/ReturnInspectionLineItemRequest.js';
+export { makeReturnSourceSystemRequest } from '../models/ReturnSourceSystemRequest.js';

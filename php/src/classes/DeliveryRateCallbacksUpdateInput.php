@@ -34,7 +34,7 @@ final class DeliveryRateCallbacksUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update delivery rate callback. Example: {"expected_version":1,"signing_methods":["jwt"]}.
+    /** The request body for: Update delivery rate callback. minProperties: 1. Example: {"expected_version":1,"signing_methods":["jwt"]}.
      * @return mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

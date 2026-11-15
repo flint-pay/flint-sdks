@@ -5,19 +5,17 @@ export function defaultCredentials() { return configuredDefaultCredentials({"env
 export function workloadIdentityCredentials(options) { return configuredWorkloadIdentityCredentials({"environment":{"apiKey":"FLINT_API_KEY","token":"FLINT_ACCESS_TOKEN"},"mode":"merchant","scheme":"BearerAuth","workloadIdentity":{"credentialParameter":"workload_identity_id","envPrefix":"FLINT","tokenPath":"/v1/oauth/token"}}, options, "https://api.withflintpay.com" ?? undefined); }
 import { runtimeFromPlan, modelFromCodec, isKnownCodec, verifyWebhookFromPlan, verifyWebhookAsyncFromPlan } from '../runtime.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
-import r0 from '../descriptors/resources/shipments.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import r0 from '../descriptors/resources/shipments.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { DescriptorSource } from '../descriptor-source.js';
-import settings from '../descriptors/settings.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import settings from '../descriptors/settings.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 
-const _sdkDescriptors = new DescriptorSource(settings, {["createPackage"]:r0,["getShipment"]:r0,["listShipments"]:r0,["updateShipment"]:r0,["voidShipment"]:r0});
+const _sdkDescriptors = new DescriptorSource(settings, {["createShipment"]:r0,["getShipment"]:r0,["listShipments"]:r0,["updateShipment"]:r0,["voidShipment"]:r0});
 export class Client {
 #runtime;
 constructor(options = {}) {
 this.#runtime = runtimeFromPlan(_sdkDescriptors, options);
 this.shipments = Object.freeze({
-      createPackage: async (shipment_id, params, options) => this.#runtime.request("createPackage", _sdkRequestInput([
-  "shipment_id"
-], [shipment_id], [
+      create: async (params, options) => this.#runtime.request("createShipment", _sdkRequestInput([], [], [
   "Flint-Merchant-Id",
   "Flint-Mode",
   "Flint-Sandbox-Id"
@@ -25,7 +23,7 @@ this.shipments = Object.freeze({
   "Idempotency-Key",
   "Flint-Version",
   "X-Request-Id"
-]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createPackage", result, path))),
+]), options).then(result => _sdkPayload(result, ["data"], (result, path) => this.#runtime.decodePayload("createShipment", result, path))),
       get: async (shipment_id, params, options) => this.#runtime.request("getShipment", _sdkRequestInput([
   "shipment_id"
 ], [shipment_id], [
@@ -140,6 +138,9 @@ this.shipments = Object.freeze({
 close() { return this.#runtime.close(); }
 }
 export { makeCreatePackageItemRequest } from '../models/CreatePackageItemRequest.js';
+export { makeCreateShipmentRequest } from '../models/CreateShipmentRequest.js';
+export { makeCreateShipmentRequestOutbound } from '../models/CreateShipmentRequestOutbound.js';
+export { makeCreateShipmentRequestReturn } from '../models/CreateShipmentRequestReturn.js';
 export { makeDimensionsRequest } from '../models/DimensionsRequest.js';
 export { makeMetadataPatchRequest } from '../models/MetadataPatchRequest.js';
 export { makeMetadataRequest } from '../models/MetadataRequest.js';
@@ -147,7 +148,6 @@ export { makeMoneyValue } from '../models/MoneyValue.js';
 export { makePackageCreateInputCreated } from '../models/PackageCreateInputCreated.js';
 export { makePackageCreateInputShipped } from '../models/PackageCreateInputShipped.js';
 export { makePackageCreateRequest } from '../models/PackageCreateRequest.js';
-export { makeReturnResolutionLineItemRequest } from '../models/ReturnResolutionLineItemRequest.js';
 export { makeReturnShipmentLineItemAllocationRequest } from '../models/ReturnShipmentLineItemAllocationRequest.js';
 export { makeUpdateShipmentRequest } from '../models/UpdateShipmentRequest.js';
 export { makeVoidPackageRequest } from '../models/VoidPackageRequest.js';

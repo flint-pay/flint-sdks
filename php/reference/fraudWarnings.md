@@ -32,6 +32,7 @@ Returned payload: [FraudWarning](../models/FraudWarning.md#fraudwarning).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -67,7 +68,7 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `is_actionable` | Optional | boolean | Filter by whether a proactive fraudulent refund can still prevent a dispute. |
-| `payment_intent_id` | Optional | string | Filter by Flint payment intent ID. |
+| `payment_intent_id` | Optional | string | Filter by Flint payment intent ID. pattern: `^pi_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
@@ -89,6 +90,7 @@ Returned payload: [FraudWarningListResponse](../models/FraudWarningListResponse.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

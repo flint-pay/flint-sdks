@@ -2,7 +2,7 @@
 
 ## UpdateShipmentRequest
 
-The request body for: Update shipment.
+The request body for: Update shipment. minProperties: `1`.
 
 
 

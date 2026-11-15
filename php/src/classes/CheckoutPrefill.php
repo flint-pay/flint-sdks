@@ -6,9 +6,10 @@ namespace Flint;
  * @property-read ?string $email
  * @property-read ?string $phone
  * @property-read ?Address $shipping_address
+ * @property-read ?string $shipping_recipient_name
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutPrefill extends Model {
-    /** @param array{'billing_address'?: mixed, 'email'?: string, 'phone'?: string, 'shipping_address'?: mixed, ...}|object $values */
+    /** @param array{'billing_address'?: mixed, 'email'?: string, 'phone'?: string, 'shipping_address'?: mixed, 'shipping_recipient_name'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutPrefill')); }
     /** The billing address to fill in. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
@@ -30,4 +31,9 @@ final class CheckoutPrefill extends Model {
      */
     public function getShippingAddress(): ?Address { return $this->get('shipping_address'); }
     public function hasShippingAddress(): bool { return $this->has('shipping_address'); }
+    /** The name of the person receiving the delivery, to fill in with the shipping address. minLength: 1. maxLength: 200.
+     * @return ?string
+     */
+    public function getShippingRecipientName(): ?string { return $this->get('shipping_recipient_name'); }
+    public function hasShippingRecipientName(): bool { return $this->has('shipping_recipient_name'); }
 }

@@ -52,25 +52,25 @@ final class DeliveryMethodsListParams extends Model {
      */
     public function getType(): mixed { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** Filter by referenced delivery zone. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+    /** Filter by referenced delivery zone. pattern: ^dzone_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
      * @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDeliveryZoneId() or valueOrDefault().
      */
     public function getDeliveryZoneId(): string { return $this->get('delivery_zone_id'); }
     public function hasDeliveryZoneId(): bool { return $this->has('delivery_zone_id'); }
-    /** Filter by referenced delivery location set. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
+    /** Filter by referenced delivery location set. pattern: ^dls_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dls_01KEZF7C00C4WWN7RYTRF55C4H".
      * @return string
      * @throws SdkError When delivery_location_set_id is omitted; use hasDeliveryLocationSetId() or valueOrDefault().
      */
     public function getDeliveryLocationSetId(): string { return $this->get('delivery_location_set_id'); }
     public function hasDeliveryLocationSetId(): bool { return $this->has('delivery_location_set_id'); }
-    /** Filter by referenced callback endpoint. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
+    /** Filter by referenced callback endpoint. pattern: ^dcb_[0-9A-HJKMNP-TV-Z]{26}$. Example: "dcb_01KEZF7C00Q4GZ7YPQ60GC4HV1".
      * @return string
      * @throws SdkError When delivery_rate_callback_id is omitted; use hasDeliveryRateCallbackId() or valueOrDefault().
      */
     public function getDeliveryRateCallbackId(): string { return $this->get('delivery_rate_callback_id'); }
     public function hasDeliveryRateCallbackId(): bool { return $this->has('delivery_rate_callback_id'); }
-    /** Filter by referenced Location. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
+    /** Filter by referenced Location. pattern: ^loc_[0-9A-HJKMNP-TV-Z]{26}$. Example: "loc_01KEZF7C00CMHRRYA3MV996JB2".
      * @return string
      * @throws SdkError When location_id is omitted; use hasLocationId() or valueOrDefault().
      */

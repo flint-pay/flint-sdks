@@ -2,9 +2,9 @@
 
 ## BuyerReturnLineItemModifierMetadata
 
-
+Always empty for buyer credentials.
 
 Response model.
 
-Value shape: object. maxProperties: `0`. 
+Value shape: object. Always empty for buyer credentials. maxProperties: `0`. 
 

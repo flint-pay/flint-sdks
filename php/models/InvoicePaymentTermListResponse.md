@@ -21,11 +21,11 @@ Field definitions: [shared fields](InvoicePaymentTermResponse.md#invoicepaymentt
 
 ### InvoicePaymentTermListResponse.data[].calculation
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.payment_terms_snapshot.calculation](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_terms_snapshotcalculation).
+Declared alternatives: [InvoiceResponse.data.payment_terms_snapshot.calculation](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshotcalculation).
 
 ### InvoicePaymentTermListResponse.data[].late_fee_policy
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.payment_terms_snapshot.late_fee_policy](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoicepayment_terms_snapshotlate_fee_policy).
+Declared alternatives: [InvoiceResponse.data.payment_terms_snapshot.late_fee_policy](../models/InvoiceResponse.md#invoiceresponsedatapayment_terms_snapshotlate_fee_policy).
 
 ### InvoicePaymentTermListResponse.meta
 

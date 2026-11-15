@@ -146,7 +146,7 @@ Signature: `delete(risk_list_id: InputValue<string>, params?: RiskListsDeletePar
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `risk_list_id` | Required | string | Flint risk list ID. |
-| `expected_version` | Optional | integer | Optional risk list version last read by the caller. Format: `uint64`. minimum: `1`. |
+| `expected_version` | Optional | integer | Optional risk list version last read by the caller. Format: `uint64`. minimum: `1`. maximum: `9007199254740991`. |
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
@@ -285,6 +285,7 @@ Returned payload: [RiskList](../models/RiskList.md#risklist).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -338,6 +339,7 @@ Returned payload: [RiskListItem](../models/RiskListItem.md#risklistitem).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -392,6 +394,7 @@ Returned payload: [RiskListListResponse](../models/RiskListListResponse.md#riskl
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -454,6 +457,7 @@ Returned payload: [RiskListItemListResponse](../models/RiskListItemListResponse.
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -494,7 +498,7 @@ Signature: `update(risk_list_id: InputValue<string>, params: RiskListsUpdatePara
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateRiskListRequestInput](../models/UpdateRiskListRequest.md#updaterisklistrequest) | The request body for: Update a risk list. |
+| `body` | Required | [UpdateRiskListRequestInput](../models/UpdateRiskListRequest.md#updaterisklistrequest) | The request body for: Update a risk list. minProperties: `1`. |
 
 Body model: [UpdateRiskListRequestInput](../models/UpdateRiskListRequest.md#updaterisklistrequest).
 

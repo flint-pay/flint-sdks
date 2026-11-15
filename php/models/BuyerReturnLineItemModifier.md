@@ -8,10 +8,10 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `metadata` | Required | [BuyerReturnLineItemModifierMetadata](../models/BuyerReturnLineItemModifierMetadata.md#buyerreturnlineitemmodifiermetadata) | maxProperties: `0`. |
+| `metadata` | Required | [BuyerReturnLineItemModifierMetadata](../models/BuyerReturnLineItemModifierMetadata.md#buyerreturnlineitemmodifiermetadata) | Always empty for buyer credentials. maxProperties: `0`. |
 | `modifier_group_name` | Required | string | Name of the modifier group recorded when this selection was added to the order line item. |
 | `name` | Required | string | Name of the selected modifier recorded on the order line item. |
-| `pricing_scope` | Required | string | Values: `"per_item"`, `"per_line"`. |
+| `pricing_scope` | Required | string | Whether this selection's price applies to each unit of the line item or once to the whole line. Values: `"per_item"`, `"per_line"`. |
 | `quantity` | Required | integer | Whole-number quantity; fractional quantities are not supported. Format: `int64`. |
 | `show_on_fulfillment` | Required | boolean | Whether this selection appears in fulfillment details, recorded when selected. |
 | `show_on_receipt` | Required | boolean | Whether this selection appears on buyer receipts, recorded when selected. |

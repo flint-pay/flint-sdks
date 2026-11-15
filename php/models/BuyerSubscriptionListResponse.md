@@ -21,7 +21,7 @@ Field definitions: [shared fields](BuyerSubscriptionResponse.md#buyersubscriptio
 
 ### BuyerSubscriptionListResponse.data[].buyer_actions[]
 
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
+Field definitions: [BuyerReturnResponse.data.buyer_actions[]](../models/BuyerReturnResponse.md#buyerreturnresponsedatabuyer_actions).
 
 ### BuyerSubscriptionListResponse.data[].cancellation_details
 
@@ -38,6 +38,14 @@ Field definitions: [SubscriptionResponse.data.delivery_hold](../models/Subscript
 ### BuyerSubscriptionListResponse.data[].end_after
 
 Declared alternatives: [SubscriptionResponse.data.end_after](../models/SubscriptionResponse.md#subscriptionresponsedataend_after).
+
+### BuyerSubscriptionListResponse.data[].gift_recipient
+
+Declared alternatives: [SubscriptionResponse.data.gift_recipient](../models/SubscriptionResponse.md#subscriptionresponsedatagift_recipient).
+
+### BuyerSubscriptionListResponse.data[].inventory_wait
+
+Field definitions: [BuyerSubscriptionResponse.data.inventory_wait](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedatainventory_wait).
 
 ### BuyerSubscriptionListResponse.data[].last_payment_error
 
@@ -62,6 +70,10 @@ Declared alternatives: [BuyerSubscriptionResponse.data.scheduled_plan_change](..
 ### BuyerSubscriptionListResponse.data[].scheduled_promotions[]
 
 Field definitions: [SubscriptionResponse.data.promotions[]](../models/SubscriptionResponse.md#subscriptionresponsedatapromotions).
+
+### BuyerSubscriptionListResponse.data[].service_location
+
+Field definitions: [BuyerSubscriptionResponse.data.service_location](../models/BuyerSubscriptionResponse.md#buyersubscriptionresponsedataservice_location).
 
 ### BuyerSubscriptionListResponse.data[].subscription_plan
 

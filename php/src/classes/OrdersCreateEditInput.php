@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $order_id
- * @property-read array{'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'expected_order_version': int, 'note'?: string, 'reason'?: string, 'remove_line_items': list<mixed>}|object $body
+ * @property-read mixed $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreateEditInput extends Model {
-    /** @param array{'order_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'expected_order_version': int, 'note'?: string, 'reason'?: string, 'remove_line_items': list<mixed>}|object}|object $values */
+    /** @param array{'order_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': mixed}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreateEditInput')); }
     /** The order that owns the edit. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
@@ -34,10 +34,10 @@ final class OrdersCreateEditInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** Remove unassigned units from a paid order and queue their refund atomically.
-     * @return array{'charge_refunds'?: list<mixed>, 'destinations'?: mixed, 'expected_order_version': int, 'note'?: string, 'reason'?: string, 'remove_line_items': list<mixed>}|object
+    /** Remove unassigned units from a paid order, add items the removed value and released charges pay for, or do both, and queue any remaining refund atomically.
+     * @return mixed
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
-    public function getBody(): array|object { return $this->get('body'); }
+    public function getBody(): mixed { return $this->get('body'); }
     public function hasBody(): bool { return $this->has('body'); }
 }

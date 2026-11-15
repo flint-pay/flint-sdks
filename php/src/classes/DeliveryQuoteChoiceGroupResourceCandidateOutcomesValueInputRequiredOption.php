@@ -33,17 +33,17 @@ namespace Flint;
 final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOption extends Model {
     /** @param array{'amount_money': mixed, 'arrival_estimate'?: mixed, 'buyer_instructions': mixed, 'charge_tax_category'?: string, 'consumed_by_delivery_selection_id'?: string, 'delivery_method_id': string, 'delivery_method_revision_id'?: string, 'delivery_option_id'?: string, 'delivery_plan': mixed, 'description'?: string, 'display_position': int, 'execution_legs'?: list<mixed>, 'expires_at'?: string, 'local_delivery'?: mixed, 'name': string, 'offered_windows'?: list<mixed>, 'pickup'?: mixed, 'recipient_requirements'?: list<mixed>, 'recommended': bool, 'shipment'?: mixed, 'taxable': bool, 'timezone'?: string, 'type': string, 'window_end_at'?: string, 'window_pricing'?: string, 'window_selection': string, 'window_start_at'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOption')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** Delivery charge for this option. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionAmountMoney
      */
     public function getAmountMoney(): DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionAmountMoney { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** The estimated arrival date range for a delivery option, as calendar dates in the option's timezone.
+    /** Estimated arrival dates. Omitted when the method makes no timing promise. The estimated arrival date range for a delivery option, as calendar dates in the option's timezone.
      * @return ?DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionArrivalEstimate
      */
     public function getArrivalEstimate(): ?DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionArrivalEstimate { return $this->get('arrival_estimate'); }
     public function hasArrivalEstimate(): bool { return $this->has('arrival_estimate'); }
-    /** Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
+    /** The instructions field checkout collects for this option: whether it is enabled and required, and its label and placeholder. Controls buyer instructions for a delivery option. Omit it from a method configuration to disable instruction collection.
      * @return DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionBuyerInstructions
      */
     public function getBuyerInstructions(): DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionBuyerInstructions { return $this->get('buyer_instructions'); }
@@ -53,37 +53,37 @@ final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredO
      */
     public function getChargeTaxCategory(): ?string { return $this->get('charge_tax_category'); }
     public function hasChargeTaxCategory(): bool { return $this->has('charge_tax_category'); }
-    /** consumed_by_delivery_selection_id
+    /** ID of the delivery selection that chose this option. Omitted until a selection does.
      * @return ?string
      */
     public function getConsumedByDeliverySelectionId(): ?string { return $this->get('consumed_by_delivery_selection_id'); }
     public function hasConsumedByDeliverySelectionId(): bool { return $this->has('consumed_by_delivery_selection_id'); }
-    /** delivery_method_id
+    /** ID of the delivery method that produced this option.
      * @return string
      */
     public function getDeliveryMethodId(): string { return $this->get('delivery_method_id'); }
     public function hasDeliveryMethodId(): bool { return $this->has('delivery_method_id'); }
-    /** delivery_method_revision_id
+    /** ID of the method revision this option was priced from.
      * @return ?string
      */
     public function getDeliveryMethodRevisionId(): ?string { return $this->get('delivery_method_revision_id'); }
     public function hasDeliveryMethodRevisionId(): bool { return $this->has('delivery_method_revision_id'); }
-    /** delivery_option_id
+    /** ID to send when choosing this option in a delivery selection. Omitted on delivery previews, whose options cannot be selected.
      * @return ?string
      */
     public function getDeliveryOptionId(): ?string { return $this->get('delivery_option_id'); }
     public function hasDeliveryOptionId(): bool { return $this->has('delivery_option_id'); }
-    /** Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count.
+    /** How the option divides the items into deliveries. Whether a delivery option is fulfilled in one delivery or several, with the first arrival time, completion time, and delivery count.
      * @return DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionDeliveryPlan
      */
     public function getDeliveryPlan(): DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionDeliveryPlan { return $this->get('delivery_plan'); }
     public function hasDeliveryPlan(): bool { return $this->has('delivery_plan'); }
-    /** description
+    /** Buyer-visible description of the option. Omitted when the method has none.
      * @return ?string
      */
     public function getDescription(): ?string { return $this->get('description'); }
     public function hasDescription(): bool { return $this->has('description'); }
-    /** Format: int32.
+    /** Position in which this option displays among the others. Lower values display first. Format: int32.
      * @return int
      */
     public function getDisplayPosition(): int { return $this->get('display_position'); }
@@ -93,27 +93,27 @@ final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredO
      */
     public function getExecutionLegs(): ?array { return $this->get('execution_legs'); }
     public function hasExecutionLegs(): bool { return $this->has('execution_legs'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Last moment a delivery selection can choose this option: the quote's expires_at, or earlier when the rate the merchant's callback or server returned expires first. Afterward the option is left out of the quote's options and selecting it requires a new quote. Omitted on delivery previews, whose options can't be selected. Format: date-time.
      * @return ?string
      */
     public function getExpiresAt(): ?string { return $this->get('expires_at'); }
     public function hasExpiresAt(): bool { return $this->has('expires_at'); }
-    /** Details of a local delivery option: instructions and service level.
+    /** Local delivery details. Set only when `type` is `local_delivery`. Details of a local delivery option: instructions and service level.
      * @return ?DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionLocalDelivery
      */
     public function getLocalDelivery(): ?DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionLocalDelivery { return $this->get('local_delivery'); }
     public function hasLocalDelivery(): bool { return $this->has('local_delivery'); }
-    /** name
+    /** Buyer-visible name of the option.
      * @return string
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /**  [] (Value): {@see DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionOfferedWindowsItem}. A time window a buyer can choose for a delivery, with its start, end, price, and the last moment it can be chosen.
+    /** Delivery windows the buyer can choose from. Omitted when `window_selection` is `none`. [] (Value): {@see DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionOfferedWindowsItem}. A time window a buyer can choose for a delivery, with its start, end, price, and the last moment it can be chosen.
      * @return ?list<DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionOfferedWindowsItem>
      */
     public function getOfferedWindows(): ?array { return $this->get('offered_windows'); }
     public function hasOfferedWindows(): bool { return $this->has('offered_windows'); }
-    /** Pickup details of a delivery option: the pickup mode and the pickup location.
+    /** Pickup details. Set only when `type` is `pickup`. Pickup details of a delivery option: the pickup mode and the pickup location.
      * @return ?DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionPickup
      */
     public function getPickup(): ?DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionPickup { return $this->get('pickup'); }
@@ -123,17 +123,17 @@ final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredO
      */
     public function getRecipientRequirements(): ?array { return $this->get('recipient_requirements'); }
     public function hasRecipientRequirements(): bool { return $this->has('recipient_requirements'); }
-    /** recommended
+    /** Whether Flint recommends this option over the others in the group, based on the methods' `recommendation_priority`.
      * @return bool
      */
     public function getRecommended(): bool { return $this->get('recommended'); }
     public function hasRecommended(): bool { return $this->has('recommended'); }
-    /** Shipment-specific details of a delivery option or choice: the `service_level` and buyer `instructions`.
+    /** Shipment details. Set only when `type` is `shipment`. Shipment-specific details of a delivery option or choice: the `service_level` and buyer `instructions`.
      * @return ?DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionShipment
      */
     public function getShipment(): ?DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredOptionShipment { return $this->get('shipment'); }
     public function hasShipment(): bool { return $this->has('shipment'); }
-    /** taxable
+    /** Whether tax applies to the delivery charge.
      * @return bool
      */
     public function getTaxable(): bool { return $this->get('taxable'); }
@@ -143,27 +143,27 @@ final class DeliveryQuoteChoiceGroupResourceCandidateOutcomesValueInputRequiredO
      */
     public function getTimezone(): ?string { return $this->get('timezone'); }
     public function hasTimezone(): bool { return $this->has('timezone'); }
-    /** Value enum: "shipment", "pickup", "local_delivery".
+    /** Delivery type of this option. Value enum: "shipment", "pickup", "local_delivery".
      * @return string
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** End of the delivery window for this option. Omitted when the option has no single window; see offered_windows. Format: date-time.
      * @return ?string
      */
     public function getWindowEndAt(): ?string { return $this->get('window_end_at'); }
     public function hasWindowEndAt(): bool { return $this->has('window_end_at'); }
-    /** Value enum: "uniform", "varies".
+    /** Whether the offered windows cost the same. Value enum: "uniform", "varies".
      * @return ?string
      */
     public function getWindowPricing(): ?string { return $this->get('window_pricing'); }
     public function hasWindowPricing(): bool { return $this->has('window_pricing'); }
-    /** Value enum: "none", "offered".
+    /** Whether the buyer chooses a delivery window. Value enum: "none", "offered".
      * @return string
      */
     public function getWindowSelection(): string { return $this->get('window_selection'); }
     public function hasWindowSelection(): bool { return $this->has('window_selection'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Start of the delivery window for this option. Omitted when the option has no single window; see offered_windows. Format: date-time.
      * @return ?string
      */
     public function getWindowStartAt(): ?string { return $this->get('window_start_at'); }

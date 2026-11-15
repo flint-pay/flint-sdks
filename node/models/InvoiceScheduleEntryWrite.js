@@ -1,13 +1,13 @@
-import { d6844 as c0, d6845 as c1, d6846 as c2 } from '../descriptors/data/312.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d5556 as c3 } from '../descriptors/data/241.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6041 as c4, d6042 as c5, d6043 as c6, d6044 as c7, d6045 as c8, d6046 as c9, d6047 as c10 } from '../descriptors/data/269.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6894 as c11, d6895 as c12, d6896 as c13, d6897 as c14, d6898 as c15 } from '../descriptors/data/314.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6899 as c16, d6900 as c17, d6901 as c18, d6902 as c19, d6903 as c20, d6904 as c21, d6905 as c22, d6906 as c23, d6907 as c24, d6908 as c25, d6909 as c26, d6910 as c27, d6911 as c28 } from '../descriptors/data/315.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d6846 as d6846 } from '../descriptors/data/312.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d7161 as c0, d7162 as c1, d7163 as c2 } from '../descriptors/data/337.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d5784 as c3 } from '../descriptors/data/258.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d6229 as c4, d6230 as c5, d6231 as c6, d6232 as c7, d6233 as c8, d6234 as c9, d6235 as c10 } from '../descriptors/data/285.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d7209 as c11, d7210 as c12, d7211 as c13, d7212 as c14, d7213 as c15 } from '../descriptors/data/339.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d7214 as c16, d7215 as c17, d7216 as c18, d7217 as c19, d7218 as c20, d7219 as c21, d7220 as c22, d7221 as c23, d7222 as c24, d7223 as c25, d7224 as c26, d7225 as c27, d7226 as c28 } from '../descriptors/data/340.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d7163 as d7163 } from '../descriptors/data/337.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d6846;
+const read = d7163;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["InvoiceScheduleAmountSpecificationRequest"]:c0(),["InvoiceScheduleDueWrite"]:c1(),["InvoiceScheduleEntryWrite"]:c2(),["MoneyValue"]:c3(),["SharedCodec897"]:c4(),["SharedCodec898"]:c5(),["SharedCodec899"]:c6(),["SharedCodec900"]:c7(),["SharedCodec901"]:c8(),["SharedCodec902"]:c9(),["SharedCodec903"]:c10(),["SharedCodec907"]:c11(),["SharedCodec908"]:c12(),["SharedCodec909"]:c13(),["SharedCodec910"]:c14(),["SharedCodec911"]:c15(),["SharedCodec912"]:c16(),["SharedCodec913"]:c17(),["SharedCodec914"]:c18(),["SharedCodec915"]:c19(),["SharedCodec916"]:c20(),["SharedCodec917"]:c21(),["SharedCodec918"]:c22(),["SharedCodec919"]:c23(),["SharedCodec920"]:c24(),["SharedCodec921"]:c25(),["SharedCodec922"]:c26(),["SharedCodec923"]:c27(),["SharedCodec924"]:c28()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["InvoiceScheduleAmountSpecificationRequest"]:c0(),["InvoiceScheduleDueWrite"]:c1(),["InvoiceScheduleEntryWrite"]:c2(),["MoneyValue"]:c3(),["SharedCodec963"]:c4(),["SharedCodec964"]:c5(),["SharedCodec965"]:c6(),["SharedCodec966"]:c7(),["SharedCodec967"]:c8(),["SharedCodec968"]:c9(),["SharedCodec969"]:c10(),["SharedCodec973"]:c11(),["SharedCodec974"]:c12(),["SharedCodec975"]:c13(),["SharedCodec976"]:c14(),["SharedCodec977"]:c15(),["SharedCodec978"]:c16(),["SharedCodec979"]:c17(),["SharedCodec980"]:c18(),["SharedCodec981"]:c19(),["SharedCodec982"]:c20(),["SharedCodec983"]:c21(),["SharedCodec984"]:c22(),["SharedCodec985"]:c23(),["SharedCodec986"]:c24(),["SharedCodec987"]:c25(),["SharedCodec988"]:c26(),["SharedCodec989"]:c27(),["SharedCodec990"]:c28()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeInvoiceScheduleEntryWrite(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

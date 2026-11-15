@@ -4,10 +4,10 @@ namespace Flint;
 /**
  * @internal
  *
- * @property-read array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: mixed, 'discounts'?: list<mixed>, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'metadata'?: mixed, 'requested_tip'?: mixed, 'tax'?: mixed}|object $body
+ * @property-read array{'buyer_note'?: string, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_destination'?: mixed, 'discounts'?: list<mixed>, 'external_reference_id'?: string, 'handover'?: mixed, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'metadata'?: mixed, 'requested_tip'?: mixed, 'tax'?: mixed}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class OrdersCreateInput extends Model {
-    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: mixed, 'discounts'?: list<mixed>, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'metadata'?: mixed, 'requested_tip'?: mixed, 'tax'?: mixed}|object}|object $values */
+    /** @param array{'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'buyer_note'?: string, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_destination'?: mixed, 'discounts'?: list<mixed>, 'external_reference_id'?: string, 'handover'?: mixed, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'metadata'?: mixed, 'requested_tip'?: mixed, 'tax'?: mixed}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OrdersCreateInput')); }
     /** Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: ^mer_[0-9A-HJKMNP-TV-Z]{26}$.
      * @return string
@@ -28,7 +28,7 @@ final class OrdersCreateInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Create order.
-     * @return array{'buyer_note'?: string, 'customer_id'?: string, 'delivery_destination'?: mixed, 'discounts'?: list<mixed>, 'external_reference_id'?: string, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'metadata'?: mixed, 'requested_tip'?: mixed, 'tax'?: mixed}|object
+     * @return array{'buyer_note'?: string, 'customer_id'?: string, 'delivery'?: mixed, 'delivery_destination'?: mixed, 'discounts'?: list<mixed>, 'external_reference_id'?: string, 'handover'?: mixed, 'internal_note'?: string, 'inventory_routing_source'?: mixed, 'line_items': list<mixed>, 'metadata'?: mixed, 'requested_tip'?: mixed, 'tax'?: mixed}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

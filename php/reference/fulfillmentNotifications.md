@@ -67,9 +67,9 @@ Signature: `list(array|Model|null $params = null, ?RequestOptions $options = nul
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. |
-| `order_id` | Optional | string | Optional order ID filter. |
-| `fulfillment_event_id` | Optional | string | Optional fulfillment event ID filter. |
+| `fulfillment_id` | Optional | string | Optional fulfillment ID filter. pattern: `^ful_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `order_id` | Optional | string | Optional order ID filter. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `fulfillment_event_id` | Optional | string | Optional fulfillment event ID filter. pattern: `^fev_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `channel` | Optional | Array of string or string | Filter by notification channel. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"email"`. Values: `"email"`. |

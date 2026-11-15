@@ -4,7 +4,7 @@
 
 The affected public resource without expansions, client authority fields, or fields computed for an individual caller.
 
-The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `add_on_fees`, `merchant_net_money`.
+The resource snapshot, without expansions. Webhooks omit these fields: `processing_fee_money`, `add_on_fees`, `merchant_net_money`, `payment_collection`.
 
 Response model.
 

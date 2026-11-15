@@ -8,6 +8,7 @@ namespace Flint;
  * @property-read BuyerOrderTaxTaxBreakdownsItemPercentageJurisdiction $jurisdiction
  * @property-read ?string $location_id
  * @property-read ?string $order_charge_id
+ * @property-read string $order_id
  * @property-read ?string $order_line_item_id
  * @property-read float $percent
  * @property-read string $price_mode
@@ -18,7 +19,7 @@ namespace Flint;
  * @property-read BuyerOrderTaxTaxBreakdownsItemPercentageTaxableMoney $taxable_money
  * Presence-aware response; omitted optional fields return null. */
 final class BuyerOrderTaxTaxBreakdownsItemPercentage extends Model {
-    /** @param array{'calculation_type': string, 'flat_money'?: mixed, 'fulfillment_choice_group_id'?: string, 'jurisdiction': mixed, 'location_id'?: string, 'order_charge_id'?: string, 'order_line_item_id'?: string, 'percent': float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': mixed, 'tax_type': string, 'taxability_reason': string, 'taxable_money': mixed, ...}|object $values */
+    /** @param array{'calculation_type': string, 'flat_money'?: mixed, 'fulfillment_choice_group_id'?: string, 'jurisdiction': mixed, 'location_id'?: string, 'order_charge_id'?: string, 'order_id': string, 'order_line_item_id'?: string, 'percent': float, 'price_mode': string, 'tax_breakdown_id': string, 'tax_money': mixed, 'tax_type': string, 'taxability_reason': string, 'taxable_money': mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerOrderTaxTaxBreakdownsItemPercentage')); }
     /** How the tax is figured: a percentage of the taxable amount, or a fixed amount. Value enum: "percentage".
      * @return string
@@ -30,7 +31,7 @@ final class BuyerOrderTaxTaxBreakdownsItemPercentage extends Model {
      */
     public function getFlatMoney(): ?BuyerOrderTaxTaxBreakdownsItemPercentageFlatMoney { return $this->get('flat_money'); }
     public function hasFlatMoney(): bool { return $this->has('flat_money'); }
-    /** fulfillment_choice_group_id
+    /** ID of the delivery choice group whose delivery this row's tax covers. On a line item row, the row taxes the share of the line item that group delivers. On a charge row, it taxes that group's delivery charge. Set only on automatic tax rows outside the US, and only when delivery was chosen from a delivery quote. A delivery charge's row gets it only when the `delivery_charge_tax_basis` setting applied as the row was calculated, and a row frozen by payment or by issuing an invoice keeps the value it had. A delivery charge priced with `taxable_items_share` after its delivery choice is no longer available can carry the ID of the fulfillment that holds the charge instead. Omitted on external tax rows and on every other row.
      * @return ?string
      */
     public function getFulfillmentChoiceGroupId(): ?string { return $this->get('fulfillment_choice_group_id'); }
@@ -40,7 +41,7 @@ final class BuyerOrderTaxTaxBreakdownsItemPercentage extends Model {
      */
     public function getJurisdiction(): BuyerOrderTaxTaxBreakdownsItemPercentageJurisdiction { return $this->get('jurisdiction'); }
     public function hasJurisdiction(): bool { return $this->has('jurisdiction'); }
-    /** location_id
+    /** ID of the location whose address was the seller origin for this row's tax: the location the goods leave from, or the pickup location. Set only on automatic tax rows outside the US, for goods and charges that a fulfillment sends from one location. Separate shares of a line item can have different origin locations. Omitted when the tax was sourced from the merchant's legal origin, which covers services, goods with no fulfilling location yet, goods whose fulfillments can't be split by location, a charge whose fulfillments leave from more than one location, and every external tax row.
      * @return ?string
      */
     public function getLocationId(): ?string { return $this->get('location_id'); }
@@ -50,6 +51,11 @@ final class BuyerOrderTaxTaxBreakdownsItemPercentage extends Model {
      */
     public function getOrderChargeId(): ?string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
+    /** ID of the order this tax row belongs to, including the parent of any order_line_item_id or order_charge_id reference.
+     * @return string
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the order line item this row taxes. Absent on rows for a charge or a flat order tax.
      * @return ?string
      */

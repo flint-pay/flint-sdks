@@ -179,9 +179,9 @@ Signature: `list(params?: DisputesListParams, options?: _SdkWithoutIdempotency<R
 | --- | --- | --- | --- |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
 | `updated_before` | Optional | string | Exclusive upper bound on updated_at. Format: `date-time`. |
-| `payment_intent_id` | Optional | string | Optional Flint payment intent ID filter. |
-| `order_id` | Optional | string | Optional Flint order ID filter. |
-| `customer_id` | Optional | string | Optional Flint customer ID filter. |
+| `payment_intent_id` | Optional | string | Optional Flint payment intent ID filter. pattern: `^pi_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `order_id` | Optional | string | Optional Flint order ID filter. pattern: `^ord_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `customer_id` | Optional | string | Optional Flint customer ID filter. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `status` | Optional | Array of string or string | Optional dispute status filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"inquiry_needs_response"`, `"inquiry_under_review"`, `"inquiry_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`, `"other"`. Values: `"inquiry_needs_response"`, `"inquiry_under_review"`, `"inquiry_closed"`, `"needs_response"`, `"under_review"`, `"won"`, `"lost"`, `"prevented"`, `"other"`. |
 | `reason` | Optional | Array of string or string | Optional normalized dispute reason filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: [12 declared values](../models/Dispute.md#dispute-reason-values). Values: [12 declared values](../models/Dispute.md#dispute-reason-values). |
 | `case_type` | Optional | Array of string or string | Optional dispute case type filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. Values: `"inquiry"`, `"chargeback"`, `"compliance"`, `"resolution"`, `"block"`, `"other"`, `"bank_return"`. |

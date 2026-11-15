@@ -20,8 +20,8 @@ anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where t
 
 - Required: `customer_address_id`.
 - Undeclared: `address`.
-- Constraints for `customer_address_id`: minLength: `1`. pattern: `^caddr_[0-9A-HJKMNP-TV-Z]{26}$`.
-- Constraints for `type`: Values: `"customer_address"`.
+- Constraints for `customer_address_id`: ID of the customer's saved address. Flint copies it, so later edits to the saved address don't change the subscription. minLength: `1`. pattern: `^caddr_[0-9A-HJKMNP-TV-Z]{26}$`.
+- Constraints for `type`: Selects one of the customer's saved addresses as the destination. Values: `"customer_address"`.
 
 ### SubscriptionServiceLocationRequest variant 2: `type` = `"address"`
 
@@ -29,7 +29,8 @@ anyOf variant 1: Declared schema SubscriptionDeliveryDestinationRequest. Where t
 
 - Required: `address`.
 - Undeclared: `customer_address_id`.
-- Constraints for `type`: Values: `"address"`.
+- Constraints for `address`: Delivery address. Flint saves a copy with the subscription.
+- Constraints for `type`: Selects a new address as the destination. Values: `"address"`.
 
 ### SubscriptionServiceLocationRequest variant 3: `type` = `"customer_address"`
 
@@ -37,8 +38,8 @@ anyOf variant 2: Declared schema SubscriptionServiceLocationRequest. Where a sub
 
 - Required: `customer_address_id`.
 - Undeclared: `address`.
-- Constraints for `customer_address_id`: minLength: `1`.
-- Constraints for `type`: Values: `"customer_address"`.
+- Constraints for `customer_address_id`: ID of a saved address of the subscription's customer. Flint copies the address. minLength: `1`.
+- Constraints for `type`: How the service location is given: a saved customer address or an inline address. Values: `"customer_address"`.
 
 ### SubscriptionServiceLocationRequest variant 4: `type` = `"address"`
 
@@ -46,5 +47,6 @@ anyOf variant 2: Declared schema SubscriptionServiceLocationRequest. Where a sub
 
 - Required: `address`.
 - Undeclared: `customer_address_id`.
-- Constraints for `type`: Values: `"address"`.
+- Constraints for `address`: The address where the service is performed. Flint copies it.
+- Constraints for `type`: How the service location is given: a saved customer address or an inline address. Values: `"address"`.
 

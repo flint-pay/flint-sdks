@@ -4,11 +4,11 @@
 
 ### authContext.get
 
-Returns non-secret metadata for an API key, CLI OAuth access token, workload access token, or partner app token, including its merchant, environment, sandbox binding, and granted scopes. CLI OAuth sessions include auth_type=oauth and a stable oauth_grant_id instead of api_key_id. Multi-context tokens also include oauth_session_id, context_id, and the context name. A partner app token reports auth_type=partner_app, the merchant it acts for (Flint-Merchant-Id with an app-level token), the token's mode, the sandbox of the merchant's test grant, the grant's current scopes, and the token's expires_at; it runs every partner app token check, so a missing grant returns 403 environment_grant_required. No additional API scope is required.
+Returns non-secret metadata for the credential that sent the request, as one object per credential type selected by auth_type. API keys, CLI logins, workload identities, partner apps, and onboarding sessions are accepted. No scope is required.
 
 `GET /v1/auth-context`
 
-Signature: `get(params?: AuthContextGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>)`
+Signature: `get(params?: AuthContextGetParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant" | "onboarding">>)`
 
 #### Request fields
 
@@ -29,6 +29,7 @@ Returned payload: [AuthContext](../models/AuthContext.md#authcontext).
 | 400 | InvalidRequestError |
 | 401 | AuthenticationError |
 | 403 | PermissionError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -41,7 +42,7 @@ Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: en
 
 Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
 
-Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+Authentication modes: `merchant`, `onboarding`. [Credential setup](../RUNTIME.md#authentication).
 
 #### Example
 

@@ -8,7 +8,7 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `order` | Required | [BuyerOrderInput](../models/BuyerOrderInput.md#buyerorderinput) | A customer's purchase and its payment and fulfillment progress. |
-| `order_payment_attempt` | Required | [BuyerOrderPaymentAttemptInput](../models/BuyerOrderPaymentAttemptInput.md#buyerorderpaymentattemptinput) or null |  |
-| `subscription` | Required | [BuyerSubscriptionInput](../models/BuyerSubscriptionInput.md#buyersubscriptioninput) | A customer's recurring purchase. |
+| `order` | Required | [BuyerOrderInput](../models/BuyerOrderInput.md#buyerorderinput) | The renewal order the attempt charged. A customer's purchase and its payment and fulfillment progress. |
+| `order_payment_attempt` | Required | [BuyerOrderPaymentAttemptInput](../models/BuyerOrderPaymentAttemptInput.md#buyerorderpaymentattemptinput) | The payment attempt that charged the renewal order, including when the payment was declined. Read `last_payment_error` on it for a failed payment. An attempt to pay an order. |
+| `subscription` | Required | [BuyerSubscriptionInput](../models/BuyerSubscriptionInput.md#buyersubscriptioninput) | The subscription after the renewal attempt. A customer's recurring purchase. |
 

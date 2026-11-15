@@ -28,6 +28,7 @@ Returned payload: [EmailPreferenceLink](../models/EmailPreferenceLink.md#emailpr
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 413 | ApiError |
 | 415 | ApiError |
 | 429 | RateLimitError |

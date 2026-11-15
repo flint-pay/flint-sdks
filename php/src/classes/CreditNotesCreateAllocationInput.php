@@ -5,10 +5,10 @@ namespace Flint;
  * @internal
  *
  * @property-read string $credit_note_id
- * @property-read array{'amount_money': mixed, 'expected_version'?: int}|object $body
+ * @property-read array{'amount_money': mixed, 'expected_credit_note_version'?: int}|object $body
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreditNotesCreateAllocationInput extends Model {
-    /** @param array{'credit_note_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'amount_money': mixed, 'expected_version'?: int}|object}|object $values */
+    /** @param array{'credit_note_id': string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string, 'body': array{'amount_money': mixed, 'expected_credit_note_version'?: int}|object}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreditNotesCreateAllocationInput')); }
     /** Flint credit note ID. Example: "cn_01KEZF7C00N1TRRCVDNY8S471H".
      * @return string
@@ -35,7 +35,7 @@ final class CreditNotesCreateAllocationInput extends Model {
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
     /** The request body for: Allocate credit note.
-     * @return array{'amount_money': mixed, 'expected_version'?: int}|object
+     * @return array{'amount_money': mixed, 'expected_credit_note_version'?: int}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
     public function getBody(): array|object { return $this->get('body'); }

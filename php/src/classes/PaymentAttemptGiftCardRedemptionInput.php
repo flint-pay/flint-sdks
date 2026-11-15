@@ -11,19 +11,19 @@ namespace Flint;
 final class PaymentAttemptGiftCardRedemptionInput extends Model {
     /** @param array{'amount_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'gift_card_id': string, 'gift_card_redemption_id': string, 'last4': string, 'tip_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PaymentAttemptGiftCardRedemptionInput')); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The amount reserved on the gift card for this attempt, in USD, including `tip_money`. It is taken from the card only if the attempt succeeds. A failed or canceled attempt releases it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When amount_money is omitted; use hasAmountMoney() or valueOrDefault().
      */
     public function getAmountMoney(): mixed { return $this->get('amount_money'); }
     public function hasAmountMoney(): bool { return $this->has('amount_money'); }
-    /** Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
+    /** ID of the gift card redeemed. Example: "gc_01KEZF7C00RT1618WYBM1Y94CG".
      * @return string
      * @throws SdkError When gift_card_id is omitted; use hasGiftCardId() or valueOrDefault().
      */
     public function getGiftCardId(): string { return $this->get('gift_card_id'); }
     public function hasGiftCardId(): bool { return $this->has('gift_card_id'); }
-    /** Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
+    /** ID of the redemption that holds this amount on the gift card. Example: "gcr_01KEZF7C002YD2G2J734RRZTWT".
      * @return string
      * @throws SdkError When gift_card_redemption_id is omitted; use hasGiftCardRedemptionId() or valueOrDefault().
      */
@@ -35,7 +35,7 @@ final class PaymentAttemptGiftCardRedemptionInput extends Model {
      */
     public function getLast4(): string { return $this->get('last4'); }
     public function hasLast4(): bool { return $this->has('last4'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The part of `amount_money` that is a tip. Zero when the redemption carries no tip. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tip_money is omitted; use hasTipMoney() or valueOrDefault().
      */

@@ -1,10 +1,10 @@
-import { d1360 as c0 } from '../descriptors/data/62.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d7023 as c1, d7024 as c2, d7025 as c3, d7026 as c4, d7027 as c5 } from '../descriptors/data/326.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
-import { d1360 as d1360 } from '../descriptors/data/62.js?sdk=fc3d4ebb81eff43cd1f2116b8f7163d9d3ffa65df69e12dfc8436f5ae8aff897';
+import { d1428 as c0 } from '../descriptors/data/68.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d7358 as c1, d7359 as c2, d7360 as c3, d7361 as c4, d7362 as c5 } from '../descriptors/data/352.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
+import { d1428 as d1428 } from '../descriptors/data/68.js?sdk=bb0d7e74351abfed942ea144dbe99f50da6117785add7c8de338b21bf11fbc5a';
 import { lazyCodec, preparedCodec } from '../descriptor-source.js';
-const read = d1360;
+const read = d1428;
 let prepared;
-function codec() { return prepared ??= preparedCodec(read(), {["SaveMeGiftCardRequest"]:c0(),["SharedCodec1420"]:c1(),["SharedCodec1421"]:c2(),["SharedCodec1422"]:c3(),["SharedCodec1423"]:c4(),["SharedCodec1424"]:c5()}); }
+function codec() { return prepared ??= preparedCodec(read(), {["SaveMeGiftCardRequest"]:c0(),["SharedCodec1528"]:c1(),["SharedCodec1529"]:c2(),["SharedCodec1530"]:c3(),["SharedCodec1531"]:c4(),["SharedCodec1532"]:c5()}); }
 export { codec as _validate };
 import { modelFromCodec } from '../runtime.js';
 export function makeSaveMeGiftCardRequest(value) { return modelFromCodec(value, {...codec(), constraints: true}); }

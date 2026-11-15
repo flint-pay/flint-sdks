@@ -2,17 +2,17 @@
 declare(strict_types=1);
 namespace Flint;
 /**
- * @property-read array{'custom_amount_bounds'?: GiftCardCustomAmountBoundsInput|array<array-key, mixed>|\stdClass, 'face_value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'price_mode': string, ...}|object|null $configuration
+ * @property-read GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass $configuration
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $consideration_money
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $face_value_money
  * @property-read GiftCardPurchaseRecipientInput|array<array-key, mixed>|\stdClass $recipient
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $reference_price_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class GiftCardPurchaseSnapshotInput extends Model {
-    /** @param array{'configuration': array{'custom_amount_bounds'?: GiftCardCustomAmountBoundsInput|array<array-key, mixed>|\stdClass, 'face_value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'price_mode': string, ...}|object|null, 'consideration_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'face_value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'recipient'?: GiftCardPurchaseRecipientInput|array<array-key, mixed>|\stdClass, 'reference_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'configuration': GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass, 'consideration_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'face_value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'recipient'?: GiftCardPurchaseRecipientInput|array<array-key, mixed>|\stdClass, 'reference_price_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('GiftCardPurchaseSnapshotInput')); }
-    /** The gift card offer's terms as they were when the line was added: price mode, face value, and any custom amount bounds. anyOf[1] (Value): {@see GiftCardProductConfigurationInput}. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts. anyOf[2] (Value): null.
-     * @return array{'custom_amount_bounds'?: GiftCardCustomAmountBoundsInput|array<array-key, mixed>|\stdClass, 'face_value_money': MoneyValueInput|array<array-key, mixed>|\stdClass, 'price_mode': string, ...}|object|null
+    /** The gift card offer's terms as they were when the line was added: price mode, face value, and any custom amount bounds. Gift card settings on a product variant: its `face_value_money`, price mode (face value or discounted), and bounds for custom amounts.
+     * @return GiftCardProductConfigurationInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When configuration is omitted; use hasConfiguration() or valueOrDefault().
      */
     public function getConfiguration(): mixed { return $this->get('configuration'); }

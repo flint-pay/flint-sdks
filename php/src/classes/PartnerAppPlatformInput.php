@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read list<PartnerAppPlatformCapabilityInput|array<array-key, mixed>|\stdClass> $capabilities
+ * @property-read PartnerAppPlatformCurrentTermsInput|array<array-key, mixed>|\stdClass $current_terms
  * @property-read PartnerAppPlatformLimitsInput|array<array-key, mixed>|\stdClass $limits
  * @property-read list<string> $requirements
  * @property-read PartnerAppPlatformReserveInput|array<array-key, mixed>|\stdClass $reserve
@@ -10,7 +11,7 @@ namespace Flint;
  * @property-read array{'accepted_at': string|\DateTimeInterface, 'accepted_by': ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'platform_terms_version': string, ...}|object|null $terms_acceptance
  * Presence-aware input; omitted fields throw when accessed. */
 final class PartnerAppPlatformInput extends Model {
-    /** @param array{'capabilities': list<PartnerAppPlatformCapabilityInput|array<array-key, mixed>|\stdClass>, 'limits'?: PartnerAppPlatformLimitsInput|array<array-key, mixed>|\stdClass, 'requirements': list<string>, 'reserve'?: PartnerAppPlatformReserveInput|array<array-key, mixed>|\stdClass, 'status': string, 'terms_acceptance': array{'accepted_at': string|\DateTimeInterface, 'accepted_by': ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'platform_terms_version': string, ...}|object|null, ...}|object $values */
+    /** @param array{'capabilities': list<PartnerAppPlatformCapabilityInput|array<array-key, mixed>|\stdClass>, 'current_terms': PartnerAppPlatformCurrentTermsInput|array<array-key, mixed>|\stdClass, 'limits'?: PartnerAppPlatformLimitsInput|array<array-key, mixed>|\stdClass, 'requirements': list<string>, 'reserve'?: PartnerAppPlatformReserveInput|array<array-key, mixed>|\stdClass, 'status': string, 'terms_acceptance': array{'accepted_at': string|\DateTimeInterface, 'accepted_by': ResourceReferenceInput|array<array-key, mixed>|\stdClass, 'platform_terms_version': string, ...}|object|null, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppPlatformInput')); }
     /** One entry per platform capability, in the same order for every app. [] (Value): {@see PartnerAppPlatformCapabilityInput}. One platform capability and whether the app can use it in live mode.
      * @return list<PartnerAppPlatformCapabilityInput|array<array-key, mixed>|\stdClass>
@@ -18,6 +19,12 @@ final class PartnerAppPlatformInput extends Model {
      */
     public function getCapabilities(): array { return $this->get('capabilities'); }
     public function hasCapabilities(): bool { return $this->has('capabilities'); }
+    /** The platform terms version Flint accepts now. Send its platform_terms_version to accept-platform-terms. The app has accepted it when terms_acceptance.platform_terms_version is the same. The current version of Flint's platform terms: the only version accept-platform-terms accepts.
+     * @return PartnerAppPlatformCurrentTermsInput|array<array-key, mixed>|\stdClass
+     * @throws SdkError When current_terms is omitted; use hasCurrentTerms() or valueOrDefault().
+     */
+    public function getCurrentTerms(): mixed { return $this->get('current_terms'); }
+    public function hasCurrentTerms(): bool { return $this->has('current_terms'); }
     /** The platform's live merchant and monthly volume limits, present once Flint has approved or limited the app. Limits are soft: crossing one never refuses or interrupts a payment or an onboarding step. Flint staff are alerted and may limit or pause the app. Soft limits on the platform's live use, and its usage against them.
      * @return PartnerAppPlatformLimitsInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When limits is omitted; use hasLimits() or valueOrDefault().

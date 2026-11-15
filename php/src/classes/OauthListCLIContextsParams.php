@@ -8,13 +8,13 @@ namespace Flint;
 final class OauthListCLIContextsParams extends Model {
     /** @param array{'client_id': string, 'refresh_token': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('OauthListCLIContextsParams')); }
-    /** Example: "flint-cli". Value enum: "flint-cli".
+    /** The public client ID, always `flint-cli`. The client has no secret: a client_secret field or an Authorization header returns invalid_client. Example: "flint-cli". Value enum: "flint-cli".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */
     public function getClientId(): string { return $this->get('client_id'); }
     public function hasClientId(): bool { return $this->has('client_id'); }
-    /** refresh_token
+    /** The session's current refresh token. This request reads the session and doesn't rotate the token. An unknown, expired, or revoked token returns invalid_grant.
      * @return string
      * @throws SdkError When refresh_token is omitted; use hasRefreshToken() or valueOrDefault().
      */

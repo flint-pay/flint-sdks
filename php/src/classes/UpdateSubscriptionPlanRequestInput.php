@@ -6,11 +6,14 @@ namespace Flint;
  * @property-read int $billing_interval_count
  * @property-read list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass> $billing_interval_options
  * @property-read int $contract_term_months
+ * @property-read string|null $delivery_interval
+ * @property-read int|null $delivery_interval_count
  * @property-read string|null $description
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $early_termination_fee_money
  * @property-read array{'cycle_count': int, 'type': string}|object|null $end_after
  * @property-read int $expected_version
  * @property-read string|null $external_reference_id
+ * @property-read bool $gifts_enabled
  * @property-read list<ImageRequestInput|array<array-key, mixed>|\stdClass> $images
  * @property-read InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass $inventory_routing_source
  * @property-read list<UpdateSubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass> $line_items
@@ -24,21 +27,21 @@ namespace Flint;
  * @property-read int $trial_period_days
  * Presence-aware input; omitted fields throw when accessed. */
 final class UpdateSubscriptionPlanRequestInput extends Model {
-    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_interval_options'?: list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'description'?: string|null, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<UpdateSubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'plan_change_options'?: list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass>, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status'?: string, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int}|object $values */
+    /** @param array{'billing_interval'?: string, 'billing_interval_count'?: int, 'billing_interval_options'?: list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>, 'contract_term_months'?: int, 'delivery_interval'?: string|null, 'delivery_interval_count'?: int|null, 'description'?: string|null, 'early_termination_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'end_after'?: array{'cycle_count': int, 'type': string}|object|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'gifts_enabled'?: bool, 'images'?: list<ImageRequestInput|array<array-key, mixed>|\stdClass>, 'inventory_routing_source'?: InventoryRoutingSourceRequestInput|array<array-key, mixed>|\stdClass, 'line_items'?: list<UpdateSubscriptionPlanLineItemRequestInput|array<array-key, mixed>|\stdClass>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string, 'plan_change_options'?: list<SubscriptionPlanChangeOptionRequestInput|array<array-key, mixed>|\stdClass>, 'quantity_options'?: list<int>, 'setup_fee_money'?: MoneyValueInput|array<array-key, mixed>|\stdClass, 'status'?: string, 'subscription_delivery_method_ids'?: list<string>, 'trial_period_days'?: int}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('UpdateSubscriptionPlanRequestInput')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** New unit of the plan's default billing period. Omit to keep it. A plan with its own `billing_interval_options` must list the new default pair among them, so send options that include it unless they already do. Existing subscriptions keep the interval they already bill on. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32.
+    /** New number of `billing_interval` units between charges on the plan's default pair, up to 365. Omit to keep it. The same rule about `billing_interval_options` applies. Format: int32.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Omission leaves the choices unchanged. Send [] to reset to the plan's default billing interval and count. Null is invalid. Every option bills the same line prices once per period. Use separate plans for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionRequestInput}. A billing cadence offered by a subscription plan or offer. Every option bills the same line prices once per period; prices are not scaled by the interval. For a different price per interval, create separate plans.
+    /** Omission leaves the choices unchanged. Send [] to reset to the plan's default billing interval and count. Null is invalid. Prices of lines that ship are per delivery. Each option charges for all deliveries in its period. Use separate plans or promotions for different prices per interval. maxItems: 12. uniqueItems: true. [] (Value): {@see SubscriptionIntervalOptionRequestInput}. A billing interval, such as every 2 months, that a plan, offer, or subscription lets buyers choose. Prices of lines that ship are per delivery, and each option charges for all deliveries in its period. Without a delivery cadence there is one delivery per period, so every option bills the same line prices once per period. With a delivery cadence, a longer period bills more deliveries of the lines that ship; other lines bill once per period. For a different price per interval with no delivery cadence, create separate plans.
      * @return list<SubscriptionIntervalOptionRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When billing_interval_options is omitted; use hasBillingIntervalOptions() or valueOrDefault().
      */
@@ -50,6 +53,18 @@ final class UpdateSubscriptionPlanRequestInput extends Model {
      */
     public function getContractTermMonths(): int { return $this->get('contract_term_months'); }
     public function hasContractTermMonths(): bool { return $this->has('contract_term_months'); }
+    /** Delivery cadence, set together with delivery_interval_count. Null when no separate delivery cadence is set; one delivery is made per billing period. Each billing option must be a whole multiple in the same unit family (days/weeks or months/years), with 1 to 24 deliveries per period. Existing subscriptions keep their frozen cadence. Omit both fields on PATCH to keep the cadence; send both as null to clear it. Value enum: "daily", "weekly", "monthly", "yearly", null.
+     * @return string|null
+     * @throws SdkError When delivery_interval is omitted; use hasDeliveryInterval() or valueOrDefault().
+     */
+    public function getDeliveryInterval(): string|null { return $this->get('delivery_interval'); }
+    public function hasDeliveryInterval(): bool { return $this->has('delivery_interval'); }
+    /** Positive number of delivery intervals between deliveries. Set or clear together with delivery_interval. Null when no separate delivery cadence is set; one delivery is made per billing period. Format: int32. minimum: 1.
+     * @return int|null
+     * @throws SdkError When delivery_interval_count is omitted; use hasDeliveryIntervalCount() or valueOrDefault().
+     */
+    public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
+    public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
     /** Omission leaves this field unchanged. Null clears it. minLength: 1.
      * @return string|null
      * @throws SdkError When description is omitted; use hasDescription() or valueOrDefault().
@@ -80,6 +95,12 @@ final class UpdateSubscriptionPlanRequestInput extends Model {
      */
     public function getExternalReferenceId(): string|null { return $this->get('external_reference_id'); }
     public function hasExternalReferenceId(): bool { return $this->has('external_reference_id'); }
+    /** Whether checkout buyers can name a gift recipient. Checkout sessions that are already open keep the setting they were created with.
+     * @return bool
+     * @throws SdkError When gifts_enabled is omitted; use hasGiftsEnabled() or valueOrDefault().
+     */
+    public function getGiftsEnabled(): bool { return $this->get('gifts_enabled'); }
+    public function hasGiftsEnabled(): bool { return $this->has('gifts_enabled'); }
     /** The complete desired gallery in display order. The first image is primary. Send [] to clear the gallery. minItems: 0. maxItems: 8. [] (Value): {@see ImageRequestInput}. An image you supply by `source_url`, with optional `alt` text and external reference.
      * @return list<ImageRequestInput|array<array-key, mixed>|\stdClass>
      * @throws SdkError When images is omitted; use hasImages() or valueOrDefault().
@@ -104,7 +125,7 @@ final class UpdateSubscriptionPlanRequestInput extends Model {
      */
     public function getMetadata(): mixed { return $this->get('metadata'); }
     public function hasMetadata(): bool { return $this->has('metadata'); }
-    /** minLength: 1.
+    /** New name of the plan. Omit to keep it. Can't be empty. minLength: 1.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
@@ -116,13 +137,13 @@ final class UpdateSubscriptionPlanRequestInput extends Model {
      */
     public function getPlanChangeOptions(): array { return $this->get('plan_change_options'); }
     public function hasPlanChangeOptions(): bool { return $this->has('plan_change_options'); }
-    /** Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems: 10. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 100.
+    /** Omission leaves the choices unchanged. Send [] to reset to [1]. Null is invalid. maxItems: 1. uniqueItems: true. [] (Value): integer. minimum: 1. maximum: 1.
      * @return list<int>
      * @throws SdkError When quantity_options is omitted; use hasQuantityOptions() or valueOrDefault().
      */
     public function getQuantityOptions(): array { return $this->get('quantity_options'); }
     public function hasQuantityOptions(): bool { return $this->has('quantity_options'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** New one-time fee charged with the first payment of a new subscription, except one that continues an imported paid period. Must be above zero and in the plan's currency. Omit to keep it; send `null` to remove it. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValueInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When setup_fee_money is omitted; use hasSetupFeeMoney() or valueOrDefault().
      */

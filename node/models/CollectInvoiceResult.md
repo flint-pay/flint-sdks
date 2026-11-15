@@ -10,6 +10,6 @@ The invoice is the primary resource and expected_version target; invoice_payment
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `invoice` | Required | [Invoice](../models/Invoice.md#invoice) | A bill issued to a customer. |
-| `invoice_payment_attempt` | Required | [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#invoicepaymentattempt) or null |  |
+| `invoice` | Required | [Invoice](../models/Invoice.md#invoice) | The invoice as it stands after this collection request. Send its `version` as `expected_version` on later invoice writes. A bill issued to a customer. |
+| `invoice_payment_attempt` | Required | [InvoicePaymentAttempt](../models/InvoicePaymentAttempt.md#invoicepaymentattempt) | The invoice payment attempt this collect request started or reused. A repeat of the same request returns the existing attempt. Read its `status` to follow the charge. An attempt to collect payment for an invoice. |
 

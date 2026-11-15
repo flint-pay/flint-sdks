@@ -3,10 +3,11 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $current_email_code
+ * @property-read bool $move_flint_wallet
  * @property-read string $new_email_code
  * Presence-aware input; omitted fields throw when accessed. */
 final class MeConfirmEmailChangeRequestParams extends Model {
-    /** @param array{'current_email_code'?: string, 'new_email_code': string}|object $values */
+    /** @param array{'current_email_code'?: string, 'move_flint_wallet'?: bool, 'new_email_code': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('MeConfirmEmailChangeRequestParams')); }
     /** The six-digit code emailed to the current address. Required when `current_email_confirmation_required` is `true`. minLength: 1. pattern: ^[0-9]{6}$.
      * @return string
@@ -14,6 +15,12 @@ final class MeConfirmEmailChangeRequestParams extends Model {
      */
     public function getCurrentEmailCode(): string { return $this->get('current_email_code'); }
     public function hasCurrentEmailCode(): bool { return $this->has('current_email_code'); }
+    /** Also move cards saved with Flint from the previous email to the new email. Defaults to false. Accepted only from customer sessions that can access GET /v1/me/flint-wallet/cards: a live email-code sign-in at a Flint-hosted account. Other sessions may not send this field, even as false. Default: false.
+     * @return bool
+     * @throws SdkError When move_flint_wallet is omitted; use hasMoveFlintWallet() or valueOrDefault().
+     */
+    public function getMoveFlintWallet(): bool { return $this->get('move_flint_wallet'); }
+    public function hasMoveFlintWallet(): bool { return $this->has('move_flint_wallet'); }
     /** The six-digit code emailed to the new address. minLength: 1. pattern: ^[0-9]{6}$.
      * @return string
      * @throws SdkError When new_email_code is omitted; use hasNewEmailCode() or valueOrDefault().

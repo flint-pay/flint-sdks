@@ -13,6 +13,7 @@ namespace Flint;
  * @property-read int $min_quantity
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $min_unit_price_money
  * @property-read string $name
+ * @property-read string $product_type
  * @property-read int $quantity
  * @property-read list<MoneyValueInput|array<array-key, mixed>|\stdClass> $suggested_unit_price_money_options
  * @property-read OrderLineItemTaxRequestInput|array<array-key, mixed>|\stdClass $tax
@@ -90,6 +91,12 @@ final class PaymentLinkLineItemRequestInput extends Model {
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
+    /** Classification of a custom line for ACH debit: physical, digital, service, or fee. Omit to leave it unclassified; no default is inferred from fulfillment. Null is not accepted. Does not change tax, delivery, or inventory. On an order line PATCH, omission preserves the classification. Catalog lines use their product's type and reject this input. Value enum: "physical", "service", "fee", "digital".
+     * @return string
+     * @throws SdkError When product_type is omitted; use hasProductType() or valueOrDefault().
+     */
+    public function getProductType(): string { return $this->get('product_type'); }
+    public function hasProductType(): bool { return $this->has('product_type'); }
     /** Whole-number default quantity; fractional quantities are not supported. Omission uses 1. Must be at least 1 for standard links; event tiers also accept 0. Format: int32. Default: 1.
      * @return int
      * @throws SdkError When quantity is omitted; use hasQuantity() or valueOrDefault().

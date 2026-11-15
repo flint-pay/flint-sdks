@@ -2,6 +2,83 @@
 
 # returnReceipts
 
+### returnReceipts.create
+
+Record an immutable merchandise receipt observation. Corrections supersede an earlier receipt instead of editing physical history. Read receipts with `GET /v1/return-receipts?return_id=` or expand `return_receipts` on `GET /v1/returns/{return_id}`.
+
+`POST /v1/return-receipts`
+
+Signature: `create(params: ReturnReceiptsCreateParams, options: _SdkRequiredIdempotency<RequestOptions<"merchant">>)`
+
+#### Request fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
+| `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `body` | Required | [CreateReturnReceiptRequestInput](../models/CreateReturnReceiptRequest.md#createreturnreceiptrequest) | The request body for: Create return receipt. |
+
+Body model: [CreateReturnReceiptRequestInput](../models/CreateReturnReceiptRequest.md#createreturnreceiptrequest).
+
+#### returnReceipts.create body fields
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `correction_reason` | Optional | string | Why this observation replaces an earlier one. Send with `supersedes_return_receipt_id` or `supersedes_return_inspection_id`. Values: `"entry_error"`, `"duplicate_observation"`, `"source_correction"`, `"reconciliation_correction"`, `"other"`. |
+| `correction_reason_message` | Optional | string | Detail about `correction_reason`. minLength: `1`. |
+| `external_actor_id` | Optional | string | Your identifier for the actor who recorded the event. Don't put secrets in this field. minLength: `1`. maxLength: `255`. |
+| `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. |
+| `line_items` | Required | Array of [ReturnReceiptLineItemRequestInput](../models/ReturnReceiptLineItemRequest.md#returnreceiptlineitemrequest) | The lines recorded. minItems: `1`. |
+| `received_at` | Required | string | When the event occurred, at most 5 minutes in the future. Format: `date-time`. minLength: `1`. |
+| `receiving_location_id` | Required | string | ID of the Location that received the goods. minLength: `1`. |
+| `return_id` | Required | string | ID of the Return the goods belong to. minLength: `1`. |
+| `shipment_id` | Optional | string | ID of the return shipment the goods arrived in. Absent when the receipt isn't tied to a shipment. minLength: `1`. |
+| `source_system` | Optional | [ReturnSourceSystemRequestInput](../models/ReturnSourceSystemRequest.md#returnsourcesystemrequest) | System that recorded the observation. `null` when no source system was recorded. The system a return event came from, such as a point of sale or warehouse system, with its own identifier. |
+| `supersedes_return_receipt_id` | Optional | string | ID of the receipt this one corrects. minLength: `1`. |
+
+#### Response
+
+Returned payload: [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt).
+
+#### Errors
+
+| Status | Error class |
+| --- | --- |
+| 400 | InvalidRequestError |
+| 401 | AuthenticationError |
+| 403 | PermissionError |
+| 404 | NotFoundError |
+| 409 | ConflictError |
+| 413 | ApiError |
+| 415 | ApiError |
+| 429 | RateLimitError |
+| 500 | ServerError |
+| 503 | ServerError |
+
+Other failures: [runtime error reference](../RUNTIME.md#error-reference).
+
+#### Request behavior
+
+Attempt limit: 3; retry statuses: 429, 500, 502, 503, 504; transport retries: enabled. See [retries and idempotency](../RUNTIME.md#retries-and-idempotency).
+
+Complete body and metadata: lastResponse. See [response modes](../RUNTIME.md#responses-and-errors).
+
+Idempotent: key required, [As long as the command's effects exist. The key is the command's durable identity: save it before the first attempt and reuse it to retry or recover. Never reuse it for a new business intent retention](../RUNTIME.md#idempotency).
+
+Authentication modes: `merchant`. [Credential setup](../RUNTIME.md#authentication).
+
+#### Example
+
+```typescript
+// Persist this key with the action before sending; reuse it for every resubmission.
+const idempotencyKey = crypto.randomUUID();
+
+const result = await client.returnReceipts.create({line_items: [{quantity: 1, return_line_item_id: "retli_01KEZF7C001NHF6JPD83VD0MRK", type: "matched"}], received_at: "2026-09-08T14:00:00Z", receiving_location_id: "loc_01K1P6G4M7H2N8Q9R3S5T6V7WX", return_id: "ret_01KEZF7C00VDTZH2NK73DBK2HZ", source_system: {source_system_type: "manual"}}, { idempotencyKey: idempotencyKey });
+```
+
+[Complete runnable example](../examples/returnReceipts-create.mjs)
+
 ### returnReceipts.get
 
 Retrieve one merchandise receipt with its line items and its current or superseded observation status.
@@ -31,6 +108,7 @@ Returned payload: [ReturnReceipt](../models/ReturnReceipt.md#returnreceipt).
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |
@@ -68,16 +146,16 @@ Signature: `list(params?: ReturnReceiptsListParams, options?: _SdkWithoutIdempot
 | `created_after` | Optional | string | Inclusive lower bound on created_at. Format: `date-time`. |
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `external_reference_id` | Optional | string | Exact-match filter on the caller-owned external reference ID. minLength: `1`. maxLength: `255`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. Format: `int32`. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `query` | Optional | string | Search by return receipt ID or external reference ID. |
 | `received_after` | Optional | string | Inclusive lower bound on received_at. Format: `date-time`. |
 | `received_before` | Optional | string | Exclusive upper bound on received_at. Format: `date-time`. |
-| `receiving_location_id` | Optional | string | Filter by receiving location id. |
-| `return_id` | Optional | string | Filter by return id. |
-| `return_line_item_id` | Optional | string | Filter by return line item id. |
-| `shipment_id` | Optional | string | Filter by shipment id. |
+| `receiving_location_id` | Optional | string | Filter by receiving location id. pattern: `^loc_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `return_id` | Optional | string | Filter by return id. pattern: `^ret_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `return_line_item_id` | Optional | string | Filter by return line item id. pattern: `^retli_[0-9A-HJKMNP-TV-Z]{26}$`. |
+| `shipment_id` | Optional | string | Filter by shipment id. pattern: `^shp_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `source_system_type` | Optional | Array of string or string | Filter by source system type. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. Values: `"manual"`, `"pos"`, `"wms"`, `"erp"`, `"other"`, `"flint"`. |
 | `status` | Optional | Array of string or string | Filter by status. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"current"`, `"superseded"`. Values: `"current"`, `"superseded"`. |
 | `updated_after` | Optional | string | Inclusive lower bound on updated_at. Format: `date-time`. |
@@ -99,6 +177,7 @@ Returned payload: [ListReturnReceiptsResponse](../models/ListReturnReceiptsRespo
 | 401 | AuthenticationError |
 | 403 | PermissionError |
 | 404 | NotFoundError |
+| 409 | ConflictError |
 | 429 | RateLimitError |
 | 500 | ServerError |
 | 503 | ServerError |

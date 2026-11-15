@@ -12,7 +12,7 @@ One band of a tiered pricing strategy you supply, covering values of the strateg
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `currency_options` | Required | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) |  |
-| `from` | Required | integer | Format: `int64`. |
-| `to` | Optional | integer | Format: `int64`. |
+| `currency_options` | Required | Map of [MoneyValueInput](../models/MoneyValueInput.md#moneyvalueinput) | Price by ISO 4217 currency code. Each key must equal the currency of its Money value. |
+| `from` | Required | integer | Inclusive lower bound. The first band starts at 0; every later band starts at the previous band's `to`. Format: `int64`. |
+| `to` | Optional | integer | Exclusive upper bound. Required for every band except the final band, where it must be omitted. Format: `int64`. |
 

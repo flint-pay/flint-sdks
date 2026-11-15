@@ -10,7 +10,7 @@ namespace Flint;
 final class CreateDeliveryPickupLocationsPreviewRequestInput extends Model {
     /** @param array{'buyer_location'?: DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass, 'checkout_session_id': string, 'maximum_distance'?: DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass, 'mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateDeliveryPickupLocationsPreviewRequestInput')); }
-    /** The buyer's location for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
+    /** Buyer location to measure pickup distance from. Locations are ordered nearest first when it is set. The buyer's location for pickup or local delivery, supplied as an address or a coordinate, chosen by `type`.
      * @return DeliveryBuyerLocationRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When buyer_location is omitted; use hasBuyerLocation() or valueOrDefault().
      */
@@ -22,7 +22,7 @@ final class CreateDeliveryPickupLocationsPreviewRequestInput extends Model {
      */
     public function getCheckoutSessionId(): string { return $this->get('checkout_session_id'); }
     public function hasCheckoutSessionId(): bool { return $this->has('checkout_session_id'); }
-    /** A maximum distance from the buyer location, as a value and unit, that limits which pickup locations a preview returns.
+    /** Farthest a pickup Location can be from the buyer location. Omit it to apply no limit. A maximum distance from the buyer location, as a value and unit, that limits which pickup locations a preview returns.
      * @return DeliveryPickupAvailabilityMaximumDistanceRequestInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When maximum_distance is omitted; use hasMaximumDistance() or valueOrDefault().
      */

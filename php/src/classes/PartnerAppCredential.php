@@ -5,6 +5,7 @@ namespace Flint;
  * @property-read string $created_at
  * @property-read ?PartnerAppCredentialJWKSURL $jwks_url
  * @property-read string|null $last_used_at
+ * @property-read list<string> $modes
  * @property-read string|null $name
  * @property-read string $partner_app_credential_id
  * @property-read string $partner_app_id
@@ -14,14 +15,14 @@ namespace Flint;
  * @property-read ?PartnerAppCredentialWorkloadIdentity $workload_identity
  * Presence-aware response; omitted optional fields return null. */
 final class PartnerAppCredential extends Model {
-    /** @param array{'created_at': string, 'jwks_url'?: mixed, 'last_used_at': string|null, 'name': string|null, 'partner_app_credential_id': string, 'partner_app_id': string, 'public_key'?: mixed, 'status': string, 'type': string, 'workload_identity'?: mixed, ...}|object $values */
+    /** @param array{'created_at': string, 'jwks_url'?: mixed, 'last_used_at': string|null, 'modes': list<string>, 'name': string|null, 'partner_app_credential_id': string, 'partner_app_id': string, 'public_key'?: mixed, 'status': string, 'type': string, 'workload_identity'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PartnerAppCredential')); }
     /** RFC3339 timestamp. Format: date-time.
      * @return string
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** A registered JWKS URL and its most recent successful fetch.
+    /** The registered JWKS URL. Present only when type is jwks_url. A registered JWKS URL and its most recent successful fetch.
      * @return ?PartnerAppCredentialJWKSURL
      */
     public function getJwksUrl(): ?PartnerAppCredentialJWKSURL { return $this->get('jwks_url'); }
@@ -31,6 +32,11 @@ final class PartnerAppCredential extends Model {
      */
     public function getLastUsedAt(): string|null { return $this->get('last_used_at'); }
     public function hasLastUsedAt(): bool { return $this->has('last_used_at'); }
+    /** Modes this credential can mint partner app tokens for, in the order live, test. A mint for another mode returns 400 unauthorized_client. Set at creation and never changed. minItems: 1. maxItems: 2. uniqueItems: true. [] enum: "live", "test". [] (Value): string.  Value enum: "live", "test".
+     * @return list<string>
+     */
+    public function getModes(): array { return $this->get('modes'); }
+    public function hasModes(): bool { return $this->has('modes'); }
     /** Name given to the credential when it was created. `null` when it has no name.
      * @return string|null
      */
@@ -41,17 +47,17 @@ final class PartnerAppCredential extends Model {
      */
     public function getPartnerAppCredentialId(): string { return $this->get('partner_app_credential_id'); }
     public function hasPartnerAppCredentialId(): bool { return $this->has('partner_app_credential_id'); }
-    /** partner_app_id
+    /** ID of the partner app this credential authenticates.
      * @return string
      */
     public function getPartnerAppId(): string { return $this->get('partner_app_id'); }
     public function hasPartnerAppId(): bool { return $this->has('partner_app_id'); }
-    /** A registered public JSON Web Key and its RFC 7638 SHA-256 thumbprint.
+    /** The registered public key. Present only when type is public_key. A registered public JSON Web Key and its RFC 7638 SHA-256 thumbprint.
      * @return ?PartnerAppCredentialPublicKey
      */
     public function getPublicKey(): ?PartnerAppCredentialPublicKey { return $this->get('public_key'); }
     public function hasPublicKey(): bool { return $this->has('public_key'); }
-    /** Value enum: "active", "removed".
+    /** Whether the credential can authenticate the app now. Value enum: "active", "removed".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }
@@ -61,7 +67,7 @@ final class PartnerAppCredential extends Model {
      */
     public function getType(): string { return $this->get('type'); }
     public function hasType(): bool { return $this->has('type'); }
-    /** The registered external OIDC issuer, exact subject, audience, and claim conditions.
+    /** The registered external OIDC identity. Present only when type is workload_identity. The registered external OIDC issuer, exact subject, audience, and claim conditions.
      * @return ?PartnerAppCredentialWorkloadIdentity
      */
     public function getWorkloadIdentity(): ?PartnerAppCredentialWorkloadIdentity { return $this->get('workload_identity'); }

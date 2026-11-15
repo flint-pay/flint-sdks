@@ -3,11 +3,12 @@ declare(strict_types=1);
 namespace Flint;
 /**
  * @property-read string $order_charge_id
+ * @property-read string $order_id
  * @property-read string $tax_breakdown_id
  * @property-read MoneyValueInput|array<array-key, mixed>|\stdClass $tax_money
  * Presence-aware input; omitted fields throw when accessed. */
 final class RefundTaxBreakdownRefundInput extends Model {
-    /** @param array{'order_charge_id'?: string, 'tax_breakdown_id': string, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
+    /** @param array{'order_charge_id'?: string, 'order_id': string, 'tax_breakdown_id': string, 'tax_money': MoneyValueInput|array<array-key, mixed>|\stdClass, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('RefundTaxBreakdownRefundInput')); }
     /** ID of the order charge whose tax this reverses. Present only in the refund's top-level `tax_breakdown_refunds`. Example: "och_01KEZF7C00XX8AKACP0GHKFWWT".
      * @return string
@@ -15,6 +16,12 @@ final class RefundTaxBreakdownRefundInput extends Model {
      */
     public function getOrderChargeId(): string { return $this->get('order_charge_id'); }
     public function hasOrderChargeId(): bool { return $this->has('order_charge_id'); }
+    /** ID of the order that owns this tax breakdown and its line item or charge, when present. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+     * @return string
+     * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
+     */
+    public function getOrderId(): string { return $this->get('order_id'); }
+    public function hasOrderId(): bool { return $this->has('order_id'); }
     /** ID of the tax breakdown (one jurisdiction's tax) this entry reverses. Example: "txb_01KEZF7C00SHMN8QWCA8PT1HSB".
      * @return string
      * @throws SdkError When tax_breakdown_id is omitted; use hasTaxBreakdownId() or valueOrDefault().

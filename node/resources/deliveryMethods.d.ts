@@ -1,7 +1,8 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { DeliveryMethod, DeliveryMethodListResponse } from '../declarations/types-17.js';
 import type {
+    DeliveryMethod,
+    DeliveryMethodListResponse,
     DeliveryMethodResponse,
     DeliveryMethodsCreateParams,
     DeliveryMethodsDeleteParams,
@@ -9,8 +10,8 @@ import type {
     DeliveryMethodsListParams,
     DeliveryMethodsUpdateParams
 } from '../declarations/types-18.js';
-import type { RequestOptions } from '../declarations/types-51.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+import type { RequestOptions } from '../declarations/types-54.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -27,42 +28,15 @@ export type {
 } from '../runtime.js';
 export type {
     DeliveryMethodsCreateParams,
+    DeliveryMethod,
     DeliveryMethodResponse,
     DeliveryMethodsDeleteParams,
     DeliveryMethodsGetParams,
     DeliveryMethodsListParams,
-    DeliveryMethodsUpdateParams,
-    DeliveryPostalCodeConditionRequestInput,
-    DeliveryPostalCodeValueRequestInput,
-    DeliveryMethodOriginSelectorRequestInput,
-    DeliveryPricingStrategyCreateRequestInput,
-    DeliveryPricingRateCreateRequestInput,
-    DeliveryPricingStrategyCreateInputCalculatedInput,
-    DeliveryPricingStrategyCreateInputCallbackInput,
-    DeliveryPricingStrategyCreateInputCallerSuppliedInput,
-    DeliveryPricingStrategyCreateInputFixedInput,
-    DeliveryPricingStrategyCreateInputRateTableInput,
-    DeliveryPricingStrategyCreateInputTieredInput,
-    DeliveryPricingRateRequestInput,
-    DeliveryPricingStrategyInputCalculatedInput,
-    DeliveryPricingStrategyInputCallbackInput,
-    DeliveryPricingStrategyInputCallerSuppliedInput,
-    DeliveryPricingStrategyInputFixedInput,
-    DeliveryPricingStrategyInputRateTableInput,
-    DeliveryPostalCodeCondition,
-    DeliveryPostalCodeValue,
-    DeliveryPricingStrategy,
-    DeliveryPricingRate,
-    DeliveryPricingStrategyCalculated,
-    DeliveryPricingStrategyCallback,
-    DeliveryPricingStrategyCallerSupplied,
-    DeliveryPricingStrategyFixed
-} from '../declarations/types-18.js';
-export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-51.js';
-export type {
-    DeliveryMethod,
     DeliveryMethodListResponse,
+    DeliveryMethodsUpdateParams,
     DeliveryMethodConfigurationCreateRequestInput,
+    DeliveryMethodOriginSelectorRequestInput,
     DeliveryMethodOriginSelectorInputFixedLocationInput,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupInput,
     DeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSetInput,
@@ -78,8 +52,9 @@ export type {
     DeliveryMethodOriginSelectorPickupLocationCollection,
     DeliveryMethodConfigurationPatchRequestInput,
     DeliveryLocationSetsDeleteParams
-} from '../declarations/types-17.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-18.js';
+export type { RequestOptions, ResponseMeta, ResponseWarning, ResourceReference } from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
 export type {
     CreateDeliveryMethodRequestInput,
@@ -114,18 +89,44 @@ export type {
     DeliveryDistanceUnitPrice,
     DeliveryExternalPricingStrategy,
     DeliveryFixedPricingStrategy
-} from '../declarations/types-16.js';
+} from '../declarations/types-17.js';
+export type {
+    DeliveryPostalCodeConditionRequestInput,
+    DeliveryPostalCodeValueRequestInput,
+    DeliveryPricingStrategyCreateRequestInput,
+    DeliveryPricingRateCreateRequestInput,
+    DeliveryPricingTierBandRequestInput,
+    DeliveryPricingStrategyCreateInputCalculatedInput,
+    DeliveryPricingStrategyCreateInputCallbackInput,
+    DeliveryPricingStrategyCreateInputCallerSuppliedInput,
+    DeliveryPricingStrategyCreateInputFixedInput,
+    DeliveryPricingStrategyCreateInputRateTableInput,
+    DeliveryPricingStrategyCreateInputTieredInput,
+    DeliveryPricingStrategyRequestInput,
+    DeliveryPricingRateRequestInput,
+    DeliveryPricingStrategyInputCalculatedInput,
+    DeliveryPricingStrategyInputCallbackInput,
+    DeliveryPricingStrategyInputCallerSuppliedInput,
+    DeliveryPricingStrategyInputFixedInput,
+    DeliveryPricingStrategyInputRateTableInput,
+    DeliveryPricingStrategyInputTieredInput,
+    DeliveryPostalCodeCondition,
+    DeliveryPostalCodeValue,
+    DeliveryPricingStrategy,
+    DeliveryPricingRate,
+    DeliveryPricingTierBand,
+    DeliveryPricingStrategyCalculated,
+    DeliveryPricingStrategyCallback,
+    DeliveryPricingStrategyCallerSupplied,
+    DeliveryPricingStrategyFixed,
+    DeliveryPricingStrategyRateTable,
+    DeliveryPricingStrategyTiered
+} from '../declarations/types-19.js';
 export type {
     DeliveryRadiusConditionRequestInput,
     DeliveryRadiusOriginInput,
-    DeliveryRateTablePricingStrategyCreateRequestInput,
-    DeliveryRecipientRequirementRequestInput,
-    DeliveryRateTablePricingStrategyRequestInput,
     DeliveryRadiusCondition,
-    DeliveryRadiusOrigin,
-    DeliveryScheduleWindowRule,
-    DeliveryRateTablePricingStrategy,
-    DeliveryRecipientRequirement
+    DeliveryRadiusOrigin
 } from '../declarations/types-20.js';
 export type {
     DeliveryStateConditionRequestInput,
@@ -141,37 +142,37 @@ export type {
     DeliveryStateCondition,
     DeliveryWindowTimeCondition,
     DeliveryZoneCondition,
+    DeliveryScheduleWindowRule,
     DeliveryWeeklyInterval,
     DeliveryTransitTimeRule,
     DeliveryWeightUnitPrice,
     DeliveryTieredPricingStrategy,
     DeliveryTieredPricingStrategyWeight,
     DeliveryTieredPricingStrategyQuantityOrMoney
-} from '../declarations/types-21.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-37.js';
+} from '../declarations/types-22.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
 export type {
-    DeliveryPricingTierBandRequestInput,
-    DeliveryPricingStrategyRequestInput,
-    DeliveryPricingStrategyInputTieredInput,
-    DeliveryPricingTierBand,
-    DeliveryPricingStrategyRateTable,
-    DeliveryPricingStrategyTiered
-} from '../declarations/types-19.js';
-export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-36.js';
-export type { AuthMode, AddRiskListItemsRequest } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { SubscriptionCounts } from '../declarations/types-57.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-63.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeAddRiskListItemsRequest } from '../declarations/types-66.js';
-export { makeBuyerInstructionsConfigRequest } from '../declarations/types-67.js';
+    DeliveryRateTablePricingStrategyCreateRequestInput,
+    DeliveryRecipientRequirementRequestInput,
+    DeliveryRateTablePricingStrategyRequestInput,
+    DeliveryRateTablePricingStrategy,
+    DeliveryRecipientRequirement
+} from '../declarations/types-21.js';
+export type { MetadataRequestInput, MetadataMap, MetadataPatchRequestInput, MetadataPatchRequest } from '../declarations/types-38.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { AddRiskListItemsRequest } from '../declarations/types-0.js';
+export type { SubscriptionCounts } from '../declarations/types-60.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { UpdateDeliveryMethodRequestInput } from '../declarations/types-66.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeAddRiskListItemsRequest, makeBuyerInstructionsConfigRequest } from '../declarations/types-70.js';
 export {
     makeCreateDeliveryMethodRequest,
     makeCreateDeliveryMethodRequestLocalDelivery,
     makeCreateDeliveryMethodRequestPickup,
     makeCreateDeliveryMethodRequestShipment
-} from '../declarations/types-68.js';
+} from '../declarations/types-72.js';
 export {
     makeDeliveryAvailabilityRequest,
     makeDeliveryBlackoutIntervalRequest,
@@ -190,9 +191,7 @@ export {
     makeDeliveryMethodConfigurationCreateRequest,
     makeDeliveryMethodConfigurationPatchRequest,
     makeDeliveryMethodConfigurationRequest,
-    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup
-} from '../declarations/types-71.js';
-export {
+    makeDeliveryMethodOriginSelectorInputAllocatedOriginGroup,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupDeliveryLocationSet,
     makeDeliveryMethodOriginSelectorInputAllocatedOriginGroupLocations,
     makeDeliveryMethodOriginSelectorInputFixedLocation,
@@ -206,7 +205,9 @@ export {
     makeDeliveryPricingRateRequest,
     makeDeliveryPricingStrategyCreateInputCalculated,
     makeDeliveryPricingStrategyCreateInputCallback,
-    makeDeliveryPricingStrategyCreateInputCallerSupplied,
+    makeDeliveryPricingStrategyCreateInputCallerSupplied
+} from '../declarations/types-75.js';
+export {
     makeDeliveryPricingStrategyCreateInputFixed,
     makeDeliveryPricingStrategyCreateInputRateTable,
     makeDeliveryPricingStrategyCreateInputTiered,
@@ -234,10 +235,9 @@ export {
     makeDeliveryWeightUnitPriceRequest,
     makeDeliveryWindowTimeCondition,
     makeDeliveryZoneConditionRequest
-} from '../declarations/types-72.js';
-export { makeMetadataPatchRequest, makeMetadataRequest } from '../declarations/types-74.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
-export { makeUpdateDeliveryMethodRequest } from '../declarations/types-79.js';
+} from '../declarations/types-76.js';
+export { makeMetadataPatchRequest, makeMetadataRequest, makeMoneyValue } from '../declarations/types-78.js';
+export { makeUpdateDeliveryMethodRequest } from '../declarations/types-83.js';
 export interface DeliveryMethodsResource {
     /**
  * Delivery methods combine eligibility, pricing, schedules, estimates, tax treatment, and
@@ -308,11 +308,14 @@ export interface DeliveryMethodsResource {
      */
     listItems(params?: DeliveryMethodsListParams, options?: _SdkWithoutIdempotency<RequestOptions<"merchant">>): AsyncGenerator<DeliveryMethod>;
     /**
- * Sparsely updates mutable fields. A change to pinned configuration publishes a new immutable
- * revision and requires expected_version. Archived resources can't be changed; create a new
- * resource instead. A method referenced by checkout.default_delivery_method_ids at merchant scope
- * or by delivery_method_ids on an active or inactive payment link cannot be set inactive; the
- * request returns 409 RESOURCE_IN_USE with the blocking references. Remove the method from
+ * Sparsely updates mutable fields. A request that carries configuration, name, description,
+ * display_position, or recommendation_priority publishes a new immutable revision, even when its
+ * values are unchanged, and requires expected_version. Other fields, such as status, metadata, and
+ * external_reference_id, advance version and keep the current revision, so they never replace a
+ * revoked revision. Archived resources can't be changed; create a new resource instead. A method
+ * referenced by checkout.default_delivery_method_ids at merchant scope or by delivery_method_ids
+ * on an active or inactive payment link cannot be set inactive; the request returns 409
+ * RESOURCE_IN_USE with the blocking references. Remove the method from
  * checkout.default_delivery_method_ids with `client.settings.update` or from the link's
  * delivery_method_ids with `client.paymentLinks.update`.
  *

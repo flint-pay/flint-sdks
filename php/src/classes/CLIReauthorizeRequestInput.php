@@ -17,13 +17,13 @@ namespace Flint;
 final class CLIReauthorizeRequestInput extends Model {
     /** @param array{'client_id': string, 'context_id'?: string, 'device_name'?: string, 'merchant_id'?: string, 'mode'?: string, 'platform'?: string, 'refresh_token': string, 'sandbox_id'?: string, 'scope': string, 'scope_mode'?: string, 'session_mode': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CLIReauthorizeRequestInput')); }
-    /** Example: "flint-cli". Value enum: "flint-cli".
+    /** The public client ID, always `flint-cli`. The client has no secret: a client_secret field or an Authorization header returns invalid_client. Example: "flint-cli". Value enum: "flint-cli".
      * @return string
      * @throws SdkError When client_id is omitted; use hasClientId() or valueOrDefault().
      */
     public function getClientId(): string { return $this->get('client_id'); }
     public function hasClientId(): bool { return $this->has('client_id'); }
-    /** minLength: 1. Example: "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
+    /** ID of one of the session's contexts, from the `id` of an entry in the contexts list. An ID that isn't in the session returns invalid_context. Required with scope_mode. minLength: 1. Example: "ctx_bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb".
      * @return string
      * @throws SdkError When context_id is omitted; use hasContextId() or valueOrDefault().
      */
@@ -53,7 +53,7 @@ final class CLIReauthorizeRequestInput extends Model {
      */
     public function getPlatform(): string { return $this->get('platform'); }
     public function hasPlatform(): bool { return $this->has('platform'); }
-    /** refresh_token
+    /** The session's current refresh token. This request reads the session and doesn't rotate the token. An unknown, expired, or revoked token returns invalid_grant.
      * @return string
      * @throws SdkError When refresh_token is omitted; use hasRefreshToken() or valueOrDefault().
      */
@@ -65,19 +65,19 @@ final class CLIReauthorizeRequestInput extends Model {
      */
     public function getSandboxId(): string { return $this->get('sandbox_id'); }
     public function hasSandboxId(): bool { return $this->has('sandbox_id'); }
-    /** Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Normal login sends x-flint-cli-bootstrap-scopes; explicit requests may use x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
+    /** Required space-separated public API scope names. Only requested scopes approved in the browser are granted. Request the scopes the CLI needs from x-flint-cli-allowed-scopes. Unsupported scopes return invalid_scope. minLength: 1.
      * @return string
      * @throws SdkError When scope is omitted; use hasScope() or valueOrDefault().
      */
     public function getScope(): string { return $this->get('scope'); }
     public function hasScope(): bool { return $this->has('scope'); }
-    /** Value enum: "additive".
+    /** Set to `additive` to ask for more scopes in the one context named by context_id. The approved scopes are added to the scopes the context already has, and the session's other contexts are kept. Requires context_id. Value enum: "additive".
      * @return string
      * @throws SdkError When scope_mode is omitted; use hasScopeMode() or valueOrDefault().
      */
     public function getScopeMode(): string { return $this->get('scope_mode'); }
     public function hasScopeMode(): bool { return $this->has('scope_mode'); }
-    /** Value enum: "contexts".
+    /** Required, and must be `contexts`. Unless scope_mode is `additive`, the contexts the user approves become the session's contexts: any other context is removed and its tokens stop working. Value enum: "contexts".
      * @return string
      * @throws SdkError When session_mode is omitted; use hasSessionMode() or valueOrDefault().
      */

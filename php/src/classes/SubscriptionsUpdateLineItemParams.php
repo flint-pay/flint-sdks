@@ -21,7 +21,7 @@ final class SubscriptionsUpdateLineItemParams extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
+    /** ID of the catalog variant to swap the line to. The line keeps its quantity unless `quantity` is also sent, and is priced from the variant's catalog price for the subscription's customer. minLength: 1. pattern: ^var_[0-9A-HJKMNP-TV-Z]{26}$. Example: "var_01KEZF7C004GSH2KT8CNYVMHGX".
      * @return string
      * @throws SdkError When variant_id is omitted; use hasVariantId() or valueOrDefault().
      */

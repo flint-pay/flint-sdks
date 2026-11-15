@@ -10,7 +10,7 @@
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `components` | Required | Array of [TaxComponentRequest](../models/TaxComponentRequest.md#taxcomponentrequest) | The tax for this line item or charge, one component per jurisdiction and tax type. Each is a `percentage` tax. minItems: `1`. `components[]`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1taxcalculationcomponents), [field definitions](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponents), [field definitions](../models/BuyerOrderLineItem.md#buyerorderlineitemtaxcalculationcomponents), [field definitions](../models/DeliveryChargeTaxCalculationRequest.md#deliverychargetaxcalculationrequest-variant-2components), [field definitions](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax-variant-2calculationcomponents). |
+| `components` | Required | Array of [TaxComponentRequest](../models/TaxComponentRequest.md#taxcomponentrequest) | The tax for this line item or charge, one component per jurisdiction and tax type. Each is a `percentage` tax. minItems: `1`. `components[]`: [field definitions](../models/CreateOrderLineItem.md#createorderlineitem-variant-1taxcalculationcomponents), [field definitions](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundletaxcalculationcomponents), [field definitions](../models/BuyerOrderLineItem.md#buyerorderlineitemtaxcalculationcomponents), [field definitions](../models/DeliveryChargeTaxCalculationRequest.md#deliverychargetaxcalculationrequest-variant-2components), [field definitions](../models/OrderCalculatedLineItemTax.md#ordercalculatedlineitemtax-variant-2calculationcomponents). |
 | `price_mode` | Required | string | Whether the price this tax applies to already includes the tax. Values: `"additive"`, `"inclusive"`. |
 
 ### TaxCalculationRequest variant 1
@@ -49,7 +49,7 @@ Field definitions: [CreateOrderLineItem variant 1.tax.calculation.components[]](
 
 ### TaxCalculationRequest variant 2.components[]
 
-Field definitions: [AddLineItemsRequest.line_items[] variant 1.tax.calculation.components[]](../models/AddLineItemsRequest.md#addlineitemsrequestline_items-variant-1taxcalculationcomponents).
+Field definitions: [CreateOrderLineItemInputBundle.tax.calculation.components[]](../models/CreateOrderLineItemInputBundle.md#createorderlineiteminputbundletaxcalculationcomponents).
 
 ### TaxCalculationRequest variant 3.components[]
 

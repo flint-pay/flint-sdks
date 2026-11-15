@@ -16,7 +16,6 @@ $client = new Client(new ClientOptions(
 $result = $client->oauth->exchangeToken([
   'grant_type' => 'authorization_code',
   'code' => 'example',
-  'redirect_uri' => 'example',
   'code_verifier' => 'examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
 ]);
 echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;

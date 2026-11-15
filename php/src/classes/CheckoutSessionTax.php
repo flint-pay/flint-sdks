@@ -2,12 +2,18 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read ?CheckoutTaxCalculation $calculation
  * @property-read ?bool $enabled
  * @property-read ?Address $location_fixed_by_merchant
  * Presence-aware response; omitted optional fields return null. */
 final class CheckoutSessionTax extends Model {
-    /** @param array{'enabled'?: bool, 'location_fixed_by_merchant'?: mixed, ...}|object $values */
+    /** @param array{'calculation'?: mixed, 'enabled'?: bool, 'location_fixed_by_merchant'?: mixed, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CheckoutSessionTax')); }
+    /** The calculation the session's order uses, as set when the session was created. Omitted when the session followed `tax.default_calculation` from your settings; read `tax` on the order for what it uses. The calculation the order Flint creates uses while tax is enabled. Replaced as a whole: send every field you want to keep. Omit it to use `tax.default_calculation` from your settings; a `provided` default applies only to orders you create, so it means automatic here.
+     * @return ?CheckoutTaxCalculation
+     */
+    public function getCalculation(): ?CheckoutTaxCalculation { return $this->get('calculation'); }
+    public function hasCalculation(): bool { return $this->has('calculation'); }
     /** Whether the session collects tax, as set when it was created.
      * @return ?bool
      */

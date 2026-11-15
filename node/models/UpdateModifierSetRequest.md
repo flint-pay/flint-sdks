@@ -2,7 +2,7 @@
 
 ## UpdateModifierSetRequest
 
-The request body for: Update modifier set.
+The request body for: Update modifier set. minProperties: `1`.
 
 
 

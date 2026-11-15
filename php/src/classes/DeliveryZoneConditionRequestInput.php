@@ -8,7 +8,7 @@ namespace Flint;
 final class DeliveryZoneConditionRequestInput extends Model {
     /** @param array{'delivery_zone_id': string, 'subject'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryZoneConditionRequestInput')); }
-    /** minLength: 1. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
+    /** ID of the delivery zone the address must be inside. minLength: 1. Example: "dzone_01KEZF7C005RY7KGCN4M2CH5WP".
      * @return string
      * @throws SdkError When delivery_zone_id is omitted; use hasDeliveryZoneId() or valueOrDefault().
      */

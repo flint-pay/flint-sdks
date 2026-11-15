@@ -1,6 +1,6 @@
 import type { WithResponseInfo, InputValue } from '../runtime.js';
 import type { ClientOptions } from '../declarations/types-6.js';
-import type { RequestOptions } from '../declarations/types-51.js';
+import type { RequestOptions } from '../declarations/types-54.js';
 import type {
     RiskAttributeRegistry,
     RiskAttributeRegistryResponse,
@@ -8,10 +8,13 @@ import type {
     RiskRuleListResponse,
     RiskRuleResponse,
     RiskRulesCreateParams,
-    RiskRulesDeleteParams
-} from '../declarations/types-55.js';
-import type { RiskRulesGetAttributesParams, RiskRulesGetParams, RiskRulesListParams, RiskRulesUpdateParams } from '../declarations/types-56.js';
-import type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+    RiskRulesDeleteParams,
+    RiskRulesGetAttributesParams,
+    RiskRulesGetParams,
+    RiskRulesListParams,
+    RiskRulesUpdateParams
+} from '../declarations/types-58.js';
+import type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export { SdkError, errors, Model, EventStream, ExactNumber, serialize, parseExact, redact } from '../runtime.js';
 export type {
     Result,
@@ -31,9 +34,13 @@ export type {
     RiskRule,
     RiskRuleResponse,
     RiskRulesDeleteParams,
+    RiskRulesGetParams,
+    RiskRulesGetAttributesParams,
     RiskAttributeRegistry,
     RiskAttributeRegistryResponse,
+    RiskRulesListParams,
     RiskRuleListResponse,
+    RiskRulesUpdateParams,
     RiskPredicateNodeRequestInput,
     RiskPredicateNodeAllRequestInput,
     RiskPredicateNodeAnyRequestInput,
@@ -54,20 +61,19 @@ export type {
     RiskPredicateNodeInList,
     RiskPredicateNodeIsMissing,
     RiskAttribute
-} from '../declarations/types-55.js';
-export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-51.js';
-export type { RiskRulesGetParams, RiskRulesGetAttributesParams, RiskRulesListParams, RiskRulesUpdateParams } from '../declarations/types-56.js';
-export type { _SdkWithoutIdempotency } from '../declarations/types-66.js';
+} from '../declarations/types-58.js';
+export type { RequestOptions, ResourceReference, ResponseMeta, ResponseWarning } from '../declarations/types-54.js';
+export type { _SdkWithoutIdempotency } from '../declarations/types-70.js';
 export type { ClientOptions } from '../declarations/types-6.js';
-export type { CreateRiskRuleRequestInput } from '../declarations/types-12.js';
-export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-37.js';
-export type { AuthMode } from '../declarations/types-0.js';
-export type { Credentials } from '../declarations/types-13.js';
-export type { ReadinessMerchantAccountSession } from '../declarations/types-49.js';
-export type { UpdateRiskRuleRequestInput } from '../declarations/types-65.js';
-export type { DisputesAcceptParams } from '../declarations/types-22.js';
-export { makeCreateRiskRuleRequest } from '../declarations/types-70.js';
-export { makeMoneyValue } from '../declarations/types-75.js';
+export type { CreateRiskRuleRequestInput } from '../declarations/types-13.js';
+export type { MoneyValueInput, MoneyValue, NextAction } from '../declarations/types-39.js';
+export type { AuthMode } from '../declarations/types-1.js';
+export type { Credentials } from '../declarations/types-14.js';
+export type { ReadinessMerchantAccountSession } from '../declarations/types-52.js';
+export type { UpdateRiskRuleRequestInput } from '../declarations/types-68.js';
+export type { DisputesAcceptParams } from '../declarations/types-23.js';
+export { makeCreateRiskRuleRequest } from '../declarations/types-74.js';
+export { makeMoneyValue } from '../declarations/types-78.js';
 export {
     makeRiskPredicateNodeAllRequest,
     makeRiskPredicateNodeAnyRequest,
@@ -78,8 +84,8 @@ export {
     makeRiskPredicateNodeMoneyComparisonRequest,
     makeRiskPredicateNodeNotRequest,
     makeRiskPredicateNodeRequest
-} from '../declarations/types-78.js';
-export { makeUpdateRiskRuleRequest } from '../declarations/types-80.js';
+} from '../declarations/types-82.js';
+export { makeUpdateRiskRuleRequest } from '../declarations/types-84.js';
 export interface RiskRulesResource {
     /**
  * Creates a rule that applies from the next payment attempt. Flint validates the predicate and

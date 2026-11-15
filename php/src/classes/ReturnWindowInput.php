@@ -8,7 +8,7 @@ namespace Flint;
 final class ReturnWindowInput extends Model {
     /** @param array{'duration_seconds': int, 'starts_at_event': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ReturnWindowInput')); }
-    /** Length of the window in seconds, above 0 and at most 158,112,000 (1,830 days). Format: int64.
+    /** Length of the window in seconds, above 0 and at most 158,112,000 (1,830 days). Format: int64. minimum: 1. maximum: 158112000.
      * @return int
      * @throws SdkError When duration_seconds is omitted; use hasDurationSeconds() or valueOrDefault().
      */

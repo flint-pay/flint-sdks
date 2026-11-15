@@ -19,7 +19,7 @@ final class User extends Model {
      */
     public function getCreatedAt(): string { return $this->get('created_at'); }
     public function hasCreatedAt(): bool { return $this->has('created_at'); }
-    /** default_merchant_id
+    /** ID of the merchant Flint treats as the user's default, which it sets when it provisions the user's merchant. Omitted when no default is set.
      * @return ?string
      */
     public function getDefaultMerchantId(): ?string { return $this->get('default_merchant_id'); }
@@ -39,7 +39,7 @@ final class User extends Model {
      */
     public function getLastName(): string { return $this->get('last_name'); }
     public function hasLastName(): bool { return $this->has('last_name'); }
-    /** Value enum: "active", "deactivated".
+    /** Whether the user's account can sign in and access Flint. Value enum: "active", "deactivated".
      * @return string
      */
     public function getStatus(): string { return $this->get('status'); }

@@ -2,7 +2,7 @@
 
 ## DeliveryMethodConfigurationPatchRequest
 
-Only the keys you send change; keys you leave out keep their current values. Each key you send replaces that part of the configuration whole. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. Requires expected_version. An empty configuration is invalid. minProperties: `1`.
+Patch object: fields you send are applied, fields you omit are unchanged. Each key you send replaces that part of the configuration as a whole, so send every field you want to keep in pricing, origin, eligibility, and the other objects. Null removes an optional key, as each field describes. Arrays can't be null: send [] to clear recipient_requirements or quote_input_fields. pricing.rate_table.rates is an owned child collection: include delivery_rate_id to keep a rate, leave out the ID to create one, and leave out a rate to remove it. The result must be a configuration you could create, including pickup_mode for pickup methods. An empty configuration is invalid. Publishes a new immutable revision, even when the values are unchanged, and requires expected_version. minProperties: `1`.
 
 
 
@@ -10,14 +10,14 @@ Only the keys you send change; keys you leave out keep their current values. Eac
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `buyer_instructions` | Optional | object or null | Controls whether checkout collects buyer instructions for this method. Null disables instruction collection. `buyer_instructions`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestbuyer_instructions). |
+| `buyer_instructions` | Optional | object or null | Replaced as a whole: send every field you want to keep. Controls whether checkout collects buyer instructions for this method. Null disables instruction collection. `buyer_instructions`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestbuyer_instructions). |
 | `charge_tax_category` | Optional | string or null | Tax category of the delivery charge, which decides its automatic tax and appears in tax records and reporting. Automatic tax calculates service_fee, shipping, delivery, handling, and surcharge at the general rate at the charge location, including the store for pickup. Null uses settings.tax.default_delivery_tax_category, or, when that is unset, shipping for shipment, delivery for local_delivery, or service_fee for pickup. Values: `"service_fee"`, `"shipping"`, `"delivery"`, `"handling"`, `"surcharge"`, `null`. |
-| `eligibility` | Optional | [DeliveryEligibilityExpressionRequest](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequest) or null | Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. `eligibility`: [declared alternatives](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequesteligibility). |
-| `estimate` | Optional | object or null | The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it. `estimate`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestestimate). |
+| `eligibility` | Optional | [DeliveryEligibilityExpressionRequest](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequest) or null | Replaced as a whole: send every field you want to keep. Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. `eligibility`: [declared alternatives](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequesteligibility). |
+| `estimate` | Optional | object or null | Replaced as a whole: send every field you want to keep. The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it. `estimate`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestestimate). |
 | `minimum_option_lifetime_seconds` | Optional | integer or null | Minimum remaining quote lifetime required before Flint offers this method. Required for calculated, callback, and caller_supplied pricing; defaults to 0 for other pricing. Must be less than Flint's 15-minute quote lifetime. Null restores 0 for fixed, tiered, or rate_table pricing. It is invalid for calculated, callback, or caller_supplied pricing. Format: `int64`. minimum: `0`. maximum: `899`. |
-| `origin` | Optional | [DeliveryMethodOriginSelectorRequest](../models/DeliveryMethodOriginSelectorRequest.md#deliverymethodoriginselectorrequest) | Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. Null is invalid. The origin you supply for a delivery method, chosen by `type`: a fixed location, or locations from a delivery location set or an inline list. |
-| `pricing` | Optional | [DeliveryPricingStrategyRequest](../models/DeliveryPricingStrategyRequest.md#deliverypricingstrategyrequest) | How Flint calculates the delivery charge. Null is invalid. The pricing strategy you supply when updating a delivery method. Set `type` and the matching property. |
-| `public_details` | Optional | object or null | Buyer-visible structured details supplied by the merchant. Null removes the public details; pickup methods still require pickup_mode. minProperties: `1`. `public_details`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestpublic_details). |
+| `origin` | Optional | [DeliveryMethodOriginSelectorRequest](../models/DeliveryMethodOriginSelectorRequest.md#deliverymethodoriginselectorrequest) | Replaced as a whole: send every field you want to keep. Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. Null is invalid. The origin you supply for a delivery method, chosen by `type`: a fixed location, or locations from a delivery location set or an inline list. |
+| `pricing` | Optional | [DeliveryPricingStrategyRequest](../models/DeliveryPricingStrategyRequest.md#deliverypricingstrategyrequest) | Replaced as a whole: send every field you want to keep. How Flint calculates the delivery charge. Null is invalid. The pricing strategy you supply when updating a delivery method. Set `type` and the matching property. |
+| `public_details` | Optional | object or null | Replaced as a whole: send every field you want to keep. Buyer-visible structured details supplied by the merchant. Null removes the public details; pickup methods still require pickup_mode. minProperties: `1`. `public_details`: [field definitions](../models/DeliveryMethodConfigurationPatchRequest.md#deliverymethodconfigurationpatchrequestpublic_details). |
 | `quote_input_fields` | Optional | Array of string | Address and coordinate fields a callback method requires and is allowed to receive. Use [] to clear it. Null is invalid. maxItems: `12`. uniqueItems: `true`. Items: Request properties the callback needs. - `destination_address`: The full destination address. - `destination_address.line1`: The destination street address. - `destination_address.line2`: The destination apartment, suite, or other secondary address. - `destination_address.city`: The destination city. - `destination_address.state`: The destination state or region. - `destination_address.postal_code`: The destination postal code. - `destination_address.country`: The destination ISO 3166-1 alpha-2 country code. - `buyer_location`: The buyer location, supplied as an address or coordinates. - `buyer_location.address.line1`: The street address in the buyer location's address variant. - `buyer_location.address.line2`: The apartment, suite, or other secondary address in the buyer location's address variant. - `buyer_location.address.city`: The city in the buyer location's address variant. - `buyer_location.address.state`: The state or region in the buyer location's address variant. - `buyer_location.address.postal_code`: The postal code in the buyer location's address variant. - `buyer_location.address.country`: The ISO 3166-1 alpha-2 country code in the buyer location's address variant. - `buyer_location.coordinate`: The latitude and longitude in the buyer location's coordinate variant. Items values: [15 declared values](CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configuration-quote_input_fields--values). |
 | `recipient_requirements` | Optional | Array of [DeliveryRecipientRequirement](../models/DeliveryRecipientRequirement.md#deliveryrecipientrequirement) | Recipient fields this method asks for. A delivery selection can leave out required fields, but payment needs them. Use [] to clear it. Null is invalid. `recipient_requirements[]`: [field definitions](../models/CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationrecipient_requirements). |
 | `selection_guarantee_seconds` | Optional | integer or null | How long after evaluation Flint guarantees a selected price, when that is later than the option expiry. Defaults to 0, which uses the option expiry. Fixed, tiered, and rate_table prices for a cart without tracked inventory hold until the checkout's calculation expiry. Null restores 0, which uses the option expiry. Format: `int64`. minimum: `0`. |
@@ -25,13 +25,13 @@ Only the keys you send change; keys you leave out keep their current values. Eac
 
 ### DeliveryMethodConfigurationPatchRequest.buyer_instructions
 
-Controls whether checkout collects buyer instructions for this method. Null disables instruction collection.
+Replaced as a whole: send every field you want to keep. Controls whether checkout collects buyer instructions for this method. Null disables instruction collection.
 
 Field definitions: [shared fields](BuyerInstructionsConfig.md#buyerinstructionsconfig).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility
 
-Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves.
+Replaced as a whole: send every field you want to keep. Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves.
 
 Field definitions: [shared fields](DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestall).
 
@@ -138,11 +138,11 @@ anyOf DeliveryEligibilityExpressionRequest: A boolean expression containing exac
 anyOf variant 2.
 
 - Undeclared: `all`, `any`, `country`, `customer_has_email`, `customer_has_phone`, `customer_merchant_verified`, `customer_segment`, `not`, `postal_code`, `radius`, `state`, `subscription_purchase`, `window_time`, `zone`.
-- Value shape: null. Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. 
+- Value shape: null. Replaced as a whole: send every field you want to keep. Conditions that decide where this method is offered. Null removes the conditions, so the method is offered everywhere the merchant serves. 
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.customer_segment
 
@@ -150,15 +150,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 1.zone
 
@@ -166,7 +166,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.customer_segment
 
@@ -174,15 +174,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 2.zone
 
@@ -190,7 +190,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.customer_segment
 
@@ -198,15 +198,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 3.zone
 
@@ -214,7 +214,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.customer_segment
 
@@ -222,15 +222,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 4.zone
 
@@ -238,7 +238,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.customer_segment
 
@@ -246,15 +246,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 5.zone
 
@@ -262,7 +262,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.customer_segment
 
@@ -270,15 +270,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 6.zone
 
@@ -286,7 +286,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.customer_segment
 
@@ -294,15 +294,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 7.zone
 
@@ -310,7 +310,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.customer_segment
 
@@ -318,15 +318,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 8.zone
 
@@ -334,7 +334,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.customer_segment
 
@@ -342,15 +342,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 9.zone
 
@@ -358,7 +358,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.customer_segment
 
@@ -366,15 +366,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 10.zone
 
@@ -382,7 +382,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.customer_segment
 
@@ -390,15 +390,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 11.zone
 
@@ -406,7 +406,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.customer_segment
 
@@ -414,15 +414,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 12.zone
 
@@ -430,7 +430,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.customer_segment
 
@@ -438,15 +438,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 13.zone
 
@@ -454,7 +454,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.country
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.country](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationcountry).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].country](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallcountry).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.customer_segment
 
@@ -462,15 +462,15 @@ Field definitions: [DeliveryEligibilityExpression.all[].customer_segment](../mod
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.postal_code
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.postal_code](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationpostal_code).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].postal_code](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallpostal_code).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.radius
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.radius](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationradius).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].radius](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallradius).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.state
 
-Field definitions: [CreateDeliveryZoneRequest.configuration.state](../models/CreateDeliveryZoneRequest.md#createdeliveryzonerequestconfigurationstate).
+Field definitions: [DeliveryEligibilityExpressionRequest.all[].state](../models/DeliveryEligibilityExpressionRequest.md#deliveryeligibilityexpressionrequestallstate).
 
 ### DeliveryMethodConfigurationPatchRequest.eligibility variant 14.zone
 
@@ -478,7 +478,7 @@ Field definitions: [DeliveryEligibilityExpressionRequest.all[].zone](../models/D
 
 ### DeliveryMethodConfigurationPatchRequest.estimate
 
-The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it.
+Replaced as a whole: send every field you want to keep. The buyer-visible delivery or pickup estimate. Use type none when the merchant makes no timing promise. Null restores type none, when the pricing type allows it.
 
 Field definitions: [shared fields](CreateDeliveryMethodRequest.md#createdeliverymethodrequest-variant-1configurationestimate).
 
@@ -492,7 +492,7 @@ Field definitions: [CreateDeliveryMethodRequest variant 1.configuration.estimate
 
 ### DeliveryMethodConfigurationPatchRequest.public_details
 
-Buyer-visible structured details supplied by the merchant. Null removes the public details; pickup methods still require pickup_mode. minProperties: `1`.
+Replaced as a whole: send every field you want to keep. Buyer-visible structured details supplied by the merchant. Null removes the public details; pickup methods still require pickup_mode. minProperties: `1`.
 
 Field definitions: [shared fields](DeliveryMethodConfigurationCreateRequest.md#deliverymethodconfigurationcreaterequestpublic_details).
 

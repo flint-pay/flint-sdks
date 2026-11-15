@@ -1,1 +1,1 @@
-{"shared":"BalanceUpdatedMerchantEvent","dependencies":["Balance","BalanceUpdatedMerchantEvent","MoneyValue","SharedCodec18","SharedCodec23","SharedCodec24","SharedCodec25","SharedCodec26","SharedCodec32","SharedCodec33","SignedMoney"]}
+{"shared":"BalanceUpdatedMerchantEvent","dependencies":["Balance","BalanceUpdatedMerchantEvent","MoneyValue","SharedCodec10","SharedCodec37","SharedCodec38","SharedCodec6","SharedCodec7","SharedCodec8","SharedCodec9","SignedMoney"]}

@@ -25,13 +25,14 @@ namespace Flint;
  * @property-read string $reason
  * @property-read list<string> $recommended_evidence_types
  * @property-read ?string $response_unavailable_reason
+ * @property-read ?list<SplitReversalReference> $split_reversals
  * @property-read string $status
  * @property-read ?string $status_changed_at
  * @property-read list<string> $supported_actions
  * @property-read string $updated_at
  * Presence-aware response; omitted optional fields return null. */
 final class DisputeNeedsResponseMerchantEventDataObject extends Model {
-    /** @param array{'amount_money': mixed, 'can_respond_with_evidence': bool, 'case_type': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'dispute_id': string, 'evidence_due_at': string|null, 'evidence_submission_count': int, 'fraud_warning_id'?: string, 'has_evidence': bool, 'is_action_required': bool, 'is_evidence_deadline_passed': bool, 'merchant_id': string, 'network_reason_code': string|null, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_option': string|null, 'reason': string, 'recommended_evidence_types': list<string>, 'response_unavailable_reason'?: string, 'status': string, 'status_changed_at'?: string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
+    /** @param array{'amount_money': mixed, 'can_respond_with_evidence': bool, 'case_type': string, 'created_at': string, 'customer'?: mixed, 'customer_id'?: string, 'dispute_id': string, 'evidence_due_at': string|null, 'evidence_submission_count': int, 'fraud_warning_id'?: string, 'has_evidence': bool, 'is_action_required': bool, 'is_evidence_deadline_passed': bool, 'merchant_id': string, 'network_reason_code': string|null, 'order'?: mixed, 'order_id'?: string, 'payment_intent'?: mixed, 'payment_intent_id'?: string, 'payment_option': string|null, 'reason': string, 'recommended_evidence_types': list<string>, 'response_unavailable_reason'?: string, 'split_reversals'?: list<mixed>, 'status': string, 'status_changed_at'?: string, 'supported_actions': list<string>, 'updated_at': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DisputeNeedsResponseMerchantEventDataObject')); }
     /** Amount in dispute. For a chargeback, this amount left your balance when the case opened; an inquiry moves no money. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
@@ -148,6 +149,11 @@ final class DisputeNeedsResponseMerchantEventDataObject extends Model {
      */
     public function getResponseUnavailableReason(): ?string { return $this->get('response_unavailable_reason'); }
     public function hasResponseUnavailableReason(): bool { return $this->has('response_unavailable_reason'); }
+    /** Fixed seller allocations on the payment, each naming its payment split and reversal. Present only when the payment has splits; an empty array means no seller share was allocated. Read PaymentSplit.reversals for status, shortfall, and reinstated amounts. [] (Value): {@see SplitReversalReference}. A fixed allocation referencing a read-only reversal nested in a payment split. This reference has no independent lifecycle or write routes.
+     * @return ?list<SplitReversalReference>
+     */
+    public function getSplitReversals(): ?array { return $this->get('split_reversals'); }
+    public function hasSplitReversals(): bool { return $this->has('split_reversals'); }
     /** Where the dispute stands. `needs_response` and `inquiry_needs_response` ask you to respond; `inquiry_closed`, `won`, `lost`, and `prevented` are final. Value enum: "inquiry_needs_response", "inquiry_under_review", "inquiry_closed", "needs_response", "under_review", "won", "lost", "prevented", "other".
      * @return string
      */

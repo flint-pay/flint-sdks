@@ -9,13 +9,13 @@ namespace Flint;
 final class SubscribedLineRequestModelInput extends Model {
     /** @param array{'billing_interval': string, 'billing_interval_count': int, 'subscription_offer_id': string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscribedLineRequestModelInput')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the billing period the line was bought on. Sent with `billing_interval_count`, the pair must be one of the offer's billing interval options. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      * @throws SdkError When billing_interval is omitted; use hasBillingInterval() or valueOrDefault().
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32. minimum: 1. maximum: 365.
+    /** Number of billing_interval units between charges, from 1 to 365. Format: int32. minimum: 1. maximum: 365.
      * @return int
      * @throws SdkError When billing_interval_count is omitted; use hasBillingIntervalCount() or valueOrDefault().
      */

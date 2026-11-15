@@ -11,7 +11,8 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `api_request_log_id` | Required | string | Stable identifier of this log entry. |
-| `caller` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | The public resource that made this request. Absent when Flint cannot attribute the caller. A reference to another resource by `resource_type` and `resource_id`. `caller`: [field definitions](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries-variant-1caller). |
+| `attributed_resource` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) | The resource this request log is attributed to. Always present: the timeline resource for a direct request, or its directly owned resource for an included request. A reference to another resource by `resource_type` and `resource_id`. `attributed_resource`: [field definitions](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries-variant-1attributed_resource). |
+| `caller` | Optional | [ResourceReference](../models/ResourceReference.md#resourcereference) | Who made this request. An API key, workload token, or partner app token records that API key, workload identity, or partner app installation. A Dashboard write, CLI login, or onboarding session records the user. A buyer checkout request records the checkout session. A buyer account request records the customer session. A request made with invoice access records the invoice. Absent when Flint cannot attribute the request. A reference to another resource by `resource_type` and `resource_id`. `caller`: [field definitions](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatacaller). |
 | `client_request_id` | Optional | string | The caller's X-Request-Id, matched exactly and case-sensitively. Absent when the caller sent none. minLength: `1`. maxLength: `128`. pattern: `^[\x21-\x7E]+$`. |
 | `client_trace_id` | Optional | string | The trace ID from a valid W3C traceparent, for correlation with the caller's tracing. Flint starts its own trace. Absent when no valid traceparent was sent. pattern: `^[0-9a-f]{32}$`. |
 | `entry_type` | Required | string | Always `api_request` for this kind of entry. Values: `"api_request"`. |
@@ -30,7 +31,11 @@ Response model.
 | `route_pattern` | Required | string | The matched route as a method and path template, such as `POST /v1/orders`. |
 | `status_code` | Required | integer | HTTP status Flint returned. Format: `int32`. |
 
+### ResourceTimelineEntriesItemApiRequest.attributed_resource
+
+Field definitions: [ResourceTimelineResponse.data.entries[] variant 1.attributed_resource](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries-variant-1attributed_resource).
+
 ### ResourceTimelineEntriesItemApiRequest.caller
 
-Field definitions: [ResourceTimelineResponse.data.entries[] variant 1.caller](../models/ResourceTimelineResponse.md#resourcetimelineresponsedataentries-variant-1caller).
+Field definitions: [APIRequestLogDetailResponse.data.caller](../models/APIRequestLogDetailResponse.md#apirequestlogdetailresponsedatacaller).
 

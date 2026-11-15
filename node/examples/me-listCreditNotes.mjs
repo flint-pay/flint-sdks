@@ -7,7 +7,5 @@ const client = new Client({
   allowInsecureHttp: !!baseUrl && ["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) && new URL(baseUrl).protocol === "http:",
   customerToken,
 });
-const result = await client.me.listCreditNotes(
-  "inv_01KEZF7C00A5GEBMWHEAJFSAR4"
-);
+const result = await client.me.listCreditNotes();
 console.log(result.request_id);

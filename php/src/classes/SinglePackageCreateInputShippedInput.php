@@ -87,7 +87,7 @@ final class SinglePackageCreateInputShippedInput extends Model {
      */
     public function getStatus(): string { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** minLength: 1.
+    /** Explanation of the package's status, kept as the package's `status_reason` and recorded as the reason on the shipped status change. At most 500 characters. `null` is the same as omitting the field. minLength: 1.
      * @return string
      * @throws SdkError When status_reason is omitted; use hasStatusReason() or valueOrDefault().
      */

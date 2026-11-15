@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Flint;
 /**
+ * @property-read list<CreateCustomerAddressRequestInput|array<array-key, mixed>|\stdClass> $addresses
  * @property-read string $default_invoice_payment_term_id
  * @property-read string $email
  * @property-read string $external_reference_id
@@ -18,8 +19,14 @@ namespace Flint;
  * @property-read string $test_clock_id
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCustomerRequestInput extends Model {
-    /** @param array{'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: TaxIdentityPatchInput|array<array-key, mixed>|\stdClass, 'test_clock_id'?: string}|object $values */
+    /** @param array{'addresses'?: list<CreateCustomerAddressRequestInput|array<array-key, mixed>|\stdClass>, 'default_invoice_payment_term_id'?: string, 'email'?: string, 'external_reference_id'?: string, 'internal_note'?: string, 'is_merchant_verified'?: bool, 'metadata'?: MetadataRequestInput|array<array-key, mixed>|\stdClass, 'name'?: string, 'on_email_conflict'?: string, 'phone'?: string, 'price_list_id'?: string|null, 'segment'?: string, 'tax_exempt'?: bool, 'tax_identity'?: TaxIdentityPatchInput|array<array-key, mixed>|\stdClass, 'test_clock_id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCustomerRequestInput')); }
+    /** Initial saved addresses, created atomically with the customer. Each entry uses the address-book create shape. At most one entry may be the billing default and one the shipping default. Defaults populate billing_address and shipping_address. Omit or send [] for none. When on_email_conflict is return_existing, an existing customer and its addresses stay unchanged. [] (Value): {@see CreateCustomerAddressRequestInput}. The request body for: Create a customer address; Create an address for the current buyer.
+     * @return list<CreateCustomerAddressRequestInput|array<array-key, mixed>|\stdClass>
+     * @throws SdkError When addresses is omitted; use hasAddresses() or valueOrDefault().
+     */
+    public function getAddresses(): array { return $this->get('addresses'); }
+    public function hasAddresses(): bool { return $this->has('addresses'); }
     /** ID of the invoice payment term that applies to this customer's invoices created with `payment_due.type` set to `customer_default`. minLength: 1. Example: "ipt_01KEZF7C0064N1V301BBMQ37R4".
      * @return string
      * @throws SdkError When default_invoice_payment_term_id is omitted; use hasDefaultInvoicePaymentTermId() or valueOrDefault().
@@ -92,7 +99,7 @@ final class CreateCustomerRequestInput extends Model {
      */
     public function getTaxExempt(): bool { return $this->get('tax_exempt'); }
     public function hasTaxExempt(): bool { return $this->has('tax_exempt'); }
-    /** Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. Merchant-provided legal identity displayed on invoices and credit notes. Does not verify IDs or change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
+    /** Legal name, registered address and tax IDs printed on this customer's invoices and credit notes. Merchant-provided legal identity displayed on invoices and credit notes. Flint does not verify IDs. On a customer, automatic tax sends the tax ID for an EU, GB, AU or NZ destination to its tax provider, which can apply a reverse charge; other IDs do not change tax treatment. Tax IDs are an owned collection in display order; replacing the array requires the parent's expected_version. Existing entries retain their document_tax_id; omit an entry to remove it, or omit its ID to add one.
      * @return TaxIdentityPatchInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When tax_identity is omitted; use hasTaxIdentity() or valueOrDefault().
      */

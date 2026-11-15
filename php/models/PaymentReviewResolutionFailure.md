@@ -9,5 +9,5 @@ Response model.
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
 | `failed_at` | Required | string | RFC3339 timestamp. Format: `date-time`. |
-| `refund_id` | Required | string |  |
+| `refund_id` | Required | string | ID of the refund that failed and reopened the review. |
 

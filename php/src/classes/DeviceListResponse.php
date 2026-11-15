@@ -10,7 +10,7 @@ namespace Flint;
 final class DeviceListResponse extends Model {
     /** @param array{'data': list<mixed>, 'meta'?: mixed, 'next_page_token'?: string, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeviceListResponse')); }
-    /** Resource, collection, or operation result returned by this request. [] (Value): {@see Device}. A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't change how payments are accepted.
+    /** Resource, collection, or operation result returned by this request. [] (Value): {@see Device}. A device registered to the merchant account by hardware fingerprint, optionally assigned to a location. Registering a device doesn't take payments; a reader does.
      * @return list<Device>
      */
     public function getData(): array { return $this->get('data'); }

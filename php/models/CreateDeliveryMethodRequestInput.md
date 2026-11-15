@@ -8,15 +8,15 @@ Request input.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `configuration` | Required | [DeliveryMethodConfigurationCreateRequestInput](../models/DeliveryMethodConfigurationCreateRequestInput.md#deliverymethodconfigurationcreaterequestinput) and [DeliveryMethodConfigurationRequestInput](../models/DeliveryMethodConfigurationRequestInput.md#deliverymethodconfigurationrequestinput) | The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. `configuration`: [field definitions](../models/CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-1configuration), [field definitions](../models/CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-2configuration), [field definitions](../models/CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-3configuration). |
-| `description` | Optional | string | minLength: `1`. |
-| `display_position` | Optional | integer | Format: `int32`. |
+| `configuration` | Required | [DeliveryMethodConfigurationCreateRequestInput](../models/DeliveryMethodConfigurationCreateRequestInput.md#deliverymethodconfigurationcreaterequestinput) and [DeliveryMethodConfigurationRequestInput](../models/DeliveryMethodConfigurationRequestInput.md#deliverymethodconfigurationrequestinput) | Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements. `configuration`: [field definitions](../models/CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-1configuration), [field definitions](../models/CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-2configuration), [field definitions](../models/CreateDeliveryMethodRequestInput.md#createdeliverymethodrequestinput-variant-3configuration). |
+| `description` | Optional | string | Buyer-visible description of the method. minLength: `1`. |
+| `display_position` | Optional | integer | Position in which this method displays among the others. Lower values display first. Format: `int32`. |
 | `external_reference_id` | Optional | string | Caller-owned identifier for this resource in an external system. minLength: `1`. maxLength: `255`. Example: `"warehouse-1842"`. |
 | `metadata` | Optional | [MetadataRequestInput](../models/MetadataRequestInput.md#metadatarequestinput) | Caller-owned metadata. Values can't be empty strings. Keys starting with flint_ are reserved for Flint, are not returned, and cannot be written through the public API. Caller-owned key-value data for a new or replaced map. Omit it for no metadata. Up to 50 key-value pairs. Keys are 1 to 256 Unicode code points, values are 1 to 4096 Unicode code points, and keys plus values total at most 32768 UTF-8 bytes. Values can't be empty strings, and keys starting with flint_ are reserved for Flint. maxProperties: `50`. Map values: minLength: `1`. maxLength: `4096`. |
-| `name` | Required | string | minLength: `1`. |
+| `name` | Required | string | Name of the method. Buyers see it as the option name at checkout. minLength: `1`. |
 | `recommendation_priority` | Optional | integer | Marks this method as recommended. Within each choice group, the available method with the lowest value is recommended and listed first. Ties go to the lower display_position, then the method ID. Null never recommends the method. Format: `int32`. |
 | `status` | Optional | string | Whether this method is available for new delivery quotes. Defaults to inactive. Default: `"inactive"`. Values: `"inactive"`, `"active"`. |
-| `type` | Required | string | Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
+| `type` | Required | string | Delivery type of the method. It cannot change after you create the method. Values: `"shipment"`, `"local_delivery"`, `"pickup"`. |
 
 ### CreateDeliveryMethodRequestInput variant 1: `type` = `"shipment"`
 
@@ -38,7 +38,7 @@ oneOf with type: "pickup": The `pickup` variant of `CreateDeliveryMethodRequest`
 
 ### CreateDeliveryMethodRequestInput variant 1.configuration
 
-The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
+Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -85,7 +85,7 @@ Buyer-visible structured details supplied by the merchant.
 
 ### CreateDeliveryMethodRequestInput variant 2.configuration
 
-The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
+Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -114,7 +114,7 @@ Buyer-visible structured details supplied by the merchant.
 
 ### CreateDeliveryMethodRequestInput variant 3.configuration
 
-The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
+Settings that decide where this method is offered, how it is priced, and what the buyer sees. Changing them publishes a new revision. The configuration you supply when creating a delivery method. `origin` and `pricing` are required. The configuration you supply for a delivery method: origin, pricing, eligibility, timing estimate, tax settings, and recipient requirements.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
@@ -135,7 +135,12 @@ The configuration you supply when creating a delivery method. `origin` and `pric
 
 Where delivery starts. A method can use a fixed location or a delivery location set; origin.type determines allocation or buyer pickup behavior. The origin you supply for a delivery method, chosen by `type`: a fixed location, or locations from a delivery location set or an inline list.
 
-Field definitions: [shared fields](DeliveryMethodOriginSelectorInputPickupLocationCollectionInput.md#deliverymethodoriginselectorinputpickuplocationcollectioninput).
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `delivery_location_set_id` | Conditional | string | Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: `1`. Example: `"dls_01KEZF7C00C4WWN7RYTRF55C4H"`. ID of the delivery location set that names the Locations in the group. Named delivery location set to reuse. Send either delivery_location_set_id or inline location_ids, never both. The set may contain at most 25 Locations for allocated_origin_group or 1,000 for pickup_location_collection. minLength: `1`. Example: `"dls_01KEZF7C00C4WWN7RYTRF55C4H"`. ID of the delivery location set that names the Locations in the group. |
+| `location_id` | Optional | string | ID of the Location delivery starts from. Required for `fixed_location` and not allowed otherwise. minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. |
+| `location_ids` | Conditional | Array of string | Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. minItems: `1`. maxItems: `1000`. uniqueItems: `true`. IDs of the Locations in the group. Items: minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. Inline Location IDs for a set managed by this delivery method. Send either location_ids or delivery_location_set_id, never both. Use 1 to 25 unique Locations for allocated_origin_group or 1 to 1,000 for pickup_location_collection. Reads return these Location IDs without exposing the managed set. minItems: `1`. maxItems: `1000`. uniqueItems: `true`. Items: minLength: `1`. Example: `"loc_01KEZF7C00CMHRRYA3MV996JB2"`. IDs of the Locations in the group. |
+| `type` | Required | string | Where delivery starts. Delivery type of the method. It cannot change after you create the method. Where delivery starts. Delivery type of the method. It cannot change after you create the method. Values: `"pickup_location_collection"`. |
 
 ### CreateDeliveryMethodRequestInput variant 3.configuration.origin variant 1: `type` = `"pickup_location_collection"`
 

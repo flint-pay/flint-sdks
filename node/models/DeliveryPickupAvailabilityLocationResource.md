@@ -10,9 +10,9 @@ One pickup location in a pickup locations preview, with its outcome, distance, c
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `applicable_quantities` | Required | Array of [DeliveryQuoteLineItemResource](../models/DeliveryQuoteLineItemResource.md#deliveryquotelineitemresource) |  |
-| `candidate_outcome` | Required | [DeliveryPickupAvailabilityCandidateOutcome](../models/DeliveryPickupAvailabilityCandidateOutcome.md#deliverypickupavailabilitycandidateoutcome) | Whether pickup is available at one location, chosen by `type`, with the reason when it is unavailable or cannot be calculated. |
-| `compatible_methods` | Required | Array of [DeliveryPickupAvailabilityMethodResource](../models/DeliveryPickupAvailabilityMethodResource.md#deliverypickupavailabilitymethodresource) |  |
+| `applicable_quantities` | Required | Array of [DeliveryQuoteLineItemResource](../models/DeliveryQuoteLineItemResource.md#deliveryquotelineitemresource) | Quantities of the order's items this Location can supply. |
+| `candidate_outcome` | Required | [DeliveryPickupAvailabilityCandidateOutcome](../models/DeliveryPickupAvailabilityCandidateOutcome.md#deliverypickupavailabilitycandidateoutcome) | Result of evaluating this Location for pickup. Whether pickup is available at one location, chosen by `type`, with the reason when it is unavailable or cannot be calculated. |
+| `compatible_methods` | Required | Array of [DeliveryPickupAvailabilityMethodResource](../models/DeliveryPickupAvailabilityMethodResource.md#deliverypickupavailabilitymethodresource) | Pickup methods that can serve this Location. |
 | `distance_meters` | Optional | number | Straight-line distance in meters from the buyer location. A buyer location with only a postal code is measured from the postal code's center. Omitted when Flint cannot place the buyer location or the store. |
-| `location` | Required | [DeliveryPickupAvailabilityLocationSummary](../models/DeliveryPickupAvailabilityLocationSummary.md#deliverypickupavailabilitylocationsummary) | The ID, name, and address of a pickup location in a pickup locations preview. |
+| `location` | Required | [DeliveryPickupAvailabilityLocationSummary](../models/DeliveryPickupAvailabilityLocationSummary.md#deliverypickupavailabilitylocationsummary) | The pickup Location. The ID, name, and address of a pickup location in a pickup locations preview. |
 

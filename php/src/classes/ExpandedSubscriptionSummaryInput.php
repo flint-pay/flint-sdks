@@ -12,19 +12,20 @@ namespace Flint;
  * @property-read string $status
  * @property-read string $subscription_id
  * @property-read string $subscription_plan_id
+ * @property-read list<string> $supported_actions
  * @property-read string $terms_type
  * @property-read string|\DateTimeInterface $updated_at
  * Presence-aware input; omitted fields throw when accessed. */
 final class ExpandedSubscriptionSummaryInput extends Model {
-    /** @param array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string|\DateTimeInterface, 'current_period_end_at'?: string|\DateTimeInterface, 'current_period_start_at'?: string|\DateTimeInterface, 'customer_id': string, 'next_billing_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'terms_type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
+    /** @param array{'billing_anchor_day': int, 'cancel_at_period_end': bool, 'created_at'?: string|\DateTimeInterface, 'current_period_end_at'?: string|\DateTimeInterface, 'current_period_start_at'?: string|\DateTimeInterface, 'customer_id': string, 'next_billing_at'?: string|\DateTimeInterface, 'status': string, 'subscription_id': string, 'subscription_plan_id': string, 'supported_actions': list<string>, 'terms_type': string, 'updated_at'?: string|\DateTimeInterface, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('ExpandedSubscriptionSummaryInput')); }
-    /** Format: int32.
+    /** UTC day of the month used for monthly and yearly billing. Applies only to Flint-owned schedules; 0 when no anchor day is set. Format: int32.
      * @return int
      * @throws SdkError When billing_anchor_day is omitted; use hasBillingAnchorDay() or valueOrDefault().
      */
     public function getBillingAnchorDay(): int { return $this->get('billing_anchor_day'); }
     public function hasBillingAnchorDay(): bool { return $this->has('billing_anchor_day'); }
-    /** cancel_at_period_end
+    /** True when the subscription is scheduled to cancel instead of renewing.
      * @return bool
      * @throws SdkError When cancel_at_period_end is omitted; use hasCancelAtPeriodEnd() or valueOrDefault().
      */
@@ -48,7 +49,7 @@ final class ExpandedSubscriptionSummaryInput extends Model {
      */
     public function getCurrentPeriodStartAt(): string|\DateTimeInterface { return $this->get('current_period_start_at'); }
     public function hasCurrentPeriodStartAt(): bool { return $this->has('current_period_start_at'); }
-    /** Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** The customer this subscription bills. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */
@@ -60,7 +61,7 @@ final class ExpandedSubscriptionSummaryInput extends Model {
      */
     public function getNextBillingAt(): string|\DateTimeInterface { return $this->get('next_billing_at'); }
     public function hasNextBillingAt(): bool { return $this->has('next_billing_at'); }
-    /** Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
+    /** Where the subscription is in its lifecycle. Each value says what it means. Value enum: "trialing", "active", "paused", "past_due", "canceled", "incomplete", "scheduled".
      * @return string
      * @throws SdkError When status is omitted; use hasStatus() or valueOrDefault().
      */
@@ -72,13 +73,19 @@ final class ExpandedSubscriptionSummaryInput extends Model {
      */
     public function getSubscriptionId(): string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
+    /** ID of the subscription plan the terms come from. An empty string when `terms_type` is `subscription_offer`. Example: "plan_01KEZF7C004CY5ZR33XST2AASV".
      * @return string
      * @throws SdkError When subscription_plan_id is omitted; use hasSubscriptionPlanId() or valueOrDefault().
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }
     public function hasSubscriptionPlanId(): bool { return $this->has('subscription_plan_id'); }
-    /** Value enum: "subscription_plan", "subscription_offer".
+    /** Merchant lifecycle actions accepted by the subscription's current state. [] enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity". [] (Value): string.  Value enum: "cancel", "pause", "resume", "skip_cycle", "renew", "change_plan", "change_quantity".
+     * @return list<string>
+     * @throws SdkError When supported_actions is omitted; use hasSupportedActions() or valueOrDefault().
+     */
+    public function getSupportedActions(): array { return $this->get('supported_actions'); }
+    public function hasSupportedActions(): bool { return $this->has('supported_actions'); }
+    /** Terms come from the subscription plan in subscription_plan_id, or from subscription offers identified on each offer line by subscription_offer_id. Value enum: "subscription_plan", "subscription_offer".
      * @return string
      * @throws SdkError When terms_type is omitted; use hasTermsType() or valueOrDefault().
      */

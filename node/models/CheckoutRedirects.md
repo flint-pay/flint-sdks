@@ -16,7 +16,7 @@
 
 ### CheckoutRedirects variant 1
 
-anyOf variant 1: Declared schema CheckoutRedirects. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url..
+anyOf variant 1: Declared schema CheckoutRedirects. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url..
 
 - Constraints for `cancel_url`: maxLength: `2048`.
 - Constraints for `expired_url`: maxLength: `2048`.
@@ -24,7 +24,7 @@ anyOf variant 1: Declared schema CheckoutRedirects. Where hosted checkout sends 
 
 ### CheckoutRedirects variant 2
 
-anyOf variant 2: Declared schema CheckoutRedirectsRequest. Where hosted checkout sends the buyer. Not allowed when surface is embedded; use payment_return_url..
+anyOf variant 2: Declared schema CheckoutRedirectsRequest. Where hosted checkout sends the buyer. Not allowed when surface is headless; use payment_return_url..
 
 - Constraints for `cancel_url`: minLength: `1`. maxLength: `2048`.
 - Constraints for `expired_url`: minLength: `1`. maxLength: `2048`.

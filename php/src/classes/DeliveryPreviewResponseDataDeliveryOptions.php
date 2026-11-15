@@ -19,12 +19,12 @@ namespace Flint;
 final class DeliveryPreviewResponseDataDeliveryOptions extends Model {
     /** @param array{'buyer_location'?: mixed, 'choice_groups': list<mixed>, 'currency': string, 'delivery_method_ids': list<string>, 'destination_address'?: mixed, 'evaluated_at': string, 'evaluation_status': string, 'expires_at': string, 'input_requirements': list<mixed>, 'line_items': list<mixed>, 'merchant_diagnostics'?: list<mixed>, 'mode': string, 'pickup_location_id'?: string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliveryPreviewResponseDataDeliveryOptions')); }
-    /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified. The normalized buyer address or coordinate used for this quote.
+    /** Buyer location used to evaluate delivery availability and pickup proximity. Omitted when the request sent none. The normalized buyer address or coordinate used for this quote.
      * @return DeliveryPreviewResponseDataDeliveryOptionsBuyerLocationAddress|DeliveryPreviewResponseDataDeliveryOptionsBuyerLocationCoordinate|\stdClass|null
      */
     public function getBuyerLocation(): DeliveryPreviewResponseDataDeliveryOptionsBuyerLocationAddress|DeliveryPreviewResponseDataDeliveryOptionsBuyerLocationCoordinate|\stdClass|null { return $this->get('buyer_location'); }
     public function hasBuyerLocation(): bool { return $this->has('buyer_location'); }
-    /**  [] (Value): {@see DeliveryPreviewChoiceGroupResource}. One group of order items in a delivery options preview, with the options a buyer could choose, its availability status, and any input still needed.
+    /** Groups of order items that each choose their own delivery option. [] (Value): {@see DeliveryPreviewChoiceGroupResource}. One group of order items in a delivery options preview, with the options a buyer could choose, its availability status, and any input still needed.
      * @return list<DeliveryPreviewChoiceGroupResource>
      */
     public function getChoiceGroups(): array { return $this->get('choice_groups'); }
@@ -34,27 +34,27 @@ final class DeliveryPreviewResponseDataDeliveryOptions extends Model {
      */
     public function getCurrency(): string { return $this->get('currency'); }
     public function hasCurrency(): bool { return $this->has('currency'); }
-    /**  [] (Value): string.
+    /** Delivery methods the preview evaluated. [] (Value): string.
      * @return list<string>
      */
     public function getDeliveryMethodIds(): array { return $this->get('delivery_method_ids'); }
     public function hasDeliveryMethodIds(): bool { return $this->has('delivery_method_ids'); }
-    /** Omitted for a checkout session credential that doesn't act for the customer the buyer verified. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
+    /** Destination address used to evaluate shipment and local delivery options. Omitted when the request sent none. A postal address. Every address has country. Addresses Flint checked as complete (customer and saved addresses, merchant, location, invoice, order delivery destination, tax identity, fulfillment recipient and pickup addresses) always have line1 and city, and US ones always have state and postal_code. Delivery quote destinations, buyer locations and postal-code tax locations hold only what was provided, such as postal_code and country.
      * @return ?Address
      */
     public function getDestinationAddress(): ?Address { return $this->get('destination_address'); }
     public function hasDestinationAddress(): bool { return $this->has('destination_address'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Time Flint computed this preview. Format: date-time.
      * @return string
      */
     public function getEvaluatedAt(): string { return $this->get('evaluated_at'); }
     public function hasEvaluatedAt(): bool { return $this->has('evaluated_at'); }
-    /** Value enum: "complete", "incomplete", "degraded".
+    /** How completely Flint evaluated the candidate delivery methods. Value enum: "complete", "incomplete", "degraded".
      * @return string
      */
     public function getEvaluationStatus(): string { return $this->get('evaluation_status'); }
     public function hasEvaluationStatus(): bool { return $this->has('evaluation_status'); }
-    /** RFC3339 timestamp. Format: date-time.
+    /** Request a new preview after this time, because prices and availability may have changed. Format: date-time.
      * @return string
      */
     public function getExpiresAt(): string { return $this->get('expires_at'); }
@@ -64,7 +64,7 @@ final class DeliveryPreviewResponseDataDeliveryOptions extends Model {
      */
     public function getInputRequirements(): array { return $this->get('input_requirements'); }
     public function hasInputRequirements(): bool { return $this->has('input_requirements'); }
-    /**  [] (Value): {@see CreateOrderLineItem}. A line item in a delivery preview: a catalog variant, a bundle, or a custom item with a name and unit price.
+    /** Items the preview evaluated. [] (Value): {@see CreateOrderLineItem}. A line item in a delivery preview: a catalog variant, a bundle, or a custom item with a name and unit price.
      * @return list<DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemVariant|DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemBundle|DeliveryPreviewResponseDataDeliveryOptionsLineItemsItemCustom|\stdClass>
      */
     public function getLineItems(): array { return $this->get('line_items'); }
@@ -79,7 +79,7 @@ final class DeliveryPreviewResponseDataDeliveryOptions extends Model {
      */
     public function getMode(): string { return $this->get('mode'); }
     public function hasMode(): bool { return $this->has('mode'); }
-    /** pickup_location_id
+    /** ID of the Location at which pickup methods were priced. Omitted when the request sent none.
      * @return ?string
      */
     public function getPickupLocationId(): ?string { return $this->get('pickup_location_id'); }

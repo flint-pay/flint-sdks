@@ -422,7 +422,7 @@ Signature: `list(params?: GiftCardsListParams, options?: _SdkWithoutIdempotency<
 | `created_before` | Optional | string | Exclusive upper bound on created_at. Format: `date-time`. |
 | `customer_id` | Optional | string | Exact, case-sensitive filter on the customer stored on the gift card. An unknown customer returns an empty page. pattern: `^cus_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `external_reference_id` | Optional | string | Exact, case-sensitive filter. minLength: `1`. maxLength: `255`. |
-| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. |
+| `idempotency_key` | Optional | string | Filter by the original Idempotency-Key, after trimming surrounding whitespace. Matching is exact and case-sensitive. Returns current authorized resources, not the recorded response. A pending resource does not prove that the operation succeeded, and an empty list does not prove that it had no effect. minLength: `1`. maxLength: `255`. pattern: `^[^\x00\r\n]*[^\x00\t\n\v\f\r ][^\x00\r\n]*$`. |
 | `page_size` | Optional | integer | Maximum number of results to return, from 1 to 100. Defaults to 20. minimum: `1`. maximum: `100`. Default: `20`. |
 | `page_token` | Optional | string | Opaque, signed next_page_token from the previous response, bound to the list and caller. Omit on the first request. You may change `page_size` between pages. Reuse it with the same endpoint, filters, sort, and request context. Do not parse or construct tokens. An altered, invalid, expired, or mismatched token returns a validation error. |
 | `status` | Optional | Array of string or string | Exact, case-sensitive filter. Values are trimmed and deduplicated in first-seen order; empty or unknown entries are rejected. Values within this filter are ORed; separate filters are ANDed. Items values: `"active"`, `"closed"`, `"frozen"`, `"pending"`. Values: `"active"`, `"closed"`, `"frozen"`, `"pending"`. |
@@ -681,7 +681,7 @@ Signature: `update(gift_card_id: InputValue<string>, params: GiftCardsUpdatePara
 | `Flint-Merchant-Id` | Optional | string | Merchant this request acts for. Required with an app-level partner app token; optional with a merchant-bound one, which it must match. Other credentials may send it only with their own merchant. pattern: `^mer_[0-9A-HJKMNP-TV-Z]{26}$`. |
 | `Flint-Mode` | Optional | string | Mode of the request context, live or test. Optional; it must match the credential's mode. Values: `"test"`, `"live"`. |
 | `Flint-Sandbox-Id` | Optional | string | Sandbox of the request context in test mode. Optional; with a partner app token it must name the sandbox the merchant granted the app, and a live token can't send it. Send it in test mode so a grant moved to another sandbox can't silently change where you write. pattern: `^test_[0-9A-HJKMNP-TV-Z]{26}$`. |
-| `body` | Required | [UpdateGiftCardRequestInput](../models/UpdateGiftCardRequest.md#updategiftcardrequest) | The request body for: Update a gift card. |
+| `body` | Required | [UpdateGiftCardRequestInput](../models/UpdateGiftCardRequest.md#updategiftcardrequest) | The request body for: Update a gift card. minProperties: `1`. |
 
 Body model: [UpdateGiftCardRequestInput](../models/UpdateGiftCardRequest.md#updategiftcardrequest).
 

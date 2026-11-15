@@ -5,7 +5,10 @@ namespace Flint;
  * @property-read string $billing_interval
  * @property-read int $billing_interval_count
  * @property-read string $billing_starts
- * @property-read MoneyValue|null $credit_money
+ * @property-read MoneyValue|null $credit_adjustment_money
+ * @property-read int $deliveries_per_period
+ * @property-read string|null $delivery_interval
+ * @property-read int|null $delivery_interval_count
  * @property-read string|null $effective_at
  * @property-read string $mode
  * @property-read int $quantity
@@ -15,34 +18,49 @@ namespace Flint;
  * @property-read string $subscription_plan_id
  * Presence-aware response; omitted optional fields return null. */
 final class SubscriptionPreviewResponseDataPlanChange extends Model {
-    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_starts': string, 'credit_money': mixed, 'effective_at': string|null, 'mode': string, 'quantity': int, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, 'subscription_plan_id': string, ...}|object $values */
+    /** @param array{'billing_interval': string, 'billing_interval_count': int, 'billing_starts': string, 'credit_adjustment_money': mixed, 'deliveries_per_period': int, 'delivery_interval': string|null, 'delivery_interval_count': int|null, 'effective_at': string|null, 'mode': string, 'quantity': int, 'recurring_subtotal_money': mixed, 'renewal': mixed, 'subscription_id': string, 'subscription_plan_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionPreviewResponseDataPlanChange')); }
-    /** Value enum: "daily", "weekly", "monthly", "yearly".
+    /** Unit of the billing period the subscription would have after the change. Read with `billing_interval_count`. Value enum: "daily", "weekly", "monthly", "yearly".
      * @return string
      */
     public function getBillingInterval(): string { return $this->get('billing_interval'); }
     public function hasBillingInterval(): bool { return $this->has('billing_interval'); }
-    /** Format: int32.
+    /** Number of `billing_interval` units between charges after the change. Format: int32.
      * @return int
      */
     public function getBillingIntervalCount(): int { return $this->get('billing_interval_count'); }
     public function hasBillingIntervalCount(): bool { return $this->has('billing_interval_count'); }
-    /** Value enum: "now", "next_renewal", "period_end", "prorated_now".
+    /** When the change takes effect and bills, as the request set it. Each value says what happens to the current period and to the charge. Value enum: "now", "next_renewal", "period_end", "prorated_now".
      * @return string
      */
     public function getBillingStarts(): string { return $this->get('billing_starts'); }
     public function hasBillingStarts(): bool { return $this->has('billing_starts'); }
-    /** Unused paid item time credited when billing_starts is now or prorated_now; null for next_renewal and period_end. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
+    /** Unused paid item time credited against the new charge when billing_starts is now or prorated_now. Null when billing_starts is next_renewal or period_end. anyOf[1] (Value): {@see MoneyValue}. Monetary amount represented as integer minor units plus an ISO 4217 currency code. anyOf[2] (Value): null.
      * @return MoneyValue|null
      */
-    public function getCreditMoney(): MoneyValue|null { return $this->get('credit_money'); }
-    public function hasCreditMoney(): bool { return $this->has('credit_money'); }
+    public function getCreditAdjustmentMoney(): MoneyValue|null { return $this->get('credit_adjustment_money'); }
+    public function hasCreditAdjustmentMoney(): bool { return $this->has('credit_adjustment_money'); }
+    /** Deliveries paid for by one billing period, from 1 to 24. One when no separate delivery cadence is set. Prices of lines that ship are per delivery. Format: int32. minimum: 1. maximum: 24.
+     * @return int
+     */
+    public function getDeliveriesPerPeriod(): int { return $this->get('deliveries_per_period'); }
+    public function hasDeliveriesPerPeriod(): bool { return $this->has('deliveries_per_period'); }
+    /** Delivery cadence frozen from the plan. Null when no separate delivery cadence is set; one delivery is made per billing period. Value enum: "daily", "weekly", "monthly", "yearly", null.
+     * @return string|null
+     */
+    public function getDeliveryInterval(): string|null { return $this->get('delivery_interval'); }
+    public function hasDeliveryInterval(): bool { return $this->has('delivery_interval'); }
+    /** Number of delivery intervals between deliveries. Null when no separate delivery cadence is set. Format: int32. minimum: 1.
+     * @return int|null
+     */
+    public function getDeliveryIntervalCount(): int|null { return $this->get('delivery_interval_count'); }
+    public function hasDeliveryIntervalCount(): bool { return $this->has('delivery_interval_count'); }
     /** When the plan is expected to take effect. Null when no billing time is scheduled. Format: date-time.
      * @return string|null
      */
     public function getEffectiveAt(): string|null { return $this->get('effective_at'); }
     public function hasEffectiveAt(): bool { return $this->has('effective_at'); }
-    /** Value enum: "plan_change".
+    /** The preview kind. Every plan change preview has the same value. Value enum: "plan_change".
      * @return string
      */
     public function getMode(): string { return $this->get('mode'); }
@@ -52,22 +70,22 @@ final class SubscriptionPreviewResponseDataPlanChange extends Model {
      */
     public function getQuantity(): int { return $this->get('quantity'); }
     public function hasQuantity(): bool { return $this->has('quantity'); }
-    /** Monetary amount represented as integer minor units plus an ISO 4217 currency code.
+    /** The recurring charge for one billing period's items on the new plan, including modifiers and quantities, before discounts, shipping, and tax. Monetary amount represented as integer minor units plus an ISO 4217 currency code.
      * @return MoneyValue
      */
     public function getRecurringSubtotalMoney(): MoneyValue { return $this->get('recurring_subtotal_money'); }
     public function hasRecurringSubtotalMoney(): bool { return $this->has('recurring_subtotal_money'); }
-    /** Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax.
+    /** Estimate of the charge the change produces: item subtotal, discounts (including any credit for unused time), shipping, tax, and total. Estimated pricing and billing time for a subscription renewal, including items, discounts, shipping, and tax.
      * @return SubscriptionRenewalEstimate
      */
     public function getRenewal(): SubscriptionRenewalEstimate { return $this->get('renewal'); }
     public function hasRenewal(): bool { return $this->has('renewal'); }
-    /** subscription_id
+    /** ID of the subscription the change was previewed for.
      * @return string
      */
     public function getSubscriptionId(): string { return $this->get('subscription_id'); }
     public function hasSubscriptionId(): bool { return $this->has('subscription_id'); }
-    /** subscription_plan_id
+    /** ID of the plan the subscription would move to.
      * @return string
      */
     public function getSubscriptionPlanId(): string { return $this->get('subscription_plan_id'); }

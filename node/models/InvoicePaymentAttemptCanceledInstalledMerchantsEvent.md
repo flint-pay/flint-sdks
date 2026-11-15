@@ -38,7 +38,7 @@ Field definitions: [shared fields](InvoicePaymentAttempt.md#invoicepaymentattemp
 
 ### InvoicePaymentAttemptCanceledInstalledMerchantsEvent.data.object.expected_amount_money
 
-Field definitions: [InvoicePaymentAttempt.expected_amount_money](../models/InvoicePaymentAttempt.md#invoicepaymentattemptexpected_amount_money).
+Field definitions: [BuyerInvoicePaymentAttempt.expected_amount_money](../models/BuyerInvoicePaymentAttempt.md#buyerinvoicepaymentattemptexpected_amount_money).
 
 ### InvoicePaymentAttemptCanceledInstalledMerchantsEvent.source
 

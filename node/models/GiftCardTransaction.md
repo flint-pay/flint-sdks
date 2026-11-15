@@ -22,7 +22,7 @@ Immutable posted financial movement with signed amount, per-card sequence, merch
 | `posted_at` | Required | string | When the transaction was posted to the card. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
 | `reason` | Required | string or null | Your adjustment reason on adjustment transactions, and customer_request on cash_out. `null` when the transaction is any other type. Values: [7 declared values](#giftcardtransaction-reason-values). |
 | `sequence` | Required | integer | Position of this transaction in the card's history. It increases by one with each transaction posted to the card. Format: `int64`. |
-| `source` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. `null` when the cause has no public resource. |
+| `source` | Required | [ResourceReference](../models/ResourceReference.md#resourcereference) or null | The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. `null` when the cause has no public resource. `source`: [declared alternatives](../models/GiftCardTransaction.md#giftcardtransactionsource). |
 | `transaction_type` | Required | string | Kind of movement, such as load, redeem, refund, adjustment, or cash_out. Values: [11 declared values](#giftcardtransaction-transaction_type-values). |
 
 #### GiftCardTransaction reason values
@@ -62,4 +62,26 @@ Field definitions: [BuyerGiftCardTransaction.balance_after_money](../models/Buye
 ### GiftCardTransaction.balance_before_money
 
 Field definitions: [BuyerGiftCardTransaction.balance_before_money](../models/BuyerGiftCardTransaction.md#buyergiftcardtransactionbalance_before_money).
+
+### GiftCardTransaction.source
+
+The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. `null` when the cause has no public resource.
+
+| Field | Presence | Type | Description |
+| --- | --- | --- | --- |
+| `resource_id` | Conditional | string | Public Flint ID of the referenced resource. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
+| `resource_type` | Conditional | string | Public resource kind identified by resource_id, such as payment_intent for a payment. Example: `"order"`. Values: [154 declared values](APIKey.md#apikeycreated_by-resource_type-values). |
+
+### GiftCardTransaction.source variant 1
+
+anyOf ResourceReference: A reference to another resource by `resource_type` and `resource_id`..
+
+- Required: `resource_id`, `resource_type`.
+
+### GiftCardTransaction.source variant 2
+
+anyOf variant 2.
+
+- Undeclared: `resource_id`, `resource_type`.
+- Value shape: null. The resource that caused this transaction, such as a gift_card_load, gift_card_redemption, refund, or gift_card_funding_disposition. `null` when the cause has no public resource. 
 

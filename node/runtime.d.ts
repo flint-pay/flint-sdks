@@ -536,7 +536,7 @@ export type SdkErrorCode = ("ACTION_NOT_ALLOWED"
     | "VERSION_CONFLICT"
     | (string & {}))
     & string;
-export type SdkErrorDetails = ReadonlyArray<import("./declarations/types-23.js").ErrorDetail>;
-export type SdkErrorRemediation = (import("./declarations/types-23.js").ErrorRemediation) & {
+export type SdkErrorDetails = ReadonlyArray<import("./declarations/types-24.js").ErrorDetail>;
+export type SdkErrorRemediation = (import("./declarations/types-24.js").ErrorRemediation) & {
     retry?: ErrorRetry;
 };

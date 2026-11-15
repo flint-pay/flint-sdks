@@ -9,19 +9,19 @@ namespace Flint;
 final class SubscriptionCountsInput extends Model {
     /** @param array{'active': int, 'past_due': int, 'paused': int, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('SubscriptionCountsInput')); }
-    /** Format: int64.
+    /** Number of counted subscriptions with status `active`. Format: int64.
      * @return int
      * @throws SdkError When active is omitted; use hasActive() or valueOrDefault().
      */
     public function getActive(): int { return $this->get('active'); }
     public function hasActive(): bool { return $this->has('active'); }
-    /** Format: int64.
+    /** Number of counted subscriptions with status `past_due`. Format: int64.
      * @return int
      * @throws SdkError When past_due is omitted; use hasPastDue() or valueOrDefault().
      */
     public function getPastDue(): int { return $this->get('past_due'); }
     public function hasPastDue(): bool { return $this->has('past_due'); }
-    /** Format: int64.
+    /** Number of counted subscriptions with status `paused`. Format: int64.
      * @return int
      * @throws SdkError When paused is omitted; use hasPaused() or valueOrDefault().
      */

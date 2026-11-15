@@ -13,13 +13,13 @@ namespace Flint;
 final class WebhookDeliveriesListParams extends Model {
     /** @param array{'webhook_event_id'?: string, 'webhook_endpoint_id'?: string, 'status'?: list<string>|string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'page_size'?: int, 'page_token'?: string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('WebhookDeliveriesListParams')); }
-    /** Filter by an exact webhook event ID. Returns an empty page when no visible deliveries match. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
+    /** Filter by an exact webhook event ID. Returns an empty page when no visible deliveries match. pattern: ^whev_[0-9A-HJKMNP-TV-Z]{26}$. Example: "whev_01KEZF7C00362MS3HV970TRZGS".
      * @return string
      * @throws SdkError When webhook_event_id is omitted; use hasWebhookEventId() or valueOrDefault().
      */
     public function getWebhookEventId(): string { return $this->get('webhook_event_id'); }
     public function hasWebhookEventId(): bool { return $this->has('webhook_event_id'); }
-    /** Filter by an exact webhook endpoint ID, including deleted endpoints. Returns an empty page when no visible deliveries match. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
+    /** Filter by an exact webhook endpoint ID, including deleted endpoints. Returns an empty page when no visible deliveries match. pattern: ^whep_[0-9A-HJKMNP-TV-Z]{26}$. Example: "whep_01KEZF7C006FXYTAJRZCGCBJTN".
      * @return string
      * @throws SdkError When webhook_endpoint_id is omitted; use hasWebhookEndpointId() or valueOrDefault().
      */

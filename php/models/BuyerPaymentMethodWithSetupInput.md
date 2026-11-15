@@ -12,7 +12,7 @@ Request input.
 | --- | --- | --- | --- |
 | `card` | Optional | [CardDetailsInput](../models/CardDetailsInput.md#carddetailsinput) | Brand, expiry and last four digits. Present when `type` is `card`. Card details on a payment method: brand, expiration month and year, last four digits, and the wallet when one was used. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `customer_id` | Required | string | Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
+| `customer_id` | Required | string | Customer this payment method belongs to. Example: `"cus_01KEZF7C006X9JK6NZNA2SM9XD"`. |
 | `is_default` | Required | boolean | Whether this is the customer's default payment method, the one BuyerCustomer.default_payment_method_id names. Change it with default_payment_method_id on PATCH /v1/me. |
 | `merchant_id` | Required | string | ID of the merchant this resource belongs to. Example: `"mer_01KEZF7C00KPYH1DDFPCCX3B6E"`. |
 | `payment_method_id` | Required | string | Unique identifier for this payment method, prefixed `pm_`. Example: `"pm_01KEZF7C0034B248TXXE4NXYFZ"`. |

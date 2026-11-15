@@ -8,12 +8,12 @@ namespace Flint;
 final class DeliverySelectionBuyerLocationAddressCoordinate extends Model {
     /** @param array{'latitude': float, 'longitude': float, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], true, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('DeliverySelectionBuyerLocationAddressCoordinate')); }
-    /** minimum: -90. maximum: 90.
+    /** Latitude in degrees, from -90 to 90. minimum: -90. maximum: 90.
      * @return float
      */
     public function getLatitude(): float { return $this->get('latitude'); }
     public function hasLatitude(): bool { return $this->has('latitude'); }
-    /** minimum: -180. maximum: 180.
+    /** Longitude in degrees, from -180 to 180. minimum: -180. maximum: 180.
      * @return float
      */
     public function getLongitude(): float { return $this->get('longitude'); }

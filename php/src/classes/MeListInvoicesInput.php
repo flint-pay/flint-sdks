@@ -38,7 +38,7 @@ final class MeListInvoicesInput extends Model {
      */
     public function getStatus(): mixed { return $this->get('status'); }
     public function hasStatus(): bool { return $this->has('status'); }
-    /** Filter by Flint order ID. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
+    /** Filter by Flint order ID. pattern: ^ord_[0-9A-HJKMNP-TV-Z]{26}$. Example: "ord_01KEZF7C0054GQKJ142A8X367A".
      * @return string
      * @throws SdkError When order_id is omitted; use hasOrderId() or valueOrDefault().
      */
@@ -74,13 +74,13 @@ final class MeListInvoicesInput extends Model {
      */
     public function getIsOverdue(): bool { return $this->get('is_overdue'); }
     public function hasIsOverdue(): bool { return $this->has('is_overdue'); }
-    /** Filter by whether outstanding_money is greater than zero.
+    /** Filter by whether settlement_amounts.outstanding_money is greater than zero.
      * @return bool
      * @throws SdkError When has_outstanding_balance is omitted; use hasHasOutstandingBalance() or valueOrDefault().
      */
     public function getHasOutstandingBalance(): bool { return $this->get('has_outstanding_balance'); }
     public function hasHasOutstandingBalance(): bool { return $this->has('has_outstanding_balance'); }
-    /** Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: "created_at". Value enum: "created_at", "updated_at", "due_date", "invoice_number", "outstanding_money".
+    /** Field to sort by. Defaults to created_at; ties are broken by invoice_id. Default: "created_at". Value enum: "created_at", "updated_at", "due_date", "invoice_number", "settlement_amounts.outstanding_money".
      * @return string
      * @throws SdkError When sort_by is omitted; use hasSortBy() or valueOrDefault().
      */

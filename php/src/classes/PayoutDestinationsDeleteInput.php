@@ -16,7 +16,7 @@ final class PayoutDestinationsDeleteInput extends Model {
      */
     public function getPayoutDestinationId(): string { return $this->get('payout_destination_id'); }
     public function hasPayoutDestinationId(): bool { return $this->has('payout_destination_id'); }
-    /** Optional payout destination version last read by the caller. Format: uint64. minimum: 1.
+    /** Optional payout destination version last read by the caller. Format: uint64. minimum: 1. maximum: 9007199254740991.
      * @return int
      * @throws SdkError When expected_version is omitted; use hasExpectedVersion() or valueOrDefault().
      */

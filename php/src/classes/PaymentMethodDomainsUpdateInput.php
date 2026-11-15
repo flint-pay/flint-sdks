@@ -16,7 +16,7 @@ final class PaymentMethodDomainsUpdateInput extends Model {
      */
     public function getPaymentMethodDomainId(): string { return $this->get('payment_method_domain_id'); }
     public function hasPaymentMethodDomainId(): bool { return $this->has('payment_method_domain_id'); }
-    /** The request body for: Update payment method domain. Example: {"expected_version":1,"status":"inactive"}.
+    /** The request body for: Update payment method domain. minProperties: 1. Example: {"expected_version":1,"status":"inactive"}.
      * @return array{'expected_version'?: int, 'status': string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

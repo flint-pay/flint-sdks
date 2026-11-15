@@ -16,11 +16,7 @@ Inline order details for creating an invoice as `quick_pay`: line items, discoun
 | `discounts` | Optional | Array of [CreateOrderDiscount](../models/CreateOrderDiscount.md#createorderdiscount) | Discounts to apply to the backing order, in the shape order creation accepts. |
 | `internal_note` | Optional | string | A note for your team on the backing order. Buyer reads leave it out. minLength: `1`. |
 | `inventory_routing_source` | Optional | [InventoryRoutingSourceRequest](../models/InventoryRoutingSourceRequest.md#inventoryroutingsourcerequest) | Where this invoice backing order's tracked demand is routed: a fixed Location, an allocation policy, or an immutable policy revision. Required when any line tracks inventory. Where you want inventory routed from: a fixed Location, an inventory allocation policy, or one policy revision, selected by `type`. |
-| `line_items` | Required | Array of [CreateOrderLineItem](../models/CreateOrderLineItem.md#createorderlineitem) | The items to bill, at least one, in the shape order creation accepts. A custom line without variant_id or bundle_id must set fulfillment.requirement. minItems: `1`. `line_items[]`: [declared alternatives](../models/AddLineItemsRequest.md#addlineitemsrequestline_items). |
+| `line_items` | Required | Array of [CreateOrderLineItemRequest](../models/CreateOrderLineItemRequest.md#createorderlineitemrequest) | The items to bill, at least one, in the shape order creation accepts. A custom line without variant_id or bundle_id must set fulfillment.requirement. minItems: `1`. |
 | `requested_tip` | Optional | [CreateOrderTip](../models/CreateOrderTip.md#createordertip) | A tip to request from the buyer on the backing order. Requested tip expressed as either a flat amount or a percentage. Send exactly one of amount_money or percent. |
-| `tax` | Optional | [OrderTaxRequest](../models/OrderTaxRequest.md#ordertaxrequest) | Tax inputs for the backing order, the same as order creation accepts. Validation errors name fields under quick_pay.tax. Tax settings you supply when creating an order: whether tax is enabled, how it is calculated, and the tax location. |
-
-### CreateInvoiceQuickPayRequest.line_items[]
-
-Declared alternatives: [AddLineItemsRequest.line_items[]](../models/AddLineItemsRequest.md#addlineitemsrequestline_items).
+| `tax` | Optional | [OrderTaxRequest](../models/OrderTaxRequest.md#ordertaxrequest) | Tax inputs for the backing order, the same as order creation accepts. Validation errors name fields under quick_pay.tax. Tax settings for a new order: whether tax is enabled, its calculation, location, and exemption selection. |
 

@@ -9,7 +9,7 @@ namespace Flint;
 final class BuyerSubscriptionPaymentRetryResponseInput extends Model {
     /** @param array{'data': BuyerSubscriptionPaymentRetryInput|array<array-key, mixed>|\stdClass, 'meta'?: ResponseMetaInput|array<array-key, mixed>|\stdClass, 'request_id': string, ...}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('BuyerSubscriptionPaymentRetryResponseInput')); }
-    /** Resource, collection, or operation result returned by this request. A retry of a past-due payment on the buyer's subscription. Includes, when available, the buyer's order and a failure they can act on. Omits the store's idempotency keys and payment attempt IDs.
+    /** Resource, collection, or operation result returned by this request. A retry of a past-due payment on the buyer's subscription. Includes, when available, its order, payment intent and a failure the buyer can act on. Omits the store's idempotency key.
      * @return BuyerSubscriptionPaymentRetryInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When data is omitted; use hasData() or valueOrDefault().
      */

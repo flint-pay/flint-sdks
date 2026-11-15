@@ -19,18 +19,18 @@ A read-only entry in a payment intent's human-readable history. Read the referen
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `activity_type` | Required | string | Values: [11 declared values](#paymentintentactivitylistresponsedata-activity_type-values). |
-| `checkout_session_id` | Optional | string | Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
+| `activity_type` | Required | string | What kind of change this entry records. Values: [11 declared values](#paymentintentactivitylistresponsedata-activity_type-values). |
+| `checkout_session_id` | Optional | string | ID of the checkout session that created the payment intent. Present only on `created` entries, when the payment intent has no order. Example: `"cs_01KEZF7C004JRWFW43H037MQRN"`. |
 | `created_at` | Required | string | RFC3339 timestamp. Format: `date-time`. Example: `"2026-08-02T16:00:00Z"`. |
-| `description` | Required | string |  |
+| `description` | Required | string | Short human-readable summary of the change. It doesn't carry processor diagnostics, so read the referenced resource for details. |
 | `dispute_id` | Optional | string | ID of the dispute this entry is about. Present on dispute entries. Example: `"du_01KEZF7C00DEJSF1KTXRT4BBQD"`. |
 | `from_dispute_status` | Optional | string | The payment's dispute status before the change. Present on `dispute_status_changed` entries. Values: [10 declared values](#paymentintentactivitylistresponsedata-from_dispute_status-values). |
-| `from_status` | Optional | string | Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
-| `order_id` | Optional | string | Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
-| `payment_intent_activity_id` | Required | string | Example: `"pact_01KEZF7C00D5EYVFWM20J9Z8EP"`. |
+| `from_status` | Optional | string | The payment intent's status before the change. Present on entries that record a status change. Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
+| `order_id` | Optional | string | ID of the order the payment intent belongs to. Present only on `created` entries, and only when the payment intent belongs to an order. Example: `"ord_01KEZF7C0054GQKJ142A8X367A"`. |
+| `payment_intent_activity_id` | Required | string | Flint ID of this activity entry. Example: `"pact_01KEZF7C00D5EYVFWM20J9Z8EP"`. |
 | `refund_id` | Optional | string | ID of the refund this entry is about. Present on refund entries. Example: `"ref_01KEZF7C003DTD59WKYHEXYQ1K"`. |
 | `to_dispute_status` | Optional | string | The payment's dispute status after the change. Present on `dispute_status_changed` entries. Values: [10 declared values](#paymentintentactivitylistresponsedata-to_dispute_status-values). |
-| `to_status` | Optional | string | Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
+| `to_status` | Optional | string | The payment intent's status after the change. Present on entries that record a status change. Values: `"requires_payment_method"`, `"requires_confirmation"`, `"requires_action"`, `"processing"`, `"requires_capture"`, `"canceled"`, `"succeeded"`, `"expired"`. |
 
 #### PaymentIntentActivityListResponse.data[] activity_type values
 

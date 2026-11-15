@@ -20,13 +20,13 @@ namespace Flint;
 final class PromotionCodesListParams extends Model {
     /** @param array{'promotion_id'?: string, 'customer_id'?: string, 'code'?: string, 'status'?: list<string>|string, 'availability'?: list<string>|string, 'page_size'?: int, 'page_token'?: string, 'sort_by'?: string, 'sort_direction'?: string, 'created_after'?: string|\DateTimeInterface, 'created_before'?: string|\DateTimeInterface, 'updated_after'?: string|\DateTimeInterface, 'updated_before'?: string|\DateTimeInterface, 'expand'?: list<string>|string, 'Flint-Merchant-Id'?: string, 'Flint-Mode'?: string, 'Flint-Sandbox-Id'?: string}|object $values */
     public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('PromotionCodesListParams')); }
-    /** Exact match on the parent promotion ID. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+    /** Exact match on the parent promotion ID. pattern: ^promo_[0-9A-HJKMNP-TV-Z]{26}$. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
      * @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */
     public function getPromotionId(): string { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
-    /** Exact match on the customer bound to the code. Unbound codes are excluded. minLength: 1. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
+    /** Exact match on the customer bound to the code. Unbound codes are excluded. minLength: 1. pattern: ^cus_[0-9A-HJKMNP-TV-Z]{26}$. Example: "cus_01KEZF7C006X9JK6NZNA2SM9XD".
      * @return string
      * @throws SdkError When customer_id is omitted; use hasCustomerId() or valueOrDefault().
      */

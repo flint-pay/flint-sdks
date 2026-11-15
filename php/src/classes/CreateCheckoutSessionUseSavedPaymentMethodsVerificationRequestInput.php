@@ -5,10 +5,11 @@ namespace Flint;
  * @property-read string $channel
  * @property-read string $email
  * @property-read string $purpose
+ * @property-read string $remembered_buyer_token
  * Presence-aware input; omitted fields throw when accessed. */
 final class CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput extends Model {
-    /** @param array{'channel'?: string, 'email': string, 'purpose': string}|object $values */
-    public function __construct(array|object $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput')); }
+    /** @param array{'channel'?: string, 'email': string, 'purpose': string}|object|array{'channel'?: string, 'purpose': string, 'remembered_buyer_token': string}|object $values */
+    public function __construct(mixed $values = [], array $redactFields = []) { parent::__construct($values, [], false, $redactFields, ['constraints' => true] + SchemaRegistry::source()->model('CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput')); }
     /** How Flint delivers the code. Default: "auto". Value enum: "email", "sms", "auto".
      * @return string
      * @throws SdkError When channel is omitted; use hasChannel() or valueOrDefault().
@@ -27,4 +28,10 @@ final class CreateCheckoutSessionUseSavedPaymentMethodsVerificationRequestInput 
      */
     public function getPurpose(): string { return $this->get('purpose'); }
     public function hasPurpose(): bool { return $this->has('purpose'); }
+    /** Use this remembered identity instead of email, only with purpose use_saved_payment_methods. It never opens saved cards without a right code. minLength: 47. maxLength: 47. pattern: ^rbt_[A-Za-z0-9_-]{43}$.
+     * @return string
+     * @throws SdkError When remembered_buyer_token is omitted; use hasRememberedBuyerToken() or valueOrDefault().
+     */
+    public function getRememberedBuyerToken(): string { return $this->get('remembered_buyer_token'); }
+    public function hasRememberedBuyerToken(): bool { return $this->has('remembered_buyer_token'); }
 }

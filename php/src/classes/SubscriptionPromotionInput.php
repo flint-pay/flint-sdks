@@ -18,31 +18,31 @@ final class SubscriptionPromotionInput extends Model {
      */
     public function getFirstCycle(): int { return $this->get('first_cycle'); }
     public function hasFirstCycle(): bool { return $this->has('first_cycle'); }
-    /** name
+    /** Name the promotion shows buyers: its display name, or its name when it has no display name. Frozen when the promotion was attached.
      * @return string
      * @throws SdkError When name is omitted; use hasName() or valueOrDefault().
      */
     public function getName(): string { return $this->get('name'); }
     public function hasName(): bool { return $this->has('name'); }
-    /** The attached promotion code ID; null when no promotion code was used. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
+    /** ID of the promotion code used to attach the promotion. Null when no promotion code was used. Example: "pcode_01KEZF7C00JCC7QXWC262EF05T".
      * @return string|null
      * @throws SdkError When promotion_code_id is omitted; use hasPromotionCodeId() or valueOrDefault().
      */
     public function getPromotionCodeId(): string|null { return $this->get('promotion_code_id'); }
     public function hasPromotionCodeId(): bool { return $this->has('promotion_code_id'); }
-    /** Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
+    /** ID of the promotion attached to the subscription. Example: "promo_01KEZF7C00QQ8EZ74BDYSZ315V".
      * @return string
      * @throws SdkError When promotion_id is omitted; use hasPromotionId() or valueOrDefault().
      */
     public function getPromotionId(): string { return $this->get('promotion_id'); }
     public function hasPromotionId(): bool { return $this->has('promotion_id'); }
-    /** How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever.
+    /** How often the promotion's discount repeats, frozen when the promotion was attached. How often a promotion's discount repeats on a subscription: once, for a number of charged payments, or forever.
      * @return PromotionRecurrenceInput|array<array-key, mixed>|\stdClass
      * @throws SdkError When recurrence is omitted; use hasRecurrence() or valueOrDefault().
      */
     public function getRecurrence(): mixed { return $this->get('recurrence'); }
     public function hasRecurrence(): bool { return $this->has('recurrence'); }
-    /** Discounted paid cycles remaining; null for a promotion that lasts forever unless a replacement limits it. With incomplete historical records, remaining cycles may be lower than the unused allowance. If no reliable bound is available, the allowance is treated as used up. Format: int64.
+    /** Discounted paid cycles remaining, capped by any replacement handoff. Null when the promotion lasts forever and no replacement limits it. With incomplete historical records, remaining cycles may be lower than the unused allowance. If no reliable bound is available, the allowance is treated as used up. Format: int64.
      * @return int|null
      * @throws SdkError When remaining_cycles is omitted; use hasRemainingCycles() or valueOrDefault().
      */

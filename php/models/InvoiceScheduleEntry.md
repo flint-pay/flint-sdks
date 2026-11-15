@@ -8,22 +8,22 @@ Response model.
 
 | Field | Presence | Type | Description |
 | --- | --- | --- | --- |
-| `amount_specification` | Required | object and Alternative shapes (see declared variants) | How the entry's amount is set: a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance. `amount_specification`: [declared alternatives](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entriesamount_specification). |
-| `credit_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit note credit allocated to this entry, minus reversed allocations. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `due` | Required | object and Alternative shapes (see declared variants) | When the entry is due. When a payment schedule entry on an invoice is due: at issue, on a set date, or on the invoice due date. `due`: [declared alternatives](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entriesdue). |
+| `amount_specification` | Required | object and Alternative shapes (see declared variants) | How the entry's amount is set: a fixed amount, a percent of the invoice total, or the remaining balance. How much a payment schedule entry collects: a fixed amount, a percentage of the invoice total, or the remaining balance. `amount_specification`: [declared alternatives](../models/InvoiceResponse.md#invoiceresponsedataschedule_entriesamount_specification). |
+| `credited_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Credit note credit allocated to this entry, minus reversed allocations. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `due` | Required | object and Alternative shapes (see declared variants) | When the entry is due. When a payment schedule entry on an invoice is due: at issue, on a set date, or on the invoice due date. `due`: [declared alternatives](../models/InvoiceResponse.md#invoiceresponsedataschedule_entriesdue). |
 | `invoice_schedule_entry_id` | Required | string | Flint invoice schedule entry ID. Kept across draft edits that send it back with the entry. |
 | `kind` | Required | string | The entry's role in the schedule. Values: `"deposit"`, `"installment"`, `"balance"`. |
 | `outstanding_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | What is still owed on this entry, including its unpaid late fee, never below zero. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
-| `paid_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Payments applied to this entry, minus reversed payments, including payments toward its late fee. It can exceed total_money when the entry carries a late fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `paid_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | Payments applied to this entry, minus reversed payments, including payments toward its late fee. Dispute losses don't reduce it. It can exceed total_money when the entry carries a late fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `status` | Required | string | The entry's payment status, computed when the invoice is read. It follows the entry's balance and due time, not the invoice's status. Values: `"pending"`, `"due"`, `"partially_satisfied"`, `"satisfied"`, `"overdue"`. |
-| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The entry's share of the invoice total, resolved from amount_specification against snapshot.pricing_amounts.total_money. Recomputed on draft edits and fixed at issue. Excludes late fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
+| `total_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The entry's share of the invoice total, resolved from amount_specification against pricing_amounts.total_money. Recomputed on draft edits and fixed at issue. Excludes late fees. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 | `written_off_money` | Required | [MoneyValue](../models/MoneyValue.md#moneyvalue) | The part of this entry written off when the invoice was marked uncollectible, including its unpaid late fee. Monetary amount represented as integer minor units plus an ISO 4217 currency code. |
 
 ### InvoiceScheduleEntry.amount_specification
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.schedule_entries[].amount_specification](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entriesamount_specification).
+Declared alternatives: [InvoiceResponse.data.schedule_entries[].amount_specification](../models/InvoiceResponse.md#invoiceresponsedataschedule_entriesamount_specification).
 
 ### InvoiceScheduleEntry.due
 
-Declared alternatives: [CollectInvoiceResponse.data.invoice.schedule_entries[].due](../models/CollectInvoiceResponse.md#collectinvoiceresponsedatainvoiceschedule_entriesdue).
+Declared alternatives: [InvoiceResponse.data.schedule_entries[].due](../models/InvoiceResponse.md#invoiceresponsedataschedule_entriesdue).
 

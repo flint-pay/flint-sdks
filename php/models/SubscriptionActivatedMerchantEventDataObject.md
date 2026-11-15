@@ -10,10 +10,6 @@ Response model.
 
 Field definitions: [shared fields](Subscription.md#subscription).
 
-### SubscriptionActivatedMerchantEventDataObject.buyer_actions[]
-
-Field definitions: [SubscriptionResponse.data.buyer_actions[]](../models/SubscriptionResponse.md#subscriptionresponsedatabuyer_actions).
-
 ### SubscriptionActivatedMerchantEventDataObject.cancellation_details
 
 Field definitions: [SubscriptionResponse.data.cancellation_details](../models/SubscriptionResponse.md#subscriptionresponsedatacancellation_details).

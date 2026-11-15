@@ -1,0 +1,1 @@
+{"shared":"SubscriptionGiftRecipient","phpRepresentation":{"kind":"record","fields":{"email":{"kind":"value","type":"string"},"message":{"kind":"nullable","value":{"kind":"value","type":"string"}},"name":{"kind":"nullable","value":{"kind":"value","type":"string"}}}},"dependencies":["SubscriptionGiftRecipient"]}

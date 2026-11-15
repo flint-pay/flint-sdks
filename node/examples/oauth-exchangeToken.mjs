@@ -8,7 +8,6 @@ const result = await client.oauth.exchangeToken(
   {
     grant_type: "authorization_code",
     code: "example",
-    redirect_uri: "example",
     code_verifier: "examplexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   }
 );

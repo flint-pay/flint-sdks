@@ -19,6 +19,5 @@ $idempotencyKey = bin2hex(random_bytes(16));
 $result = $client->deliveryRateCallbacks->update('dcb_01ARZ3NDEKTSV4RRFFQ69G5FAV', [
   'name' => 'Delivery rates',
 ], new RequestOptions(idempotencyKey: $idempotencyKey));
-echo $result->current_delivery_rate_callback_revision_id . PHP_EOL;
-echo $result->delivery_rate_callback_id . PHP_EOL;
+echo json_encode($result, JSON_THROW_ON_ERROR) . PHP_EOL;
 $client->close();

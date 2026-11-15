@@ -34,7 +34,7 @@ final class CategoriesUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** The request body for: Update category. Example: {"description":null,"expected_version":1}.
+    /** The request body for: Update category. minProperties: 1. Example: {"description":null,"expected_version":1}.
      * @return array{'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'name'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */

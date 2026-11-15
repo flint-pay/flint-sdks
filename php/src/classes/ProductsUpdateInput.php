@@ -34,7 +34,7 @@ final class ProductsUpdateInput extends Model {
      */
     public function getFlintSandboxId(): string { return $this->get('Flint-Sandbox-Id'); }
     public function hasFlintSandboxId(): bool { return $this->has('Flint-Sandbox-Id'); }
-    /** Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. Example: {"category_handles":["vip","events"],"expected_version":1,"name":"VIP Admission","status":"inactive"}.
+    /** Send only fields to change. Omitted fields keep their stored values. null clears nullable fields; null on any other field returns 400 INVALID_REQUEST with details[0].code INVALID_VALUE. Metadata merges by key, with at most 50 keys after merging. minProperties: 1. Example: {"category_handles":["vip","events"],"expected_version":1,"name":"VIP Admission","status":"inactive"}.
      * @return array{'category_handles'?: list<string>, 'default_variant_id'?: string|null, 'description'?: string|null, 'expected_version'?: int, 'external_reference_id'?: string|null, 'images'?: list<mixed>, 'metadata'?: array<array-key, string|null>|\stdClass|null, 'modifier_set_id'?: string|null, 'name'?: string, 'options'?: list<mixed>, 'product_type'?: string, 'status'?: string}|object
      * @throws SdkError When body is omitted; use hasBody() or valueOrDefault().
      */
